@@ -332,7 +332,8 @@
       "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen",
       "export-questions": "Topics exportieren",
       "import-questions": "Topics importieren",
-      "edit-tags": "Topic-kategorien"
+      "edit-tags": "Topic-kategorien",
+      "delete-questions": "Topics löschen"
     }
   },
   "gpt-chat": {

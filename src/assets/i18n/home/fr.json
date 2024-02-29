@@ -332,7 +332,8 @@
       "overview-questioners-tooltip": "Nombre d'auteurs de sujets",
       "export-questions": "Exporter les sujets",
       "import-questions": "Importer les sujets",
-      "edit-tags": "Catégories de sujets"
+      "edit-tags": "Catégories de sujets",
+      "delete-questions": "Supprimer des sujets"
     }
   },
   "gpt-chat": {

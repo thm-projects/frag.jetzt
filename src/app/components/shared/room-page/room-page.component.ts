@@ -584,7 +584,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           callback: () => this.showBonusTokenDialog(),
           condition: () =>
             this.userRole > UserRole.PARTICIPANT &&
-            this.room?.bonusArchiveActive,
+            this.room?.bonusArchiveActive &&
+            this.room?.mode !== 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -686,7 +687,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           iconColor: Palette.RED,
           text: 'header.delete-questions',
           callback: () => this.deleteQuestions(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
+        });
+
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'delete_sweep',
+          class: 'material-icons-outlined',
+          iconColor: Palette.RED,
+          text: 'header.ple.delete-questions',
+          callback: () => this.deleteQuestions(),
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

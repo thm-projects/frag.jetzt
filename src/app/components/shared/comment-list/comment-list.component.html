@@ -215,7 +215,14 @@
         class="period"
         [ngClass]="{ selected: periodItem === period }"
         aria-labelledby="{{ periodItem }}">
-        <span>{{ "comment-list.select-" + periodItem | translate }}</span>
+        <span>
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "select-" +
+              periodItem | translate
+          }}
+        </span>
         <span
           class="inline-count-badge"
           *ngIf="periodItem !== 'FromNow'"
@@ -306,7 +313,11 @@
         aria-labelledby="comment">
         <mat-icon class="owner-icon material-icons-filled">person</mat-icon>
         <span [ngClass]="{ Owner: 'owner-icon' }[filterType]">
-          {{ "comment-list.filter-owner" | translate }}
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "filter-owner" | translate
+          }}
         </span>
         <span
           class="inline-count-badge"
@@ -429,6 +440,7 @@
 
       <button
         mat-menu-item
+        *ngIf="room?.mode !== 'PLE'"
         (click)="applyFilterByKey('AnsweredModerator')"
         aria-labelledby="comment">
         <mat-icon

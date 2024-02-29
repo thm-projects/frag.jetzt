@@ -119,7 +119,15 @@
       "sort-comments": "Topics sortieren",
       "pause-comments": "Friert die Anzeige ein, um die Topics in Ruhe zu lesen oder zu präsentieren. Topics können weiterhin hinzugefügt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
       "play-comments": "Neue Topics und Bewertungen wieder anzeigen",
-      "add-comment": "Füge ein neues Topic hinzu!"
+      "add-comment": "Füge ein neues Topic hinzu!",
+      "select-All": "Zeitlich unbegrenzt",
+      "select-FromNow": "Topics ab jetzt anzeigen",
+      "select-OneDay": "Letzte 24 Stunden",
+      "select-OneHour": "Letzte Stunde",
+      "select-OneWeek": "Letzte 7 Tage",
+      "select-ThreeHours": "Letzte 2 Stunden",
+      "select-TwoWeeks": "Letzte 14 Tage",
+      "filter-owner": "Meine Topics"
     }
   },
   "comment-notification": {
@@ -523,7 +531,10 @@
     "tag-cloud-title": "Use Cases des Fragen-Radars",
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
     "prompt-explanation": "Prompts kurz erklärt",
-    "tooltip-button": "Wie schreibe ich gute Prompts?"
+    "tooltip-button": "Wie schreibe ich gute Prompts?",
+    "ple": {
+      "tag-cloud-title": "Use Cases des Topic-Radars"
+    }
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -913,7 +924,10 @@
     "word": "Wort",
     "word-is-not-profanity": "Wort ist nicht profan.",
     "word-is-profanity": "Wort ist profan.",
-    "words-in-profanity": "Profane Wörter"
+    "words-in-profanity": "Profane Wörter",
+    "ple": {
+      "keywords": "Topic-Radar"
+    }
   },
   "user-bonus-token": {
     "bonus-token-body1": " vom ",

@@ -119,7 +119,15 @@
       "sort-comments": "Sort Topics",
       "pause-comments": "Freezes the display to read or present the topics at rest. Topics can still be added and rated. The display is only updated again by clicking the button.",
       "play-comments": "Show new topics and ratings again",
-      "add-comment": "Add a new topic!"
+      "add-comment": "Add a new topic!",
+      "select-All": "Unlimited in time",
+      "select-FromNow": "Display topics from now on",
+      "select-OneDay": "Last 24 hours",
+      "select-OneHour": "Last hour",
+      "select-OneWeek": "Last 7 days",
+      "select-ThreeHours": "Last 2 hours",
+      "select-TwoWeeks": "Last 14 days",
+      "filter-owner": "My topics"
     }
   },
   "comment-notification": {
@@ -516,7 +524,10 @@
     "tag-cloud-title": "Use cases of the question radar",
     "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
     "prompt-explanation": "Prompts briefly explained",
-    "tooltip-button": "How do I write good prompts?"
+    "tooltip-button": "How do I write good prompts?",
+    "ple": {
+      "tag-cloud-title": "Use cases of the topic radar"
+    }
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -906,7 +917,10 @@
     "word": "word",
     "word-is-not-profanity": "Word is not profane",
     "word-is-profanity": "Word is profane",
-    "words-in-profanity": "Words in profanity filter"
+    "words-in-profanity": "Words in profanity filter",
+    "ple": {
+      "keywords": "Topic radar"
+    }
   },
   "user-bonus-token": {
     "bonus-token-body1": " from ",

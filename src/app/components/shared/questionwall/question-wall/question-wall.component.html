@@ -102,7 +102,12 @@
                 [ngClass]="{ selected: periodItem === period }"
                 aria-labelledby="{{ periodItem }}">
                 <span>
-                  {{ "comment-list.select-" + periodItem | translate }}
+                  {{
+                    "comment-list." +
+                      (room?.mode === "PLE" ? "ple." : "") +
+                      "select-" +
+                      periodItem | translate
+                  }}
                 </span>
               </button>
             </div>
