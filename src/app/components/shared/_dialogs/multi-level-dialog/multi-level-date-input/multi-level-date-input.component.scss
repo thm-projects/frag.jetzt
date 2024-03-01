@@ -8,10 +8,23 @@
 
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  & .mat-form-field {
+    flex: 1 0 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container .mat-form-field:nth-child(1),
+  .container .mat-form-field:nth-child(2) {
+    flex: 1 0 1px;
+  }
+
+  .container .mat-form-field:nth-child(3) {
+    flex: 1 0 100%;
+  }
 }
 
 button {
@@ -20,6 +33,11 @@ button {
   background-color: var(--primary);
   color: var(--on-primary);
 }
+
+.mat-icon-color-only {
+  color: var(--on-surface);
+}
+
 
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
@@ -31,14 +49,15 @@ button {
   margin-bottom: 14px;
 }
 
+
+.even {
+  background-color: var(--background);
+}
+
 .time-item {
   display: grid;
   grid-template-columns: 1fr auto;
   padding: 8px;
-
-  &.even {
-    background-color: var(--background);
-  }
 
   &:hover button {
     display: flex;
@@ -56,3 +75,4 @@ button {
   display: none;
   cursor: pointer;
 }
+
