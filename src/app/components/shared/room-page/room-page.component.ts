@@ -543,7 +543,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
           condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -562,7 +562,18 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.edit-tags',
           callback: () => this.showTagsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'sell',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.ple.edit-tags',
+          callback: () => this.showTagsDialog(),
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -573,7 +584,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           callback: () => this.showBonusTokenDialog(),
           condition: () =>
             this.userRole > UserRole.PARTICIPANT &&
-            this.room?.bonusArchiveActive,
+            this.room?.bonusArchiveActive &&
+            this.room?.mode !== 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -581,7 +593,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'material-icons-outlined',
           text: 'header.export-questions',
           callback: () => this.exportQuestions(),
-          condition: () => this.userRole >= UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole >= UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -596,7 +609,33 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                 ?.length || 0) ===
               0 &&
             this.user.id === this.room.ownerId &&
-            this.userRole > UserRole.PARTICIPANT,
+            this.userRole > UserRole.PARTICIPANT &&
+            this.room?.mode === 'ARS',
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_download',
+          class: 'material-icons-outlined',
+          text: 'header.ple.export-questions',
+          callback: () => this.exportQuestions(),
+          condition: () =>
+            this.userRole >= UserRole.PARTICIPANT && this.room?.mode === 'PLE',
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_upload',
+          class: 'material-icons-outlined',
+          text: 'header.ple.import-questions',
+          callback: () => this.importQuestions().subscribe(),
+          condition: () =>
+            (this.roomDataService.dataAccessor.currentRawComments()?.length ||
+              0) +
+              (this.roomDataService.moderatorDataAccessor.currentRawComments()
+                ?.length || 0) ===
+              0 &&
+            this.user.id === this.room.ownerId &&
+            this.userRole > UserRole.PARTICIPANT &&
+            this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -648,7 +687,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           iconColor: Palette.RED,
           text: 'header.delete-questions',
           callback: () => this.deleteQuestions(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
+        });
+
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'delete_sweep',
+          class: 'material-icons-outlined',
+          iconColor: Palette.RED,
+          text: 'header.ple.delete-questions',
+          callback: () => this.deleteQuestions(),
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

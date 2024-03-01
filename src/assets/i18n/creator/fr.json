@@ -160,8 +160,21 @@
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
     "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur",
-    "ple":{
-      "ask-question-empty": "Ajouter de nouveaux sujets"
+    "ple": {
+      "ask-question-empty": "Ajouter de nouveaux sujets",
+      "filter-comments": "Filtrer les sujets",
+      "sort-comments": "Trier les sujets",
+      "pause-comments": "Met en pause l'affichage pour lire ou présenter les sujets en toute tranquillité. Les sujets peuvent toujours être ajoutés et évalués. L'affichage est mis à jour à nouveau en cliquant sur le bouton.",
+      "play-comments": "Afficher à nouveau les nouveaux sujets et les évaluations",
+      "add-comment": "Ajouter un nouveau sujet !",
+      "select-All": "Illimité dans le temps",
+      "select-FromNow": "À partir de maintenant",
+      "select-OneDay": "Dernières 24 heures",
+      "select-OneHour": "Dernière heure",
+      "select-OneWeek": "Derniers 7 jours",
+      "select-ThreeHours": "Dernières 2 heures",
+      "select-TwoWeeks": "Derniers 14 jours",
+      "filter-owner": "Mes sujets"
     }
   },
   "comment-notification": {
@@ -584,7 +597,9 @@
     "ple": {
       "questionwall": "Focus de Sujet",
       "back-to-questionboard": "Forum de Sujet",
-      "tag-cloud": "Radar de Sujet"
+      "tag-cloud": "Radar de Sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "topic-cloud-filter": {
@@ -624,7 +639,10 @@
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "prompt-explanation": "Prompts en bref",
-    "tooltip-button": "Comment écris-je de bons prompts ?"
+    "tooltip-button": "Comment écris-je de bons prompts ?",
+    "ple": {
+      "tag-cloud-title": "Cas d'utilisation du radar à sujets"
+    }
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -1252,9 +1270,15 @@
     "time-period": "Période",
     "user-lbl": "Ouvrir le menu utilisateur",
     "users-online": "Utilisateurs actuellement connectés",
-    "ple":{
+    "ple": {
       "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
-      "intro-title": "Focus sur le sujet"
+      "intro-title": "Focus sur le sujet",
+      "auto-renew-on": "Démarrer la mise au point automatique pour les nouveaux sujets",
+      "auto-renew-off": "Arrêter la mise au point automatique pour les nouveaux sujets",
+      "next-comment": "Sujet suivant",
+      "prev-comment": "Sujet précédent",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "tag-cloud-popup": {
@@ -1384,7 +1408,10 @@
     "word-is-not-profanity": "Le mot n'est pas profane.",
     "word-is-profanity": "Le mot est profane.",
     "words-in-profanity": "Mots profanes",
-    "words-will-be-overwritten": "Remplacer les mots vulgaires par ★★★★"
+    "words-will-be-overwritten": "Remplacer les mots vulgaires par ★★★★",
+    "ple": {
+      "keywords": "Radar à sujets"
+    }
   },
   "worker-config": {
     "cancel": "Annuler",

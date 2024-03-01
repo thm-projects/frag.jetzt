@@ -6,6 +6,9 @@
     "nextPageLabel": "Continuer",
     "previousPageLabel": "Précédent",
     "rangePageLabel1": "zéro",
-    "rangePageLabel2": "%start - %end de %length"
+    "rangePageLabel2": "%start - %end de %length",
+    "ple": {
+      "itemsPerPageLabel": "Sujets par page"
+    }
   }
 }

@@ -102,7 +102,12 @@
                 [ngClass]="{ selected: periodItem === period }"
                 aria-labelledby="{{ periodItem }}">
                 <span>
-                  {{ "comment-list.select-" + periodItem | translate }}
+                  {{
+                    "comment-list." +
+                      (room?.mode === "PLE" ? "ple." : "") +
+                      "select-" +
+                      periodItem | translate
+                  }}
                 </span>
               </button>
             </div>
@@ -126,7 +131,20 @@
             matRipple
             matTooltip="{{
               'question-wall.overview-question-tooltip' | translate
-            }}">
+            }}"
+            *ngIf="room?.mode === 'ARS'">
+            <mat-icon>comment</mat-icon>
+            <p style="margin-left: 0.25em">{{ commentsCountQuestions }}</p>
+          </button>
+          <button
+            ars-btn
+            class="pseudo-button qw-opening-fade-animation"
+            [ngClass]="{ selected: hasFilter || period !== 'All' }"
+            matRipple
+            matTooltip="{{
+              'question-wall.ple.overview-question-tooltip' | translate
+            }}"
+            *ngIf="room?.mode === 'PLE'">
             <mat-icon>comment</mat-icon>
             <p style="margin-left: 0.25em">{{ commentsCountQuestions }}</p>
           </button>
@@ -137,7 +155,20 @@
             matRipple
             matTooltip="{{
               'question-wall.overview-questioners-tooltip' | translate
-            }}">
+            }}"
+            *ngIf="room?.mode === 'ARS'">
+            <mat-icon>person</mat-icon>
+            <p style="margin-left: 0.1em">{{ commentsCountUsers }}</p>
+          </button>
+          <button
+            ars-btn
+            class="pseudo-button qw-opening-fade-animation"
+            [ngClass]="{ selected: hasFilter || period !== 'All' }"
+            matRipple
+            matTooltip="{{
+              'question-wall.ple.overview-questioners-tooltip' | translate
+            }}"
+            *ngIf="room?.mode === 'PLE'">
             <mat-icon>person</mat-icon>
             <p style="margin-left: 0.1em">{{ commentsCountUsers }}</p>
           </button>
@@ -632,7 +663,8 @@
           ars-btn
           (click)="toggleFocusIncomingComments()"
           matRipple
-          aria-labelledby="autofocus-on-lbl">
+          aria-labelledby="autofocus-on-lbl"
+          *ngIf="room?.mode === 'ARS'">
           <ng-container *ngIf="focusIncomingComments">
             <mat-icon>
               {{ "question-wall.auto-renew-off-icon" | translate }}
@@ -644,6 +676,25 @@
               {{ "question-wall.auto-renew-on-icon" | translate }}
             </mat-icon>
             <p>{{ "question-wall.auto-renew-on" | translate }}</p>
+          </ng-container>
+        </button>
+        <button
+          ars-btn
+          (click)="toggleFocusIncomingComments()"
+          matRipple
+          aria-labelledby="autofocus-on-lbl"
+          *ngIf="room?.mode === 'PLE'">
+          <ng-container *ngIf="focusIncomingComments">
+            <mat-icon>
+              {{ "question-wall.auto-renew-off-icon" | translate }}
+            </mat-icon>
+            <p>{{ "question-wall.ple.auto-renew-off" | translate }}</p>
+          </ng-container>
+          <ng-container *ngIf="!focusIncomingComments">
+            <mat-icon>
+              {{ "question-wall.auto-renew-on-icon" | translate }}
+            </mat-icon>
+            <p>{{ "question-wall.ple.auto-renew-on" | translate }}</p>
           </ng-container>
         </button>
         <button
@@ -678,7 +729,8 @@
           ars-btn
           (click)="prevComment()"
           matRipple
-          aria-labelledby="prev-comment-lbl">
+          aria-labelledby="prev-comment-lbl"
+          *ngIf="room?.mode === 'ARS'">
           <mat-icon>
             {{ "question-wall.prev-comment-icon" | translate }}
           </mat-icon>
@@ -686,13 +738,36 @@
         </button>
         <button
           ars-btn
+          (click)="prevComment()"
+          matRipple
+          aria-labelledby="prev-comment-lbl"
+          *ngIf="room?.mode === 'PLE'">
+          <mat-icon>
+            {{ "question-wall.prev-comment-icon" | translate }}
+          </mat-icon>
+          <p>{{ "question-wall.ple.prev-comment" | translate }}</p>
+        </button>
+        <button
+          ars-btn
           (click)="nextComment()"
           matRipple
-          aria-labelledby="next-comment-lbl">
+          aria-labelledby="next-comment-lbl"
+          *ngIf="room?.mode === 'ARS'">
           <mat-icon>
             {{ "question-wall.next-comment-icon" | translate }}
           </mat-icon>
           <p>{{ "question-wall.next-comment" | translate }}</p>
+        </button>
+        <button
+          ars-btn
+          (click)="nextComment()"
+          matRipple
+          aria-labelledby="next-comment-lbl"
+          *ngIf="room?.mode === 'PLE'">
+          <mat-icon>
+            {{ "question-wall.next-comment-icon" | translate }}
+          </mat-icon>
+          <p>{{ "question-wall.ple.next-comment" | translate }}</p>
         </button>
       </ars-col>
     </ars-style-btn-material>
