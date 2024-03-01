@@ -13,7 +13,7 @@
         [placeholder]="data.labels[2] | translate"
         formControlName="endDate" />
     </mat-date-range-input>
-    <mat-datepicker-toggle
+    <mat-datepicker-toggle class="mat-icon-color-only"
       matSuffix
       [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
@@ -36,10 +36,13 @@
         formControlName="endTime" />
     </mat-form-field>
 
+    <mat-error *ngIf="dateRangeGroup.errors?.invalid">{{ data.labels[3] | translate }}</mat-error>
+
     <mat-form-field appearance="outline">
       <mat-select formControlName="selectedOption">
         <mat-option
-          *ngFor="let option of options"
+          *ngFor="let option of options; let i = index"
+          [ngClass]="{ odd: i % 2 !== 0, even: i % 2 === 0 }"
           [value]="option.value">
           {{ option.i18nPath | translate }}
         </mat-option>
@@ -52,12 +55,8 @@
   mat-raised-button
   (click)="addUsageTime()">
   <mat-icon>add</mat-icon>
-  <span>{{ data.labels[4] | translate }}</span>
+  <span>{{ data.labels[5] | translate }}</span>
 </button>
-
-<div *ngIf="dateRangeGroup.errors?.invalid">
-  End time cannot be before start time.
-</div>
 
 <div
   *ngIf="usageTimes.length > 0"

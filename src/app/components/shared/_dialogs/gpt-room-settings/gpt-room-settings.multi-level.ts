@@ -405,6 +405,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             'ml-gpt-room-settings.usage-time-item-one-input',
             'ml-gpt-room-settings.usage-time-item-one-select-one',
             'ml-gpt-room-settings.usage-time-item-one-select-two',
+            'ml-gpt-room-settings.usage-time-item-one-select-error-label-time-before',
             'ml-gpt-room-settings.usage-time-item-one-select-three',
             'ml-gpt-room-settings.usage-time-item-one-button',
           ],
