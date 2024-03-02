@@ -16,10 +16,11 @@
 </ng-template>
 
 <div
+  mat-dialog-title
   *ngIf="isProduction"
   [class.no-pad]="true"
   [class.dialog-title]="true">
-  <h5 mat-dialog-title>{{ translateKey + ".title" | translate }}</h5>
+  <h5>{{ translateKey + ".title" | translate }}</h5>
   <div [class.title-settings]="true">
     <ng-container
       *ngTemplateOutlet="
