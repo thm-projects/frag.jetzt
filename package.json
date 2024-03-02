@@ -31,7 +31,7 @@
     "@angular/flex-layout": "^15.0.0-beta.42",
     "@angular/forms": "^17.2.3",
     "@angular/localize": "^17.2.3",
-    "@angular/material": "^17.0.4",
+    "@angular/material": "^17.2.1",
     "@angular/material-experimental": "^17.2.0",
     "@angular/platform-browser": "^17.2.3",
     "@angular/platform-browser-dynamic": "^17.2.3",
