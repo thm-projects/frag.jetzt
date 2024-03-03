@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@use "@angular/material-experimental" as matx;
+
 $arsnova-primary: mat.define-palette(mat.$grey-palette, 100);
 $arsnova-accent: mat.define-palette(mat.$orange-palette, 200);
 
@@ -13,22 +13,6 @@ $arsnova-theme: mat.define-light-theme(
       warn: $arsnova-warn,
     ),
     density: 0,
-  )
-);
-
-$arsnova-theme: matx.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: matx.$m3-yellow-palette,
-      tertiary: matx.$m3-green-palette,
-    ),
-    typography: (
-      bold-weight: 900,
-    ),
-    density: (
-      scale: -1,
-    ),
   )
 );
 
