@@ -1,17 +1,42 @@
 @use "@angular/material" as mat;
+
 @use "@angular/material-experimental" as matx;
 @import "styles.scss";
 @import "style/fix-material-icons.scss";
 
-$theme: matx.define-theme(
+$light-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: matx.$m3-yellow-palette,
+      tertiary: matx.$m3-green-palette,
+    ),
+    typography: (
+      //brand-family:'Roboto',
+      //plain-family:'Roboto',
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+
+$dark-theme: matx.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: matx.$m3-violet-palette,
-      tertiary: matx.$m3-red-palette,
+      primary: matx.$m3-yellow-palette,
+      tertiary: matx.$m3-green-palette,
     ),
     typography: (
+      //brand-family:'Roboto',
+      //plain-family:'Roboto',
       bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 400,
     ),
     density: (
       scale: -1,
@@ -21,6 +46,76 @@ $theme: matx.define-theme(
 
 @include mat.core();
 
+body {
+  @include mat.all-component-themes($light-theme);
+  @include matx.color-variants-back-compat($light-theme);
+
+  .primary {
+    &-button {
+      @include mat.button-color($light-theme, $color-variant: primary);
+    }
+  }
+
+  .tertiary {
+    &-button {
+      @include mat.button-color($light-theme, $color-variant: tertiary);
+    }
+  }
+
+  .secondary {
+    &-button {
+      @include mat.button-color($light-theme, $color-variant: secondary);
+    }
+  }
+
+  .error {
+    &-button {
+      @include mat.button-color($light-theme, $color-variant: error);
+    }
+  }
+
+  .custom {
+    &-button {
+      --mdc-filled-button-container-color: #625ab9;
+    }
+  }
+
+  &.dark {
+    @include mat.all-component-colors($dark-theme);
+    @include matx.color-variants-back-compat($dark-theme);
+
+    .primary {
+      &-button {
+        @include mat.button-color($dark-theme, $color-variant: primary);
+      }
+    }
+
+    .tertiary {
+      &-button {
+        @include mat.button-color($dark-theme, $color-variant: tertiary);
+      }
+    }
+
+    .secondary {
+      &-button {
+        @include mat.button-color($dark-theme, $color-variant: secondary);
+      }
+    }
+
+    .error {
+      &-button {
+        @include mat.button-color($dark-theme, $color-variant: error);
+      }
+    }
+
+    .custom {
+      &-button {
+        --mdc-filled-button-container-color: #625ab9;
+      }
+    }
+  }
+}
+
 html,
 body {
   margin: 0;
@@ -28,7 +123,6 @@ body {
   width: 100vw;
   height: 100dvh;
   overflow: hidden;
-  @include mat.all-component-themes($theme);
 }
 
 .visually-hidden {

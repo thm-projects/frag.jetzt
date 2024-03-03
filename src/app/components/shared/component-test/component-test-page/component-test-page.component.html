@@ -1,104 +1,22 @@
-<ng-container *ngIf="currentTheme">
+<ng-container>
   <div class="content-container">
     <div class="settings-container">
-      <div class="theme-selection">
-        <h3>Theme</h3>
-        <div class="fill"></div>
-        <button
-          mat-flat-button
-          *ngFor="let theme of themes"
-          [ngStyle]="{
-            color: theme.getOnPreviewColor(),
-            backgroundColor: theme.getPreviewColor()
-          }"
-          (click)="themeService.activate(theme.key); currentTheme = theme">
-          <mat-icon>blur_on</mat-icon>
-          <span>{{ theme.getName("en") }}</span>
-        </button>
-      </div>
-      <div class="background-selection">
-        <h3>Background</h3>
-        <div class="fill"></div>
-        <button mat-flat-button>
-          <span>surface</span>
-        </button>
-        <button mat-flat-button>
-          <span>background</span>
-        </button>
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="selectCustomBackground">
-          <mat-icon>brush</mat-icon>
-        </button>
-        <mat-menu #selectCustomBackground>
-          <button
-            mat-menu-item
-            *ngFor="let key of colorKeys"
-            (click)="currentBackgroundColor = key">
-            <ng-container
-              *ngTemplateOutlet="
-                colorIndicator;
-                context: { color: key }
-              "></ng-container>
-            <span>{{ key }}</span>
-          </button>
-        </mat-menu>
-      </div>
-      <div class="color-context">
-        <div class="color-context-list">
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'background' }
-            "></ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'surface' }
-            "></ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'primary' }
-            "></ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'secondary' }
-            "></ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'livepoll-primary', name: 'lp-primary' }
-            "></ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              colorField;
-              context: { color: 'livepoll-secondary', name: 'lp-secondary' }
-            "></ng-container>
-        </div>
-        <ng-template
-          #colorField
-          let-color="color"
-          let-name="name">
-          <div
-            class="color-field"
-            [ngStyle]="{
-              backgroundColor: 'var(--' + color + ')'
-            }">
-            <span
-              [ngStyle]="{
-                color: 'var(--on-' + color + ')'
-              }">
-              {{ name || color }}
-            </span>
-          </div>
-        </ng-template>
+      <div>
+        <mat-button-toggle-group
+          [(ngModel)]="currentTheme"
+          (change)="setTheme()">
+          <mat-button-toggle
+            [value]="theme"
+            *ngFor="let theme of themeList">
+            {{ theme }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
     </div>
     <div class="example-container">
-      <mat-accordion>
+      <mat-accordion [multi]="true">
         <mat-expansion-panel
+          [expanded]="true"
           [ngStyle]="{
             backgroundColor: 'var(--surface)'
           }">
@@ -110,17 +28,14 @@
           </a>
           <app-component-test-button></app-component-test-button>
         </mat-expansion-panel>
-        <mat-expansion-panel
-          [ngStyle]="{
-            backgroundColor: 'red'
-          }">
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <h3>Buttons</h3>
+            <h3>Card</h3>
           </mat-expansion-panel-header>
-          <a href="https://material.angular.io/components/button/examples">
-            https://material.angular.io/components/button/examples
+          <a href="https://material.angular.io/components/card/examples">
+            https://material.angular.io/components/card/examples
           </a>
-          <app-component-test-button></app-component-test-button>
+          <app-component-test-card></app-component-test-card>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
