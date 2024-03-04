@@ -1,3 +1,5 @@
+import { Subscribable } from 'rxjs';
+
 type ArrayLength<A extends Array<unknown>> = A['length'] extends infer T
   ? T
   : never;
@@ -38,8 +40,8 @@ type FixedSizeArrayBuilder<
 > = T['length'] extends L
   ? T
   : T extends (infer R)[]
-  ? FixedSizeArrayBuilder<[R, ...T], L>
-  : never;
+    ? FixedSizeArrayBuilder<[R, ...T], L>
+    : never;
 export type FixedSizeArray<T, L extends number> = L extends
   | 0
   | IsNegativeInteger<L>
@@ -108,16 +110,16 @@ export type Replaces<T, K> = Required<T> extends Required<K> ? true : false;
 export type Get<T, K extends string> = Exclude<T, undefined> extends never
   ? undefined
   : K extends keyof Exclude<T, undefined>
-  ? Exclude<T, undefined>[K]
-  : undefined;
+    ? Exclude<T, undefined>[K]
+    : undefined;
 export type GetDefault<Type, Key extends string, Default> = Exclude<
   Type,
   undefined
 > extends never
   ? Default
   : Key extends keyof Exclude<Type, undefined>
-  ? Exclude<Type, undefined>[Key]
-  : Default;
+    ? Exclude<Type, undefined>[Key]
+    : Default;
 
 export type Immutable<T> = IsObject<T> extends true
   ? {
@@ -142,14 +144,14 @@ export type FieldsOf<T> = IsObject<T> extends true
 export type Storable<T> = T extends GeneralFunction
   ? never
   : T extends (infer K)[]
-  ? Storable<K>[]
-  : IsObject<T> extends true
-  ? {
-      [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<
-        T[P]
-      >;
-    }
-  : T;
+    ? Storable<K>[]
+    : IsObject<T> extends true
+      ? {
+          [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<
+            T[P]
+          >;
+        }
+      : T;
 
 export const clone = <T>(elem: T): Mutable<T> => {
   if (Array.isArray(elem)) {
@@ -180,4 +182,18 @@ export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
     return obj;
   }
   return new clazz(obj);
+};
+
+export const getInstant = <T, K extends Subscribable<T>>(
+  subscribable: K,
+): T | null => {
+  let result: T | null = null;
+  subscribable
+    .subscribe({
+      next: (value) => {
+        result = value;
+      },
+    })
+    .unsubscribe();
+  return result;
 };

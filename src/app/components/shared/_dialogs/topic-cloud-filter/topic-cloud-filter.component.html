@@ -1,7 +1,7 @@
 <mat-dialog-content>
   <h3>
     {{
-      room.mode === "ARS"
+      room?.mode === "ARS"
         ? ("topic-cloud-filter.questions-title" | translate)
         : ("topic-cloud-filter.ple.questions-title" | translate)
     }}
@@ -35,7 +35,7 @@
             class="elementText"
             *ngIf="isMobile">
             {{
-              room.mode === "ARS"
+              room?.mode === "ARS"
                 ? ("topic-cloud-filter." + radioTyp + "-short" | translate)
                 : ("topic-cloud-filter.ple." + radioTyp + "-short" | translate)
             }}
@@ -44,7 +44,7 @@
             class="elementText"
             *ngIf="!isMobile">
             {{
-              room.mode === "ARS"
+              room?.mode === "ARS"
                 ? ("topic-cloud-filter." + radioTyp | translate)
                 : ("topic-cloud-filter.ple." + radioTyp | translate)
             }}

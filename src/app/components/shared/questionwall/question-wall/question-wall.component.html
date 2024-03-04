@@ -340,10 +340,24 @@
             </ars-row>
           </ng-container>
           <ng-container *ngIf="!commentFocusId && firstPassIntroduction">
-            <p class="questionwall-present-introduction-title">
+            <p
+              class="questionwall-present-introduction-title"
+              *ngIf="room?.mode === 'PLE'">
+              {{ "question-wall.ple.intro-title" | translate }}
+            </p>
+            <p
+              class="questionwall-present-introduction-title"
+              *ngIf="room?.mode === 'ARS'">
               {{ "question-wall.intro-title" | translate }}
             </p>
-            <p class="questionwall-present-introduction-desc">
+            <p
+              class="questionwall-present-introduction-desc"
+              *ngIf="room?.mode === 'PLE'">
+              {{ "question-wall.ple.intro-desc" | translate }}
+            </p>
+            <p
+              class="questionwall-present-introduction-desc"
+              *ngIf="room?.mode === 'ARS'">
               {{ "question-wall.intro-desc" | translate }}
             </p>
             <p class="questionwall-present-introduction-desc">

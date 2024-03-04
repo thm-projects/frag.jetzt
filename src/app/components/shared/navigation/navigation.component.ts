@@ -261,7 +261,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       id: 'radar',
       accessible: false,
       active: false,
-      i18n: 'header.ple.tag-cloud',
+      i18n: 'header.tag-cloud',
       icon: 'radar',
       isCurrentRoute: (route) => RADAR_REGEX.test(route),
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isPLE,
@@ -533,6 +533,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.refreshLocations();
       });
+    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe(observer);
   }
 
   ngOnDestroy(): void {
@@ -545,6 +546,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   refreshLocations() {
+    this.isPLE = this.roomState.getCurrentRoom()?.mode === 'PLE';
     const url = getCurrentLocation(this.router);
     this.currentLocation = null;
     let anyTrue = false;

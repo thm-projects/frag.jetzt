@@ -67,7 +67,7 @@ import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-
 import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { Quota, QuotaService } from 'app/services/http/quota.service';
+import { QuotaService } from 'app/services/http/quota.service';
 
 @Component({
   selector: 'app-room-page',
@@ -76,7 +76,6 @@ import { Quota, QuotaService } from 'app/services/http/quota.service';
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
-  isPle: boolean = false;
   user: User = null;
   isLoading = true;
   commentCounter: number;
@@ -136,7 +135,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeRoom();
-    this.isPle = this.room.mode === 'PLE';
   }
 
   ngOnDestroy() {
@@ -498,50 +496,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                 switchMap((res) => {
                   return forkJoin([
                     of(res),
-                    res.roomQuotaId
-                      ? this.quotaService.get(res.roomQuotaId)
-                      : of(null),
-                    res.moderatorQuotaId
-                      ? this.quotaService.get(res.moderatorQuotaId)
-                      : of(null),
-                    res.participantQuotaId
-                      ? this.quotaService.get(res.participantQuotaId)
-                      : of(null),
+                    this.quotaService.get(res.roomQuotaId),
+                    this.quotaService.get(res.moderatorQuotaId),
+                    this.quotaService.get(res.participantQuotaId),
                   ]);
                 }),
-                switchMap(
-                  ([setting, roomQuota, moderatorQuota, participantQuota]) => {
-                    const timezone =
-                      Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    return forkJoin([
-                      of(setting),
-                      roomQuota
-                        ? of(roomQuota)
-                        : this.gptRoomService.createRoomQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                      moderatorQuota
-                        ? of(moderatorQuota)
-                        : this.gptRoomService.createModeratorQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                      participantQuota
-                        ? of(participantQuota)
-                        : this.gptRoomService.createParticipantQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                    ]);
-                  },
-                ),
               )
               .subscribe(
                 ([setting, roomQuota, moderatorQuota, participantQuota]) => {
@@ -582,7 +541,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT && this.isPle,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -591,7 +551,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.conversation',
           callback: () => this.showToggleConversationDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -676,7 +637,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               }
             });
           }),
-          () => this.userRole > UserRole.PARTICIPANT,
+          () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
