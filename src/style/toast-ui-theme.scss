@@ -30,6 +30,7 @@ $cite-light-fg: #ccc;
       color: $outer-window-fg;
       border: 0.2em solid transparent;
       background-color: $outer-window-bg;
+      border-radius: var(--mdc-filled-button-container-shape);
 
       &:hover {
         border-color: var(--red);
