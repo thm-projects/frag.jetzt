@@ -112,7 +112,10 @@
     "unread": "Nicht vom Vortragenden besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Verneint"
+    "wrong": "Verneint",
+    "ple":{
+      "ask-question-empty": "Neue Topics hinzufügen"
+    }
   },
   "comment-notification": {
     "close": "Schließen",
@@ -472,7 +475,11 @@
     "livepoll": "Blitzumfrage",
     "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
     "ple": {
-      "questionwall": "Topic-Fokus"
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
+      "tag-cloud": "Topic-Radar",
+      "question-focus-button": "Topic-Fokus",
+      "create-question": "Topic hinzufügen"
     }
   },
   "topic-cloud-filter": {
@@ -602,7 +609,11 @@
     "sort-time": "Zeit",
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
-    "users-online": "Aktuell eingeloggte User"
+    "users-online": "Aktuell eingeloggte User",
+    "ple":{
+      "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
+      "intro-title": "Topic-Fokus"
+    }
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -686,7 +697,11 @@
     "session-id-lq-x": "»",
     "session-id-rq": "«",
     "sure": "Bist du sicher?",
-    "update": "Speichern"
+    "update": "Speichern",
+    "ple": {
+      "create-comment": "Topics erstellen!",
+      "create-comment-and-answer": "Zum Topic-Forum"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",

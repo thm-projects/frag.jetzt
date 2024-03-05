@@ -527,7 +527,7 @@
   appJoyrideTemplate></div>
 
 <button
-  *ngIf="commentsEnabled && room.mode === 'ARS'"
+  *ngIf="commentsEnabled && room?.mode === 'ARS'"
   mat-fab
   [ngClass]="{
     center_screen: isCommentListEmpty() || isStarting()
@@ -548,7 +548,7 @@
 </button>
 
 <button
-  *ngIf="commentsEnabled && room.mode === 'PLE'"
+  *ngIf="commentsEnabled && room?.mode === 'PLE'"
   mat-fab
   [ngClass]="{
     center_screen: isCommentListEmpty() || isStarting()

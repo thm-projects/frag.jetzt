@@ -112,7 +112,10 @@
     "unread": "Non discuté par le conférencier",
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
-    "wrong": "Négatif"
+    "wrong": "Négatif",
+    "ple":{
+      "ask-question-empty": "Ajouter de nouveaux sujets"
+    }
   },
   "comment-notification": {
     "close": "Fermer",
@@ -463,7 +466,14 @@
     "feedback": "Salle de feedback",
     "logout": "Se déconnecter",
     "livepoll": "Sondage flash",
-    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants.",
+    "ple": {
+      "questionwall": "Focus sur les questions",
+      "back-to-questionboard": "Forum du sujet",
+      "tag-cloud": "Radar du sujet",
+      "question-focus-button": "Focus sur les questions",
+      "create-question": "Ajouter un sujet"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
@@ -592,7 +602,11 @@
     "sort-time": "Heure",
     "time-period": "Période",
     "user-lbl": "Ouvrir le menu utilisateur",
-    "users-online": "Utilisateurs actuellement connectés"
+    "users-online": "Utilisateurs actuellement connectés",
+    "ple":{
+      "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
+      "intro-title": "Focus sur le sujet"
+    }
   },
   "quill": {
     "cancel": "Annuler",
@@ -676,7 +690,11 @@
     "session-id-lq-x": "« ",
     "session-id-rq": " »",
     "sure": "Tu en es sûr ?",
-    "update": "Enregistrer"
+    "update": "Enregistrer",
+    "ple": {
+      "create-comment": "Créer des sujets !",
+      "create-comment-and-answer": "Vers le forum des sujets"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",

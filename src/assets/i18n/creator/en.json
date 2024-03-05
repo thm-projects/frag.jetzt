@@ -160,7 +160,7 @@
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
     "wrong": "Marked as wrong",
-    "ple":{
+    "ple": {
       "ask-question-empty": "Add new Topics"
     }
   },
@@ -688,7 +688,11 @@
     "sort-time": "Time",
     "time-period": "Time Period",
     "user-lbl": "Open user menu",
-    "users-online": "Currently logged-in users"
+    "users-online": "Currently logged-in users",
+    "ple": {
+      "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
+      "intro-title": "Topic Focus"
+    }
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -763,7 +767,6 @@
     "gpt-setup-item-two-radio-one": "With API Key",
     "gpt-setup-item-two-radio-two": "With Voucher",
     "gpt-setup-item-two-error-label-required": "Enter something here 2",
-    
     "gpt-info-title": "OpenAI Data",
     "gpt-info-step-help": "Enter something here 3",
     "gpt-info-item-one-label": "API Code & Organization",
@@ -772,39 +775,33 @@
     "gpt-info-item-two-error-label-pattern": "Enter something here 5",
     "gpt-info-item-three-label": "API Organization",
     "gpt-info-item-three-error-label-pattern": "Enter something here 6",
-    
     "gpt-info-voucher-title": "OpenAI Voucher",
     "gpt-info-voucher-step-help": "Enter something here 7",
     "gpt-info-voucher-item-one-label": "API Voucher",
     "gpt-info-voucher-item-two-label": "API Voucher",
     "gpt-info-voucher-item-two-error-label-required": "Enter something here 8",
-    
     "gpt-model-title": "OpenAI GPT Model",
     "gpt-model-step-help": "Enter something here 9",
     "gpt-model-item-one-label": "GPT Model",
     "gpt-model-item-two-label": "LLM Selection",
-    
     "room-quota-title": "Room Quota",
     "room-quota-step-help": "Enter something here 10",
     "room-quota-item-one-label": "Total Cost Limit",
     "room-quota-item-two-label": "Monthly Cost Limit",
     "room-quota-item-three-label": "Monthly Rolling Cost Limit",
     "room-quota-item-four-label": "Daily Cost Limit",
-    
     "moderator-quota-title": "Moderator Quota",
     "moderator-quota-step-help": "Enter something here 11",
     "moderator-quota-item-one-label": "Total Cost Limit",
     "moderator-quota-item-two-label": "Monthly Cost Limit",
     "moderator-quota-item-three-label": "Monthly Rolling Cost Limit",
     "moderator-quota-item-four-label": "Daily Cost Limit",
-    
     "participant-quota-title": "Participant Quota",
     "participant-quota-step-help": "Enter something here 12",
     "participant-quota-item-one-label": "Total Cost Limit",
     "participant-quota-item-two-label": "Monthly Cost Limit",
     "participant-quota-item-three-label": "Monthly Rolling Cost Limit",
     "participant-quota-item-four-label": "Daily Cost Limit",
-    
     "usage-time-title": "Usage Periods",
     "usage-time-step-help": "Enter something here 13",
     "usage-time-item-one-input": "Time Span",
@@ -823,13 +820,11 @@
     "usage-time-item-one-option-fridays": "Fridays",
     "usage-time-item-one-option-saturdays": "Saturdays",
     "usage-time-item-one-option-sundays": "Sundays",
-    
     "miscellaneous-settings-title": "Miscellaneous Settings",
     "miscellaneous-settings-step-help": "Enter something here 14",
     "miscellaneous-settings-item-one-label": "Allow ChatGPT for unregistered users",
     "miscellaneous-settings-item-two-label": "Allow ChatGPT to respond without prompt guidelines",
     "miscellaneous-settings-item-three-label": "Allow ChatGPT to respond only on request",
-    
     "moderator-permissions-title": "Moderator Permissions",
     "moderator-permissions-step-help": "Enter something here 15",
     "moderator-permissions-item-one-label": "Change participant quota",
@@ -1013,7 +1008,11 @@
     "quota-for-room": "API Costs",
     "quota-for-moderators": "Moderation",
     "quota-for-participants": "Participants",
-    "quota-label-separator": "out of"
+    "quota-label-separator": "out of",
+    "ple": {
+      "comments": "Create topics!",
+      "comments-and-answers": "Go to the Topic Forum"
+    }
   },
   "gptrating": {
     "title": "Rating to ChatGPT in frag.jetzt",
