@@ -21,15 +21,15 @@
       </button>
     </div>
 
-    <div>
+    <div class="header-row-section">
       <div
         *ngIf="
           headerService.isToggleCurrentUserActivity() && room?.mode === 'ARS'
         ">
         <div matTooltip="{{ 'header.users-online' | translate }}"></div>
-        <p>
+        <span>
           {{ headerService.getCurrentUserActivity() }}
-        </p>
+        </span>
       </div>
 
       <button
@@ -428,7 +428,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div>
+<div class="visually-hidden">
   <div id="login-label">{{ "header.accessibility-login" | translate }}</div>
   <div id="back-label">{{ "header.accessibility-back" | translate }}</div>
   <div id="tour-label">{{ "header.accessibility-tour" | translate }}</div>

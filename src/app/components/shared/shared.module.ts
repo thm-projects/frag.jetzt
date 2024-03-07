@@ -108,7 +108,7 @@ import { BrainstormingCategoryEditorComponent } from './_dialogs/brainstorming-c
 import { BrainstormingEditComponent } from './_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
 import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
-import { NavigationComponent } from './navigation/navigation.component';
+import { NavigationComponent } from './header/navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
