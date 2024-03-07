@@ -1,7 +1,8 @@
 @use "@angular/material" as mat;
 
 @use "@angular/material-experimental" as matx;
-@import "styles.scss";
+//@import "styles.scss";
+@import "material-icons/iconfont/material-icons.css";
 @import "style/fix-material-icons.scss";
 
 $light-theme: matx.define-theme(
@@ -28,7 +29,88 @@ $dark-theme: matx.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: matx.$m3-yellow-palette,
+      primary: (
+        0: #000000,
+        10: #001b3f,
+        20: #002f65,
+        25: #003a7a,
+        30: #00458f,
+        35: #0050a5,
+        40: #005cbb,
+        50: #0074e9,
+        60: #438fff,
+        70: #7cabff,
+        80: #abc7ff,
+        90: #d7e3ff,
+        95: #ecf0ff,
+        98: #f9f9ff,
+        99: #fdfbff,
+        100: #ffffff,
+        secondary: (
+          0: #000000,
+          10: #131c2b,
+          20: #283041,
+          25: #333c4d,
+          30: #3e4759,
+          35: #4a5365,
+          40: #565e71,
+          50: #6f778b,
+          60: #8891a5,
+          70: #a3abc0,
+          80: #bec6dc,
+          90: #dae2f9,
+          95: #ecf0ff,
+          98: #f9f9ff,
+          99: #fdfbff,
+          100: #ffffff,
+        ),
+        neutral: (
+          0: #000000,
+          10: #1a1b1f,
+          20: #2f3033,
+          25: #3b3b3f,
+          30: #46464a,
+          35: #525256,
+          40: #5e5e62,
+          50: #77777a,
+          60: #919094,
+          70: #ababaf,
+          80: #c7c6ca,
+          90: #e3e2e6,
+          95: #f2f0f4,
+          98: #faf9fd,
+          99: #fdfbff,
+          100: #ffffff,
+          4: #0a0b0c,
+          6: #101013,
+          12: #1e1f23,
+          17: #292a2d,
+          22: #343438,
+          24: #39393d,
+          87: #dbdade,
+          92: #e9e8ec,
+          94: #efedf1,
+          96: #f5f3f7,
+        ),
+        neutral-variant: (
+          0: #000000,
+          10: #181c22,
+          20: #2d3038,
+          25: #383b43,
+          30: #44474e,
+          35: #4f525a,
+          40: #5b5e66,
+          50: #74777f,
+          60: #8e9099,
+          70: #a9abb4,
+          80: #c4c6d0,
+          90: #e0e2ec,
+          95: #eff0fa,
+          98: #f9f9ff,
+          99: #fdfbff,
+          100: #ffffff,
+        ),
+      ),
       tertiary: matx.$m3-green-palette,
     ),
     typography: (
@@ -49,6 +131,10 @@ $dark-theme: matx.define-theme(
 body {
   @include mat.all-component-themes($light-theme);
   @include matx.color-variants-back-compat($light-theme);
+
+  &.dark {
+    @include mat.all-component-colors($dark-theme);
+  }
 }
 
 html,
@@ -68,10 +154,66 @@ body {
   left: -10000px;
 }
 
+$replacement: red;
+$deprecated-theme-override: (
+  "--primary": "#{$replacement}",
+  "--primary-variant": "#{$replacement}",
+  "--secondary": "#{$replacement}",
+  "--secondary-variant": "#{$replacement}",
+  "--background": "#{$replacement}",
+  "--surface": "#{$replacement}",
+  "--dialog": "#{$replacement}",
+  "--cancel": "#{$replacement}",
+  "--alt-surface": "#{$replacement}",
+  "--alt-dialog": "#{$replacement}",
+  "--on-primary": "#{$replacement}",
+  "--on-secondary": "#{$replacement}",
+  "--on-primary-variant": "#{$replacement}",
+  "--on-background": "#{$replacement}",
+  "--on-surface": "#{$replacement}",
+  "--on-dialog": "#{$replacement}",
+  "--on-cancel": "#{$replacement}",
+  "--green": "#{$replacement}",
+  "--red": "#{$replacement}",
+  "--white": "#{$replacement}",
+  "--yellow": "#{$replacement}",
+  "--blue": "#{$replacement}",
+  "--purple": "#{$replacement}",
+  "--magenta": "#{$replacement}",
+  "--light-green": "#{$replacement}",
+  "--grey": "#{$replacement}",
+  "--grey-light": "#{$replacement}",
+  "--black": "#{$replacement}",
+  "--moderator": "#{$replacement}",
+  "--questionwall-intro-primary": "#{$replacement}",
+  "--questionwall-intro-secondary": "#{$replacement}",
+  "--questionwall-intro-background": "#{$replacement}",
+  "--livepoll-primary": "#{$replacement}",
+  "--livepoll-primary--disabled": "#{$replacement}",
+  "--livepoll-primary--hover": "#{$replacement}",
+  "--on-livepoll-primary": "#{$replacement}",
+  "--on-livepoll-primary--disabled": "#{$replacement}",
+  "--on-livepoll-primary--hover": "#{$replacement}",
+  "--livepoll-secondary": "#{$replacement}",
+  "--livepoll-secondary--disabled": "#{$replacement}",
+  "--livepoll-secondary--hover": "#{$replacement}",
+  "--on-livepoll-secondary": "#{$replacement}",
+  "--on-livepoll-secondary--disabled": "#{$replacement}",
+  "--on-livepoll-secondary--hover": "#{$replacement}",
+);
+
+:root {
+  &.theme-target {
+    @each $key, $value in $deprecated-theme-override {
+      #{$key}: #{$value};
+    }
+  }
+}
+
 * {
   box-shadow:
-    inset -1px 0 0 0 red,
-    inset 1px 0 0 0 red,
-    inset 0 -1px 0 0 blue,
-    inset 0 1px 0 0 blue;
+    inset -1px 0 0 0 rgba(255, 255, 0, 0.2),
+    inset 1px 0 0 0 rgba(255, 255, 0, 0.2),
+    inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
+    inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
 }
