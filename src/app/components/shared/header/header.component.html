@@ -15,9 +15,9 @@
         *ngIf="router.url.endsWith('/home') && !isSafari"
         (click)="startTour()">
         <mat-icon>flag</mat-icon>
-        <span *ngIf="!isMobile && !showSmallButtons">
+        <ng-container *ngIf="!isMobile && !showSmallButtons">
           {{ "header.tour" | translate }}
-        </span>
+        </ng-container>
       </button>
     </div>
 
@@ -353,43 +353,13 @@
         {{ getCurrentRoleIcon() }}
       </mat-icon>
 
-      <ng-template #optionContent>
-        <div [matTooltip]="'header.options-button' | translate">
-          <h2 *ngIf="!isMobile && !showSmallButtons">
-            <div *ngIf="customOptionText?.noTranslate">
-              {{ customOptionText.key }}
-            </div>
-            <div *ngIf="!customOptionText?.noTranslate">
-              {{ customOptionText?.key || "header.my-account" | translate }}
-            </div>
-          </h2>
-          <mat-icon>more_vert</mat-icon>
-        </div>
-      </ng-template>
-
       <button
-        [disabled]="!startUpFinished()"
-        mat-button
-        [joyrideStep]="'optionHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="user && !isMobile"
+        mat-flat-button
         [matMenuTriggerFor]="userMenu"
-        aria-labelledby="session-label"
-        id="session-button">
-        <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
-      </button>
-
-      <button
-        [disabled]="!startUpFinished()"
-        mat-icon-button
-        [joyrideStep]="'optionHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="user && isMobile"
-        [matMenuTriggerFor]="userMenu"
-        aria-labelledby="session-label">
-        <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
+        [disabled]="!this.sessionService.isReady"
+        [matTooltip]="'header.options-button' | translate">
+        <mat-icon>more_vert</mat-icon>
+        {{ customOptionText?.key || "header.my-account" | translate }}
       </button>
 
       <ng-template #loginBtnContent>
