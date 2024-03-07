@@ -49,71 +49,6 @@ $dark-theme: matx.define-theme(
 body {
   @include mat.all-component-themes($light-theme);
   @include matx.color-variants-back-compat($light-theme);
-
-  .primary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: primary);
-    }
-  }
-
-  .tertiary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: tertiary);
-    }
-  }
-
-  .secondary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: secondary);
-    }
-  }
-
-  .error {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: error);
-    }
-  }
-
-  .custom {
-    &-button {
-      --mdc-filled-button-container-color: #625ab9;
-    }
-  }
-
-  &.dark {
-    @include mat.all-component-colors($dark-theme);
-    @include matx.color-variants-back-compat($dark-theme);
-
-    .primary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: primary);
-      }
-    }
-
-    .tertiary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: tertiary);
-      }
-    }
-
-    .secondary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: secondary);
-      }
-    }
-
-    .error {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: error);
-      }
-    }
-
-    .custom {
-      &-button {
-        --mdc-filled-button-container-color: #625ab9;
-      }
-    }
-  }
 }
 
 html,
@@ -131,4 +66,12 @@ body {
   height: 1px;
   overflow: hidden;
   left: -10000px;
+}
+
+* {
+  box-shadow:
+    inset -1px 0 0 0 red,
+    inset 1px 0 0 0 red,
+    inset 0 -1px 0 0 blue,
+    inset 0 1px 0 0 blue;
 }

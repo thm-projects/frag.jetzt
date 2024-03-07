@@ -8,6 +8,9 @@ import {
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 
+/**
+ * @deprecated
+ */
 @Injectable({
   providedIn: 'root',
 })
