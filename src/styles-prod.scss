@@ -154,7 +154,7 @@ body {
   left: -10000px;
 }
 
-$replacement: red;
+$replacement: rgba(196, 188, 29, 0.5);
 $deprecated-theme-override: (
   "--primary": "#{$replacement}",
   "--primary-variant": "#{$replacement}",
@@ -204,16 +204,22 @@ $deprecated-theme-override: (
 
 :root {
   &.theme-target {
-    @each $key, $value in $deprecated-theme-override {
-      #{$key}: #{$value};
+    &.debug {
+      @each $key, $value in $deprecated-theme-override {
+        #{$key}: #{$value};
+      }
     }
   }
 }
 
-* {
-  box-shadow:
-    inset -1px 0 0 0 rgba(255, 255, 0, 0.2),
-    inset 1px 0 0 0 rgba(255, 255, 0, 0.2),
-    inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
-    inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
+body {
+  &.border {
+    * {
+      box-shadow:
+        inset -1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
+        inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
+    }
+  }
 }

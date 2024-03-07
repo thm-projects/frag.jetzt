@@ -33,3 +33,10 @@ footer {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+#debugger {
+  position: fixed;
+  right: 256px;
+  top: 256px;
+  background-color: #fff;
+}

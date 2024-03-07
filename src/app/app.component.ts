@@ -56,7 +56,6 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ThemeService } from 'theme/theme.service';
 const PUSH_KEY = 'push-subscription';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -77,6 +76,83 @@ export class AppComponent implements OnInit {
   isMobile = false;
   private _lastScrollTop = 0;
   private _lastClass: string;
+  __debugger = {
+    __loadDebug: function () {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let __debug: any = localStorage.getItem('__debug');
+        if (__debug) {
+          __debug = {
+            ...createDefault(),
+            ...JSON.parse(__debug),
+          };
+        } else {
+          __debug = createDefault();
+          localStorage.setItem('__debug', JSON.stringify(__debug));
+        }
+        return __debug;
+      } catch (e) {
+        console.error(e);
+      }
+
+      function createDefault() {
+        return {
+          highlight: true,
+          border: true,
+          dark: true,
+        };
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    __revalidateState: function (state: any) {
+      if (state['highlight']) {
+        document.documentElement.classList.add('debug');
+      } else {
+        document.documentElement.classList.remove('debug');
+      }
+      if (state['border']) {
+        document.body.classList.add('border');
+      } else {
+        document.body.classList.remove('border');
+      }
+      if (state['dark']) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      localStorage.setItem('__debug', JSON.stringify(state));
+    },
+    toggleHighlight: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['highlight'] = !state['highlight'];
+        this.__revalidateState(state);
+      }
+    },
+    toggleBorder: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['border'] = !state['border'];
+        this.__revalidateState(state);
+      }
+    },
+    toggleDarkLight: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['dark'] = !state['dark'];
+        this.__revalidateState(state);
+      }
+    },
+    load: function () {
+      const state = this.__loadDebug();
+      if (state) {
+        this.__revalidateState(state);
+      }
+    },
+  };
 
   constructor(
     private translationService: TranslateService,
@@ -97,6 +173,7 @@ export class AppComponent implements OnInit {
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
   ) {
+    this.__debugger.load();
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();
