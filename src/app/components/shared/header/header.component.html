@@ -21,7 +21,7 @@
       </button>
     </div>
 
-    <div [ngClass]="{ darken: themeService.currentTheme?.isDark }">
+    <div>
       <div
         *ngIf="
           headerService.isToggleCurrentUserActivity() && room?.mode === 'ARS'
@@ -45,7 +45,7 @@
           !router.url.endsWith('/brainstorming')
         "
         (click)="openGPT()">
-        <span style="transform: scale(1.2); margin-right: 5px"></span>
+        <span></span>
         <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-chat" | translate }}
         </span>
@@ -61,7 +61,7 @@
           userRole > 0
         "
         (click)="openBrainstormingGPT()">
-        <span style="transform: scale(1.2); margin-right: 5px"></span>
+        <span></span>
         <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-brainstorming" | translate }}
         </span>
@@ -76,9 +76,7 @@
         appJoyrideTemplate
         [matTooltip]="'header.gpt-prompts' | translate"
         *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles">
-        <mat-icon style="transform: scale(1.2); margin-right: 5px">
-          terminal
-        </mat-icon>
+        <mat-icon>terminal</mat-icon>
         <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-prompts" | translate }}
         </span>
@@ -95,9 +93,7 @@
           !isMobile
         "
         routerLink="quiz">
-        <mat-icon style="transform: scale(1.2); margin-right: 5px">
-          rocket_launch
-        </mat-icon>
+        <mat-icon>rocket_launch</mat-icon>
         <span *ngIf="!showSmallButtons">
           {{ "header.quiz-now" | translate }}
         </span>
@@ -112,9 +108,7 @@
           navigationAccess.livepoll(router.url, room, roomState) &&
           room?.mode === 'ARS'
         ">
-        <mat-icon style="transform: scale(1.2); margin-right: 5px">
-          flash_on
-        </mat-icon>
+        <mat-icon>flash_on</mat-icon>
         <span *ngIf="!isMobile && !showSmallButtons">
           {{ "header.livepoll" | translate }}
         </span>
@@ -132,9 +126,7 @@
             topicCloudAdminService.isTopicRequirementActive())
         "
         (click)="navigateCloud()">
-        <mat-icon style="transform: scale(1.3); margin-right: 7px">
-          radar
-        </mat-icon>
+        <mat-icon>radar</mat-icon>
         <span *ngIf="!showSmallButtons">
           {{ "header.tag-cloud" | translate }}
         </span>
@@ -152,14 +144,10 @@
           (!!room?.brainstormingSession || userRole > 0)
         "
         (click)="navigateBrainstormingDialog()">
-        <mat-icon
-          *ngIf="room?.brainstormingSession?.active"
-          style="transform: scale(1.4); color: var(--red); margin-right: 5px">
+        <mat-icon *ngIf="room?.brainstormingSession?.active">
           tips_and_updates
         </mat-icon>
-        <mat-icon
-          *ngIf="!room?.brainstormingSession?.active"
-          style="transform: scale(1.4); margin-right: 5px">
+        <mat-icon *ngIf="!room?.brainstormingSession?.active">
           tips_and_updates
         </mat-icon>
         <span *ngIf="!showSmallButtons">
@@ -176,7 +164,6 @@
         <mat-icon
           [ngClass]="'clickable'"
           (click)="navigateBrainstormingDirectly()"
-          style="transform: scale(1.4); color: var(--red); margin-top: 8px"
           [matTooltip]="
             'header.brainstorm-active' +
               (!router.url.endsWith('/brainstorming') ? '-clickable' : '')
@@ -190,16 +177,12 @@
         *ngIf="
           isInRouteWithRoles && userRole !== null && actualRole !== userRole
         ">
-        <mat-icon
-          style="color: var(--red); margin-top: 8px"
-          [matTooltip]="'header.not-in-own-view' | translate">
+        <mat-icon [matTooltip]="'header.not-in-own-view' | translate">
           groups_3
         </mat-icon>
       </span>
 
-      <h2
-        style="color: var(--red) !important"
-        *ngIf="router.url.endsWith('/moderator/comments') && !isMobile">
+      <h2 *ngIf="router.url.endsWith('/moderator/comments') && !isMobile">
         {{ "header.moderation-warning" | translate }}
       </h2>
 
@@ -208,9 +191,7 @@
           hasEmailNotifications &&
           router.url.endsWith('/room/' + sessionService.currentRoom?.shortId)
         ">
-        <mat-icon
-          style="color: red; margin-top: 8px"
-          [matTooltip]="'header.active-email-notification' | translate">
+        <mat-icon [matTooltip]="'header.active-email-notification' | translate">
           email
         </mat-icon>
       </div>
@@ -218,9 +199,7 @@
       <span
         *ngIf="room && !room.directSend && router.url.includes('comments')"
         fxLayoutAlign="center center">
-        <mat-icon
-          style="color: var(--red)"
-          matTooltip="{{ 'header.moderation-enabled' | translate }}">
+        <mat-icon matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
       </span>
@@ -251,9 +230,7 @@
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon
-          style="color: var(--red); margin-top: 8px"
-          [matTooltip]="'header.questions-blocked' | translate">
+        <mat-icon [matTooltip]="'header.questions-blocked' | translate">
           comments_disabled
         </mat-icon>
       </span>
@@ -310,21 +287,14 @@
             matTooltip="{{
               'header.overview-admin-config-enabled' | translate
             }}">
-            <mat-icon
-              style="
-                color: var(--red) !important;
-                font-size: 24px !important;
-                margin-top: -8px;
-              ">
-              tag
-            </mat-icon>
+            <mat-icon>tag</mat-icon>
           </button>
           <button
             mat-icon-button
             disableRipple="true"
             matTooltip="{{ 'header.overview-question-tooltip' | translate }}">
             <mat-icon>comment</mat-icon>
-            <span style="margin-left: 0.2em">{{ commentsCountQuestions }}</span>
+            <span>{{ commentsCountQuestions }}</span>
           </button>
           <button
             mat-icon-button
@@ -333,14 +303,14 @@
               'header.overview-questioners-tooltip' | translate
             }}">
             <mat-icon>person</mat-icon>
-            <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>
+            <span>{{ commentsCountUsers }}</span>
           </button>
           <button
             mat-icon-button
             disableRipple="true"
             matTooltip="{{ 'header.overview-keywords-tooltip' | translate }}">
             <mat-icon>tag</mat-icon>
-            <span style="margin-left: 0.1em">{{ commentsCountKeywords }}</span>
+            <span>{{ commentsCountKeywords }}</span>
           </button>
         </ars-col>
       </div>
@@ -357,14 +327,14 @@
               'header.overview-brainstormers-tooltip' | translate
             }}">
             <mat-icon>person</mat-icon>
-            <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>
+            <span>{{ commentsCountUsers }}</span>
           </button>
           <button
             mat-icon-button
             disableRipple="true"
             matTooltip="{{ 'header.overview-ideas-tooltip' | translate }}">
             <mat-icon>tag</mat-icon>
-            <span style="margin-left: 0.1em">{{ commentsCountKeywords }}</span>
+            <span>{{ commentsCountKeywords }}</span>
           </button>
         </ars-col>
       </div>
@@ -373,7 +343,6 @@
     <div id="options-login-box">
       <mat-icon
         *ngIf="user?.isGuest"
-        style="margin-right: 5px"
         [matTooltip]="'header.guest-account-tooltip' | translate">
         priority_high
       </mat-icon>
@@ -386,9 +355,7 @@
 
       <ng-template #optionContent>
         <div [matTooltip]="'header.options-button' | translate">
-          <h2
-            style="margin-left: 5px"
-            *ngIf="!isMobile && !showSmallButtons">
+          <h2 *ngIf="!isMobile && !showSmallButtons">
             <div *ngIf="customOptionText?.noTranslate">
               {{ customOptionText.key }}
             </div>
@@ -396,9 +363,7 @@
               {{ customOptionText?.key || "header.my-account" | translate }}
             </div>
           </h2>
-          <mat-icon style="color: var(--secondary); transform: scale(1.5)">
-            more_vert
-          </mat-icon>
+          <mat-icon>more_vert</mat-icon>
         </div>
       </ng-template>
 
@@ -429,7 +394,7 @@
 
       <ng-template #loginBtnContent>
         <div [matTooltip]="'header.sign-in-button' | translate">
-          <mat-icon style="padding-right: 10px">login</mat-icon>
+          <mat-icon>login</mat-icon>
           <h2 *ngIf="!isMobile && !showSmallButtons">
             {{ "header.login" | translate }}
           </h2>
@@ -510,8 +475,7 @@
   <button
     (click)="changeTheme(theme)"
     *ngFor="let theme of themes"
-    mat-menu-item
-    style="height: 50px">
+    mat-menu-item>
     <div>
       <div [ngStyle]="{ 'background-color': theme.getPreviewColor() }">
         <div
@@ -588,7 +552,7 @@
     *ngIf="isInRouteWithRoles"
     [matMenuTriggerFor]="profileMenu"
     (click)="$event.stopImmediatePropagation()">
-    <mat-icon style="color: var(--yellow)">badge</mat-icon>
+    <mat-icon>badge</mat-icon>
     <span>{{ "header.my-profile" | translate }}</span>
   </button>
 
