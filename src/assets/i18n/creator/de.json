@@ -160,8 +160,21 @@
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
-    "ple":{
-      "ask-question-empty": "Neue Topics hinzufügen"
+    "ple": {
+      "ask-question-empty": "Neue Topics hinzufügen",
+      "filter-comments": "Topics filtern",
+      "sort-comments": "Topics sortieren",
+      "pause-comments": "Friert die Anzeige ein, um die Topics in Ruhe zu lesen oder zu präsentieren. Topics können weiterhin hinzugefügt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
+      "play-comments": "Neue Topics und Bewertungen wieder anzeigen",
+      "add-comment": "Füge ein neues Topic hinzu!",
+      "select-All": "Zeitlich unbegrenzt",
+      "select-FromNow": "Topics ab jetzt anzeigen",
+      "select-OneDay": "Letzte 24 Stunden",
+      "select-OneHour": "Letzte Stunde",
+      "select-OneWeek": "Letzte 7 Tage",
+      "select-ThreeHours": "Letzte 2 Stunden",
+      "select-TwoWeeks": "Letzte 14 Tage",
+      "filter-owner": "Meine Topics"
     }
   },
   "comment-notification": {
@@ -588,7 +601,9 @@
     "ple": {
       "questionwall": "Topic-Fokus",
       "back-to-questionboard": "Topic-Forum",
-      "tag-cloud": "Topic-Radar"
+      "tag-cloud": "Topic-Radar",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "topic-cloud-filter": {
@@ -628,7 +643,10 @@
     "tag-cloud-title": "Use Cases des Fragen-Radars",
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
     "prompt-explanation": "Prompts kurz erklärt",
-    "tooltip-button": "Wie schreibe ich gute Prompts?"
+    "tooltip-button": "Wie schreibe ich gute Prompts?",
+    "ple": {
+      "tag-cloud-title": "Use Cases des Topic-Radars"
+    }
   },
   "question-wall": {
     "auto-renew-off": "Autofokus für neue Fragen beenden",
@@ -693,9 +711,15 @@
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
     "users-online": "Aktuell eingeloggte User",
-    "ple":{
+    "ple": {
       "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
-      "intro-title": "Topic-Fokus"
+      "intro-title": "Topic-Fokus",
+      "auto-renew-on": "Autofokus für neue Topics starten",
+      "auto-renew-off": "Autofokus für neue Topics beenden",
+      "next-comment": "Nächstes Topic",
+      "prev-comment": "Vorheriges Topic",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "joyride": {
@@ -765,59 +789,60 @@
   "ml-gpt-room-settings": {
     "title": "GPT Einstellungen",
     "gpt-setup-title": "ChatGPT aktivieren",
-    "gpt-setup-step-help": "Hier etwas eingeben 1",
+    "gpt-setup-step-help": "# ChatGPT als universeller Assistent\nDu kannst ChatGPT bei frag.jetzt auf zwei Varianten einrichten:\n1. Über einen API-Key, den du bei OpenAI anfordern kannst.\n2. Über einen Voucher, den du bei frag.jetzt anfordern kannst.\n\nDie Variante mit dem API-Key ist die flexiblere Variante, da du den API-Key auch für andere Projekte nutzen kannst. Die Variante mit dem Voucher ist die aufwändigere Variante, da du Dozent sein musst und eine Evaluationsstudie mit deinen Beteiligten beantworten musst. Du kannst die Variante mit dem Voucher auch nutzen, wenn du keinen API-Key hast.",
     "gpt-setup-item-one-label": "Welche Art der Aktivierung?",
     "gpt-setup-item-two-label": "Aktivierungsart",
     "gpt-setup-item-two-radio-one": "Mit API Key",
     "gpt-setup-item-two-radio-two": "Mit Voucher",
-    "gpt-setup-item-two-error-label-required": "Hier etwas eingeben 2",
+    "gpt-setup-item-two-error-label-required": "Wähle eine Aktivierungsart aus.",
 
     "gpt-info-title": "OpenAI Daten",
-    "gpt-info-step-help": "Hier etwas eingeben 3",
+    "gpt-info-step-help": "# Api-Key bei frag.jetzt\nFür die Verwendung von ChatGPT über die OpenAI API benötigst du einen API-Key und optional eine Organisation.",
     "gpt-info-item-one-label": "Api Code & Organisation",
     "gpt-info-item-two-label": "Api Code",
-    "gpt-info-item-two-error-label-required": "Hier etwas eingeben 4",
-    "gpt-info-item-two-error-label-pattern": "Hier etwas eingeben 5",
+    "gpt-info-item-two-error-label-required": "Bitte gib deinen API-Key ein.",
+    "gpt-info-item-two-error-label-pattern": "Dies ist kein gültiger API-Key.",
     "gpt-info-item-three-label": "Api Organisation",
-    "gpt-info-item-three-error-label-pattern": "Hier etwas eingeben 6",
+    "gpt-info-item-three-error-label-pattern": "Dies ist keine gültige Organisation.",
 
     "gpt-info-voucher-title": "OpenAI Voucher",
-    "gpt-info-voucher-step-help": "Hier etwas eingeben 7",
-    "gpt-info-voucher-item-one-label": "Api Voucher",
+    "gpt-info-voucher-step-help": "# Voucher bei frag.jetzt\nWenn du einen Voucher bei frag.jetzt angefordert hast, kannst du ihn hier eintragen. Ein Voucher kann nur einmal für einen User eingelöst werden.",
+    "gpt-info-voucher-item-one-label": "Gib hier deinen Voucher ein.",
     "gpt-info-voucher-item-two-label": "Api Voucher",
-    "gpt-info-voucher-item-two-error-label-required": "Hier etwas eingeben 8",
+    "gpt-info-voucher-item-two-error-label-required": "Bitte gib deinen Voucher ein.",
 
     "gpt-model-title": "OpenAI GPT Modell",
-    "gpt-model-step-help": "Hier etwas eingeben 9",
-    "gpt-model-item-one-label": "GPT Modell",
-    "gpt-model-item-two-label": "LLM Selektion",
+    "gpt-model-step-help": "# LLM innerhalb frag.jetzt\nOpenAI bietet verschiedene Modelle an, die sich in ihrer Leistungsfähigkeit und in den Kosten unterscheiden. Die Auswahl des Modells hat Einfluss auf die Qualität der Antworten und auf die Kosten.",
+    "gpt-model-item-one-label": "Wähle hier das Modell aus.",
+    "gpt-model-item-two-label": "GPT Modell",
 
     "room-quota-title": "Raum-Kontingent",
-    "room-quota-step-help": "Hier etwas eingeben 10",
+    "room-quota-step-help": "# Individuelle Einstellungen für den Raum\nHier kannst du die Kontingente für den Raum einstellen. Die Kontingente gelten für alle Nutzer im Raum.",
     "room-quota-item-one-label": "Gesamtkostenlimit",
     "room-quota-item-two-label": "Monatliches Kostenlimit",
     "room-quota-item-three-label": "Monatliches fließendes Kostenlimit",
     "room-quota-item-four-label": "Tägliches Kostenlimit",
 
     "moderator-quota-title": "Moderator-Kontingent",
-    "moderator-quota-step-help": "Hier etwas eingeben 11",
+    "moderator-quota-step-help": "# Individuelle Einstellungen für den Moderator\nHier kannst du die Kontingente für den Moderator einstellen. Die Kontingente gelten für alle Moderatoren im Raum.",
     "moderator-quota-item-one-label": "Gesamtkostenlimit",
     "moderator-quota-item-two-label": "Monatliches Kostenlimit",
     "moderator-quota-item-three-label": "Monatliches fließendes Kostenlimit",
     "moderator-quota-item-four-label": "Tägliches Kostenlimit",
 
     "participant-quota-title": "Teilnehmer-Kontingent",
-    "participant-quota-step-help": "Hier etwas eingeben 12",
+    "participant-quota-step-help": "# Individuelle Einstellungen für den Teilnehmer\nHier kannst du die Kontingente für den Teilnehmer einstellen. Die Kontingente gelten für alle Teilnehmer im Raum.",
     "participant-quota-item-one-label": "Gesamtkostenlimit",
     "participant-quota-item-two-label": "Monatliches Kostenlimit",
     "participant-quota-item-three-label": "Monatliches fließendes Kostenlimit",
     "participant-quota-item-four-label": "Tägliches Kostenlimit",
 
     "usage-time-title": "Nutzungszeiträume",
-    "usage-time-step-help": "Hier etwas eingeben 13",
+    "usage-time-step-help": "# Die Zeiträume, in denen ChatGPT genutzt werden kann\nHier kannst du die Zeiträume einstellen, in denen ChatGPT genutzt werden kann.",
     "usage-time-item-one-input": "Zeitspanne",
     "usage-time-item-one-select-one": "Startzeit",
     "usage-time-item-one-select-two": "Endzeit",
+    "usage-time-item-one-select-error-label-time-before": "Die Startzeit muss vor der Endzeit liegen.",
     "usage-time-item-one-select-three": "Repitition",
     "usage-time-item-one-button": "Zeit hinzufügen",
     "usage-time-item-one-option-none": "Nichts",
@@ -833,13 +858,13 @@
     "usage-time-item-one-option-sundays": "Sonntags",
 
     "miscellaneous-settings-title": "Sonstige Einstellungen",
-    "miscellaneous-settings-step-help": "Hier etwas eingeben 14",
+    "miscellaneous-settings-step-help": "# Weitere Einstellungen für ChatGPT\nHier kannst du weitere Einstellungen für ChatGPT vornehmen.",
     "miscellaneous-settings-item-one-label": "ChatGPT auch für unregistrierte User zulassen",
     "miscellaneous-settings-item-two-label": "ChatGPT ohne Prompt-Vorgaben antworten lassen",
     "miscellaneous-settings-item-three-label": "ChatGPT nur nach Aufforderung antworten lassen",
 
     "moderator-permissions-title": "Moderator-Berechtigungen",
-    "moderator-permissions-step-help": "Hier etwas eingeben 15",
+    "moderator-permissions-step-help": "# Berechtigungen für Moderatoren\nHier kannst du die Berechtigungen für Moderatoren einstellen. Die Berechtigungen gelten für alle Moderatoren im Raum.",
     "moderator-permissions-item-one-label": "Ändern des Teilnehmerkontingents",
     "moderator-permissions-item-two-label": "Ändern des Moderator-Kontingents",
     "moderator-permissions-item-three-label": "Ändern des Raum-Kontingents",
@@ -1387,7 +1412,10 @@
     "word-is-not-profanity": "Wort ist nicht profan.",
     "word-is-profanity": "Wort ist profan.",
     "words-in-profanity": "Profane Wörter",
-    "words-will-be-overwritten": "Vulgäre Wörter mit ★★★★ überschreiben"
+    "words-will-be-overwritten": "Vulgäre Wörter mit ★★★★ überschreiben",
+    "ple": {
+      "keywords": "Topic-Radar"
+    }
   },
   "worker-config": {
     "cancel": "Abbrechen",

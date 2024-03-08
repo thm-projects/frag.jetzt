@@ -54,14 +54,20 @@
             *ngIf="filterInfos[radioTyp].count">
             <mat-icon
               [inline]="true"
-              matTooltip="{{ 'header.overview-question-tooltip' | translate }}">
+              matTooltip="{{
+                'header.' +
+                  (room?.mode === 'PLE' ? 'ple.' : '') +
+                  'overview-question-tooltip' | translate
+              }}">
               comment
             </mat-icon>
             {{ filterInfos[radioTyp].count.comments }}
             <mat-icon
               [inline]="true"
               matTooltip="{{
-                'header.overview-questioners-tooltip' | translate
+                'header.' +
+                  (room?.mode === 'PLE' ? 'ple.' : '') +
+                  'overview-questioners-tooltip' | translate
               }}">
               person
             </mat-icon>
