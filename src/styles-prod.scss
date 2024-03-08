@@ -1,8 +1,8 @@
 @use "@angular/material" as mat;
 
 @use "@angular/material-experimental" as matx;
-@import "styles.scss";
 @import "style/fix-material-icons.scss";
+@import "styles.scss";
 
 $light-theme: matx.define-theme(
   (
