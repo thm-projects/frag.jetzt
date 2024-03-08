@@ -76,23 +76,29 @@
 .error-text {
   color: var(--md-sys-color-error);
 }
-.error-container {
-  background-color: var(--md-sys-color-error-container);
-}
-.error-container-text {
-  color: var(--md-sys-color-error-container);
-}
 .on-error {
   background-color: var(--md-sys-color-on-error);
 }
 .on-error-text {
   color: var(--md-sys-color-on-error);
 }
+.error-container {
+  background-color: var(--md-sys-color-error-container);
+}
+.error-container-text {
+  color: var(--md-sys-color-error-container);
+}
 .on-error-container {
   background-color: var(--md-sys-color-on-error-container);
 }
 .on-error-container-text {
   color: var(--md-sys-color-on-error-container);
+}
+.outline {
+  background-color: var(--md-sys-color-outline);
+}
+.outline-text {
+  color: var(--md-sys-color-outline);
 }
 .background {
   background-color: var(--md-sys-color-background);
@@ -130,23 +136,17 @@
 .on-surface-variant-text {
   color: var(--md-sys-color-on-surface-variant);
 }
-.outline {
-  background-color: var(--md-sys-color-outline);
+.inverse-surface {
+  background-color: var(--md-sys-color-inverse-surface);
 }
-.outline-text {
-  color: var(--md-sys-color-outline);
+.inverse-surface-text {
+  color: var(--md-sys-color-inverse-surface);
 }
 .inverse-on-surface {
   background-color: var(--md-sys-color-inverse-on-surface);
 }
 .inverse-on-surface-text {
   color: var(--md-sys-color-inverse-on-surface);
-}
-.inverse-surface {
-  background-color: var(--md-sys-color-inverse-surface);
-}
-.inverse-surface-text {
-  color: var(--md-sys-color-inverse-surface);
 }
 .inverse-primary {
   background-color: var(--md-sys-color-inverse-primary);

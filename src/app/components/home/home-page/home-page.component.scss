@@ -92,20 +92,20 @@ $carousel-container-size: 450px;
 
     &.highlight {
       span {
-        color: var(--on-background)
+        //        color: var(--on-background)
       }
-
-      background-color: var(--surface);
+      //
+      //      background-color: var(--surface);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.peek {
       span {
-        color: rgba(255, 255, 255, 0.2);
+        //        color: rgba(255, 255, 255, 0.2);
         cursor: pointer;
       }
-
-      background-color: rgba(0, 0, 0, 0.1);
+      //
+      //      background-color: rgba(0, 0, 0, 0.1);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
@@ -119,19 +119,19 @@ $carousel-container-size: 450px;
     .carousel-entry {
       &.highlight {
         span {
-          color: rgba(0, 0, 0, 1);
+          //          color: rgba(0, 0, 0, 1);
         }
 
-        background-color: var(--surface);
+        //        background-color: var(--surface);
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
       }
 
       &.peek {
         span {
-          color: rgba(0, 0, 0, 0.5);
+          //          color: rgba(0, 0, 0, 0.5);
         }
 
-        background-color: rgba(255, 255, 255, 0.2);
+        //        background-color: rgba(255, 255, 255, 0.2);
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
       }
 
@@ -157,7 +157,7 @@ $carousel-container-size: 450px;
   justify-content: center;
   font-size: 30px;
   font-weight: normal;
-  color: var(--primary);
+  //  color: var(--primary);
   padding: 0;
   margin: 0;
   line-height: 30px;
@@ -167,7 +167,7 @@ $carousel-container-size: 450px;
   display: block;
   font-size: 3.5em;
   font-weight: bold;
-  color: var(--secondary);
+  //  color: var(--secondary);
   line-height: 50px;
   letter-spacing: 2pt;
 }
@@ -175,7 +175,7 @@ $carousel-container-size: 450px;
 .background-container {
   width: 100vw;
   height: 100vh;
-  background-color: var(--background);
+  //  background-color: var(--background);
   position: absolute;
   left: 0;
   top: 0;
@@ -187,7 +187,8 @@ $carousel-container-size: 450px;
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
-    transition: transform 1500ms cubic-bezier(0.77, 0, 0.175, 1),
+    transition:
+      transform 1500ms cubic-bezier(0.77, 0, 0.175, 1),
       opacity 1500ms cubic-bezier(0.77, 0, 0.175, 1);
     opacity: 0;
     fill: transparent;
@@ -239,7 +240,9 @@ $carousel-container-size: 450px;
 .carousel-entry {
   display: flex;
   flex-direction: column;
-  transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1), width unset;
+  transition:
+    all 500ms cubic-bezier(0.77, 0, 0.175, 1),
+    width unset;
   user-select: none;
   border-radius: 30px;
 
@@ -283,7 +286,7 @@ $carousel-container-size: 450px;
       > .point {
         width: 64px;
         height: 4px;
-        background-color: var(--on-background);
+        //        background-color: var(--on-background);
         margin: 4px;
         border-radius: 30px;
         transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
@@ -333,7 +336,7 @@ $carousel-container-size: 450px;
       transform-origin: 50% 50%;
       outline: 1px solid dimgray;
       border-radius: 30px;
-      background-color: var(--surface);
+      //      background-color: var(--surface);
     }
   }
 

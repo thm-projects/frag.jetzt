@@ -316,27 +316,19 @@
       </div>
 
       <!--Brainstorming-->
-      <div
-        *ngIf="router.url.includes('brainstorming')"
-        ars-flex-box>
-        <ars-col>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            matTooltip="{{
-              'header.overview-brainstormers-tooltip' | translate
-            }}">
-            <mat-icon>person</mat-icon>
-            <span>{{ commentsCountUsers }}</span>
-          </button>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            matTooltip="{{ 'header.overview-ideas-tooltip' | translate }}">
-            <mat-icon>tag</mat-icon>
-            <span>{{ commentsCountKeywords }}</span>
-          </button>
-        </ars-col>
+      <div *ngIf="router.url.includes('brainstorming')">
+        <button
+          mat-flat-button
+          [matTooltip]="'header.overview-brainstormers-tooltip' | translate">
+          <mat-icon>person</mat-icon>
+          {{ commentsCountUsers }}
+        </button>
+        <button
+          mat-flat-button
+          [matTooltip]="'header.overview-ideas-tooltip' | translate">
+          <mat-icon>tag</mat-icon>
+          {{ commentsCountKeywords }}
+        </button>
       </div>
     </div>
 
@@ -362,37 +354,22 @@
         {{ customOptionText?.key || "header.my-account" | translate }}
       </button>
 
-      <ng-template #loginBtnContent>
-        <div [matTooltip]="'header.sign-in-button' | translate">
-          <mat-icon>login</mat-icon>
-          <h2 *ngIf="!isMobile && !showSmallButtons">
-            {{ "header.login" | translate }}
-          </h2>
-        </div>
-      </ng-template>
-
+      <!-- TODO -->
+      <!-- Login Button, only visible when user is not logged in -->
       <button
-        id="login-button"
+        *ngIf="!user"
         [disabled]="!startUpFinished()"
         mat-button
         [joyrideStep]="'loginButtonHeader'"
         [stepPosition]="'center'"
         appJoyrideTemplate
-        *ngIf="!user && !isMobile"
         (click)="login()"
-        aria-labelledby="login-label">
-        <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
-      </button>
-      <button
-        [disabled]="!startUpFinished()"
-        mat-icon-button
-        [joyrideStep]="'loginButtonHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="!user && isMobile"
-        (click)="login()"
-        aria-labelledby="login-label">
-        <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
+        aria-labelledby="login-label"
+        [matTooltip]="'header.sign-in-button' | translate">
+        <mat-icon>login</mat-icon>
+        <ng-container *ngIf="!isMobile && !showSmallButtons">
+          {{ "header.login" | translate }}
+        </ng-container>
       </button>
     </div>
   </mat-toolbar-row>

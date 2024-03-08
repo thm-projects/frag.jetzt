@@ -55,6 +55,10 @@ import {
 } from './services/http/web-push.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ThemeService } from 'theme/theme.service';
+import { SessionService } from './services/util/session.service';
+import { RoomService } from './services/http/room.service';
+import { UserService } from './services/http/user.service';
+import { Room } from './models/room';
 const PUSH_KEY = 'push-subscription';
 @Component({
   selector: 'app-root',
@@ -152,6 +156,26 @@ export class AppComponent implements OnInit {
         this.__revalidateState(state);
       }
     },
+    __options: {
+      generateRandomRoom: () => {
+        this._roomService
+          .addRoom(
+            new Room({
+              name: `random room ${new Date().getTime()}`,
+              tags: [],
+              shortId: undefined,
+              directSend: true,
+            }),
+          )
+          .subscribe((result) => {
+            console.log(result);
+          });
+      },
+      gotoHome: () => {
+        this.router.navigate(['home']);
+      },
+    },
+    Object: Object,
   };
 
   constructor(
@@ -172,6 +196,10 @@ export class AppComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
+    // TODO remove after refactoring
+    private readonly _sessionService: SessionService,
+    private readonly _roomService: RoomService,
+    private readonly _userService: UserService,
   ) {
     this.__debugger.load();
     AppComponent.instance = this;

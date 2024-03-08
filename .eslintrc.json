@@ -3,6 +3,7 @@
   "ignorePatterns": [
     "projects/**/*",
     "src/assets/i18n/**/*",
+    "src/assets/theme-m3/**/*",
     "cypress/**/*"
   ],
   "overrides": [

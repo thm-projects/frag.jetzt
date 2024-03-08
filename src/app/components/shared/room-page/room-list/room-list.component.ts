@@ -1,30 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Room } from '../../../models/room';
-import { RoomRoleMixin } from '../../../models/room-role-mixin';
-import { User } from '../../../models/user';
-import { UserRole } from '../../../models/user-roles.enum';
-import { Moderator } from '../../../models/moderator';
-import { RoomService } from '../../../services/http/room.service';
-import { EventService } from '../../../services/util/event.service';
-import { ModeratorService } from '../../../services/http/moderator.service';
+import { Room } from '../../../../models/room';
+import { RoomRoleMixin } from '../../../../models/room-role-mixin';
+import { User } from '../../../../models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
+import { Moderator } from '../../../../models/moderator';
+import { RoomService } from '../../../../services/http/room.service';
+import { EventService } from '../../../../services/util/event.service';
+import { ModeratorService } from '../../../../services/http/moderator.service';
 import { ReplaySubject } from 'rxjs';
 import {
   CommentService,
   RoomQuestionCounts,
-} from '../../../services/http/comment.service';
-import { NotificationService } from '../../../services/util/notification.service';
+} from '../../../../services/http/comment.service';
+import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
+import { RemoveFromHistoryComponent } from '../../_dialogs/remove-from-history/remove-from-history.component';
+import { BonusTokenService } from '../../../../services/http/bonus-token.service';
+import {
+  copyCSVString,
+  exportRoom,
+} from '../../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
-import { CommentNotificationService } from '../../../services/http/comment-notification.service';
-import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
-import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
+import { ModeratorsComponent } from '../../../creator/_dialogs/moderators/moderators.component';
+import { CommentNotificationDialogComponent } from '../../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
+import { BonusTokenComponent } from '../../../creator/_dialogs/bonus-token/bonus-token.component';
+import { UserBonusTokenComponent } from '../../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RoomSettingsOverviewComponent } from '../../_dialogs/room-settings-overview/room-settings-overview.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
 import { MatTableDataSource } from '@angular/material/table';

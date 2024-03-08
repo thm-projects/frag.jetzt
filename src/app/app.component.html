@@ -12,8 +12,19 @@
   #footerElement>
   <app-footer></app-footer>
 </footer>
+<style>
+  #debugger {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
 <div id="debugger">
   <button (click)="__debugger.toggleHighlight()">highlight</button>
   <button (click)="__debugger.toggleBorder()">border</button>
   <button (click)="__debugger.toggleDarkLight()">dark/light</button>
+  <button
+    *ngFor="let option of __debugger.Object.entries(__debugger.__options)"
+    (click)="option[1]()">
+    {{ option[0] }}
+  </button>
 </div>
