@@ -113,7 +113,7 @@ export interface DateInputAction extends BaseAction {
   placeholder?: string;
   hidden?: boolean;
   defaultValues?: QuotaAccessTime[];
-  labels: [string, string, string, string, string];
+  labels: [string, string, string, string, string, string];
 }
 
 export interface TextAction {

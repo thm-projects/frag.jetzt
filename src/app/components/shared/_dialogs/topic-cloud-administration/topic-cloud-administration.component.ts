@@ -88,6 +88,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   testProfanityLanguage = 'de';
   blacklistKeywords = [];
   isMobile = false;
+  isPle = false;
   private subscriptionRoom = null;
   private topicCloudAdminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
@@ -111,6 +112,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
       .subscribe((m) => (this.isMobile = m));
+    roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
+      this.isPle = room?.mode === 'PLE';
+    });
   }
 
   ngOnInit(): void {
