@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+@use "@angular/material-experimental" as matx;
+
+@function define-theme($theme) {
+  @return (
+    light:
+      matx.define-theme(
+        map.deep-merge(
+          $theme,
+          (
+            color: (
+              theme-type: light,
+            ),
+          )
+        )
+      ),
+    dark:
+      matx.define-theme(
+        map.deep-merge(
+          $theme,
+          (
+            color: (
+              theme-type: dark,
+            ),
+          )
+        )
+      )
+  );
+}

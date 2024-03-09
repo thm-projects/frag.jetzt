@@ -1,5 +1,6 @@
+@use "sass:map";
 @use "@angular/material" as mat;
-
+@use "m3-style/m3-theme-utility" as m3;
 @use "@angular/material-experimental" as matx;
 //@import "styles.scss";
 @import "material-icons/iconfont/material-icons.css";
@@ -88,28 +89,9 @@ $custom-palette: (
   ),
 );
 
-$light-theme: matx.define-theme(
+$base-theme: m3.define-theme(
   (
     color: (
-      theme-type: light,
-      primary: $custom-palette,
-      tertiary: matx.$m3-cyan-palette,
-    ),
-    typography: (
-      bold-weight: 900,
-      medium-weight: 500,
-      regular-weight: 400,
-    ),
-    density: (
-      scale: -1,
-    ),
-  )
-);
-
-$dark-theme: matx.define-theme(
-  (
-    color: (
-      theme-type: dark,
       primary: $custom-palette,
       tertiary: matx.$m3-cyan-palette,
     ),
@@ -127,11 +109,11 @@ $dark-theme: matx.define-theme(
 @include mat.core();
 
 body {
-  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-themes(map.get($base-theme, light));
   //@include matx.color-variants-back-compat($light-theme);
 
   &.dark {
-    @include mat.all-component-colors($dark-theme);
+    @include mat.all-component-colors(map.get($base-theme, dark));
   }
 }
 
