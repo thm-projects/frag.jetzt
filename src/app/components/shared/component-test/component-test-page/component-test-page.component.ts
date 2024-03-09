@@ -11,6 +11,9 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
+import { ComponentTestChipComponent } from './component-test-chip/component-test-chip.component';
+import { MatCardTitle } from '@angular/material/card';
+import { MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-component-test-page',
@@ -30,12 +33,17 @@ import { FormsModule } from '@angular/forms';
     MatButtonToggleGroup,
     MatButtonToggle,
     FormsModule,
+    ComponentTestChipComponent,
+    MatCardTitle,
+    MatLabel,
   ],
   styleUrl: './component-test-page.component.scss',
 })
 export class ComponentTestPageComponent {
   protected currentTheme: string = 'light';
   themeList = ['light', 'dark'];
+  accordionDisplayModes = ['flat', 'default'];
+  currentAccordionDisplayMode: 'flat' | 'default' = 'flat';
 
   constructor() {
     this.currentTheme = document.body.classList.contains('light')

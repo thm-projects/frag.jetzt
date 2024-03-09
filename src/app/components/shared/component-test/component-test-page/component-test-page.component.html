@@ -11,17 +11,22 @@
             {{ theme }}
           </mat-button-toggle>
         </mat-button-toggle-group>
+        <mat-button-toggle-group [(ngModel)]="currentAccordionDisplayMode">
+          <mat-button-toggle
+            [value]="mode"
+            *ngFor="let mode of accordionDisplayModes">
+            {{ mode }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
     </div>
     <div class="example-container">
-      <mat-accordion [multi]="true">
-        <mat-expansion-panel
-          [expanded]="true"
-          [ngStyle]="{
-            backgroundColor: 'var(--surface)'
-          }">
+      <mat-accordion
+        [multi]="true"
+        [displayMode]="currentAccordionDisplayMode">
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <h3>Buttons</h3>
+            <span mat-card-title>Buttons</span>
           </mat-expansion-panel-header>
           <a href="https://material.angular.io/components/button/examples">
             https://material.angular.io/components/button/examples
@@ -30,12 +35,21 @@
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <h3>Card</h3>
+            <span mat-card-title>Card</span>
           </mat-expansion-panel-header>
           <a href="https://material.angular.io/components/card/examples">
             https://material.angular.io/components/card/examples
           </a>
           <app-component-test-card></app-component-test-card>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <span mat-card-title>Chip</span>
+          </mat-expansion-panel-header>
+          <a href="https://material.angular.io/components/card/examples">
+            https://material.angular.io/components/chips/examples
+          </a>
+          <app-component-test-chip></app-component-test-chip>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

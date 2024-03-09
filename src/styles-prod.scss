@@ -93,10 +93,9 @@ $light-theme: matx.define-theme(
     color: (
       theme-type: light,
       primary: $custom-palette,
+      tertiary: matx.$m3-cyan-palette,
     ),
     typography: (
-      //brand-family:'Roboto',
-      //plain-family:'Roboto',
       bold-weight: 900,
       medium-weight: 500,
       regular-weight: 400,
@@ -112,10 +111,9 @@ $dark-theme: matx.define-theme(
     color: (
       theme-type: dark,
       primary: $custom-palette,
+      tertiary: matx.$m3-cyan-palette,
     ),
     typography: (
-      //brand-family:'Roboto',
-      //plain-family:'Roboto',
       bold-weight: 900,
       medium-weight: 500,
       regular-weight: 400,
@@ -130,7 +128,7 @@ $dark-theme: matx.define-theme(
 
 body {
   @include mat.all-component-themes($light-theme);
-  @include matx.color-variants-back-compat($light-theme);
+  //@include matx.color-variants-back-compat($light-theme);
 
   &.dark {
     @include mat.all-component-colors($dark-theme);
@@ -221,5 +219,20 @@ body {
         inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
         inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
     }
+  }
+}
+
+/* common layout */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  > div {
+    width: 800px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
   }
 }
