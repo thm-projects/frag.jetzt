@@ -2,12 +2,17 @@
 @use "@angular/material" as mat;
 @use "@angular/material-experimental" as matx;
 
-@function define-theme($theme) {
+/// Defines Light and Dark Material Theme based on a reference $config
+/// @param {Map} $config The theme configuration; based on matx.define-theme($config)
+/// @return {Map} Light and Dark Theme Object
+/// @TODO adjust reference on material-experimental integration
+/// @see @angular/material-experimental
+@function define-theme($config) {
   @return (
     light:
       matx.define-theme(
         map.deep-merge(
-          $theme,
+          $config,
           (
             color: (
               theme-type: light,
@@ -18,7 +23,7 @@
     dark:
       matx.define-theme(
         map.deep-merge(
-          $theme,
+          $config,
           (
             color: (
               theme-type: dark,
