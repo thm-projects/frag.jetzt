@@ -25,7 +25,6 @@ $header-size: 64px;
     height: 100%;
     width: 100%;
     max-width: 800px;
-    background-color: var(--surface) !important;
 
     > mat-card-header {
       margin: 8px 0;
@@ -35,7 +34,6 @@ $header-size: 64px;
       mat-card-title {
         display: flex;
         justify-content: center;
-        color: var(--on-surface) !important;
 
         h2 {
           font-size: 16px !important;
@@ -53,11 +51,9 @@ $header-size: 64px;
       mat-card-subtitle {
         display: flex;
         justify-content: center;
-        color: var(--on-surface) !important;
 
         .room-short-id {
           font-size: 14px;
-          color: var(--on-surface) !important;
           margin-top: -8px;
         }
 
