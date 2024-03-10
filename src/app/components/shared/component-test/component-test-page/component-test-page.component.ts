@@ -12,8 +12,10 @@ import {
 } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { ComponentTestChipComponent } from './component-test-chip/component-test-chip.component';
-import { MatCardTitle } from '@angular/material/card';
+import { MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatLabel } from '@angular/material/form-field';
+import { ComponentTestSectionComponent } from './component-test-section/component-test-section.component';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-component-test-page',
@@ -36,14 +38,15 @@ import { MatLabel } from '@angular/material/form-field';
     ComponentTestChipComponent,
     MatCardTitle,
     MatLabel,
+    ComponentTestSectionComponent,
+    MatDivider,
+    MatCardSubtitle,
   ],
   styleUrl: './component-test-page.component.scss',
 })
 export class ComponentTestPageComponent {
   protected currentTheme: string = 'light';
   themeList = ['light', 'dark'];
-  accordionDisplayModes = ['flat', 'default'];
-  currentAccordionDisplayMode: 'flat' | 'default' = 'flat';
 
   constructor() {
     this.currentTheme = document.body.classList.contains('light')

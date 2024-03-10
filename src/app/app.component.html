@@ -16,15 +16,25 @@
   #debugger {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    right: 256px;
+    top: 256px;
+    padding: 12px 8px;
+    box-shadow: var(--mdc-elevation-box-shadow-for-gss);
+    background-color: var(--mdc-chip-elevated-selected-container-color);
+    border-radius: var(--mdc-chip-container-shape-radius);
+    border-style: solid;
+    border-width: var(--mdc-chip-outline-width);
+    border-color: var(--mdc-chip-disabled-outline-color);
+    > * + * {
+      margin-top: 8px;
+    }
   }
 </style>
 <div id="debugger">
-  <button (click)="__debugger.toggleHighlight()">highlight</button>
-  <button (click)="__debugger.toggleBorder()">border</button>
-  <button (click)="__debugger.toggleDarkLight()">dark/light</button>
-  <button
-    *ngFor="let option of __debugger.Object.entries(__debugger.__options)"
+  <mat-chip
+    *ngFor="let option of __debugger.self"
     (click)="option[1]()">
     {{ option[0] }}
-  </button>
+  </mat-chip>
 </div>

@@ -126,6 +126,7 @@ export class AppComponent implements OnInit {
       }
       localStorage.setItem('__debug', JSON.stringify(state));
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleHighlight: function () {
       const state = this.__loadDebug();
       console.log(state);
@@ -157,6 +158,9 @@ export class AppComponent implements OnInit {
       }
     },
     __options: {
+      highlight: () => this.__debugger.toggleHighlight(),
+      border: () => this.__debugger.toggleBorder(),
+      ['dark/light']: () => this.__debugger.toggleDarkLight(),
       generateRandomRoom: () => {
         this._roomService
           .addRoom(
@@ -174,8 +178,11 @@ export class AppComponent implements OnInit {
       gotoHome: () => {
         this.router.navigate(['home']);
       },
+      gotoComponentTest: () => {
+        this.router.navigate(['creator', 'component-test-page']);
+      },
     },
-    Object: Object,
+    self: undefined,
   };
 
   constructor(
@@ -202,6 +209,7 @@ export class AppComponent implements OnInit {
     private readonly _userService: UserService,
   ) {
     this.__debugger.load();
+    this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();

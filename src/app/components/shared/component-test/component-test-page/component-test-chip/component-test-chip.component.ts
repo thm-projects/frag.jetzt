@@ -12,6 +12,7 @@ import { MatIcon } from '@angular/material/icon';
 import { FormControl } from '@angular/forms';
 import { EssentialsModule } from '../../../../essentials/essentials.module';
 import { ThemePalette } from '@angular/material/core';
+import { ComponentTestSubSectionComponent } from '../component-test-sub-section/component-test-sub-section.component';
 
 export interface ChipColor {
   name: string;
@@ -28,6 +29,7 @@ export interface ChipColor {
     MatChipRow,
     MatIcon,
     EssentialsModule,
+    ComponentTestSubSectionComponent,
   ],
   templateUrl: './component-test-chip.component.html',
   styleUrl: './component-test-chip.component.scss',

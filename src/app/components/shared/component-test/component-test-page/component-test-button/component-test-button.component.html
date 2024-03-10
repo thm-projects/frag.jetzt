@@ -1,283 +1,221 @@
-<section>
-  <div class="example-label">Basic</div>
-  <div class="example-button-row">
-    <button mat-button>Basic</button>
-    <button
-      mat-button
-      color="primary">
-      Primary
-    </button>
-    <button
-      mat-button
-      color="accent">
-      Accent
-    </button>
-    <button
-      mat-button
-      color="warn">
-      Warn
-    </button>
-    <button
-      mat-button
-      disabled>
-      Disabled
-    </button>
-    <a
-      mat-button
-      href="https://www.google.com/"
-      target="_blank">
-      Link
-    </a>
+<app-component-test-sub-section>
+  <div class="button-row">
+    <mat-form-field [appearance]="'outline'">
+      <input
+        matInput
+        [(ngModel)]="buttonText" />
+      <mat-label>Text</mat-label>
+    </mat-form-field>
+    <mat-form-field [appearance]="'outline'">
+      <input
+        matInput
+        [(ngModel)]="iconText" />
+      <mat-label>Icon</mat-label>
+    </mat-form-field>
   </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Raised</div>
-  <div class="example-button-row">
-    <button mat-raised-button>Basic</button>
-    <button
-      mat-raised-button
-      color="primary">
-      Primary
-    </button>
-    <button
-      mat-raised-button
-      color="accent">
-      Accent
-    </button>
-    <button
-      mat-raised-button
-      color="warn">
-      Warn
-    </button>
-    <button
-      mat-raised-button
-      disabled>
-      Disabled
-    </button>
-    <a
-      mat-raised-button
-      href="https://www.google.com/"
-      target="_blank">
-      Link
-    </a>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Stroked</div>
-  <div class="example-button-row">
-    <button mat-stroked-button>Basic</button>
-    <button
-      mat-stroked-button
-      color="primary">
-      Primary
-    </button>
-    <button
-      mat-stroked-button
-      color="accent">
-      Accent
-    </button>
-    <button
-      mat-stroked-button
-      color="warn">
-      Warn
-    </button>
-    <button
-      mat-stroked-button
-      disabled>
-      Disabled
-    </button>
-    <a
-      mat-stroked-button
-      href="https://www.google.com/"
-      target="_blank">
-      Link
-    </a>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Flat</div>
-  <div class="example-button-row">
-    <button mat-flat-button>Basic</button>
-    <button
-      mat-flat-button
-      color="primary">
-      Primary
-    </button>
-    <button
-      mat-flat-button
-      color="accent">
-      Accent
-    </button>
-    <button
-      mat-flat-button
-      color="warn">
-      Warn
-    </button>
-    <button
-      mat-flat-button
-      disabled>
-      Disabled
-    </button>
-    <a
-      mat-flat-button
-      href="https://www.google.com/"
-      target="_blank">
-      Link
-    </a>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Icon</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <button
-        mat-icon-button
-        aria-label="Example icon button with a vertical three dot icon">
-        <mat-icon>more_vert</mat-icon>
+</app-component-test-sub-section>
+<app-component-test-sub-section [grid]="true">
+  <app-component-test-sub-section [title]="'Filled buttons'">
+    <div class="button-row">
+      <button mat-flat-button>
+        {{ buttonText }}
+      </button>
+      <button mat-flat-button>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
       </button>
       <button
-        mat-icon-button
-        color="primary"
-        aria-label="Example icon button with a home icon">
-        <mat-icon>home</mat-icon>
+        mat-flat-button
+        disabled>
+        {{ buttonText }}
       </button>
       <button
-        mat-icon-button
-        color="accent"
-        aria-label="Example icon button with a menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        color="warn"
-        aria-label="Example icon button with a heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        disabled
-        aria-label="Example icon button with a open in new tab icon">
-        <mat-icon>open_in_new</mat-icon>
+        mat-flat-button
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
       </button>
     </div>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">FAB</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <div class="example-button-container">
-        <button
-          mat-fab
-          color="primary"
-          aria-label="Example icon button with a delete icon">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-fab
-          color="accent"
-          aria-label="Example icon button with a bookmark icon">
-          <mat-icon>bookmark</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-fab
-          color="warn"
-          aria-label="Example icon button with a home icon">
-          <mat-icon>home</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-fab
-          disabled
-          aria-label="Example icon button with a heart icon">
-          <mat-icon>favorite</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Mini FAB</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <div class="example-button-container">
-        <button
-          mat-mini-fab
-          color="primary"
-          aria-label="Example icon button with a menu icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-mini-fab
-          color="accent"
-          aria-label="Example icon button with a plus one icon">
-          <mat-icon>plus_one</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-mini-fab
-          color="warn"
-          aria-label="Example icon button with a filter list icon">
-          <mat-icon>filter_list</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button
-          mat-mini-fab
-          disabled
-          aria-label="Example icon button with a home icon">
-          <mat-icon>home</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<h4>New Implementation</h4>
-<section>
-  <div class="example-label">Basic</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <button mat-flat-button>Basic</button>
-      <button
-        mat-flat-button
-        class="primary-button">
-        Primary
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [title]="'Elevated buttons'">
+    <div class="button-row">
+      <button mat-raised-button>
+        {{ buttonText }}
+      </button>
+      <button mat-raised-button>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
       </button>
       <button
-        mat-flat-button
-        class="secondary-button">
-        Secondary
+        mat-raised-button
+        disabled>
+        {{ buttonText }}
       </button>
       <button
-        mat-flat-button
-        class="tertiary-button">
-        Tertiary
-      </button>
-      <button
-        mat-flat-button
-        class="error-button">
-        Error
-      </button>
-      <button
-        mat-flat-button
-        class="custom-button">
-        Custom
+        mat-raised-button
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
       </button>
     </div>
-  </div>
-</section>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [title]="'Outlined buttons'">
+    <div class="button-row">
+      <button mat-stroked-button>
+        {{ buttonText }}
+      </button>
+      <button mat-stroked-button>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+      <button
+        mat-stroked-button
+        disabled>
+        {{ buttonText }}
+      </button>
+      <button
+        mat-stroked-button
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [title]="'Text buttons'">
+    <div class="button-row">
+      <button mat-button>
+        {{ buttonText }}
+      </button>
+      <button mat-button>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+      <button
+        mat-button
+        disabled>
+        {{ buttonText }}
+      </button>
+      <button
+        mat-button
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [title]="'Icon Buttons'">
+    <div class="button-row">
+      <button mat-icon-button>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+    </div>
+  </app-component-test-sub-section>
+</app-component-test-sub-section>
+<app-component-test-sub-section
+  [title]="'Floating action buttons (FAB)'"
+  [grid]="true">
+  <app-component-test-sub-section [subTitle]="'Default'">
+    <div class="button-row">
+      <button mat-fab>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+      <button
+        mat-fab
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [subTitle]="'Extended'">
+    <div class="button-row">
+      <button
+        mat-fab
+        [extended]="true">
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+      <button
+        mat-fab
+        [extended]="true"
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+        {{ buttonText }}
+      </button>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [subTitle]="'Mini'">
+    <div class="button-row">
+      <button mat-mini-fab>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        disabled>
+        <mat-icon>{{ iconText }}</mat-icon>
+      </button>
+    </div>
+  </app-component-test-sub-section>
+</app-component-test-sub-section>
+<app-component-test-sub-section
+  [title]="'Boolean input'"
+  [grid]="true">
+  <app-component-test-sub-section [subTitle]="'Checkbox'">
+    <div class="button-row">
+      <mat-checkbox>
+        {{ buttonText }}
+      </mat-checkbox>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section [subTitle]="'Slide Toggle'">
+    <div class="button-row">
+      <mat-slide-toggle>
+        {{ buttonText }}
+      </mat-slide-toggle>
+    </div>
+  </app-component-test-sub-section>
+</app-component-test-sub-section>
+<app-component-test-sub-section
+  [title]="'Toggle Button'"
+  [grid]="true">
+  <app-component-test-sub-section>
+    <div class="button-row">
+      <!-- switching between multiple doesn't work. this is a workaround -->
+      <ng-container *ngIf="!toggleButtonGroup.multiple; else toggleTemplate">
+        <ng-container
+          *ngTemplateOutlet="
+            toggleTemplate;
+            context: { multiple: true }
+          "></ng-container>
+      </ng-container>
+      <ng-template
+        #toggleTemplate
+        let-multiple="multiple">
+        <mat-button-toggle-group
+          #group="matButtonToggleGroup"
+          [vertical]="toggleButtonGroup.vertical"
+          [multiple]="toggleButtonGroup.multiple">
+          <mat-button-toggle
+            *ngFor="let option of toggleButtonGroup.entries"
+            [value]="option">
+            {{ option.name }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </ng-template>
+    </div>
+  </app-component-test-sub-section>
+  <app-component-test-sub-section>
+    <div class="button-row">
+      <mat-checkbox [(ngModel)]="toggleButtonGroup.vertical">
+        vertical
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="toggleButtonGroup.multiple">
+        multiple
+      </mat-checkbox>
+    </div>
+  </app-component-test-sub-section>
+</app-component-test-sub-section>
