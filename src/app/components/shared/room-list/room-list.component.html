@@ -1,11 +1,5 @@
-<div
-  *ngIf="isLoading"
-  fxLayout="column"
-  fxLayoutAlign="center"
-  fxFill>
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center">
+<div *ngIf="isLoading">
+  <div>
     <app-mat-spinner-overlay
       [diameter]="80"
       [strokeWidth]="8"></app-mat-spinner-overlay>
@@ -20,9 +14,7 @@
   </div>
 
   <div *ngIf="rooms.length > 0">
-    <div
-      class="fill-space"
-      *ngIf="this.rooms && this.rooms.length <= 5"></div>
+    <div *ngIf="this.rooms && this.rooms.length <= 5"></div>
 
     <!-- filter input -->
     <mat-form-field

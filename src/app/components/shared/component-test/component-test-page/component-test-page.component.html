@@ -14,30 +14,42 @@
       </div>
     </div>
     <div class="example-container">
-      <mat-accordion [multi]="true">
-        <mat-expansion-panel
-          [expanded]="true"
-          [ngStyle]="{
-            backgroundColor: 'var(--surface)'
-          }">
-          <mat-expansion-panel-header>
-            <h3>Buttons</h3>
-          </mat-expansion-panel-header>
-          <a href="https://material.angular.io/components/button/examples">
-            https://material.angular.io/components/button/examples
-          </a>
-          <app-component-test-button></app-component-test-button>
-        </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <h3>Card</h3>
-          </mat-expansion-panel-header>
-          <a href="https://material.angular.io/components/card/examples">
-            https://material.angular.io/components/card/examples
-          </a>
-          <app-component-test-card></app-component-test-card>
-        </mat-expansion-panel>
-      </mat-accordion>
+      <h1 matCardTitle>Reference implementation</h1>
+      <p matCardSubtitle>
+        Material 3 components, based on official
+        <a href="https://www.figma.com/community/file/1035203688168086460">
+          Figma - Material Theme Builder
+        </a>
+        and
+        <a href="https://m3.material.io/">m3.material.io</a>
+        .
+        <br />
+        This serves as reference for future feature implementations of
+        <a href="https://www.frag.jetzt">frag.jetzt</a>
+        .
+      </p>
+      <app-component-test-section [title]="'Buttons'">
+        <app-component-test-button></app-component-test-button>
+      </app-component-test-section>
+      <h1
+        matCardTitle
+        style="margin-top: 64px">
+        Direct conversions
+      </h1>
+      <p matCardSubtitle>
+        Taken from
+        <a href="https://material.angular.io/">material.angular.io</a>
+        .
+        <br />
+        Demonstrates Material 2 component behaviour when Material 3 theme is
+        applied.
+      </p>
+      <app-component-test-section [title]="'Card'">
+        <app-component-test-card></app-component-test-card>
+      </app-component-test-section>
+      <app-component-test-section [title]="'Chip'">
+        <app-component-test-chip></app-component-test-chip>
+      </app-component-test-section>
     </div>
     <app-markdown-editor></app-markdown-editor>
   </div>

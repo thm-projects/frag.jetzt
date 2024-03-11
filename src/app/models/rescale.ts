@@ -1,5 +1,8 @@
 import { AppComponent } from 'app/app.component';
 
+/**
+ * @deprecated
+ */
 export class Rescale {
   private static isFullscreen: boolean;
   private static isRescaleFullscreen: boolean;

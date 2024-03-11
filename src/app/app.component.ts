@@ -55,8 +55,11 @@ import {
 } from './services/http/web-push.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ThemeService } from 'theme/theme.service';
+import { SessionService } from './services/util/session.service';
+import { RoomService } from './services/http/room.service';
+import { UserService } from './services/http/user.service';
+import { Room } from './models/room';
 const PUSH_KEY = 'push-subscription';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -77,6 +80,110 @@ export class AppComponent implements OnInit {
   isMobile = false;
   private _lastScrollTop = 0;
   private _lastClass: string;
+  __debugger = {
+    __loadDebug: function () {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let __debug: any = localStorage.getItem('__debug');
+        if (__debug) {
+          __debug = {
+            ...createDefault(),
+            ...JSON.parse(__debug),
+          };
+        } else {
+          __debug = createDefault();
+          localStorage.setItem('__debug', JSON.stringify(__debug));
+        }
+        return __debug;
+      } catch (e) {
+        console.error(e);
+      }
+
+      function createDefault() {
+        return {
+          highlight: true,
+          border: true,
+          dark: true,
+        };
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    __revalidateState: function (state: any) {
+      if (state['highlight']) {
+        document.documentElement.classList.add('debug');
+      } else {
+        document.documentElement.classList.remove('debug');
+      }
+      if (state['border']) {
+        document.body.classList.add('border');
+      } else {
+        document.body.classList.remove('border');
+      }
+      if (state['dark']) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      localStorage.setItem('__debug', JSON.stringify(state));
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggleHighlight: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['highlight'] = !state['highlight'];
+        this.__revalidateState(state);
+      }
+    },
+    toggleBorder: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['border'] = !state['border'];
+        this.__revalidateState(state);
+      }
+    },
+    toggleDarkLight: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['dark'] = !state['dark'];
+        this.__revalidateState(state);
+      }
+    },
+    load: function () {
+      const state = this.__loadDebug();
+      if (state) {
+        this.__revalidateState(state);
+      }
+    },
+    __options: {
+      highlight: () => this.__debugger.toggleHighlight(),
+      border: () => this.__debugger.toggleBorder(),
+      ['dark/light']: () => this.__debugger.toggleDarkLight(),
+      generateRandomRoom: () => {
+        this._roomService
+          .addRoom(
+            new Room({
+              name: `random room ${new Date().getTime()}`,
+              tags: [],
+              shortId: undefined,
+              directSend: true,
+            }),
+          )
+          .subscribe((result) => {
+            console.log(result);
+          });
+      },
+      gotoHome: () => {
+        this.router.navigate(['home']);
+      },
+      gotoComponentTest: () => {
+        this.router.navigate(['creator', 'component-test-page']);
+      },
+    },
+    self: undefined,
+  };
 
   constructor(
     private translationService: TranslateService,
@@ -96,7 +203,13 @@ export class AppComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
+    // TODO remove after refactoring
+    private readonly _sessionService: SessionService,
+    private readonly _roomService: RoomService,
+    private readonly _userService: UserService,
   ) {
+    this.__debugger.load();
+    this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();

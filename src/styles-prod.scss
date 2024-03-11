@@ -1,39 +1,101 @@
+@use "sass:map";
 @use "@angular/material" as mat;
-
+@use "m3-style/m3-theme-utility" as m3;
 @use "@angular/material-experimental" as matx;
 @import "style/fix-material-icons.scss";
-@import "styles.scss";
+//@import "styles.scss";
+@import "material-icons/iconfont/material-icons.css";
 
-$light-theme: matx.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: matx.$m3-yellow-palette,
-      tertiary: matx.$m3-green-palette,
-    ),
-    typography: (
-      //brand-family:'Roboto',
-      //plain-family:'Roboto',
-      bold-weight: 900,
-      medium-weight: 500,
-      regular-weight: 400,
-    ),
-    density: (
-      scale: -1,
-    ),
-  )
+$custom-palette: (
+  0: #000000,
+  10: #21005d,
+  20: #381e72,
+  25: #442b7f,
+  30: #4f378b,
+  35: #5b4498,
+  40: #6750a4,
+  50: #7f67be,
+  60: #9a82db,
+  70: #b69df8,
+  80: #d0bcff,
+  90: #eaddff,
+  95: #f6edff,
+  98: #f8f1ff,
+  99: #fffbfe,
+  100: #ffffff,
+  secondary: (
+    0: #000000,
+    10: #1d192b,
+    20: #332d41,
+    25: #3f394d,
+    30: #4a4458,
+    35: #565065,
+    40: #625b71,
+    50: #7a7289,
+    60: #958da5,
+    70: #b0a7c0,
+    80: #ccc2dc,
+    90: #e8def8,
+    95: #f6edff,
+    98: #f8f1ff,
+    99: #fffbfe,
+    100: #ffffff,
+  ),
+  neutral: (
+    0: #000000,
+    4: #111013,
+    6: #18171b,
+    10: #1c1b1f,
+    12: #2d2c2f,
+    17: #2f2e31,
+    20: #313033,
+    22: #434245,
+    24: #474548,
+    25: #484649,
+    30: #484649,
+    35: #545256,
+    40: #605d62,
+    50: #787579,
+    60: #939094,
+    70: #aeaaae,
+    80: #c9c5ca,
+    87: #d2cdd2,
+    90: #e6e1e5,
+    92: #eee9ee,
+    94: #f0ebf0,
+    95: #f4eff4,
+    96: #fcf8fc,
+    98: #fdf9fd,
+    99: #fffbfe,
+    100: #ffffff,
+  ),
+  neutral-variant: (
+    0: #000000,
+    10: #1d1a22,
+    20: #322f37,
+    25: #3e3a43,
+    30: #49454f,
+    35: #55515b,
+    40: #605d66,
+    50: #79747e,
+    60: #938f99,
+    70: #aea9b4,
+    80: #cac4d0,
+    90: #e7e0ec,
+    95: #f5eefa,
+    98: #f8f1fb,
+    99: #fffbfe,
+    100: #ffffff,
+  ),
 );
 
-$dark-theme: matx.define-theme(
+$base-theme: m3.define-theme(
   (
     color: (
-      theme-type: dark,
-      primary: matx.$m3-yellow-palette,
-      tertiary: matx.$m3-green-palette,
+      primary: $custom-palette,
+      tertiary: matx.$m3-cyan-palette,
     ),
     typography: (
-      //brand-family:'Roboto',
-      //plain-family:'Roboto',
       bold-weight: 900,
       medium-weight: 500,
       regular-weight: 400,
@@ -47,72 +109,11 @@ $dark-theme: matx.define-theme(
 @include mat.core();
 
 body {
-  @include mat.all-component-themes($light-theme);
-  @include matx.color-variants-back-compat($light-theme);
-
-  .primary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: primary);
-    }
-  }
-
-  .tertiary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: tertiary);
-    }
-  }
-
-  .secondary {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: secondary);
-    }
-  }
-
-  .error {
-    &-button {
-      @include mat.button-color($light-theme, $color-variant: error);
-    }
-  }
-
-  .custom {
-    &-button {
-      --mdc-filled-button-container-color: #625ab9;
-    }
-  }
+  @include mat.all-component-themes(map.get($base-theme, light));
+  //@include matx.color-variants-back-compat($light-theme);
 
   &.dark {
-    @include mat.all-component-colors($dark-theme);
-    @include matx.color-variants-back-compat($dark-theme);
-
-    .primary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: primary);
-      }
-    }
-
-    .tertiary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: tertiary);
-      }
-    }
-
-    .secondary {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: secondary);
-      }
-    }
-
-    .error {
-      &-button {
-        @include mat.button-color($dark-theme, $color-variant: error);
-      }
-    }
-
-    .custom {
-      &-button {
-        --mdc-filled-button-container-color: #625ab9;
-      }
-    }
+    @include mat.all-component-colors(map.get($base-theme, dark));
   }
 }
 
@@ -131,4 +132,89 @@ body {
   height: 1px;
   overflow: hidden;
   left: -10000px;
+}
+
+$replacement: rgba(196, 188, 29, 0.5);
+$deprecated-theme-override: (
+  "--primary": "#{$replacement}",
+  "--primary-variant": "#{$replacement}",
+  "--secondary": "#{$replacement}",
+  "--secondary-variant": "#{$replacement}",
+  "--background": "#{$replacement}",
+  "--surface": "#{$replacement}",
+  "--dialog": "#{$replacement}",
+  "--cancel": "#{$replacement}",
+  "--alt-surface": "#{$replacement}",
+  "--alt-dialog": "#{$replacement}",
+  "--on-primary": "#{$replacement}",
+  "--on-secondary": "#{$replacement}",
+  "--on-primary-variant": "#{$replacement}",
+  "--on-background": "#{$replacement}",
+  "--on-surface": "#{$replacement}",
+  "--on-dialog": "#{$replacement}",
+  "--on-cancel": "#{$replacement}",
+  "--green": "#{$replacement}",
+  "--red": "#{$replacement}",
+  "--white": "#{$replacement}",
+  "--yellow": "#{$replacement}",
+  "--blue": "#{$replacement}",
+  "--purple": "#{$replacement}",
+  "--magenta": "#{$replacement}",
+  "--light-green": "#{$replacement}",
+  "--grey": "#{$replacement}",
+  "--grey-light": "#{$replacement}",
+  "--black": "#{$replacement}",
+  "--moderator": "#{$replacement}",
+  "--questionwall-intro-primary": "#{$replacement}",
+  "--questionwall-intro-secondary": "#{$replacement}",
+  "--questionwall-intro-background": "#{$replacement}",
+  "--livepoll-primary": "#{$replacement}",
+  "--livepoll-primary--disabled": "#{$replacement}",
+  "--livepoll-primary--hover": "#{$replacement}",
+  "--on-livepoll-primary": "#{$replacement}",
+  "--on-livepoll-primary--disabled": "#{$replacement}",
+  "--on-livepoll-primary--hover": "#{$replacement}",
+  "--livepoll-secondary": "#{$replacement}",
+  "--livepoll-secondary--disabled": "#{$replacement}",
+  "--livepoll-secondary--hover": "#{$replacement}",
+  "--on-livepoll-secondary": "#{$replacement}",
+  "--on-livepoll-secondary--disabled": "#{$replacement}",
+  "--on-livepoll-secondary--hover": "#{$replacement}",
+);
+
+:root {
+  &.theme-target {
+    &.debug {
+      @each $key, $value in $deprecated-theme-override {
+        #{$key}: #{$value};
+      }
+    }
+  }
+}
+
+body {
+  &.border {
+    * {
+      box-shadow:
+        inset -1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
+        inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
+    }
+  }
+}
+
+/* common layout */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  > div {
+    width: 800px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
 }

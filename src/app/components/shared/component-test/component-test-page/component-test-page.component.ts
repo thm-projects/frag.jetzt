@@ -11,6 +11,11 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
+import { ComponentTestChipComponent } from './component-test-chip/component-test-chip.component';
+import { MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatLabel } from '@angular/material/form-field';
+import { ComponentTestSectionComponent } from './component-test-section/component-test-section.component';
+import { MatDivider } from '@angular/material/divider';
 import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
 
 @Component({
@@ -31,6 +36,12 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
     MatButtonToggleGroup,
     MatButtonToggle,
     FormsModule,
+    ComponentTestChipComponent,
+    MatCardTitle,
+    MatLabel,
+    ComponentTestSectionComponent,
+    MatDivider,
+    MatCardSubtitle,
     CustomMarkdownModule,
   ],
   styleUrl: './component-test-page.component.scss',

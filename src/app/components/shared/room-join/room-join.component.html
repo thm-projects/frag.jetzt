@@ -1,13 +1,6 @@
-<div
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  fxlayoutgap="50px"
-  fxFill>
+<div>
   <form (ngSubmit)="joinRoom(sessionCode.value)">
     <div
-      style="margin-top: 30px"
-      fxLayoutAlign="center"
-      fxLayoutGap="10px"
       [joyrideStep]="'roomJoin'"
       [stepPosition]="'top'"
       appJoyrideTemplate>

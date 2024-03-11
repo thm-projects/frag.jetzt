@@ -1,0 +1,18 @@
+:host {
+  background-color: var(--mdc-filled-text-field-container-color);
+  display: block;
+  border-radius: var(--mdc-outlined-card-container-shape);
+  border: var(--mat-divider-color) var(--mat-divider-width) solid;
+}
+
+.section-header {
+  padding: 16px;
+  border-bottom: var(--mat-divider-color) var(--mat-divider-width) solid;
+}
+
+.section-content {
+  border-radius: 0 0 var(--mdc-outlined-card-container-shape)
+    var(--mdc-outlined-card-container-shape);
+  padding: 16px;
+  background-color: var(--mdc-dialog-container-color);
+}

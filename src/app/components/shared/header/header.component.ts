@@ -90,6 +90,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   showSmallButtons = false;
   isGPTPrivacyPolicyAccepted: boolean = false;
   canOpenGPT = false;
+  /**
+   * @deprecated
+   */
   customOptionText: { key: string; noTranslate?: boolean } = null;
   isSuperAdmin = false;
   currentLanguage: Language = 'en';
@@ -310,6 +313,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.keycloakService.redirectAccountManagement();
   }
 
+  /**
+   * @deprecated
+   */
   startUpFinished() {
     return this.sessionService.isReady;
   }

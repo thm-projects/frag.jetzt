@@ -146,6 +146,9 @@ export const livepollNavigationAccessOnRoute = (
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  /**
+   * @deprecated
+   */
   @Input() isQuestionWall = false;
   @Input() showText = true;
   isPLE = true;
