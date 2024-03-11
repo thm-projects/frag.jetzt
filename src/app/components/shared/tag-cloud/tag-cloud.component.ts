@@ -1084,7 +1084,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           text: 'header.brainstorm-blacklist',
           callback: () => {
             const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {
-              minWidth: '50%',
               maxHeight: '95%',
               data: {
                 userRole: this.userRole,

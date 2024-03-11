@@ -158,10 +158,6 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  onClose(): void {
-    this.dialogRef.close();
-  }
-
   private setNotification(c: CommentNotification) {
     const date = CommentNotificationDialogComponent.notificationSettingToDate(
       c.notificationSetting,

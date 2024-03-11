@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import {
   AppStateService,
   Language,
@@ -15,10 +14,7 @@ export class GptOptInPrivacyComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
-  constructor(
-    private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
-    appState: AppStateService,
-  ) {
+  constructor(appState: AppStateService) {
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
@@ -27,13 +23,5 @@ export class GptOptInPrivacyComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-  }
-
-  onDecline(): void {
-    this.dialogRef.close(false);
-  }
-
-  onAccept(): void {
-    this.dialogRef.close(true);
   }
 }

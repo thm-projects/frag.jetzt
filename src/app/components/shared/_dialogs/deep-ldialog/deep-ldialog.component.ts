@@ -94,38 +94,32 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close();
-  }
-
-  buildSubmitBodyActionCallback(): () => void {
-    return () => {
-      let current: ResultValue;
-      if (this.radioButtonValue === this.normalValue) {
-        this.normalValue.body = this.normal.currentData;
-        this.normalValue.text = this.normal.currentText;
-        this.normalValue.view = this.normal;
-        current = this.normalValue;
-      } else {
-        this.improvedValue.body = this.improved.currentData;
-        this.improvedValue.text = this.improved.currentText;
-        this.improvedValue.view = this.improved;
-        current = this.improvedValue;
-      }
-      if (
-        ViewCommentDataComponent.checkInputData(
-          current.body,
-          current.text,
-          this.translateService,
-          this.notificationService,
-          this.data.maxTextCharacters,
-          this.data.maxDataCharacters,
-        )
-      ) {
-        this.data.onClose(current, true);
-        this.dialogRef.close(true);
-      }
-    };
+  protected submit() {
+    let current: ResultValue;
+    if (this.radioButtonValue === this.normalValue) {
+      this.normalValue.body = this.normal.currentData;
+      this.normalValue.text = this.normal.currentText;
+      this.normalValue.view = this.normal;
+      current = this.normalValue;
+    } else {
+      this.improvedValue.body = this.improved.currentData;
+      this.improvedValue.text = this.improved.currentText;
+      this.improvedValue.view = this.improved;
+      current = this.improvedValue;
+    }
+    if (
+      ViewCommentDataComponent.checkInputData(
+        current.body,
+        current.text,
+        this.translateService,
+        this.notificationService,
+        this.data.maxTextCharacters,
+        this.data.maxDataCharacters,
+      )
+    ) {
+      this.data.onClose(current, true);
+      this.dialogRef.close(true);
+    }
   }
 
   openHelp() {

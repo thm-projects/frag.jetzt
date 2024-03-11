@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -11,18 +10,11 @@ export class ExplanationDialogComponent implements OnInit {
   @Input() translateKey: string;
   data: string;
 
-  constructor(
-    private translateService: TranslateService,
-    private dialogRef: MatDialogRef<ExplanationDialogComponent>,
-  ) {}
+  constructor(private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.translateService
       .get(this.translateKey)
       .subscribe((text) => (this.data = text));
-  }
-
-  buildConfirmAction() {
-    return () => this.dialogRef.close();
   }
 }
