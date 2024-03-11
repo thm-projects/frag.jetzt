@@ -7,6 +7,57 @@
 //@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
 //@import "~prismjs/plugins/line-highlight/prism-line-highlight.css";
 
+$replacement: rgba(255, 255, 0, 0.3);
+$replacement-text: rgba(181, 4, 166, 0.802);
+
+:root {
+  --primary: #{$replacement};
+  --secondary: #{$replacement};
+  --background: #{$replacement};
+  --surface: #{$replacement};
+  --dialog: #{$replacement};
+  --cancel: #{$replacement};
+  --on-primary: #{$replacement-text};
+  --on-secondary: #{$replacement-text};
+  --on-background: #{$replacement-text};
+  --on-surface: #{$replacement-text};
+  --on-dialog: #{$replacement-text};
+  --on-cancel: #{$replacement-text};
+  --green: #{$replacement};
+  --red: #{$replacement};
+  --white: #{$replacement};
+  --yellow: #{$replacement};
+  --blue: #{$replacement};
+  --purple: #{$replacement};
+  --magenta: #{$replacement};
+  --light-green: #{$replacement};
+  --grey: #{$replacement};
+  --grey-light: #{$replacement};
+  --black: #{$replacement};
+  --livepoll-primary: #{$replacement};
+  --livepoll-primary--disabled: #{$replacement};
+  --livepoll-primary--hover: #{$replacement};
+  --on-livepoll-primary: #{$replacement-text};
+  --on-livepoll-primary--disabled: #{$replacement-text};
+  --on-livepoll-primary--hover: #{$replacement-text};
+  --livepoll-secondary: #{$replacement};
+  --livepoll-secondary--disabled: #{$replacement};
+  --livepoll-secondary--hover: #{$replacement};
+  --on-livepoll-secondary: #{$replacement-text};
+  --on-livepoll-secondary--disabled: #{$replacement-text};
+  --on-livepoll-secondary--hover: #{$replacement-text};
+}
+
+:root {
+  --custom-stars: #caca28;
+}
+
+// specficity: (0, 3, 0)
+// Fix dialog issues with button touch target
+button.mdc-button.mdc-button--outlined {
+  margin-block: calc((48px - var(--mdc-outlined-button-container-height)) / 2);
+}
+
 html,
 body {
   margin: 0;

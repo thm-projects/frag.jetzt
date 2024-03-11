@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-brainstorming-category-editor',
@@ -18,9 +17,7 @@ export class BrainstormingCategoryEditorComponent {
     this.emptyOnCreate.bind(this),
   ]);
 
-  constructor(
-    private dialogRef: MatDialogRef<BrainstormingCategoryEditorComponent>,
-  ) {}
+  constructor() {}
 
   emptyOnCreate(control: FormControl) {
     if (this.displayEmptyOnCreateWarning && control.value.trim() === '') {
@@ -52,15 +49,5 @@ export class BrainstormingCategoryEditorComponent {
 
   deleteTag(tag: string) {
     this.tags = this.tags.filter((o) => o !== tag);
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close(this.tags);
-  }
-
-  buildSaveActionCallback(): () => void {
-    return () => {
-      this.closeDialog();
-    };
   }
 }

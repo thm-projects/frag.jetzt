@@ -22,11 +22,29 @@ export class BrainstormingDeleteConfirmComponent {
     private notificationService: NotificationService,
   ) {}
 
-  buildSaveActionCallback() {
-    return () => {
-      this.dialogRef.close(true);
-      if (this.type === 'rating') {
-        this.brainstormingService.deleteAllVotes(this.sessionId).subscribe({
+  protected save() {
+    this.dialogRef.close(true);
+    if (this.type === 'rating') {
+      this.brainstormingService.deleteAllVotes(this.sessionId).subscribe({
+        next: () => {
+          this.translateService
+            .get('room-page.changes-successful')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
+        },
+        error: () => {
+          this.translateService
+            .get('room-page.changes-gone-wrong')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
+        },
+      });
+    } else {
+      this.brainstormingService
+        .deleteAllCategoryAssignments(this.sessionId)
+        .subscribe({
           next: () => {
             this.translateService
               .get('room-page.changes-successful')
@@ -42,32 +60,6 @@ export class BrainstormingDeleteConfirmComponent {
               });
           },
         });
-      } else {
-        this.brainstormingService
-          .deleteAllCategoryAssignments(this.sessionId)
-          .subscribe({
-            next: () => {
-              this.translateService
-                .get('room-page.changes-successful')
-                .subscribe((msg) => {
-                  this.notificationService.show(msg);
-                });
-            },
-            error: () => {
-              this.translateService
-                .get('room-page.changes-gone-wrong')
-                .subscribe((msg) => {
-                  this.notificationService.show(msg);
-                });
-            },
-          });
-      }
-    };
-  }
-
-  buildCancelActionCallback() {
-    return () => {
-      this.dialogRef.close(false);
-    };
+    }
   }
 }

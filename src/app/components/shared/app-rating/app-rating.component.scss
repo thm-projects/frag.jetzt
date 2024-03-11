@@ -28,15 +28,17 @@ mat-icon.interactive {
   height: 1em;
   font-size: 3em;
   cursor: pointer;
-  transition: transform 250ms ease, color 250ms ease;
+  transition:
+    transform 250ms ease,
+    color 250ms ease;
 
   &.star_full {
-    color: var(--yellow);
+    color: var(--custom-stars);
     opacity: unset;
   }
 
   &.star_half {
-    color: var(--yellow);
+    color: var(--custom-stars);
     opacity: unset;
   }
 
@@ -59,7 +61,7 @@ mat-icon.interactive {
   margin: 0 auto;
 
   .star {
-    color: var(--yellow);
+    color: var(--custom-stars);
   }
 }
 

@@ -20,8 +20,6 @@ interface SelectableIdea {
   styleUrls: ['./chat-gptbrainstorm.component.scss'],
 })
 export class ChatGPTBrainstormComponent {
-  onCancel = this.abort.bind(this);
-  onConfirm = this.confirm.bind(this);
   isSending = false;
   elements: SelectableIdea[] = [];
   private data: BrainstormingSession;
@@ -107,6 +105,12 @@ export class ChatGPTBrainstormComponent {
       });
   }
 
+  protected confirm() {
+    this.dialogRef.close(
+      this.elements.filter((e) => e.selected).map((e) => e.text),
+    );
+  }
+
   private makeElements(finished: boolean) {
     const regex = finished
       ? /\s*(?:\d+\.|-)\s([^\n]*)(?:\n|$)/gm
@@ -120,15 +124,5 @@ export class ChatGPTBrainstormComponent {
       });
       this.lastIndex = m.index + m[0].length;
     }
-  }
-
-  private abort() {
-    this.dialogRef.close();
-  }
-
-  private confirm() {
-    this.dialogRef.close(
-      this.elements.filter((e) => e.selected).map((e) => e.text),
-    );
   }
 }

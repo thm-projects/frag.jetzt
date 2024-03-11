@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
@@ -16,10 +15,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
   showBlacklistWordList = false;
   newBlacklistWord: string;
 
-  constructor(
-    private _dialogRef: MatDialogRef<BrainstormingBlacklistEditComponent>,
-    private _brainstormingService: BrainstormingService,
-  ) {}
+  constructor(private _brainstormingService: BrainstormingService) {}
 
   ngOnInit(): void {
     const obj = this.room.brainstormingSession.wordsWithMeta;
@@ -57,18 +53,6 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
       .subscribe(() => {
         this.blacklist.splice(index, 1);
       });
-  }
-
-  buildCloseDialogActionCallback() {
-    return () => {
-      this._dialogRef.close();
-    };
-  }
-
-  buildSaveActionCallback() {
-    return () => {
-      this._dialogRef.close(this.blacklist);
-    };
   }
 
   private sort() {

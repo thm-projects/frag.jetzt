@@ -11,6 +11,7 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
+import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
 
 @Component({
   selector: 'app-component-test-page',
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonToggleGroup,
     MatButtonToggle,
     FormsModule,
+    CustomMarkdownModule,
   ],
   styleUrl: './component-test-page.component.scss',
 })

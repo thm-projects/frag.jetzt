@@ -1,21 +1,27 @@
-<h1>{{ "brainstorming-blacklist.title" | translate }}</h1>
+<h2 mat-dialog-title>{{ "brainstorming-blacklist.title" | translate }}</h2>
 
 <mat-dialog-content>
   <mat-form-field>
-    <mat-label>{{ "brainstorming-blacklist.placeholder-add" | translate }}</mat-label>
-    <input matInput [(ngModel)]="newBlacklistWord" />
+    <mat-label>
+      {{ "brainstorming-blacklist.placeholder-add" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [(ngModel)]="newBlacklistWord" />
   </mat-form-field>
 
-  <button mat-flat-button class="edit-button" (click)="addBlacklistWord()">
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="addBlacklistWord()">
     {{ "brainstorming-blacklist.add-button" | translate }}
   </button>
 
   <button
-    mat-flat-button
-    class="edit-button"
+    mat-stroked-button
+    class="secondary-button"
     *ngIf="blacklist?.length > 0"
-    (click)="showBlacklistWordList = !showBlacklistWordList"
-  >
+    (click)="showBlacklistWordList = !showBlacklistWordList">
     {{
       showBlacklistWordList
         ? ("brainstorming-blacklist.hide-button" | translate)
@@ -26,33 +32,31 @@
   <mat-list
     role="list"
     *ngIf="showBlacklistWordList && blacklist?.length > 0"
-    class="margin-bottom"
-  >
+    class="margin-bottom">
     <mat-list-item
       class="color-on-surface"
       *ngFor="let word of blacklist"
-      role="listitem"
-      >{{ word.word }}
+      role="listitem">
+      {{ word.word }}
       <button
-        style="margin-left: auto; color: var(--red)"
         mat-icon-button
         matTooltip="{{ 'brainstorming-blacklist.back' | translate }}"
-        (click)="removeWordFromBlacklist(word.id)"
-      >
+        (click)="removeWordFromBlacklist(word.id)">
         <mat-icon
           class="material-icons-outlined"
-          mat-list-icon
-          style="margin-bottom: 6px"
-          >undo
+          mat-list-icon>
+          undo
         </mat-icon>
       </button>
     </mat-list-item>
   </mat-list>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  buttonsLabelSection="brainstorming-blacklist"
-  confirmButtonLabel="update"
-  [spacing]="true"
-  [confirmButtonClickAction]="buildSaveActionCallback()"
-></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    class="primary-button"
+    mat-stroked-button
+    [mat-dialog-close]="blacklist">
+    {{ "brainstorming-blacklist.update" | translate }}
+  </button>
+</mat-dialog-actions>
