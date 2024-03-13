@@ -42,7 +42,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.keywordExtrationEnabled = this.room.keywordExtractionActive;
   }
 
-  onConfirm() {
+  confirm() {
     const update: RoomPatch = {
       directSend: this.directSend,
       conversationDepth: this.conversationEnabled ? 7 : 0,
@@ -74,10 +74,6 @@ export class RoomSettingsOverviewComponent implements OnInit {
     if (!this.awaitComplete) {
       this.dialogRef.close(update);
     }
-  }
-
-  onCancel() {
-    this.dialogRef.close();
   }
 
   toggleProfanityFilter(event: Event) {

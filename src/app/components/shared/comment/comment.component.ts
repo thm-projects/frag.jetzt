@@ -15,7 +15,6 @@ import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import {
   animate,
   state,
@@ -693,30 +692,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   exitFullScreen(): void {
     Rescale.exitFullscreen();
-  }
-
-  openPresentDialog(comment: Comment): void {
-    if (this.isCreator === true) {
-      this.commentService.highlight(comment).subscribe();
-      if (!comment.read) {
-        this.setRead(comment);
-      }
-    }
-    const dialogRef = this.dialog.open(PresentCommentComponent, {
-      position: {
-        left: '10px',
-        right: '10px',
-      },
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
-    });
-    dialogRef.componentInstance.body = comment.body;
-    dialogRef.afterClosed().subscribe(() => {
-      this.commentService.lowlight(comment).subscribe();
-      this.exitFullScreen();
-    });
   }
 
   openBonusStarDialog() {

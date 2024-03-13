@@ -37,7 +37,6 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
-import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { BonusTokenService } from './services/http/bonus-token.service';
 import { CustomIconService } from './services/util/custom-icon.service';
@@ -104,7 +103,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     HomePageComponent,
     DemoVideoComponent,
     UserHomeComponent,
-    HomeCreatorPageComponent,
     HomeParticipantPageComponent,
     ImprintComponent,
     DataProtectionComponent,

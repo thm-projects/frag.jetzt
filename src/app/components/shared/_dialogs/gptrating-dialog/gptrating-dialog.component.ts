@@ -12,8 +12,6 @@ import { Observable, map } from 'rxjs';
 export class GPTRatingDialogComponent {
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
   protected text: string = '';
-  protected readonly onCancel = this.cancel.bind(this);
-  protected readonly onSubmit = this.submit.bind(this);
   private visibleRating = 0;
   private listeningToMove = true;
 
@@ -90,11 +88,7 @@ export class GPTRatingDialogComponent {
     return this.visibleRating > index ? 'star_half' : 'star_border';
   }
 
-  private cancel() {
-    this.dialogRef.close();
-  }
-
-  private submit() {
+  protected submit() {
     this.gptService.makeRating(this.visibleRating, this.text).subscribe();
     this.dialogRef.close();
   }

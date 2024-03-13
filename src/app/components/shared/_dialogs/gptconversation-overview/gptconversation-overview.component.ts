@@ -12,7 +12,6 @@ import { AppStateService } from 'app/services/state/app-state.service';
   styleUrls: ['./gptconversation-overview.component.scss'],
 })
 export class GPTConversationOverviewComponent implements OnInit {
-  close = this.onClose.bind(this);
   roomConversations: GPTConversation[] = [];
   otherConversations: GPTConversation[] = [];
   displayedColumns: string[] = [
@@ -99,9 +98,5 @@ export class GPTConversationOverviewComponent implements OnInit {
     let index = str.indexOf('.');
     index = index < 0 ? str.length : index + 1 > bounds ? bounds : index + 1;
     return str.substring(0, index) + (index < str.length ? ' …' : '');
-  }
-
-  private onClose() {
-    this.ref.close();
   }
 }

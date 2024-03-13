@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
@@ -15,11 +14,7 @@ export class IntroductionTagCloudComponent implements OnDestroy {
   protected isPle: boolean = false;
   private destroyer = new ReplaySubject(1);
 
-  constructor(
-    private dialogRef: MatDialogRef<IntroductionTagCloudComponent>,
-    roomState: RoomStateService,
-    appState: AppStateService,
-  ) {
+  constructor(roomState: RoomStateService, appState: AppStateService) {
     roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
       this.isPle = room?.mode === 'PLE';
     });
@@ -31,9 +26,5 @@ export class IntroductionTagCloudComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-  }
-
-  onClose() {
-    this.dialogRef.close();
   }
 }

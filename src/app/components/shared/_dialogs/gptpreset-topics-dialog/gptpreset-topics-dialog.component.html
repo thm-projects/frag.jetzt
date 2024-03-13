@@ -1,4 +1,4 @@
-<h3>{{ "gptpreset-topics.title" | translate }}</h3>
+<h2 mat-dialog-title>{{ "gptpreset-topics.title" | translate }}</h2>
 
 <mat-dialog-content>
   <div class="input-container">
@@ -21,8 +21,8 @@
     </mat-form-field>
     <button
       (click)="addTopic()"
-      mat-flat-button
-      class="secondary-btn">
+      class="primary-button"
+      mat-stroked-button>
       {{ "gptpreset-topics.add-topic" | translate }}
     </button>
   </div>
@@ -30,19 +30,30 @@
     <mat-list-option
       *ngFor="let topic of topics; let i = index"
       [selected]="topic.active">
-      {{ topic.description }}
-      <button
-        (click)="topics.splice(i, 1)"
-        matSuffix
-        mat-icon-button>
-        <mat-icon>close</mat-icon>
-      </button>
+      <span matListItemTitle>
+        {{ topic.description }}
+        <button
+          (click)="topics.splice(i, 1)"
+          class="secondary-button"
+          mat-icon-button>
+          <mat-icon>close</mat-icon>
+        </button>
+      </span>
     </mat-list-option>
   </mat-selection-list>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gptpreset-topics'"
-  [confirmButtonLabel]="'save'"
-  [cancelButtonClickAction]="onCancel"
-  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "gptpreset-topics.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    [mat-dialog-close]="topics">
+    {{ "gptpreset-topics.save" | translate }}
+  </button>
+</mat-dialog-actions>

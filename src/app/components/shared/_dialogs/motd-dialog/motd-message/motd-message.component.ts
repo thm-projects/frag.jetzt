@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Motd } from '../../../../../models/motd';
@@ -14,7 +15,6 @@ import {
   ArsDateFormatter,
 } from '../../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { ArsUtil } from '../../../../../../../projects/ars/src/lib/models/util/ars-util';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
@@ -25,6 +25,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
 export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() message: Motd;
   @ViewChild('markdown', { static: true }) markdown: { element: ElementRef };
+  @Output() clickRead = new EventEmitter<Motd>();
   translatedMessage: string;
   date: EventEmitter<ArsApproximateDate> =
     new EventEmitter<ArsApproximateDate>();
@@ -33,7 +34,6 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private appState: AppStateService,
     private arsDateFormatter: ArsDateFormatter,
-    private accountState: AccountStateService,
   ) {}
 
   ngOnInit(): void {
@@ -60,12 +60,8 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setIsRead(isRead: boolean) {
-    if (isRead) {
-      this.accountState.readMotds([this.message.id]);
-    } else {
-      this.accountState.unreadMotd(this.message.id);
-    }
     this.message.isRead = isRead;
+    this.clickRead.emit(this.message);
   }
 
   ngAfterViewInit(): void {

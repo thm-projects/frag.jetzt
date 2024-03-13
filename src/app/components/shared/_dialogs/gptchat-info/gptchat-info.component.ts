@@ -21,8 +21,6 @@ interface GPTStatus {
   styleUrls: ['./gptchat-info.component.scss'],
 })
 export class GPTChatInfoComponent implements OnInit {
-  readonly onCancel = this.cancel.bind(this);
-
   roles = {
     participant: false,
     moderator: false,
@@ -32,9 +30,9 @@ export class GPTChatInfoComponent implements OnInit {
   messageCodesFori18n: GPTStatus[] = [];
 
   constructor(
-    private dialogRef: MatDialogRef<GPTChatInfoComponent>,
+    dialogRef: MatDialogRef<GPTChatInfoComponent>,
     private sessionService: SessionService,
-    private roomStateService: RoomStateService,
+    roomStateService: RoomStateService,
   ) {
     roomStateService.assignedRole$
       .pipe(takeUntil(dialogRef.afterClosed()))
@@ -103,9 +101,5 @@ export class GPTChatInfoComponent implements OnInit {
 
       console.log(this.messageCodesFori18n);
     });
-  }
-
-  private cancel() {
-    this.dialogRef.close();
   }
 }

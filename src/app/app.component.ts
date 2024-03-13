@@ -331,8 +331,6 @@ export class AppComponent implements OnInit {
       const dialogRef = this.dialog.open(MotdDialogComponent, {
         width: '80%',
         maxWidth: '600px',
-        minHeight: '95%',
-        height: '95%',
       });
       dialogRef.componentInstance.motds = req.motds;
       dialogRef.afterClosed().subscribe(() => {

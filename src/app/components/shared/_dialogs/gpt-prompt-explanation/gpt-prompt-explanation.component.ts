@@ -26,8 +26,4 @@ export class GptPromptExplanationComponent implements OnDestroy {
     this.destroyer.next(true);
     this.destroyer.complete();
   }
-
-  onClose() {
-    this.dialogRef.close();
-  }
 }

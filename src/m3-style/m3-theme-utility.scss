@@ -54,7 +54,18 @@
 
 /// Generate color-variant classes for all used components inside this app
 /// @param {Map} $theme A theme object based on matx.define-theme($config)
-@mixin generate-theme-classes($theme) {
+@mixin generate-color-classes($theme) {
+  // Not supported: Container
+  .primary-container {
+    background-color: #{mat.get-theme-color($theme, primary-container)};
+    color: #{mat.get-theme-color($theme, on-primary-container)};
+  }
+
+  .error-container {
+    background-color: #{mat.get-theme-color($theme, error-container)};
+    color: #{mat.get-theme-color($theme, on-error-container)};
+  }
+
   // Badge
   // Default: error
   // All classes: primary, secondary, tertiary, error

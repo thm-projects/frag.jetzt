@@ -10,13 +10,11 @@ import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { RoomJoinComponent } from './room-join/room-join.component';
-import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { UserBonusTokenComponent } from '../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RemindOfTokensComponent } from '../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { LoginComponent } from './login/login.component';
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
-import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
@@ -111,7 +109,6 @@ import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dial
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
-import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
 import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
@@ -188,14 +185,12 @@ import { MatSliderModule } from '@angular/material/slider';
     FooterComponent,
     CommentPageComponent,
     CommentListComponent,
-    RoomCreateComponent,
     UserBonusTokenComponent,
     RemindOfTokensComponent,
     LoginComponent,
     CloudConfigurationComponent,
     CommentComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
     RemoveFromHistoryComponent,
@@ -276,7 +271,6 @@ import { MatSliderModule } from '@angular/material/slider';
     NavigationComponent,
     QuestionWallComponent,
     LivepollCreateComponent,
-    GptRoomSettingsComponent,
     IntroductionPromptGuideChatbotComponent,
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
@@ -333,7 +327,6 @@ import { MatSliderModule } from '@angular/material/slider';
     CommentPageComponent,
     CommentListComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
     CommentComponent,
     DialogActionButtonsComponent,
     UserBonusTokenComponent,
