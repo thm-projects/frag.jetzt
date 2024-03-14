@@ -42,8 +42,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
   profanitywordlist: string[] = [];
-  profanitylistSubscription = undefined;
-  commentServiceSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -89,7 +87,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   blacklistKeywords = [];
   isMobile = false;
   isPle = false;
-  private subscriptionRoom = null;
   private topicCloudAdminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
 
@@ -128,8 +125,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.setDefaultAdminData(room);
       this.initializeKeywords();
-      this.subscriptionRoom = this.sessionService
+      this.sessionService
         .receiveRoomUpdates()
+        .pipe(takeUntil(this.destroyer))
         .subscribe((_room) => {
           this.blacklistIsActive = room.blacklistActive;
           this.blacklist = _room.blacklist ? JSON.parse(_room.blacklist) : [];
@@ -138,8 +136,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
     this.profanitywordlist =
       this.profanityFilterService.getProfanityListFromStorage();
-    this.profanitylistSubscription = this.profanityFilterService
+    this.profanityFilterService
       .getCustomProfanityList()
+      .pipe(takeUntil(this.destroyer))
       .subscribe((list) => {
         this.profanitywordlist = list;
         this.refreshKeywords();
@@ -211,31 +210,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.ngOnDestroy();
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildSaveActionCallback(): () => void {
-    return () => this.save();
-  }
-
   ngOnDestroy() {
     this.destroyer.next(true);
     this.destroyer.complete();
-    this.profanitylistSubscription?.unsubscribe();
-    this.subscriptionRoom?.unsubscribe();
-    this.cloudDialogRef.close();
   }
 
   save() {
     this.setAdminData();
-    this.ngOnDestroy();
+    this.cloudDialogRef.close();
   }
 
   initializeKeywords() {
@@ -249,7 +231,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.sortQuestions();
         this.isLoading = false;
       });
-    this.commentServiceSubscription = this.roomDataService.dataAccessor
+    this.roomDataService.dataAccessor
       .receiveUpdates([
         { type: 'CommentCreated', finished: true },
         { type: 'CommentDeleted' },
@@ -271,6 +253,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         { type: 'CommentPatched', subtype: 'ack' },
         { finished: true },
       ])
+      .pipe(takeUntil(this.destroyer))
       .subscribe((update) => {
         if (update.type === 'CommentCreated') {
           this.pushInKeywords(update.comment);

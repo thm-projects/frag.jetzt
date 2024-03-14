@@ -1,7 +1,6 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Comment } from '../../../../models/comment';
-import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { KeywordsResultType } from '../../../../utils/keyword-extractor';
 import {
@@ -13,7 +12,6 @@ import {
 export interface Keyword {
   word: string;
   dep: string[];
-  completed: boolean;
   editing: boolean;
   selected: boolean;
 }
@@ -24,16 +22,12 @@ export interface Keyword {
   styleUrls: ['./spacy-dialog.component.scss'],
 })
 export class SpacyDialogComponent implements OnInit {
-  @ViewChild('appDialogActionButtons')
-  appDialogActionButtons: DialogActionButtonsComponent;
-
   comment: Comment;
   keywords: Keyword[] = [];
   hasKeywordsFromSpacy = false;
   langSupported: boolean;
   manualKeywords = '';
   customMessage = null;
-  _concurrentEdits = 0;
 
   constructor(
     public dialogRef: MatDialogRef<SpacyDialogComponent>,
@@ -62,41 +56,33 @@ export class SpacyDialogComponent implements OnInit {
           completed: false,
           editing: false,
           selected: false,
-        } as Keyword),
+        }) as Keyword,
     );
     this.keywords.sort((a, b) => a.word.localeCompare(b.word));
   }
 
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close();
+  createComment() {
+    this.comment.keywordsFromQuestioner = this.keywords
+      .filter((kw) => kw.selected && kw.word.length)
+      .map(
+        (kw) =>
+          ({
+            text: kw.word,
+            dep: kw.dep,
+          }) as SpacyKeyword,
+      );
+    this.dialogRef.close({
+      comment: this.comment,
+    });
   }
 
-  buildCreateCommentActionCallback() {
-    return () => {
-      this.comment.keywordsFromQuestioner = this.keywords
-        .filter((kw) => kw.selected && kw.word.length)
-        .map(
-          (kw) =>
-            ({
-              text: kw.word,
-              dep: kw.dep,
-            } as SpacyKeyword),
-        );
-      this.dialogRef.close({
-        comment: this.comment,
-      });
-    };
-  }
-
-  onEdit(keyword) {
+  onEdit(keyword: Keyword) {
     keyword.editing = true;
-    keyword.completed = false;
     keyword.selected = false;
   }
 
-  onEndEditing(keyword) {
+  onEndEditing(keyword: Keyword) {
     keyword.editing = false;
-    keyword.completed = true;
     keyword.selected = true;
   }
 
@@ -108,19 +94,17 @@ export class SpacyDialogComponent implements OnInit {
     } else {
       this.keywords.forEach((item) => {
         item.editing = false;
-        item.completed = false;
         item.selected = false;
       });
     }
   }
 
   allKeywordsSelected(): boolean {
-    for (const kw of this.keywords) {
-      if (!kw.selected) {
-        return false;
-      }
-    }
-    return true;
+    return this.keywords.every((e) => e.selected);
+  }
+
+  anyEditing(): boolean {
+    return this.keywords.some((e) => e.editing);
   }
 
   manualKeywordsToKeywords() {
@@ -136,12 +120,6 @@ export class SpacyDialogComponent implements OnInit {
     } else {
       this.keywords = [];
     }
-  }
-
-  onEditChange(change: number) {
-    this._concurrentEdits += change;
-    this.appDialogActionButtons.confirmButtonDisabled =
-      this._concurrentEdits > 0;
   }
 
   openHelp() {

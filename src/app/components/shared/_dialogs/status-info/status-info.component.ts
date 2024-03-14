@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 
 @Component({
@@ -14,12 +14,8 @@ import { GlobalCountChanged } from 'app/models/global-count-changed';
 })
 export class StatusInfoComponent {
   protected status: GlobalCountChanged;
-  protected readonly onConfirm = this.confirm.bind(this);
 
-  constructor(
-    private dialogRef: MatDialogRef<StatusInfoComponent>,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public static open(dialog: MatDialog, data: GlobalCountChanged) {
     const ref = dialog.open(StatusInfoComponent);
@@ -30,9 +26,5 @@ export class StatusInfoComponent {
   updateStatus(status: GlobalCountChanged) {
     this.status = status;
     this.changeDetector.detectChanges();
-  }
-
-  private confirm() {
-    this.dialogRef.close();
   }
 }

@@ -512,6 +512,10 @@ export class WordCloudComponent<T extends WordMeta>
       sheet.cssRules.length,
     );
     sheet.insertRule(
+      'header {' + ' z-index: 3 !important;' + ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
       '.header-content-container > *, #options-login-box, #back-button {' +
         ' padding-left: 0.25rem;' +
         ' padding-right: 0.25rem;' +

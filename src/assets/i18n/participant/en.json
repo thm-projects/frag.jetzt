@@ -722,6 +722,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "manually-title": "Keywords",
     "analysis-bad-spelled": "Note: The text is not suitable for keyword generation.",
     "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",

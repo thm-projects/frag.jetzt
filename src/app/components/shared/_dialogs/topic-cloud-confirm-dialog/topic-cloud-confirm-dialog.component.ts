@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-topic-cloud-confirm-dialog',
@@ -8,36 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./topic-cloud-confirm-dialog.component.scss'],
 })
 export class TopicCloudConfirmDialogComponent {
-  confirmButtonType: DialogConfirmActionButtonType =
-    DialogConfirmActionButtonType.Alert;
-  confirmLabel = this.data.confirmLabel;
-
-  constructor(
-    public confirmDialogRef: MatDialogRef<TopicCloudConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) {}
-
-  onNoClick(): void {
-    this.confirmDialogRef.close();
-  }
-
-  close(type: string): void {
-    this.confirmDialogRef.close(type);
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.close('abort');
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildDeleteAccountActionCallback(): () => void {
-    return () => this.close(this.data.confirmLabel);
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }
 
 export interface DialogData {

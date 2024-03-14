@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-worker-config-dialog',
@@ -11,7 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class WorkerConfigDialogComponent {
   public selection = 'normal';
 
-  constructor(private dialogRef: MatDialogRef<WorkerConfigDialogComponent>) {}
+  constructor() {}
 
   public static addTask(dialog: MatDialog, room: Room) {
     dialog
@@ -26,15 +26,5 @@ export class WorkerConfigDialogComponent {
         }
         WorkerDialogComponent.addWorkTask(dialog, room, data === 'only-failed');
       });
-  }
-
-  buildConfirmAction() {
-    return () => {
-      this.dialogRef.close(this.selection);
-    };
-  }
-
-  buildCancelAction() {
-    return () => this.dialogRef.close();
   }
 }

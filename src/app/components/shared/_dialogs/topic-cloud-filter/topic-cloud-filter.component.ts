@@ -220,7 +220,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         } else {
           setTimeout(() => {
             this.continueFilter = last;
-            this.confirmButtonActionCallback()();
+            this.confirm();
           });
         }
       }
@@ -266,48 +266,42 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     return counts;
   }
 
-  cancelButtonActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  confirmButtonActionCallback() {
-    return () => {
-      const filter = RoomDataFilter.loadFilter('tagCloud');
-      filter.resetToDefault();
-      filter.lastRoomId = this.sessionService.currentRoom?.id;
-      let onlyQuestions = false;
-      let roomId: string;
-      switch (this.continueFilter) {
-        case 'all-questions-and-answers':
-          // all questions allowed
-          break;
-        case 'only-questions':
-          onlyQuestions = true;
-          break;
-        case 'current-filter':
-          onlyQuestions = true;
-          roomId = filter.lastRoomId;
-          filter.applyOptions(this.data.filterObject.dataFilter);
-          filter.lastRoomId = roomId;
-          break;
-        case 'from-now':
-          onlyQuestions = true;
-          filter.period = Period.FromNow;
-          filter.timeFilterStart = Date.now();
-          break;
-        default:
-          return;
-      }
-      filter.save();
-      sessionStorage.setItem('tagCloudOnlyQuestions', String(onlyQuestions));
-      this.dialogRef.close();
-      this.router.navigateByUrl(this.target);
-    };
+  confirm() {
+    const filter = RoomDataFilter.loadFilter('tagCloud');
+    filter.resetToDefault();
+    filter.lastRoomId = this.sessionService.currentRoom?.id;
+    let onlyQuestions = false;
+    let roomId: string;
+    switch (this.continueFilter) {
+      case 'all-questions-and-answers':
+        // all questions allowed
+        break;
+      case 'only-questions':
+        onlyQuestions = true;
+        break;
+      case 'current-filter':
+        onlyQuestions = true;
+        roomId = filter.lastRoomId;
+        filter.applyOptions(this.data.filterObject.dataFilter);
+        filter.lastRoomId = roomId;
+        break;
+      case 'from-now':
+        onlyQuestions = true;
+        filter.period = Period.FromNow;
+        filter.timeFilterStart = Date.now();
+        break;
+      default:
+        return;
+    }
+    filter.save();
+    sessionStorage.setItem('tagCloudOnlyQuestions', String(onlyQuestions));
+    this.dialogRef.close();
+    this.router.navigateByUrl(this.target);
   }
 
   checkForEnter(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      this.confirmButtonActionCallback()();
+      this.confirm();
     }
   }
 

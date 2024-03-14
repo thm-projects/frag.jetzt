@@ -79,10 +79,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       .subscribe((m) => (this.isMobile = m));
   }
 
-  cancelButtonActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
       autoFocus: false,

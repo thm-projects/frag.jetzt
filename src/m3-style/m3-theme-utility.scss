@@ -122,7 +122,7 @@
   // Icon
   // Default: surface
   // All classes: surface, primary, secondary, tertiary, error
-  // @include -generate-classes($theme, 'icon', 'icon-color', surface, primary, secondary, tertiary, error);
+  @include -generate-classes($theme, "icon", "icon-color", error);
 
   // Option
   // Default: secondary

@@ -812,8 +812,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           text: 'header.tag-cloud-administration',
           callback: () =>
             this.dialog.open(TopicCloudAdministrationComponent, {
-              minWidth: '50%',
-              maxHeight: '95%',
               data: {
                 userRole: this.userRole,
               },
