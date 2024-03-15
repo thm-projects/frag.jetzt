@@ -1,18 +1,6 @@
 <ng-container>
   <div class="content-container">
-    <div class="settings-container">
-      <div>
-        <mat-button-toggle-group
-          [(ngModel)]="currentTheme"
-          (change)="setTheme()">
-          <mat-button-toggle
-            [value]="theme"
-            *ngFor="let theme of themeList">
-            {{ theme }}
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </div>
+    <div class="settings-container"></div>
     <div class="example-container">
       <h1 matCardTitle>Reference implementation</h1>
       <p matCardSubtitle>
