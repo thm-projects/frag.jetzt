@@ -91,6 +91,7 @@ import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -182,6 +183,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    ColorPickerModule,
   ],
   providers: [
     /*AppConfig,
