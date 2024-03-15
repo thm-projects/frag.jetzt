@@ -59,6 +59,7 @@ import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
+import { M3DynamicThemeService } from './services/m3-style/m3-dynamic-theme.service';
 const PUSH_KEY = 'push-subscription';
 @Component({
   selector: 'app-root',
@@ -143,14 +144,6 @@ export class AppComponent implements OnInit {
         this.__revalidateState(state);
       }
     },
-    toggleDarkLight: function () {
-      const state = this.__loadDebug();
-      console.log(state);
-      if (state) {
-        state['dark'] = !state['dark'];
-        this.__revalidateState(state);
-      }
-    },
     load: function () {
       const state = this.__loadDebug();
       if (state) {
@@ -160,7 +153,6 @@ export class AppComponent implements OnInit {
     __options: {
       highlight: () => this.__debugger.toggleHighlight(),
       border: () => this.__debugger.toggleBorder(),
-      ['dark/light']: () => this.__debugger.toggleDarkLight(),
       generateRandomRoom: () => {
         this._roomService
           .addRoom(
@@ -203,6 +195,7 @@ export class AppComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
+    public readonly m3DynamicThemeService: M3DynamicThemeService,
     // TODO remove after refactoring
     private readonly _sessionService: SessionService,
     private readonly _roomService: RoomService,

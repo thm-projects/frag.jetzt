@@ -10,6 +10,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 
 /**
  * @deprecated
+ * @use M3DynamicThemeService
  */
 @Injectable({
   providedIn: 'root',

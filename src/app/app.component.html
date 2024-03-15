@@ -26,6 +26,7 @@
     border-style: solid;
     border-width: var(--mdc-chip-outline-width);
     border-color: var(--mdc-chip-disabled-outline-color);
+
     > * + * {
       margin-top: 8px;
     }
@@ -37,4 +38,16 @@
     (click)="option[1]()">
     {{ option[0] }}
   </mat-chip>
+  <div class="row content-start gap-small">
+    <button
+      mat-icon-button
+      (click)="m3DynamicThemeService.themeType = 'light'">
+      <mat-icon>light_mode</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      (click)="m3DynamicThemeService.themeType = 'dark'">
+      <mat-icon>dark_mode</mat-icon>
+    </button>
+  </div>
 </div>
