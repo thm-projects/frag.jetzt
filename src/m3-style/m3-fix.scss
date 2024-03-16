@@ -1,0 +1,9 @@
+.mat-mdc-slide-toggle {
+  > .mdc-form-field--align-end {
+    display: flex;
+    flex-grow: 1;
+    > .mdc-label {
+      flex-grow: 1;
+    }
+  }
+}

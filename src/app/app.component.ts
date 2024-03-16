@@ -60,6 +60,10 @@ import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
 import { M3DynamicThemeService } from './services/m3-style/m3-dynamic-theme.service';
+import { CommentService } from './services/http/comment.service';
+import { Comment, Language } from './models/comment';
+import { generateConsequentlyUUID } from './utils/test-utils';
+import { CorrectWrong } from './models/correct-wrong.enum';
 const PUSH_KEY = 'push-subscription';
 @Component({
   selector: 'app-root',
@@ -167,6 +171,88 @@ export class AppComponent implements OnInit {
             console.log(result);
           });
       },
+      generateRandomComment: () => {
+        const comment = new Comment({
+          id: generateConsequentlyUUID(),
+          roomId: this._sessionService.currentRoom.id,
+          creatorId: generateConsequentlyUUID(),
+          number: '1',
+          body: {
+            ops: [],
+          },
+          ack: true,
+          correct: CorrectWrong.NULL,
+          favorite: false,
+          read: false,
+          tag: 'Test',
+          createdAt: new Date(),
+          bookmark: true,
+          keywordsFromQuestioner: [],
+          keywordsFromSpacy: [
+            {
+              text: 'Hallo!',
+              dep: ['ROOT'],
+            },
+          ],
+          score: 5,
+          upvotes: 10,
+          downvotes: 5,
+          language: Language.AUTO,
+          questionerName: 'Test-Author',
+          updatedAt: null,
+          commentReference: null,
+          deletedAt: null,
+          commentDepth: 0,
+          brainstormingSessionId: null,
+          brainstormingWordId: null,
+          approved: true,
+          gptWriterState: 2,
+        });
+        this._commentService.addComment(comment).subscribe(() => {
+          this._commentService
+            .addComment(
+              new Comment({
+                id: generateConsequentlyUUID(),
+                roomId: this._sessionService.currentRoom.id,
+                creatorId: generateConsequentlyUUID(),
+                number: '1',
+                body: {
+                  ops: [],
+                },
+                ack: true,
+                correct: CorrectWrong.NULL,
+                favorite: false,
+                read: false,
+                tag: 'Test',
+                createdAt: new Date(),
+                bookmark: true,
+                keywordsFromQuestioner: [],
+                keywordsFromSpacy: [
+                  {
+                    text: 'Hallo!',
+                    dep: ['ROOT'],
+                  },
+                ],
+                score: 5,
+                upvotes: 10,
+                downvotes: 5,
+                language: Language.AUTO,
+                questionerName: 'Test-Author',
+                updatedAt: null,
+                commentReference: comment.id,
+                deletedAt: null,
+                commentDepth: 0,
+                brainstormingSessionId: null,
+                brainstormingWordId: null,
+                approved: true,
+                gptWriterState: 2,
+              }),
+            )
+            .subscribe((x) => {
+              console.log(x);
+            });
+        });
+      },
       gotoHome: () => {
         this.router.navigate(['home']);
       },
@@ -200,6 +286,7 @@ export class AppComponent implements OnInit {
     private readonly _sessionService: SessionService,
     private readonly _roomService: RoomService,
     private readonly _userService: UserService,
+    private readonly _commentService: CommentService,
   ) {
     this.__debugger.load();
     this.__debugger.self = Object.entries(this.__debugger.__options);
