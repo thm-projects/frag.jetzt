@@ -29,10 +29,7 @@ export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: [
-    './home-page.component.scss',
-    '../../shared/utility/style/common-style.scss',
-  ],
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   @ViewChild('carouselScrollElement')

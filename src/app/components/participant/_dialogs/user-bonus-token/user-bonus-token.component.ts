@@ -157,10 +157,6 @@ export class UserBonusTokenComponent implements OnInit {
       });
   }
 
-  buildDeclineActionCallback(): () => void {
-    return () => this.dialogRef.close();
-  }
-
   private redeemClipboard(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;

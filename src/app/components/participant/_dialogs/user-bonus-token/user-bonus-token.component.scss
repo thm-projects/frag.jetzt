@@ -43,17 +43,6 @@ form {
   max-width: 400px;
 }
 
-.action-button-container {
-  @media screen and (max-width: 500px) {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column-reverse !important;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
-}
-
 .help-button {
   background-color: transparent;
   color: var(--green);

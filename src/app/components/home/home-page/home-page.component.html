@@ -63,12 +63,15 @@
       <div
         fxLayout="column"
         fxLayoutGap="16px">
-        <span
-          class="main-heading-secondary"
+        <!--        <span class="main-heading-secondary" aria-hidden="true">-->
+        <mat-card style="display: none"></mat-card>
+        <h1
+          matCardTitle
           aria-hidden="true">
           {{ "login.welcome" | translate }}
-        </span>
-        <span class="main-heading-primary">
+        </h1>
+        <!--        <span class="main-heading-primary">-->
+        <span matCardSubtitle>
           {{ "login.welcome-primary" | translate }}
         </span>
       </div>
@@ -145,11 +148,12 @@
                   <div
                     fxLayout="row"
                     fxLayoutAlign="space-between center">
-                    <span class="carousel-entry-title">
+                    <!--                    <span class="carousel-entry-title">-->
+                    <span matCardTitle>
                       {{ entry.title[currentLanguage] }}
                     </span>
                   </div>
-                  <span class="carousel-text">
+                  <span matCardSubtitle>
                     {{ entry.description[currentLanguage] }}
                   </span>
                 </div>
