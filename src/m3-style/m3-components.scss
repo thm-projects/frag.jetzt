@@ -1,0 +1,25 @@
+/// css token for m3 components.
+/// Based on m3 component specifications
+
+@use "./m3-shape" as m3-shape;
+
+/// @see https://m3.material.io/components/navigation-drawer/specs#6207b00f-a259-41d2-8146-b6efc6380976
+@function get-navigation-drawers-component() {
+  @return (
+    container-shape: var(--md-sys-shape-corner-large-end),
+    container-width: 360px
+  );
+}
+
+$_components: (
+  navigation-drawers: get-navigation-drawers-component(),
+);
+
+@mixin all-components() {
+  @include m3-shape.all-shape-token();
+  @each $component-name, $component in $_components {
+    @each $property-name, $property in $component {
+      --md-component-#{$component-name}-#{$property-name}: #{$property};
+    }
+  }
+}

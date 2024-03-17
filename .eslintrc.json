@@ -4,6 +4,7 @@
     "projects/**/*",
     "src/assets/i18n/**/*",
     "src/assets/theme-m3/**/*",
+    "src/m3-style/**/*",
     "cypress/**/*"
   ],
   "overrides": [

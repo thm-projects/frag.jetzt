@@ -347,6 +347,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MinuteJumpClockComponent,
     GlobalStatusIndicatorComponent,
     MultiLevelDialogComponent,
+    RoomSettingsOverviewComponent,
   ],
 })
 export class SharedModule {

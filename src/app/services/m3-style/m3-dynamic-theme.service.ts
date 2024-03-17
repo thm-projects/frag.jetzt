@@ -2,11 +2,12 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import {
-  applyTheme,
   argbFromHex,
+  hexFromArgb,
   Theme,
   themeFromSourceColor,
 } from '@material/material-color-utilities';
+import { HttpClient } from '@angular/common/http';
 
 export type M3ThemeType = 'light' | 'dark';
 
@@ -28,40 +29,66 @@ export class M3DynamicThemeService {
     new BehaviorSubject<M3ThemeType>(this.localThemeType);
   private readonly _themeColorSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('#42069F');
+  private paletteRequirements: { [key: string]: number[] };
 
-  constructor() {
-    if (isPlatformBrowser(this.platformId)) {
-      this._themeTypeSubject.subscribe((theme) => {
-        switch (theme) {
-          case 'light':
-            document.body.classList.remove('dark');
-            document.body.classList.add('light');
-            break;
-          case 'dark':
-            document.body.classList.remove('light');
-            document.body.classList.add('dark');
-            break;
-        }
+  constructor(http: HttpClient) {
+    http.get('assets/m3-style/palette-codes.json').subscribe((data) => {
+      console.log(data);
+      this.paletteRequirements = data as never;
+      if (isPlatformBrowser(this.platformId)) {
+        this._themeTypeSubject.subscribe((theme) => {
+          switch (theme) {
+            case 'light':
+              document.body.classList.remove('dark');
+              document.body.classList.add('light');
+              break;
+            case 'dark':
+              document.body.classList.remove('light');
+              document.body.classList.add('dark');
+              break;
+          }
+          this.loadColor(this._themeColorSubject.value);
+        });
         this.loadColor(this._themeColorSubject.value);
-      });
-      this.loadColor(this._themeColorSubject.value);
-      this._themeColorSubject.subscribe((x) => {
-        this.loadColor(x);
-      });
-    }
+        this._themeColorSubject.subscribe((x) => {
+          this.loadColor(x);
+        });
+      }
+    });
   }
 
   loadColor(color: string) {
-    const theme = themeFromSourceColor(argbFromHex(color), []);
+    const theme = themeFromSourceColor(argbFromHex(color), [
+      {
+        value: argbFromHex('#123456'),
+        name: 'custom',
+        blend: true,
+      },
+    ]);
+    console.log(theme);
     this.applyTheme(theme);
   }
 
   private applyTheme(theme: Theme) {
-    applyTheme(theme, {
-      dark: this.themeType === 'dark',
-      target: document.documentElement,
-    });
-    console.log(document.documentElement);
+    for (const [key, entries] of Object.entries(this.paletteRequirements).map(
+      ([key, value]) => [
+        key,
+        value.map((tone) => [
+          tone,
+          theme.palettes[
+            key === 'neutral-variant' ? 'neutralVariant' : key
+          ].tone(tone),
+        ]),
+      ],
+    )) {
+      for (const [tone, argb] of entries) {
+        document.documentElement.style.setProperty(
+          `--md-ref-palette-${key}${tone}`,
+          hexFromArgb(argb),
+        );
+      }
+    }
+    theme.palettes;
   }
 
   private get localThemeType() {

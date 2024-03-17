@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "@angular/material" as mat;
 @use "m3-style/m3-fix";
+@use "m3-style/m3-components" as m3-components;
 @use "m3-style/m3-theme-utility" as m3;
 @use "m3-style/m3-token-map" as m3-map;
 @use "@angular/material-experimental" as matx;
@@ -115,6 +116,7 @@ $base-theme: m3.define-theme(
 body {
   @include mat.all-component-themes(map.get($base-theme, light));
   @include m3-map.make-components-dynamic(light);
+  @include m3-components.all-components();
 
   //@include matx.color-variants-back-compat($light-theme);
   //@include m3.generate-color-classes(map.get($base-theme, light));
