@@ -1,0 +1,28 @@
+:host {
+  font-family: system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    "Helvetica Neue", sans-serif;
+  flex-direction: column;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 100%;
+}
+
+.title {
+  display: block;
+  font-size: 3.5em;
+  font-weight: 700;
+  color: var(--md-sys-color-primary);
+  line-height: 0.6em;
+  letter-spacing: 2pt;
+}
+
+.subtitle {
+  display: flex;
+  justify-content: center;
+  font-size: 1.9em;
+  font-weight: 400;
+  color: var(--md-sys-color-secondary);
+  padding: 0;
+  margin: 0;
+  line-height: 0.05em;
+}
