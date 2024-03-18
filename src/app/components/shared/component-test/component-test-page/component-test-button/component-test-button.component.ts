@@ -48,6 +48,7 @@ export class ComponentTestButtonComponent {
     multiple: false,
     vertical: false,
   };
+  allVariants = ['primary', 'secondary', 'tertiary'];
 
   stringify(value: { [key: string]: unknown }) {
     return JSON.stringify(value);

@@ -48,18 +48,10 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
 })
 export class ComponentTestPageComponent {
   protected currentTheme: string = 'light';
-  themeList = ['light', 'dark'];
 
   constructor() {
     this.currentTheme = document.body.classList.contains('light')
       ? 'light'
       : 'dark';
-  }
-
-  setTheme() {
-    for (const string of this.themeList) {
-      document.body.classList.remove(string);
-    }
-    document.body.classList.add(this.currentTheme);
   }
 }

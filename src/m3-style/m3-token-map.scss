@@ -34,13 +34,23 @@
   );
 }
 
+@mixin _map-button($variant: primary) {
+  @include _map-protected-button($variant);
+  @include _map-filled-button($variant);
+  @include _map-outlined-button($variant);
+  @include _map-text-button($variant);
+}
+
 @mixin _map-components() {
   --mat-app-background-color: var(--md-sys-color-background);
   --mat-app-text-color: var(--md-sys-color-on-background);
-  @include _map-protected-button();
-  @include _map-filled-button();
-  @include _map-outlined-button();
-  @include _map-text-button();
+  @include _map-button();
+  .secondary {
+    @include _map-button(secondary);
+  }
+  .tertiary {
+    @include _map-button(tertiary);
+  }
   --mat-option-selected-state-label-text-color: var(
     --md-sys-color-on-secondary-container
   );
