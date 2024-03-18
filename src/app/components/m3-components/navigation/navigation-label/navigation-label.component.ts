@@ -44,4 +44,10 @@ export class NavigationLabelComponent {
   @HostListener('click', ['$event']) _click($event: MouseEvent) {
     this.data.click($event);
   }
+
+  patch(label: NavigationLabel) {
+    this.data.click = label.click;
+    this.data.state = label.state;
+    this.data.icon = label.icon;
+  }
 }

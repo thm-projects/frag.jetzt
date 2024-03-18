@@ -21,8 +21,9 @@ export class M3NavigationService {
       console.warn('portal already in use');
       return this.portals.get(identifier)!;
     } else {
-      const portal = {
+      const portal: NavigationPortal = {
         listener: new BehaviorSubject({
+          active: true,
           label: [],
         }),
         identifier: identifier,

@@ -1,5 +1,7 @@
 import {
   Component,
+  ComponentRef,
+  HostBinding,
   Injector,
   Input,
   OnDestroy,
@@ -31,6 +33,7 @@ export interface NavigationFabConfig {
 }
 
 export interface NavigationConfig {
+  active: boolean;
   fab?: NavigationFabConfig;
   label: NavigationLabel[];
 }
@@ -55,6 +58,11 @@ export class NavigationRailComponent implements OnDestroy {
   protected _outlet: NavigationPortal;
   protected _vcr: ViewContainerRef;
   protected _fab: NavigationFabConfig | undefined;
+  protected _active: boolean = true;
+
+  @HostBinding('class') get _state() {
+    return this._active ? 'active' : 'inactive';
+  }
 
   @ViewChild('viewContainerRef', { read: ViewContainerRef })
   set viewContainerRef(vcr: ViewContainerRef) {
@@ -64,23 +72,47 @@ export class NavigationRailComponent implements OnDestroy {
   @Input() set outlet(portal: string) {
     this._outlet = this.m3NavigationService.registerPortal(portal);
     const listener = this._outlet.listener;
+    const lookupMap: Map<
+      string,
+      [ComponentRef<NavigationLabelComponent>, number]
+    > = new Map();
     listener.subscribe((config) => {
+      this._active = config.active;
       this._fab = config.fab;
-      for (const label of config.label) {
-        const labelComponentRef = this._vcr.createComponent(
-          NavigationLabelComponent,
-          {
-            injector: Injector.create({
-              providers: [{ provide: MAT_DIALOG_DATA, useValue: label }],
-            }),
-          },
-        );
-        this._vcr.insert(labelComponentRef.hostView);
+      for (let i = 0; i < config.label.length; i++) {
+        const label = config.label[i];
+        if (lookupMap.has(label.name)) {
+          const [component, index] = lookupMap.get(label.name)!;
+          if (i !== index) {
+            this._vcr.move(component.hostView, i);
+          }
+          component.instance.patch(label);
+        } else {
+          const labelComponentRef = this._vcr.createComponent(
+            NavigationLabelComponent,
+            {
+              injector: Injector.create({
+                providers: [{ provide: MAT_DIALOG_DATA, useValue: label }],
+              }),
+            },
+          );
+          this._vcr.insert(labelComponentRef.hostView, i);
+        }
+      }
+      const newLookup: Set<string> = new Set(config.label.map((x) => x.name));
+      for (const [key, [component]] of lookupMap) {
+        if (!newLookup.has(key)) {
+          component.destroy();
+        }
       }
     });
   }
 
   constructor(private readonly m3NavigationService: M3NavigationService) {}
+
+  get isActive() {
+    return this._active;
+  }
 
   ngOnDestroy() {
     this._outlet?.destroy();

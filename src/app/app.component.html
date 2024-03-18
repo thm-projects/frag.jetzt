@@ -9,27 +9,40 @@
 <!--  </div>-->
 <!--</div>-->
 
-<!--<header #headerElement>-->
-<!--</header>-->
-<div class="row grow">
-  <app-navigation-rail [outlet]="'test'"></app-navigation-rail>
-  <div class="column grow">
-    <app-header #header></app-header>
-    <div class="column grow">
-      <router-outlet></router-outlet>
-    </div>
-    <app-footer></app-footer>
-  </div>
+<app-navigation-rail
+  #navigationRailComponent
+  [outlet]="'test'"></app-navigation-rail>
+<header
+  #headerElement
+  [ngStyle]="
+    navigationRailComponent.isActive
+      ? {
+          width: 'calc(100% - 80px)',
+          left: '80px'
+        }
+      : {}
+  ">
+  <app-header #header></app-header>
+</header>
+<div
+  id="scroll_container"
+  #scrollElement
+  (scroll)="onScroll()">
+  <router-outlet></router-outlet>
 </div>
-<!--<div-->
-<!--  id="scroll_container"-->
-<!--  #scrollElement-->
-<!--  (scroll)="onScroll()">-->
-<!--</div>-->
-<!--<footer-->
-<!--  role="contentinfo"-->
-<!--  #footerElement>-->
-<!--</footer>-->
+<footer
+  [ngStyle]="
+    navigationRailComponent.isActive
+      ? {
+          width: 'calc(100% - 80px)',
+          left: '80px'
+        }
+      : {}
+  "
+  role="contentinfo"
+  #footerElement>
+  <app-footer></app-footer>
+</footer>
 
 <style>
   #debugger {

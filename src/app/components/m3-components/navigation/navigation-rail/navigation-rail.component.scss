@@ -3,6 +3,14 @@
   background: var(--md-sys-color-surface3);
   display: flex;
   flex-direction: column;
+  position: fixed;
+  height: 100%;
+  &.active {
+    left: 0;
+  }
+  &.inactive {
+    left: -80px;
+  }
 }
 
 nav {

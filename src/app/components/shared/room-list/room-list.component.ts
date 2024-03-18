@@ -87,6 +87,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.m3NavigationService.emit('test', {
+      active: true,
       fab: {
         name: 'create-room',
         icon: 'add',
