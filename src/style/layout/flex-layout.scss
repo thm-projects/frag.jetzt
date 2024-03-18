@@ -25,7 +25,9 @@
     $keys: map-keys(map-get($token, gap));
     @each $key in $keys {
       &-#{$key} {
-        margin-#{$gap-direction}: map-get($token, gap, $key);
+        > * + * {
+          margin-#{$gap-direction}: map-get($token, gap, $key);
+        }
       }
     }
   }

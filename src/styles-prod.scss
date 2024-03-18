@@ -5,7 +5,7 @@
 @use "m3-style/m3-theme-utility" as m3;
 @use "m3-style/m3-token-map" as m3-map;
 @use "@angular/material-experimental" as matx;
-@use "style/flex-layout.scss";
+@use "style/layout/flex-layout";
 @import "style/fix-material-icons.scss";
 //@import "styles.scss";
 @import "material-icons/iconfont/material-icons.css";
