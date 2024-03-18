@@ -12,7 +12,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserHomeComponent } from '../user-home/user-home.component';
+import { UserHomePageComponent } from '../user-home-page/user-home-page.component';
 import {
   DocumentService,
   DomRefService,
@@ -41,7 +41,7 @@ describe('HomePageComponent', () => {
       declarations: [
         HomePageComponent,
         NewLandingComponent,
-        UserHomeComponent,
+        UserHomePageComponent,
         LoginComponent,
       ],
       imports: [

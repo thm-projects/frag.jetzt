@@ -25,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MARKED_OPTIONS, MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
-import { UserHomeComponent } from './components/home/user-home/user-home.component';
+import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
 import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -103,7 +103,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     NewLandingComponent,
     HomePageComponent,
     DemoVideoComponent,
-    UserHomeComponent,
+    UserHomePageComponent,
     HomeParticipantPageComponent,
     ImprintComponent,
     DataProtectionComponent,

@@ -30,11 +30,12 @@ import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 
 @Component({
-  selector: 'app-user-home',
-  templateUrl: './user-home.component.html',
-  styleUrls: ['./user-home.component.scss'],
+  selector: 'app-user-home-page',
+  templateUrl: './user-home-page.component.html',
+  styleUrls: ['./user-home-page.component.scss'],
 })
-export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
+export class UserHomePageComponent
+  implements OnInit, OnDestroy, AfterContentInit {
   user: User;
   creatorRole: UserRole = UserRole.CREATOR;
   participantRole: UserRole = UserRole.PARTICIPANT;

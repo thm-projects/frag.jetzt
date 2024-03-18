@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
-import { UserHomeComponent } from './components/home/user-home/user-home.component';
+import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    component: UserHomeComponent,
+    component: UserHomePageComponent,
     title: 'user',
   },
   {
