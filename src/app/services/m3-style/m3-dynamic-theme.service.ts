@@ -3,17 +3,18 @@ import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import {
   argbFromHex,
-  hexFromArgb,
+  CustomColor,
   Theme,
   themeFromSourceColor,
 } from '@material/material-color-utilities';
 import { HttpClient } from '@angular/common/http';
-
-export type M3ThemeType = 'light' | 'dark';
-
-function isM3ThemeType(type: string): type is M3ThemeType {
-  return type === 'light' || type === 'dark';
-}
+import {
+  isM3ThemeType,
+  M3CustomColorData,
+  M3DynamicThemeUtility,
+  M3PaletteRequirement,
+  M3ThemeType,
+} from './m3-dynamic-theme-utility';
 
 /**
  * TODO(lph) make preferred theme default
@@ -29,69 +30,81 @@ export class M3DynamicThemeService {
     new BehaviorSubject<M3ThemeType>(this.localThemeType);
   private readonly _themeColorSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('#42069F');
-  private paletteRequirements: { [key: string]: number[] };
+  private readonly _paletteRequirement: BehaviorSubject<M3PaletteRequirement> =
+    new BehaviorSubject<M3PaletteRequirement>({});
+  private readonly _customColors: BehaviorSubject<CustomColor[]> =
+    new BehaviorSubject<CustomColor[]>([]);
+  private readonly _m3CustomColors: BehaviorSubject<M3CustomColorData> =
+    new BehaviorSubject<M3CustomColorData>({});
+  private readonly _currentTheme: BehaviorSubject<Theme | undefined> =
+    new BehaviorSubject<Theme | undefined>(undefined);
 
   constructor(http: HttpClient) {
-    http.get('assets/m3-style/palette-codes.json').subscribe((data) => {
-      console.log(data);
-      this.paletteRequirements = data as never;
-      if (isPlatformBrowser(this.platformId)) {
-        this._themeTypeSubject.subscribe((theme) => {
-          switch (theme) {
-            case 'light':
-              document.body.classList.remove('dark');
-              document.body.classList.add('light');
-              break;
-            case 'dark':
-              document.body.classList.remove('light');
-              document.body.classList.add('dark');
-              break;
-          }
-          this.loadColor(this._themeColorSubject.value);
-        });
-        this.loadColor(this._themeColorSubject.value);
-        this._themeColorSubject.subscribe((x) => {
-          this.loadColor(x);
-        });
-      }
+    this._m3CustomColors.subscribe((data) => {
+      this._customColors.next(
+        Object.entries(data).map(([key, value]) => {
+          return {
+            name: key,
+            value: argbFromHex(value.base),
+            blend: true,
+          };
+        }),
+      );
     });
+    http
+      .get<M3CustomColorData>('assets/m3-style/custom-colors.json')
+      .subscribe((data) => this._m3CustomColors.next(data));
+    http
+      .get<M3PaletteRequirement>('assets/m3-style/palette-codes.json')
+      .subscribe((data) => {
+        this._paletteRequirement.next(data);
+        if (isPlatformBrowser(this.platformId)) {
+          this._themeTypeSubject.subscribe((theme) => {
+            switch (theme) {
+              case 'light':
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+                break;
+              case 'dark':
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+                break;
+            }
+            this.loadColor(this._themeColorSubject.value);
+          });
+          this.loadColor(this._themeColorSubject.value);
+          this._themeColorSubject.subscribe((x) => {
+            this.loadColor(x);
+          });
+        }
+      });
   }
 
   loadColor(color: string) {
-    const theme = themeFromSourceColor(argbFromHex(color), [
-      {
-        value: argbFromHex('#123456'),
-        name: 'custom',
-        blend: true,
-      },
-    ]);
-    console.log(theme);
+    const theme = themeFromSourceColor(
+      argbFromHex(color),
+      this._customColors.value,
+    );
     this.applyTheme(theme);
   }
 
   private applyTheme(theme: Theme) {
-    for (const [key, entries] of Object.entries(this.paletteRequirements).map(
-      ([key, value]) => [
-        key,
-        value.map((tone) => [
-          tone,
-          theme.palettes[
-            key === 'neutral-variant' ? 'neutralVariant' : key
-          ].tone(tone),
-        ]),
-      ],
-    )) {
-      for (const [tone, argb] of entries) {
-        document.documentElement.style.setProperty(
-          `--md-ref-palette-${key}${tone}`,
-          hexFromArgb(argb),
-        );
-      }
+    if (
+      !this._currentTheme.value ||
+      this._currentTheme.value.source !== theme.source ||
+      JSON.stringify(this._currentTheme.value) !== JSON.stringify(theme)
+    ) {
+      M3DynamicThemeUtility.applyTheme({
+        themeType: this._themeTypeSubject.value,
+        paletteRequirements: this._paletteRequirement.value,
+        theme: theme,
+        customColors: this._m3CustomColors.value,
+        target: document.documentElement,
+      });
     }
-    theme.palettes;
   }
 
-  private get localThemeType() {
+  private get localThemeType(): M3ThemeType {
     if (isPlatformBrowser(this.platformId)) {
       const localType = localStorage.getItem('--theme');
       if (localType && isM3ThemeType(localType)) {

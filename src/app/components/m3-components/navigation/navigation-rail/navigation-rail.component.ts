@@ -47,7 +47,6 @@ export interface NavigationLabel {
 }
 
 @Component({
-  // es-lint @angular-eslint/component-selector
   selector: 'app-navigation-rail',
   standalone: true,
   imports: [NgIf, NgForOf, NgComponentOutlet, MatIcon, MatFabButton],

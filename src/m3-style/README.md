@@ -39,6 +39,8 @@ Provides **material 3** utility for
   - relation between used palettes and their name and tone, \
     extracted from usage via. `m3-extract-palette-usage.js`
   - (TODO)
+- `custom-colors.json`
+  - (TODO)
 
 ###
 
