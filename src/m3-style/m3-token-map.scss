@@ -1,4 +1,5 @@
 @mixin _map-components() {
+  --mat-app-background-color: var(--md-sys-color-background);
   --mat-app-text-color: var(--md-sys-color-on-background);
   --mat-option-selected-state-label-text-color: var(
     --md-sys-color-on-secondary-container
@@ -539,6 +540,11 @@
   --md-sys-color-on-primary: var(--md-ref-palette-primary20);
   --md-sys-color-primary-container: var(--md-ref-palette-primary30);
   --md-sys-color-primary: var(--md-ref-palette-primary80);
+  --md-sys-color-surface1: var(--md-ref-palette-neutral4);
+  --md-sys-color-surface2: var(--md-ref-palette-neutral10);
+  --md-sys-color-surface3: var(--md-ref-palette-neutral12);
+  --md-sys-color-surface4: var(--md-ref-palette-neutral17);
+  --md-sys-color-surface5: var(--md-ref-palette-neutral22);
 }
 
 @mixin _map-palettes-light() {
@@ -569,6 +575,21 @@
   --md-sys-color-on-primary: var(--md-ref-palette-primary100);
   --md-sys-color-primary-container: var(--md-ref-palette-primary90);
   --md-sys-color-primary: var(--md-ref-palette-primary40);
+  --md-sys-color-surface1: var(--md-ref-palette-neutral100);
+  --md-sys-color-surface2: var(--md-ref-palette-neutral96);
+  --md-sys-color-surface3: var(--md-ref-palette-neutral94);
+  --md-sys-color-surface4: var(--md-ref-palette-neutral92);
+  --md-sys-color-surface5: var(--md-ref-palette-neutral90);
+}
+
+/// TODO(lph) find a better solution for fonts
+@mixin _typescale() {
+  --md-sys-typescale-label-medium-font-family-name: "Roboto Flex";
+  --md-sys-typescale-label-medium-font-family-style: Medium;
+  --md-sys-typescale-label-medium-font-weight: 500px;
+  --md-sys-typescale-label-medium-font-size: 12px;
+  --md-sys-typescale-label-medium-line-height: 16px;
+  --md-sys-typescale-label-medium-letter-spacing: 0.5px;
 }
 
 @mixin _make-components-dynamic-light() {
@@ -582,6 +603,7 @@
 }
 
 @mixin make-components-dynamic($theme-type) {
+  @include _typescale();
   @if $theme-type == dark {
     @include _make-components-dynamic-dark();
   } @else if $theme-type == light {
@@ -589,4 +611,9 @@
   }
   --md-sys-color-surface-tint: var(--md-sys-color-primary);
   --md-sys-color-surface-tint-color: var(--md-sys-color-primary);
+  --md-sys-color-surface-container-lowest: var(--md-sys-color-surface1);
+  --md-sys-color-surface-container-low: var(--md-sys-color-surface2);
+  --md-sys-color-surface-container: var(--md-sys-color-surface3);
+  --md-sys-color-surface-container-high: var(--md-sys-color-surface4);
+  --md-sys-color-surface-container-highest: var(--md-sys-color-surface5);
 }

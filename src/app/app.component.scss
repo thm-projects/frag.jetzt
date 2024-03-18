@@ -24,6 +24,12 @@
 //  top:0;
 //}
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 header,
 footer {
   position: fixed;

@@ -1,0 +1,83 @@
+@use "m3-style/m3-typescale" as m3-typescale;
+
+:host {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  margin: -2px auto 14px;
+  box-sizing: border-box;
+  padding: 2px;
+  align-items: center;
+
+  &:not(disabled) {
+    cursor: pointer;
+  }
+
+  &:hover {
+    .m3-navigation-rail-icon {
+      font-variation-settings:
+        "wght" 600,
+        "opsz" 24;
+    }
+
+    .m3-navigation-rail-label-text {
+      font-variation-settings: "GRAD" 125;
+    }
+  }
+
+  &:active {
+    .m3-navigation-rail-icon {
+      font-variation-settings:
+        "wght" 300,
+        "opsz" 24;
+      background: var(--md-sys-color-surface4);
+    }
+
+    .m3-navigation-rail-label-text {
+      font-variation-settings: "GRAD" -50;
+    }
+  }
+
+  &.active {
+    .m3-navigation-rail-icon {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 300,
+        "opsz" 24;
+      background: var(--md-sys-color-surface4);
+    }
+
+    .m3-navigation-rail-label-text {
+      font-variation-settings: "GRAD" -50;
+    }
+  }
+}
+
+.m3-navigation-rail-label-text {
+  @include m3-typescale.label-medium();
+  margin-bottom: 4px;
+  text-align: center;
+  font-variation-settings: "GRAD" 125;
+  transition: font-variation-settings 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-navigation-rail-icon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 32px;
+  margin-right: auto;
+  margin-bottom: 4px;
+  margin-left: auto;
+  font-variation-settings:
+    "wght" 400,
+    "opsz" 24;
+  transition: font-variation-settings 0.2s cubic-bezier(0.2, 0, 0, 1);
+  border-radius: 16px;
+  background: var(--md-sys-color-surface3);
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}

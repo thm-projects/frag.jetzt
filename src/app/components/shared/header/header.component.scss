@@ -1,7 +1,5 @@
-.app-title {
-  cursor: pointer;
-  margin: 0 auto;
-  color: var(--on-surface);
+:host {
+  --mat-toolbar-container-background-color: var(--md-sys-color-surface3);
 }
 
 .header-row-section {

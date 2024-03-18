@@ -1,0 +1,16 @@
+<nav>
+  <div class="navigation-rail-menu-container">
+    <button
+      mat-fab
+      *ngIf="_fab"
+      (click)="_fab.click($event)">
+      <mat-icon>{{ _fab.icon }}</mat-icon>
+    </button>
+  </div>
+  <ng-container
+    *ngIf="this._outlet"
+    #viewContainerRef></ng-container>
+  <ng-container *ngIf="!this._outlet">
+    <ng-content></ng-content>
+  </ng-container>
+</nav>

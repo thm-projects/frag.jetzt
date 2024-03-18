@@ -64,6 +64,7 @@ import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
+import { M3NavigationService } from './components/m3-components/navigation/m3-navigation.service';
 const PUSH_KEY = 'push-subscription';
 @Component({
   selector: 'app-root',
@@ -282,6 +283,7 @@ export class AppComponent implements OnInit {
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
     public readonly m3DynamicThemeService: M3DynamicThemeService,
+    public readonly m3NavigationService: M3NavigationService,
     // TODO remove after refactoring
     private readonly _sessionService: SessionService,
     private readonly _roomService: RoomService,

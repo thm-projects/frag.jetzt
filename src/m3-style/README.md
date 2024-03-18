@@ -46,3 +46,4 @@ Provides **material 3** utility for
 
 - Material 3 Style References https://m3.material.io/
 - Material Color Utilities https://github.com/material-foundation/material-color-utilities
+- material-web https://material-web.dev/

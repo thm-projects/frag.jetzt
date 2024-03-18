@@ -92,6 +92,7 @@ import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-inf
 import { AppStateService } from './services/state/app-state.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { NavigationRailComponent } from './components/m3-components/navigation/navigation-rail/navigation-rail.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -184,6 +185,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       registrationStrategy: 'registerWhenStable:30000',
     }),
     ColorPickerModule,
+    NavigationRailComponent,
   ],
   providers: [
     /*AppConfig,

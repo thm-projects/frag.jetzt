@@ -10,6 +10,16 @@
 //@import "styles.scss";
 @import "material-icons/iconfont/material-icons.css";
 @import "style/joyride-theme.scss";
+/// TODO(lph) remove later
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-10..0,25..151,100..1000,-200..150,27..175,323..603,25..135,649..854,-305..-98,560..788,416..570,528..760&display=swap");
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 48;
+}
 
 $custom-palette: (
   0: #000000,
@@ -101,6 +111,8 @@ $base-theme: m3.define-theme(
       tertiary: matx.$m3-cyan-palette,
     ),
     typography: (
+      brand-family: "Roboto Flex",
+      plain-family: "Roboto Flex",
       bold-weight: 900,
       medium-weight: 500,
       regular-weight: 400,
@@ -141,6 +153,7 @@ body {
   width: 100vw;
   height: 100dvh;
   overflow: hidden;
+  font-family: "Roboto Flex", serif;
 }
 
 .visually-hidden {
@@ -227,6 +240,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+
   > div {
     width: 800px;
     max-width: 100%;
