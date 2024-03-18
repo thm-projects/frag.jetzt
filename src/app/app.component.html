@@ -9,19 +9,7 @@
 <!--  </div>-->
 <!--</div>-->
 
-<app-navigation-rail
-  #navigationRailComponent
-  [outlet]="'test'"></app-navigation-rail>
-<header
-  #headerElement
-  [ngStyle]="
-    navigationRailComponent.isActive
-      ? {
-          width: 'calc(100% - 80px)',
-          left: '80px'
-        }
-      : {}
-  ">
+<header #headerElement>
   <app-header #header></app-header>
 </header>
 <div
@@ -31,14 +19,6 @@
   <router-outlet></router-outlet>
 </div>
 <footer
-  [ngStyle]="
-    navigationRailComponent.isActive
-      ? {
-          width: 'calc(100% - 80px)',
-          left: '80px'
-        }
-      : {}
-  "
   role="contentinfo"
   #footerElement>
   <app-footer></app-footer>

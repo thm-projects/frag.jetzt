@@ -29,7 +29,6 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { M3NavigationService } from '../../m3-components/navigation/m3-navigation.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -82,19 +81,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private bonusTokenService: BonusTokenService,
     private commentNotificationService: CommentNotificationService,
     private accountState: AccountStateService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {}
 
   ngOnInit() {
-    this.m3NavigationService.emit('test', {
-      active: true,
-      label: [
-        { name: 'rooms', icon: 'meeting_room', state: 'active' },
-        { name: 'bonus', icon: 'star', state: 'enabled' },
-        { name: 'feedback', icon: 'rate_review', state: 'enabled' },
-        { name: 'news', icon: 'news', state: 'enabled' },
-      ],
-    });
     this.accountState.user$
       .pipe(
         takeUntil(this.destroyer),
