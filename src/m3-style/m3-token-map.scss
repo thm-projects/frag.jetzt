@@ -1,6 +1,46 @@
+@mixin _map-protected-button($variant: primary) {
+  --mat-protected-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-protected-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-protected-button-container-color: var(--md-sys-color-background);
+  --mdc-protected-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mdc-protected-button-container-shadow-color: var(--md-sys-color-shadow);
+}
+
+@mixin _map-filled-button($variant: primary) {
+  --mdc-filled-button-container-color: var(--md-sys-color-#{$variant});
+  --mdc-filled-button-label-text-color: var(--md-sys-color-on-#{$variant});
+  --mat-filled-button-state-layer-color: var(--md-sys-color-on-#{$variant});
+  --mat-filled-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
+@mixin _map-outlined-button($variant: primary) {
+  --mdc-outlined-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mdc-outlined-button-outline-color: var(--md-sys-color-outline);
+  --mat-outlined-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-outlined-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
+@mixin _map-text-button($variant: primary) {
+  --mdc-text-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mat-text-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-text-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
 @mixin _map-components() {
   --mat-app-background-color: var(--md-sys-color-background);
   --mat-app-text-color: var(--md-sys-color-on-background);
+  @include _map-protected-button();
+  @include _map-filled-button();
+  @include _map-outlined-button();
+  @include _map-text-button();
   --mat-option-selected-state-label-text-color: var(
     --md-sys-color-on-secondary-container
   );
@@ -346,30 +386,6 @@
   --mdc-checkbox-unselected-pressed-state-layer-color: var(
     --md-sys-color-primary
   );
-  --mdc-text-button-label-text-color: var(--md-sys-color-primary);
-  --mdc-protected-button-container-color: var(--md-sys-color-background);
-  --mdc-protected-button-label-text-color: var(--md-sys-color-primary);
-  --mdc-protected-button-container-shadow-color: var(--md-sys-color-shadow);
-  --mdc-filled-button-container-color: var(--md-sys-color-primary);
-  --mdc-filled-button-label-text-color: var(--md-sys-color-on-primary);
-  --mdc-outlined-button-label-text-color: var(--md-sys-color-primary);
-  --mdc-outlined-button-outline-color: var(--md-sys-color-outline);
-  --mat-text-button-state-layer-color: var(--md-sys-color-primary);
-  --mat-text-button-disabled-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mat-protected-button-state-layer-color: var(--md-sys-color-primary);
-  --mat-protected-button-disabled-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mat-filled-button-state-layer-color: var(--md-sys-color-on-primary);
-  --mat-filled-button-disabled-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mat-outlined-button-state-layer-color: var(--md-sys-color-primary);
-  --mat-outlined-button-disabled-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
   --mdc-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
   --mat-icon-button-state-layer-color: var(--md-sys-color-on-surface-variant);
   --mat-icon-button-disabled-state-layer-color: var(
@@ -510,6 +526,7 @@
   --mat-toolbar-container-text-color: var(--md-sys-color-on-background);
   --mat-tree-container-background-color: var(--md-sys-color-background);
   --mat-tree-node-text-color: var(--md-sys-color-on-background);
+  --mat-menu-container-color: var(--md-sys-color-surface-variant);
 }
 
 @mixin _map-palettes-dark() {
