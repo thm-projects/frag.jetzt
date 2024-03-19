@@ -2,7 +2,10 @@
 
 :host {
   @extend .page-container;
-  padding: 16px 0;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 16px 4px;
+  justify-content: space-evenly;
 }
 
 @mixin _card-container {

@@ -4,7 +4,26 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  @extend .row, .gap-small;
+  flex-direction: row;
+
+  > * + * {
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    flex-direction: column;
+
+    > * + * {
+      margin-top: 8px;
+      margin-left: 0;
+    }
+  }
+  .spending {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }
 
 .spending {
@@ -38,12 +57,5 @@
 
   & .spent {
     background-color: var(--md-sys-color-tertiary);
-  }
-}
-
-@media (max-width: 768px) {
-  .spending {
-    flex-basis: 100%;
-    max-width: 100%;
   }
 }
