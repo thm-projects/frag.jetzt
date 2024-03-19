@@ -155,6 +155,17 @@
   }
 }
 
+@mixin _all-map-cards() {
+  --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+  --mdc-outlined-card-container-color: var(--md-sys-color-background);
+  --mdc-outlined-card-outline-color: var(--md-sys-color-surface-variant);
+  //TODO(lph) add color variations for cards
+  .mat-mdc-card.mat-elevation-z0 {
+    --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+    --mdc-elevated-card-container-elevation: 0 0 0 0 transparent;
+  }
+}
+
 @mixin _map-components() {
   --mat-app-background-color: var(--md-sys-color-background);
   --mat-app-text-color: var(--md-sys-color-on-background);
@@ -180,9 +191,8 @@
   --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(
     --md-sys-color-primary
   );
-  --mdc-elevated-card-container-color: var(--surface1);
-  --mdc-outlined-card-container-color: var(--md-sys-color-background);
-  --mdc-outlined-card-outline-color: var(--md-sys-color-surface-variant);
+  @include _all-map-cards();
+
   --mat-card-subtitle-text-color: var(--md-sys-color-on-background);
   --mdc-linear-progress-active-indicator-color: var(--md-sys-color-primary);
   --mdc-linear-progress-track-color: var(--md-sys-color-surface-variant);
