@@ -24,7 +24,7 @@ export class RoomCreatorPageComponent
   /**
    * on true: shows all elements regardless of *ngIf
    */
-  __debug = true;
+  __debug = false;
 
   constructor(
     private liveAnnouncer: LiveAnnouncer,
