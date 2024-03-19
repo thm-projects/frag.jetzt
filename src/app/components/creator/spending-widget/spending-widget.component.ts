@@ -17,7 +17,8 @@ import { MatCard } from '@angular/material/card';
 })
 export class SpendingWidgetComponent {
   protected room: Room;
-  @Input() set _room(room: Room) {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('room') set _room(room: Room) {
     this.room = room;
     this.revalidate();
   }
