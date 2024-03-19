@@ -12,7 +12,6 @@
     <mat-label>Icon</mat-label>
   </mat-form-field>
 </div>
-<h2>Buttons</h2>
 <div class="column">
   <h2>Filled buttons</h2>
   <div class="column">
@@ -189,6 +188,21 @@
         <td>variant</td>
         <td>components</td>
       </tr>
+      <tr>
+        <td>default</td>
+        <td>
+          <div class="row gap-medium">
+            <button mat-icon-button>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
       <tr *ngFor="let variant of allVariants">
         <td>{{ variant }}</td>
         <td>
@@ -200,7 +214,18 @@
             </button>
             <button
               mat-icon-button
+              class="{{ variant }} filled">
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
               class="{{ variant }}"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="{{ variant }} filled"
               disabled>
               <mat-icon>{{ iconText }}</mat-icon>
             </button>
@@ -229,7 +254,8 @@
             </button>
             <button
               mat-fab
-              [extended]="true">
+              [extended]="true"
+              class="{{ variant }}">
               <mat-icon>{{ iconText }}</mat-icon>
               {{ buttonText }}
             </button>
@@ -242,6 +268,7 @@
             <button
               mat-fab
               [extended]="true"
+              class="{{ variant }}"
               disabled>
               <mat-icon>{{ iconText }}</mat-icon>
               {{ buttonText }}
