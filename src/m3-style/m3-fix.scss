@@ -1,9 +1,16 @@
-.mat-mdc-slide-toggle {
-  > .mdc-form-field--align-end {
-    display: flex;
-    flex-grow: 1;
-    > .mdc-label {
+@mixin fix-all() {
+  .mat-mdc-slide-toggle {
+    > .mdc-form-field--align-end {
+      display: flex;
       flex-grow: 1;
+      > .mdc-label {
+        flex-grow: 1;
+      }
     }
+  }
+
+  .mat-mdc-form-field-icon-suffix,
+  [dir="rtl"] .mat-mdc-form-field-icon-prefix {
+    padding: 0 4px;
   }
 }

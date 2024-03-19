@@ -135,6 +135,8 @@ export class RoomCreatorPageComponent
   }
 
   openRoomSettings() {
-    this.dialog.open(RoomSettingsOverviewComponent, {});
+    this.dialog.open(RoomSettingsOverviewComponent, {
+      width: '800px',
+    });
   }
 }

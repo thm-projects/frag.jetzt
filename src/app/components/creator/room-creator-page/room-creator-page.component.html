@@ -8,10 +8,12 @@
       <div class="row">
         <button
           mat-icon-button
-          (click)="openRoomSettings()">
+          (click)="editSessionName()">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button>
+        <button
+          mat-icon-button
+          (click)="openRoomSettings()">
           <mat-icon>settings</mat-icon>
         </button>
       </div>
@@ -29,7 +31,9 @@
       class="row items-center gap-small"
       role="button">
       <span>{{ room.shortId }}</span>
-      <button mat-icon-button>
+      <button
+        mat-icon-button
+        [matTooltip]="'room-page.copy-session-id' | translate">
         <mat-icon>content_copy</mat-icon>
       </button>
     </div>

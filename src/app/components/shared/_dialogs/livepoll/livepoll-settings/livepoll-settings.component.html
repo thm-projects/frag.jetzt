@@ -28,17 +28,23 @@
           <input
             matInput
             [(ngModel)]="parent.livepollSession.title" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="openMarkdownEditor()">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-form-field>
-        <button
-          [ngStyle]="{ 'flex-grow': !isMobile ? '0' : '1' }"
-          mat-stroked-button
-          [class.__primary]="true"
-          (click)="openMarkdownEditor()">
-          <mat-icon>edit</mat-icon>
-          <span>
-            {{ parent.translateKey + ".settings.option.editor" | translate }}
-          </span>
-        </button>
+        <!--        <button-->
+        <!--          [ngStyle]="{ 'flex-grow': !isMobile ? '0' : '1' }"-->
+        <!--          mat-stroked-button-->
+        <!--          class="primary"-->
+        <!--          (click)="openMarkdownEditor()">-->
+        <!--          <mat-icon>edit</mat-icon>-->
+        <!--          <span>-->
+        <!--            {{ parent.translateKey + ".settings.option.editor" | translate }}-->
+        <!--          </span>-->
+        <!--        </button>-->
       </div>
       <mat-slide-toggle
         [matTooltip]="
@@ -71,7 +77,7 @@
       <button
         *ngIf="parent.isProduction"
         mat-stroked-button
-        [class.__primary]="true"
+        class="primary"
         [class.fill]="true"
         (click)="parent.save()">
         <mat-icon>flash_on</mat-icon>
