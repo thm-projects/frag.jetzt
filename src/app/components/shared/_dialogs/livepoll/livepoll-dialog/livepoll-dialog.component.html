@@ -16,11 +16,10 @@
 </ng-template>
 
 <div
-  mat-dialog-title
-  *ngIf="isProduction"
-  [class.no-pad]="true"
-  [class.dialog-title]="true">
-  <h5>{{ translateKey + ".title" | translate }}</h5>
+  class="row items-start"
+  style="padding-top: 16px; padding-right: 16px"
+  *ngIf="isProduction">
+  <span matDialogTitle>{{ translateKey + ".title" | translate }}</span>
   <div [class.title-settings]="true">
     <ng-container
       *ngTemplateOutlet="
@@ -37,7 +36,6 @@
           <button
             mat-icon-button
             *ngIf="currentRole"
-            [class.__secondary]="true"
             (click)="openPeerInstruction()">
             <mat-icon>repeat</mat-icon>
           </button>
@@ -46,21 +44,16 @@
           <button
             mat-flat-button
             *ngIf="currentRole"
-            [class.__secondary]="true"
             (click)="openPeerInstruction()">
             <mat-icon>repeat</mat-icon>
-            <span>
-              {{ translateKey + ".peer-instruction.name" | translate }}
-            </span>
+            {{ translateKey + ".peer-instruction.name" | translate }}
           </button>
         </ng-container>
       </ng-container>
     </div>
   </div>
 </div>
-<mat-dialog-content
-  [class.no-pad]="true"
-  *ngIf="isProduction; else dialogContent">
+<mat-dialog-content *ngIf="isProduction; else dialogContent">
   <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
 </mat-dialog-content>
 <ng-template #dialogContent>
@@ -86,13 +79,10 @@
       <div [class.statistics-options]="true">
         <button
           mat-stroked-button
-          [class.__primary]="true"
           *ngIf="isProduction && currentRole"
           (click)="resetResults()">
           <mat-icon>undo</mat-icon>
-          <span>
-            {{ translateKey + ".edit.reset" | translate }}
-          </span>
+          {{ translateKey + ".edit.reset" | translate }}
         </button>
       </div>
       <div [class.statistics-info]="true">
@@ -209,14 +199,11 @@
           </span>
         </button>
         <button
-          mat-stroked-button
-          [class.__cancel]="true"
+          mat-button
           *ngIf="currentRole && isProduction && !isConclusion"
           (click)="close('delete')">
           <mat-icon>stop_circle</mat-icon>
-          <span>
-            {{ translateKey + ".edit.delete" | translate }}
-          </span>
+          {{ translateKey + ".edit.delete" | translate }}
         </button>
       </ng-container>
     </ng-container>
@@ -224,11 +211,10 @@
   <div [class.fill]="true"></div>
   <div [class.right-container]="true">
     <button
-      mat-stroked-button
-      [class.__cancel]="true"
+      mat-button
       *ngIf="isProduction"
       (click)="close('close')">
-      <span>{{ translateKey + ".edit.close" | translate }}</span>
+      {{ translateKey + ".edit.close" | translate }}
     </button>
     <ng-container>
       <ng-container *ngIf="isMobile">
@@ -247,9 +233,7 @@
           *ngIf="currentRole"
           (click)="close('reset')">
           <mat-icon>add_circle</mat-icon>
-          <span>
-            {{ translateKey + ".edit.new" | translate }}
-          </span>
+          {{ translateKey + ".edit.new" | translate }}
         </button>
       </ng-container>
     </ng-container>
