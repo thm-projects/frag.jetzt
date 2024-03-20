@@ -62,6 +62,7 @@ import {
 import { LocationStateService } from 'app/services/state/location-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
+import { M3DialogBuilderService } from '../../../services/m3-services/m3-dialog-builder.service';
 
 @Component({
   selector: 'app-header',
@@ -137,6 +138,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private accountState: AccountStateService,
     protected roomState: RoomStateService,
     private locationState: LocationStateService,
+    private m3DialogService: M3DialogBuilderService,
     deviceState: DeviceStateService,
   ) {
     this.appState.language$

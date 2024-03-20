@@ -39,18 +39,4 @@ export class BonusDeleteComponent implements OnInit {
     }
     this.liveAnnouncer.announce(this.reallyDeleteText);
   }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildCommentsDeleteActionCallback(): () => void {
-    return () => this.dialogRef.close('delete');
-  }
 }

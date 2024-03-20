@@ -20,7 +20,7 @@ export class RoomNameSettingsComponent implements OnInit {
   ]);
 
   constructor(
-    private dialogRef: MatDialogRef<RoomNameSettingsComponent>,
+    protected dialogRef: MatDialogRef<RoomNameSettingsComponent>,
     private roomService: RoomService,
   ) {}
 
@@ -28,15 +28,7 @@ export class RoomNameSettingsComponent implements OnInit {
     this.roomNameFormControl.setValue(this.editRoom.name);
   }
 
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  buildConfirmDialogActionCallback(): () => void {
-    return () => this.save();
-  }
-
-  private save(): void {
+  protected save(): void {
     if (
       !this.roomNameFormControl.hasError('required') &&
       !this.roomNameFormControl.hasError('minlength') &&

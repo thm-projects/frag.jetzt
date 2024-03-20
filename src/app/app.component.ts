@@ -59,7 +59,7 @@ import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
-import { M3DynamicThemeService } from './services/m3-style/m3-dynamic-theme.service';
+import { M3DynamicThemeService } from './services/m3-services/m3-dynamic-theme.service';
 import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
