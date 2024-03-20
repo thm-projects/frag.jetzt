@@ -30,6 +30,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
+import { M3DynamicThemeService } from '../../../services/m3-services/m3-dynamic-theme.service';
 
 @Component({
   selector: 'app-footer',
@@ -59,6 +60,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     public change: DashboardNotificationService,
     private sessionService: SessionService,
     private appState: AppStateService,
+    protected readonly m3ThemeService: M3DynamicThemeService,
     deviceState: DeviceStateService,
     accountState: AccountStateService,
   ) {

@@ -1,0 +1,9 @@
+<div class="question-wall-comment-header">
+  <div class="question-wall-comment-header-date">
+    <span>{{ data?.comment?.updatedAt || "test" }}</span>
+  </div>
+  <div class="question-wall-comment-header-options"></div>
+</div>
+<div class="question-wall-comment-content"></div>
+<app-question-wall-comment-options
+  [data]="data"></app-question-wall-comment-options>

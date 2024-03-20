@@ -208,28 +208,17 @@
   [overlapTrigger]="false"
   cdkTrapFocus>
   <button
-    (click)="changeTheme(theme)"
-    *ngFor="let theme of themes"
+    [disabled]="m3ThemeService.themeType === 'light'"
     mat-menu-item
-    style="height: 50px">
-    <div>
-      <div [ngStyle]="{ 'background-color': theme.getPreviewColor() }">
-        <div
-          [ngClass]="{
-            checked_true: theme.key === themeService.activeTheme?.key,
-            checked_false: theme.key !== themeService.activeTheme?.key
-          }">
-          <mat-icon [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            {{ theme.icon }}
-          </mat-icon>
-          <mat-icon [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            checked
-          </mat-icon>
-        </div>
-      </div>
-      <div>
-        {{ theme.getName(currentLanguage) }}
-      </div>
-    </div>
+    (click)="m3ThemeService.themeType = 'light'">
+    <mat-icon>light_mode</mat-icon>
+    Light
+  </button>
+  <button
+    [disabled]="m3ThemeService.themeType === 'dark'"
+    mat-menu-item
+    (click)="m3ThemeService.themeType = 'dark'">
+    <mat-icon>dark_mode</mat-icon>
+    Dark
   </button>
 </mat-menu>
