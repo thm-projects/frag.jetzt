@@ -34,16 +34,65 @@
   );
 }
 
+@mixin _map-fab-button($variant: primary) {
+  --mdc-extended-fab-container-shadow-color: var(--md-sys-color-shadow);
+  --mdc-fab-container-color: var(--md-sys-color-#{$variant}-container);
+  --mdc-fab-container-shadow-color: var(--md-sys-color-shadow);
+  --mdc-fab-small-container-color: var(--md-sys-color-#{$variant}-container);
+  --mdc-fab-small-container-shadow-color: var(--md-sys-color-shadow);
+  --mat-fab-foreground-color: var(--md-sys-color-on-#{$variant}-container);
+  --mat-fab-state-layer-color: var(--md-sys-color-on-#{$variant}-container);
+  --mat-fab-small-foreground-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mat-fab-small-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+}
+
+@mixin _map-icon-button($variant: null) {
+  @if $variant != null {
+    --mdc-icon-button-icon-color: var(--md-sys-color-#{$variant});
+    --mat-icon-button-state-layer-color: var(--md-sys-color-#{$variant});
+    --mat-icon-button-disabled-state-layer-color: var(
+      --md-sys-color-on-surface-variant
+    );
+    &.filled {
+      --mdc-icon-button-icon-color: var(--md-sys-color-on-#{$variant});
+
+      &:not(:disabled) {
+        background-color: var(--md-sys-color-#{$variant});
+      }
+
+      --mat-icon-button-state-layer-color: var(--md-sys-color-#{$variant});
+    }
+  } @else {
+    /// TODO(lph) add filled, tonal and outlined here
+    --mdc-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
+    --mat-icon-button-state-layer-color: var(--md-sys-color-on-surface-variant);
+    --mat-icon-button-disabled-state-layer-color: var(
+      --md-sys-color-on-surface-variant
+    );
+  }
+}
+
 @mixin _map-button($variant: primary) {
   @include _map-protected-button($variant);
   @include _map-filled-button($variant);
   @include _map-outlined-button($variant);
   @include _map-text-button($variant);
+  @include _map-fab-button($variant);
+  @if $variant == primary {
+    @include _map-icon-button();
+    .primary {
+      @include _map-icon-button(primary);
+    }
+  } @else {
+    @include _map-icon-button($variant);
+  }
 }
 
-@mixin _map-components() {
-  --mat-app-background-color: var(--md-sys-color-background);
-  --mat-app-text-color: var(--md-sys-color-on-background);
+@mixin _all-map-button() {
   @include _map-button();
   .secondary {
     @include _map-button(secondary);
@@ -51,6 +100,77 @@
   .tertiary {
     @include _map-button(tertiary);
   }
+}
+
+@mixin _map-chips($variant: secondary) {
+  --mdc-chip-outline-color: var(--md-sys-color-outline);
+  --mdc-chip-focus-outline-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-elevated-selected-container-color: var(
+    --md-sys-color-#{$variant}-container
+  );
+  --mdc-chip-focus-state-layer-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-hover-state-layer-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-selected-hover-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-selected-focus-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-label-text-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-selected-label-text-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-with-icon-icon-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-with-icon-disabled-icon-color: var(--md-sys-color-on-background);
+  --mdc-chip-with-icon-selected-icon-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-chip-with-trailing-icon-trailing-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-chip-trailing-action-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-chip-selected-trailing-action-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mat-chip-selected-disabled-trailing-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-chip-selected-trailing-icon-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+}
+
+@mixin _all-map-chips() {
+  @include _map-chips();
+  .primary {
+    @include _map-chips(primary);
+  }
+  .tertiary {
+    @include _map-chips(tertiary);
+  }
+}
+
+@mixin _all-map-cards() {
+  --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+  --mdc-outlined-card-container-color: var(--md-sys-color-background);
+  --mdc-outlined-card-outline-color: var(--md-sys-color-surface-variant);
+  //TODO(lph) add color variations for cards
+  .mat-mdc-card.mat-elevation-z0 {
+    --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+    --mdc-elevated-card-container-elevation: 0 0 0 0 transparent;
+  }
+}
+
+@mixin _map-components() {
+  --mat-app-background-color: var(--md-sys-color-background);
+  --mat-app-text-color: var(--md-sys-color-on-background);
+  @include _all-map-button();
+  @include _all-map-chips();
   --mat-option-selected-state-label-text-color: var(
     --md-sys-color-on-secondary-container
   );
@@ -71,9 +191,8 @@
   --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(
     --md-sys-color-primary
   );
-  --mdc-elevated-card-container-color: var(--surface1);
-  --mdc-outlined-card-container-color: var(--md-sys-color-background);
-  --mdc-outlined-card-outline-color: var(--md-sys-color-surface-variant);
+  @include _all-map-cards();
+
   --mat-card-subtitle-text-color: var(--md-sys-color-on-background);
   --mdc-linear-progress-active-indicator-color: var(--md-sys-color-primary);
   --mdc-linear-progress-track-color: var(--md-sys-color-surface-variant);
@@ -157,46 +276,6 @@
   --mdc-dialog-container-color: var(--md-sys-color-background);
   --mdc-dialog-subhead-color: var(--md-sys-color-on-background);
   --mdc-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-outline-color: var(--md-sys-color-outline);
-  --mdc-chip-focus-outline-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-elevated-selected-container-color: var(
-    --md-sys-color-secondary-container
-  );
-  --mdc-chip-focus-state-layer-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-hover-state-layer-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-selected-hover-state-layer-color: var(
-    --md-sys-color-on-secondary-container
-  );
-  --mdc-chip-selected-focus-state-layer-color: var(
-    --md-sys-color-on-secondary-container
-  );
-  --mdc-chip-label-text-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-selected-label-text-color: var(
-    --md-sys-color-on-secondary-container
-  );
-  --mdc-chip-with-icon-icon-color: var(--md-sys-color-on-surface-variant);
-  --mdc-chip-with-icon-disabled-icon-color: var(--md-sys-color-on-background);
-  --mdc-chip-with-icon-selected-icon-color: var(
-    --md-sys-color-on-secondary-container
-  );
-  --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: var(
-    --md-sys-color-on-background
-  );
-  --mdc-chip-with-trailing-icon-trailing-icon-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mat-chip-trailing-action-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mat-chip-selected-trailing-action-state-layer-color: var(
-    --md-sys-color-on-secondary-container
-  );
-  --mat-chip-selected-disabled-trailing-icon-color: var(
-    --md-sys-color-on-background
-  );
-  --mat-chip-selected-trailing-icon-color: var(
-    --md-sys-color-on-secondary-container
-  );
   --mdc-form-field-label-text-color: var(--md-sys-color-on-background);
   --mdc-switch-selected-focus-state-layer-color: var(--md-sys-color-primary);
   --mdc-switch-selected-handle-color: var(--md-sys-color-on-primary);
@@ -396,20 +475,6 @@
   --mdc-checkbox-unselected-pressed-state-layer-color: var(
     --md-sys-color-primary
   );
-  --mdc-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
-  --mat-icon-button-state-layer-color: var(--md-sys-color-on-surface-variant);
-  --mat-icon-button-disabled-state-layer-color: var(
-    --md-sys-color-on-surface-variant
-  );
-  --mdc-extended-fab-container-shadow-color: var(--md-sys-color-shadow);
-  --mdc-fab-container-color: var(--md-sys-color-primary-container);
-  --mdc-fab-container-shadow-color: var(--md-sys-color-shadow);
-  --mdc-fab-small-container-color: var(--md-sys-color-primary-container);
-  --mdc-fab-small-container-shadow-color: var(--md-sys-color-shadow);
-  --mat-fab-foreground-color: var(--md-sys-color-on-primary-container);
-  --mat-fab-state-layer-color: var(--md-sys-color-on-primary-container);
-  --mat-fab-small-foreground-color: var(--md-sys-color-on-primary-container);
-  --mat-fab-small-state-layer-color: var(--md-sys-color-on-primary-container);
   --mdc-snackbar-container-color: var(--md-sys-color-on-background);
   --mdc-snackbar-supporting-text-color: var(--md-sys-color-inverse-on-surface);
   --mat-snack-bar-button-color: var(--md-sys-color-inverse-primary);

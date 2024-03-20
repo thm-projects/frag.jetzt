@@ -1,0 +1,12 @@
+<div class="question-wall-drawer-header"></div>
+<div class="question-wall-drawer-content">
+  <ng-container *ngIf="data">
+    <app-question-wall-drawer-comment
+      *ngFor="let comment of data.comments"
+      [data]="{
+        user: data.user,
+        comment: comment,
+        actions: data.actions
+      }"></app-question-wall-drawer-comment>
+  </ng-container>
+</div>

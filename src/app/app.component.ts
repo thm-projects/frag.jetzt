@@ -59,7 +59,7 @@ import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
-import { M3DynamicThemeService } from './services/m3-style/m3-dynamic-theme.service';
+import { M3DynamicThemeService } from './services/m3-services/m3-dynamic-theme.service';
 import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
@@ -86,6 +86,7 @@ export class AppComponent implements OnInit {
   private _lastScrollTop = 0;
   private _lastClass: string;
   __debugger = {
+    isExtended: false,
     __loadDebug: function () {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,6 +110,7 @@ export class AppComponent implements OnInit {
           highlight: true,
           border: true,
           dark: true,
+          isExtended: true,
         };
       }
     },
@@ -124,11 +126,7 @@ export class AppComponent implements OnInit {
       } else {
         document.body.classList.remove('border');
       }
-      if (state['dark']) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
+      this.isExtended = !!state['isExtended'];
       localStorage.setItem('__debug', JSON.stringify(state));
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -157,6 +155,13 @@ export class AppComponent implements OnInit {
     __options: {
       highlight: () => this.__debugger.toggleHighlight(),
       border: () => this.__debugger.toggleBorder(),
+      toggleExtension: () => {
+        const state = this.__debugger.__loadDebug();
+        if (state) {
+          state.isExtended = !this.__debugger.isExtended;
+          this.__debugger.__revalidateState(state);
+        }
+      },
       generateRandomRoom: () => {
         this._roomService
           .addRoom(

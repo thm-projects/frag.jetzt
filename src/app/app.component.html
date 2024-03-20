@@ -1,14 +1,3 @@
-<!--<div class="app-left-nav">-->
-<!--</div>-->
-<!--<div class="app-container">-->
-<!--  <div class="app-header">-->
-<!--    <app-header #header></app-header>-->
-<!--  </div>-->
-<!--  <div class="app-content-container">-->
-<!--    <router-outlet></router-outlet>-->
-<!--  </div>-->
-<!--</div>-->
-
 <header #headerElement>
   <app-header #header></app-header>
 </header>
@@ -31,6 +20,7 @@
     position: fixed;
     right: 256px;
     top: 256px;
+    z-index: 1000000;
     padding: 12px 8px;
     box-shadow: var(--mdc-elevation-box-shadow-for-gss);
     background-color: var(--mdc-chip-elevated-selected-container-color);
@@ -43,8 +33,26 @@
       margin-top: 8px;
     }
   }
+
+  #debugger-state-button {
+    position: fixed;
+    z-index: 1000000;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    background-color: var(--md-sys-color-surface4);
+  }
 </style>
-<div id="debugger">
+<button
+  mat-icon-button
+  id="debugger-state-button"
+  *ngIf="!__debugger.isExtended"
+  (click)="__debugger.__options.toggleExtension()">
+  <mat-icon>arrow_left</mat-icon>
+</button>
+<div
+  id="debugger"
+  *ngIf="__debugger.isExtended">
   <mat-chip
     *ngFor="let option of __debugger.self"
     (click)="option[1]()">

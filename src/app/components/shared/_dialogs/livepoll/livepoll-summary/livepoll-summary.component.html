@@ -8,22 +8,16 @@
   *ngIf="data.peerInstruction"
   fxLayoutAlign="end">
   <button
-    mat-stroked-button
-    [class.__cancel]="true"
+    mat-button
     (click)="abortPeerInstruction()">
-    <span>
-      {{ translateKey + ".peer-instruction.result-statistics.end" | translate }}
-    </span>
+    {{ translateKey + ".peer-instruction.result-statistics.end" | translate }}
   </button>
   <button
-    mat-flat-button
-    [class.__primary]="true"
+    mat-button
     (click)="startPeerInstruction2ndPhase()">
-    <span>
-      {{
-        translateKey + ".peer-instruction.result-statistics.start-next"
-          | translate
-      }}
-    </span>
+    {{
+      translateKey + ".peer-instruction.result-statistics.start-next"
+        | translate
+    }}
   </button>
 </mat-dialog-actions>

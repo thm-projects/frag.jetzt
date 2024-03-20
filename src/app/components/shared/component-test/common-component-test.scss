@@ -1,0 +1,30 @@
+table {
+  border-collapse: collapse;
+  white-space: nowrap;
+
+  tr {
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--md-sys-color-surface4);
+    }
+
+    &:first-child {
+      font-weight: 600;
+      border-bottom: 1px solid var(--md-sys-color-surface-variant);
+    }
+
+    > td {
+      padding-top: 8px;
+      padding-bottom: 8px;
+
+      &:last-child {
+        border-left: 1px solid var(--md-sys-color-surface-variant);
+        width: 100%;
+        padding-left: 8px;
+      }
+
+      &:first-child {
+        padding-right: 8px;
+      }
+    }
+  }
+}

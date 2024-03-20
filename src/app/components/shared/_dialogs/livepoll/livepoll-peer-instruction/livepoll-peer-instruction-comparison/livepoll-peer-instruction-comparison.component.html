@@ -1,10 +1,8 @@
-<h5
-  mat-dialog-title
-  [class.no-pad]="true">
+<span mat-dialog-title>
   {{ "common.peer-instruction.result-statistics.title" | translate }}
-</h5>
+</span>
 <ng-container *ngFor="let pass of comparisonList; index as i">
-  <span [class.no-pad]="true">
+  <span>
     {{
       "common.peer-instruction.result-statistics.result-" + (i + 1) | translate
     }}

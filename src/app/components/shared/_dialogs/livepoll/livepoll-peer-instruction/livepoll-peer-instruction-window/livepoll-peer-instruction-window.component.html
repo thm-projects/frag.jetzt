@@ -1,9 +1,7 @@
-<h3
-  mat-dialog-title
-  [class.no-pad]="true">
+<span mat-dialog-title>
   {{ this.title | translate }}
-</h3>
-<mat-dialog-content [class.no-pad]="true">
+</span>
+<mat-dialog-content>
   <span>
     {{ this.description | translate }}
   </span>
@@ -15,25 +13,20 @@
   <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
     <button
       mat-flat-button
-      [class.__primary]="true"
       (click)="matDialogRef.close(false)">
       <span>{{ "common.confirmation-dialog.common.cancel" | translate }}</span>
     </button>
   </ng-container>
   <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
     <button
-      mat-stroked-button
-      [class.__cancel]="true"
+      mat-button
       (click)="matDialogRef.close(false)">
       <span>{{ "common.confirmation-dialog.common.cancel" | translate }}</span>
     </button>
     <button
       mat-flat-button
-      [class.__primary]="true"
       (click)="nextPeerInstructionStep()">
-      <span>
-        {{ "common.confirmation-dialog.common.continue" | translate }}
-      </span>
+      {{ "common.confirmation-dialog.common.continue" | translate }}
     </button>
   </ng-container>
 </mat-dialog-actions>

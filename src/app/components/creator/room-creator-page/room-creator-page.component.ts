@@ -11,10 +11,7 @@ import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { RoomStateService } from 'app/services/state/room-state.service';
-import { first } from 'rxjs';
-import { QuotaService } from 'app/services/http/quota.service';
-import { GPTRoomService } from 'app/services/http/gptroom.service';
+import { RoomSettingsOverviewComponent } from '../../shared/_dialogs/room-settings-overview/room-settings-overview.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -24,23 +21,10 @@ import { GPTRoomService } from 'app/services/http/gptroom.service';
 export class RoomCreatorPageComponent
   extends RoomPageComponent
   implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
-  roomQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
-
-  moderatorQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
-
-  participantQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
+  /**
+   * on true: shows all elements regardless of *ngIf
+   */
+  __debug = true;
 
   constructor(
     private liveAnnouncer: LiveAnnouncer,
@@ -65,49 +49,6 @@ export class RoomCreatorPageComponent
   }
 
   override ngOnInit() {
-    this.injector
-      .get(RoomStateService)
-      .room$.pipe(first((e) => !!e))
-      .subscribe((room) => {
-        this.injector
-          .get(GPTRoomService)
-          .getByRoomId(room.id)
-          .subscribe((gptRoom) => {
-            const quotaService = this.injector.get(QuotaService);
-
-            quotaService.get(gptRoom.roomQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.roomQuota.spent = quota.entries[0].counter / 10e7;
-              this.roomQuota.limit = quota.entries[0].quota / 10e7;
-              this.roomQuota.spentAsPercentage =
-                (this.roomQuota.spent / this.roomQuota.limit) * 100;
-            });
-
-            quotaService.get(gptRoom.moderatorQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.moderatorQuota.spent = quota.entries[0].counter / 10e7;
-              this.moderatorQuota.limit = quota.entries[0].quota / 10e7;
-              this.moderatorQuota.spentAsPercentage =
-                (this.moderatorQuota.spent / this.moderatorQuota.limit) * 100;
-            });
-
-            quotaService.get(gptRoom.participantQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.participantQuota.spent = quota.entries[0].counter / 10e7;
-              this.participantQuota.limit = quota.entries[0].quota / 10e7;
-              this.participantQuota.spentAsPercentage =
-                (this.participantQuota.spent / this.participantQuota.limit) *
-                100;
-            });
-          });
-      });
-
     window.scroll(0, 0);
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
@@ -191,5 +132,11 @@ export class RoomCreatorPageComponent
         'assertive',
       );
     }
+  }
+
+  openRoomSettings() {
+    this.dialog.open(RoomSettingsOverviewComponent, {
+      width: '800px',
+    });
   }
 }

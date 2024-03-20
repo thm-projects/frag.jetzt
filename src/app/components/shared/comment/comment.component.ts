@@ -22,7 +22,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
@@ -51,6 +50,8 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { MatDialog } from '@angular/material/dialog';
+import { M3DialogBuilderService } from '../../../services/m3-services/m3-dialog-builder.service';
+import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 interface IconAction {
   name: IconActionKey;
@@ -263,6 +264,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected eventService: EventService,
     private accountState: AccountStateService,
     private appState: AppStateService,
+    protected readonly m3DialogService: M3DialogBuilderService,
     deviceState: DeviceStateService,
   ) {
     appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {

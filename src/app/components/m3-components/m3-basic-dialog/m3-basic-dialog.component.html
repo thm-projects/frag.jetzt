@@ -1,0 +1,23 @@
+<ng-container [ngSwitch]="dialogData.headline.kind">
+  <ng-container *ngSwitchCase="M3DialogElementKind.Title">
+    <span matDialogTitle>{{ dialogData.headline.text | translate }}</span>
+  </ng-container>
+</ng-container>
+<mat-dialog-content>
+  <ng-container *ngFor="let contentElement of dialogData.content">
+    <ng-container [ngSwitch]="contentElement.kind">
+      <ng-container *ngSwitchCase="M3DialogElementKind.Description">
+        <span>{{ contentElement.text | translate }}</span>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    *ngFor="let action of dialogData.actions"
+    (click)="action.action(matDialogRef)">
+    <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
+    {{ action.text | translate }}
+  </button>
+</mat-dialog-actions>

@@ -26,8 +26,7 @@
     <ng-container *ngSwitchCase="ConfirmDialogType.AcceptCancel">
       <div [class.fill]="true"></div>
       <button
-        mat-stroked-button
-        [class.__cancel]="true"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.Cancel)">
         <span>
           {{ translateKey + ".confirmation-dialog.common.cancel" | translate }}
@@ -35,7 +34,6 @@
       </button>
       <button
         mat-flat-button
-        [class.__primary]="true"
         (click)="emitAction(ConfirmDialogAction.Accept)">
         <span>
           {{ translateKey + ".confirmation-dialog.common.accept" | translate }}
@@ -44,8 +42,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="ConfirmDialogType.YesNoCancel">
       <button
-        mat-stroked-button
-        [class.__cancel]="true"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.Cancel)">
         <span>
           {{ translateKey + ".confirmation-dialog.common.cancel" | translate }}
@@ -53,8 +50,7 @@
       </button>
       <div [class.fill]="true"></div>
       <button
-        mat-stroked-button
-        [class.__cancel]="true"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.No)">
         <span>
           {{ translateKey + ".confirmation-dialog.common.no" | translate }}
@@ -62,7 +58,6 @@
       </button>
       <button
         mat-flat-button
-        [class.__primary]="true"
         (click)="emitAction(ConfirmDialogAction.Yes)">
         <span>
           {{ translateKey + ".confirmation-dialog.common.yes" | translate }}

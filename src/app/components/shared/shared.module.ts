@@ -157,6 +157,10 @@ import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/mult
 import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer-comment/question-wall-drawer-comment.component';
+import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
+import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 
 @NgModule({
   imports: [
@@ -175,6 +179,10 @@ import { MatSliderModule } from '@angular/material/slider';
     NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
+    CdkTrapFocus,
+    QuestionWallDrawerCommentComponent,
+    QuestionWallDisplayCommentComponent,
+    QuestionWallDrawerComponent,
   ],
   declarations: [
     RoomJoinComponent,
