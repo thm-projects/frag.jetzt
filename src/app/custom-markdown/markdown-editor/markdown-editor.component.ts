@@ -1,26 +1,154 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Editor } from '@toast-ui/editor';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  Renderer2,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
+import { MD_EXAMPLE, MD_PLUGINS } from '../markdown-common/plugins';
 
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.scss',
 })
-export class MarkdownEditorComponent implements AfterViewInit {
+export class MarkdownEditorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('editor')
   protected editorElement: ElementRef<HTMLDivElement>;
-  private editor: Editor;
+  private editor: EditorCore | Viewer;
+  private renderer = inject(Renderer2);
+  private observer: MutationObserver;
 
   ngAfterViewInit(): void {
-    this.editor = new Editor({
-      el: this.editorElement.nativeElement,
-      minHeight: '800px',
-      height: '800px',
+    const container = this.editorElement.nativeElement;
+    this.editor = Editor.factory({
+      el: container,
       initialEditType: 'markdown',
       previewStyle: 'vertical',
       usageStatistics: false,
       language: 'de',
       theme: 'fragjetzt',
+      plugins: MD_PLUGINS,
+      initialValue: MD_EXAMPLE,
+    });
+    // add ripples
+    container
+      .querySelectorAll(
+        '.toastui-editor-mode-switch > .tab-item, .toastui-editor-toolbar-icons, .toastui-editor-tabs > .tab-item',
+      )
+      .forEach((e) => this.addRippleEvents(e as HTMLElement));
+    const popup = container.querySelector('.toastui-editor-popup-body');
+    const contextMenu = container.querySelector('.toastui-editor-context-menu');
+    this.observer = new MutationObserver((r) => {
+      for (const entry of r) {
+        entry.addedNodes.forEach((n) => {
+          if (n instanceof HTMLElement) {
+            n.querySelectorAll(
+              'button, .menu-item, .tab-item, li[aria-role="menuitem"]',
+            ).forEach((e) => {
+              const button = e as HTMLButtonElement;
+              this.addRippleEvents(button);
+            });
+          }
+        });
+      }
+    });
+    this.observer.observe(popup, {
+      childList: true,
+    });
+    this.observer.observe(contextMenu, {
+      childList: true,
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.observer.disconnect();
+  }
+
+  private addRippleEvents(element: HTMLElement) {
+    const generateElement = (
+      posX: number,
+      posY: number,
+      width: number,
+      height: number,
+    ) => {
+      if (element.classList.contains('disabled')) {
+        return;
+      }
+      const elem = this.renderer.createElement('div');
+      this.renderer.addClass(elem, 'mat-ripple-element');
+      const xDiff = Math.abs(posX - width / 2) + width / 2;
+      const yDiff = Math.abs(posY - height / 2) + height / 2;
+      const size = Math.sqrt(xDiff ** 2 + yDiff ** 2) * 2;
+      this.renderer.setStyle(elem, 'height', size + 'px');
+      this.renderer.setStyle(elem, 'width', size + 'px');
+      const left = posX - size / 2 + 'px';
+      const top = posY - size / 2 + 'px';
+      this.renderer.setStyle(elem, 'left', left);
+      this.renderer.setStyle(elem, 'top', top);
+      this.renderer.appendChild(element, elem);
+      setTimeout(() => this.injectRipple(elem));
+      return elem;
+    };
+    element.addEventListener('mousedown', (e) => {
+      const rect = element.getBoundingClientRect();
+      e.detail;
+      const ripple = generateElement(
+        e.clientX - rect.x,
+        e.clientY - rect.y,
+        rect.width,
+        rect.height,
+      );
+      element.addEventListener('mouseup', () => this.fadeOutRipple(ripple), {
+        once: true,
+      });
+      element.addEventListener('mouseout', () => this.fadeOutRipple(ripple), {
+        once: true,
+      });
+    });
+    const map = new Map();
+    element.addEventListener('touchstart', (e) => {
+      const rect = element.getBoundingClientRect();
+      for (const touch of Array.from(e.changedTouches)) {
+        const ripple = generateElement(
+          touch.clientX - rect.x,
+          touch.clientY - rect.y,
+          rect.width,
+          rect.height,
+        );
+        map.set(touch.identifier, ripple);
+      }
+    });
+    const onRemove = (e: TouchEvent) => {
+      for (const touch of Array.from(e.changedTouches)) {
+        const ripple = map.get(touch.identifier);
+        if (ripple === undefined) {
+          continue;
+        }
+        map.delete(touch.identifier);
+        this.fadeOutRipple(ripple);
+      }
+    };
+    element.addEventListener('touchcancel', (e) => onRemove(e));
+    element.addEventListener('touchend', (e) => onRemove(e));
+  }
+
+  private injectRipple(ripple: HTMLDivElement) {
+    this.renderer.setStyle(ripple, 'transition-duration', '225ms');
+    this.renderer.setStyle(ripple, 'transform', 'scale3d(1, 1, 1)');
+    ripple.addEventListener('transitioncancel', () => ripple.remove(), {
+      once: true,
+    });
+  }
+
+  private fadeOutRipple(ripple: HTMLDivElement) {
+    this.renderer.setStyle(ripple, 'transition-duration', '150ms');
+    this.renderer.setStyle(ripple, 'opacity', '0');
+    ripple.addEventListener('transitionend', () => ripple.remove(), {
+      once: true,
     });
   }
 }
