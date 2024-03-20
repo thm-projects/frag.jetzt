@@ -1,5 +1,11 @@
 @charset "utf-8";
 
+@import "tui-color-picker/dist/tui-color-picker.css";
+@import "@toast-ui/editor/dist/toastui-editor.css";
+@import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+@import "@toast-ui/chart/dist/toastui-chart.css";
+@import "@toast-ui/editor-plugin-table-merged-cell/dist/toastui-editor-plugin-table-merged-cell.css";
+
 @mixin mat-mdc-menu-item() {
   // .mat-mdc-menu-item (has no custom ripple element class)
   display: flex;
@@ -48,6 +54,27 @@ div.toastui-editor-fragjetzt {
   position: relative;
   // additional
   overflow: visible;
+
+  .katex {
+    font-size: 1.2rem;
+  }
+
+  .katex-error {
+    // .mat-badge-content
+    display: inline-block;
+    transition: transform 200ms ease-in-out;
+    box-sizing: border-box;
+    pointer-events: none;
+    background-color: var(--mat-badge-background-color);
+    color: var(--mat-badge-text-color);
+    font-family: var(--mat-badge-text-font);
+    font-weight: var(--mat-badge-text-weight);
+    // custom
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--mdc-elevated-card-container-shape);
+    padding: 16px;
+  }
 
   // -------------------------------------
   //              UI STUFF
@@ -104,7 +131,8 @@ div.toastui-editor-fragjetzt {
   }
 
   // mat-stroked-button, primary
-  .toastui-editor-ok-button {
+  .toastui-editor-ok-button,
+  .toastui-editor-popup-color button {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -248,6 +276,11 @@ div.toastui-editor-fragjetzt {
       mask-size: 60%;
     }
 
+    &.color::before {
+      mask-image: url(/assets/editor-icons/text/style-alt-xs.svg);
+      mask-size: 57.5%;
+    }
+
     &.bullet-list::before {
       mask-image: url(/assets/editor-icons/text/list-xs.svg);
     }
@@ -285,7 +318,7 @@ div.toastui-editor-fragjetzt {
 
     &.italic::before {
       mask-image: url(/assets/editor-icons/text/italic.svg);
-      mask-size: 23%;
+      mask-size: 21%;
     }
 
     &.strike::before {
@@ -480,7 +513,7 @@ div.toastui-editor-fragjetzt {
       background: none;
       display: block;
       border-bottom-style: solid;
-      border-bottom-color: var(--mat-divider-color);
+      border-bottom-color: color-mix(in srgb, currentColor 50%, transparent);
       border-bottom-width: var(--mat-divider-width);
     }
 
@@ -524,6 +557,14 @@ div.toastui-editor-fragjetzt {
       &.remove-column::before {
         mask-image: url(/assets/editor-icons/table/delete-column.svg);
         color: var(--custom-bad);
+      }
+
+      &.merge-cells::before {
+        mask-image: url(/assets/editor-icons/table/compress-arrows.svg);
+      }
+
+      &.split-cells::before {
+        mask-image: url(/assets/editor-icons/table/expand-arrows.svg);
       }
 
       &.align-column-left::before {
@@ -590,9 +631,39 @@ div.toastui-editor-fragjetzt {
     > .toastui-editor-popup-body {
       padding: 0;
 
-      ul > li {
+      ul:not(.tui-colorpicker-clearfix) > li {
         @include mat-mdc-menu-item();
       }
+    }
+  }
+
+  .toastui-editor-popup-color {
+    .tui-colorpicker-container ul {
+      margin-bottom: 0;
+    }
+
+    div.tui-colorpicker-clearfix {
+      width: 100%;
+      margin-bottom: calc(5px + var(--mdc-outlined-button-container-height));
+    }
+
+    input.tui-colorpicker-palette-hex {
+      box-sizing: border-box;
+      padding-block: 16px;
+      width: 100%;
+      border-style: solid;
+      border-color: var(--mat-divider-color);
+      border-width: var(--mat-divider-width);
+      color: var(--mdc-filled-text-field-input-text-color);
+      background-color: var(--mdc-filled-text-field-container-color);
+    }
+
+    button {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      width: unset;
+      top: 105px;
     }
   }
 
@@ -836,7 +907,11 @@ div.toastui-editor-fragjetzt {
       color: var(--mdc-filled-text-field-label-text-color);
     }
 
-    input,
+    input:not(
+        .tui-colorpicker-palette-button,
+        .tui-colorpicker-palette-toggle-slider,
+        .tui-colorpicker-palette-hex
+      ),
     .toastui-editor-file-name {
       // .mat-mdc-form-field
       position: relative;
@@ -1099,6 +1174,20 @@ div.toastui-editor-fragjetzt {
   //            WYSIWYG STUFF
   // -------------------------------------
 
+  .toastui-editor-contents {
+    th,
+    td {
+      &.toastui-editor-cell-selected {
+        background-color: yellow !important;
+      }
+
+      &.toastui-editor-md-preview-highlight {
+        background-color: red !important;
+        color: green !important;
+      }
+    }
+  }
+
   .toastui-editor-ww-code-block:after {
     content: attr(data-language) var(--markdown-change-language, " [Edit]");
     // .mat-mdc-form-field
@@ -1253,6 +1342,23 @@ div.toastui-editor-fragjetzt {
     }
   }
 
+  .toastui-editor-md-custom-block-line-background {
+    background-color: var(--mdc-filled-text-field-container-color);
+    color: var(--mdc-filled-text-field-input-text-color);
+  }
+
+  .toastui-editor-md-custom-block {
+    color: inherit;
+
+    .toastui-editor-md-delimiter {
+      color: var(--mat-switch-track-outline-color);
+    }
+
+    .toastui-editor-md-meta {
+      color: var(--mdc-filled-button-container-color);
+    }
+  }
+
   // -------------------------------------
   //            PREVIEW STUFF
   // -------------------------------------
@@ -1382,6 +1488,14 @@ div.toastui-editor-fragjetzt {
         letter-spacing: var(--mat-table-row-item-label-text-tracking);
         line-height: inherit;
         background: inherit;
+
+        &[align="right"] {
+          text-align: right;
+        }
+
+        &[align="center"] {
+          text-align: center;
+        }
       }
 
       th {

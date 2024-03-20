@@ -29,18 +29,6 @@ $cite-light-fg: #ccc;
       border-color: #327491;
     }
 
-    th,
-    td {
-      &.toastui-editor-cell-selected {
-        background-color: rgba(103, 204, 255, 0.5);
-      }
-
-      &.toastui-editor-md-preview-highlight {
-        background-color: $cite-bg;
-        color: $cite-fg;
-      }
-    }
-
     .image-link:hover::before {
       border-color: #393b42;
       background-color: #232428;
@@ -71,21 +59,5 @@ $cite-light-fg: #ccc;
     .info {
       color: #65acca;
     }
-  }
-
-  .toastui-editor-md-custom-block {
-    color: #fff;
-
-    .toastui-editor-md-delimiter {
-      color: #327491;
-    }
-
-    .toastui-editor-md-meta {
-      color: #65acca;
-    }
-  }
-
-  .toastui-editor-md-custom-block-line-background {
-    background-color: #392d31;
   }
 }
