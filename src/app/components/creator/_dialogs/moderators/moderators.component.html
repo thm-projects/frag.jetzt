@@ -1,6 +1,5 @@
-<div mat-dialog-content>
-  <h2 class="oldtypo-h2">{{ "moderators-dialog.title" | translate }}</h2>
-
+<span matDialogTitle>{{ "moderators-dialog.title" | translate }}</span>
+<mat-dialog-content>
   <div
     fxLayout="row"
     fxLayoutAlign="space-around">
@@ -80,29 +79,21 @@
       </button>
     </div>
   </div>
-</div>
-
-<ars-row
-  ars-flex-box
-  class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ "explanation.label" | translate }}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      buttonsLabelSection="moderators-dialog"
-      [spacing]="false"
-      [cancelButtonClickAction]="
-        buildCloseDialogActionCallback()
-      "></app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <div class="grow"></div>
+  <button
+    mat-button
+    (click)="dialogRef.close(false)">
+    {{ "explanation.close" | translate }}
+  </button>
+</mat-dialog-actions>
 
 <div class="visually-hidden">
   <div id="moderator-email">

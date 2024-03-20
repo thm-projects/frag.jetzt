@@ -3,6 +3,8 @@
 @use "m3-style/m3-components" as m3-components;
 @use "m3-style/m3-theme-utility" as m3;
 @use "m3-style/m3-token-map" as m3-map;
+@use "m3-style/m3-motion" as m3-motion;
+@use "m3-style/m3-shape" as m3-shape;
 @use "m3-style/m3-fix" as m3-fix;
 @use "@angular/material-experimental" as matx;
 @use "style/layout/flex-layout";
@@ -32,6 +34,8 @@ $base-theme: m3.define-theme(
     @include mat.all-component-themes(map.get($base-theme, light));
     @include m3-map.make-components-dynamic(light);
     @include m3-components.all-components();
+    @include m3-motion.all-motion-token();
+    @include m3-shape.all-shape-token();
     @include m3-fix.fix-all();
 
     //@include matx.color-variants-back-compat($light-theme);

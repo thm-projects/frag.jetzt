@@ -370,6 +370,7 @@
       </mat-icon>
 
       <button
+        *ngIf="user"
         mat-flat-button
         [matMenuTriggerFor]="userMenu"
         [disabled]="!this.sessionService.isReady"

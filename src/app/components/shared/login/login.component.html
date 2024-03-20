@@ -7,7 +7,7 @@
     {{ "login-dialog.inactive-info" | translate }}
   </span>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'start'">
+<mat-dialog-actions class="align-column-wide">
   <button
     mat-button
     (click)="guestLogin()"
@@ -26,11 +26,6 @@
     {{ provider["name" + access] || provider["translated_name" + access] }}
   </button>
 </mat-dialog-actions>
-
-<!-- TODO(lph) remove login-dialog.or -->
-<!--<div class="page-splitter">-->
-<!--  <span>{{ "login-dialog.or" | translate }}</span>-->
-<!--</div>-->
 
 <div class="visually-hidden">
   <div id="login-description">{{ "login.login-description" | translate }}</div>
