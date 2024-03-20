@@ -51,11 +51,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DialogBuilderService } from '../../../services/m3-services/m3-dialog-builder.service';
-import { M3DialogElementKind } from '../../../services/m3-services/models/m3-dialog-types';
-import {
-  ACCEPT_BUTTON,
-  CANCEL_BUTTON,
-} from '../../../services/m3-services/models/m3-dialog-preset';
+import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 interface IconAction {
   name: IconActionKey;
@@ -548,39 +544,14 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDeleteCommentDialog(): void {
-    this.m3DialogService
-      .open({
-        kind: M3DialogElementKind.Basic,
-        headline: {
-          kind: M3DialogElementKind.Title,
-          text: 'room-page.sure',
-        },
-        content: [
-          {
-            kind: M3DialogElementKind.Description,
-            text: 'comment-list.really-delete',
-          },
-          {
-            kind: M3DialogElementKind.Description,
-            text: 'comment-list.really-delete',
-          },
-          {
-            kind: M3DialogElementKind.Description,
-            text: 'comment-list.really-delete',
-          },
-          {
-            kind: M3DialogElementKind.Description,
-            text: 'comment-list.really-delete',
-          },
-        ],
-        actions: [CANCEL_BUTTON, ACCEPT_BUTTON],
-        translation: 'room',
-      })
-      .subscribe((result) => {
-        if (result) {
-          this.delete();
-        }
-      });
+    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+      width: '400px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'delete') {
+        this.delete();
+      }
+    });
   }
 
   copyShareCommentLink(): void {
