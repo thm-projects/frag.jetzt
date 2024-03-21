@@ -63,7 +63,9 @@
         </span>
         <span matListItemLine>{{ moderator.roomId }}</span>
         <div matListItemMeta>
-          <button mat-icon-button>
+          <button
+            mat-icon-button
+            (click)="openDeleteRoomDialog(moderator)">
             <mat-icon>close</mat-icon>
           </button>
         </div>
