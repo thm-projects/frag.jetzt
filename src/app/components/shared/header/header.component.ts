@@ -62,8 +62,8 @@ import {
 import { LocationStateService } from 'app/services/state/location-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { M3DialogBuilderService } from '../../../services/m3-services/m3-dialog-builder.service';
-import { M3DynamicThemeService } from '../../../services/m3-services/m3-dynamic-theme.service';
+import { M3DialogBuilderService } from '../../../services/m3-services/dialog/m3-dialog-builder.service';
+import { M3DynamicThemeService } from '../../../services/m3-services/dynamic-theme/m3-dynamic-theme.service';
 
 @Component({
   selector: 'app-header',

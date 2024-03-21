@@ -30,7 +30,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { M3DynamicThemeService } from '../../../services/m3-services/m3-dynamic-theme.service';
+import { M3DynamicThemeService } from '../../../services/m3-services/dynamic-theme/m3-dynamic-theme.service';
 
 @Component({
   selector: 'app-footer',

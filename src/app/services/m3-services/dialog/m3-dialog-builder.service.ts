@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DialogData, M3DialogElementKind } from './models/m3-dialog-types';
 import { Observable } from 'rxjs';
-import { M3BasicDialogComponent } from '../../components/m3-components/m3-basic-dialog/m3-basic-dialog.component';
+import { M3BasicDialogComponent } from '../../../components/m3-components/dialog/m3-basic-dialog/m3-basic-dialog.component';
 
 @Injectable({
   providedIn: 'root',

@@ -9,10 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   M3BasicDialogData,
   M3DialogElementKind,
-} from '../../../services/m3-services/models/m3-dialog-types';
+} from '../../../../services/m3-services/dialog/models/m3-dialog-types';
 import { MatButton } from '@angular/material/button';
 import { NgForOf, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { EssentialsModule } from '../../essentials/essentials.module';
+import { EssentialsModule } from '../../../essentials/essentials.module';
 
 @Component({
   selector: 'app-m3-basic-dialog',

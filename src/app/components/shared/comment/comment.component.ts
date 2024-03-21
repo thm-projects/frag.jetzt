@@ -50,7 +50,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { M3DialogBuilderService } from '../../../services/m3-services/m3-dialog-builder.service';
+import { M3DialogBuilderService } from '../../../services/m3-services/dialog/m3-dialog-builder.service';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 interface IconAction {
