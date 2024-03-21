@@ -1,9 +1,9 @@
 <span matDialogTitle>{{ "moderators-dialog.title" | translate }}</span>
-<mat-dialog-content>
-  <div
-    fxLayout="row"
-    fxLayoutAlign="space-around">
-    <p>{{ "moderators-dialog.join-code" | translate }} {{ shortIdCode }}</p>
+<mat-dialog-content class="column gap-small">
+  <div class="row items-center">
+    <span class="grow">
+      {{ "moderators-dialog.join-code" | translate }} {{ shortIdCode }}
+    </span>
     <button
       mat-icon-button
       *ngIf="moderatorShortId"
@@ -21,9 +21,8 @@
       <mat-icon>refresh</mat-icon>
     </button>
   </div>
-
-  <div fxLayout="row">
-    <mat-form-field class="input-block">
+  <div class="column">
+    <mat-form-field class="grow">
       <input
         appAccessibilityEscapedInput
         matInput
@@ -33,52 +32,44 @@
         [formControl]="usernameFormControl"
         [placeholder]="'moderators-dialog.email' | translate"
         name="username" />
+      <button
+        mat-icon-button
+        matIconSuffix
+        [disabled]="!loginId.value"
+        (click)="addModerator(loginId.value); loginId.value = ''"
+        aria-labelledby="add-moderator">
+        <mat-icon>add</mat-icon>
+      </button>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
         {{ "moderators-dialog.email-error" | translate }}
       </mat-error>
     </mat-form-field>
-    <span class="fill-remaining-space"></span>
-    <button
-      mat-icon-button
-      class="add"
-      (click)="addModerator(loginId.value); loginId.value = ''"
-      aria-labelledby="add-moderator">
-      <mat-icon class="add-icon">add</mat-icon>
-    </button>
-    <span class="fill-remaining-space"></span>
   </div>
-  <p
-    class="oldtypo-p"
-    *ngIf="moderators.length === 0">
+  <span *ngIf="moderators.length === 0">
     {{ "moderators-dialog.empty" | translate }}
-  </p>
-  <div *ngIf="moderators.length > 0">
-    <div
-      fxLayout="row"
-      *ngFor="let moderator of moderators; index as i"
-      class="moderators">
-      <!--List of moderators-->
-      <p
-        class="oldtypo-p"
-        *ngIf="moderator.loginId">
-        {{ i + 1 }}. {{ moderator.loginId }}
-      </p>
-      <em
-        class="oldtypo-p"
-        *ngIf="!moderator.loginId">
-        {{ i + 1 }}. {{ "moderators-dialog.guest" | translate }}
-      </em>
-      <span class="fill-remaining-space"></span>
-      <button
-        mat-icon-button
-        *ngIf="isCreator"
-        class="close"
-        (click)="openDeleteRoomDialog(moderator)"
-        aria-labelledby="delete-moderator">
-        <mat-icon class="close-icon">close</mat-icon>
-      </button>
-    </div>
-  </div>
+  </span>
+  <button
+    *ngIf="__debug"
+    (click)="__debug_addMockModerators()">
+    add
+  </button>
+  <ng-container *ngIf="moderators.length > 0">
+    <mat-list>
+      <mat-list-item
+        *ngFor="let moderator of moderators"
+        lines="2">
+        <span matListItemTitle>
+          {{ moderator.loginId || ("moderators-dialog.guest" | translate) }}
+        </span>
+        <span matListItemLine>{{ moderator.roomId }}</span>
+        <div matListItemMeta>
+          <button mat-icon-button>
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button

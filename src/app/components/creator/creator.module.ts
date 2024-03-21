@@ -13,7 +13,7 @@ import {
 } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../shared/_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from './_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
 import { TagsComponent } from './_dialogs/tags/tags.component';

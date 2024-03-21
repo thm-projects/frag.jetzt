@@ -19,7 +19,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';

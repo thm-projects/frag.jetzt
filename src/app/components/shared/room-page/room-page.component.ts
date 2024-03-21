@@ -34,7 +34,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { RoomDeleteComponent } from '../../creator/_dialogs/room-delete/room-delete.component';
 import { RoomDeleted } from '../../../models/events/room-deleted';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from '../../creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';

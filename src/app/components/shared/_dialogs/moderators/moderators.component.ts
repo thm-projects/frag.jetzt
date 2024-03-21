@@ -2,12 +2,12 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModeratorService } from '../../../../services/http/moderator.service';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
+import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { Moderator } from '../../../../models/moderator';
-import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.component';
+import { ModeratorDeleteComponent } from '../../../creator/_dialogs/moderator-delete/moderator-delete.component';
 import { FormControl, Validators } from '@angular/forms';
-import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
-import { ModeratorRefreshCodeComponent } from '../moderator-refresh-code/moderator-refresh-code.component';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { ModeratorRefreshCodeComponent } from '../../../creator/_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
 import {
@@ -16,6 +16,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { User } from 'app/models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-moderators',
@@ -23,6 +24,7 @@ import { User } from 'app/models/user';
   styleUrls: ['./moderators.component.scss'],
 })
 export class ModeratorsComponent implements OnInit, OnDestroy {
+  __debug = false;
   @Input() isCreator: boolean;
   roomId: string;
   moderators: Moderator[] = [];
@@ -47,6 +49,14 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
         .get('moderators-dialog.not-generated')
         .subscribe((msg) => (this.notGeneratedMessage = msg));
     });
+  }
+
+  __debug_addMockModerators() {
+    this.moderators = [
+      new Moderator('accountID', 'roomID', 'loginID', UserRole.PARTICIPANT),
+      new Moderator('accountID', 'roomID', 'loginID', UserRole.CREATOR),
+      { accountId: 'accountID', roomId: 'roomID' } as Moderator,
+    ];
   }
 
   get shortIdCode() {
@@ -112,7 +122,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
         this.moderatorService.refreshRoomCode(this.roomId).subscribe({
           next: (newShortId) => {
             this.moderatorShortId = newShortId;
-            this.moderators = this.moderators.filter((m) => m.loginId);
+            // this.moderators = this.moderators.filter((m) => m.loginId);
             this.translationService
               .get('moderators-dialog.code-recreated')
               .subscribe((msg) => this.notificationService.show(msg));
