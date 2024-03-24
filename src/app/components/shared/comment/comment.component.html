@@ -113,9 +113,7 @@
           #commentBody
           class="commentBody">
           <ars-row #commentBodyInner>
-            <!-- <app-view-comment-data
-              class="images"
-              [currentData]="comment.body"></app-view-comment-data> -->
+            <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
           </ars-row>
         </ars-row>
         <span

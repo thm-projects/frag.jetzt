@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, signal } from '@angular/core';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ export interface MarkdownEditorDialogData {
   styleUrls: ['./markdown-editor-dialog.component.scss'],
 })
 export class MarkdownEditorDialogComponent implements OnDestroy {
-  public data: string;
+  public data = signal('');
   private readonly _destroyer = new ReplaySubject(1);
 
   constructor(
@@ -27,7 +27,7 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     public readonly injection: MarkdownEditorDialogData,
   ) {
-    this.data = injection.data;
+    this.data.set(injection.data);
     appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
       translationService.use(lang);
       http
@@ -41,7 +41,7 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
                 this.data = data;
               });
           } else {
-            this.data = injection.data;
+            this.data.set(injection.data);
           }
         });
     });

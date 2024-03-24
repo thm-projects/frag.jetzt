@@ -311,7 +311,7 @@ export class AppComponent implements OnInit {
   }
 
   public static isScrolledTop(): boolean {
-    return document.getElementById('scroll_container').scrollTop === 0;
+    return document.getElementById('scroll_container')?.scrollTop === 0;
   }
 
   ngOnInit(): void {

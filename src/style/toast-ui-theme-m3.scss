@@ -44,11 +44,6 @@
 }
 
 div.toastui-editor-fragjetzt {
-  border-width: var(--mdc-outlined-card-outline-width);
-  border-style: solid;
-  border-color: var(--mdc-outlined-card-outline-color);
-  border-radius: var(--mdc-outlined-card-container-shape);
-  background-color: var(--mdc-outlined-card-container-color);
   box-shadow: var(--mdc-outlined-card-container-elevation);
   display: flex;
   flex-direction: column;
@@ -56,6 +51,14 @@ div.toastui-editor-fragjetzt {
   position: relative;
   // additional
   overflow: visible;
+
+  &.toastui-editor-defaultUI {
+    border-width: var(--mdc-outlined-card-outline-width);
+    border-style: solid;
+    border-color: var(--mdc-outlined-card-outline-color);
+    border-radius: var(--mdc-outlined-card-container-shape);
+    background-color: var(--mdc-outlined-card-container-color);
+  }
 
   .katex {
     font-size: 1.2rem;
