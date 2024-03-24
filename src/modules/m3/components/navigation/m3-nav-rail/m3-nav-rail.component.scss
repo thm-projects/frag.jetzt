@@ -1,0 +1,10 @@
+:host {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host-context(.hide) {
+  width: 0;
+}
