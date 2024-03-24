@@ -2,38 +2,78 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy,
+  Injector,
   Renderer2,
-  ViewChild,
+  effect,
   inject,
+  model,
+  untracked,
+  viewChild,
 } from '@angular/core';
 import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
-import { MD_EXAMPLE, MD_PLUGINS } from '../markdown-common/plugins';
+import { MD_PLUGINS } from '../markdown-common/plugins';
+import { DSGVOService } from 'app/services/util/dsgvo.service';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.scss',
 })
-export class MarkdownEditorComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('editor')
-  protected editorElement: ElementRef<HTMLDivElement>;
+export class MarkdownEditorComponent implements AfterViewInit {
+  data = model<string>('');
+  protected editorElement =
+    viewChild.required<ElementRef<HTMLDivElement>>('editor');
   private editor: EditorCore | Viewer;
   private renderer = inject(Renderer2);
-  private observer: MutationObserver;
+  private injector = inject(Injector);
+  private appState = inject(AppStateService);
+  private deviceState = inject(DeviceStateService);
+
+  constructor() {
+    // inject dsgvo service for media
+    inject(DSGVOService);
+  }
 
   ngAfterViewInit(): void {
-    const container = this.editorElement.nativeElement;
-    this.editor = Editor.factory({
-      el: container,
-      initialEditType: 'markdown',
-      previewStyle: 'vertical',
-      usageStatistics: false,
-      language: 'de',
-      theme: 'fragjetzt',
-      plugins: MD_PLUGINS,
-      initialValue: MD_EXAMPLE,
-    });
+    const container = this.editorElement().nativeElement;
+    // TODO: Signal
+    const language = this.appState.getCurrentLanguage();
+    // TODO: Signal
+    const isMobile = this.deviceState.isMobile;
+    // fired when language or mobile is changed
+    effect(
+      (onCleanup) => {
+        let initialValue: string;
+        untracked(() => {
+          initialValue = this.data();
+        });
+        this.editor = Editor.factory({
+          el: container,
+          initialEditType: 'wysiwyg',
+          previewStyle: isMobile ? 'tab' : 'vertical',
+          usageStatistics: false,
+          language,
+          theme: 'fragjetzt',
+          plugins: MD_PLUGINS,
+          initialValue,
+        });
+
+        const e = this.editor as Editor;
+        e.on('change', () => this.data.set(e.getMarkdown()));
+        const observer = this.addRipples(container);
+
+        onCleanup(() => {
+          this.editor.destroy();
+          observer.disconnect();
+        });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private addRipples(container: HTMLDivElement): MutationObserver {
     // add ripples
     container
       .querySelectorAll(
@@ -42,7 +82,7 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy {
       .forEach((e) => this.addRippleEvents(e as HTMLElement));
     const popup = container.querySelector('.toastui-editor-popup-body');
     const contextMenu = container.querySelector('.toastui-editor-context-menu');
-    this.observer = new MutationObserver((r) => {
+    const observer = new MutationObserver((r) => {
       for (const entry of r) {
         entry.addedNodes.forEach((n) => {
           if (n instanceof HTMLElement) {
@@ -56,16 +96,13 @@ export class MarkdownEditorComponent implements AfterViewInit, OnDestroy {
         });
       }
     });
-    this.observer.observe(popup, {
+    observer.observe(popup, {
       childList: true,
     });
-    this.observer.observe(contextMenu, {
+    observer.observe(contextMenu, {
       childList: true,
     });
-  }
-
-  ngOnDestroy(): void {
-    this.observer.disconnect();
+    return observer;
   }
 
   private addRippleEvents(element: HTMLElement) {

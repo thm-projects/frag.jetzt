@@ -1,8 +1,10 @@
 @charset "utf-8";
 
-@import "tui-color-picker/dist/tui-color-picker.css";
 @import "@toast-ui/editor/dist/toastui-editor.css";
+@import "tui-color-picker/dist/tui-color-picker.css";
 @import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+@import "prismjs/themes/prism-dark.min.css";
+@import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 @import "@toast-ui/chart/dist/toastui-chart.css";
 @import "@toast-ui/editor-plugin-table-merged-cell/dist/toastui-editor-plugin-table-merged-cell.css";
 
@@ -1174,17 +1176,100 @@ div.toastui-editor-fragjetzt {
   //            WYSIWYG STUFF
   // -------------------------------------
 
-  .toastui-editor-contents {
-    th,
-    td {
-      &.toastui-editor-cell-selected {
-        background-color: yellow !important;
+  .toastui-editor-custom-block-view {
+    .tool {
+      // .mdc-text-field
+      display: none;
+      align-items: center;
+      padding-inline: 16px;
+      position: absolute;
+      box-sizing: border-box;
+      overflow: hidden;
+      will-change: opacity, transform, color;
+      border-top-left-radius: var(--mdc-filled-text-field-container-shape);
+      border-top-right-radius: var(--mdc-filled-text-field-container-shape);
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      flex: auto;
+      background-color: var(--mdc-filled-text-field-container-color);
+      // custom
+      border: none;
+      font-size: 1rem;
+      height: 2em;
+      padding-block: 0.5em;
+      // .mdc-text-field--filled .mdc-line-ripple::before
+      border-bottom-color: var(--mdc-filled-text-field-active-indicator-color);
+      border-bottom-width: var(--mdc-filled-text-field-active-indicator-height);
+      border-bottom-style: solid;
+      // ??
+      color: var(--mdc-filled-text-field-input-text-color);
+      caret-color: var(--mdc-filled-text-field-caret-color);
+
+      &:hover:not(:focus, .disabled) {
+        background-color: color-mix(
+          in srgb,
+          var(--mat-form-field-state-layer-color)
+            calc(var(--mat-form-field-hover-state-layer-opacity) * 100%),
+          var(--mdc-filled-text-field-container-color)
+        );
       }
 
-      &.toastui-editor-md-preview-highlight {
-        background-color: red !important;
-        color: green !important;
+      &:focus {
+        outline: none;
+        border-bottom-color: var(
+          --mdc-filled-text-field-focus-active-indicator-color
+        );
+        border-bottom-width: var(
+          --mdc-filled-text-field-focus-active-indicator-height
+        );
       }
+
+      &.disabled {
+        color: var(--mdc-filled-text-field-disabled-input-text-color);
+        background-color: var(--mdc-filled-text-field-disabled-container-color);
+        border-bottom-color: var(
+          --mdc-filled-text-field-disabled-active-indicator-color
+        );
+        pointer-events: none;
+      }
+
+      button {
+        border: none;
+        background: none;
+        position: relative;
+        color: inherit;
+        width: 1em;
+        height: 1em;
+        padding: 0.2em;
+        font-size: 1em;
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: currentColor;
+          mask-repeat: no-repeat;
+          mask-position: center;
+          mask-size: 60%;
+          mask-image: url(/assets/editor-icons/wysiwg/pencil-s.svg);
+        }
+      }
+
+      .info {
+        color: inherit;
+      }
+    }
+  }
+
+  .toastui-editor-custom-block.ProseMirror-selectednode
+    .toastui-editor-custom-block-view {
+    color: inherit;
+    border-color: var(--mat-divider-color);
+    border-width: var(--mat-divider-width);
+    border-style: solid;
+
+    .tool {
+      display: inline-flex;
     }
   }
 
@@ -1290,6 +1375,19 @@ div.toastui-editor-fragjetzt {
         var(--mdc-filled-button-container-color) 25%,
         transparent
       );
+    }
+
+    th,
+    td {
+      &.toastui-editor-cell-selected {
+        // TODO: Not working: Selection of merge cells
+        background-color: yellow !important;
+      }
+
+      &.toastui-editor-md-preview-highlight {
+        background-color: var(--mdc-filled-button-container-color);
+        color: var(--mdc-filled-text-field-container-color);
+      }
     }
   }
 

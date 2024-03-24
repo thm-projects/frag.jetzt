@@ -22,7 +22,6 @@ import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MARKED_OPTIONS, MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
@@ -70,20 +69,6 @@ import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 import { AdminModule } from './components/admin/admin.module';
-import {
-  HIGHLIGHT_OPTIONS,
-  HighlightLoader,
-  HighlightModule,
-} from 'ngx-highlightjs';
-import { HighlightJsDefaults } from './utils/highlight-js-defaults';
-
-import 'prismjs';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
-import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
-import 'katex/dist/katex.min.js';
-import 'emoji-toolkit/lib/js/joypixels.min.js';
-import 'quill-emoji/dist/quill-emoji.js';
-import { QuillModule } from 'ngx-quill';
 import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
@@ -146,21 +131,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AdminModule,
     CreatorModule,
     ModeratorModule,
-    MarkdownModule.forRoot({
-      loader: HttpClient,
-      markedOptions: {
-        provide: MARKED_OPTIONS,
-        useValue: {
-          pedantic: false,
-          gfm: true,
-          breaks: true,
-          sanitize: false,
-          smartLists: true,
-          smartypants: true,
-          xhtml: false,
-        },
-      },
-    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -175,8 +145,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ArsModule,
     JoyrideModule.forRoot(),
     MatNativeDateModule,
-    HighlightModule,
-    QuillModule.forRoot(),
     MatRippleModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
@@ -202,10 +170,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       useClass: AuthenticationInterceptor,
       multi: true,
     },
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: HighlightJsDefaults,
-    },
     WsConnectorService,
     NotificationService,
     AuthenticationService,
@@ -214,7 +178,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     EventService,
     RoomService,
     CommentService,
-    MarkdownService,
     UserService,
     VoteService,
     ModeratorService,
@@ -231,9 +194,7 @@ export class AppModule {
   constructor(
     private appState: AppStateService,
     private translateService: TranslateService,
-    private highlightLoader: HighlightLoader,
   ) {
-    this.highlightLoader.ready.subscribe();
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),
     );

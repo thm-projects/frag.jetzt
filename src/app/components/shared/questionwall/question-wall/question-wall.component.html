@@ -394,10 +394,10 @@
                     box-sizing: border-box;
                     max-width: 100%;
                   ">
-                  <app-view-comment-data
+                  <!-- TODO: <app-view-comment-data
                     [ngStyle]="{ 'font-size': fontSize + '%' }"
                     class="questionwall-present-markdown images qw-fade-animation"
-                    [currentData]="commentFocus.body"></app-view-comment-data>
+                    [currentData]="commentFocus.body"></app-view-comment-data> -->
                 </ars-row>
               </ars-row>
               <ars-row [height]="50">
@@ -873,9 +873,9 @@
         (click)="focusComment(comment)"
         style="box-sizing: border-box; padding: 0 16px; cursor: pointer">
         <p class="questionwall-comment-body">
-          <app-view-comment-data
+          <!-- TODO: <app-view-comment-data
             class="images"
-            [currentData]="comment.body"></app-view-comment-data>
+            [currentData]="comment.body"></app-view-comment-data> -->
         </p>
       </ars-row>
       <ars-row [height]="50">

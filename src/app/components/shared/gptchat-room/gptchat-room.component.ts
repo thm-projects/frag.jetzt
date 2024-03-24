@@ -37,7 +37,6 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
@@ -134,8 +133,6 @@ interface MultiContextElement {
   styleUrls: ['./gptchat-room.component.scss'],
 })
 export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(ViewCommentDataComponent)
-  commentData: ViewCommentDataComponent;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
   @ViewChild('sendButton', { static: false })
   sendButton: MatButton;
@@ -848,11 +845,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         return (acc ? acc + '\n' : '') + message;
       }, '');
     }
-    const data = this.commentData?.currentData;
-    if (!data) {
-      return '';
-    }
-    return QuillUtils.getMarkdownFromDelta(data);
+    return '';
+    // TODO:
+    // return QuillUtils.getMarkdownFromDelta(data);
   }
 
   private initNormal() {

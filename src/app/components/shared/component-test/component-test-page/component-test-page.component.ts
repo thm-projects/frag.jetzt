@@ -17,6 +17,7 @@ import { MatLabel } from '@angular/material/form-field';
 import { ComponentTestSectionComponent } from './component-test-section/component-test-section.component';
 import { MatDivider } from '@angular/material/divider';
 import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
+import { MD_EXAMPLE } from 'app/custom-markdown/markdown-common/plugins';
 
 @Component({
   selector: 'app-component-test-page',
@@ -48,6 +49,7 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
 })
 export class ComponentTestPageComponent {
   protected currentTheme: string = 'light';
+  protected markdown = MD_EXAMPLE;
 
   constructor() {
     this.currentTheme = document.body.classList.contains('light')

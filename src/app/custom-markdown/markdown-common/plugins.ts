@@ -1,7 +1,7 @@
 import chartPlugin, {
   PluginOptions as ChartOptions,
 } from '@toast-ui/editor-plugin-chart';
-import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
+import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import colorPlugin, {
   PluginOptions as ColorOptions,
 } from '@toast-ui/editor-plugin-color-syntax';
@@ -181,8 +181,7 @@ export const MD_PLUGINS: EditorPlugin[] = [
   [
     umlPlugin,
     {
-      rendererURL: 'http://www.plantuml.com/plantuml/svg/',
-      // Could also be: https://projects.thm.de/plantuml/png/
+      rendererURL: 'https://projects.thm.de/plantuml/svg/',
     } satisfies UmlOptions,
   ],
   // katex plugin

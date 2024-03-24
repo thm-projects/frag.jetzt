@@ -21,7 +21,6 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
 import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
@@ -54,7 +53,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       },
       isolate: true,
     }),
-    MarkdownModule,
     ArsModule,
     MatRippleModule,
     QRCodeModule,

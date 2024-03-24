@@ -9,18 +9,18 @@
     <mat-radio-button [value]="normalValue">
       <small>{{ "deepl.option-normal" | translate }}</small>
     </mat-radio-button>
-    <app-view-comment-data
+    <!-- TODO: <app-view-comment-data
       #normal
       [maxTextCharacters]="data.maxTextCharacters"
       [maxDataCharacters]="data.maxDataCharacters"
       [isModerator]="data.isModerator"
       [isEditor]="true"
-      [currentData]="normalValue.body"></app-view-comment-data>
+      [currentData]="normalValue.body"></app-view-comment-data> -->
     <br />
     <mat-radio-button [value]="improvedValue">
       <small>{{ "deepl.option-improved" | translate }}</small>
     </mat-radio-button>
-    <app-view-comment-data
+    <!-- TODO: <app-view-comment-data
       #improved
       [maxTextCharacters]="data.maxTextCharacters"
       [maxDataCharacters]="data.maxDataCharacters"
@@ -29,7 +29,7 @@
       [currentData]="improvedValue.body"
       [usesFormality]="supportsFormality"
       [formalityEmitter]="onFormalityChange.bind(this)"
-      [selectedFormality]="formality"></app-view-comment-data>
+      [selectedFormality]="formality"></app-view-comment-data> -->
   </mat-radio-group>
 </mat-dialog-content>
 

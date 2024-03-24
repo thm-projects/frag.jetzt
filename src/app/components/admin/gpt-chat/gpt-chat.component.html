@@ -70,12 +70,12 @@
       <mat-icon
         class="chatgpt-robot-icon"
         *ngIf="item.type === 'gpt'"></mat-icon>
-      <div
+      <!-- TODO: <div
         markdown
         emoji
         katex>
         {{ formatText(item.message) }}
-      </div>
+      </div> -->
       <button
         class="refresh-indicator"
         [matTooltip]="'gpt-chat.refresh' | translate"

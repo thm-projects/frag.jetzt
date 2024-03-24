@@ -29,36 +29,12 @@
               "src/sitemap.xml",
               "src/manifest.webmanifest"
             ],
-            "allowedCommonJsDependencies": [
-              "qrcode",
-              "quill-emoji/dist/quill-emoji.js",
-              "@stomp/rx-stomp"
-            ],
-            "styles": [
-              "src/styles-prod.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
-            ],
+            "allowedCommonJsDependencies": ["qrcode", "@stomp/rx-stomp"],
+            "styles": ["src/styles-prod.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]
             },
-            "scripts": [
-              "node_modules/marked/marked.min.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/@toast-ui/editor/dist/esm/index.js"
-            ],
+            "scripts": ["node_modules/@toast-ui/editor/dist/esm/index.js"],
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": {
@@ -129,31 +105,11 @@
               "src/favicon.ico",
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/styles.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
-            ],
+            "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]
             },
-            "scripts": [
-              "node_modules/marked/marked.min.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/@toast-ui/editor/dist/esm/index.js"
-            ]
+            "scripts": ["node_modules/@toast-ui/editor/dist/esm/index.js"]
           }
         },
         "lint": {

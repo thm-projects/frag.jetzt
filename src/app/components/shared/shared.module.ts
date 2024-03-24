@@ -20,7 +20,6 @@ import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
@@ -43,13 +42,9 @@ import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-te
 import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { WriteCommentComponent } from './write-comment/write-comment.component';
-import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
-import { QuillModule } from 'ngx-quill';
-import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
-import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
@@ -169,12 +164,10 @@ import { QuestionWallDrawerComponent } from './questionwall/question-wall/questi
     SharedRoutingModule,
     MatRippleModule,
     ArsModule,
-    MarkdownModule,
     QRCodeModule,
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    QuillModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatSliderModule,
@@ -219,12 +212,9 @@ import { QuestionWallDrawerComponent } from './questionwall/question-wall/questi
     JoyrideTemplateDirective,
     MatSpinnerOverlayComponent,
     WriteCommentComponent,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
-    ViewCommentDataComponent,
     DeepLDialogComponent,
     ExplanationDialogComponent,
-    QuillInputDialogComponent,
     WorkerConfigDialogComponent,
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
@@ -344,9 +334,7 @@ import { QuestionWallDrawerComponent } from './questionwall/question-wall/questi
     MatSpinnerOverlayComponent,
     JoyrideTemplateDirective,
     AutofocusDirective,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
-    ViewCommentDataComponent,
     WriteCommentComponent,
     AccessibilityEscapedInputDirective,
     QuestionWallIntroComponent,

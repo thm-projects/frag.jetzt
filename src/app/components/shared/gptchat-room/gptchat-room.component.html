@@ -101,11 +101,11 @@
         (mousedown)="stopper.next(true)">
         {{ "gpt-chat.interrupt" | translate }}
       </button>
-      <div
+      <!-- TODO: <div
         [data]="formatText(item)"
         markdown
         emoji
-        katex></div>
+        katex></div> -->
 
       <button
         mat-icon-button
@@ -165,7 +165,7 @@
       </ng-container>
     </div>
 
-    <app-view-comment-data
+    <!-- TODO: <app-view-comment-data
       *ngIf="!answeringWriteComment || conversation.length > 0"
       [onEnter]="enterEvent"
       [currentData]="initDelta"
@@ -183,7 +183,7 @@
       [disableEmoji]="true"
       [placeHolderText]="
         'gpt-chat.enter-conversation-text' | translate
-      "></app-view-comment-data>
+      "></app-view-comment-data> -->
 
     <div
       *ngIf="answeringWriteComment && conversation.length < 1"
@@ -248,8 +248,8 @@
                 }
               }
               @case ("quill") {
-                <app-view-comment-data
-                  [currentData]="getAsQuill(context)"></app-view-comment-data>
+                <!-- TODO: <app-view-comment-data
+                  [currentData]="getAsQuill(context)"></app-view-comment-data> -->
               }
             }
           </ng-container>

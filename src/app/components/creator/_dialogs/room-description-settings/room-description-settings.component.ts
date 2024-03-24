@@ -5,7 +5,6 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
 import { QuillUtils } from '../../../../utils/quill-utils';
-import { clone } from '../../../../utils/ts-utils';
 import { Comment } from '../../../../models/comment';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -26,9 +25,10 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.editRoom) {
-      this.writeComment.commentData.currentData = clone(
-        this.editRoom.description,
-      );
+      // TODO
+      // this.writeComment.commentData.currentData = clone(
+      //   this.editRoom.description,
+      // );
     }
   }
 

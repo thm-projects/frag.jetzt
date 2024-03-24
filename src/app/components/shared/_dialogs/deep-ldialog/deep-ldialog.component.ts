@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
@@ -25,7 +18,8 @@ import { LanguagetoolResult } from 'app/services/http/languagetool.service';
 export interface ResultValue {
   body: StandardDelta;
   text: string;
-  view: ViewCommentDataComponent;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  view: any;
 }
 
 interface DialogData {
@@ -48,9 +42,7 @@ interface DialogData {
   templateUrl: './deep-ldialog.component.html',
   styleUrls: ['./deep-ldialog.component.scss'],
 })
-export class DeepLDialogComponent implements OnInit, AfterViewInit {
-  @ViewChild('normal') normal: ViewCommentDataComponent;
-  @ViewChild('improved') improved: ViewCommentDataComponent;
+export class DeepLDialogComponent implements OnInit {
   radioButtonValue: ResultValue;
   normalValue: ResultValue;
   improvedValue: ResultValue;
@@ -72,55 +64,18 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     this.normalValue = {
       body: this.data.body,
       text: this.data.text,
-      view: this.normal,
+      view: null,
     };
     this.improvedValue = {
       body: this.data.improvedBody,
       text: this.data.improvedText,
-      view: this.improved,
+      view: null,
     };
     this.radioButtonValue = this.normalValue;
     this.formality = this.data.formality;
   }
 
-  ngAfterViewInit() {
-    const build = () => {
-      this.normal.buildMarks(this.data.text, this.data.result);
-    };
-    if (this.normal.initialized) {
-      build();
-    } else {
-      this.normal.afterEditorInit = build;
-    }
-  }
-
-  protected submit() {
-    let current: ResultValue;
-    if (this.radioButtonValue === this.normalValue) {
-      this.normalValue.body = this.normal.currentData;
-      this.normalValue.text = this.normal.currentText;
-      this.normalValue.view = this.normal;
-      current = this.normalValue;
-    } else {
-      this.improvedValue.body = this.improved.currentData;
-      this.improvedValue.text = this.improved.currentText;
-      this.improvedValue.view = this.improved;
-      current = this.improvedValue;
-    }
-    if (
-      ViewCommentDataComponent.checkInputData(
-        current.body,
-        current.text,
-        this.translateService,
-        this.notificationService,
-        this.data.maxTextCharacters,
-        this.data.maxDataCharacters,
-      )
-    ) {
-      this.data.onClose(current, true);
-      this.dialogRef.close(true);
-    }
-  }
+  protected submit() {}
 
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
@@ -140,7 +95,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
         next: ([improvedBody, improvedText]) => {
           this.improvedValue.body = improvedBody;
           this.improvedValue.text = improvedText;
-          this.improved.currentData = improvedBody;
+          // this.improved.currentData = improvedBody;
         },
         error: () => {
           this.translateService
