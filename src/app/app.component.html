@@ -1,17 +1,22 @@
-<header #headerElement>
-  <app-header #header></app-header>
-</header>
-<div
-  id="scroll_container"
-  #scrollElement
-  (scroll)="onScroll()">
+<!--<header #headerElement>-->
+<!--  <app-header #header></app-header>-->
+<!--</header>-->
+<!--<div-->
+<!--  id="scroll_container"-->
+<!--  #scrollElement-->
+<!--  (scroll)="onScroll()">-->
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->
+<!--<footer-->
+<!--  role="contentinfo"-->
+<!--  #footerElement>-->
+<!--  <app-footer></app-footer>-->
+<!--</footer>-->
+
+<app-header></app-header>
+<m3-nav-pane>
   <router-outlet></router-outlet>
-</div>
-<footer
-  role="contentinfo"
-  #footerElement>
-  <app-footer></app-footer>
-</footer>
+</m3-nav-pane>
 
 <style>
   #debugger {

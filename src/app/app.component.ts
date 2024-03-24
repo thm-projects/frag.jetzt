@@ -59,7 +59,7 @@ import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
-import { M3DynamicThemeService } from './services/m3-services/dynamic-theme/m3-dynamic-theme.service';
+import { M3DynamicThemeService } from '../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
@@ -166,7 +166,10 @@ export class AppComponent implements OnInit {
         this._roomService
           .addRoom(
             new Room({
-              name: `random room ${new Date().getTime()}`,
+              name: (() => {
+                const roomNames = ['yeet'];
+                return roomNames[Math.floor(Math.random() * roomNames.length)];
+              })(),
               tags: [],
               shortId: undefined,
               directSend: true,

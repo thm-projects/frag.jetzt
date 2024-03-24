@@ -1,0 +1,19 @@
+/// css token for m3 components.
+/// Based on m3 component specifications
+
+@mixin _navigation-rail() {
+  --component-navigation-rail-container-width: 80px;
+  --component-navigation-rail-container-color: var(--md-sys-color-surface);
+}
+
+@mixin _m3-nav-drawer() {
+}
+
+@mixin _custom-components() {
+  @include _m3-nav-drawer();
+}
+
+@mixin all-components() {
+  @include _navigation-rail();
+  @include _custom-components();
+}

@@ -1,4 +1,4 @@
-@use "m3-style/m3-initializer" as m3-init;
+@use "modules/m3/style/m3-initializer" as m3-init;
 @import "style/fix-material-icons.scss";
 //@import "styles.scss";
 @import "material-icons/iconfont/material-icons.css";
@@ -129,32 +129,32 @@ body {
     height: 100%;
   }
 }
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: color-mix(
-    in srgb,
-    var(--mdc-filled-button-container-color) 67%,
-    transparent
-  );
-  border-radius: 1rem;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: color-mix(
-    in srgb,
-    var(--mdc-filled-button-container-color) 75%,
-    transparent
-  );
-}
+//
+///* width */
+//::-webkit-scrollbar {
+//  width: 10px;
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: color-mix(
+//    in srgb,
+//    var(--mdc-filled-button-container-color) 67%,
+//    transparent
+//  );
+//  border-radius: 1rem;
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: color-mix(
+//    in srgb,
+//    var(--mdc-filled-button-container-color) 75%,
+//    transparent
+//  );
+//}

@@ -93,6 +93,8 @@ import { AppStateService } from './services/state/app-state.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FragJetztLogoComponent } from './components/branding/frag-jetzt-logo/frag-jetzt-logo.component';
+import { M3Module } from '../modules/m3/m3.module';
+import { M3NavPaneComponent } from '../modules/m3/components/navigation/m3-nav-pane/m3-nav-pane.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -138,6 +140,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     BrowserModule,
     BrowserAnimationsModule,
     EssentialsModule,
+    M3Module,
     SharedModule,
     ThemeModule,
     MatIconModule,
@@ -186,6 +189,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     }),
     ColorPickerModule,
     FragJetztLogoComponent,
+    M3NavPaneComponent,
   ],
   providers: [
     /*AppConfig,

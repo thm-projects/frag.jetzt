@@ -1,0 +1,142 @@
+-- legend
+--  Group Elements
+--    UI-Element
+--      > ($NAME$) : ($TYPE$)
+--    UI-Element routes to $URL$
+--      @route $URL$
+--  Group with $URL$
+--    @url $URL$
+--  Extends $GROUP$
+--    @extends $GROUP$
+--  Create Component
+--    -> $UI-Element$
+@def global:
+  > footer : panel
+    > introduction : button
+    > design : button
+    > language : button
+    > data-protection : button
+    > imprint : button
+@url: /home
+  @extends global
+  > header : panel
+    > tour : button
+    > sign-in : button
+      -> app-login : dialog
+        > login-thm : button
+        > login-frag.jetzt : button
+        > guest : button
+  > content : panel
+    > create-room : button
+    > key-code : input
+@url: /user
+  @extends global
+  > header : panel
+    > navigation : button *menuTrigger
+      > back : button
+      > rooms : button
+      > bonus-stars : button
+      > feedback-room : button
+      > news : button
+      > logout : button
+    > options
+      > design : button
+      > language : button
+      > fullscreen : button
+      > logout : button
+  > content : panel
+    > create-room : button
+    > key-code : input
+    > room-list : table [event, key-code, role, moderator-access, options]
+@url /creator/room/:id
+  @extends global
+  > header : panel
+    > navigation : button *menuTrigger
+      > back : button
+      > comments : button
+        @route /creator/room/:id/comments
+      > moderation : button
+        @route /creator/room/:id/moderator/comments
+      > question-focus : button
+        @route /creator/room/:id/comments/questionwall
+      > flash-poll : button
+        -> livepoll-create : dialog
+      > question-radar : button
+        -> topic-cloud-filter : dialog
+          > explain : button
+            -> explanation-dialog : dialog
+          > next : button
+            @route /creator/room/:id/comments/tagcloud
+      > brainstorming : button
+        -> topic-cloud-brainstorming : dialog
+          > explain : button
+            -> explanation-dialog : dialog
+      > quiz-rally : button
+        @route /quiz
+      > QR-Code : button
+        -> qr-code-dialog : dialog
+      > Room-Management (active) : button
+      > rooms : button
+        @route /user
+      > bonus-archive : button
+        -> bonus-token : dialog
+      > feedback-room : button
+      > news : button
+        -> motd-dialog : dialog
+      > logout : button
+    > options : button *menuTrigger
+      > ChatGPT-Settings : button
+        -> multi-level-dialog : dialog
+      > room-settings : button
+        -> room-settings-overview : dialog
+          > explain : button
+            -> explanation-dialog : dialog
+      > moderation-mode : button
+        -> comment-settings : dialog
+      > forum-conversation : button
+        -> toggle-moderation : dialog
+      > question-categories : button
+        -> tags : dialog
+      > bonus-archive : button
+        -> bonus-token : dialog
+          > learn more : button
+            -> explanation-dialog : dialog
+      > export-questions : button
+      > import-questions : button
+      > welcome-text : button
+        -> room-description-settings : dialog
+      > block-new-questions : button
+        -- used as toggle button
+        -- on true: header icon appears
+      > delete-questions : button
+        -> delete-comment : dialog
+      > delete-room : button
+        -> room-delete : dialog
+      > participant-view : button
+      > my-profile : button *menuTrigger
+        > pseudonym : button
+          -> pseudonym-editor : dialog
+        > bonus-stars : button
+          -> user-bonus-token : dialog
+            > explain : button
+              -> explanation-dialog : dialog
+        > email-notification : button
+          -> comment-notification-dialog : dialog
+        > chatGPT-prompts : button
+          @route gpt-prompts
+        > chatGPT-privacy-policy : button
+          -> gpt-opt-in-privacy : dialog
+      > design : button
+      > language : button
+      > fullscreen : button
+      > logout : button
+  > content : panel
+    > {room-name} : text
+    > {participant-access} : text
+    > moderator-access : button
+      -> moderators : dialog
+        > reload-icon : button
+          -> moderator-refresh-code : dialog
+      > explain : button
+        -> explanation-dialog : dialog
+    > comments : button

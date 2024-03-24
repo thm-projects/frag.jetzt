@@ -34,6 +34,9 @@ import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { SpendingWidgetComponent } from './spending-widget/spending-widget.component';
+import { M3NavPortalDirective } from '../../../modules/m3/components/navigation/m3-nav-portal/m3-nav-portal.directive';
+import { M3NavDrawerTriggerForDirective } from '../../../modules/m3/components/navigation/m3-nav-drawer-trigger-for/m3-nav-drawer-trigger-for.directive';
+import { M3DynamicThemePortalDirective } from '../../../modules/m3/components/dynamic-theme/m3-dynamic-theme-portal.directive';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -59,6 +62,9 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatRippleModule,
     QRCodeModule,
     SpendingWidgetComponent,
+    M3NavPortalDirective,
+    M3NavDrawerTriggerForDirective,
+    M3DynamicThemePortalDirective,
   ],
   declarations: [
     RoomCreatorPageComponent,
