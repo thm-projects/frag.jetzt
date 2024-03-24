@@ -8,6 +8,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -20,7 +21,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
-import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
 import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
@@ -64,6 +64,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() commentReference: UUID = null;
   @Input() onlyText = false;
   @Input() rewriteCommentData: ForumComment = null;
+  data = signal('');
   isSubmittingComment = false;
   selectedTag: string;
   maxTextCharacters = 2500;
@@ -343,72 +344,89 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createComment() {
-    let allowed = true;
+    const options: CommentCreateOptions = {
+      userId: this.user.id,
+      brainstormingSessionId: this.brainstormingData?.id || null,
+      brainstormingLanguage: this.brainstormingData?.language || 'en',
+      body: this.data(),
+      tag: this.selectedTag,
+      questionerName: this.questionerNameFormControl.value,
+      callbackFinished: () => (this.isSubmittingComment = false),
+      isModerator: this.userRole > 0,
+      hadUsedDeepL: this._hadUsedDeepl,
+      selectedLanguage: this.selectedLang,
+      commentReference: this.commentReference,
+      keywordExtractionActive:
+        this.sessionService.currentRoom?.keywordExtractionActive,
+    };
+    this.onClose(this._keywordExtractor.createPlainComment(options));
+    // TODO
+    // let allowed = true;
     //const data = this.commentData.currentData;
     //const text = this.commentData.currentText;
-    const data = '';
-    const text = '';
-    if (this.isQuestionerNameEnabled) {
-      this.questionerNameFormControl.setValue(
-        (this.questionerNameFormControl.value || '').trim(),
-      );
-      allowed =
-        !this.questionerNameFormControl.hasError('minlength') &&
-        !this.questionerNameFormControl.hasError('maxlength');
-    }
-    if (
-      this.brainstormingData &&
-      SharedTextFormatting.getWords(text).length >
-        this.brainstormingData.maxWordCount
-    ) {
-      this.translateService
-        .get('comment-page.error-comment-brainstorming', this.brainstormingData)
-        .subscribe((msg) => this.notification.show(msg));
-      allowed = false;
-    }
-    if (
-      this.allowEmpty ||
-      (this.checkInputData(
-        data,
-        text,
-        this.translateService,
-        this.notification,
-        this.maxTextCharacters,
-        this.maxDataCharacters,
-      ) &&
-        allowed)
-    ) {
-      const realData = this.allowEmpty && text.length < 2 ? '' : data;
-      const options: CommentCreateOptions = {
-        userId: this.user.id,
-        brainstormingSessionId: this.brainstormingData?.id || null,
-        brainstormingLanguage: this.brainstormingData?.language || 'en',
-        body: realData,
-        tag: this.selectedTag,
-        questionerName: this.questionerNameFormControl.value,
-        callbackFinished: () => (this.isSubmittingComment = false),
-        isModerator: this.userRole > 0,
-        hadUsedDeepL: this._hadUsedDeepl,
-        selectedLanguage: this.selectedLang,
-        commentReference: this.commentReference,
-        keywordExtractionActive:
-          this.sessionService.currentRoom?.keywordExtractionActive,
-      };
-      if (this.onlyText) {
-        this.onClose(this._keywordExtractor.createPlainComment(options));
-        return;
-      }
-      this.isSubmittingComment = true;
-      this._keywordExtractor.createCommentInteractive(options).subscribe({
-        next: (comment) => {
-          localStorage.setItem('comment-created', String(true));
-          this.onClose(comment);
-        },
-        error: () => {
-          // Ignore
-        },
-      });
-    }
+    // const data = '';
+    // const text = '';
+    // if (this.isQuestionerNameEnabled) {
+    //   this.questionerNameFormControl.setValue(
+    //     (this.questionerNameFormControl.value || '').trim(),
+    //   );
+    //   allowed =
+    //     !this.questionerNameFormControl.hasError('minlength') &&
+    //     !this.questionerNameFormControl.hasError('maxlength');
+    // }
+    // if (
+    //   this.brainstormingData &&
+    //   SharedTextFormatting.getWords(text).length >
+    //     this.brainstormingData.maxWordCount
+    // ) {
+    //   this.translateService
+    //     .get('comment-page.error-comment-brainstorming', this.brainstormingData)
+    //     .subscribe((msg) => this.notification.show(msg));
+    //   allowed = false;
+    // }
+    // if (
+    //   this.allowEmpty ||
+    //   (this.checkInputData(
+    //     data,
+    //     text,
+    //     this.translateService,
+    //     this.notification,
+    //     this.maxTextCharacters,
+    //     this.maxDataCharacters,
+    //   ) &&
+    //     allowed)
+    // ) {
+    //   const realData = this.allowEmpty && text.length < 2 ? '' : data;
+    //   const options: CommentCreateOptions = {
+    //     userId: this.user.id,
+    //     brainstormingSessionId: this.brainstormingData?.id || null,
+    //     brainstormingLanguage: this.brainstormingData?.language || 'en',
+    //     body: realData,
+    //     tag: this.selectedTag,
+    //     questionerName: this.questionerNameFormControl.value,
+    //     callbackFinished: () => (this.isSubmittingComment = false),
+    //     isModerator: this.userRole > 0,
+    //     hadUsedDeepL: this._hadUsedDeepl,
+    //     selectedLanguage: this.selectedLang,
+    //     commentReference: this.commentReference,
+    //     keywordExtractionActive:
+    //       this.sessionService.currentRoom?.keywordExtractionActive,
+    //   };
+    //   if (this.onlyText) {
+    //     this.onClose(this._keywordExtractor.createPlainComment(options));
+    //     return;
+    //   }
+    //   this.isSubmittingComment = true;
+    //   this._keywordExtractor.createCommentInteractive(options).subscribe({
+    //     next: (comment) => {
+    //       localStorage.setItem('comment-created', String(true));
+    //       this.onClose(comment);
+    //     },
+    //     error: () => {
+    //       // Ignore
+    //     },
+    //   });
+    // }
   }
 
   private openDeeplDialog() {
