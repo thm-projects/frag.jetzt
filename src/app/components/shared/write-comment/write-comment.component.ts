@@ -25,11 +25,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
 import {
-  ImmutableStandardDelta,
-  QuillUtils,
-  StandardDelta,
-} from '../../../utils/quill-utils';
-import {
   CommentCreateOptions,
   KeywordExtractor,
 } from '../../../utils/keyword-extractor';
@@ -279,7 +274,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   getContent(): ForumComment {
     // TODO
     // const data = this.commentData.currentData;
-    const data = '' as unknown as ImmutableStandardDelta;
+    const data = '';
     if (
       this._currentData &&
       this._currentData.body === data &&
@@ -351,7 +346,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     let allowed = true;
     //const data = this.commentData.currentData;
     //const text = this.commentData.currentText;
-    const data = '' as unknown as StandardDelta;
+    const data = '';
     const text = '';
     if (this.isQuestionerNameEnabled) {
       this.questionerNameFormControl.setValue(
@@ -383,7 +378,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
       ) &&
         allowed)
     ) {
-      const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
+      const realData = this.allowEmpty && text.length < 2 ? '' : data;
       const options: CommentCreateOptions = {
         userId: this.user.id,
         brainstormingSessionId: this.brainstormingData?.id || null,
@@ -472,7 +467,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public checkInputData(
-    data: StandardDelta,
+    data: string,
     text: string,
     translateService: TranslateService,
     notificationService: NotificationService,
@@ -480,7 +475,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     maxDataCharacters: number,
   ): boolean {
     text = text.trim();
-    if (QuillUtils.getContentCount(data) < 1) {
+    if (data.length < 1) {
       translateService
         .get('comment-page.error-comment')
         .subscribe((message) => {
@@ -494,7 +489,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
           notificationService.show(message);
         });
       return false;
-    } else if (QuillUtils.serializeDelta(data).length > maxDataCharacters) {
+    } else if (data.length > maxDataCharacters) {
       translateService
         .get('comment-page.error-comment-data')
         .subscribe((message) => {

@@ -22,12 +22,6 @@ import {
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { SessionService } from 'app/services/util/session.service';
 import {
-  ImmutableStandardDelta,
-  MarkdownDelta,
-  QuillUtils,
-  StandardDelta,
-} from 'app/utils/quill-utils';
-import {
   finalize,
   Observable,
   Observer,
@@ -52,7 +46,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
 import { EventService } from '../../../services/util/event.service';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { clone } from '../../../utils/ts-utils';
 import {
   CommentCreateOptions,
   KeywordExtractor,
@@ -117,7 +110,7 @@ interface ContextMultiple extends ContextBase {
 
 interface ContextQuill extends ContextBase {
   type: 'quill';
-  value?: ImmutableStandardDelta;
+  value?: string;
 }
 
 type Context = ContextSingle | ContextMultiple | ContextQuill;
@@ -149,7 +142,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
-  initDelta: StandardDelta;
+  initDelta: string;
   GPTRoomPresetLength = GPTRoomPresetLength;
   prompts: GPTPromptPreset[] = [];
   amountOfFoundActs: number = 0;
@@ -265,10 +258,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.owningComment?.body) {
       this.answeringComment = true;
       this.answeringWriteComment = true;
-      this.initDelta = clone(this.owningComment?.body);
-      this.getContextByName('question').value = clone(this.initDelta);
+      this.initDelta = this.owningComment?.body;
+      this.getContextByName('question').value = this.initDelta;
     } else {
-      this.initDelta = { ops: [] };
+      this.initDelta = '';
     }
     if (
       this.answeringComment &&
@@ -307,7 +300,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!msg.endsWith('\n')) {
       msg += '\n';
     }
-    this.initDelta = { ops: [{ insert: msg }] };
+    this.initDelta = msg;
   }
 
   ngAfterViewInit(): void {
@@ -366,7 +359,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const text = this.conversation[index].message;
-    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
     let url: string;
     const roleString =
       this.roomState.getCurrentAssignedRole()?.toLowerCase?.() || 'participant';
@@ -382,7 +374,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       userId: this.accountState.getCurrentUser().id,
       brainstormingSessionId: null,
       brainstormingLanguage: 'en',
-      body: data,
+      body: text,
       tag: null,
       questionerName: 'Chatbot',
       isModerator:
@@ -438,8 +430,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   editMessage(index: number) {
     const text = this.conversation[index].message;
-    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
-    this.initDelta = data;
+    this.initDelta = text;
     this.editIndex = index;
     this.sendButton._elementRef.nativeElement.scrollIntoView({
       behavior: 'smooth',
@@ -457,13 +448,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const text = this.conversation[index].message;
-    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
     sendAwaitingEvent(
       this.eventService,
       new ComponentEvent(
         'comment-answer.on-startup',
         'comment-answer.receive-startup',
-        { body: data, gptWriterState: 3, approved: true } as Partial<Comment>,
+        { body: text, gptWriterState: 3, approved: true } as Partial<Comment>,
       ),
     ).subscribe();
     let url: string;
@@ -561,7 +551,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       });
       this.addMessage(this.conversation.length - 1).subscribe();
     }
-    this.initDelta = { ops: [] };
+    this.initDelta = '';
     this.calculateTokens(currentText);
     const index = this.conversation.length;
     this.renewIndex = index;
@@ -704,7 +694,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   protected getAsQuill(context: Context) {
-    return context.value as ImmutableStandardDelta;
+    return context.value as string;
   }
 
   protected getAsSelectArray(context: Context) {
@@ -825,12 +815,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         if (current.type === 'single') {
           message = message.replaceAll('{{value}}', current.value['text']);
         } else if (current.type === 'quill') {
-          message = message.replaceAll(
-            '{{value}}',
-            QuillUtils.getMarkdownFromDelta(
-              current.value as ImmutableStandardDelta,
-            ),
-          );
+          message = message.replaceAll('{{value}}', current.value);
         } else {
           if (!current.selected) {
             return acc;

@@ -6,7 +6,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { JSONString } from '../../utils/ts-utils';
 import {
   ImportedComment,
@@ -34,7 +33,7 @@ export type CommentAPI = Omit<
 > & {
   keywordsFromQuestioner: JSONString;
   keywordsFromSpacy: JSONString;
-  body: SerializedDelta;
+  body: string;
 };
 
 @Injectable()
@@ -112,7 +111,7 @@ export class CommentService extends BaseHttpService {
         {
           roomId: comment.roomId,
           creatorId: comment.creatorId,
-          body: QuillUtils.serializeDelta(comment.body),
+          body: comment.body,
           tag: comment.tag,
           keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
           keywordsFromQuestioner: JSON.stringify(
@@ -141,7 +140,7 @@ export class CommentService extends BaseHttpService {
       for (const field of ImportedCommentFields) {
         c[field] = comment[field] as never;
       }
-      c.body = QuillUtils.serializeDelta(comment.body);
+      c.body = comment.body;
       c.keywordsFromSpacy = '[]' as JSONString;
       c.keywordsFromQuestioner = JSON.stringify(
         comment.keywordsFromQuestioner ?? [],
@@ -348,7 +347,6 @@ export class CommentService extends BaseHttpService {
     parsedComment.keywordsFromSpacy = JSON.parse(
       comment.keywordsFromSpacy ?? null,
     );
-    parsedComment.body = QuillUtils.deserializeDelta(comment.body);
     return parsedComment;
   }
 

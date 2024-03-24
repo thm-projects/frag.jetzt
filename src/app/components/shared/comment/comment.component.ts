@@ -37,7 +37,6 @@ import { DashboardNotificationService } from '../../../services/util/dashboard-n
 import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
 import { ForumComment } from '../../../utils/data-accessor';
-import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { EventService } from '../../../services/util/event.service';
@@ -328,9 +327,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isConversationView) {
       this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
-    this.readableCommentBody = this.comment?.body
-      ? QuillUtils.getTextFromDelta(this.comment.body)
-      : '';
+    this.readableCommentBody = this.comment.body;
     this.commentRegistrationId = this.comment?.id;
     this.checkProfanity();
     switch (this.userRole) {

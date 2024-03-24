@@ -185,9 +185,7 @@ export class AppComponent implements OnInit {
           roomId: this._sessionService.currentRoom.id,
           creatorId: generateConsequentlyUUID(),
           number: '1',
-          body: {
-            ops: [],
-          },
+          body: '',
           ack: true,
           correct: CorrectWrong.NULL,
           favorite: false,
@@ -224,9 +222,7 @@ export class AppComponent implements OnInit {
                 roomId: this._sessionService.currentRoom.id,
                 creatorId: generateConsequentlyUUID(),
                 number: '1',
-                body: {
-                  ops: [],
-                },
+                body: '',
                 ack: true,
                 correct: CorrectWrong.NULL,
                 favorite: false,

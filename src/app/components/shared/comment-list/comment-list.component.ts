@@ -52,7 +52,6 @@ import {
   FilterTypeCounts,
   PeriodCounts,
 } from '../../../utils/filtered-data-access';
-import { QuillUtils } from '../../../utils/quill-utils';
 import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
@@ -458,9 +457,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       ])
       .subscribe((update) => {
         if (update.type === 'CommentCreated') {
-          this.announceNewComment(
-            QuillUtils.getTextFromDelta(update.comment.body),
-          );
+          this.announceNewComment(update.comment.body);
           if (update.comment.id && update.comment.id === this.sendCommentId) {
             wasUpdate = true;
           }

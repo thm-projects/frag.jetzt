@@ -132,7 +132,7 @@ export const uploadCSV = (): Observable<string> =>
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  question: SerializedDelta;
+  question: string;
   bonusQuestionNumber: string;
   userLoginId: string;
 }
@@ -151,7 +151,7 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           valueMapper: {
             export: (config, k) => k.bonusQuestionNumber,
             import: (config, val) =>
-              ({ bonusQuestionNumber: val } as BonusArchiveEntry),
+              ({ bonusQuestionNumber: val }) as BonusArchiveEntry,
           },
         },
         {
@@ -166,14 +166,13 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
         },
         {
           languageKey: 'bonus-archive-export.entry-question',
-          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>(
-            'bonus-archive-export.empty',
-            (c) => c.question,
-            (val, c) => {
-              c.question = val as SerializedDelta;
-              return c;
+          valueMapper: {
+            export: (cfg, k) => k.question,
+            import: (cfg, val, prev) => {
+              prev.question = val;
+              return prev;
             },
-          ),
+          },
         },
         {
           languageKey: 'bonus-archive-export.entry-date',
@@ -242,7 +241,7 @@ export const exportBonusArchive = (
         switchMap((arr: [userId: string, c: Comment][]) => {
           arr.sort(([, a], [, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
-            question: QuillUtils.serializeDelta(c?.body),
+            question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number,
@@ -346,14 +345,13 @@ const roomImportExport = (
         },
         {
           languageKey: translatePath + '.question',
-          ...ImportExportManager.createQuillMapper<Comment>(
-            empty,
-            (c) => QuillUtils.serializeDelta(c.body),
-            (str, c) => {
-              c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
-              return c;
+          valueMapper: {
+            export: (cfg, c) => c.body,
+            import: (cfg, val, prev) => {
+              prev.body = val;
+              return prev;
             },
-          ),
+          },
         },
         {
           languageKey: translatePath + '.chosen-category',

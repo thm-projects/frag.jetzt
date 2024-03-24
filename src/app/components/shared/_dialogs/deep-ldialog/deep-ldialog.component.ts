@@ -7,7 +7,6 @@ import {
   FormalityType,
   TargetLang,
 } from '../../../../services/http/deep-l.service';
-import { StandardDelta } from '../../../../utils/quill-utils';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -16,16 +15,16 @@ import {
 import { LanguagetoolResult } from 'app/services/http/languagetool.service';
 
 export interface ResultValue {
-  body: StandardDelta;
+  body: string;
   text: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   view: any;
 }
 
 interface DialogData {
-  body: StandardDelta;
+  body: string;
   text: string;
-  improvedBody: StandardDelta;
+  improvedBody: string;
   improvedText: string;
   result: LanguagetoolResult;
   target: TargetLang;
@@ -84,26 +83,20 @@ export class DeepLDialogComponent implements OnInit {
     ref.componentInstance.translateKey = 'explanation.deepl';
   }
 
-  onFormalityChange(formality: string) {
-    this.deeplService
-      .improveDelta(
-        this.data.body,
-        this.data.usedTarget,
-        formality as FormalityType,
-      )
-      .subscribe({
-        next: ([improvedBody, improvedText]) => {
-          this.improvedValue.body = improvedBody;
-          this.improvedValue.text = improvedText;
-          // this.improved.currentData = improvedBody;
-        },
-        error: () => {
-          this.translateService
-            .get('deepl-formality-select.error')
-            .subscribe((str) => {
-              this.notificationService.show(str);
-            });
-        },
-      });
+  onFormalityChange() {
+    this.deeplService.improveDelta(this.data.body).subscribe({
+      next: ([improvedBody, improvedText]) => {
+        this.improvedValue.body = improvedBody;
+        this.improvedValue.text = improvedText;
+        // this.improved.currentData = improvedBody;
+      },
+      error: () => {
+        this.translateService
+          .get('deepl-formality-select.error')
+          .subscribe((str) => {
+            this.notificationService.show(str);
+          });
+      },
+    });
   }
 }

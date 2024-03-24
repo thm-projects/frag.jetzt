@@ -574,7 +574,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           e.forEach((elem) => {
             this.keywordExtractor
               .createCommentInteractive({
-                body: { ops: [{ insert: elem + '\n\n' }] },
+                body: elem + '\n\n',
                 brainstormingLanguage: session.language,
                 brainstormingSessionId: session.id,
                 hadUsedDeepL: false,

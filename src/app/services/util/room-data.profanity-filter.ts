@@ -3,11 +3,9 @@ import { Comment } from '../../models/comment';
 import { SpacyKeyword } from '../http/spacy.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { ForumComment } from '../../utils/data-accessor';
-import { ImmutableStandardDelta } from '../../utils/quill-utils';
-import { clone } from '../../utils/ts-utils';
 
 export interface CommentFilterData {
-  body: ImmutableStandardDelta;
+  body: string;
   bodyCensored?: boolean;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromQuestionerCensored?: boolean[];
@@ -26,18 +24,18 @@ export interface CommentProfanityInformation {
 }
 
 export class RoomDataProfanityFilter {
-
   constructor(
     private profanityFilterService: ProfanityFilterService,
     private room: Room,
-  ) {
-  }
+  ) {}
 
   public static hasDataProfanityMarked(data: CommentFilterData) {
-    return data.bodyCensored ||
+    return (
+      data.bodyCensored ||
       data.questionerNameCensored ||
-      data.keywordsFromQuestionerCensored.some(e => e) ||
-      data.keywordsFromSpacyCensored.some(e => e);
+      data.keywordsFromQuestionerCensored.some((e) => e) ||
+      data.keywordsFromSpacyCensored.some((e) => e)
+    );
   }
 
   public static applyToComment(comment: ForumComment, data: CommentFilterData) {
@@ -54,11 +52,18 @@ export class RoomDataProfanityFilter {
     return newArr;
   }
 
-  public filterComment(comment: ForumComment, censorIfProfanity = true): CommentProfanityInformation {
+  public filterComment(
+    comment: ForumComment,
+    censorIfProfanity = true,
+  ): CommentProfanityInformation {
     const before: CommentFilterData = {
       body: comment.body,
-      keywordsFromSpacy: RoomDataProfanityFilter.cloneKeywords(comment.keywordsFromSpacy),
-      keywordsFromQuestioner: RoomDataProfanityFilter.cloneKeywords(comment.keywordsFromQuestioner),
+      keywordsFromSpacy: RoomDataProfanityFilter.cloneKeywords(
+        comment.keywordsFromSpacy,
+      ),
+      keywordsFromQuestioner: RoomDataProfanityFilter.cloneKeywords(
+        comment.keywordsFromQuestioner,
+      ),
       questionerName: comment.questionerName,
     };
     const after = this.filterCommentOfProfanity(this.room, comment);
@@ -76,17 +81,42 @@ export class RoomDataProfanityFilter {
     };
   }
 
-  private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
-    const partialWords = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
-    const languageSpecific = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
-    const [body, bodyCensored] = this
-      .checkQuill(comment.body, partialWords, languageSpecific, comment.language);
-    const [keywordsFromSpacy, keywordsFromSpacyCensored] = this
-      .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
-    const [keywordsFromQuestioner, keywordsFromQuestionerCensored] = this
-      .checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language);
-    const [questionerName, questionerNameCensored] = this.profanityFilterService
-      .filterProfanityWords(comment.questionerName, partialWords, languageSpecific, comment.language);
+  private filterCommentOfProfanity(
+    room: Room,
+    comment: Comment,
+  ): CommentFilterData {
+    const partialWords =
+      room.profanityFilter === ProfanityFilter.ALL ||
+      room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
+    const languageSpecific =
+      room.profanityFilter === ProfanityFilter.ALL ||
+      room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
+    const [body, bodyCensored] = this.checkQuill(
+      comment.body,
+      partialWords,
+      languageSpecific,
+      comment.language,
+    );
+    const [keywordsFromSpacy, keywordsFromSpacyCensored] = this.checkKeywords(
+      comment.keywordsFromSpacy,
+      partialWords,
+      languageSpecific,
+      comment.language,
+    );
+    const [keywordsFromQuestioner, keywordsFromQuestionerCensored] =
+      this.checkKeywords(
+        comment.keywordsFromQuestioner,
+        partialWords,
+        languageSpecific,
+        comment.language,
+      );
+    const [questionerName, questionerNameCensored] =
+      this.profanityFilterService.filterProfanityWords(
+        comment.questionerName,
+        partialWords,
+        languageSpecific,
+        comment.language,
+      );
     return {
       body,
       bodyCensored,
@@ -100,41 +130,41 @@ export class RoomDataProfanityFilter {
   }
 
   private checkQuill(
-    quillDelta: ImmutableStandardDelta,
+    quillDelta: string,
     partialWords: boolean,
     languageSpecific: boolean,
     lang: string,
-  ): [ImmutableStandardDelta, boolean] {
-    const newDelta = clone(quillDelta);
-    let censored = false;
-    newDelta.ops.forEach(op => {
-      if (typeof op.insert !== 'string') {
-        return;
-      }
-      const [text, textCensored] = this.profanityFilterService.filterProfanityWords(
-        op.insert, partialWords, languageSpecific, lang
+  ): [string, boolean] {
+    const [text, textCensored] =
+      this.profanityFilterService.filterProfanityWords(
+        quillDelta,
+        partialWords,
+        languageSpecific,
+        lang,
       );
-      censored = censored || textCensored;
-      op.insert = text;
-    });
-    return [newDelta, censored];
+    return [text, textCensored];
   }
 
   private checkKeywords(
     keywords: SpacyKeyword[],
     partialWords: boolean,
     languageSpecific: boolean,
-    lang: string
+    lang: string,
   ): [SpacyKeyword[], boolean[]] {
     const newKeywords = [...keywords];
     const censored: boolean[] = new Array(keywords.length);
     for (let i = 0; i < newKeywords.length; i++) {
-      const [text, textCensored] = this.profanityFilterService
-        .filterProfanityWords(newKeywords[i].text, partialWords, languageSpecific, lang);
+      const [text, textCensored] =
+        this.profanityFilterService.filterProfanityWords(
+          newKeywords[i].text,
+          partialWords,
+          languageSpecific,
+          lang,
+        );
       censored[i] = textCensored;
       newKeywords[i] = {
         text,
-        dep: newKeywords[i].dep
+        dep: newKeywords[i].dep,
       };
     }
     return [newKeywords, censored];

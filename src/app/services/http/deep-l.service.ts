@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
-import {
-  ImmutableStandardDelta,
-  QuillUtils,
-  StandardDelta,
-} from '../../utils/quill-utils';
-import { clone } from '../../utils/ts-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -171,52 +165,8 @@ export class DeepLService extends BaseHttpService {
     );
   }
 
-  improveDelta(
-    body: ImmutableStandardDelta,
-    targetLang: TargetLang,
-    formality: FormalityType,
-  ): Observable<[StandardDelta, string]> {
-    let isMark = false;
-    const skipped = [];
-    const newDelta: StandardDelta = clone(body);
-    const xml = newDelta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] !== 'string') {
-        skipped.push(i);
-        return acc;
-      }
-      const text = DeepLService.encodeHTML(
-        DeepLService.removeMarkdown(e['insert']),
-      );
-      acc += isMark ? '<x>' + text + '</x>' : text;
-      e['insert'] = '';
-      isMark = !isMark;
-      return acc;
-    }, '');
-    return this.improveTextStyle(xml, targetLang, formality).pipe(
-      map((str) => {
-        let index = 0;
-        const nextStr = (textStr: string) => {
-          while (skipped[0] === index) {
-            skipped.splice(0, 1);
-            index++;
-          }
-          if (index >= newDelta.ops.length) {
-            return;
-          }
-          newDelta.ops[index++]['insert'] = DeepLService.decodeHTML(textStr);
-        };
-        const regex = /<x>([^<]*)<\/x>/g;
-        let m;
-        let start = 0;
-        while ((m = regex.exec(str)) !== null) {
-          nextStr(str.substring(start, m.index));
-          nextStr(m[1]);
-          start = m.index + m[0].length;
-        }
-        nextStr(str.substring(start));
-        return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
-      }),
-    );
+  improveDelta(body: string): Observable<[string, string]> {
+    return of([body, body]);
   }
 
   improveTextStyle(

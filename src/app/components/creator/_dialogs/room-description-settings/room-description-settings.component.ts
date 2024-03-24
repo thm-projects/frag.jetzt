@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
-import { QuillUtils } from '../../../../utils/quill-utils';
 import { Comment } from '../../../../models/comment';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -39,7 +38,7 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     }
     this.roomService
       .patchRoom(this.editRoom.id, {
-        description: QuillUtils.serializeDelta(data.body),
+        description: data.body,
       })
       .subscribe();
     this.dialogRef.close('update');

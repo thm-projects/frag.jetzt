@@ -162,18 +162,8 @@ export class QuillUtils {
     return [url, URLType.NORMAL];
   }
 
-  static transformURLtoQuillLink(
-    data: StandardDelta,
-    transformToVideo: boolean,
-  ) {
-    data.ops = data.ops.reduce((acc, op) => {
-      if (op?.['attributes']?.link || typeof op.insert !== 'string') {
-        acc.push(op);
-        return acc;
-      }
-      this.transformURLinString(op.insert, op, transformToVideo, acc);
-      return acc;
-    }, [] as DeltaOpInsert[]);
+  static transformURLtoQuillLink(data: string) {
+    // TODO:
     return data;
   }
 

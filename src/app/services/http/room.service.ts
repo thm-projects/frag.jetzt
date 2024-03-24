@@ -8,7 +8,6 @@ import { BaseHttpService } from './base-http.service';
 import { NotificationService } from '../util/notification.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from '../state/account-state.service';
@@ -18,7 +17,7 @@ const httpOptions = {
 };
 
 export type RoomAPI = Omit<Room, 'description'> & {
-  description: SerializedDelta;
+  description: string;
 };
 
 export type RoomPatch = Partial<
@@ -102,28 +101,19 @@ export class RoomService extends BaseHttpService {
     delete room.id;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
     room.ownerId = this.accountState.getCurrentUser().id;
-    return this.http
-      .post<RoomAPI>(
-        connectionUrl,
-        {
-          ...room,
-          description: QuillUtils.serializeDelta(room.description),
-        },
-        httpOptions,
-      )
-      .pipe(
-        map((r) => this.parseRoom(r)),
-        tap((returnedRoom) => {
-          this.accountState
-            .setAccess(
-              returnedRoom.shortId,
-              returnedRoom.id,
-              UserRole.PARTICIPANT,
-            )
-            .subscribe();
-        }),
-        catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
-      );
+    return this.http.post<RoomAPI>(connectionUrl, room, httpOptions).pipe(
+      map((r) => this.parseRoom(r)),
+      tap((returnedRoom) => {
+        this.accountState
+          .setAccess(
+            returnedRoom.shortId,
+            returnedRoom.id,
+            UserRole.PARTICIPANT,
+          )
+          .subscribe();
+      }),
+      catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
+    );
   }
 
   getRoom(id: string): Observable<Room> {
@@ -188,19 +178,10 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${
       updatedRoom.shortId
     }`;
-    return this.http
-      .put<RoomAPI>(
-        connectionUrl,
-        {
-          ...updatedRoom,
-          description: QuillUtils.serializeDelta(updatedRoom.description),
-        },
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<RoomAPI>('updateRoom')),
-      );
+    return this.http.put<RoomAPI>(connectionUrl, updatedRoom, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<RoomAPI>('updateRoom')),
+    );
   }
 
   deleteRoom(roomId: string): Observable<void> {
@@ -249,7 +230,6 @@ export class RoomService extends BaseHttpService {
 
   private parseRoom(room: RoomAPI): Room {
     const newRoom = new Room(room as unknown as Room);
-    newRoom.description = QuillUtils.deserializeDelta(room.description, true);
     if (newRoom.brainstormingSession?.ideasEndTimestamp) {
       newRoom.brainstormingSession.ideasEndTimestamp = new Date(
         newRoom.brainstormingSession.ideasEndTimestamp,

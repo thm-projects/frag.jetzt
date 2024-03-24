@@ -4,7 +4,6 @@ import { Comment } from 'app/models/comment';
 import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';
 import { ForumComment } from 'app/utils/data-accessor';
-import { QuillUtils } from 'app/utils/quill-utils';
 import { TSMap } from 'typescript-map';
 
 @Component({
@@ -29,8 +28,8 @@ export class EditQuestionComponent {
         return;
       }
       const changes = new TSMap<keyof Comment, unknown>();
-      const newBody = QuillUtils.serializeDelta(newComment.body);
-      if (newBody !== QuillUtils.serializeDelta(this.comment.body)) {
+      const newBody = newComment.body;
+      if (newBody !== this.comment.body) {
         changes.set('body', newBody);
       }
       if (newComment.language !== this.comment.language) {

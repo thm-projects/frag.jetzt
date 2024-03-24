@@ -11,7 +11,6 @@ import {
   BookmarkAccess,
   RoomDataService,
 } from '../services/util/room-data.service';
-import { QuillUtils, SerializedDelta } from './quill-utils';
 
 interface Message {
   type: string;
@@ -469,7 +468,7 @@ export class DataAccessor {
         }
         break;
       case 'body':
-        comment.body = QuillUtils.deserializeDelta(value as SerializedDelta);
+        comment.body = value as string;
         break;
       default:
         if (SIMPLE_PATCH_PROPERTIES.has(changeKey)) {
