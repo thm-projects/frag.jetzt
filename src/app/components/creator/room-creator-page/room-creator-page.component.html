@@ -1,4 +1,257 @@
 <ng-container *ngIf="newUI">
+  <ng-template
+    #appsTemplate
+    [m3NavPortal]="'drawer'">
+    <span mat-subheader>Room</span>
+    <mat-nav-list>
+      <mat-list-item
+        (click)="setTemplate(roomTemplate, 'roomTemplate')"
+        [activated]="templateName === 'roomTemplate'">
+        <mat-icon matListItemIcon>meeting_room</mat-icon>
+        <span matListItemTitle>Room</span>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListItemIcon>comment</mat-icon>
+        <span matListItemTitle>Comments</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(moderationTemplate, 'moderationTemplate')"
+        [activated]="templateName === 'moderationTemplate'">
+        <mat-icon matListItemIcon>gavel</mat-icon>
+        <span matListItemTitle>Moderation</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(settingsTemplate, 'settingsTemplate')"
+        [activated]="templateName === 'settingsTemplate'">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Settings</span>
+      </mat-list-item>
+    </mat-nav-list>
+    <span matSubheader>Apps</span>
+    <mat-nav-list>
+      <mat-list-item
+        (click)="setTemplate(questionFocusTemplate, 'questionFocusTemplate')"
+        [activated]="templateName === 'questionFocusTemplate'">
+        <mat-icon matListItemIcon>view_kanban</mat-icon>
+        <span matListItemTitle>Question Focus</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(flashPollTemplate, 'flashPollTemplate')"
+        [activated]="templateName === 'flashPollTemplate'">
+        <mat-icon matListItemIcon>flash_on</mat-icon>
+        <span matListItemTitle>Flash Poll</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(questionRadarTemplate, 'questionRadarTemplate')"
+        [activated]="templateName === 'questionRadarTemplate'">
+        <mat-icon matListItemIcon>radar</mat-icon>
+        <span matListItemTitle>Question Radar</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(brainstormingTemplate, 'brainstormingTemplate')"
+        [activated]="templateName === 'brainstormingTemplate'">
+        <mat-icon matListItemIcon>tips_and_updates</mat-icon>
+        <span matListItemTitle>Brainstorming</span>
+      </mat-list-item>
+      <mat-list-item
+        (click)="setTemplate(quizRallyTemplate, 'quizRallyTemplate')"
+        [activated]="templateName === 'quizRallyTemplate'">
+        <mat-icon matListItemIcon>rocket_launch</mat-icon>
+        <span matListItemTitle>Quiz Rally</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </ng-template>
+
+  <ng-template #settingsTemplate>
+    <ng-container [m3DynamicThemePortal]="'#561236'"></ng-container>
+    <div class="left-content-pane">
+      <h1>Settings</h1>
+      <app-room-settings-overview [room]="room"></app-room-settings-overview>
+    </div>
+  </ng-template>
+  <ng-template #moderationTemplate>
+    <div class="grow column gap-extra-large">
+      <div class="column">
+        <h1>Moderation</h1>
+      </div>
+      <div class="row gap-large">
+        <div class="left-content-pane column gap-small">
+          <button
+            mat-flat-button
+            (click)="showModeratorsDialog()">
+            Moderator-Settings
+          </button>
+          <button
+            mat-button
+            routerLink="/creator/room/{{ room.shortId }}/moderator/comments">
+            Moderator-Page
+          </button>
+        </div>
+        <div class="content-pane"></div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #roomTemplate>
+    <div class="grow column gap-extra-large">
+      <div class="column">
+        <h1>{{ room.name }}</h1>
+      </div>
+      <div class="row gap-large">
+        <div class="left-content-pane">
+          <mat-form-field
+            [appearance]="'outline'"
+            style="margin-bottom: 8px">
+            <mat-label>Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="room.name"
+              [maxLength]="30" />
+            <mat-hint align="end">{{ room.name.length }}/30</mat-hint>
+          </mat-form-field>
+          <mat-form-field [appearance]="'outline'">
+            <mat-label>Description</mat-label>
+            <textarea matInput></textarea>
+          </mat-form-field>
+          <mat-form-field [appearance]="'outline'">
+            <mat-label>Room Tags</mat-label>
+            <mat-chip-grid
+              #chipGrid
+              aria-label="Enter keywords"
+              [formControl]="formControl">
+              @for (keyword of room.tags; track keyword) {
+                <mat-chip-row (removed)="removeTag($event.chip.value)">
+                  {{ keyword }}
+                  <button
+                    matChipRemove
+                    aria-label="'remove ' + keyword">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              }
+            </mat-chip-grid>
+            <input
+              placeholder="New keyword..."
+              [matChipInputFor]="chipGrid"
+              (matChipInputTokenEnd)="addTag($event.value)" />
+          </mat-form-field>
+        </div>
+        <div class="content-pane">
+          <div class="column gap-medium participant-join-pane">
+            <div class="row content-space-between items-center">
+              <span class="label-large">Participant Code</span>
+              <button mat-icon-button>
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+            <span class="display-large shortId">{{ room.shortId }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #questionFocusTemplate>
+    <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
+    <div class="left-content-pane">
+      <h1>
+        Question
+        <br />
+        Focus
+      </h1>
+      <div>
+        <button mat-flat-button>try out</button>
+      </div>
+      <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #flashPollTemplate>
+    <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
+    <div class="left-content-pane">
+      <h1>
+        Flash
+        <br />
+        Poll
+      </h1>
+      <div>
+        <button mat-flat-button>try out</button>
+      </div>
+      <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #questionRadarTemplate>
+    <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
+    <div class="left-content-pane">
+      <h1>
+        Question
+        <br />
+        Radar
+      </h1>
+      <div>
+        <button mat-flat-button>try out</button>
+      </div>
+      <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #brainstormingTemplate>
+    <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
+    <div class="left-content-pane">
+      <h1>Brainstorming</h1>
+      <div>
+        <button mat-flat-button>try out</button>
+      </div>
+      <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #quizRallyTemplate>
+    <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
+    <div class="left-content-pane">
+      <h1>
+        Quiz
+        <br />
+        Rally
+      </h1>
+      <div>
+        <button mat-flat-button>try out</button>
+      </div>
+      <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
+    </div>
+  </ng-template>
+  <ng-template #mockTemplate>
+    <div class="text-section-list">
+      <div class="text-section">
+        <h2>Personal</h2>
+        <p>
+          Devices should feel personal. Individual choices for device color and
+          form are brought to life through software. Dynamic color extraction
+          imbues the system with a personal aesthetic, while changes in shape
+          and lighting combine to create a holistic, resonant experience.
+        </p>
+      </div>
+      <div class="text-section">
+        <h2>Spirited</h2>
+        <p>
+          Enliven everyday interactions. A spirited energy animates routine
+          interactions like the response of a ripple or a FAB state change.
+          Updates to shape and motion lend an active, alive quality to elements
+          that react and adapt to user input and contexts.
+        </p>
+      </div>
+      <div class="text-section">
+        <h2>Unexpected</h2>
+        <p>
+          Design for emerging ecosystems. The blurring of device boundaries and
+          expanded motion system is noticeably new. The system is reframed as a
+          means for adaptation, discovery, and experimentation – it thrives
+          through change.
+        </p>
+      </div>
+    </div>
+  </ng-template>
+  <div
+    class="content-outlet"
+    [@ContentTemplateAnimation]="contentAnimationState">
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  </div>
+
   <!--  <div class="-rcp-content">-->
   <!--    <table>-->
   <!--      <tr>-->
@@ -73,259 +326,6 @@
 <!--  </button>-->
 <!--</ng-template>-->
 
-<ng-template
-  #appsTemplate
-  [m3NavPortal]="'drawer'">
-  <span mat-subheader>Room</span>
-  <mat-nav-list>
-    <mat-list-item
-      (click)="setTemplate(roomTemplate, 'roomTemplate')"
-      [activated]="templateName === 'roomTemplate'">
-      <mat-icon matListItemIcon>meeting_room</mat-icon>
-      <span matListItemTitle>Room</span>
-    </mat-list-item>
-    <mat-list-item>
-      <mat-icon matListItemIcon>comment</mat-icon>
-      <span matListItemTitle>Comments</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(moderationTemplate, 'moderationTemplate')"
-      [activated]="templateName === 'moderationTemplate'">
-      <mat-icon matListItemIcon>gavel</mat-icon>
-      <span matListItemTitle>Moderation</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(settingsTemplate, 'settingsTemplate')"
-      [activated]="templateName === 'settingsTemplate'">
-      <mat-icon matListItemIcon>settings</mat-icon>
-      <span matListItemTitle>Settings</span>
-    </mat-list-item>
-  </mat-nav-list>
-  <span matSubheader>Apps</span>
-  <mat-nav-list>
-    <mat-list-item
-      (click)="setTemplate(questionFocusTemplate, 'questionFocusTemplate')"
-      [activated]="templateName === 'questionFocusTemplate'">
-      <mat-icon matListItemIcon>view_kanban</mat-icon>
-      <span matListItemTitle>Question Focus</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(flashPollTemplate, 'flashPollTemplate')"
-      [activated]="templateName === 'flashPollTemplate'">
-      <mat-icon matListItemIcon>flash_on</mat-icon>
-      <span matListItemTitle>Flash Poll</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(questionRadarTemplate, 'questionRadarTemplate')"
-      [activated]="templateName === 'questionRadarTemplate'">
-      <mat-icon matListItemIcon>radar</mat-icon>
-      <span matListItemTitle>Question Radar</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(brainstormingTemplate, 'brainstormingTemplate')"
-      [activated]="templateName === 'brainstormingTemplate'">
-      <mat-icon matListItemIcon>tips_and_updates</mat-icon>
-      <span matListItemTitle>Brainstorming</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(quizRallyTemplate, 'quizRallyTemplate')"
-      [activated]="templateName === 'quizRallyTemplate'">
-      <mat-icon matListItemIcon>rocket_launch</mat-icon>
-      <span matListItemTitle>Quiz Rally</span>
-    </mat-list-item>
-  </mat-nav-list>
-</ng-template>
-
-<ng-template #settingsTemplate>
-  <ng-container [m3DynamicThemePortal]="'#561236'"></ng-container>
-  <div class="left-content-pane">
-    <h1>Settings</h1>
-    <app-room-settings-overview [room]="room"></app-room-settings-overview>
-  </div>
-</ng-template>
-<ng-template #moderationTemplate>
-  <div class="grow column gap-extra-large">
-    <div class="column">
-      <h1>Moderation</h1>
-    </div>
-    <div class="row gap-large">
-      <div class="left-content-pane column gap-small">
-        <button
-          mat-flat-button
-          (click)="showModeratorsDialog()">
-          Moderator-Settings
-        </button>
-        <button
-          mat-button
-          routerLink="/creator/room/{{ room.shortId }}/moderator/comments">
-          Moderator-Page
-        </button>
-      </div>
-      <div class="content-pane"></div>
-    </div>
-  </div>
-</ng-template>
-<ng-template #roomTemplate>
-  <div class="grow column gap-extra-large">
-    <div class="column">
-      <h1>{{ room.name }}</h1>
-    </div>
-    <div class="row gap-large">
-      <div class="left-content-pane">
-        <mat-form-field
-          [appearance]="'outline'"
-          style="margin-bottom: 8px">
-          <mat-label>Name</mat-label>
-          <input
-            matInput
-            [(ngModel)]="room.name"
-            [maxLength]="30" />
-          <mat-hint align="end">{{ room.name.length }}/30</mat-hint>
-        </mat-form-field>
-        <mat-form-field [appearance]="'outline'">
-          <mat-label>Description</mat-label>
-          <textarea matInput></textarea>
-        </mat-form-field>
-        <mat-form-field [appearance]="'outline'">
-          <mat-label>Room Tags</mat-label>
-          <mat-chip-grid
-            #chipGrid
-            aria-label="Enter keywords"
-            [formControl]="formControl">
-            @for (keyword of room.tags; track keyword) {
-              <mat-chip-row (removed)="removeTag($event.chip.value)">
-                {{ keyword }}
-                <button
-                  matChipRemove
-                  aria-label="'remove ' + keyword">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip-row>
-            }
-          </mat-chip-grid>
-          <input
-            placeholder="New keyword..."
-            [matChipInputFor]="chipGrid"
-            (matChipInputTokenEnd)="addTag($event.value)" />
-        </mat-form-field>
-      </div>
-      <div class="content-pane">
-        <div class="column gap-medium participant-join-pane">
-          <div class="row content-space-between items-center">
-            <span class="label-large">Participant Code</span>
-            <button mat-icon-button>
-              <mat-icon>content_copy</mat-icon>
-            </button>
-          </div>
-          <span class="display-large shortId">{{ room.shortId }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-<ng-template #questionFocusTemplate>
-  <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
-  <div class="left-content-pane">
-    <h1>
-      Question
-      <br />
-      Focus
-    </h1>
-    <div>
-      <button mat-flat-button>try out</button>
-    </div>
-    <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
-  </div>
-</ng-template>
-<ng-template #flashPollTemplate>
-  <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
-  <div class="left-content-pane">
-    <h1>
-      Flash
-      <br />
-      Poll
-    </h1>
-    <div>
-      <button mat-flat-button>try out</button>
-    </div>
-    <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
-  </div>
-</ng-template>
-<ng-template #questionRadarTemplate>
-  <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
-  <div class="left-content-pane">
-    <h1>
-      Question
-      <br />
-      Radar
-    </h1>
-    <div>
-      <button mat-flat-button>try out</button>
-    </div>
-    <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
-  </div>
-</ng-template>
-<ng-template #brainstormingTemplate>
-  <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
-  <div class="left-content-pane">
-    <h1>Brainstorming</h1>
-    <div>
-      <button mat-flat-button>try out</button>
-    </div>
-    <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
-  </div>
-</ng-template>
-<ng-template #quizRallyTemplate>
-  <ng-container [m3DynamicThemePortal]="'#123456'"></ng-container>
-  <div class="left-content-pane">
-    <h1>
-      Quiz
-      <br />
-      Rally
-    </h1>
-    <div>
-      <button mat-flat-button>try out</button>
-    </div>
-    <ng-container *ngTemplateOutlet="mockTemplate"></ng-container>
-  </div>
-</ng-template>
-<ng-template #mockTemplate>
-  <div class="text-section-list">
-    <div class="text-section">
-      <h2>Personal</h2>
-      <p>
-        Devices should feel personal. Individual choices for device color and
-        form are brought to life through software. Dynamic color extraction
-        imbues the system with a personal aesthetic, while changes in shape and
-        lighting combine to create a holistic, resonant experience.
-      </p>
-    </div>
-    <div class="text-section">
-      <h2>Spirited</h2>
-      <p>
-        Enliven everyday interactions. A spirited energy animates routine
-        interactions like the response of a ripple or a FAB state change.
-        Updates to shape and motion lend an active, alive quality to elements
-        that react and adapt to user input and contexts.
-      </p>
-    </div>
-    <div class="text-section">
-      <h2>Unexpected</h2>
-      <p>
-        Design for emerging ecosystems. The blurring of device boundaries and
-        expanded motion system is noticeably new. The system is reframed as a
-        means for adaptation, discovery, and experimentation – it thrives
-        through change.
-      </p>
-    </div>
-  </div>
-</ng-template>
-<div
-  class="content-outlet"
-  [@ContentTemplateAnimation]="contentAnimationState">
-  <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-</div>
-
 <div
   class="column gap-small"
   *ngIf="!newUI">
@@ -369,67 +369,60 @@
     </div>
   </div>
   <div class="room-page-content"></div>
-  <!--
-    TODO(lph) remove this comment
-    violates:
-      https://m3.material.io/components/cards/guidelines#406a4338-c187-4d1f-b289-502a79eb6b47
-    see for better solution:
-      https://m3.material.io/components/cards/guidelines#2143949d-3645-4c0f-8f91-6fe86bd416a0
-  -->
-  <!--  <mat-card-->
-  <!--    appearance="outlined"-->
-  <!--    *ngIf="room">-->
-  <!--    <mat-card-header>-->
-  <!--        <span matCardTitle>-->
-  <!--          {{ "room-page.session-id-lq-x" | translate }}{{-->
-  <!--            room.name-->
-  <!--          }}{{ "room-page.session-id-rq" | translate }}-->
-  <!--        </span>-->
-  <!--        <button-->
-  <!--          mat-icon-button-->
-  <!--          (click)="editSessionName()"-->
-  <!--          aria-labelledby="edit_session_name">-->
-  <!--          <mat-icon-->
-  <!--            class="copy material-icons-outlined"-->
-  <!--            [matTooltip]="'session.edit-session-name' | translate">-->
-  <!--            edit-->
-  <!--          </mat-icon>-->
-  <!--        </button>-->
-  <!--        <span class="room-short-id">-->
-  <!--          {{-->
-  <!--            "room-page.session-id" | translate-->
-  <!--          }}{{ "room-page.session-id-lq" | translate }}{{-->
-  <!--            room.shortId-->
-  <!--          }}{{ "room-page.session-id-rq" | translate }}-->
-  <!--        </span>-->
-  <!--        <button-->
-  <!--          mat-icon-button-->
-  <!--          class="subtitle-btn"-->
-  <!--          (click)="copyShortId()"-->
-  <!--          aria-labelledby="cloud_download">-->
-  <!--          <mat-icon-->
-  <!--            class="material-icons-outlined"-->
-  <!--            matTooltip="{{ 'room-page.copy-session-id' | translate }}">-->
-  <!--            share-->
-  <!--          </mat-icon>-->
-  <!--        </button>-->
-  <!--        <span class="room-short-id">-->
-  <!--          {{ "room-page.moderator-key" | translate }}-->
-  <!--        </span>-->
-  <!--        <button-->
-  <!--          mat-icon-button-->
-  <!--          class="subtitle-btn"-->
-  <!--          [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"-->
-  <!--          (click)="showModeratorsDialog()">-->
-  <!--          <mat-icon class="material-icons-outlined key-icon">key</mat-icon>-->
-  <!--        </button>-->
-  <!--    </mat-card-header>-->
-  <!--    <mat-card-content *ngIf="room.description || __debug">-->
-  <!--      <app-view-comment-data-->
-  <!--        class="images"-->
-  <!--        [currentData]="room.description"></app-view-comment-data>-->
-  <!--    </mat-card-content>-->
-  <!--  </mat-card>-->
+  <!--    <mat-card-->
+  <!--      appearance="outlined"-->
+  <!--      *ngIf="room">-->
+  <!--      <mat-card-header>-->
+  <!--          <span matCardTitle>-->
+  <!--            {{ "room-page.session-id-lq-x" | translate }}{{-->
+  <!--              room.name-->
+  <!--            }}{{ "room-page.session-id-rq" | translate }}-->
+  <!--          </span>-->
+  <!--          <button-->
+  <!--            mat-icon-button-->
+  <!--            (click)="editSessionName()"-->
+  <!--            aria-labelledby="edit_session_name">-->
+  <!--            <mat-icon-->
+  <!--              class="copy material-icons-outlined"-->
+  <!--              [matTooltip]="'session.edit-session-name' | translate">-->
+  <!--              edit-->
+  <!--            </mat-icon>-->
+  <!--          </button>-->
+  <!--          <span class="room-short-id">-->
+  <!--            {{-->
+  <!--              "room-page.session-id" | translate-->
+  <!--            }}{{ "room-page.session-id-lq" | translate }}{{-->
+  <!--              room.shortId-->
+  <!--            }}{{ "room-page.session-id-rq" | translate }}-->
+  <!--          </span>-->
+  <!--          <button-->
+  <!--            mat-icon-button-->
+  <!--            class="subtitle-btn"-->
+  <!--            (click)="copyShortId()"-->
+  <!--            aria-labelledby="cloud_download">-->
+  <!--            <mat-icon-->
+  <!--              class="material-icons-outlined"-->
+  <!--              matTooltip="{{ 'room-page.copy-session-id' | translate }}">-->
+  <!--              share-->
+  <!--            </mat-icon>-->
+  <!--          </button>-->
+  <!--          <span class="room-short-id">-->
+  <!--            {{ "room-page.moderator-key" | translate }}-->
+  <!--          </span>-->
+  <!--          <button-->
+  <!--            mat-icon-button-->
+  <!--            class="subtitle-btn"-->
+  <!--            [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"-->
+  <!--            (click)="showModeratorsDialog()">-->
+  <!--            <mat-icon class="material-icons-outlined key-icon">key</mat-icon>-->
+  <!--          </button>-->
+  <!--      </mat-card-header>-->
+  <!--      <mat-card-content *ngIf="room.description || __debug">-->
+  <!--        <app-view-comment-data-->
+  <!--          class="images"-->
+  <!--          [currentData]="room.description"></app-view-comment-data>-->
+  <!--      </mat-card-content>-->
+  <!--    </mat-card>-->
   <button
     mat-flat-button
     role="button"

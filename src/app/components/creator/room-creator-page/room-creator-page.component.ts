@@ -62,7 +62,7 @@ export class RoomCreatorPageComponent
     return this.newUI;
   }
 
-  newUI = true;
+  newUI = false;
   contentTemplate: TemplateRef<unknown>;
   templateName: string;
   roomTags: FormControl = new FormControl<unknown>([]);

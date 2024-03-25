@@ -1,21 +1,21 @@
 @use "styles-prod";
 
-//:host-context(:not(.new-ui)) {
-//  @extend .page-container;
-//  min-height: 100%;
-//  box-sizing: border-box;
-//  padding: 16px 4px;
-//  justify-content: space-evenly;
-//}
-//
-//:host-context(.new-ui) {
-//  display: flex;
-//}
-
-:host {
-  display: flex;
-  flex-direction: column;
+:host-context(:not(.new-ui)) {
+  @extend .page-container;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 16px 4px;
+  justify-content: space-evenly;
 }
+
+:host-context(.new-ui) {
+  display: flex;
+}
+//
+//:host {
+//  display: flex;
+//  flex-direction: column;
+//}
 
 @mixin _card-container {
   padding: 16px; // https://m3.material.io/components/cards/specs#9abbced9-d5d3-4893-9a67-031825205f06

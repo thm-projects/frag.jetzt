@@ -4,24 +4,26 @@
     [ngClass]="{
       'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')
     }">
-    <div class="header-row-section">
-      <app-navigation [showText]="!showSmallButtons"></app-navigation>
-      <button
-        id="tour-button"
-        mat-button
-        aria-labelledby="tour-label"
-        [matTooltip]="'header.tour-button' | translate"
-        [disabled]="!startUpFinished()"
-        *ngIf="router.url.endsWith('/home') && !isSafari"
-        (click)="startTour()">
-        <mat-icon>flag</mat-icon>
-        <ng-container *ngIf="!isMobile && !showSmallButtons">
-          {{ "header.tour" | translate }}
-        </ng-container>
-      </button>
+    <div class="grow row content-start">
+      <div class="row items-center content-start gap-small">
+        <app-navigation [showText]="!showSmallButtons"></app-navigation>
+        <button
+          id="tour-button"
+          mat-button
+          aria-labelledby="tour-label"
+          [matTooltip]="'header.tour-button' | translate"
+          [disabled]="!startUpFinished()"
+          *ngIf="router.url.endsWith('/home') && !isSafari"
+          (click)="startTour()">
+          <mat-icon>flag</mat-icon>
+          <ng-container *ngIf="!isMobile && !showSmallButtons">
+            {{ "header.tour" | translate }}
+          </ng-container>
+        </button>
+      </div>
     </div>
 
-    <div class="header-row-section">
+    <div class="row items-center content-start gap-small">
       <div
         *ngIf="
           headerService.isToggleCurrentUserActivity() && room?.mode === 'ARS'
@@ -356,46 +358,50 @@
       </div>
     </div>
 
-    <div id="options-login-box">
-      <mat-icon
-        *ngIf="user?.isGuest"
-        [matTooltip]="'header.guest-account-tooltip' | translate">
-        priority_high
-      </mat-icon>
+    <div class="grow row content-end">
+      <div
+        class="row items-center content-center gap-small"
+        id="options-login-box">
+        <mat-icon
+          *ngIf="user?.isGuest"
+          [matTooltip]="'header.guest-account-tooltip' | translate">
+          priority_high
+        </mat-icon>
 
-      <mat-icon
-        *ngIf="this.router.url.indexOf('/room/') > 0"
-        [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
-        {{ getCurrentRoleIcon() }}
-      </mat-icon>
+        <mat-icon
+          *ngIf="this.router.url.indexOf('/room/') > 0"
+          [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
+          {{ getCurrentRoleIcon() }}
+        </mat-icon>
 
-      <button
-        *ngIf="user"
-        mat-flat-button
-        [matMenuTriggerFor]="userMenu"
-        [disabled]="!this.sessionService.isReady"
-        [matTooltip]="'header.options-button' | translate">
-        <mat-icon>more_vert</mat-icon>
-        {{ customOptionText?.key || "header.my-account" | translate }}
-      </button>
+        <button
+          *ngIf="user"
+          mat-flat-button
+          [matMenuTriggerFor]="userMenu"
+          [disabled]="!this.sessionService.isReady"
+          [matTooltip]="'header.options-button' | translate">
+          <mat-icon>more_vert</mat-icon>
+          {{ customOptionText?.key || "header.my-account" | translate }}
+        </button>
 
-      <!-- TODO -->
-      <!-- Login Button, only visible when user is not logged in -->
-      <button
-        *ngIf="!user"
-        [disabled]="!startUpFinished()"
-        mat-button
-        [joyrideStep]="'loginButtonHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        (click)="login()"
-        aria-labelledby="login-label"
-        [matTooltip]="'header.sign-in-button' | translate">
-        <mat-icon>login</mat-icon>
-        <ng-container *ngIf="!isMobile && !showSmallButtons">
-          {{ "header.login" | translate }}
-        </ng-container>
-      </button>
+        <!-- TODO -->
+        <!-- Login Button, only visible when user is not logged in -->
+        <button
+          *ngIf="!user"
+          [disabled]="!startUpFinished()"
+          mat-button
+          [joyrideStep]="'loginButtonHeader'"
+          [stepPosition]="'center'"
+          appJoyrideTemplate
+          (click)="login()"
+          aria-labelledby="login-label"
+          [matTooltip]="'header.sign-in-button' | translate">
+          <mat-icon>login</mat-icon>
+          <ng-container *ngIf="!isMobile && !showSmallButtons">
+            {{ "header.login" | translate }}
+          </ng-container>
+        </button>
+      </div>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
