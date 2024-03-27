@@ -106,6 +106,9 @@ ngbuild:
     - install
   script:
     - ng build --configuration production --aot
+    - mv dist dist2
+    - mv dist2/fragjetzt/browser/ dist/
+    - rm -rf dist2/
   artifacts:
     paths:
       - "$BUILD_DIR"
