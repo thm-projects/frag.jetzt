@@ -167,7 +167,6 @@ div.toastui-editor-fragjetzt {
 
   .katex-error {
     // .mat-badge-content
-    display: inline-block;
     transition: transform 200ms ease-in-out;
     box-sizing: border-box;
     pointer-events: none;
@@ -260,7 +259,6 @@ div.toastui-editor-fragjetzt {
     text-transform: var(--mdc-outlined-button-label-text-transform);
     height: var(--mdc-outlined-button-container-height);
     border-radius: var(--mdc-outlined-button-container-shape);
-    padding: 0 15px 0 15px;
     border-width: var(--mdc-outlined-button-outline-width);
     padding: 0 var(--mat-outlined-button-horizontal-padding, 15px);
     text-decoration: none;
@@ -303,7 +301,6 @@ div.toastui-editor-fragjetzt {
     cursor: pointer;
     user-select: none;
     z-index: 0;
-    overflow: visible;
     color: var(--mdc-icon-button-icon-color);
     border-radius: 50%;
     flex-shrink: 0;
@@ -694,16 +691,12 @@ div.toastui-editor-fragjetzt {
 
   .toastui-editor-popup {
     // .mat-mdc-dialog-container .mdc-dialog__surface
-    display: flex;
     flex-direction: column;
-    flex-grow: 0;
     flex-shrink: 0;
-    box-sizing: border-box;
     pointer-events: auto;
     overflow-y: auto;
     outline: 0;
     transform: none;
-    max-height: inherit;
     min-height: inherit;
     min-width: inherit;
     background-color: var(--mdc-dialog-container-color, white);
@@ -857,7 +850,6 @@ div.toastui-editor-fragjetzt {
           position: absolute;
           bottom: 0;
           display: none;
-          transition-duration: var(--mat-tab-animation-duration, 250ms);
           border-radius: var(--mdc-tab-indicator-active-indicator-shape);
           border-bottom-width: var(--mdc-tab-indicator-active-indicator-height);
           border-color: var(--mdc-tab-indicator-active-indicator-color);
@@ -949,7 +941,6 @@ div.toastui-editor-fragjetzt {
           position: absolute;
           bottom: 0;
           display: none;
-          transition-duration: var(--mat-tab-animation-duration, 250ms);
           border-radius: var(--mdc-tab-indicator-active-indicator-shape);
           border-bottom-width: var(--mdc-tab-indicator-active-indicator-height);
           border-color: var(--mdc-tab-indicator-active-indicator-color);
@@ -995,7 +986,6 @@ div.toastui-editor-fragjetzt {
   .toastui-editor-popup-body {
     label {
       // custom
-      color: inherit;
       margin-bottom: 0;
       margin-top: -1em;
       z-index: 1;
@@ -1020,7 +1010,6 @@ div.toastui-editor-fragjetzt {
       ),
     .toastui-editor-file-name {
       // .mat-mdc-form-field
-      position: relative;
       min-height: var(--mat-form-field-container-height);
       padding-top: var(
         --mat-form-field-filled-with-label-container-padding-top
@@ -1114,7 +1103,6 @@ div.toastui-editor-fragjetzt {
       text-transform: var(--mdc-outlined-button-label-text-transform);
       height: var(--mdc-outlined-button-container-height);
       border-radius: var(--mdc-outlined-button-container-shape);
-      padding: 0 15px 0 15px;
       border-width: var(--mdc-outlined-button-outline-width);
       padding: 0 var(--mat-outlined-button-horizontal-padding, 15px);
       text-decoration: none;
@@ -1222,7 +1210,6 @@ div.toastui-editor-fragjetzt {
         position: absolute;
         top: 0;
         display: none;
-        transition-duration: var(--mat-tab-animation-duration, 250ms);
         border-radius: var(--mdc-tab-indicator-active-indicator-shape);
         border-top-width: var(--mdc-tab-indicator-active-indicator-height);
         border-color: var(--mdc-tab-indicator-active-indicator-color);
@@ -1739,10 +1726,8 @@ div.toastui-editor-fragjetzt {
           Roboto,
           sans-serif
         );
-        line-height: var(--mat-table-row-item-label-text-line-height);
         font-size: var(--mat-table-row-item-label-text-size, 14px);
         font-weight: var(--mat-table-row-item-label-text-weight);
-        background: inherit;
         // .mat-mdc-row
         height: var(--mat-table-row-item-container-height, 52px);
         color: var(--mat-table-row-item-label-text-color, rgba(0, 0, 0, 0.87));

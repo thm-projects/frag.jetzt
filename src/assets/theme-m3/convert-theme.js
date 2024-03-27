@@ -18,7 +18,7 @@ const requiredVariants = {
   const scssResult = convertToScss(patchedObject);
   console.log(scssResult);
 
-  function convertToScss() {
+  function convertToScss(patchedObject) {
     return traverse(patchedObject);
 
     function traverse(obj) {
