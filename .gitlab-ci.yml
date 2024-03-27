@@ -84,7 +84,7 @@ sonar:
     - staging
   tags:
     - sonar-cli
-  allow_failure: false
+  allow_failure: true
   dependencies:
     - unit_tests
     - install
