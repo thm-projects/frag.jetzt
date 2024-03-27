@@ -1,53 +1,63 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss']
+  styleUrls: ['./tags.component.scss'],
 })
 export class TagsComponent {
   displayEmptyOnCreateWarning = false;
   tags: string[];
   tagFormControl = new FormControl('', [
-    Validators.minLength(3), Validators.maxLength(20), this.emptyOnCreate.bind(this)
+    Validators.minLength(3),
+    Validators.maxLength(20),
+    this.emptyOnCreate.bind(this),
   ]);
   private _closeSubscription: Subscription;
 
-  constructor(
-    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-  ) {
-    this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
+  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>) {
+    this._closeSubscription = this.dialogRef
+      .beforeClosed()
+      .subscribe(() => this.closeDialog());
   }
 
   emptyOnCreate(control: FormControl) {
     if (this.displayEmptyOnCreateWarning && control.value.trim() === '') {
       return {
         emptyOnCreate: {
-          valid: false
-        }
+          valid: false,
+        },
       };
     }
     return null;
   }
 
   getErrorMessage() {
-    if (this.tagFormControl.hasError('minlength') || this.tagFormControl.hasError('maxlength')) {
+    if (
+      this.tagFormControl.hasError('minlength') ||
+      this.tagFormControl.hasError('maxlength')
+    ) {
       return 'room-page.tag-error-length';
     }
     if (this.tagFormControl.hasError('emptyOnCreate')) {
       return 'room-page.tag-error-empty';
     }
+    return '';
   }
 
   addTag(tag: string) {
     this.displayEmptyOnCreateWarning = true;
     tag = tag.trim();
     this.tagFormControl.setValue(tag);
-    if (this.tagFormControl.valid && tag.length > 0 && !this.tags.includes(tag)) {
+    if (
+      this.tagFormControl.valid &&
+      tag.length > 0 &&
+      !this.tags.includes(tag)
+    ) {
       this.tags.push(tag);
       this.tagFormControl.setValue('');
       this.displayEmptyOnCreateWarning = false;
@@ -57,7 +67,7 @@ export class TagsComponent {
   }
 
   deleteTag(tag: string) {
-    this.tags = this.tags.filter(o => o !== tag);
+    this.tags = this.tags.filter((o) => o !== tag);
   }
 
   closeDialog(): void {

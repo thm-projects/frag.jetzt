@@ -7,14 +7,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  PageEvent,
-} from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { getInstant } from 'app/utils/ts-utils';
 

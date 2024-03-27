@@ -1,76 +1,16 @@
-.expansion-action-list {
-  margin-top: 16px;
+.settings-content-container {
   display: flex;
   flex-direction: column;
+  > * + * {
+    margin-top: 16px;
+  }
 }
 
-.settings-panel-container {
+.settings-question-container {
   display: flex;
-  flex-direction: column;
-
-  > .title-option-container {
-    display: flex;
-    align-items: center;
-
-    > mat-form-field {
-      flex-grow: 1;
-      @media screen and (max-width: 600px) {
-        width: 50%;
-      }
-    }
-
-    > * + * {
-      margin-left: 16px;
-    }
-
-    > button {
-      position: relative;
-      top: -12px;
-      left: 0;
-    }
-  }
-
-  > mat-slide-toggle {
-    padding: 8px 0;
-  }
-
-  &-top {
-    margin: 8px 0;
-    justify-content: space-between;
-  }
-
-  > .row {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
-.settings-expansion-panel {
-  box-shadow: none;
-  border: 1px solid rgba(127, 127, 127, 0.5);
-}
-
-.force-corporate-design {
-  color: inherit !important;
-  background-color: inherit !important;
-}
-
-.button-save {
-  background-color: transparent;
-  color: var(--primary) !important;
-  outline: var(--primary) solid 2px;
-
-  &:hover {
-    background-color: var(--primary) !important;
-    color: var(--on-primary) !important;
-  }
-
-  &:focus-within {
-    outline: var(--primary) solid 2px;
-  }
-
-  &:active {
-    background-color: var(--primary);
-    color: var(--on-primary);
+  flex-direction: row;
+  align-items: center;
+  > * + * {
+    margin-left: 16px;
   }
 }

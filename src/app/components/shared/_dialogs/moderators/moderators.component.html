@@ -1,0 +1,99 @@
+<span matDialogTitle>{{ "moderators-dialog.title" | translate }}</span>
+<mat-dialog-content class="column gap-small">
+  <div class="row items-center">
+    <span class="grow">
+      {{ "moderators-dialog.join-code" | translate }} {{ shortIdCode }}
+    </span>
+    <button
+      mat-icon-button
+      *ngIf="moderatorShortId"
+      (click)="copyShortIdLink()"
+      [matTooltip]="'moderators-dialog.tooltip-clipboard' | translate"
+      class="add">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      *ngIf="isCreator"
+      (click)="refreshCode()"
+      [matTooltip]="'moderators-dialog.tooltip-recreate' | translate"
+      class="add">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+  <div class="column">
+    <mat-form-field class="grow">
+      <input
+        appAccessibilityEscapedInput
+        matInput
+        type="email"
+        #loginId
+        aria-labelledby="moderator-email"
+        [formControl]="usernameFormControl"
+        [placeholder]="'moderators-dialog.email' | translate"
+        name="username" />
+      <button
+        mat-icon-button
+        matIconSuffix
+        [disabled]="!loginId.value"
+        (click)="addModerator(loginId.value); loginId.value = ''"
+        aria-labelledby="add-moderator">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-error *ngIf="usernameFormControl.hasError('email')">
+        {{ "moderators-dialog.email-error" | translate }}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <span *ngIf="moderators.length === 0">
+    {{ "moderators-dialog.empty" | translate }}
+  </span>
+  <button
+    *ngIf="__debug"
+    (click)="__debug_addMockModerators()">
+    add
+  </button>
+  <ng-container *ngIf="moderators.length > 0">
+    <mat-list>
+      <mat-list-item
+        *ngFor="let moderator of moderators"
+        lines="2">
+        <span matListItemTitle>
+          {{ moderator.loginId || ("moderators-dialog.guest" | translate) }}
+        </span>
+        <span matListItemLine>{{ moderator.roomId }}</span>
+        <div matListItemMeta>
+          <button
+            mat-icon-button
+            (click)="openDeleteRoomDialog(moderator)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <div class="grow"></div>
+  <button
+    mat-button
+    (click)="dialogRef.close(false)">
+    {{ "explanation.close" | translate }}
+  </button>
+</mat-dialog-actions>
+
+<div class="visually-hidden">
+  <div id="moderator-email">
+    {{ "moderators-dialog.a11y-email" | translate }}
+  </div>
+  <div id="add-moderator">{{ "moderators-dialog.a11y-add" | translate }}</div>
+  <div id="delete-moderator">
+    {{ "moderators-dialog.a11y-delete" | translate }}
+  </div>
+</div>

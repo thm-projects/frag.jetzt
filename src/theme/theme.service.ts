@@ -8,6 +8,10 @@ import {
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 
+/**
+ * @deprecated
+ * @use M3DynamicThemeService
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,12 +43,12 @@ export class ThemeService {
     );
   }
 
-  public activate(name: ThemeKey) {
-    const active = this.getThemeByKey(name);
+  public activate(name: string | ThemeKey) {
+    const active = this.getThemeByKey(name as ThemeKey);
     if (!active) {
       throw new Error('Theme "' + name + '" does not exist!');
     }
-    this.appState.changeTheme(name);
+    this.appState.changeTheme(name as ThemeKey);
   }
 
   public getThemes(): Theme[] {

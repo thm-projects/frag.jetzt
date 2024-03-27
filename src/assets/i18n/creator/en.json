@@ -791,7 +791,7 @@
     "gpt-setup-item-two-radio-one": "With API Key",
     "gpt-setup-item-two-radio-two": "With Voucher",
     "gpt-setup-item-two-error-label-required": "Select a type of activation.",
-  
+
     "gpt-info-title": "OpenAI Data",
     "gpt-info-step-help": "# Api-Key at frag.jetzt\nFor using ChatGPT via the OpenAI API, you need an API key and optionally an organization.",
     "gpt-info-item-one-label": "Api Code & Organization",
@@ -800,39 +800,39 @@
     "gpt-info-item-two-error-label-pattern": "This is not a valid API key.",
     "gpt-info-item-three-label": "Api Organization",
     "gpt-info-item-three-error-label-pattern": "This is not a valid organization.",
-  
+
     "gpt-info-voucher-title": "OpenAI Voucher",
     "gpt-info-voucher-step-help": "# Voucher at frag.jetzt\nIf you have requested a voucher at frag.jetzt, you can enter it here. A voucher can only be redeemed once for a user.",
     "gpt-info-voucher-item-one-label": "Enter your voucher here.",
     "gpt-info-voucher-item-two-label": "Api Voucher",
     "gpt-info-voucher-item-two-error-label-required": "Please enter your voucher.",
-  
+
     "gpt-model-title": "OpenAI GPT Model",
     "gpt-model-step-help": "# LLM within frag.jetzt\nOpenAI offers various models that differ in their performance and costs. The choice of model affects the quality of the answers and the costs.",
     "gpt-model-item-one-label": "Select the model here.",
     "gpt-model-item-two-label": "GPT Model",
-  
+
     "room-quota-title": "Room Quota",
     "room-quota-step-help": "# Individual settings for the room\nHere you can set the quotas for the room. The quotas apply to all users in the room.",
     "room-quota-item-one-label": "Total cost limit",
     "room-quota-item-two-label": "Monthly cost limit",
     "room-quota-item-three-label": "Monthly rolling cost limit",
     "room-quota-item-four-label": "Daily cost limit",
-  
+
     "moderator-quota-title": "Moderator Quota",
     "moderator-quota-step-help": "# Individual settings for the moderator\nHere you can set the quotas for the moderator. The quotas apply to all moderators in the room.",
     "moderator-quota-item-one-label": "Total cost limit",
     "moderator-quota-item-two-label": "Monthly cost limit",
     "moderator-quota-item-three-label": "Monthly rolling cost limit",
     "moderator-quota-item-four-label": "Daily cost limit",
-  
+
     "participant-quota-title": "Participant Quota",
     "participant-quota-step-help": "# Individual settings for the participant\nHere you can set the quotas for the participant. The quotas apply to all participants in the room.",
     "participant-quota-item-one-label": "Total cost limit",
     "participant-quota-item-two-label": "Monthly cost limit",
     "participant-quota-item-three-label": "Monthly rolling cost limit",
     "participant-quota-item-four-label": "Daily cost limit",
-  
+
     "usage-time-title": "Usage Periods",
     "usage-time-step-help": "# The periods in which ChatGPT can be used\nHere you can set the periods in which ChatGPT can be used.",
     "usage-time-item-one-input": "Time span",
@@ -852,13 +852,13 @@
     "usage-time-item-one-option-fridays": "Fridays",
     "usage-time-item-one-option-saturdays": "Saturdays",
     "usage-time-item-one-option-sundays": "Sundays",
-  
+
     "miscellaneous-settings-title": "Miscellaneous Settings",
     "miscellaneous-settings-step-help": "# Further settings for ChatGPT\nHere you can make further settings for ChatGPT.",
     "miscellaneous-settings-item-one-label": "Allow ChatGPT for unregistered users",
     "miscellaneous-settings-item-two-label": "Let ChatGPT respond without prompt suggestions",
     "miscellaneous-settings-item-three-label": "Let ChatGPT respond only upon request",
-  
+
     "moderator-permissions-title": "Moderator Permissions",
     "moderator-permissions-step-help": "# Permissions for moderators\nHere you can set the permissions for moderators. The permissions apply to all moderators in the room.",
     "moderator-permissions-item-one-label": "Change participant quota",
@@ -1181,6 +1181,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "manually-title": "Keywords",
     "analysis-bad-spelled": "Note: The text is not suitable for keyword generation.",
     "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
@@ -1436,20 +1437,10 @@
   },
   "presets-dialog": {
     "context-title": "Context of the event",
-    "persona-title": "Presets for each person",
-    "topic-title": "Topics of the event",
     "role-instruction-title": "Role instructions for answers",
     "context-label": "Context",
-    "topic-label": "Topics",
-    "persona-moderator-label": "Competence (Moderator)",
-    "persona-user-label": "Competence (User)",
-    "persona-creator-label": "Competence (Creator)",
     "role-instruction-label": "Role instructions",
     "context-placeholder": "WPW Course",
-    "topic-placeholder": "Angular",
-    "persona-moderator-placeholder": "Moderator",
-    "persona-user-placeholder": "User",
-    "persona-creator-placeholder": "Creator",
     "role-instruction-placeholder": "Describe here role instructions for ChatGPT …",
     "save": "Save",
     "cancel": "Cancel",

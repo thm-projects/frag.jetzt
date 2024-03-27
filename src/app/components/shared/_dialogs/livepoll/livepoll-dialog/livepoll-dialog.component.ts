@@ -12,7 +12,7 @@ import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../models/livepoll-template';
-import { Observable, ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, of, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../../../../services/util/session.service';
@@ -23,9 +23,9 @@ import {
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { clone, UUID } from 'app/utils/ts-utils';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {
   ConfirmDialogAction,
@@ -76,6 +76,11 @@ export interface LivepollDialogResponseData {
 export interface LivepollOptionEntry {
   index: number;
   symbol: string;
+}
+
+interface MessagePayload {
+  votes: number[];
+  userCount: number;
 }
 
 @Component({
@@ -196,7 +201,7 @@ export class LivepollDialogComponent
           .pipe(takeUntil(this._destroyer))
           .subscribe((userCount) => {
             const parsed = JSON.parse(userCount.body);
-            if (parsed.hasOwnProperty('UserCountChanged')) {
+            if ('UserCountChanged' in parsed) {
               this.parseWebSocketStream(
                 'UserCountChanged',
                 parsed['UserCountChanged'],
@@ -260,7 +265,7 @@ export class LivepollDialogComponent
       data.viewsVisible = this.livepollSession.viewsVisible;
     }
     if (Object.keys(data).length < 1) {
-      return;
+      return of();
     }
     return this.livepollService
       .update(this.livepollSession.id, data)
@@ -292,14 +297,14 @@ export class LivepollDialogComponent
           this.livepollService
             .deleteVote(this.livepollSession.id)
             .subscribe(() => {
-              this.emitNotification('vote-delete');
+              this.emitNotification('snack-bar.vote.delete');
               this.waitForSocket = true;
             });
         } else {
           this.livepollService
             .makeVote(this.livepollSession.id, i)
             .subscribe(() => {
-              this.emitNotification('vote-make');
+              this.emitNotification('snack-bar.vote.make');
               this.waitForSocket = true;
             });
         }
@@ -313,10 +318,7 @@ export class LivepollDialogComponent
     switch (reason) {
       // delete: 'End poll'
       case 'delete':
-        this.createConfirmationDialog(
-          'dialog-confirm-delete-title',
-          'dialog-confirm-delete-description',
-        ).subscribe((x) => {
+        this.createConfirmationDialog('delete').subscribe((x) => {
           if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
@@ -326,10 +328,7 @@ export class LivepollDialogComponent
         });
         break;
       case 'reset':
-        this.createConfirmationDialog(
-          'dialog-confirm-create-new-title',
-          'dialog-confirm-create-new-description',
-        ).subscribe((x) => {
+        this.createConfirmationDialog('new').subscribe((x) => {
           if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
@@ -358,6 +357,10 @@ export class LivepollDialogComponent
     }
   }
 
+  /**
+   * TODO refactor this
+   * @param index
+   */
   public getVoteButtonClass(index: number) {
     const collect: string[] = [];
     if (index === this.livepollVote?.voteIndex) {
@@ -369,17 +372,14 @@ export class LivepollDialogComponent
       collect.push('translated-text');
     } else if (!this.template.translate && this.template.isPlain) {
       collect.push('text-as-icon');
-    } else if (!!this.template.symbols) {
+    } else if (this.template.symbols) {
       collect.push('material-icons');
     }
     return collect.map((x) => `button-vote-${x}`).join(' ');
   }
 
   resetResults() {
-    this.createConfirmationDialog(
-      'dialog-confirm-resetResults-title',
-      'dialog-confirm-resetResults-description',
-    ).subscribe((x) => {
+    this.createConfirmationDialog('reset').subscribe((x) => {
       if (x) {
         this.livepollService
           .resetResults(this.livepollSession.id)
@@ -423,7 +423,11 @@ export class LivepollDialogComponent
     });
   }
 
-  private parseWebSocketStream(type: string, payload: any, id?: UUID) {
+  private parseWebSocketStream(
+    type: string,
+    payload: MessagePayload,
+    id?: UUID,
+  ) {
     switch (type) {
       case 'LivepollResult':
         this.updateVotes(payload.votes);
@@ -463,8 +467,7 @@ export class LivepollDialogComponent
   }
 
   private createConfirmationDialog(
-    title: string,
-    text: string,
+    confirmationDialogId: string,
     type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
   ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
@@ -473,8 +476,7 @@ export class LivepollDialogComponent
         type,
       },
     });
-    dialog.componentInstance.titleRef = title;
-    dialog.componentInstance.textRef = text;
+    dialog.componentInstance.confirmationDialogId = confirmationDialogId;
     return dialog.afterClosed().pipe(take(1));
   }
 

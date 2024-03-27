@@ -41,8 +41,8 @@ export class RoomDataService {
   private _canAccessModerator = false;
   private _currentUserCount = new BehaviorSubject<string>('?');
   private _userBookmarks: BookmarkAccess = {};
-  private _destroyer: Subject<any>;
-  private _commentUIRegistrations = new Map<string, Set<any>>();
+  private _destroyer: Subject<unknown>;
+  private _commentUIRegistrations = new Map<string, Set<unknown>>();
   private _commentUISubscriber: Subject<string>;
 
   constructor(
@@ -62,7 +62,7 @@ export class RoomDataService {
       lastRoom = room;
       this.onRoomUpdate(room);
     });
-    this.accountState.user$.subscribe((_) => this.onRoomUpdate(lastRoom));
+    this.accountState.user$.subscribe(() => this.onRoomUpdate(lastRoom));
     this.roomState.assignedRole$.subscribe((role) => {
       const userRole = ROOM_ROLE_MAPPER[role];
       this.dataAccessor.updateCurrentRole(userRole);
@@ -137,7 +137,7 @@ export class RoomDataService {
     if (comment.bookmark) {
       this.bookmarkService.create({ commentId: comment.id }).subscribe({
         next: (bookmark) => (this._userBookmarks[comment.id] = bookmark),
-        error: (_) => (comment.bookmark = !comment.bookmark),
+        error: () => (comment.bookmark = !comment.bookmark),
       });
       return;
     }
@@ -146,12 +146,12 @@ export class RoomDataService {
       return;
     }
     this.bookmarkService.delete(id).subscribe({
-      next: (_) => (this._userBookmarks[comment.id] = undefined),
-      error: (_) => (comment.bookmark = !comment.bookmark),
+      next: () => (this._userBookmarks[comment.id] = undefined),
+      error: () => (comment.bookmark = !comment.bookmark),
     });
   }
 
-  registerUI(commentId: string, object: any) {
+  registerUI(commentId: string, object: unknown) {
     if (!this._commentUISubscriber) {
       throw new Error('Registration error: not initialized');
     }
@@ -163,7 +163,7 @@ export class RoomDataService {
     prev.add(object);
   }
 
-  unregisterUI(commentId: string, object: any) {
+  unregisterUI(commentId: string, object: unknown) {
     if (!this._commentUISubscriber) {
       return;
     }
@@ -193,7 +193,7 @@ export class RoomDataService {
     if (!room) {
       return;
     }
-    this._destroyer = new Subject<any>();
+    this._destroyer = new Subject<unknown>();
     const currentDestroyer = this._destroyer;
     this._commentUISubscriber = new Subject();
     this.activeUserService

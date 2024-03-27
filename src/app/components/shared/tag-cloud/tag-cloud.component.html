@@ -50,7 +50,7 @@
     <mat-drawer-content>
       <h1
         *ngIf="brainstormingActive && brainstormingData?.title"
-        class="tag-cloud-brainstorming-question mat-display-1 active">
+        class="tag-cloud-brainstorming-question mat-headline-4 active">
         {{ brainstormingData?.title }}
       </h1>
       <ars-fill ars-flex-box>
@@ -59,7 +59,7 @@
           [requester]="request()"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay
           *ngIf="isLoading"
-          overlay="true"></app-mat-spinner-overlay>
+          [overlay]="true"></app-mat-spinner-overlay>
         <app-word-cloud
           [keywords]="data"
           [isRadar]="!brainstormingActive"
@@ -79,7 +79,6 @@
         class="start_introduction"
         (click)="startIntroduction()"
         mat-fab
-        mat-icon-button
         matTooltip="{{ 'comment-list.start-introduction-video' | translate }}"
         [matTooltipPosition]="'above'">
         <mat-icon>question_mark</mat-icon>
@@ -87,7 +86,6 @@
       <button
         *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
         mat-fab
-        mat-icon-button
         [ngClass]="{
           center_screen: isCloudEmpty()
         }"

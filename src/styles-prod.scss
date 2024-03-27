@@ -1,0 +1,160 @@
+@use "modules/m3/style/m3-initializer" as m3-init;
+@import "style/fix-material-icons.scss";
+//@import "styles.scss";
+@import "material-icons/iconfont/material-icons.css";
+@import "style/joyride-theme.scss";
+@import "style/toast-ui-theme-m3.scss";
+/// TODO(lph) remove later
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-10..0,25..151,100..1000,-200..150,27..175,323..603,25..135,649..854,-305..-98,560..788,416..570,528..760&display=swap");
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 48;
+}
+
+@include m3-init.load();
+
+html,
+body {
+  margin: 0;
+  height: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: "Roboto Flex", serif;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}
+
+$replacement: rgba(196, 188, 29, 0.5);
+$deprecated-theme-override: (
+  "--primary": "#{$replacement}",
+  "--primary-variant": "#{$replacement}",
+  "--secondary": "#{$replacement}",
+  "--secondary-variant": "#{$replacement}",
+  "--background": "#{$replacement}",
+  "--surface": "#{$replacement}",
+  "--dialog": "#{$replacement}",
+  "--cancel": "#{$replacement}",
+  "--alt-surface": "#{$replacement}",
+  "--alt-dialog": "#{$replacement}",
+  "--on-primary": "#{$replacement}",
+  "--on-secondary": "#{$replacement}",
+  "--on-primary-variant": "#{$replacement}",
+  "--on-background": "#{$replacement}",
+  "--on-surface": "#{$replacement}",
+  "--on-dialog": "#{$replacement}",
+  "--on-cancel": "#{$replacement}",
+  "--green": "#{$replacement}",
+  "--red": "#{$replacement}",
+  "--white": "#{$replacement}",
+  "--yellow": "#{$replacement}",
+  "--blue": "#{$replacement}",
+  "--purple": "#{$replacement}",
+  "--magenta": "#{$replacement}",
+  "--light-green": "#{$replacement}",
+  "--grey": "#{$replacement}",
+  "--grey-light": "#{$replacement}",
+  "--black": "#{$replacement}",
+  "--moderator": "#{$replacement}",
+  "--questionwall-intro-primary": "#{$replacement}",
+  "--questionwall-intro-secondary": "#{$replacement}",
+  "--questionwall-intro-background": "#{$replacement}",
+  "--livepoll-primary": "#{$replacement}",
+  "--livepoll-primary--disabled": "#{$replacement}",
+  "--livepoll-primary--hover": "#{$replacement}",
+  "--on-livepoll-primary": "#{$replacement}",
+  "--on-livepoll-primary--disabled": "#{$replacement}",
+  "--on-livepoll-primary--hover": "#{$replacement}",
+  "--livepoll-secondary": "#{$replacement}",
+  "--livepoll-secondary--disabled": "#{$replacement}",
+  "--livepoll-secondary--hover": "#{$replacement}",
+  "--on-livepoll-secondary": "#{$replacement}",
+  "--on-livepoll-secondary--disabled": "#{$replacement}",
+  "--on-livepoll-secondary--hover": "#{$replacement}",
+);
+
+:root {
+  &.theme-target {
+    &.debug {
+      @each $key, $value in $deprecated-theme-override {
+        #{$key}: #{$value};
+      }
+    }
+  }
+}
+
+body {
+  &.border {
+    * {
+      box-shadow:
+        inset -1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 1px 0 0 0 rgba(255, 255, 0, 0.2),
+        inset 0 -1px 0 0 rgba(0, 255, 255, 0.2),
+        inset 0 1px 0 0 rgba(0, 255, 255, 0.2);
+    }
+  }
+}
+
+/* common layout */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > div {
+    width: 800px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+}
+
+.videoWrapper {
+  aspect-ratio: 16 / 9;
+
+  * {
+    width: 100%;
+    height: 100%;
+  }
+}
+//
+///* width */
+//::-webkit-scrollbar {
+//  width: 10px;
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: color-mix(
+//    in srgb,
+//    var(--mdc-filled-button-container-color) 67%,
+//    transparent
+//  );
+//  border-radius: 1rem;
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: color-mix(
+//    in srgb,
+//    var(--mdc-filled-button-container-color) 75%,
+//    transparent
+//  );
+//}

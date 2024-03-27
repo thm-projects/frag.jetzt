@@ -8,9 +8,8 @@ describe('MultiLevelDateInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MultiLevelDateInputComponent ]
-    })
-    .compileComponents();
+      declarations: [MultiLevelDateInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MultiLevelDateInputComponent);
     component = fixture.componentInstance;

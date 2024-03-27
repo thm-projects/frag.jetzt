@@ -23,7 +23,6 @@ import { Comment } from '../models/comment';
 import { SessionService } from '../services/util/session.service';
 import { Room } from '../models/room';
 import { filter } from 'rxjs/operators';
-import { QuillUtils } from './quill-utils';
 
 interface AttachOptions {
   roomId: string;
@@ -70,7 +69,7 @@ const periodFunctions: PeriodFunctions = {
 // Filter definitions
 type FilterTypeCache = { [key in FilterType]: ForumComment[] };
 export type FilterTypeCounts = { [key in FilterType]: number };
-type FilterFunction = (c: ForumComment, compareValue?: any) => boolean;
+type FilterFunction = (c: ForumComment, compareValue?: unknown) => boolean;
 type FilterFunctionObject = {
   [key in FilterType]?: FilterFunction;
 };
@@ -137,7 +136,7 @@ const getCommentRoleValue = (
 export const getMultiLevelFilterParent = (
   parentComment: ForumComment,
   func: FilterFunction,
-  compareValue?: any,
+  compareValue?: unknown,
 ): [level: number, parent: ForumComment] => {
   const getHighestElement = (
     comment: ForumComment,
@@ -218,7 +217,7 @@ export class FilteredDataAccess {
     [FilterType.Censored]: (c) => this._profanityChecker(c),
     [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
     [FilterType.BrainstormingIdea]: (c, value) =>
-      value?.includes?.(c.brainstormingWordId),
+      Array.isArray(value) && value?.includes?.(c.brainstormingWordId),
     [FilterType.Approved]: (c) =>
       c.approved ||
       (!this._isRaw
@@ -235,7 +234,7 @@ export class FilteredDataAccess {
   } as const;
   // general properties
   private _settings: AttachOptions = null;
-  private _destroyNotifier: Subject<any>;
+  private _destroyNotifier: Subject<unknown>;
   private _dataSubscription: Subscription;
   // stage caches
   private _tempData: ForumComment[];
@@ -255,7 +254,7 @@ export class FilteredDataAccess {
     private _isRaw: boolean,
     private _filter: RoomDataFilter,
     private _profanityChecker: (comment: ForumComment) => boolean,
-    private readonly _onAttach?: (destroyer: Subject<any>) => void,
+    private readonly _onAttach?: (destroyer: Subject<unknown>) => void,
   ) {}
 
   get dataFilter() {
@@ -361,7 +360,7 @@ export class FilteredDataAccess {
   }
 
   private static constructChildrenAttachment(
-    destroyer: Subject<any>,
+    destroyer: Subject<unknown>,
     dataAccessor: DataAccessor,
     comment: ForumComment,
     access: FilteredDataAccess,
@@ -397,7 +396,7 @@ export class FilteredDataAccess {
   }
 
   private static constructAttachment(
-    destroyer: Subject<any>,
+    destroyer: Subject<unknown>,
     sessionService: SessionService,
     dataAccessor: DataAccessor,
     access: FilteredDataAccess,
@@ -715,7 +714,7 @@ export class FilteredDataAccess {
   private buildPeriodCache(data: ForumComment[]) {
     const frozenAt = this._filter.frozenAt;
     this._filter.timeFilterStart = this._filter.timeFilterStart || Date.now();
-    const additional = Boolean(frozenAt)
+    const additional = frozenAt
       ? (c: ForumComment) => new Date(c.createdAt).getTime() <= frozenAt
       : () => true;
     this._periodCache = {} as PeriodCache;
@@ -739,7 +738,7 @@ export class FilteredDataAccess {
       e.text.toLowerCase().includes(search);
     this._searchData = data.filter(
       (c) =>
-        QuillUtils.getTextFromDelta(c.body).toLowerCase().includes(search) ||
+        c.body.toLowerCase().includes(search) ||
         c.keywordsFromSpacy?.some(keywordFinder) ||
         c.keywordsFromQuestioner?.some(keywordFinder) ||
         c.questionerName?.toLowerCase().includes(search),

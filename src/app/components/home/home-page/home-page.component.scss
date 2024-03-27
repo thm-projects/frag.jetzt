@@ -92,52 +92,30 @@ $carousel-container-size: 450px;
 
     &.highlight {
       span {
-        color: var(--on-background)
+        color: var(--md-sys-color-on-background);
       }
 
-      background-color: var(--surface);
+      //
+      background-color: var(--md-sys-color-surface);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.peek {
       span {
-        color: rgba(255, 255, 255, 0.2);
+        color: color-mix(
+          in srgb,
+          var(--md-sys-color-on-background) 67%,
+          transparent
+        );
         cursor: pointer;
       }
 
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: var(--md-sys-color-surface);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.hidden {
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-    }
-  }
-
-  &.arsnova,
-  &.systemDefault {
-    .carousel-entry {
-      &.highlight {
-        span {
-          color: rgba(0, 0, 0, 1);
-        }
-
-        background-color: var(--surface);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-      }
-
-      &.peek {
-        span {
-          color: rgba(0, 0, 0, 0.5);
-        }
-
-        background-color: rgba(255, 255, 255, 0.2);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
-      }
-
-      &.hidden {
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-      }
     }
   }
 }
@@ -152,30 +130,29 @@ $carousel-container-size: 450px;
   background-size: contain;
 }
 
-.main-heading-primary {
-  display: flex;
-  justify-content: center;
-  font-size: 30px;
-  font-weight: normal;
-  color: var(--primary);
-  padding: 0;
-  margin: 0;
-  line-height: 30px;
-}
-
-.main-heading-secondary {
-  display: block;
-  font-size: 3.5em;
-  font-weight: bold;
-  color: var(--secondary);
-  line-height: 50px;
-  letter-spacing: 2pt;
-}
+//.main-heading-primary {
+//  display: flex;
+//  justify-content: center;
+//  font-size: 30px;
+//  font-weight: normal;
+//  //  color: var(--primary);
+//  padding: 0;
+//  margin: 0;
+//  line-height: 30px;
+//}
+//
+//.main-heading-secondary {
+//  display: block;
+//  font-size: 3.5em;
+//  font-weight: bold;
+//  //  color: var(--secondary);
+//  line-height: 50px;
+//  letter-spacing: 2pt;
+//}
 
 .background-container {
   width: 100vw;
   height: 100vh;
-  background-color: var(--background);
   position: absolute;
   left: 0;
   top: 0;
@@ -187,7 +164,8 @@ $carousel-container-size: 450px;
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
-    transition: transform 1500ms cubic-bezier(0.77, 0, 0.175, 1),
+    transition:
+      transform 1500ms cubic-bezier(0.77, 0, 0.175, 1),
       opacity 1500ms cubic-bezier(0.77, 0, 0.175, 1);
     opacity: 0;
     fill: transparent;
@@ -208,13 +186,13 @@ $carousel-container-size: 450px;
   }
 }
 
-.carousel-entry-title {
-  font-size: 42px;
-
-  @media (max-width: 900px) {
-    font-size: 24px;
-  }
-}
+//.carousel-entry-title {
+//  font-size: 42px;
+//
+//  @media (max-width: 900px) {
+//    font-size: 24px;
+//  }
+//}
 
 .carousel-anchor {
   width: 100%;
@@ -239,9 +217,11 @@ $carousel-container-size: 450px;
 .carousel-entry {
   display: flex;
   flex-direction: column;
-  transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1), width unset;
+  transition:
+    all 500ms cubic-bezier(0.77, 0, 0.175, 1),
+    width unset;
   user-select: none;
-  border-radius: 30px;
+  border-radius: var(--md-sys-shape-corner-large);
 
   @media (max-width: 860px) {
     width: 100%;
@@ -283,9 +263,9 @@ $carousel-container-size: 450px;
       > .point {
         width: 64px;
         height: 4px;
-        background-color: var(--on-background);
+        background-color: var(--md-sys-color-secondary);
         margin: 4px;
-        border-radius: 30px;
+        border-radius: var(--md-sys-shape-corner-large);
         transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
       }
 
@@ -331,9 +311,7 @@ $carousel-container-size: 450px;
       transform: scale(1);
       transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
       transform-origin: 50% 50%;
-      outline: 1px solid dimgray;
-      border-radius: 30px;
-      background-color: var(--surface);
+      border-radius: var(--md-sys-shape-corner-large);
     }
   }
 
@@ -344,7 +322,7 @@ $carousel-container-size: 450px;
       transform: scale(1);
       transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
       transform-origin: 50% 50%;
-      border-radius: 30px;
+      border-radius: var(--md-sys-shape-corner-large);
     }
   }
 

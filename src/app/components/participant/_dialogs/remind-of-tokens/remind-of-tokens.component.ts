@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,23 +6,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './remind-of-tokens.component.html',
   styleUrls: ['./remind-of-tokens.component.scss'],
 })
-export class RemindOfTokensComponent implements OnInit {
-
+export class RemindOfTokensComponent {
   constructor(
     public dialogRef: MatDialogRef<RemindOfTokensComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-  }
-
-  ngOnInit() {
-
-  }
-
+    @Inject(MAT_DIALOG_DATA) public data: object,
+  ) {}
 
   close(type: string): void {
     this.dialogRef.close(type);
   }
-
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -30,7 +22,6 @@ export class RemindOfTokensComponent implements OnInit {
   buildCloseDialogActionCallback(): () => void {
     return () => this.close('abort');
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

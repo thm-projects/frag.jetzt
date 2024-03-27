@@ -49,31 +49,31 @@ export const saveSettings = (
 ): Observable<GPTRoomSetting> => {
   // Start of destructuring
   // Q1
-  const groupGptInfo = answers.gptInfo?.group;
-  const groupGptInfoVoucher = answers.gptInfoVoucher?.group;
+  const groupGptInfo = answers['gptInfo']?.group;
+  const groupGptInfoVoucher = answers['gptInfoVoucher']?.group;
   const apiKey = groupGptInfo?.value['apiCode'];
   const apiOrg = groupGptInfo?.value['apiOrganization'];
   const apiVoucher = groupGptInfoVoucher?.value['voucher'];
 
   // Q2
-  const groupRoomQuota = answers.roomQuota?.group;
+  const groupRoomQuota = answers['roomQuota']?.group;
   const roomQuota = groupRoomQuota?.value['total'];
   const roomQuotaMonthly = groupRoomQuota?.value['monthly'];
   const roomQuotaMonthlyFlowing = groupRoomQuota?.value['monthlyFlowing'];
   const roomQuotaDaily = groupRoomQuota?.value['daily'];
 
   // gpt-model
-  const gptModel = answers.gptModel?.group?.value['model'];
+  const gptModel = answers['gptModel']?.group?.value['model'];
 
   // Q3
-  const groupModeratorQuota = answers.moderatorQuota?.group;
+  const groupModeratorQuota = answers['moderatorQuota']?.group;
   const moderatorQuota = groupModeratorQuota?.value['total'];
   const moderatorQuotaMonthly = groupModeratorQuota?.value['monthly'];
   const moderatorQuotaMonthlyFlowing =
     groupModeratorQuota?.value['monthlyFlowing'];
   const moderatorQuotaDaily = groupModeratorQuota?.value['daily'];
   // Q4
-  const groupParticipantQuota = answers.participantQuota?.group;
+  const groupParticipantQuota = answers['participantQuota']?.group;
   const participantQuota = groupParticipantQuota?.value['total'];
   const participantQuotaMonthly = groupParticipantQuota?.value['monthly'];
   const participantQuotaMonthlyFlowing =
@@ -81,10 +81,10 @@ export const saveSettings = (
   const participantQuotaDaily = groupParticipantQuota?.value['daily'];
 
   // Q5
-  const usageTimes = answers.usageTime?.group?.value['usageTimes'];
+  const usageTimes = answers['usageTime']?.group?.value['usageTimes'];
 
   // Q6
-  const groupMiscellaneousSettings = answers.miscellaneousSettings?.group;
+  const groupMiscellaneousSettings = answers['miscellaneousSettings']?.group;
   const allowUnregisteredUsers =
     groupMiscellaneousSettings?.value['allowUnregisteredUsers'];
   const allowAnswerWithoutPreset =
@@ -93,7 +93,7 @@ export const saveSettings = (
     groupMiscellaneousSettings?.value['onlyAnswerWhenCalled'];
 
   // Q7
-  const groupModeratorPermissions = answers.moderatorPermissions?.group;
+  const groupModeratorPermissions = answers['moderatorPermissions']?.group;
   const moderatorCanChangeRoomQuota =
     groupModeratorPermissions?.value['canChangeRoomQuota'];
   const moderatorCanChangeModeratorQuota =
@@ -174,13 +174,9 @@ export const saveSettings = (
       if (typeof repeatUnit === 'number') {
         repeatUnit = UNITS[repeatUnit];
       }
-      const { hour, minute, second } = element.startDuration;
+      const { hour, minute } = element.startDuration;
       const startTime: [number, number] = [hour, minute];
-      const {
-        hour: hour2,
-        minute: minute2,
-        second: second2,
-      } = element.endDuration;
+      const { hour: hour2, minute: minute2 } = element.endDuration;
       const endTime: [number, number] = [hour2, minute2];
       roomQuotaPatch.accessTimes.push(
         new QuotaAccessTime({

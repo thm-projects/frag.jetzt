@@ -1,33 +1,39 @@
+<h2 mat-dialog-title>{{ "room-settings-overview.moderation" | translate }}</h2>
+
 <mat-dialog-content>
-  <h3>{{ "room-settings-overview.moderation" | translate }}</h3>
-  <div>
-    <mat-slide-toggle
-      [(ngModel)]="directSend"
-      aria-labelledby="settings-direct-send"
-      matTooltip="{{
-        'room-settings-overview.tooltip-settings-direct-send' | translate
-      }}">
-      {{ "room-settings-overview.settings-direct-send" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle
-      [(ngModel)]="conversationEnabled"
-      aria-labelledby="conversation-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-conversation-enabled' | translate
-      }}">
-      {{ "room-settings-overview.conversation-enabled" | translate }}
-    </mat-slide-toggle>
-    <mat-card>
-      <mat-label>
-        {{ "room-settings-overview.title-profanity" | translate }}
-      </mat-label>
+  <mat-slide-toggle
+    [(ngModel)]="directSend"
+    aria-labelledby="settings-direct-send"
+    matTooltip="{{
+      'room-settings-overview.tooltip-settings-direct-send' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.settings-direct-send" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="conversationEnabled"
+    aria-labelledby="conversation-enabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-conversation-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.conversation-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-card
+    appearance="outlined"
+    class="primary-container">
+    <mat-card-header>
+      {{ "room-settings-overview.title-profanity" | translate }}
+    </mat-card-header>
+    <mat-card-content>
       <mat-slide-toggle
         (click)="toggleProfanityFilter($event)"
         [checked]="profanityFilter !== 'DEACTIVATED'"
         aria-labelledby="profanity-toggle-active"
         matTooltip="{{
           'room-settings-overview.tooltip-profanity-toggle-active' | translate
-        }}">
+        }}"
+        [labelPosition]="'before'">
         {{ "room-settings-overview.profanity-toggle-active" | translate }}
       </mat-slide-toggle>
       <mat-slide-toggle
@@ -39,7 +45,8 @@
         aria-labelledby="profanity-toggle-all"
         matTooltip="{{
           'room-settings-overview.tooltip-profanity-toggle-all' | translate
-        }}">
+        }}"
+        [labelPosition]="'before'">
         {{ "room-settings-overview.profanity-toggle-all" | translate }}
       </mat-slide-toggle>
       <mat-slide-toggle
@@ -51,84 +58,86 @@
         aria-labelledby="profanity-toggle-word"
         matTooltip="{{
           'room-settings-overview.tooltip-profanity-toggle-word' | translate
-        }}">
+        }}"
+        [labelPosition]="'before'">
         {{ "room-settings-overview.profanity-toggle-word" | translate }}
       </mat-slide-toggle>
-    </mat-card>
+    </mat-card-content>
+  </mat-card>
 
-    <h3>{{ "room-settings-overview.general" | translate }}</h3>
+  <h3>{{ "room-settings-overview.general" | translate }}</h3>
 
-    <mat-slide-toggle
-      [(ngModel)]="keywordExtrationEnabled"
-      aria-labelledby="keyword-extraction-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-keyword-extraction-enabled' | translate
-      }}">
-      {{ "room-settings-overview.keyword-extraction-enabled" | translate }}
-    </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="keywordExtrationEnabled"
+    aria-labelledby="keyword-extraction-enabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-keyword-extraction-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.keyword-extraction-enabled" | translate }}
+  </mat-slide-toggle>
 
-    <h3>{{ "room-settings-overview.education" | translate }}</h3>
+  <h3>{{ "room-settings-overview.education" | translate }}</h3>
 
-    <mat-slide-toggle
-      [(ngModel)]="livepollEnabled"
-      aria-labelledby="livepoll-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-livepoll-enabled' | translate
-      }}">
-      {{ "room-settings-overview.livepoll-enabled" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle
-      [(ngModel)]="bonusArchiveEnabled"
-      aria-labelledby="bonus-archive-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-bonus-archive-enabled' | translate
-      }}">
-      {{ "room-settings-overview.bonus-archive-enabled" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle
-      [(ngModel)]="quizEnabled"
-      aria-labelledby="quiz-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-quiz-enabled' | translate
-      }}">
-      {{ "room-settings-overview.quiz-enabled" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle
-      [(ngModel)]="brainstormingEnabled"
-      aria-labelledby="brainstorming-enabled"
-      matTooltip="{{
-        'room-settings-overview.tooltip-brainstorming-enabled' | translate
-      }}">
-      {{ "room-settings-overview.brainstorming-enabled" | translate }}
-    </mat-slide-toggle>
-    <p>{{ "room-settings-overview.note-on-changing-settings" | translate }}</p>
-  </div>
+  <mat-slide-toggle
+    [(ngModel)]="livepollEnabled"
+    aria-labelledby="livepoll-enabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-livepoll-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.livepoll-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="bonusArchiveEnabled"
+    aria-labelledby="bonus-archive-enabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-bonus-archive-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.bonus-archive-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="quizEnabled"
+    aria-labelledby="quiz-enabled"
+    matTooltip="{{ 'room-settings-overview.tooltip-quiz-enabled' | translate }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.quiz-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="brainstormingEnabled"
+    aria-labelledby="brainstorming-enabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-brainstorming-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.brainstorming-enabled" | translate }}
+  </mat-slide-toggle>
+  <p>{{ "room-settings-overview.note-on-changing-settings" | translate }}</p>
 </mat-dialog-content>
 
-<ars-row
-  ars-flex-box
-  class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ "explanation.label" | translate }}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      [buttonsLabelSection]="'room-settings-overview'"
-      [confirmButtonLabel]="'save'"
-      [showDivider]="false"
-      [spacing]="false"
-      [confirmButtonClickAction]="onConfirm.bind(this)"
-      [cancelButtonClickAction]="onCancel.bind(this)">
-      >
-    </app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    class="secondary-button"
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "room-settings-overview.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="confirm()">
+    {{ "room-settings-overview.save" | translate }}
+  </button>
+</mat-dialog-actions>
 
 <div class="visually-hidden">
   <div id="settings-direct-send">

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -16,7 +15,6 @@ import {
   exportBonusArchive,
 } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -30,6 +28,8 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-bonus-token',
@@ -37,7 +37,7 @@ import {
   styleUrls: ['./bonus-token.component.scss'],
 })
 export class BonusTokenComponent implements OnInit, OnDestroy {
-  value: any = '';
+  value: string = '';
   valid = false;
   room: Room;
   bonusTokens: BonusToken[] = [];
@@ -52,7 +52,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name',
   };
 
-  private selection = new SelectionModel<string>(false, []);
+  protected selection = new SelectionModel<string>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;
@@ -75,7 +75,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTokens();
     this.sub = this.eventService
-      .on<any>('BonusTokenDeleted')
+      .on<{ token: string }>('BonusTokenDeleted')
       .subscribe((payload) => {
         this.bonusTokens = this.bonusTokens.filter(
           (bt) => bt.token !== payload.token,
@@ -119,7 +119,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.commentService
       .getComment(bonusToken.commentId)
       .subscribe((comment) => {
-        this.commentService.toggleFavorite(comment).subscribe((_) => {
+        this.commentService.toggleFavorite(comment).subscribe(() => {
           const event = new BonusTokenDeleted(bonusToken.token);
           this.eventService.broadcast(event.type, event.payload);
         });
@@ -170,10 +170,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     return () => this.dialogRef.close();
   }
 
-  inputChanged(event: any) {
+  inputChanged(event: Event) {
     event.cancelBubble = true;
-    this.value = event.target.value;
-    this.modelChanged.next(event);
+    this.value = (event.target as HTMLInputElement).value;
+    this.modelChanged.next(this.value);
     this.selection.clear();
   }
 
@@ -202,7 +202,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateTokenInput(input: any): boolean {
+  validateTokenInput(input: string): boolean {
     let res = false;
     if (input.length === 8 && this.isNumeric(input)) {
       this.bonusTokens.forEach((bonusToken) => {
@@ -225,7 +225,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     );
     this.subscription = this.modelChanged
       .pipe(debounceTime(this.debounceTime))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.inputToken();
       });
     this.isLoading = false;
@@ -311,8 +311,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   private isNumeric(msg: string): boolean {
-    // @ts-ignore
-    // eslint-disable-next-line eqeqeq
-    return +msg == msg;
+    return /^\d+$/.test(msg);
   }
 }

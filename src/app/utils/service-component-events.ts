@@ -1,9 +1,8 @@
 import { EventService } from '../services/util/event.service';
 import { Observable, Subject, filter, takeUntil, tap } from 'rxjs';
 import { MotdAPI } from '../services/http/motd.service';
-import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ClassType, UUID } from './ts-utils';
-import { inject } from '@angular/core';
+import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 let counter = 0;
 
@@ -12,7 +11,9 @@ export class ServiceComponentEvent {
 }
 
 export class ServiceRequest<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Type extends ServiceRequest<Type, any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Response extends ComponentResponse<any, Type>,
 > extends ServiceComponentEvent {
   public readonly responseClass: ClassType<Response>;
@@ -23,7 +24,9 @@ export class ServiceRequest<
 }
 
 export class ComponentResponse<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Type extends ComponentResponse<Type, any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Request extends ServiceRequest<any, Type>,
 > extends ServiceComponentEvent {
   constructor(clazz: ClassType<Type>, request: Request) {
@@ -167,6 +170,7 @@ export class SafariUnsupportedResponse extends ComponentResponse<
 }
 
 export const callServiceEvent = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends ServiceRequest<T, any>,
   K extends InstanceType<T['responseClass']>,
 >(
@@ -192,6 +196,7 @@ export const callServiceEvent = <
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const listenEvent = <T extends ServiceRequest<T, any>>(
   eventService: EventService,
   clazz: ClassType<T>,

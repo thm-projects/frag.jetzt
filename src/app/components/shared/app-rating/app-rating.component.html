@@ -11,7 +11,7 @@
     </mat-icon>
   </div>
   <button
-    mat-flat-button
+    mat-stroked-button
     (click)="save()">
     {{ "app-rating.save" | translate }}
   </button>
@@ -20,7 +20,7 @@
 <ng-template #stars>
   <span
     #spanRef
-    (click)="openPopup(spanRef)"
+    (click)="openPopup()"
     class="star-preview">
     <mat-icon
       style="cursor: pointer"

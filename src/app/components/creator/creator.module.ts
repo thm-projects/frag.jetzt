@@ -13,7 +13,7 @@ import {
 } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../shared/_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from './_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
 import { TagsComponent } from './_dialogs/tags/tags.component';
@@ -21,7 +21,6 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
 import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
@@ -33,6 +32,10 @@ import { EditCommentTagComponent } from './_dialogs/edit-comment-tag/edit-commen
 import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { SpendingWidgetComponent } from './spending-widget/spending-widget.component';
+import { M3NavPortalDirective } from '../../../modules/m3/components/navigation/m3-nav-portal/m3-nav-portal.directive';
+import { M3NavDrawerTriggerForDirective } from '../../../modules/m3/components/navigation/m3-nav-drawer-trigger-for/m3-nav-drawer-trigger-for.directive';
+import { M3DynamicThemePortalDirective } from '../../../modules/m3/components/dynamic-theme/m3-dynamic-theme-portal.directive';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -53,10 +56,13 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       },
       isolate: true,
     }),
-    MarkdownModule,
     ArsModule,
     MatRippleModule,
     QRCodeModule,
+    SpendingWidgetComponent,
+    M3NavPortalDirective,
+    M3NavDrawerTriggerForDirective,
+    M3DynamicThemePortalDirective,
   ],
   declarations: [
     RoomCreatorPageComponent,

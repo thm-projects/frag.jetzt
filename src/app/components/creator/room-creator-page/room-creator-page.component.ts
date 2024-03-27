@@ -2,50 +2,82 @@ import {
   AfterContentInit,
   AfterViewInit,
   Component,
+  HostBinding,
   Injector,
   OnDestroy,
   OnInit,
   Renderer2,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { RoomStateService } from 'app/services/state/room-state.service';
-import { first } from 'rxjs';
-import { QuotaService } from 'app/services/http/quota.service';
-import { GPTRoomService } from 'app/services/http/gptroom.service';
+import { RoomSettingsOverviewComponent } from '../../shared/_dialogs/room-settings-overview/room-settings-overview.component';
+import { FormControl } from '@angular/forms';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { M3NavigationKind } from '../../../../modules/m3/components/navigation/m3-nav-types';
 
 @Component({
   selector: 'app-room-creator-page',
   templateUrl: './room-creator-page.component.html',
   styleUrls: ['./room-creator-page.component.scss'],
+  animations: [
+    trigger('ContentTemplateAnimation', [
+      state(
+        'out',
+        style({
+          transform: `translateY(-8px)`,
+          opacity: 0,
+        }),
+      ),
+      state(
+        'in',
+        style({
+          transform: `translateY(0px)`,
+          opacity: 1,
+        }),
+      ),
+      transition('* <=> *', [animate('0.2s ease')]),
+    ]),
+  ],
 })
 export class RoomCreatorPageComponent
   extends RoomPageComponent
   implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
-  roomQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
+  /**
+   * on true: shows all elements regardless of *ngIf
+   */
+  __debug = true;
 
-  moderatorQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
+  @HostBinding('class.new-ui') get _HostBindingNewUI() {
+    return this.newUI;
+  }
 
-  participantQuota = {
-    spent: 0,
-    limit: 0,
-    spentAsPercentage: 0,
-  };
+  newUI = true;
+  contentTemplate: TemplateRef<unknown>;
+  templateName: string;
+  roomTags: FormControl = new FormControl<unknown>([]);
+  contentAnimationState: string = 'out';
+  formControl: FormControl;
+  @ViewChild('roomTemplate', { read: TemplateRef<unknown>, static: true })
+  set _defaultContentTemplate(template: TemplateRef<unknown>) {
+    this.setTemplate(template, 'roomTemplate');
+  }
 
   constructor(
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    protected injector: Injector,
+    protected override injector: Injector,
+    protected readonly m3NavigationService: M3NavigationService,
   ) {
     super(injector);
   }
@@ -54,8 +86,9 @@ export class RoomCreatorPageComponent
     this.tryInitNavigation();
   }
 
-  ngOnDestroy() {
+  override ngOnDestroy() {
     super.ngOnDestroy();
+    this.m3NavigationService.destroy(M3NavigationKind.Drawer);
   }
 
   ngAfterContentInit(): void {
@@ -64,50 +97,7 @@ export class RoomCreatorPageComponent
     }, 700);
   }
 
-  ngOnInit() {
-    this.injector
-      .get(RoomStateService)
-      .room$.pipe(first((e) => !!e))
-      .subscribe((room) => {
-        this.injector
-          .get(GPTRoomService)
-          .getByRoomId(room.id)
-          .subscribe((gptRoom) => {
-            const quotaService = this.injector.get(QuotaService);
-
-            quotaService.get(gptRoom.roomQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.roomQuota.spent = quota.entries[0].counter / 10e7;
-              this.roomQuota.limit = quota.entries[0].quota / 10e7;
-              this.roomQuota.spentAsPercentage =
-                (this.roomQuota.spent / this.roomQuota.limit) * 100;
-            });
-
-            quotaService.get(gptRoom.moderatorQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.moderatorQuota.spent = quota.entries[0].counter / 10e7;
-              this.moderatorQuota.limit = quota.entries[0].quota / 10e7;
-              this.moderatorQuota.spentAsPercentage =
-                (this.moderatorQuota.spent / this.moderatorQuota.limit) * 100;
-            });
-
-            quotaService.get(gptRoom.participantQuotaId).subscribe((quota) => {
-              if (quota.entries.length === 0) {
-                return;
-              }
-              this.participantQuota.spent = quota.entries[0].counter / 10e7;
-              this.participantQuota.limit = quota.entries[0].quota / 10e7;
-              this.participantQuota.spentAsPercentage =
-                (this.participantQuota.spent / this.participantQuota.limit) *
-                100;
-            });
-          });
-      });
-
+  override ngOnInit() {
     window.scroll(0, 0);
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
@@ -191,5 +181,29 @@ export class RoomCreatorPageComponent
         'assertive',
       );
     }
+  }
+
+  openRoomSettings() {
+    this.dialog.open(RoomSettingsOverviewComponent, {
+      width: '800px',
+    });
+  }
+
+  addTag(value: string) {
+    this.room.tags.push(value);
+  }
+
+  removeTag(value: string) {
+    this.room.tags.splice(this.room.tags.indexOf(value), 1);
+  }
+
+  setTemplate(template: TemplateRef<unknown>, templateName: string) {
+    if (this.templateName === templateName) return;
+    this.contentAnimationState = 'out';
+    setTimeout(() => {
+      this.templateName = templateName;
+      this.contentTemplate = template;
+      this.contentAnimationState = 'in';
+    }, 200);
   }
 }

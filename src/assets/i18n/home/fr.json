@@ -180,6 +180,8 @@
     "motd-title-main": "Nouvelles des développeurs",
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
+    "motd-empty-new": "Pas de nouveaux messages",
+    "motd-empty-old": "Pas encore de messages lus",
     "open": "Ouvert",
     "style": "Design"
   },

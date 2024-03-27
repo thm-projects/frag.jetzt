@@ -1,7 +1,11 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "src/assets/i18n/**/*",
+    "src/assets/theme-m3/**/*",
+    "src/modules/**/*",
+    "cypress/**/*"
   ],
   "overrides": [
     {
@@ -15,8 +19,9 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "prettier"
       ],
@@ -48,8 +53,13 @@
         "@typescript-eslint/naming-convention": [
           "error",
           {
-            "format": ["UPPER_CASE", "StrictPascalCase"],
-            "selector": ["enumMember"]
+            "format": [
+              "UPPER_CASE",
+              "StrictPascalCase"
+            ],
+            "selector": [
+              "enumMember"
+            ]
           }
         ],
         "@typescript-eslint/no-inferrable-types": "off",

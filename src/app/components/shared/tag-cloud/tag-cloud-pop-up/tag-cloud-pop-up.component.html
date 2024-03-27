@@ -76,7 +76,7 @@
           [matBadge]="brainstormingData?.responseCount || null"
           matBadgeSize="small"
           matBadgeOverlap="false"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           class="responseCountBadge"></span>
         <span
           [matBadge]="brainstormingData?.countedComments?.size || null"
@@ -98,7 +98,7 @@
           [matBadge]="tagData?.responseCount || null"
           matBadgeSize="small"
           matBadgeOverlap="false"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           class="responseCountBadge"></span>
         <span
           [matBadge]="tagData?.countedComments?.size || null"
@@ -141,7 +141,7 @@
         </mat-label>
         <input
           type="text"
-          aria-label="{{
+          attr.aria-label="{{
             'tag-cloud-popup.tag-correction-placeholder' | translate
           }}"
           matInput
@@ -155,7 +155,7 @@
         </mat-label>
         <input
           type="text"
-          aria-label="{{
+          attr.aria-label="{{
             'tag-cloud-popup.tag-correction-placeholder' | translate
           }}"
           matInput

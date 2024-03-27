@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './update-info-dialog.component.html',
   styleUrls: ['./update-info-dialog.component.scss'],
 })
-export class UpdateInfoDialogComponent implements OnInit {
+export class UpdateInfoDialogComponent {
   public readonly onSubmit = this.install.bind(this);
   public readonly onCancel = this.close.bind(this);
 
@@ -18,8 +18,6 @@ export class UpdateInfoDialogComponent implements OnInit {
     });
     return ref;
   }
-
-  ngOnInit(): void {}
 
   private close() {
     this.dialogRef.close(false);

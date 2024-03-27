@@ -38,7 +38,7 @@ $translateY: - math.div($marginParent, 2);
 
   &::after {
     position: absolute;
-    content: '';
+    content: "";
     width: $popup-arrow-size;
     height: $popup-arrow-size;
     background-color: var(--dialog);
@@ -50,7 +50,10 @@ $translateY: - math.div($marginParent, 2);
 
   &.down {
     visibility: unset;
-    transform: translate(-50%, calc(-100% - #{$translateY + $popup-arrow-offset}));
+    transform: translate(
+      -50%,
+      calc(-100% - #{$translateY + $popup-arrow-offset})
+    );
 
     &::after {
       top: 100%;
@@ -89,7 +92,10 @@ $translateY: - math.div($marginParent, 2);
 
   &.right {
     visibility: unset;
-    transform: translate(calc(-100% - #{$popup-arrow-offset}), calc(-50% - #{$translateY}));
+    transform: translate(
+      calc(-100% - #{$popup-arrow-offset}),
+      calc(-50% - #{$translateY})
+    );
 
     &::after {
       top: 50%;
@@ -159,7 +165,8 @@ button {
   }
 }
 
-.replace-button, .open-button {
+.replace-button,
+.open-button {
   background-color: transparent;
   color: var(--primary);
   outline: var(--primary) solid 2px;
@@ -176,14 +183,15 @@ button {
   }
 }
 
-::ng-deep .replacementContainer, ::ng-deep .selectContainer {
+::ng-deep .replacementContainer,
+::ng-deep .selectContainer {
   align-self: center;
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-infix {
     min-width: 150px;
     line-height: normal;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-wrapper {
     margin: 1em 0 0 0;
   }
@@ -212,7 +220,22 @@ mat-form-field {
   border-radius: 5px;
 }
 
-.mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled, .mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled, .mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled, .mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled, .mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled, .mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled, .mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled, .mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
+.mat-mdc-unelevated-button.mat-primary.mat-button-disabled,
+.mat-flat-button.mat-accent.mat-button-disabled,
+.mat-flat-button.mat-warn.mat-button-disabled,
+.mat-flat-button.mat-button-disabled.mat-button-disabled,
+.mat-mdc-raised-button.mat-primary.mat-button-disabled,
+.mat-raised-button.mat-accent.mat-button-disabled,
+.mat-raised-button.mat-warn.mat-button-disabled,
+.mat-raised-button.mat-button-disabled.mat-button-disabled,
+.mat-mdc-fab.mat-primary.mat-button-disabled,
+.mat-fab.mat-accent.mat-button-disabled,
+.mat-fab.mat-warn.mat-button-disabled,
+.mat-fab.mat-button-disabled.mat-button-disabled,
+.mat-mdc-mini-fab.mat-primary.mat-button-disabled,
+.mat-mini-fab.mat-accent.mat-button-disabled,
+.mat-mini-fab.mat-warn.mat-button-disabled,
+.mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
 }
 

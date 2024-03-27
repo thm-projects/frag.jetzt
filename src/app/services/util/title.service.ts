@@ -6,13 +6,13 @@ import { AppStateService } from '../state/app-state.service';
   providedIn: 'root',
 })
 export class TitleService {
-  private _attachment: any = null;
+  private _attachment: string = null;
 
   constructor(
     private translateService: TranslateService,
     private appState: AppStateService,
   ) {
-    this.appState.language$.subscribe((_) => {
+    this.appState.language$.subscribe(() => {
       this.updateTitle();
     });
   }

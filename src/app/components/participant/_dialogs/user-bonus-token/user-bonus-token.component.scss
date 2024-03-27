@@ -1,4 +1,5 @@
-h3, p {
+h3,
+p {
   font-size: 14px !important;
   font-weight: normal !important;
 }
@@ -19,7 +20,8 @@ h3, p {
   margin: 20px 0;
 }
 
-.mailto, .copyClipboard {
+.mailto,
+.copyClipboard {
   background-color: var(--primary);
   color: var(--on-primary);
 }
@@ -36,19 +38,9 @@ form {
   gap: 10px;
 }
 
-::ng-deep .mat-form-field .mat-form-field-infix {
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+::ng-deep .mat-mdc-form-field .mat-form-field-infix {
   max-width: 400px;
-}
-
-.action-button-container {
-  @media screen and (max-width: 500px) {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column-reverse !important;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
 }
 
 .help-button {

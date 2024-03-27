@@ -17,7 +17,6 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { UserRole } from 'app/models/user-roles.enum';
 import { Router } from '@angular/router';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTRoomKey } from 'app/models/gpt-room-setting';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
@@ -32,16 +31,16 @@ export const generateRoom = (
     defaultCategories[appState.getCurrentLanguage()] ||
     defaultCategories.default;
   // gpt setup
-  const gptSetup = answers.gptSetup?.group?.value?.['setupType'];
+  const gptSetup = answers['gptSetup']?.group?.value?.['setupType'];
   let before: Observable<unknown> = of(null);
   const roomKey = new GPTRoomKey({
     index: 0,
   });
   if (gptSetup === 'apiCode') {
     const prevKey = data.apiKeys[0]?.apiKey;
-    const newKey = answers.gptApiCode.group.value['apiCode'];
+    const newKey = answers['gptApiCode'].group.value['apiCode'];
     const prevOrg = data.apiKeys[0]?.apiOrganization;
-    const newOrg = answers.gptApiCode.group.value['organization'];
+    const newOrg = answers['gptApiCode'].group.value['organization'];
     if (newKey !== prevKey || newOrg !== prevOrg) {
       before = injector
         .get(GPTAPISettingService)
@@ -55,7 +54,7 @@ export const generateRoom = (
     }
   } else if (gptSetup === 'voucher') {
     const prevKey = data.vouchers[0]?.code;
-    const newKey = answers.gptVoucher.group.value['voucher'];
+    const newKey = answers['gptVoucher'].group.value['voucher'];
     if (newKey !== prevKey) {
       before = injector
         .get(GPTVoucherService)
@@ -66,33 +65,38 @@ export const generateRoom = (
     }
   }
   // role
-  const isTeacher = answers.role.group?.value['role-select'] === 'teacher';
+  const isTeacher = answers['role'].group?.value['role-select'] === 'teacher';
   const defaults = isTeacher ? DEFAULT_TEACHER : DEFAULT_STUDENT;
   // name + short id
-  const name = answers.event.group?.value.name;
-  const shortId = answers.code?.group?.value?.code;
+  const name = answers['event'].group?.value.name;
+  const shortId = answers['code']?.group?.value?.code;
   // settings
-  const general = answers.general?.group?.value;
+  const general = answers['general']?.group?.value;
   const gpt = general?.gpt ?? defaults.chatgpt;
   const moderation = general?.moderation ?? defaults.moderation;
   const profanity = general?.profanity ?? defaults.profanity;
   const keywords = general?.keywords ?? defaults.keyword;
   // gpt settings
-  const gptSettings = answers.gptSettings?.group?.value;
+  const gptSettings = answers['gptSettings']?.group?.value;
   const studdyBuddy = gptSettings?.['study-buddy'] ?? defaults.studdyBuddy;
   // study buddy settings
-  const studyBuddySettings = answers.studyBuddyGroup?.group?.value;
+  const studyBuddySettings = answers['studyBuddyGroup']?.group?.value;
   const studdyBuddyGroup =
     studyBuddySettings?.['target-group'] ?? defaults.studyBuddyGroup;
+  console.log(studdyBuddy, studdyBuddyGroup);
   // feature settings
-  const featureSettings = answers.features?.group?.value;
+  const featureSettings = answers['features']?.group?.value;
   const flashPoll = featureSettings?.['flash-poll'] ?? defaults.flashPoll;
   const bonusArchive =
     featureSettings?.['bonus-archive'] ?? defaults.bonusArchive;
   const quiz = featureSettings?.quiz ?? defaults.quiz;
   const brainstorming =
     featureSettings?.brainstorming ?? defaults.brainstorming;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const radar = featureSettings?.radar ?? defaults.radar;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const focus = featureSettings?.focus ?? defaults.focus;
   const newRoom = new Room({
     name,

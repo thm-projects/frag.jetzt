@@ -1,14 +1,20 @@
-import { InjectionToken, Injector } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { InjectionToken, Injector, Type } from '@angular/core';
+import {
+  AsyncValidatorFn,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+} from '@angular/forms';
 import { MultiLevelRadioSelectComponent } from '../multi-level-radio-select/multi-level-radio-select.component';
 import { MultiLevelTextInputComponent } from '../multi-level-text-input/multi-level-text-input.component';
 import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-switch.component';
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
 import { Observable } from 'rxjs';
+import { ClassType } from 'app/utils/ts-utils';
 import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
 import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
-import { QuotaAccessTime, QuotaEntry } from 'app/services/http/quota.service';
+import { QuotaAccessTime } from 'app/services/http/quota.service';
 import { GPTModel } from 'app/services/http/gpt.service';
 
 export type AnsweredMultiLevelData = Record<
@@ -18,10 +24,10 @@ export type AnsweredMultiLevelData = Record<
   }
 >;
 
-export interface MultiLevelDataEntry<T = any> {
+export interface MultiLevelDataEntry<T = unknown> {
   tag: string;
   title: string;
-  stepHelp?: string | any;
+  stepHelp?: string | ClassType<unknown>;
   active?: (
     answers: AnsweredMultiLevelData,
     injector: Injector,
@@ -43,7 +49,7 @@ export interface MultiLevelDataBuiltAction<T> extends MultiLevelDataEntry<T> {
   config: BuiltAction<MultiLevelAction>[];
 }
 
-export interface MultiLevelData<T = any> {
+export interface MultiLevelData<T = unknown> {
   title: string;
   questions: MultiLevelDataEntry<T>[];
 }
@@ -55,15 +61,15 @@ interface BaseAction {
   errorStates?: {
     [key: string]: string;
   };
-  validators?: any[];
-  asyncValidators?: any[];
+  validators?: ValidatorFn[];
+  asyncValidators?: AsyncValidatorFn[];
 }
 
 export interface RadioSelectAction extends BaseAction {
   type: 'radio-select';
-  defaultValue?: any;
+  defaultValue?: unknown;
   options: {
-    value: any;
+    value: unknown;
     label: string;
   }[];
 }
@@ -126,7 +132,7 @@ export type MultiLevelAction =
 
 export type BuiltAction<T> = T & {
   control: FormControl;
-  component: any;
+  component: Type<unknown>;
   injector: Injector;
 };
 
@@ -134,7 +140,7 @@ export const DYNAMIC_INPUT = new InjectionToken<BuiltAction<MultiLevelAction>>(
   'MultiLevelAction',
 );
 
-const MAPPER: { [key in MultiLevelAction['type']]: any } = {
+const MAPPER: { [key in MultiLevelAction['type']]: Type<unknown> } = {
   'radio-select': MultiLevelRadioSelectComponent,
   switch: MultiLevelSwitchComponent,
   'text-input': MultiLevelTextInputComponent,
@@ -144,7 +150,7 @@ const MAPPER: { [key in MultiLevelAction['type']]: any } = {
   text: MultiLevelTextComponent,
 };
 
-export const buildInput = <T = any>(
+export const buildInput = <T = unknown>(
   self: MultiLevelDataEntry<T>,
   ...args: MultiLevelAction[]
 ): MultiLevelDataBuiltAction<T> => {

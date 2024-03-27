@@ -59,19 +59,8 @@
     <div
       class="book-room-container"
       fxLayout="column"
-      fxLayoutGap="32px">
-      <div
-        fxLayout="column"
-        fxLayoutGap="16px">
-        <span
-          class="main-heading-secondary"
-          aria-hidden="true">
-          {{ "login.welcome" | translate }}
-        </span>
-        <span class="main-heading-primary">
-          {{ "login.welcome-primary" | translate }}
-        </span>
-      </div>
+      fxLayoutGap="42px">
+      <app-frag-jetzt-logo></app-frag-jetzt-logo>
       <div
         data-nosnippet
         fxLayout="row">
@@ -128,7 +117,7 @@
                 <div
                   mat-ripple
                   class="carousel-pointer"
-                  (click)="selectEntry(i, entryElement)"
+                  (click)="selectEntry(i)"
                   [ngStyle]="{ 'height.px': content.offsetHeight }">
                   <div
                     class="pointer"
@@ -140,16 +129,17 @@
                   mat-ripple
                   [matRippleColor]="'rgba(123,123,123,0.1)'"
                   class="carousel-content"
-                  (click)="selectEntry(i, entryElement)"
+                  (click)="selectEntry(i)"
                   #content>
                   <div
                     fxLayout="row"
                     fxLayoutAlign="space-between center">
-                    <span class="carousel-entry-title">
+                    <!--                    <span class="carousel-entry-title">-->
+                    <span matCardTitle>
                       {{ entry.title[currentLanguage] }}
                     </span>
                   </div>
-                  <span class="carousel-text">
+                  <span matCardSubtitle>
                     {{ entry.description[currentLanguage] }}
                   </span>
                 </div>

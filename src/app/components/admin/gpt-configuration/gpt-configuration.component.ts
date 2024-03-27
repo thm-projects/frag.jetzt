@@ -10,7 +10,6 @@ import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GPTConfiguration,
-  GPTQuotaUnit,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
 import { GPTStatistics } from 'app/models/gpt-statistics';
@@ -23,18 +22,6 @@ import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, map, switchMap, takeUntil } from 'rxjs';
-
-interface AddActivationCode {
-  code: string;
-  maximalCost: number;
-}
-
-interface DeleteActivationCode {
-  code: string;
-  delete: true;
-}
-
-type ActivationCodeAction = AddActivationCode | DeleteActivationCode;
 
 @Component({
   selector: 'app-gpt-configuration',
@@ -68,7 +55,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private appState: AppStateService,
-    private adapter: DateAdapter<any>,
+    private adapter: DateAdapter<unknown>,
     private gptVoucherService: GPTVoucherService,
   ) {}
 
@@ -226,11 +213,11 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   }
 
   protected getQuotaMax(v: GPTVoucher) {
-    return '?';
+    return '?' || v;
   }
 
   protected getQuotaUsed(v: GPTVoucher) {
-    return '?';
+    return '?' || v;
   }
 
   private reloadConfig(): void {

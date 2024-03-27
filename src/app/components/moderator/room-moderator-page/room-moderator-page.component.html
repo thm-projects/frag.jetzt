@@ -2,7 +2,9 @@
   <div *ngIf="!isLoading && !room">
     {{ "room-page.room-not-found" | translate }}
   </div>
-  <mat-card *ngIf="room">
+  <mat-card
+    appearance="outlined"
+    *ngIf="room">
     <mat-card-header>
       <mat-card-title>
         <h2>
@@ -53,9 +55,9 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content *ngIf="room.description">
-      <app-view-comment-data
+      <!-- <app-view-comment-data
         class="images"
-        [currentData]="room.description"></app-view-comment-data>
+        [currentData]="room.description"></app-view-comment-data> -->
     </mat-card-content>
     <mat-card-footer>
       <button
@@ -119,13 +121,13 @@
           <div class="information">
             <div class="label">
               <span class="value">
-                {{ roomQuota.spent | currency : "USD" : "symbol" : "1.0-0" }}
+                {{ roomQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
             {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ roomQuota.limit | currency : "USD" : "symbol" : "1.0-0" }}
+                {{ roomQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
           </div>
@@ -146,7 +148,7 @@
             <div class="label">
               <span class="value">
                 {{
-                  moderatorQuota.spent | currency : "USD" : "symbol" : "1.0-0"
+                  moderatorQuota.spent | currency: "USD" : "symbol" : "1.0-0"
                 }}
               </span>
             </div>
@@ -154,7 +156,7 @@
             <div class="label">
               <span class="value">
                 {{
-                  moderatorQuota.limit | currency : "USD" : "symbol" : "1.0-0"
+                  moderatorQuota.limit | currency: "USD" : "symbol" : "1.0-0"
                 }}
               </span>
             </div>
@@ -176,7 +178,7 @@
             <div class="label">
               <span class="value">
                 {{
-                  participantQuota.spent | currency : "USD" : "symbol" : "1.0-0"
+                  participantQuota.spent | currency: "USD" : "symbol" : "1.0-0"
                 }}
               </span>
             </div>
@@ -184,7 +186,7 @@
             <div class="label">
               <span class="value">
                 {{
-                  participantQuota.limit | currency : "USD" : "symbol" : "1.0-0"
+                  participantQuota.limit | currency: "USD" : "symbol" : "1.0-0"
                 }}
               </span>
             </div>

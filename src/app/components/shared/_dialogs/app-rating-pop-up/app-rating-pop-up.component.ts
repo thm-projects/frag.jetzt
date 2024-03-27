@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { RatingResult } from '../../../../models/rating-result';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-app-rating-pop-up',
@@ -16,21 +16,10 @@ export class AppRatingPopUpComponent implements OnInit {
 
   constructor(private appState: AppStateService) {}
 
-  static openDialogAt(
-    dialog: MatDialog,
-    ref: HTMLElement,
-    result: RatingResult,
-    below: boolean,
-  ) {
-    const rect = ref.getBoundingClientRect();
+  static openDialogAt(dialog: MatDialog, result: RatingResult) {
     dialog.open(AppRatingPopUpComponent, {
-      position: {
-        left: '50%',
-        top: '50vh',
-      },
       width: '90vw',
       maxWidth: '500px',
-      panelClass: 'ratingContainer' + (below ? '-below' : ''),
       minWidth: 'min(90vw, 500px)',
       autoFocus: false,
     }).componentInstance.result = result;

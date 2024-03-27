@@ -50,12 +50,12 @@ export class OnboardingService {
     return obj && obj.state !== 'running';
   }
 
-  onFinishTour(name = 'default'): Observable<any> {
+  onFinishTour(name = 'default'): Observable<unknown> {
     const obj = JSON.parse(this.dataStoreService.get('onboarding_' + name));
     if (obj && obj.state !== 'running') {
       return of(obj.state);
     }
-    return new Observable<any>((e) => {
+    return new Observable<unknown>((e) => {
       const subscription = this._finishedTours.subscribe((tours) => {
         if (tours.includes(name)) {
           e.next(true);

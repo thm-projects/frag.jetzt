@@ -1,49 +1,56 @@
-<div [ngClass]="{
-  'dialog-action-buttons': true,
-  'no-spacing': (spacing === false)
-}">
+<div
+  [ngClass]="{
+    'dialog-action-buttons': true,
+    'no-spacing': spacing === false
+  }">
   <div fxLayoutAlign="end">
     <div class="buttons">
       <button
+        mat-button
         [disabled]="confirmButtonDisabled"
         *ngIf="confirmButtonClickAction !== undefined"
         type="button"
-        mat-flat-button
-        class="mat-flat-button {{ confirmButtonType }}-confirm-button"
         attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
-        (click)="performConfirmButtonClickAction()"
-      >
-        <mat-icon *ngIf="buttonIcon"
-                  style="margin-right: 5px;">{{buttonIcon}}</mat-icon>
-        {{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
-        <mat-icon *ngIf="showLoadingCycle" class="spinner-container">
-          <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
+        (click)="performConfirmButtonClickAction()">
+        <mat-icon
+          *ngIf="buttonIcon"
+          style="margin-right: 5px">
+          {{ buttonIcon }}
+        </mat-icon>
+        {{ buttonsLabelSection + "." + confirmButtonLabel | translate }}
+        <mat-icon
+          *ngIf="showLoadingCycle"
+          class="spinner-container">
+          <app-mat-spinner-overlay
+            [diameter]="20"
+            [strokeWidth]="2"></app-mat-spinner-overlay>
         </mat-icon>
       </button>
       <button
+        mat-button
         [disabled]="cancelButtonDisabled"
         *ngIf="cancelButtonClickAction !== undefined"
         type="button"
-        mat-flat-button
-        class="cancel-button"
         attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
-        (click)="performCancelButtonClickAction()"
-      >{{ buttonsLabelSection + '.' + cancelButtonLabel | translate}}</button>
+        (click)="performCancelButtonClickAction()">
+        {{ buttonsLabelSection + "." + cancelButtonLabel | translate }}
+      </button>
     </div>
   </div>
   <!--Hidden Div's for a11y-Descriptions-->
   <div class="visually-hidden">
     <div
       *ngIf="cancelButtonClickAction !== undefined"
-      id="{{ ariaPrefix + 'cancel' | translate }}"
-    >
-      {{ buttonsLabelSection + '.cancel-description' | translate }}
+      id="{{ ariaPrefix + 'cancel' | translate }}">
+      {{ buttonsLabelSection + ".cancel-description" | translate }}
     </div>
     <div
       *ngIf="confirmButtonClickAction !== undefined"
-      id="{{ ariaPrefix + 'confirm' | translate }}"
-    >
-      {{ buttonsLabelSection + '.' + confirmButtonLabel + '-description' | translate }}
+      id="{{ ariaPrefix + 'confirm' | translate }}">
+      {{
+        buttonsLabelSection + "." + confirmButtonLabel + "-description"
+          | translate
+      }}
     </div>
   </div>
 </div>

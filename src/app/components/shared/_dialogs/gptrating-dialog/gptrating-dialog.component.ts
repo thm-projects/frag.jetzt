@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { GptService } from 'app/services/http/gpt.service';
@@ -9,11 +9,9 @@ import { Observable, map } from 'rxjs';
   templateUrl: './gptrating-dialog.component.html',
   styleUrls: ['./gptrating-dialog.component.scss'],
 })
-export class GPTRatingDialogComponent implements OnInit {
+export class GPTRatingDialogComponent {
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
   protected text: string = '';
-  protected readonly onCancel = this.cancel.bind(this);
-  protected readonly onSubmit = this.submit.bind(this);
   private visibleRating = 0;
   private listeningToMove = true;
 
@@ -31,7 +29,7 @@ export class GPTRatingDialogComponent implements OnInit {
       map((e) => {
         const hasVoted = e?.ratingText || e?.rating;
         if (hasVoted && !allowUpdate) {
-          return;
+          return null;
         }
         const dialogRef = dialog.open(GPTRatingDialogComponent, {
           maxWidth: '95vw',
@@ -43,8 +41,6 @@ export class GPTRatingDialogComponent implements OnInit {
       }),
     );
   }
-
-  ngOnInit(): void {}
 
   protected onMouseLeave() {
     this.listeningToMove = true;
@@ -92,11 +88,7 @@ export class GPTRatingDialogComponent implements OnInit {
     return this.visibleRating > index ? 'star_half' : 'star_border';
   }
 
-  private cancel() {
-    this.dialogRef.close();
-  }
-
-  private submit() {
+  protected submit() {
     this.gptService.makeRating(this.visibleRating, this.text).subscribe();
     this.dialogRef.close();
   }

@@ -20,7 +20,6 @@ import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
@@ -35,6 +34,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 const CLOSE_TIME = 100;
 
@@ -154,7 +154,7 @@ export class TagCloudPopUpComponent
   }
 
   openTag() {
-    this.requester?.(Number(this.elem.dataset.index));
+    this.requester?.(Number(this.elem.dataset['index']));
   }
 
   enterBrainstorming(
@@ -315,7 +315,7 @@ export class TagCloudPopUpComponent
     };
     const tagReplacementInputLower = tagReplacementInput.toLowerCase();
     this.tagData.comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       if (
         comment.keywordsFromQuestioner.findIndex(
           (e) => e.text.toLowerCase() === tagReplacementInputLower,
@@ -390,8 +390,8 @@ export class TagCloudPopUpComponent
       this.setOwnVote(0);
       this.brainstormingData.words.forEach((wordId) => {
         this.brainstormingService.deleteVote(wordId).subscribe({
-          next: (_) => (this._isSending = false),
-          error: (_) => {
+          next: () => (this._isSending = false),
+          error: () => {
             this.setOwnVote(lastVote);
             this._isSending = false;
           },
@@ -402,8 +402,8 @@ export class TagCloudPopUpComponent
     this.setOwnVote(currentVote);
     this.brainstormingData.words.forEach((wordId) => {
       this.brainstormingService.createVote(wordId, upvote).subscribe({
-        next: (_) => (this._isSending = false),
-        error: (_) => {
+        next: () => (this._isSending = false),
+        error: () => {
           this.setOwnVote(lastVote);
           this._isSending = false;
         },
@@ -512,8 +512,8 @@ export class TagCloudPopUpComponent
         setTimeout(afterInit);
       }
     };
-    // @ts-ignore
-    const diffMs = Date.now() - Date.parse(this.tagData.firstTimeStamp);
+    const diffMs =
+      Date.now() - Date.parse(this.tagData.firstTimeStamp as unknown as string);
     const seconds = Math.floor(diffMs / 1_000);
     if (seconds < 60) {
       // few seconds

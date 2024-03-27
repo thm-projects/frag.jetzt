@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 
 @Component({
@@ -13,14 +12,10 @@ import { GlobalCountChanged } from 'app/models/global-count-changed';
   styleUrls: ['./status-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusInfoComponent implements OnInit {
+export class StatusInfoComponent {
   protected status: GlobalCountChanged;
-  protected readonly onConfirm = this.confirm.bind(this);
 
-  constructor(
-    private dialogRef: MatDialogRef<StatusInfoComponent>,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public static open(dialog: MatDialog, data: GlobalCountChanged) {
     const ref = dialog.open(StatusInfoComponent);
@@ -28,14 +23,8 @@ export class StatusInfoComponent implements OnInit {
     return ref;
   }
 
-  ngOnInit(): void {}
-
   updateStatus(status: GlobalCountChanged) {
     this.status = status;
     this.changeDetector.detectChanges();
-  }
-
-  private confirm() {
-    this.dialogRef.close();
   }
 }

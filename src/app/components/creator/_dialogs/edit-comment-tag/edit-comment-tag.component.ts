@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SessionService } from '../../../../services/util/session.service';
 import { TagsComponent } from '../tags/tags.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,6 +10,7 @@ import {
 } from 'app/services/state/room-state.service';
 import { UserRole } from 'app/models/user-roles.enum';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-comment-tag',

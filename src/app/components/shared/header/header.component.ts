@@ -11,8 +11,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
 import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
 import { AppComponent } from '../../../app.component';
@@ -34,7 +32,6 @@ import { SessionService } from '../../../services/util/session.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { Theme } from 'theme/Theme';
-import { MatMenu } from '@angular/material/menu';
 import {
   getBrainstormingURL,
   livepollNavigationAccessOnRoute,
@@ -63,6 +60,10 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { LocationStateService } from 'app/services/state/location-state.service';
+import { MatMenu } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
+import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 
 @Component({
   selector: 'app-header',
@@ -91,6 +92,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   showSmallButtons = false;
   isGPTPrivacyPolicyAccepted: boolean = false;
   canOpenGPT = false;
+  /**
+   * @deprecated
+   */
   customOptionText: { key: string; noTranslate?: boolean } = null;
   isSuperAdmin = false;
   currentLanguage: Language = 'en';
@@ -135,6 +139,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private accountState: AccountStateService,
     protected roomState: RoomStateService,
     private locationState: LocationStateService,
+    private m3DialogService: M3DialogBuilderService,
+    protected readonly m3ThemeService: M3DynamicThemeService,
     deviceState: DeviceStateService,
   ) {
     this.appState.language$
@@ -148,7 +154,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
-    this.themes = this.themeService.getThemes();
     this.shrinkObserver = new ShrinkObserver(this.toolbarRow.nativeElement);
     this.shrinkObserver
       .observeShrink()
@@ -159,6 +164,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionService.onReady.subscribe(() => {
       this.init();
     });
+    this.themes = this.themeService.getThemes();
   }
 
   ngOnDestroy(): void {
@@ -311,6 +317,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.keycloakService.redirectAccountManagement();
   }
 
+  /**
+   * @deprecated
+   */
   startUpFinished() {
     return this.sessionService.isReady;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   BuiltAction,
   DYNAMIC_INPUT,
@@ -8,12 +8,11 @@ import {
 @Component({
   selector: 'app-multi-level-switch',
   templateUrl: './multi-level-switch.component.html',
-  styleUrls: ['./multi-level-switch.component.scss'],
+  styleUrls: [
+    './multi-level-switch.component.scss',
+    '../common-form-field.scss',
+  ],
 })
-export class MultiLevelSwitchComponent implements OnInit {
+export class MultiLevelSwitchComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<SwitchAction>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

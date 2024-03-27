@@ -1,47 +1,58 @@
-<h3 *ngIf="type == 'CONTEXT'">{{ title[0] | translate }}</h3>
-<h3 *ngIf="type == 'PERSONA'">{{ title[0] | translate }}</h3>
-<h3 *ngIf="type == 'TOPIC'">{{ title[0] | translate }}</h3>
+@if (type !== "ROLE_INSTRUCTION") {
+  <h2 mat-dialog-title>
+    {{ title[0] | translate }}
+  </h2>
+}
 
-<mat-dialog-content *ngIf="!isLoading; else loading">
-  <div *ngFor="let control of formControls; let i = index">
-    <mat-form-field>
-      <mat-label>
-        {{ labels[i] | translate }}
-      </mat-label>
-      <textarea
-        appAccessibilityEscapedInput
-        style="min-height: 10em"
-        [maxlength]="presetsDefinitionMax"
-        matInput
-        placeholder="{{ placeholders[i] | translate }}"
-        [formControl]="control"></textarea>
-      <mat-hint align="end">
-        <span aria-hidden="true">
-          {{ control.value.length }} /
-          {{ presetsDefinitionMax }}
-        </span>
-      </mat-hint>
-      <button
-        *ngIf="control.value.length"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="clear(i)">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
+<mat-dialog-content>
+  @if (isLoading) {
+    <app-mat-spinner-overlay
+      color="on-surface"
+      [diameter]="40"
+      [strokeWidth]="5"></app-mat-spinner-overlay>
+  } @else {
+    @for (control of formControls; track i; let i = $index) {
+      <mat-form-field>
+        <mat-label>
+          {{ labels[i] | translate }}
+        </mat-label>
+        <textarea
+          appAccessibilityEscapedInput
+          style="min-height: 10em"
+          [maxlength]="presetsDefinitionMax"
+          matInput
+          placeholder="{{ placeholders[i] | translate }}"
+          [formControl]="control"></textarea>
+        <mat-hint align="end">
+          <span aria-hidden="true">
+            {{ control.value.length }} /
+            {{ presetsDefinitionMax }}
+          </span>
+        </mat-hint>
+        <button
+          *ngIf="control.value.length"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clear(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    }
+  }
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'presets-dialog'"
-  [confirmButtonLabel]="'save'"
-  [cancelButtonClickAction]="buildCancelAction()"
-  [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
-
-<ng-template #loading>
-  <app-mat-spinner-overlay
-    color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
-</ng-template>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "presets-dialog.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="confirm()">
+    {{ "presets-dialog.save" | translate }}
+  </button>
+</mat-dialog-actions>

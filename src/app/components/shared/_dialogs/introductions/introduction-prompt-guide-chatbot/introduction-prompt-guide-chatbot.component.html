@@ -1,8 +1,8 @@
-<h1
+<h2
   tabindex="0"
   mat-dialog-title>
   {{ "introductions.prompt-guide-chatbot" | translate }}
-</h1>
+</h2>
 
 <mat-dialog-content tabindex="0">
   <app-introduction-prompt-guide-chatbot-en
@@ -13,7 +13,11 @@
     *ngIf="currentLanguage === 'fr'"></app-introduction-prompt-guide-chatbot-fr>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  confirmButtonLabel="cancel"
-  buttonsLabelSection="introductions"
-  [confirmButtonClickAction]="onClose.bind(this)"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="primary-button"
+    mat-dialog-close>
+    {{ "introductions.cancel" | translate }}
+  </button>
+</mat-dialog-actions>

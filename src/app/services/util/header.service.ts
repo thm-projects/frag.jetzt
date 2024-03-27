@@ -5,18 +5,14 @@ import { NotificationService } from './notification.service';
 import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HeaderService {
-
   private userActivity: string;
   private userActivityListener: ((v: string) => void)[] = [];
   private userActivityToggle: boolean;
   private userActivityToggleListener: ((v: boolean) => void)[] = [];
   private headerComponent: () => HeaderComponent;
-
-  constructor() {
-  }
 
   public getHeaderComponent(): HeaderComponent {
     return this.headerComponent();
@@ -31,7 +27,7 @@ export class HeaderService {
       return;
     }
     this.userActivity = e;
-    this.userActivityListener.forEach(f => f(this.userActivity));
+    this.userActivityListener.forEach((f) => f(this.userActivity));
   }
 
   public getCurrentUserActivity() {
@@ -43,7 +39,7 @@ export class HeaderService {
       return;
     }
     this.userActivityToggle = e;
-    this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
+    this.userActivityToggleListener.forEach((f) => f(this.userActivityToggle));
   }
 
   public isToggleCurrentUserActivity() {
@@ -69,5 +65,4 @@ export class HeaderService {
   public getHost(): ArsComposeHostDirective {
     return this.headerComponent().host;
   }
-
 }

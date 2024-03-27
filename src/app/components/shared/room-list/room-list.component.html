@@ -1,149 +1,170 @@
-<div *ngIf="isLoading"
-     fxLayout="column"
-     fxLayoutAlign="center"
-     fxFill>
-  <div fxLayout="row"
-       fxLayoutAlign="center">
-    <app-mat-spinner-overlay diameter="80"
-                             strokeWidth="8"></app-mat-spinner-overlay>
+<div *ngIf="isLoading">
+  <div>
+    <app-mat-spinner-overlay
+      [diameter]="80"
+      [strokeWidth]="8"></app-mat-spinner-overlay>
   </div>
 </div>
 
 <div *ngIf="roomsWithRole && tableDataSource">
-
-  <div *ngIf="rooms.length === 0"
-       aria-labelledby="emptySessionHistoryLabel">
-    <h3 class="noRoomHistory">{{ 'room-list.no-room-history' | translate }}</h3>
+  <div
+    *ngIf="rooms.length === 0"
+    aria-labelledby="emptySessionHistoryLabel">
+    <h3 class="noRoomHistory">{{ "room-list.no-room-history" | translate }}</h3>
   </div>
 
   <div *ngIf="rooms.length > 0">
-
-    <div class="fill-space"
-         *ngIf="this.rooms && this.rooms.length <= 5"></div>
+    <div *ngIf="this.rooms && this.rooms.length <= 5"></div>
 
     <!-- filter input -->
-    <mat-form-field *ngIf="this.rooms && this.rooms.length > 5"
-                    class="filterWrapper">
-      <input appAccessibilityEscapedInput
-             matInput
-             (keyup)="applyFilter($event.target.value)"
-             class="filter"
-             attr.aria-labelledby="sessionHistoryLabel{{ this.rooms.length === 1 ? '1' : '' }}"/>
-      <mat-placeholder class="placeholder">{{ 'room-list.filter-message' | translate }}</mat-placeholder>
+    <mat-form-field
+      *ngIf="this.rooms && this.rooms.length > 5"
+      class="filterWrapper">
+      <input
+        appAccessibilityEscapedInput
+        matInput
+        #filterInput
+        (keyup)="applyFilter(filterInput.value)"
+        [placeholder]="'room-list.filter-message' | translate"
+        class="filter"
+        attr.aria-labelledby="sessionHistoryLabel{{
+          this.rooms.length === 1 ? '1' : ''
+        }}" />
     </mat-form-field>
 
     <div class="table-container">
-      <table #roomTable
-             matSort
-             (matSortChange)="sortData($event)"
-             mat-table
-             [dataSource]="tableDataSource"
-             class="list-entries"
-             aria-describedby="roomTable"
-             aria-label="This table shows all available rooms.">
-
+      <table
+        #roomTable
+        matSort
+        (matSortChange)="sortData($event)"
+        mat-table
+        [dataSource]="tableDataSource"
+        class="list-entries"
+        aria-describedby="roomTable"
+        aria-label="This table shows all available rooms.">
         <!-- Room / Session name column -->
-        <ng-container matColumnDef="name"
-                      aria-hidden="true">
-          <th scope="col"
-              mat-header-cell
-              mat-sort-header="name"
-              sortActionDescription="Sort by name"
-              *matHeaderCellDef
-              style="width: 45%; padding-right: 10px">
-            {{ 'room-list.panel-session-name' | translate }}
+        <ng-container
+          matColumnDef="name"
+          aria-hidden="true">
+          <th
+            scope="col"
+            mat-header-cell
+            mat-sort-header="name"
+            sortActionDescription="Sort by name"
+            *matHeaderCellDef
+            style="width: 45%; padding-right: 10px">
+            {{ "room-list.panel-session-name" | translate }}
           </th>
-          <td mat-cell
-              class="clickable"
-              *matCellDef="let room"
-              (click)="setCurrentRoom(room.shortId)"
-              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <span matBadge="{{room.responseCount > 0 ? room.responseCount : null}}"
-                  matBadgeSize="small"
-                  matBadgeOverlap="false"
-                  matBadgeColor="secondary"
-                  class="responseCountBadge">
-            </span>
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}"
-                  matBadgePosition="before"
-                  matBadgeSize="small"
-                  matBadgeOverlap="false">
-              {{ 'room-list.panel-name-lq' | translate }}{{room.name}}{{ 'room-list.panel-name-rq' | translate }}
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let room"
+            (click)="setCurrentRoom(room.shortId)"
+            routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}">
+            <span
+              matBadge="{{
+                room.responseCount > 0 ? room.responseCount : null
+              }}"
+              matBadgeSize="small"
+              matBadgeOverlap="false"
+              matBadgeColor="accent"
+              class="responseCountBadge"></span>
+            <span
+              matBadge="{{ room.commentCount > 0 ? room.commentCount : null }}"
+              matBadgePosition="before"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+              {{ "room-list.panel-name-lq" | translate }}{{ room.name
+              }}{{ "room-list.panel-name-rq" | translate }}
             </span>
           </td>
         </ng-container>
 
         <!-- Session ID column -->
-        <ng-container matColumnDef="shortId"
-                      aria-hidden="true">
-          <th mat-header-cell
-              mat-sort-header="shortId"
-              sortActionDescription="Sort by shortId"
-              *matHeaderCellDef
-              scope="col"
-              style="width: 25%">
-            {{ 'room-list.panel-session-id' | translate }}
+        <ng-container
+          matColumnDef="shortId"
+          aria-hidden="true">
+          <th
+            mat-header-cell
+            mat-sort-header="shortId"
+            sortActionDescription="Sort by shortId"
+            *matHeaderCellDef
+            scope="col"
+            style="width: 25%">
+            {{ "room-list.panel-session-id" | translate }}
           </th>
-          <td mat-cell
-              class="clickable"
-              *matCellDef="let room"
-              (click)="setCurrentRoom(room.shortId)"
-              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let room"
+            (click)="setCurrentRoom(room.shortId)"
+            routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
-            <mat-icon *ngIf="room.questionsBlocked"
-                      class="warn material-icons-outlined"
-                      [inline]="true"
-                      matTooltip="{{ 'header.questions-blocked' | translate}}">
+            <mat-icon
+              *ngIf="room.questionsBlocked"
+              class="warn material-icons-outlined"
+              [inline]="true"
+              matTooltip="{{ 'header.questions-blocked' | translate }}">
               comments_disabled
             </mat-icon>
-            <mat-icon *ngIf="!room.directSend"
-                      class="warn material-icons-round"
-                      [inline]="true"
-                      matTooltip="{{ 'header.moderation-enabled' | translate}}">
+            <mat-icon
+              *ngIf="!room.directSend"
+              class="warn material-icons-round"
+              [inline]="true"
+              matTooltip="{{ 'header.moderation-enabled' | translate }}">
               gavel
             </mat-icon>
-            <mat-icon *ngIf="room.hasNotifications"
-                      class="warn material-icons-outlined"
-                      [inline]="true"
-                      matTooltip="{{ 'header.active-email-notification' | translate}}">
+            <mat-icon
+              *ngIf="room.hasNotifications"
+              class="warn material-icons-outlined"
+              [inline]="true"
+              matTooltip="{{ 'header.active-email-notification' | translate }}">
               email
             </mat-icon>
           </td>
         </ng-container>
 
         <!-- Role column -->
-        <ng-container matColumnDef="role"
-                      aria-hidden="true">
-          <th mat-header-cell
-              mat-sort-header="role"
-              sortActionDescription="Sort by role"
-              *matHeaderCellDef
-              scope="col"
-              style="width: 10%; text-align: center">
-            {{ 'room-list.panel-user-role' | translate }}
+        <ng-container
+          matColumnDef="role"
+          aria-hidden="true">
+          <th
+            mat-header-cell
+            mat-sort-header="role"
+            sortActionDescription="Sort by role"
+            *matHeaderCellDef
+            scope="col"
+            style="width: 10%; text-align: center">
+            {{ "room-list.panel-user-role" | translate }}
           </th>
-          <td mat-cell
-              class="clickable"
-              *matCellDef="let room"
-              [ngSwitch]="room.role"
-              (click)="setCurrentRoom(room.shortId)"
-              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <mat-icon class="material-icons-outlined"
-                      mat-list-icon
-                      *ngSwitchCase="creatorRole"
-                      matTooltip="{{ 'room-list.creator-role' | translate }}">
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let room"
+            [ngSwitch]="room.role"
+            (click)="setCurrentRoom(room.shortId)"
+            routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}">
+            <mat-icon
+              class="material-icons-outlined"
+              mat-list-icon
+              *ngSwitchCase="creatorRole"
+              matTooltip="{{ 'room-list.creator-role' | translate }}">
               co_present
             </mat-icon>
-            <mat-icon class="material-icons-outlined"
-                      mat-list-icon
-                      *ngSwitchCase="participantRole"
-                      matTooltip="{{ 'room-list.participant-role' | translate }}">
+            <mat-icon
+              class="material-icons-outlined"
+              mat-list-icon
+              *ngSwitchCase="participantRole"
+              matTooltip="{{ 'room-list.participant-role' | translate }}">
               person
             </mat-icon>
-            <mat-icon class="material-icons-round"
-                      mat-list-icon
-                      *ngSwitchCase="executiveModeratorRole"
-                      matTooltip="{{ 'room-list.executive-moderator-role' | translate }}">
+            <mat-icon
+              class="material-icons-round"
+              mat-list-icon
+              *ngSwitchCase="executiveModeratorRole"
+              matTooltip="{{
+                'room-list.executive-moderator-role' | translate
+              }}">
               support_agent
             </mat-icon>
           </td>
@@ -151,121 +172,169 @@
 
         <!-- Moderator access column -->
         <ng-container matColumnDef="moderator-access">
-          <th mat-header-cell
-              *matHeaderCellDef
-              scope="col"
-              style="width: 10%; text-align: left; padding: 6px 0;">
-            {{ 'room-list.panel-access-button' | translate }}
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            scope="col"
+            style="width: 10%; text-align: left; padding: 6px 0">
+            {{ "room-list.panel-access-button" | translate }}
           </th>
-          <td mat-cell
-              *matCellDef="let room"
-              style="text-align: center; padding-right: 0"
-              attr.aria-labelledby="empty">
-            <button mat-icon-button
-                    [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
-                    (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
-              <mat-icon style="color: var(--red)">key</mat-icon>
+          <td
+            mat-cell
+            *matCellDef="let room"
+            style="text-align: center; padding-right: 0"
+            aria-labelledby="empty">
+            <button
+              mat-icon-button
+              [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
+              (click)="showModeratorsDialog(room)"
+              *ngIf="room.role > 0">
+              <mat-icon>key</mat-icon>
             </button>
           </td>
         </ng-container>
 
         <!-- Join button column -->
         <ng-container matColumnDef="button">
-          <th mat-header-cell
-              *matHeaderCellDef
-              scope="col"
-              style="width: 10%; padding-right: 5px; text-align: center">
-            {{ 'room-list.panel-join-button' | translate }}
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            scope="col"
+            style="width: 10%; padding-right: 5px; text-align: center">
+            {{ "room-list.panel-join-button" | translate }}
           </th>
-          <td mat-cell
-              *matCellDef="let room"
-              style="text-align: center; padding-right: 5px"
-              attr.aria-labelledby="empty">
-            <button mat-icon-button
-                    [matMenuTriggerFor]="moreActions"
-                    [matTooltip]="('room-list.option-menu' | translate)"
-                    [matTooltipPosition]="'right'">
+          <td
+            mat-cell
+            *matCellDef="let room"
+            style="text-align: center; padding-right: 5px"
+            aria-labelledby="empty">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="moreActions"
+              [matTooltip]="'room-list.option-menu' | translate"
+              [matTooltipPosition]="'right'">
               <mat-icon>more_vert</mat-icon>
             </button>
-            <mat-menu #moreActions="matMenu"
-                      xPosition="before">
-              <button mat-menu-item
-                      (click)="removeSession(room)">
-                <mat-icon class="delete material-icons-outlined">delete</mat-icon>
-                <span class="delete-text"> {{ (room.role < 3 ? 'room-list.panel-remove-button' :
-                  'room-list.delete-room') | translate}}</span>
+            <mat-menu
+              #moreActions="matMenu"
+              xPosition="before">
+              <button
+                mat-menu-item
+                (click)="removeSession(room)">
+                <mat-icon class="delete material-icons-outlined">
+                  delete
+                </mat-icon>
+                <span class="delete-text">
+                  {{
+                    (room.role < 3
+                      ? "room-list.panel-remove-button"
+                      : "room-list.delete-room"
+                    ) | translate
+                  }}
+                </span>
               </button>
-              <button mat-menu-item
-                      (click)="openNotifications(room)">
-                <mat-icon class="notification material-icons-outlined">email</mat-icon>
-                <span class="delete-text">{{ 'room-list.email-notification' | translate }}</span>
+              <button
+                mat-menu-item
+                (click)="openNotifications(room)">
+                <mat-icon class="notification material-icons-outlined">
+                  email
+                </mat-icon>
+                <span class="delete-text">
+                  {{ "room-list.email-notification" | translate }}
+                </span>
               </button>
-              <button mat-menu-item
-                      (click)="exportCsv(room)">
-                <mat-icon class="export material-icons-outlined">file_download</mat-icon>
-                <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
+              <button
+                mat-menu-item
+                (click)="exportCsv(room)">
+                <mat-icon class="export material-icons-outlined">
+                  file_download
+                </mat-icon>
+                <span class="delete-text">
+                  {{ "room-list.export-comments" | translate }}
+                </span>
               </button>
-              <button mat-menu-item
-                      *ngIf="room.role > 0"
-                      (click)="openRoomSettingsOverview(room)">
-                <mat-icon class="settings material-icons-round">room_preferences</mat-icon>
-                <span class="delete-text">{{ 'room-list.settings-overview' | translate }}</span>
+              <button
+                mat-menu-item
+                *ngIf="room.role > 0"
+                (click)="openRoomSettingsOverview(room)">
+                <mat-icon class="settings material-icons-round">
+                  room_preferences
+                </mat-icon>
+                <span class="delete-text">
+                  {{ "room-list.settings-overview" | translate }}
+                </span>
               </button>
-              <button mat-menu-item
-                      *ngIf="room.role > 0 && room.bonusArchiveActive"
-                      (click)="openBonusTokens(room)">
+              <button
+                mat-menu-item
+                *ngIf="room.role > 0 && room.bonusArchiveActive"
+                (click)="openBonusTokens(room)">
                 <mat-icon class="star material-icons-round">grade</mat-icon>
-                <span class="delete-text">{{ 'header.bonustoken' | translate }}</span>
+                <span class="delete-text">
+                  {{ "header.bonustoken" | translate }}
+                </span>
               </button>
-              <button mat-menu-item
-                      *ngIf="room.role === 0"
-                      (click)="openMyBonusTokens()"
-                      tabindex="0">
+              <button
+                mat-menu-item
+                *ngIf="room.role === 0"
+                (click)="openMyBonusTokens()"
+                tabindex="0">
                 <mat-icon class="star material-icons-round">grade</mat-icon>
-                <span class="delete-text">{{ 'header.user-bonus-token' | translate }}</span>
+                <span class="delete-text">
+                  {{ "header.user-bonus-token" | translate }}
+                </span>
               </button>
-              <button mat-menu-item
-                      (click)="copyShortId(room)"
-                      tabindex="0">
+              <button
+                mat-menu-item
+                (click)="copyShortId(room)"
+                tabindex="0">
                 <mat-icon class="star material-icons-outlined">share</mat-icon>
-                <span class="delete-text">{{ 'header.direct-link' | translate }}</span>
+                <span class="delete-text">
+                  {{ "header.direct-link" | translate }}
+                </span>
               </button>
             </mat-menu>
             <div class="visually-hidden">
               <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">
-                {{ 'room-list.join-message-template' | translate:{
-                session: room.name,
-                id: room.shortId,
-                role: ('room-list.' + roleToString((room.role)) + '-role' | translate)
-              } }}
+                {{
+                  "room-list.join-message-template"
+                    | translate
+                      : {
+                          session: room.name,
+                          id: room.shortId,
+                          role:
+                            ("room-list." + roleToString(room.role) + "-role"
+                            | translate)
+                        }
+                }}
               </div>
             </div>
           </td>
         </ng-container>
 
-        <tr mat-header-row
-            *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row
-            *matRowDef="let row; columns: displayedColumns;"></tr>
-
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-
     </div>
   </div>
-
 </div>
 
 <div class="visually-hidden">
-  <div id="emptySessionHistoryLabel">{{ 'room-list.no-room-history' | translate }}</div>
+  <div id="emptySessionHistoryLabel">
+    {{ "room-list.no-room-history" | translate }}
+  </div>
   <div id="sessionHistoryLabel">
-    {{ 'room-list.session-history-label' | translate }}
-    {{ 'room-list.session-history' | translate:{count: this.rooms.length} }}
-    {{ 'room-list.filter' | translate }}
+    {{ "room-list.session-history-label" | translate }}
+    {{ "room-list.session-history" | translate: { count: this.rooms.length } }}
+    {{ "room-list.filter" | translate }}
   </div>
   <div id="sessionHistoryLabel1">
-    {{ 'room-list.session-history-label' | translate }}
-    {{ 'room-list.session-history-1' | translate }}
-    {{ 'room-list.filter' | translate }}
+    {{ "room-list.session-history-label" | translate }}
+    {{ "room-list.session-history-1" | translate }}
+    {{ "room-list.filter" | translate }}
   </div>
   <div id="empty"></div>
 </div>

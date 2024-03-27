@@ -13,7 +13,8 @@
         [placeholder]="data.labels[2] | translate"
         formControlName="endDate" />
     </mat-date-range-input>
-    <mat-datepicker-toggle class="mat-icon-color-only"
+    <mat-datepicker-toggle
+      class="mat-icon-color-only"
       matSuffix
       [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
@@ -36,7 +37,9 @@
         formControlName="endTime" />
     </mat-form-field>
 
-    <mat-error *ngIf="dateRangeGroup.errors?.invalid">{{ data.labels[3] | translate }}</mat-error>
+    <mat-error *ngIf="dateRangeGroup.errors?.['invalid']">
+      {{ data.labels[3] | translate }}
+    </mat-error>
 
     <mat-form-field appearance="outline">
       <mat-select formControlName="selectedOption">
@@ -58,6 +61,10 @@
   <span>{{ data.labels[5] | translate }}</span>
 </button>
 
+@if (dateRangeGroup.errors?.["invalid"]) {
+  <div>End time cannot be before start time.</div>
+}
+
 <div
   *ngIf="usageTimes.length > 0"
   class="usage-times-list">
@@ -67,13 +74,15 @@
     class="time-item">
     <div class="time-details">
       <span>
-        {{ time.startDate | date : "dd.MM.yyyy" }} -
-        {{ time.endDate | date : "dd.MM.yyyy" }}
-      </span><br>
+        {{ time.startDate | date: "dd.MM.yyyy" }} -
+        {{ time.endDate | date: "dd.MM.yyyy" }}
+      </span>
+      <br />
       <span *ngIf="timeStampExists(time.startDuration)">
         {{ formatTimeStamp(time.startDuration) }} -
         {{ formatTimeStamp(time.endDuration) }}
-      </span><br>
+      </span>
+      <br />
     </div>
     <button
       class="delete-button"

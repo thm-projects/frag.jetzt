@@ -1,0 +1,61 @@
+@use "styles-prod";
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: row;
+
+  > * + * {
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    flex-direction: column;
+
+    > * + * {
+      margin-top: 8px;
+      margin-left: 0;
+    }
+  }
+  .spending {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+.spending {
+  padding: 16px; // https://m3.material.io/components/cards/specs#9abbced9-d5d3-4893-9a67-031825205f06
+  flex-basis: calc(33.33% - 16px);
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  font-size: small;
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 100%;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+
+  & .label:last-child {
+    text-align: right;
+  }
+}
+
+.bar {
+  padding: 2px;
+  border-radius: 14px;
+  background-color: var(--md-sys-color-tertiary-container);
+
+  & .spent {
+    background-color: var(--md-sys-color-tertiary);
+  }
+}

@@ -1,0 +1,4 @@
+@import "styles-prod";
+:host {
+  @extend .page-container;
+}

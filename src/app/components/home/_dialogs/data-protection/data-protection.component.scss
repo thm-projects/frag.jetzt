@@ -10,16 +10,16 @@ div {
   color: var(--on-surface);
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   background-color: var(--primary);
   color: var(--on-primary);
 }
 
-.mat-stroked-button {
+.mat-mdc-outlined-button {
   color: var(--on-surface);
 }
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
   outline: none;
   font-size: 20px !important;
   font-weight: bold;

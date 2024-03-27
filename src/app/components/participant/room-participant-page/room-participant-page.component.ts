@@ -29,7 +29,7 @@ export class RoomParticipantPageComponent
   constructor(
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    protected injector: Injector,
+    protected override injector: Injector,
   ) {
     super(injector);
   }
@@ -44,7 +44,7 @@ export class RoomParticipantPageComponent
     }, 700);
   }
 
-  ngOnInit() {
+  override ngOnInit() {
     window.scroll(0, 0);
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
@@ -78,7 +78,7 @@ export class RoomParticipantPageComponent
     });
   }
 
-  ngOnDestroy() {
+  override ngOnDestroy() {
     super.ngOnDestroy();
   }
 
@@ -111,7 +111,7 @@ export class RoomParticipantPageComponent
     }
   }
 
-  preRoomLoadHook(): Observable<any> {
+  override preRoomLoadHook(): Observable<unknown> {
     if (!this.user) {
       return this.accountState.forceLogin().pipe(map((user) => user));
     } else {
@@ -119,7 +119,7 @@ export class RoomParticipantPageComponent
     }
   }
 
-  postRoomLoadHook() {
+  override postRoomLoadHook() {
     if (
       this.accountState.ensureAccess(
         this.room.shortId,

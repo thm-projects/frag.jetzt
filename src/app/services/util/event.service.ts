@@ -3,8 +3,8 @@ import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 interface BroadcastEvent {
-  key: any;
-  data?: any;
+  key: string;
+  data?: unknown;
 }
 
 @Injectable()
@@ -19,7 +19,7 @@ export class EventService {
     this.focusOnInput = false;
   }
 
-  broadcast(key: any, data?: any) {
+  broadcast(key: string, data?: unknown) {
     this._eventBus.next({ key, data });
   }
 
@@ -31,7 +31,7 @@ export class EventService {
     this.focusOnInput = false;
   }
 
-  on<T>(key: any): Observable<T> {
+  on<T>(key: string): Observable<T> {
     return this._eventBus.asObservable().pipe(
       filter((event) => event.key === key),
       map((event) => event.data as T),

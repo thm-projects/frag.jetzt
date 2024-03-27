@@ -1,13 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   BuiltAction,
   DYNAMIC_INPUT,
   DateInputAction,
 } from '../interface/multi-level-dialog.types';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
-import { Time } from '@angular/common';
-import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 
 export enum UNITS {
   NONE,
@@ -68,7 +65,7 @@ interface Usage {
   templateUrl: './multi-level-date-input.component.html',
   styleUrls: ['./multi-level-date-input.component.scss'],
 })
-export class MultiLevelDateInputComponent implements OnInit {
+export class MultiLevelDateInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<DateInputAction>;
   usageTimes: Usage[];
   dateRangeGroup: FormGroup;
@@ -89,8 +86,16 @@ export class MultiLevelDateInputComponent implements OnInit {
     );
     this.usageTimes = this.data.defaultValues.map((usage) => {
       return {
-        startDate: new Date(usage.startDate[0], usage.startDate[1]-1, usage.startDate[2]),
-        endDate: new Date(usage.endDate[0], usage.endDate[1]-1, usage.endDate[2]),
+        startDate: new Date(
+          usage.startDate[0],
+          usage.startDate[1] - 1,
+          usage.startDate[2],
+        ),
+        endDate: new Date(
+          usage.endDate[0],
+          usage.endDate[1] - 1,
+          usage.endDate[2],
+        ),
         startDuration: TimeStamp.fromString(usage.startTime),
         endDuration: TimeStamp.fromString(usage.endTime),
         repeatDuration: usage.recurringFactor,
@@ -98,16 +103,16 @@ export class MultiLevelDateInputComponent implements OnInit {
       };
     });
     this.options = [
-      ...Object.keys(UNITS).filter(key => isNaN(Number(key))).map(key => {
-        return {
-          value: key,
-          i18nPath: `ml-gpt-room-settings.usage-time-item-one-option-${key.toLowerCase()}`,
-        }
-      }),
-    ]
+      ...Object.keys(UNITS)
+        .filter((key) => isNaN(Number(key)))
+        .map((key) => {
+          return {
+            value: key,
+            i18nPath: `ml-gpt-room-settings.usage-time-item-one-option-${key.toLowerCase()}`,
+          };
+        }),
+    ];
   }
-
-  ngOnInit(): void {}
 
   timeSpanValidator(group: FormGroup) {
     const startDuration = group.get('startTime').value;
@@ -131,14 +136,18 @@ export class MultiLevelDateInputComponent implements OnInit {
     let minute = time.minute;
     if (isNaN(minute)) minute = 0;
 
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+    return `${hour.toString().padStart(2, '0')}:${minute
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   timeStampExists(time: TimeStamp): boolean {
-    return this.usageTimes.some((u) => 
-    u.startDuration.hour === time.hour
-    && u.startDuration.minute === time.minute);
-  } 
+    return this.usageTimes.some(
+      (u) =>
+        u.startDuration.hour === time.hour &&
+        u.startDuration.minute === time.minute,
+    );
+  }
 
   addUsageTime(): void {
     const start = this.dateRangeGroup.get('startDate').value;
@@ -149,8 +158,12 @@ export class MultiLevelDateInputComponent implements OnInit {
     const startDate = new Date(start);
     const endDate = new Date(end);
 
-    const startDuration = TimeStamp.fromString(this.dateRangeGroup.get('startTime').value);
-    const endDuration = TimeStamp.fromString(this.dateRangeGroup.get('endTime').value);
+    const startDuration = TimeStamp.fromString(
+      this.dateRangeGroup.get('startTime').value,
+    );
+    const endDuration = TimeStamp.fromString(
+      this.dateRangeGroup.get('endTime').value,
+    );
 
     if (startDuration.isAfter(endDuration)) return;
 
@@ -165,10 +178,10 @@ export class MultiLevelDateInputComponent implements OnInit {
       endDuration,
       repeatDuration,
       repeatUnit,
-    }
-    
-    if (this.usageTimes.length !== 0 
-      && this.usageAlreadyExists(newUsage)) return;
+    };
+
+    if (this.usageTimes.length !== 0 && this.usageAlreadyExists(newUsage))
+      return;
     this.usageTimes.push(newUsage);
 
     this.data.control.setValue([...this.usageTimes]);
@@ -176,15 +189,17 @@ export class MultiLevelDateInputComponent implements OnInit {
   }
 
   usageAlreadyExists(usage: Usage): boolean {
-    return this.usageTimes.some((u) => 
-    u.startDate.getDate() === usage.startDate.getDate() 
-    && u.endDate.getDate() === usage.endDate.getDate()
-    && u.startDuration.hour === usage.startDuration.hour
-    && u.startDuration.minute === usage.startDuration.minute
-    && u.endDuration.hour === usage.endDuration.hour
-    && u.endDuration.minute === usage.endDuration.minute
-    && u.repeatDuration === usage.repeatDuration
-    && u.repeatUnit === usage.repeatUnit);
+    return this.usageTimes.some(
+      (u) =>
+        u.startDate.getDate() === usage.startDate.getDate() &&
+        u.endDate.getDate() === usage.endDate.getDate() &&
+        u.startDuration.hour === usage.startDuration.hour &&
+        u.startDuration.minute === usage.startDuration.minute &&
+        u.endDuration.hour === usage.endDuration.hour &&
+        u.endDuration.minute === usage.endDuration.minute &&
+        u.repeatDuration === usage.repeatDuration &&
+        u.repeatUnit === usage.repeatUnit,
+    );
   }
 
   deleteTime(index: number): void {

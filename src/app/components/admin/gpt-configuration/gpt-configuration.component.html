@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <h1>{{ "gpt-config.title" | translate }}</h1>
   <p>{{ "gpt-config.help-general" | translate }}</p>
   <mat-accordion *ngIf="!isLoading; else loading">
@@ -271,6 +271,6 @@
 <ng-template #loading>
   <app-mat-spinner-overlay
     color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
+    [diameter]="40"
+    [strokeWidth]="5"></app-mat-spinner-overlay>
 </ng-template>

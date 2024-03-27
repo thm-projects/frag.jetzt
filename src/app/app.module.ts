@@ -1,11 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -27,11 +22,9 @@ import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
-import { UserHomeComponent } from './components/home/user-home/user-home.component';
-import { AppConfig } from './app.config';
+import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
 import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -43,7 +36,6 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
-import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { BonusTokenService } from './services/http/bonus-token.service';
 import { CustomIconService } from './services/util/custom-icon.service';
@@ -64,8 +56,6 @@ import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
-import { MatomoModule } from 'ngx-matomo-v9';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
@@ -79,44 +69,29 @@ import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 import { AdminModule } from './components/admin/admin.module';
-import {
-  HIGHLIGHT_OPTIONS,
-  HighlightLoader,
-  HighlightModule,
-} from 'ngx-highlightjs';
-import { HighlightJsDefaults } from './utils/highlight-js-defaults';
-
-import 'prismjs';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
-import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
-import 'katex/dist/katex.min.js';
-import 'emoji-toolkit/lib/js/joypixels.min.js';
-import 'quill-emoji/dist/quill-emoji.js';
-import { QuillModule } from 'ngx-quill';
 import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
-
-export const dialogClose = (dialogResult: any) => '';
-
-export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { FragJetztLogoComponent } from './components/branding/frag-jetzt-logo/frag-jetzt-logo.component';
+import { M3Module } from '../modules/m3/m3.module';
+import { M3NavPaneComponent } from '../modules/m3/components/navigation/m3-nav-pane/m3-nav-pane.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
     NewLandingComponent,
     HomePageComponent,
     DemoVideoComponent,
-    UserHomeComponent,
-    HomeCreatorPageComponent,
+    UserHomePageComponent,
     HomeParticipantPageComponent,
     ImprintComponent,
     DataProtectionComponent,
@@ -146,11 +121,11 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     UpdateInfoDialogComponent,
   ],
   imports: [
-    MatomoModule,
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     EssentialsModule,
+    M3Module,
     SharedModule,
     ThemeModule,
     MatIconModule,
@@ -159,21 +134,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AdminModule,
     CreatorModule,
     ModeratorModule,
-    MarkdownModule.forRoot({
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          pedantic: false,
-          gfm: true,
-          breaks: true,
-          sanitize: false,
-          smartLists: true,
-          smartypants: true,
-          xhtml: false,
-        },
-      },
-    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -186,12 +146,18 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       isolate: true,
     }),
     ArsModule,
-    TagCloudModule,
     JoyrideModule.forRoot(),
     MatNativeDateModule,
-    HighlightModule,
-    QuillModule.forRoot(),
     MatRippleModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+    ColorPickerModule,
+    FragJetztLogoComponent,
+    M3NavPaneComponent,
   ],
   providers: [
     /*AppConfig,
@@ -200,13 +166,13 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       deps: [AppConfig], multi: true
     },*/
     {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
       multi: true,
-    },
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: HighlightJsDefaults,
     },
     WsConnectorService,
     NotificationService,
@@ -216,8 +182,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     EventService,
     RoomService,
     CommentService,
-    MarkdownService,
-    MarkedOptions,
     UserService,
     VoteService,
     ModeratorService,
@@ -227,16 +191,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     SpacyService,
     MatBottomSheet,
     DashboardNotificationService,
-    {
-      provide: MatDialogRef,
-      useValue: {
-        dialogClose,
-      },
-    },
-    {
-      provide: MAT_DIALOG_DATA,
-      useValue: [],
-    },
   ],
   bootstrap: [AppComponent],
 })
@@ -244,9 +198,7 @@ export class AppModule {
   constructor(
     private appState: AppStateService,
     private translateService: TranslateService,
-    private highlightLoader: HighlightLoader,
   ) {
-    this.highlightLoader.ready.subscribe();
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),
     );

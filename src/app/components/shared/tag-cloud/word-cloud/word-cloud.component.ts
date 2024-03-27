@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   Renderer2,
   SimpleChanges,
@@ -17,7 +16,10 @@ import {
   CloudTextStyle,
 } from '../../../../utils/cloud-parameters';
 import { ColorContrast } from '../../../../utils/color-contrast';
-import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
+import {
+  CloudDrawFuncType,
+  WordCloudDrawFunctions,
+} from './word-cloud-draw-functions';
 import { ThemeService } from '../../../../../theme/theme.service';
 
 export interface WordMeta {
@@ -26,7 +28,7 @@ export interface WordMeta {
   rotate: number;
 }
 
-interface PositionInformation<K = any> {
+interface PositionInformation<K = unknown> {
   position: {
     width: number;
     height: number;
@@ -40,7 +42,7 @@ interface PositionInformation<K = any> {
   additional?: K;
 }
 
-export interface ActiveWord<T extends WordMeta, K = any> {
+export interface ActiveWord<T extends WordMeta, K = unknown> {
   meta: T;
   weightClass: number;
   visible: boolean;
@@ -66,7 +68,8 @@ const TO_RAD = (2 * Math.PI) / 360;
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],
 })
-export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
+export class WordCloudComponent<T extends WordMeta>
+  implements OnChanges, OnDestroy {
   @ViewChild('wordCloud', { static: true })
   wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
@@ -78,7 +81,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.Lowest;
   @Input() parameters: CloudParameters = null;
-  private _elements: ActiveWord<T>[] = [];
+  private _elements: ActiveWord<T, CloudDrawFuncType<T>>[] = [];
   private _cssStyleElement: HTMLStyleElement;
   private _styleIndexes: StyleDeclarations;
   private _minHeight: number;
@@ -89,20 +92,18 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     public themeService: ThemeService,
   ) {}
 
-  ngOnInit() {}
-
   ngOnDestroy() {
     this._cssStyleElement?.remove();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.parameters) {
-      if (Object.keys(changes.parameters.currentValue).length === 0) {
+    if (changes['parameters']) {
+      if (Object.keys(changes['parameters'].currentValue).length === 0) {
         return;
       }
-      this.updateParameters(changes.parameters.previousValue);
+      this.updateParameters(changes['parameters'].previousValue);
     }
-    if (changes.keywords) {
+    if (changes['keywords']) {
       this.redraw();
     }
   }
@@ -226,9 +227,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     parent.style.setProperty('--hover-delay', hoverDelay + 's');
   }
 
-  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
+  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: object) {
     const upper = /[A-Z]/gm;
-    const replacer = (x: string, ...args: any) =>
+    const replacer = (x: string, ...args: unknown[]) =>
       (args[0] === 0 ? '--' : '-') + x.toLowerCase();
     let str = '{';
     for (const key of Object.keys(object)) {
@@ -268,7 +269,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     }
     this.fontInfoService
       .waitTillFontLoaded(this.parameters.fontFamily)
-      .subscribe((_) => {
+      .subscribe(() => {
         this.doDraw(parentElement, parentWidth, parentHeight);
       });
   }
@@ -283,7 +284,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     if (!parent || elem === parent || !parent.contains(elem)) {
       return;
     }
-    const activeWord = this._elements[+elem.dataset.index];
+    const activeWord = this._elements[+elem.dataset['index']];
     if (event.type === 'click') {
       this.clicked.emit(activeWord.meta);
       return;
@@ -313,6 +314,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
           fallback = [wordIndex, dist];
         }
       }
+      return false;
     });
     if (index >= 0) {
       // Element is present and doesn't need to be removed
@@ -331,8 +333,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ): [
     min: number,
     max: number,
-    obsolete: { word: ActiveWord<T>; index: number }[],
-    newElements: ActiveWord<T>[],
+    obsolete: { word: ActiveWord<T, CloudDrawFuncType<T>>; index: number }[],
+    newElements: ActiveWord<T, CloudDrawFuncType<T>>[],
   ] {
     let min = null;
     let max = null;
@@ -341,7 +343,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       word,
       index,
     }));
-    const newElements: ActiveWord<T>[] = [];
+    const newElements: ActiveWord<T, CloudDrawFuncType<T>>[] = [];
     for (const dataEntry of data) {
       if (!first) {
         min = Math.min(min, dataEntry.weight);
@@ -383,7 +385,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   private addNewElements(
-    newElements: ActiveWord<T>[],
+    newElements: ActiveWord<T, CloudDrawFuncType<T>>[],
     toDeleteElement: HTMLSpanElement[],
   ) {
     newElements.forEach((word) => {
@@ -510,6 +512,10 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       sheet.cssRules.length,
     );
     sheet.insertRule(
+      'header {' + ' z-index: 3 !important;' + ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
       '.header-content-container > *, #options-login-box, #back-button {' +
         ' padding-left: 0.25rem;' +
         ' padding-right: 0.25rem;' +
@@ -570,9 +576,15 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         return;
       }
       e.element.style.setProperty('--offset-scale', scalar.toFixed(2));
-      e.element.style.setProperty('--pos-x', mapper(e.buildInformation, 'x') + parentWidth + 'px');
-      e.element.style.setProperty('--pos-y', mapper(e.buildInformation, 'y') + parentHeight + 'px');
-      e.element.dataset.index = String(i);
+      e.element.style.setProperty(
+        '--pos-x',
+        mapper(e.buildInformation, 'x') + parentWidth + 'px',
+      );
+      e.element.style.setProperty(
+        '--pos-y',
+        mapper(e.buildInformation, 'y') + parentHeight + 'px',
+      );
+      e.element.dataset['index'] = String(i);
     });
     const newElements = this._elements.filter(
       (e) => !e.element.classList.contains('visible') && e.visible,

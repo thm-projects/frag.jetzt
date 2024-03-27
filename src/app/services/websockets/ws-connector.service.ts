@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { RxStomp } from '@stomp/rx-stomp';
+import { RxStomp, RxStompState } from '@stomp/rx-stomp';
 import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter, switchMap, take } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 import { AccountStateService } from '../state/account-state.service';
 
@@ -48,12 +48,16 @@ export class WsConnectorService {
     topic: string,
     additionalHeaders = {},
   ): Observable<IMessage> {
-    if (this.client.connected) {
-      return this.client.watch(topic, {
-        ...this.headers,
-        ...additionalHeaders,
-      });
-    }
+    return this.client.connected$.pipe(
+      filter((connected) => connected === RxStompState.OPEN),
+      take(1),
+      switchMap(() =>
+        this.client.watch(topic, {
+          ...this.headers,
+          ...additionalHeaders,
+        }),
+      ),
+    );
   }
 
   private onUserUpdate(user: User) {
@@ -77,7 +81,7 @@ export class WsConnectorService {
       'ars-user-id': String(user.id),
     };
     const copiedConf = { ...ARSRxStompConfig };
-    copiedConf.connectHeaders.token = user.token;
+    copiedConf.connectHeaders['token'] = user.token;
     this.client.configure(copiedConf);
     if (this.isConnecting) {
       return;

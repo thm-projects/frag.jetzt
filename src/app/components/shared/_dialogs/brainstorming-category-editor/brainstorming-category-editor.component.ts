@@ -1,35 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-brainstorming-category-editor',
   templateUrl: './brainstorming-category-editor.component.html',
-  styleUrls: ['./brainstorming-category-editor.component.scss']
+  styleUrls: ['./brainstorming-category-editor.component.scss'],
 })
-export class BrainstormingCategoryEditorComponent implements OnInit {
-
+export class BrainstormingCategoryEditorComponent {
   readonly max = 40;
   readonly min = 3;
   displayEmptyOnCreateWarning = false;
   tags: string[];
   tagFormControl = new FormControl('', [
-    Validators.minLength(this.min), Validators.maxLength(this.max), this.emptyOnCreate.bind(this)
+    Validators.minLength(this.min),
+    Validators.maxLength(this.max),
+    this.emptyOnCreate.bind(this),
   ]);
 
-  constructor(
-    private dialogRef: MatDialogRef<BrainstormingCategoryEditorComponent>,
-  ) { }
-
-  ngOnInit(): void {
-  }
+  constructor() {}
 
   emptyOnCreate(control: FormControl) {
     if (this.displayEmptyOnCreateWarning && control.value.trim() === '') {
       return {
         emptyOnCreate: {
-          valid: false
-        }
+          valid: false,
+        },
       };
     }
     return null;
@@ -39,7 +34,11 @@ export class BrainstormingCategoryEditorComponent implements OnInit {
     this.displayEmptyOnCreateWarning = true;
     tag = tag.trim();
     this.tagFormControl.setValue(tag);
-    if (this.tagFormControl.valid && tag.length > 0 && !this.tags.includes(tag)) {
+    if (
+      this.tagFormControl.valid &&
+      tag.length > 0 &&
+      !this.tags.includes(tag)
+    ) {
       this.tags.push(tag);
       this.tagFormControl.setValue('');
       this.displayEmptyOnCreateWarning = false;
@@ -49,17 +48,6 @@ export class BrainstormingCategoryEditorComponent implements OnInit {
   }
 
   deleteTag(tag: string) {
-    this.tags = this.tags.filter(o => o !== tag);
+    this.tags = this.tags.filter((o) => o !== tag);
   }
-
-  closeDialog(): void {
-    this.dialogRef.close(this.tags);
-  }
-
-  buildSaveActionCallback(): () => void {
-    return () => {
-      this.closeDialog();
-    };
-  }
-
 }

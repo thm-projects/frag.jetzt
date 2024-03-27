@@ -15,8 +15,6 @@ import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { MatDialog } from '@angular/material/dialog';
 import {
   animate,
   state,
@@ -24,7 +22,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
@@ -40,7 +37,6 @@ import { DashboardNotificationService } from '../../../services/util/dashboard-n
 import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
 import { ForumComment } from '../../../utils/data-accessor';
-import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { EventService } from '../../../services/util/event.service';
@@ -52,6 +48,9 @@ import { IconActionKey, IconActionState, MenuState } from './comment-action';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
+import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
+import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 interface IconAction {
   name: IconActionKey;
@@ -264,6 +263,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected eventService: EventService,
     private accountState: AccountStateService,
     private appState: AppStateService,
+    protected readonly m3DialogService: M3DialogBuilderService,
     deviceState: DeviceStateService,
   ) {
     appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
@@ -327,9 +327,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isConversationView) {
       this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
-    this.readableCommentBody = this.comment?.body
-      ? QuillUtils.getTextFromDelta(this.comment.body)
-      : '';
+    this.readableCommentBody = this.comment.body;
     this.commentRegistrationId = this.comment?.id;
     this.checkProfanity();
     switch (this.userRole) {
@@ -407,7 +405,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     return keywords.sort((a, b) => a.text.localeCompare(b.text));
   }
 
-  toggleExpand(evt: MouseEvent) {
+  toggleExpand() {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.commentBody.setAutoHeight(true);
@@ -456,7 +454,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleApproved(): void {
     this.comment.approved = !this.comment.approved;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('approved', this.comment.approved);
     this.commentService.patchComment(this.comment, changes).subscribe((c) => {
       this.comment.approved = c.approved;
@@ -508,13 +506,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasVoted !== 1) {
       this.commentService
         .voteUp(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
       this.commentService
         .resetVote(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -529,13 +527,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasVoted !== -1) {
       this.commentService
         .voteDown(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
       this.commentService
         .resetVote(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -649,7 +647,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(): void {
-    this.commentService.deleteComment(this.comment.id).subscribe((room) => {
+    this.commentService.deleteComment(this.comment.id).subscribe(() => {
       this.translateService
         .get('comment-list.comment-deleted')
         .subscribe((msg) => {
@@ -687,36 +685,12 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  goToFullScreen(element: Element): void {
+  goToFullScreen(): void {
     Rescale.requestFullscreen();
   }
 
   exitFullScreen(): void {
     Rescale.exitFullscreen();
-  }
-
-  openPresentDialog(comment: Comment): void {
-    if (this.isCreator === true) {
-      this.commentService.highlight(comment).subscribe();
-      if (!comment.read) {
-        this.setRead(comment);
-      }
-    }
-    const dialogRef = this.dialog.open(PresentCommentComponent, {
-      position: {
-        left: '10px',
-        right: '10px',
-      },
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
-    });
-    dialogRef.componentInstance.body = comment.body;
-    dialogRef.afterClosed().subscribe((result) => {
-      this.commentService.lowlight(comment).subscribe();
-      this.exitFullScreen();
-    });
   }
 
   openBonusStarDialog() {
@@ -802,7 +776,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleNotifications() {
     if (this.isMock) {
-      return true;
+      return;
     }
     if (this.notificationService.hasCommentSubscription(this.comment.id)) {
       this.notificationService
@@ -813,6 +787,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         .addCommentSubscription(this.comment.roomId, this.comment.id)
         .subscribe();
     }
+    return;
   }
 
   getPrettyCommentNumber(): string[] {
@@ -883,9 +858,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       .getCategoriesOnce()
       .subscribe(
         (categories) =>
-          (this.brainstormingCategory = categories.find(
-            (c) => c.id === id,
-          )?.name),
+          (this.brainstormingCategory = categories.find((c) => c.id === id)
+            ?.name),
       );
   }
 

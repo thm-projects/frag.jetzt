@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MotdAPI } from '../../../../services/http/motd.service';
 import { Motd } from '../../../../models/motd';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { filter, take } from 'rxjs';
+import { first } from 'rxjs';
 import { verifyInstance } from 'app/utils/ts-utils';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-motd-dialog',
@@ -14,19 +14,38 @@ import { verifyInstance } from 'app/utils/ts-utils';
 export class MotdDialogComponent implements OnInit {
   @Input()
   motds: MotdAPI[];
-  builtMotds: Motd[];
+  unreadMotds: Motd[];
+  readMotds: Motd[];
 
   constructor(
     public dialogRef: MatDialogRef<MotdDialogComponent>,
     private accountState: AccountStateService,
   ) {}
 
+  onSwitch(motd: Motd) {
+    const indexRead = this.readMotds.indexOf(motd);
+    if (indexRead >= 0) {
+      this.readMotds.splice(indexRead, 1);
+    }
+    const indexUnread = this.unreadMotds.indexOf(motd);
+    if (indexUnread >= 0) {
+      this.unreadMotds.splice(indexUnread, 1);
+    }
+    if (motd.isRead) {
+      this.accountState.readMotds([motd.id]);
+      this.readMotds.push(motd);
+      this.sort(this.readMotds);
+    } else {
+      this.accountState.unreadMotd(motd.id);
+      this.unreadMotds.push(motd);
+      this.sort(this.unreadMotds);
+    }
+  }
+
   markAllAsRead() {
-    const newRead = this.builtMotds.reduce((acc, value) => {
-      if (!value.isRead) {
-        value.isRead = true;
-        acc.push(value.id);
-      }
+    const newRead = this.unreadMotds.reduce((acc, value) => {
+      value.isRead = true;
+      acc.push(value.id);
       return acc;
     }, []);
     this.accountState.readMotds(newRead);
@@ -35,12 +54,9 @@ export class MotdDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountState.readMotds$
-      .pipe(
-        filter((v) => Boolean(v)),
-        take(1),
-      )
+      .pipe(first((v) => Boolean(v)))
       .subscribe((read) => {
-        this.builtMotds = this.motds.map((motd) => {
+        const motds = this.motds.map((motd) => {
           return new Motd(
             motd.id,
             verifyInstance(Date, motd.startTimestamp),
@@ -49,13 +65,15 @@ export class MotdDialogComponent implements OnInit {
             motd.messages,
           );
         });
-        this.builtMotds.sort(
-          (a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime(),
-        );
+        this.sort(motds);
+        this.unreadMotds = motds.filter((e) => !e.isRead);
+        this.readMotds = motds.filter((e) => e.isRead);
       });
   }
 
-  buildDeclineActionCallback(): () => void {
-    return () => this.dialogRef.close();
+  private sort(motds: Motd[]) {
+    motds.sort(
+      (a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime(),
+    );
   }
 }

@@ -71,7 +71,7 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.templateSelection.statusChanges.subscribe((changed) => {
+    this.templateSelection.statusChanges.subscribe(() => {
       this.livepollConfiguration.template = this.templateSelection.value.kind;
       if (this._dialogInjection.value) {
         this._dialogInjection.value.onDestroy(() =>

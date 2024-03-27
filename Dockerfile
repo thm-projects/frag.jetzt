@@ -1,5 +1,5 @@
 # DEVELOPMENT STAGE
-FROM node:16 AS DEV
+FROM node:20 AS DEV
 
 ARG USER='1000:1000'
 ARG CACHEDIR=/cache
@@ -20,7 +20,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 
 # BUILD STAGE
-FROM node:16 AS BUILD
+FROM node:20 AS BUILD
 
 WORKDIR /src/app
 

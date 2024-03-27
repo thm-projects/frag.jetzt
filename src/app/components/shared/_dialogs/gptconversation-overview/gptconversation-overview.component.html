@@ -1,13 +1,7 @@
-<h3>{{ "gptconversation-overview.title" | translate }}</h3>
+<h2 mat-dialog-title>{{ "gptconversation-overview.title" | translate }}</h2>
 
 <mat-dialog-content>
-  <ng-container
-    *ngFor="
-      let elem of [
-        ['gptconversation-overview.this-room', roomConversations],
-        ['gptconversation-overview.other-room', otherConversations]
-      ]
-    ">
+  <ng-container *ngFor="let elem of iteration">
     <h4>{{ elem[0] | translate }}</h4>
     <table
       mat-table
@@ -84,6 +78,11 @@
   </ng-container>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gptconversation-overview'"
-  [cancelButtonClickAction]="close"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "gptconversation-overview.cancel" | translate }}
+  </button>
+</mat-dialog-actions>

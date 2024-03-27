@@ -7,7 +7,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
@@ -29,6 +28,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 interface LocationData {
   id: string;
@@ -146,6 +146,9 @@ export const livepollNavigationAccessOnRoute = (
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  /**
+   * @deprecated
+   */
   @Input() isQuestionWall = false;
   @Input() showText = true;
   isPLE = true;
@@ -254,8 +257,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.sessionService.currentRoom,
           this.roomState,
         ) && !this.isPLE,
-      navigate: (route) => this.livepollService.open(this.sessionService),
-      isCurrentRoute: (route) => false,
+      navigate: () => this.livepollService.open(this.sessionService),
+      isCurrentRoute: () => false,
     },
     {
       id: 'radar',
@@ -342,7 +345,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.room-qr',
       icon: 'qr_code',
-      isCurrentRoute: (route) => false,
+      isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
       navigate: () => {
         this.showQRDialog();
@@ -584,7 +587,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     const room = this.sessionService.currentRoom;
     dialogRef.componentInstance.data = `${location.origin}/participant/room/${room?.shortId}`;
     dialogRef.componentInstance.key = room?.shortId;
-    dialogRef.afterClosed().subscribe((res) => {
+    dialogRef.afterClosed().subscribe(() => {
       Rescale.exitFullscreen();
     });
   }

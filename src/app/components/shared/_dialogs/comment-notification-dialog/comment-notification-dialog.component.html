@@ -1,92 +1,66 @@
-<h2>{{'comment-notification.title' | translate}}</h2>
+<h2 mat-dialog-title>{{ "comment-notification.title" | translate }}</h2>
 
-<app-mat-spinner-overlay
-  *ngIf="isLoading">
-</app-mat-spinner-overlay>
-
-<mat-dialog-content *ngIf="!isLoading">
-  <mat-chip-list>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(0),
-                'selected': currentIndex === 0
-              }"
-              (click)="updateDateTo(0)">
-      {{'comment-notification.monday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(1),
-                'selected': currentIndex === 1
-              }"
-              (click)="updateDateTo(1)">
-      {{'comment-notification.tuesday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(2),
-                'selected': currentIndex === 2
-              }"
-              (click)="updateDateTo(2)">
-      {{'comment-notification.wednesday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(3),
-                'selected': currentIndex === 3
-              }"
-              (click)="updateDateTo(3)">
-      {{'comment-notification.thursday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(4),
-                'selected': currentIndex === 4
-              }"
-              (click)="updateDateTo(4)">
-      {{'comment-notification.friday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(5),
-                'selected': currentIndex === 5
-              }"
-              (click)="updateDateTo(5)">
-      {{'comment-notification.saturday' | translate}}
-    </mat-chip>
-    <mat-chip class="weekday-chip"
-              [ngClass]="{
-                'active': isWeekDayActive(6),
-                'selected': currentIndex === 6
-              }"
-              (click)="updateDateTo(6)">
-      {{'comment-notification.sunday' | translate}}
-    </mat-chip>
-  </mat-chip-list>
-  <div class="notification-time-form">
-    <div class="notification-info">
-      <p>{{currentInfo()}}</p>
-      <button
-        class="primary-btn"
-        type="button"
-        (click)="confirm()"
-        mat-flat-button>
-        {{'comment-notification.confirm' | translate}}
-      </button>
-      <button
-        class="secondary-btn"
-        type="button"
-        (click)="deactivate()"
-        mat-flat-button>
-        {{'comment-notification.deactivate' | translate}}
-      </button>
+<mat-dialog-content>
+  @if (isLoading) {
+    <app-mat-spinner-overlay></app-mat-spinner-overlay>
+  } @else {
+    <mat-chip-listbox>
+      @for (
+        day of [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday"
+        ];
+        track day;
+        let i = $index
+      ) {
+        <mat-chip-option
+          class="weekday-chip"
+          [ngClass]="{
+            'primary-chips': isWeekDayActive(i)
+          }"
+          [selected]="currentIndex === i"
+          (click)="updateDateTo(i)">
+          @if (isWeekDayActive(i)) {
+            <mat-icon matChipAvatar>notifications</mat-icon>
+          }
+          {{ "comment-notification." + day | translate }}
+        </mat-chip-option>
+      }
+    </mat-chip-listbox>
+    <div class="notification-time-form">
+      <div class="notification-info">
+        <p>{{ currentInfo() }}</p>
+        <button
+          class="primary-button"
+          type="button"
+          (click)="confirm()"
+          mat-stroked-button>
+          {{ "comment-notification.confirm" | translate }}
+        </button>
+        <button
+          [disabled]="!isWeekDayActive(currentIndex)"
+          class="secondary-button"
+          type="button"
+          (click)="deactivate()"
+          mat-button>
+          {{ "comment-notification.deactivate" | translate }}
+        </button>
+      </div>
+      <ngx-mat-timepicker [(ngModel)]="date"></ngx-mat-timepicker>
     </div>
-    <ngx-mat-timepicker [(ngModel)]="date"></ngx-mat-timepicker>
-  </div>
+  }
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  confirmButtonLabel="close"
-  buttonsLabelSection="comment-notification"
-  [confirmButtonClickAction]="onClose.bind(this)">
-</app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    mat-dialog-close>
+    {{ "comment-notification.close" | translate }}
+  </button>
+</mat-dialog-actions>

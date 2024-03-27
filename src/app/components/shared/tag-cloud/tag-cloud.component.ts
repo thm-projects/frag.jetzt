@@ -12,7 +12,6 @@ import {
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -87,6 +86,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 class TagComment implements WordMeta {
   constructor(
@@ -234,7 +234,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnInit(): void {
     this.sessionService.onReady.subscribe(() => {
       this.route.data.subscribe((d) => {
-        this.brainstormingActive = Boolean(d.brainstorming);
+        this.brainstormingActive = Boolean(d['brainstorming']);
         if (this.brainstormingActive) {
           this.initBrainstorming();
         } else {
@@ -302,7 +302,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     CloudParameters.removeParameters();
   }
 
-  onResize(event: UIEvent): any {
+  onResize() {
     this.updateTagCloud();
   }
 
@@ -330,7 +330,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   startIntroduction() {
-    const type: ComponentType<any> = this.brainstormingActive
+    const type: ComponentType<unknown> = this.brainstormingActive
       ? IntroductionBrainstormingComponent
       : IntroductionTagCloudComponent;
     this.dialog.open(type, {
@@ -513,7 +513,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.dataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -574,7 +574,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           e.forEach((elem) => {
             this.keywordExtractor
               .createCommentInteractive({
-                body: { ops: [{ insert: elem + '\n\n' }] },
+                body: elem + '\n\n',
                 brainstormingLanguage: session.language,
                 brainstormingSessionId: session.id,
                 hadUsedDeepL: false,
@@ -644,7 +644,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       filterObj.dataFilter = filter;
       this.brainDataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -794,7 +794,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNormalNavigation() {
-    const list: ComponentRef<any>[] = this.composeService.builder(
+    const list: ComponentRef<unknown>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
         e.menuItem({
@@ -812,8 +812,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           text: 'header.tag-cloud-administration',
           callback: () =>
             this.dialog.open(TopicCloudAdministrationComponent, {
-              minWidth: '50%',
-              maxHeight: '95%',
               data: {
                 userRole: this.userRole,
               },
@@ -837,7 +835,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initBrainstormingNavigation() {
-    const list: ComponentRef<any>[] = this.composeService.builder(
+    const list: ComponentRef<unknown>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
         e.menuItem({
@@ -1084,7 +1082,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           text: 'header.brainstorm-blacklist',
           callback: () => {
             const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {
-              minWidth: '50%',
               maxHeight: '95%',
               data: {
                 userRole: this.userRole,

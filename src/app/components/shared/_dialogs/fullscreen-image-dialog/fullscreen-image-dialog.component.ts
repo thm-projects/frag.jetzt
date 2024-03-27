@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './fullscreen-image-dialog.component.html',
   styleUrls: ['./fullscreen-image-dialog.component.scss'],
 })
-export class FullscreenImageDialogComponent implements OnInit {
+export class FullscreenImageDialogComponent {
   @Input() src: string;
   @ViewChild('image')
   image: ElementRef<HTMLImageElement>;
@@ -18,8 +18,6 @@ export class FullscreenImageDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<FullscreenImageDialogComponent>,
   ) {}
-
-  ngOnInit(): void {}
 
   touchStart(event: TouchEvent) {
     this.previousTouches = Array.from(event.touches);

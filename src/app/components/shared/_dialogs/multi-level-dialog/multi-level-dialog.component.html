@@ -2,23 +2,20 @@
   {{ data.title | translate }}
 </h1>
 
-<div class="multi-level-container">
+<mat-dialog-content>
   <mat-progress-bar
-    class="progress-bar"
     mode="determinate"
     [value]="dialogStepper.progress"></mat-progress-bar>
-  <mat-dialog-content>
-    <mat-stepper
-      (selectionChange)="onChange($event)"
-      orientation="vertical"
-      [linear]="true"
-      [selectedIndex]="currentStepperIndex"
-      #stepper>
-      <!-- Question back stepper -->
+  <mat-stepper
+    (selectionChange)="onChange($event)"
+    orientation="vertical"
+    [linear]="true"
+    [selectedIndex]="currentStepperIndex"
+    #stepper>
+    <!-- Question back stepper -->
+    @if (showBackOption) {
       <mat-step
-        class="test"
         state="back"
-        *ngIf="showBackOption"
         [optional]="true"
         [completed]="false">
         <ng-template
@@ -26,24 +23,25 @@
           *ngIf="offsetIndex > 1; else firstStepLabel">
           {{
             "multi-level-dialog.range"
-              | translate : { start: 1, end: offsetIndex }
+              | translate: { start: 1, end: offsetIndex }
           }}
         </ng-template>
         <ng-template
           matStepLabel
           #firstStepLabel>
-          {{ "multi-level-dialog.single" | translate : { number: 1 } }}
+          {{ "multi-level-dialog.single" | translate: { number: 1 } }}
         </ng-template>
       </mat-step>
-      <!-- Dialog steps -->
-      <ng-container
-        *ngFor="
-          let elem of currentElements;
-          let isFirst = first;
-          let i = index
-        ">
+    }
+    <!-- Dialog steps -->
+    @for (
+      elem of currentElements;
+      track elem;
+      let isFirst = $first;
+      let i = $index
+    ) {
+      @if (elem.group) {
         <mat-step
-          *ngIf="elem.group"
           [stepControl]="elem.group"
           [completed]="
             (i + offsetIndex <= dialogStepper.highestIndex || defaultTouched) &&
@@ -54,23 +52,23 @@
             <ng-template matStepLabel>
               {{ elem.title | translate }}
             </ng-template>
-            <ng-container *ngFor="let input of elem.config">
+            @for (input of elem.config; track input) {
               <ng-container
                 *ngComponentOutlet="
                   input.component;
                   injector: input.injector
                 "></ng-container>
-            </ng-container>
-            <div>
+            }
+            <div class="button-container">
+              @if (!isFirst || showBackOption) {
+                <button
+                  mat-stroked-button
+                  matStepperPrevious>
+                  {{ "multi-level-dialog.previous" | translate }}
+                </button>
+                <span style="flex: 1"></span>
+              }
               <button
-                *ngIf="!isFirst || showBackOption"
-                class="mat-prev"
-                mat-stroked-button
-                matStepperPrevious>
-                {{ "multi-level-dialog.previous" | translate }}
-              </button>
-              <button
-                class="mat-primary"
                 mat-stroked-button
                 (click)="next(i + offsetIndex)">
                 {{ "multi-level-dialog.next" | translate }}
@@ -78,10 +76,11 @@
             </div>
           </form>
         </mat-step>
-      </ng-container>
-      <!-- Question forward stepper -->
+      }
+    }
+    <!-- Question forward stepper -->
+    @if (showForwardOption) {
       <mat-step
-        *ngIf="showForwardOption"
         state="forward"
         [completed]="false">
         <ng-template
@@ -104,13 +103,13 @@
           #lastStepLabel>
           {{
             "multi-level-dialog.single"
-              | translate : { number: dialogStepper.elements.length }
+              | translate: { number: dialogStepper.elements.length }
           }}
         </ng-template>
       </mat-step>
+    } @else {
       <!-- Summary -->
       <mat-step
-        *ngIf="!showForwardOption"
         state="summary"
         [editable]="false"
         [completed]="false">
@@ -120,65 +119,68 @@
         <p>{{ "multi-level-dialog.complete-text" | translate }}</p>
         <div class="button-container">
           <button
-            class="mat-prev mat-last-prev"
             mat-stroked-button
             matStepperPrevious>
             {{ "multi-level-dialog.previous" | translate }}
           </button>
-          <div class="submit-container">
-            <button
-              class="mat-warning"
-              mat-stroked-button
-              (click)="reset()">
-              {{ "multi-level-dialog.complete-reset" | translate }}
-            </button>
-            <button
-              class="mat-primary"
-              mat-stroked-button
-              (click)="submit()">
-              {{ "multi-level-dialog.confirm" | translate }}
-              <mat-icon
-                *ngIf="sending"
-                class="spinner-container">
+          <span style="flex: 1"></span>
+          <button
+            class="error-button"
+            mat-stroked-button
+            (click)="reset()">
+            {{ "multi-level-dialog.complete-reset" | translate }}
+          </button>
+          <button
+            class="primary-button"
+            mat-stroked-button
+            (click)="submit()">
+            {{ "multi-level-dialog.confirm" | translate }}
+            @if (sending) {
+              <mat-icon>
                 <app-mat-spinner-overlay
-                  diameter="20"
-                  strokeWidth="2"
+                  [diameter]="20"
+                  [strokeWidth]="2"
                   [color]="'primary'"></app-mat-spinner-overlay>
               </mat-icon>
-            </button>
-          </div>
+            }
+          </button>
         </div>
       </mat-step>
+    }
 
-      <!-- Icons -->
-      <ng-template matStepperIcon="summary">
-        <mat-icon>done_all</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="back">
-        <mat-icon>arrow_back</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="forward">
-        <mat-icon>arrow_forward</mat-icon>
-      </ng-template>
-      <ng-template
-        matStepperIcon="number"
-        let-index="index">
-        {{ index + offsetIndex + +!showBackOption }}
-      </ng-template>
-    </mat-stepper>
-  </mat-dialog-content>
-</div>
+    <!-- Icons -->
+    <ng-template matStepperIcon="summary">
+      <mat-icon>done_all</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="back">
+      <mat-icon>arrow_back</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="forward">
+      <mat-icon>arrow_forward</mat-icon>
+    </ng-template>
+    <ng-template
+      matStepperIcon="number"
+      let-index="index">
+      {{ index + offsetIndex + +!showBackOption }}
+    </ng-template>
+  </mat-stepper>
+</mat-dialog-content>
 
-<div class="bottom-container">
+<mat-dialog-actions>
+  @if (currentQuestion?.stepHelp) {
+    <button
+      mat-stroked-button
+      class="secondary-button"
+      (click)="openHelp()">
+      <mat-icon>question_mark</mat-icon>
+      {{ "explanation.label" | translate }}
+    </button>
+  }
+  <span style="flex: 1"></span>
   <button
-    *ngIf="currentQuestion?.stepHelp"
-    mat-flat-button
-    class="help-button"
-    (click)="openHelp()">
-    <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "multi-level-dialog.cancel" | translate }}
   </button>
-  <app-dialog-action-buttons
-    [buttonsLabelSection]="'multi-level-dialog'"
-    [cancelButtonClickAction]="onClose"></app-dialog-action-buttons>
-</div>
+</mat-dialog-actions>

@@ -90,7 +90,7 @@ export const initDefaultTour = (
       },
     },
   },
-  doneAction: (_) => {
+  doneAction: () => {
     if (dataStoreService.get('onboarding-default-meta') === 'false') {
       accountState.logout();
     }

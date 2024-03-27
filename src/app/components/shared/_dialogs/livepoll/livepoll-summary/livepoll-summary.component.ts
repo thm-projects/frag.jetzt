@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { SessionService } from '../../../../../services/util/session.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
@@ -9,7 +8,7 @@ import {
 } from '../../../../../models/livepoll-template';
 import { LivepollOptionEntry } from '../livepoll-dialog/livepoll-dialog.component';
 import { LivepollService } from '../../../../../services/http/livepoll.service';
-import { take } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-livepoll-summary',

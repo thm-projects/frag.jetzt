@@ -45,33 +45,27 @@ export class PseudonymEditorComponent implements OnInit {
   }
 
   accept() {
-    return () => {
-      if (this.questionerNameFormControl.errors) {
-        return;
-      }
-      this.localRoomSetting
-        .get([this.roomId, this.accountId])
-        .pipe(
-          switchMap((data) => {
-            if (!data) {
-              data = {
-                accountId: this.accountId,
-                roomId: this.roomId,
-                pseudonym: this.questionerNameFormControl.value,
-              };
-            } else {
-              data.pseudonym = this.questionerNameFormControl.value;
-              //data.formality = this.selectedFormality;
-            }
-            return this.localRoomSetting.createOrUpdate(data);
-          }),
-        )
-        .subscribe();
-      this.dialogRef.close();
-    };
-  }
-
-  decline() {
-    return () => this.dialogRef.close();
+    if (this.questionerNameFormControl.errors) {
+      return;
+    }
+    this.localRoomSetting
+      .get([this.roomId, this.accountId])
+      .pipe(
+        switchMap((data) => {
+          if (!data) {
+            data = {
+              accountId: this.accountId,
+              roomId: this.roomId,
+              pseudonym: this.questionerNameFormControl.value,
+            };
+          } else {
+            data.pseudonym = this.questionerNameFormControl.value;
+            //data.formality = this.selectedFormality;
+          }
+          return this.localRoomSetting.createOrUpdate(data);
+        }),
+      )
+      .subscribe();
+    this.dialogRef.close();
   }
 }

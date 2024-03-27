@@ -1,17 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
-import {
-  forkJoin,
-  Observable,
-  of,
-  ReplaySubject,
-  Subscription,
-  takeUntil,
-} from 'rxjs';
+import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 import { Room } from '../../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -25,6 +17,7 @@ import {
   AppStateService,
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -86,10 +79,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       .subscribe((m) => (this.isMobile = m));
   }
 
-  cancelButtonActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
       autoFocus: false,
@@ -134,7 +123,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
           this._room.brainstormingSession = new BrainstormingSession(session);
           this.open();
         },
-        error: (_) => {
+        error: () => {
           this.isCreating = false;
           this.showSomethingWentWrong();
         },
@@ -191,7 +180,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     this.brainstormingService
       .patchSession(this.brainstormingData.id, { active: false })
       .subscribe({
-        next: (_) => (this.isClosing = false),
+        next: () => (this.isClosing = false),
         error: () => {
           this.isClosing = false;
           this.showSomethingWentWrong();
@@ -205,7 +194,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     }
     this.isDeleting = true;
     this.deleteOld().subscribe({
-      next: (_) => (this.isDeleting = false),
+      next: () => (this.isDeleting = false),
       error: () => {
         this.isDeleting = false;
         this.showSomethingWentWrong();
@@ -222,7 +211,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  private deleteOldBrainstormingQuestions(): Observable<any> {
+  private deleteOldBrainstormingQuestions(): Observable<unknown> {
     const comments = this.roomDataService.dataAccessor.currentRawComments();
     if (!comments) {
       return of(null);

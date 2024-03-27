@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -9,7 +9,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './gpt-prompt-explanation.component.html',
   styleUrls: ['./gpt-prompt-explanation.component.scss'],
 })
-export class GptPromptExplanationComponent implements OnInit, OnDestroy {
+export class GptPromptExplanationComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
@@ -22,14 +22,8 @@ export class GptPromptExplanationComponent implements OnInit, OnDestroy {
       .subscribe((lang) => (this.currentLanguage = lang));
   }
 
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-  }
-
-  onClose() {
-    this.dialogRef.close();
   }
 }

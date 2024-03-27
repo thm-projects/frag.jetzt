@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const makeDomList = (arr: string[]): DOMStringList => {
   return new Proxy(arr, {
     get: (target, p, receiver) => {
@@ -14,8 +16,6 @@ const makeDomList = (arr: string[]): DOMStringList => {
   }) as unknown as DOMStringList;
 };
 
-type VersionListener = (this: IDBDatabase, ev: IDBVersionChangeEvent) => void;
-
 interface StoreMeta {
   name: string;
   options: IDBObjectStoreParameters;
@@ -29,7 +29,7 @@ export const openDatabase = (
   const currentVersion = Number(
     localStorage.getItem(`idb-version-${name}`) || '0',
   );
-  const additional: Record<string, any> = {};
+  const additional: Record<string, unknown> = {};
   let db = new LocalStorageDb(name, currentVersion, stores);
   if (version && currentVersion < version) {
     additional['upgradeneeded'] = {
@@ -51,10 +51,10 @@ export const openDatabase = (
 };
 
 export class LocalStorageDb implements IDBDatabase {
-  onabort: (this: IDBDatabase, ev: Event) => any;
-  onclose: (this: IDBDatabase, ev: Event) => any;
-  onerror: (this: IDBDatabase, ev: Event) => any;
-  onversionchange: (this: IDBDatabase, ev: IDBVersionChangeEvent) => any;
+  onabort: (this: IDBDatabase, ev: Event) => unknown;
+  onclose: (this: IDBDatabase, ev: Event) => unknown;
+  onerror: (this: IDBDatabase, ev: Event) => unknown;
+  onversionchange: (this: IDBDatabase, ev: IDBVersionChangeEvent) => unknown;
 
   constructor(
     readonly name: string,
@@ -68,7 +68,7 @@ export class LocalStorageDb implements IDBDatabase {
 
   addEventListener<K extends keyof IDBDatabaseEventMap>(
     type: K,
-    listener: (this: IDBDatabase, ev: IDBDatabaseEventMap[K]) => any,
+    listener: (this: IDBDatabase, ev: IDBDatabaseEventMap[K]) => unknown,
     options?: boolean | AddEventListenerOptions,
   ): void;
   addEventListener(
@@ -80,7 +80,7 @@ export class LocalStorageDb implements IDBDatabase {
 
   removeEventListener<K extends keyof IDBDatabaseEventMap>(
     type: K,
-    listener: (this: IDBDatabase, ev: IDBDatabaseEventMap[K]) => any,
+    listener: (this: IDBDatabase, ev: IDBDatabaseEventMap[K]) => unknown,
     options?: boolean | EventListenerOptions,
   ): void;
   removeEventListener(
@@ -127,7 +127,7 @@ export class LocalStorageDb implements IDBDatabase {
   transaction(
     storeNames: string | string[],
     mode?: IDBTransactionMode,
-    options?: any,
+    options?: Record<string, unknown>,
   ): IDBTransaction {
     if (typeof storeNames === 'string') {
       storeNames = [storeNames];
@@ -136,7 +136,7 @@ export class LocalStorageDb implements IDBDatabase {
       this,
       makeDomList(storeNames),
       mode,
-      options?.durability,
+      options?.['durability'] as IDBTransactionDurability,
     );
   }
 
@@ -148,8 +148,8 @@ export class LocalStorageDb implements IDBDatabase {
 export class LocalStorageTransaction implements IDBTransaction {
   readonly error: DOMException = null;
   readonly db: IDBDatabase;
-  onerror: (this: IDBTransaction, ev: Event) => any;
-  onabort: (this: IDBTransaction, ev: Event) => any;
+  onerror: (this: IDBTransaction, ev: Event) => unknown;
+  onabort: (this: IDBTransaction, ev: Event) => unknown;
   constructor(
     private readonly myDb: LocalStorageDb,
     readonly objectStoreNames: DOMStringList,
@@ -161,7 +161,7 @@ export class LocalStorageTransaction implements IDBTransaction {
   get oncomplete() {
     return null;
   }
-  set oncomplete(listener: (this: IDBTransaction, ev: Event) => any) {
+  set oncomplete(listener: (this: IDBTransaction, ev: Event) => unknown) {
     listener.bind(this)(null);
   }
 
@@ -173,7 +173,7 @@ export class LocalStorageTransaction implements IDBTransaction {
 
   addEventListener<K extends keyof IDBTransactionEventMap>(
     type: K,
-    listener: (this: IDBTransaction, ev: IDBTransactionEventMap[K]) => any,
+    listener: (this: IDBTransaction, ev: IDBTransactionEventMap[K]) => unknown,
     options?: boolean | AddEventListenerOptions,
   ): void;
   addEventListener(
@@ -185,7 +185,7 @@ export class LocalStorageTransaction implements IDBTransaction {
 
   removeEventListener<K extends keyof IDBTransactionEventMap>(
     type: K,
-    listener: (this: IDBTransaction, ev: IDBTransactionEventMap[K]) => any,
+    listener: (this: IDBTransaction, ev: IDBTransactionEventMap[K]) => unknown,
     options?: boolean | EventListenerOptions,
   ): void;
   removeEventListener(
@@ -212,13 +212,15 @@ interface IndexMeta {
   options: IDBIndexParameters;
 }
 
-const getKeyFromValue = (value: any, keypath: string | string[]) => {
+const getKeyFromValue = (value: unknown, keypath: string | string[]) => {
   if (typeof keypath === 'string') {
-    return keypath.split('.').reduce((acc, label) => acc[label], value);
+    return keypath
+      .split('.')
+      .reduce((acc, label) => acc[label], value) as string;
   }
   return keypath.map((v) =>
     v.split('.').reduce((acc, label) => acc[label], value),
-  );
+  ) as string[];
 };
 
 const validKeyToComputed = (query: IDBValidKey) => {
@@ -228,7 +230,7 @@ const validKeyToComputed = (query: IDBValidKey) => {
   return String(query);
 };
 
-const computeKey = (value: any, keypath: string | string[]) => {
+const computeKey = (value: unknown, keypath: string | string[]) => {
   if (typeof keypath === 'string') {
     keypath = [keypath];
   }
@@ -242,11 +244,14 @@ export class LocalStorageStore implements IDBObjectStore {
   readonly keyPath: string | string[];
   readonly name: string;
   readonly transaction: IDBTransaction = null;
-  data: { [key: string]: any };
+  data: Record<string, unknown>;
   private indexes: IndexMeta[];
   private cachedIndexes: { [key: string]: string | string[] }[];
 
-  constructor(readonly myDb: LocalStorageDb, readonly meta: StoreMeta) {
+  constructor(
+    readonly myDb: LocalStorageDb,
+    readonly meta: StoreMeta,
+  ) {
     this.autoIncrement = Boolean(meta.options?.autoIncrement);
     console.assert(!this.autoIncrement);
     this.keyPath = meta.options?.keyPath || null;
@@ -273,7 +278,7 @@ export class LocalStorageStore implements IDBObjectStore {
     return makeDomList(this.indexes.map((m) => m.name));
   }
 
-  add(value: any, key?: IDBValidKey): IDBRequest<IDBValidKey> {
+  add(value: unknown, key?: IDBValidKey): IDBRequest<IDBValidKey> {
     if (this.violates(value, false)) {
       return new LocalStorageRequest(null, new DOMException('ConstraintError'));
     }
@@ -303,7 +308,7 @@ export class LocalStorageStore implements IDBObjectStore {
     return new LocalStorageRequest(cKey, null);
   }
 
-  put(value: any, key?: IDBValidKey): IDBRequest<IDBValidKey> {
+  put(value: unknown, key?: IDBValidKey): IDBRequest<IDBValidKey> {
     if (this.violates(value, true)) {
       return new LocalStorageRequest(null, new DOMException('ConstraintError'));
     }
@@ -401,7 +406,7 @@ export class LocalStorageStore implements IDBObjectStore {
               data[iKey] = null;
             }
           } else {
-            const index = data[iKey].indexOf(elemKey);
+            const index = (data[iKey] as string[]).indexOf(elemKey as string);
             if (index < 0) {
               return;
             }
@@ -468,7 +473,7 @@ export class LocalStorageStore implements IDBObjectStore {
     );
   }
 
-  get(query: IDBValidKey | IDBKeyRange): IDBRequest<any> {
+  get(query: IDBValidKey | IDBKeyRange): IDBRequest<unknown> {
     if (query instanceof IDBKeyRange) {
       for (const key of Object.keys(this.data)) {
         const elemKey = getKeyFromValue(this.data[key], this.keyPath);
@@ -481,7 +486,10 @@ export class LocalStorageStore implements IDBObjectStore {
     return new LocalStorageRequest(this.data[validKeyToComputed(query)], null);
   }
 
-  getAll(query?: IDBValidKey | IDBKeyRange, count?: number): IDBRequest<any[]> {
+  getAll(
+    query?: IDBValidKey | IDBKeyRange,
+    count?: number,
+  ): IDBRequest<unknown[]> {
     count = count ?? Infinity;
     if (!query) {
       return new LocalStorageRequest(
@@ -589,7 +597,7 @@ export class LocalStorageStore implements IDBObjectStore {
     localStorage.removeItem(`idb-store-${this.myDb.name}.!-${this.meta.name}`);
   }
 
-  private violates(value: any, override: boolean): boolean {
+  private violates(value: unknown, override: boolean): boolean {
     const cKey = computeKey(value, this.keyPath);
     const oldValue = this.data[cKey];
     const oldKey = oldValue && computeKey(oldValue, this.keyPath);
@@ -656,7 +664,7 @@ export class LocalStorageIndex implements IDBIndex {
     return new LocalStorageRequest(this.indexData[iKey]?.length || 0, null);
   }
 
-  get(query: IDBValidKey | IDBKeyRange): IDBRequest<any> {
+  get(query: IDBValidKey | IDBKeyRange): IDBRequest<unknown> {
     if (query instanceof IDBKeyRange) {
       for (const key of Object.keys(this.indexData)) {
         const data = this.indexData[key];
@@ -707,7 +715,10 @@ export class LocalStorageIndex implements IDBIndex {
     );
   }
 
-  getAll(query?: IDBValidKey | IDBKeyRange, count?: number): IDBRequest<any[]> {
+  getAll(
+    query?: IDBValidKey | IDBKeyRange,
+    count?: number,
+  ): IDBRequest<unknown[]> {
     count = count ?? Infinity;
     if (!query) {
       return new LocalStorageRequest(
@@ -825,22 +836,21 @@ export class LocalStorageRequest<T> implements IDBRequest<T> {
   constructor(
     readonly result: T,
     readonly error: DOMException,
-    private additional?: { [eventName: string]: any },
+    private additional?: Record<string, unknown>,
   ) {}
 
   get onerror() {
     return null;
   }
-  set onerror(listener: (this: IDBRequest<T>, ev: Event) => any) {
+  set onerror(listener: (this: IDBRequest<T>, ev: Event) => unknown) {
     if (this.error) {
       listener.bind(this)(null);
     }
   }
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   get onsuccess() {
     return null;
   }
-  set onsuccess(listener: (this: IDBRequest<T>, ev: Event) => any) {
+  set onsuccess(listener: (this: IDBRequest<T>, ev: Event) => unknown) {
     if (!this.error) {
       listener.bind(this)(null);
     }
@@ -848,7 +858,7 @@ export class LocalStorageRequest<T> implements IDBRequest<T> {
 
   addEventListener<K extends keyof IDBRequestEventMap>(
     type: K,
-    listener: (this: IDBRequest<T>, ev: IDBRequestEventMap[K]) => any,
+    listener: (this: IDBRequest<T>, ev: IDBRequestEventMap[K]) => unknown,
     options?: boolean | AddEventListenerOptions,
   ): void;
   addEventListener(
@@ -865,7 +875,7 @@ export class LocalStorageRequest<T> implements IDBRequest<T> {
 
   removeEventListener<K extends keyof IDBRequestEventMap>(
     type: K,
-    listener: (this: IDBRequest<T>, ev: IDBRequestEventMap[K]) => any,
+    listener: (this: IDBRequest<T>, ev: IDBRequestEventMap[K]) => unknown,
     options?: boolean | EventListenerOptions,
   ): void;
   removeEventListener(
