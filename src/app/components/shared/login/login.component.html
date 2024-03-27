@@ -1,46 +1,31 @@
-<header>
-  <h1 class="title">{{ "login-dialog.title" | translate }}</h1>
-  <button
-    class="button"
-    (click)="buildCloseDialogActionCallback()">
-    <span class="material-icons-outlined close">close</span>
-  </button>
-</header>
+<!-- TODO(lph) UX, login visible on /home when logged out. -->
+<!-- currently it's hidden under sign-in button -->
 
-<p
-  id="inactiveInfo"
-  *ngIf="redirectUrl">
-  {{ "login-dialog.inactive-info" | translate }}
-</p>
-<div
-  class="login-container"
-  aria-labelledby="login-description">
+<span matDialogTitle>{{ "login-dialog.title" | translate }}</span>
+<mat-dialog-content>
+  <span *ngIf="redirectUrl">
+    {{ "login-dialog.inactive-info" | translate }}
+  </span>
+</mat-dialog-content>
+<mat-dialog-actions class="align-column-wide">
+  <button
+    mat-button
+    (click)="guestLogin()"
+    matTooltip="{{ 'login.guest-login-tooltip' | translate }}"
+    aria-labelledby="guest-login-description">
+    {{ "login-dialog.sign-in-as-guest" | translate }}
+  </button>
   <button
     *ngFor="let provider of providers"
-    class="alt-button login"
     [matTooltip]="
       provider['description' + access] ||
       provider['translated_description' + access]
     "
-    (click)="providerLogin(provider.id)">
+    (click)="providerLogin(provider.id)"
+    mat-flat-button>
     {{ provider["name" + access] || provider["translated_name" + access] }}
   </button>
-</div>
-
-<div class="page-splitter">
-  <span>{{ "login-dialog.or" | translate }}</span>
-</div>
-
-<div class="anonymous-container">
-  <button
-    (click)="guestLogin()"
-    class="alt-button guest"
-    type="button"
-    aria-labelledby="guest-login-description"
-    matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
-    {{ "login-dialog.sign-in-as-guest" | translate }}
-  </button>
-</div>
+</mat-dialog-actions>
 
 <div class="visually-hidden">
   <div id="login-description">{{ "login.login-description" | translate }}</div>

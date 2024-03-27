@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -23,6 +22,7 @@ import {
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AppComponent } from 'app/app.component';
+import { MatDialog } from '@angular/material/dialog';
 
 const LANG_KEYS = [
   'PARTICIPANT',
@@ -42,7 +42,7 @@ type LanguageMessageObjectFunction = (
   trans: TranslateService,
   notification: NotificationEvent,
   interpolate: object,
-) => Observable<any>;
+) => Observable<unknown>;
 
 type LanguageMessageObject = {
   [changeType in CommentChangeType]: LanguageMessageObjectFunction;
@@ -220,7 +220,7 @@ const LANGUAGE_MESSAGES: LanguageMessageObject = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnDestroy {
   toggleFilter: boolean = false;
   hasFilter: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
@@ -314,10 +314,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe((m) => (this.isMobile = m));
   }
 
-  ngOnInit(): void {
-    //intentional
-  }
-
   ngOnDestroy() {
     this._destroyer.next(1);
     this._destroyer.complete();
@@ -398,6 +394,82 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.change.getList(this.hasFilter).map((not) => not.commentNumber),
       ),
     ];
+  }
+
+  protected getResponderIcon(notification: NotificationEvent) {
+    switch (notification.initiatorRole) {
+      case 'CREATOR':
+        return {
+          tooltip: 'notification.lecturer',
+          icon: 'co_present',
+        };
+      case 'EDITING_MODERATOR':
+      case 'EXECUTIVE_MODERATOR':
+        return {
+          tooltip: 'notification.moderator',
+          icon: 'support_agent',
+        };
+      case 'PARTICIPANT':
+        return {
+          tooltip: 'notification.participant',
+          icon: 'person',
+        };
+    }
+    return null;
+  }
+
+  protected getReactionIcon(notification: NotificationEvent) {
+    switch (notification.type) {
+      case CommentChangeType.CREATED:
+        return {
+          tooltip: 'notification.wrong',
+          icon: 'highlight_off',
+          class: 'wrong-icon',
+        };
+      case CommentChangeType.DELETED:
+        return {
+          tooltip: 'notification.delete',
+          icon: 'delete',
+          class: 'delete-icon',
+        };
+      case CommentChangeType.ANSWERED:
+        return {
+          tooltip: 'notification.comment',
+          icon: 'comment',
+          class: 'comment-icon',
+        };
+      case CommentChangeType.CHANGE_ACK:
+        return {
+          tooltip: 'notification.ban',
+          icon: 'gavel',
+          class: 'ban-icon',
+        };
+      case CommentChangeType.CHANGE_FAVORITE:
+        return {
+          tooltip: 'notification.star',
+          icon: 'star',
+          class: 'star-icon',
+        };
+      case CommentChangeType.CHANGE_CORRECT:
+        return {
+          tooltip: 'notification.correct',
+          icon: 'check_circle',
+          class: 'correct-icon',
+        };
+      case CommentChangeType.CHANGE_TAG:
+        return {
+          tooltip: 'notification.tag',
+          icon: 'sell',
+          class: 'tag-icon',
+        };
+      case CommentChangeType.CHANGE_SCORE:
+        return {
+          tooltip: 'notification.change-score',
+          icon: 'thumbs_up_down',
+          class: 'score-icon',
+        };
+    }
+    return null;
   }
 
   private updateLanguageKeys() {

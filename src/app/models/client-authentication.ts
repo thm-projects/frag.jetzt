@@ -20,7 +20,7 @@ export interface RoomAccess {
 export class ClientAuthentication {
   accountId: string;
   authenticated: boolean;
-  authorities: any[];
+  authorities: unknown[];
   credentials: string;
   details: string;
   name: string;

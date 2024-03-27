@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   ConfirmDialogAction,
@@ -6,12 +6,12 @@ import {
   LivepollConfirmationDialogComponent,
 } from '../../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { take } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-livepoll-peer-instruction-window',
@@ -21,7 +21,9 @@ import { TranslateService } from '@ngx-translate/core';
     '../../livepoll-common.scss',
   ],
 })
-export class LivepollPeerInstructionWindowComponent implements OnInit {
+export class LivepollPeerInstructionWindowComponent {
+  title: string;
+  description: string;
   constructor(
     public readonly dialog: MatDialog,
     public readonly matDialogRef: MatDialogRef<
@@ -35,14 +37,18 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
         is2ndPhasePeerInstruction: boolean;
       };
     },
-  ) {}
-
-  ngOnInit(): void {}
+  ) {
+    this.title = this.data.windowContext.is2ndPhasePeerInstruction
+      ? 'common.confirmation-dialog.entries.change-peer-instruction-stage-2.title'
+      : 'common.confirmation-dialog.entries.change-peer-instruction-stage.title';
+    this.description = this.data.windowContext.is2ndPhasePeerInstruction
+      ? 'common.confirmation-dialog.entries.change-peer-instruction-stage-2.description'
+      : 'common.confirmation-dialog.entries.change-peer-instruction-stage.description';
+  }
 
   nextPeerInstructionStep() {
     this.createConfirmationDialog(
-      'dialog-confirm-peerInstruction-show1stStageResults-title',
-      'dialog-confirm-peerInstruction-show1stStageResults-description',
+      'change-peer-instruction-stage',
       ConfirmDialogType.AcceptCancel,
     ).subscribe((result) => {
       this.matDialogRef.close(!!result);
@@ -50,8 +56,7 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
   }
 
   private createConfirmationDialog(
-    title: string,
-    text: string,
+    confirmationDialogId: string,
     type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
   ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
@@ -60,8 +65,7 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
         type,
       },
     });
-    dialog.componentInstance.titleRef = title;
-    dialog.componentInstance.textRef = text;
+    dialog.componentInstance.confirmationDialogId = confirmationDialogId;
     return dialog.afterClosed().pipe(take(1));
   }
 }

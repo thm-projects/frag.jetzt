@@ -1,9 +1,14 @@
-<h1>{{ "common.peerInstruction-comparison-title" | translate }}</h1>
+<span mat-dialog-title>
+  {{ "common.peer-instruction.result-statistics.title" | translate }}
+</span>
 <ng-container *ngFor="let pass of comparisonList; index as i">
   <span>
-    {{ "common.peerInstruction-comparison-results-" + (i + 1) | translate }}
+    {{
+      "common.peer-instruction.result-statistics.result-" + (i + 1) | translate
+    }}
   </span>
   <app-livepoll-statistic
+    [class.no-pad]="true"
     *ngIf="pass.options"
     [options]="pass.options"
     [template]="pass.template"

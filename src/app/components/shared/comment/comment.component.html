@@ -1,6 +1,7 @@
 <app-uiregistration [commentId]="commentRegistrationId"></app-uiregistration>
 
 <mat-card
+  appearance="outlined"
   id="comment-card"
   class="border"
   [style]="{ '--i': responseIndex }"
@@ -112,9 +113,7 @@
           #commentBody
           class="commentBody">
           <ars-row #commentBodyInner>
-            <app-view-comment-data
-              class="images"
-              [currentData]="comment.body"></app-view-comment-data>
+            <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
           </ars-row>
         </ars-row>
         <span
@@ -127,8 +126,8 @@
                 : {
                     time:
                       language === "de"
-                        ? (comment.createdAt | date : " HH:mm ")
-                        : (comment.createdAt | date : "h:mm a"),
+                        ? (comment.createdAt | date: " HH:mm ")
+                        : (comment.createdAt | date: "h:mm a"),
                     votes:
                       comment.score === 1
                         ? ("comment-page.a11y-text_textForOneVote" | translate)
@@ -203,7 +202,7 @@
         <button
           mat-button
           style="width: 100%"
-          (click)="toggleExpand($event)">
+          (click)="toggleExpand()">
           <span class="commentExpanderButton">
             {{
               isExpanded
@@ -393,7 +392,7 @@
         <mat-icon
           class="answered-icon material-icons-round"
           matBadge="{{ comment.totalAnswerCounts.accumulated }}"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           matBadgeSize="small"
           (click)="showConversation()"
           [matTooltip]="'comment-page.show-conversation-tooltip' | translate">
@@ -414,7 +413,7 @@
         <mat-icon
           class="unfold-icon material-icons-outlined"
           matBadge="{{ comment.totalAnswerCounts.accumulated }}"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           matBadgeSize="small"
           (click)="navigateConversation()"
           [matTooltip]="

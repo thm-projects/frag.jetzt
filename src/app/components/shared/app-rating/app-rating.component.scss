@@ -22,21 +22,21 @@ button {
 }
 
 mat-icon.interactive {
-  color: var(--on-dialog);
   opacity: 0.5;
   width: 1em;
   height: 1em;
   font-size: 3em;
   cursor: pointer;
-  transition: transform 250ms ease, color 250ms ease;
+  color: var(--md-sys-color-highlight-yellow);
+  transition:
+    transform 250ms ease,
+    color 250ms ease;
 
   &.star_full {
-    color: var(--yellow);
     opacity: unset;
   }
 
   &.star_half {
-    color: var(--yellow);
     opacity: unset;
   }
 
@@ -51,7 +51,7 @@ mat-icon.interactive {
 
 .star-preview {
   justify-content: center;
-  color: var(--on-background);
+  color: var(--md-sys-color-highlight-yellow);
   display: flex;
   align-items: center;
   font-size: 1em;
@@ -59,7 +59,7 @@ mat-icon.interactive {
   margin: 0 auto;
 
   .star {
-    color: var(--yellow);
+    color: var(--md-sys-color-highlight-yellow);
   }
 }
 

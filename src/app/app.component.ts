@@ -30,7 +30,6 @@ import {
   listenEvent,
   sendEvent,
 } from './utils/service-component-events';
-import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 import { Router } from '@angular/router';
@@ -54,9 +53,18 @@ import {
   WebPushService,
   WebPushSubscription,
 } from './services/http/web-push.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { ThemeService } from 'theme/theme.service';
+import { SessionService } from './services/util/session.service';
+import { RoomService } from './services/http/room.service';
+import { UserService } from './services/http/user.service';
+import { Room } from './models/room';
+import { M3DynamicThemeService } from '../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
+import { CommentService } from './services/http/comment.service';
+import { Comment, Language } from './models/comment';
+import { generateConsequentlyUUID } from './utils/test-utils';
+import { CorrectWrong } from './models/correct-wrong.enum';
 const PUSH_KEY = 'push-subscription';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -76,6 +84,188 @@ export class AppComponent implements OnInit {
   rescaleActive: boolean = false;
   isMobile = false;
   private _lastScrollTop = 0;
+  private _lastClass: string;
+  __debugger = {
+    isExtended: false,
+    __loadDebug: function () {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let __debug: any = localStorage.getItem('__debug');
+        if (__debug) {
+          __debug = {
+            ...createDefault(),
+            ...JSON.parse(__debug),
+          };
+        } else {
+          __debug = createDefault();
+          localStorage.setItem('__debug', JSON.stringify(__debug));
+        }
+        return __debug;
+      } catch (e) {
+        console.error(e);
+      }
+
+      function createDefault() {
+        return {
+          highlight: true,
+          border: true,
+          dark: true,
+          isExtended: true,
+        };
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    __revalidateState: function (state: any) {
+      if (state['highlight']) {
+        document.documentElement.classList.add('debug');
+      } else {
+        document.documentElement.classList.remove('debug');
+      }
+      if (state['border']) {
+        document.body.classList.add('border');
+      } else {
+        document.body.classList.remove('border');
+      }
+      this.isExtended = !!state['isExtended'];
+      localStorage.setItem('__debug', JSON.stringify(state));
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggleHighlight: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['highlight'] = !state['highlight'];
+        this.__revalidateState(state);
+      }
+    },
+    toggleBorder: function () {
+      const state = this.__loadDebug();
+      console.log(state);
+      if (state) {
+        state['border'] = !state['border'];
+        this.__revalidateState(state);
+      }
+    },
+    load: function () {
+      const state = this.__loadDebug();
+      if (state) {
+        this.__revalidateState(state);
+      }
+    },
+    __options: {
+      highlight: () => this.__debugger.toggleHighlight(),
+      border: () => this.__debugger.toggleBorder(),
+      toggleExtension: () => {
+        const state = this.__debugger.__loadDebug();
+        if (state) {
+          state.isExtended = !this.__debugger.isExtended;
+          this.__debugger.__revalidateState(state);
+        }
+      },
+      generateRandomRoom: () => {
+        this._roomService
+          .addRoom(
+            new Room({
+              name: (() => {
+                const roomNames = ['yeet'];
+                return roomNames[Math.floor(Math.random() * roomNames.length)];
+              })(),
+              tags: [],
+              shortId: undefined,
+              directSend: true,
+            }),
+          )
+          .subscribe((result) => {
+            console.log(result);
+          });
+      },
+      generateRandomComment: () => {
+        const comment = new Comment({
+          id: generateConsequentlyUUID(),
+          roomId: this._sessionService.currentRoom.id,
+          creatorId: generateConsequentlyUUID(),
+          number: '1',
+          body: '',
+          ack: true,
+          correct: CorrectWrong.NULL,
+          favorite: false,
+          read: false,
+          tag: 'Test',
+          createdAt: new Date(),
+          bookmark: true,
+          keywordsFromQuestioner: [],
+          keywordsFromSpacy: [
+            {
+              text: 'Hallo!',
+              dep: ['ROOT'],
+            },
+          ],
+          score: 5,
+          upvotes: 10,
+          downvotes: 5,
+          language: Language.AUTO,
+          questionerName: 'Test-Author',
+          updatedAt: null,
+          commentReference: null,
+          deletedAt: null,
+          commentDepth: 0,
+          brainstormingSessionId: null,
+          brainstormingWordId: null,
+          approved: true,
+          gptWriterState: 2,
+        });
+        this._commentService.addComment(comment).subscribe(() => {
+          this._commentService
+            .addComment(
+              new Comment({
+                id: generateConsequentlyUUID(),
+                roomId: this._sessionService.currentRoom.id,
+                creatorId: generateConsequentlyUUID(),
+                number: '1',
+                body: '',
+                ack: true,
+                correct: CorrectWrong.NULL,
+                favorite: false,
+                read: false,
+                tag: 'Test',
+                createdAt: new Date(),
+                bookmark: true,
+                keywordsFromQuestioner: [],
+                keywordsFromSpacy: [
+                  {
+                    text: 'Hallo!',
+                    dep: ['ROOT'],
+                  },
+                ],
+                score: 5,
+                upvotes: 10,
+                downvotes: 5,
+                language: Language.AUTO,
+                questionerName: 'Test-Author',
+                updatedAt: null,
+                commentReference: comment.id,
+                deletedAt: null,
+                commentDepth: 0,
+                brainstormingSessionId: null,
+                brainstormingWordId: null,
+                approved: true,
+                gptWriterState: 2,
+              }),
+            )
+            .subscribe((x) => {
+              console.log(x);
+            });
+        });
+      },
+      gotoHome: () => {
+        this.router.navigate(['home']);
+      },
+      gotoComponentTest: () => {
+        this.router.navigate(['creator', 'component-test-page']);
+      },
+    },
+    self: undefined,
+  };
 
   constructor(
     private translationService: TranslateService,
@@ -92,8 +282,18 @@ export class AppComponent implements OnInit {
     private webPush: WebPushService,
     deviceState: DeviceStateService,
     initService: InitService,
-    _matomoService: MatomoTrackingService,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    matomoService: MatomoTrackingService,
+    private themeService: ThemeService,
+    public readonly m3DynamicThemeService: M3DynamicThemeService,
+    // TODO remove after refactoring
+    private readonly _sessionService: SessionService,
+    private readonly _roomService: RoomService,
+    private readonly _userService: UserService,
+    private readonly _commentService: CommentService,
   ) {
+    this.__debugger.load();
+    this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();
@@ -111,12 +311,18 @@ export class AppComponent implements OnInit {
   }
 
   public static isScrolledTop(): boolean {
-    return document.getElementById('scroll_container').scrollTop === 0;
+    return document.getElementById('scroll_container')?.scrollTop === 0;
   }
 
   ngOnInit(): void {
     this.initUpdates();
     this.initPush();
+    document.documentElement.classList.add('theme-target');
+    this.themeService.getTheme().subscribe((theme) => {
+      document.documentElement.classList.remove(this._lastClass);
+      document.documentElement.classList.add(theme.key);
+      this._lastClass = theme.key;
+    });
   }
 
   public getRescale(): Rescale {
@@ -132,16 +338,16 @@ export class AppComponent implements OnInit {
     const header = this.headerElement.nativeElement;
     const footer = this.footerElement.nativeElement;
     if (current > this._lastScrollTop && current > header.offsetHeight) {
-      header.style.marginTop = '-' + header.offsetHeight + 'px';
+      header.classList.add('hide');
     } else {
-      header.style.marginTop = '0';
+      header.classList.remove('hide');
     }
     const height =
       scroller.scrollHeight - scroller.clientHeight - footer.offsetHeight;
     if (current > this._lastScrollTop && current < height) {
-      footer.style.marginBottom = '-' + footer.offsetHeight + 'px';
+      footer.classList.add('hide');
     } else {
-      footer.style.marginBottom = '0';
+      footer.classList.remove('hide');
     }
     this._lastScrollTop = current;
   }
@@ -209,8 +415,6 @@ export class AppComponent implements OnInit {
       const dialogRef = this.dialog.open(MotdDialogComponent, {
         width: '80%',
         maxWidth: '600px',
-        minHeight: '95%',
-        height: '95%',
       });
       dialogRef.componentInstance.motds = req.motds;
       dialogRef.afterClosed().subscribe(() => {
@@ -327,7 +531,7 @@ export class AppComponent implements OnInit {
     }
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
-      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
+      .subscribe(() => UpdateInfoDialogComponent.open(this.dialog));
     const appIsStable$ = this.applicationRef.isStable.pipe(
       first((isStable) => isStable === true),
     );

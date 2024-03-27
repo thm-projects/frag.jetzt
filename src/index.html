@@ -4,9 +4,8 @@
 <head>
       <meta charset="utf-8">
       <meta content="IE=edge" http-equiv="X-UA-Compatible">
-      <meta content="frag.jetzt & ChatGPT: Where Questions Turn into Answers!" name="description">
-      <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, maximum-scale=5.0"
-            name="viewport">
+      <meta content="frag.jetzt &amp; ChatGPT: Where Questions Turn into Answers!" name="description">
+      <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, maximum-scale=5.0" name="viewport">
       <meta name="keywords" content="ChatGPT, frag.jetzt">
 
       <title>frag.jetzt & ChatGPT: Where Questions Turn into Answers!</title>
@@ -59,7 +58,8 @@
       <meta content="frag.jetzt" name="apple-mobile-web-app-title">
       <meta content="frag.jetzt" name="application-name">
       <meta name="theme-color" content="#000000"/>
-
+      <!-- TODO(lph) important! remove in production -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       <!-- Add to Homescreen for Chrome on Android -->
       <meta content="yes" name="mobile-web-app-capable">
 
@@ -67,9 +67,11 @@
       <meta content="yes" name="apple-mobile-web-app-capable">
       <meta content="black" name="apple-mobile-web-app-status-bar-style">
 
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
 </head>
 
-<body>
+<body class="mat-app-background light">
       <app-root></app-root>
       <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>

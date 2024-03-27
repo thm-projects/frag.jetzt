@@ -1,25 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { Room } from '../../../../models/room';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-toggle-conversation',
   templateUrl: './toggle-conversation.component.html',
-  styleUrls: ['./toggle-conversation.component.scss']
+  styleUrls: ['./toggle-conversation.component.scss'],
 })
 export class ToggleConversationComponent implements OnInit {
   @Input() editorRoom: Readonly<Room>;
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
   newConversationDepth: number;
   conversationAllowed: boolean;
 
-  constructor(
-    public dialogRef: MatDialogRef<ToggleConversationComponent>,
-  ) {
-  }
+  constructor(public dialogRef: MatDialogRef<ToggleConversationComponent>) {}
 
   ngOnInit() {
     this.newConversationDepth = this.editorRoom.conversationDepth;

@@ -15,7 +15,6 @@ import { MenuWrapperDirective } from './components/content/menu/MenuWrapper.dire
 import { ButtonWrapperDirective } from './components/content/menu/ButtonWrapper.directive';
 import { ButtonBaseDirective } from './components/content/menu/ButtonBase.directive';
 import { MaterialBtnComponent } from './components/style/menu/material-btn/material-btn.component';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ArsComposeHostDirective } from './compose/ars-compose-host.directive';
 import { MatButtonComponent } from './compose/elements/mat-button/mat-button.component';
@@ -24,19 +23,20 @@ import { MatChipListComponent } from './compose/elements/mat-chip-list/mat-chip-
 import { MatDatePickerComponent } from './compose/elements/mat-date-picker/mat-date-picker.component';
 import { MatMenuItemComponent } from './compose/elements/mat-menu-item/mat-menu-item.component';
 import { CommonModule } from '@angular/common';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat-paginator/ars-mat-paginator.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
 import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
 import { ArsLifeCycleVisitor } from './models/util/ars-life-cycle-visitor';
 import { MatSubMenuComponent } from './compose/elements/mat-sub-menu/mat-sub-menu.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [

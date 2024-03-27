@@ -1,17 +1,21 @@
 @use "sass:math";
-@import "src/layout/layout-util";
-@import "src/layout/layout-variables";
+@import "../../../../layout/layout-util";
+@import "../../../../layout/layout-variables";
 
 @mixin card-box-shadow($color: transparent, $x: -8px) {
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12),
+  box-shadow:
+    0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12),
     $x 0px 0px 0px $color;
 }
 
 #comment-card {
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
-  transition: background-color 0.5s linear, box-shadow 0.15s ease-in-out;
+  transition:
+    background-color 0.5s linear,
+    box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
   margin: $commentMarginTopBottom 0;
 }
@@ -25,6 +29,7 @@
   left: -8px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card-content > :first-child {
   margin-top: 20px;
 }
@@ -243,7 +248,7 @@ mat-card-content > :first-child {
   margin-left: 10px;
 }
 
-::ng-deep .mat-menu-panel {
+::ng-deep .mat-mdc-menu-panel {
   min-height: 56px !important;
 }
 
@@ -499,7 +504,7 @@ $width-range: $max-width - $min-width;
   color: var(--secondary);
 }
 
-.mat-card {
+.mat-mdc-card {
   border-radius: $commentBorderRadius !important;
 }
 

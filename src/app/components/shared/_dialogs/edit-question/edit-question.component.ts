@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';
-import { QuillUtils } from 'app/utils/quill-utils';
+import { ForumComment } from 'app/utils/data-accessor';
 import { TSMap } from 'typescript-map';
 
 @Component({
@@ -11,8 +11,8 @@ import { TSMap } from 'typescript-map';
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.scss'],
 })
-export class EditQuestionComponent implements OnInit {
-  @Input() comment: Comment;
+export class EditQuestionComponent {
+  @Input() comment: ForumComment;
   @Input() tags: string[];
   @Input() userRole: UserRole;
 
@@ -21,17 +21,15 @@ export class EditQuestionComponent implements OnInit {
     private commentService: CommentService,
   ) {}
 
-  ngOnInit(): void {}
-
   createClick() {
     return (newComment) => {
       this.ref.close();
       if (!newComment) {
         return;
       }
-      const changes = new TSMap<keyof Comment, any>();
-      const newBody = QuillUtils.serializeDelta(newComment.body);
-      if (newBody !== QuillUtils.serializeDelta(this.comment.body)) {
+      const changes = new TSMap<keyof Comment, unknown>();
+      const newBody = newComment.body;
+      if (newBody !== this.comment.body) {
         changes.set('body', newBody);
       }
       if (newComment.language !== this.comment.language) {

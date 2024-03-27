@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { dark, light } from './style.const';
 import { ThemeService } from '../../../../../src/theme/theme.service';
 
+/**
+ * @deprecated
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -13,11 +16,17 @@ export class StyleService {
   private colors: any;
   private _initialized = false;
 
+  /**
+   * @deprecated
+   */
   constructor(
     private themeService: ThemeService
   ) {
   }
 
+  /**
+   * @deprecated
+   */
   public init() {
     if (this._initialized) {
       return;
@@ -26,6 +35,9 @@ export class StyleService {
     this.themeService.getTheme().subscribe(theme => this.setColor(theme.isDark));
   }
 
+  /**
+   * @deprecated
+   */
   public setColor(isDark: boolean) {
     if (isDark) {
       this.colors = dark;
@@ -35,10 +47,13 @@ export class StyleService {
     this.initColor();
   }
 
+  /**
+   * @deprecated
+   */
   private initColor() {
     for (const k in this.colors) {
       if (this.colors.hasOwnProperty(k)) {
-        document.documentElement.style.setProperty('--' + k, this.colors[k]);
+        //document.documentElement.style.setProperty('--' + k, this.colors[k]);
       }
     }
   }

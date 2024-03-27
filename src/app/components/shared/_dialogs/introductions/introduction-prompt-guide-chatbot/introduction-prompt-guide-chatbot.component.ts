@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnDestroy } from '@angular/core';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -9,28 +8,18 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './introduction-prompt-guide-chatbot.component.html',
   styleUrls: ['./introduction-prompt-guide-chatbot.component.scss'],
 })
-export class IntroductionPromptGuideChatbotComponent
-  implements OnInit, OnDestroy {
+export class IntroductionPromptGuideChatbotComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
-  constructor(
-    private dialogRef: MatDialogRef<IntroductionPromptGuideChatbotComponent>,
-    appState: AppStateService,
-  ) {
+  constructor(appState: AppStateService) {
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
   }
 
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-  }
-
-  onClose() {
-    this.dialogRef.close();
   }
 }

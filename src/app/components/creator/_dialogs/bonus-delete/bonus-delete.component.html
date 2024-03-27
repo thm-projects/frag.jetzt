@@ -1,9 +1,16 @@
-<h2 class="oldtypo-h2">{{ 'room-page.sure' | translate }}</h2>
-<p class="oldtypo-p">{{reallyDeleteText}}</p>
-<app-dialog-action-buttons
-  buttonsLabelSection="content"
-  confirmButtonLabel="delete"
-  [confirmButtonType]=confirmButtonType
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
-></app-dialog-action-buttons>
+<span matDialogTitle>{{ "room-page.sure" | translate }}</span>
+<mat-dialog-content>
+  {{ reallyDeleteText }}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="dialogRef.close('abort')">
+    cancel
+  </button>
+  <button
+    mat-button
+    (click)="dialogRef.close('delete')">
+    delete
+  </button>
+</mat-dialog-actions>

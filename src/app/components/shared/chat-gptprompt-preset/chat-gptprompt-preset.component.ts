@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
@@ -14,7 +14,6 @@ import {
   StandardDelta,
 } from 'app/utils/quill-utils';
 import { escapeForRegex } from 'app/utils/regex-escape';
-import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { take } from 'rxjs';
 import {
   AVAILABLE_LANGUAGES,
@@ -27,8 +26,6 @@ import {
   styleUrls: ['./chat-gptprompt-preset.component.scss'],
 })
 export class ChatGPTPromptPresetComponent implements OnInit {
-  @ViewChild(ViewCommentDataComponent)
-  commentData: ViewCommentDataComponent;
   readonly onDelete = this.delete.bind(this);
   readonly onCancel = this.cancel.bind(this);
   readonly onSave = this.save.bind(this);
@@ -73,7 +70,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      this.isGlobal = Boolean(data.superAdmin);
+      this.isGlobal = Boolean(data['superAdmin']);
       this.initPrompts();
     });
   }
@@ -145,11 +142,9 @@ export class ChatGPTPromptPresetComponent implements OnInit {
   }
 
   getCurrentText() {
-    const data = this.commentData?.currentData;
-    if (!data) {
-      return '';
-    }
-    return QuillUtils.getMarkdownFromDelta(data);
+    return '';
+    // TODO
+    // return QuillUtils.getMarkdownFromDelta(data);
   }
 
   private initPrompts() {
@@ -205,7 +200,8 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     });
   }
 
-  private onError(err: any) {
+  private onError(err: unknown) {
+    console.error(err);
     this.tranlateService
       .get('chat-gptprompt-preset.an-error-occured')
       .subscribe((msg) =>

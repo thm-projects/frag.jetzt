@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlSegment,
@@ -17,7 +16,7 @@ import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
 
 @Injectable()
-export class AuthenticationGuard implements CanActivate {
+export class AuthenticationGuard {
   constructor(
     private router: Router,
     private eventService: EventService,
@@ -31,9 +30,9 @@ export class AuthenticationGuard implements CanActivate {
     state: RouterStateSnapshot,
   ): Observable<boolean> {
     this.accountState.forceLogin().subscribe();
-    const roomShortId = route.params.shortId;
+    const roomShortId = route.params['shortId'];
     const url = decodeURI(state.url);
-    if (route.data.superAdmin) {
+    if (route.data['superAdmin']) {
       return this.accountState.user$.pipe(
         filter((v) => Boolean(v)),
         take(1),

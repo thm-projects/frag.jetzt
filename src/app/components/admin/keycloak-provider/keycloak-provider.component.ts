@@ -280,7 +280,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       );
   }
 
-  private formatProvider(provider: any) {
+  private formatProvider(provider: KeycloakProvider) {
     const lang = this.appState.getCurrentLanguage() || 'en';
     const access = 'name' + lang[0].toUpperCase() + lang.slice(1);
     if (!provider) {

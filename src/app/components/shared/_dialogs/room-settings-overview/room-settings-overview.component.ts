@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { RoomPatch, RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-room-settings-overview',
@@ -42,7 +42,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.keywordExtrationEnabled = this.room.keywordExtractionActive;
   }
 
-  onConfirm() {
+  confirm() {
     const update: RoomPatch = {
       directSend: this.directSend,
       conversationDepth: this.conversationEnabled ? 7 : 0,
@@ -74,10 +74,6 @@ export class RoomSettingsOverviewComponent implements OnInit {
     if (!this.awaitComplete) {
       this.dialogRef.close(update);
     }
-  }
-
-  onCancel() {
-    this.dialogRef.close();
   }
 
   toggleProfanityFilter(event: Event) {

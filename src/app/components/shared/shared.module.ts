@@ -10,24 +10,20 @@ import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { RoomJoinComponent } from './room-join/room-join.component';
-import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { UserBonusTokenComponent } from '../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RemindOfTokensComponent } from '../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { LoginComponent } from './login/login.component';
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
-import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
@@ -46,13 +42,9 @@ import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-te
 import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { WriteCommentComponent } from './write-comment/write-comment.component';
-import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
-import { QuillModule } from 'ngx-quill';
-import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
-import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
@@ -105,8 +97,6 @@ import { UIRegistrationComponent } from './uiregistration/uiregistration.compone
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrainstormingCategoryEditorComponent } from './_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
 import { BrainstormingEditComponent } from './_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
@@ -114,7 +104,6 @@ import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dial
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
-import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
 import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
@@ -161,6 +150,13 @@ import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-crea
 import { MultiLevelQuotaInputComponent } from './_dialogs/multi-level-dialog/multi-level-quota-input/multi-level-quota-input.component';
 import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer-comment/question-wall-drawer-comment.component';
+import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
+import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
+import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
 
 @NgModule({
   imports: [
@@ -169,17 +165,19 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     SharedRoutingModule,
     MatRippleModule,
     ArsModule,
-    MarkdownModule,
     QRCodeModule,
-    TagCloudModule,
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    QuillModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
+    CdkTrapFocus,
+    QuestionWallDrawerCommentComponent,
+    QuestionWallDisplayCommentComponent,
+    QuestionWallDrawerComponent,
+    CustomMarkdownModule,
   ],
   declarations: [
     RoomJoinComponent,
@@ -190,14 +188,12 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     FooterComponent,
     CommentPageComponent,
     CommentListComponent,
-    RoomCreateComponent,
     UserBonusTokenComponent,
     RemindOfTokensComponent,
     LoginComponent,
     CloudConfigurationComponent,
     CommentComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
     RemoveFromHistoryComponent,
@@ -218,12 +214,9 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     JoyrideTemplateDirective,
     MatSpinnerOverlayComponent,
     WriteCommentComponent,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
-    ViewCommentDataComponent,
     DeepLDialogComponent,
     ExplanationDialogComponent,
-    QuillInputDialogComponent,
     WorkerConfigDialogComponent,
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
@@ -278,7 +271,6 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     NavigationComponent,
     QuestionWallComponent,
     LivepollCreateComponent,
-    GptRoomSettingsComponent,
     IntroductionPromptGuideChatbotComponent,
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
@@ -335,7 +327,6 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     CommentPageComponent,
     CommentListComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
     CommentComponent,
     DialogActionButtonsComponent,
     UserBonusTokenComponent,
@@ -345,9 +336,7 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     MatSpinnerOverlayComponent,
     JoyrideTemplateDirective,
     AutofocusDirective,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
-    ViewCommentDataComponent,
     WriteCommentComponent,
     AccessibilityEscapedInputDirective,
     QuestionWallIntroComponent,
@@ -356,6 +345,7 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     MinuteJumpClockComponent,
     GlobalStatusIndicatorComponent,
     MultiLevelDialogComponent,
+    RoomSettingsOverviewComponent,
   ],
 })
 export class SharedModule {

@@ -27,7 +27,6 @@ import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
-import { MatDialog } from '@angular/material/dialog';
 import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,7 +34,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { RoomDeleteComponent } from '../../creator/_dialogs/room-delete/room-delete.component';
 import { RoomDeleted } from '../../../models/events/room-deleted';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from '../../creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
@@ -63,13 +62,12 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
-import { GptService } from 'app/services/http/gpt.service';
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { Quota, QuotaService } from 'app/services/http/quota.service';
-import { getInstant } from 'app/utils/ts-utils';
+import { QuotaService } from 'app/services/http/quota.service';
 
 @Component({
   selector: 'app-room-page',
@@ -112,7 +110,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
 
   constructor(protected injector: Injector) {
     this.roomService = injector.get(RoomService);
@@ -157,7 +155,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.user = user;
       });
-    this.userRole = this.route.snapshot.data.roles[0];
+    this.userRole = this.route.snapshot.data['roles'][0];
     this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.room = room;
@@ -254,7 +252,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           data,
         );
       }),
-      tap((_) => {
+      tap(() => {
         const url = decodeURI(this.router.url);
         this.router.navigate(['/']).then(() => {
           setTimeout(() => this.router.navigate([url]));
@@ -387,7 +385,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
       }
     });
-    dialogRef.backdropClick().subscribe((res) => {
+    dialogRef.backdropClick().subscribe(() => {
       dialogRef.close('abort');
     });
   }
@@ -432,10 +430,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     return this.deviceState.isMobile();
   }
 
-  protected preRoomLoadHook(): Observable<any> {
+  protected preRoomLoadHook(): Observable<unknown> {
     return of('');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected postRoomLoadHook() {}
 
   protected saveChanges(data: Partial<Room>) {
@@ -446,14 +445,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       description ? { ...data, description } : { ...data }
     ) as RoomPatch;
     this.roomService.patchRoom(this.room.id, obj).subscribe({
-      next: (room) => {
+      next: () => {
         this.translateService
           .get('room-page.changes-successful')
           .subscribe((msg) => {
             this.notificationService.show(msg);
           });
       },
-      error: (error) => {
+      error: () => {
         this.translateService
           .get('room-page.changes-gone-wrong')
           .subscribe((msg) => {

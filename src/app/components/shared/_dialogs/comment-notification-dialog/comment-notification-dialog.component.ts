@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -8,6 +7,7 @@ import { CommentNotification } from '../../../../models/comment-notification';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 enum WeekDay {
   Monday,
@@ -50,7 +50,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private accountState: AccountStateService,
   ) {
-    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe((_) => {
+    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe(() => {
       this.translateService
         .get('comment-notification.last-setting')
         .subscribe((text) => (this.lastSetting = text));
@@ -158,15 +158,11 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  onClose(): void {
-    this.dialogRef.close();
-  }
-
   private setNotification(c: CommentNotification) {
     const date = CommentNotificationDialogComponent.notificationSettingToDate(
       c.notificationSetting,
     );
-    if (!!this.notifications[date.getDay()]) {
+    if (this.notifications[date.getDay()]) {
       console.warn('Notifications should never be overridden!');
     }
     this.notifications[date.getDay()] = [date, c.id];

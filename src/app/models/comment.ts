@@ -2,7 +2,6 @@ import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
 import { map, Observable, of } from 'rxjs';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 
@@ -12,7 +11,7 @@ export class Comment {
   creatorId: UUID;
   number: string;
   ack: boolean;
-  body: ImmutableStandardDelta;
+  body: string;
   correct: CorrectWrong;
   favorite: boolean;
   read: boolean;
@@ -41,7 +40,7 @@ export class Comment {
     creatorId = null,
     number = '?',
     ack = false,
-    body = { ops: [] },
+    body = '',
     correct = CorrectWrong.NULL,
     favorite = false,
     read = false,

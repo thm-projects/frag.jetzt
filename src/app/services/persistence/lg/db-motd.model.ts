@@ -1,4 +1,5 @@
 import { FieldsOf } from 'app/utils/ts-utils';
+import { DbStore, ValidKey } from './lg-persist.schema.types';
 
 export class Motd {
   id: string;
@@ -23,7 +24,7 @@ export const MOTD_SCHEMA = {
   type: Motd,
   since: 3,
   options: {
-    keyPath: ['id'] as const, // satisfies ValidKey<Motd>,
+    keyPath: ['id'] as const satisfies ValidKey<Motd>,
   },
   indexes: {},
-} as const; // satisfies DbStore<Motd>;
+} as const satisfies DbStore<Motd>;

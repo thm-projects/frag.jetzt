@@ -87,8 +87,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           map(([user, room]) => {
             return (
               user?.id === room?.ownerId &&
-              answers.gptSetup &&
-              answers.gptSetup.group.value.setupType === 'apiCode'
+              answers['gptSetup'] &&
+              answers['gptSetup'].group.value.setupType === 'apiCode'
             );
           }),
         );
@@ -137,8 +137,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.gpt-info-voucher-title',
       stepHelp: 'ml-gpt-room-settings.gpt-info-voucher-step-help',
       active: (answers) =>
-        answers.gptSetup &&
-        answers.gptSetup.group.value.setupType === 'apiVoucher',
+        answers['gptSetup'] &&
+        answers['gptSetup'].group.value.setupType === 'apiVoucher',
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,

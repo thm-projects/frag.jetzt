@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <h3>{{ "chat-gptprompt-preset.title" | translate }}</h3>
 
   <mat-form-field
@@ -37,7 +37,7 @@
             <span>
               {{
                 "chat-gptprompt-preset.found-acts"
-                  | translate : { count: amountOfFoundActs }
+                  | translate: { count: amountOfFoundActs }
               }}
             </span>
           </div>
@@ -48,7 +48,7 @@
             <span>
               {{
                 "chat-gptprompt-preset.found-prompts"
-                  | translate : { count: amountOfFoundPrompts }
+                  | translate: { count: amountOfFoundPrompts }
               }}
             </span>
           </div>
@@ -147,6 +147,7 @@
     </button>
   </mat-expansion-panel>
 
+  <!-- TODO:
   <app-view-comment-data
     [currentData]="initDelta"
     [textOverwrite]="'chat-gptprompt-preset.token-info' | translate : tokenInfo"
@@ -158,7 +159,7 @@
     [maxDataCharacters]="2000"
     [placeHolderText]="
       'chat-gptprompt-preset.placeholder-edit-preset' | translate
-    "></app-view-comment-data>
+    "></app-view-comment-data> -->
 
   <app-dialog-action-buttons
     buttonsLabelSection="chat-gptprompt-preset"

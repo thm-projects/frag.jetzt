@@ -11,7 +11,6 @@ import {
 } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MarkdownModule } from 'ngx-markdown';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
@@ -50,7 +49,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       },
       isolate: true,
     }),
-    MarkdownModule,
     ArsModule,
     MatRippleModule,
     QRCodeModule,

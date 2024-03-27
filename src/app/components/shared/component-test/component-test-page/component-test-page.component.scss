@@ -1,0 +1,51 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.content-container {
+  width: 1200px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 500px;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+
+  > * {
+    display: flex;
+    align-items: center;
+
+    & + * {
+      margin-top: 8px;
+    }
+
+    > * + * {
+      margin-left: 8px;
+    }
+  }
+}
+
+.example-container {
+  margin-top: 32px;
+  > * + * {
+    margin-top: 16px;
+  }
+}
+
+.fill {
+  flex-grow: 1;
+}
+
+.theme-selection {
+}
+
+a {
+  color: var(--mdc-outlined-button-label-text-color);
+}

@@ -12,7 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommentService } from '../../../services/http/comment.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material/dialog';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { User } from '../../../models/user';
@@ -41,6 +40,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comment-answer',
@@ -71,7 +71,7 @@ export class CommentAnswerComponent
   private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
   private destroyer = new ReplaySubject(1);
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _keywordExtractor: KeywordExtractor;
   private commentOverride: Partial<Comment>;
 
@@ -174,9 +174,9 @@ export class CommentAnswerComponent
         'comment-answer.on-startup',
       ),
     ).subscribe((next) => {
-      const { body, ...elements } = next as Partial<Comment>;
+      const { ...elements } = next as Partial<Comment>;
       this.commentOverride = elements;
-      this.commentComponent.commentData.currentData = body as StandardDelta;
+      //TODO: this.commentComponent.commentData.currentData = body as StandardDelta;
     });
   }
 
@@ -217,7 +217,7 @@ export class CommentAnswerComponent
     }
   }
 
-  checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
+  checkForBackDropClick(event: MouseEvent, ...elements: Node[]) {
     if (this.isConversationView || !this.isConversationView) {
       return;
     }
@@ -245,7 +245,7 @@ export class CommentAnswerComponent
       } else {
         this.goBackToCommentList();
       }
-      return;
+      return () => '';
     }
     comment.ack = this.room.directSend;
     if (this.commentOverride) {
@@ -269,6 +269,7 @@ export class CommentAnswerComponent
           });
       });
     });
+    return () => '';
   }
 
   editQuestion(comment: ForumComment) {

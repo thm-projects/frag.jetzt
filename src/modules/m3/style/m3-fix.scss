@@ -1,0 +1,30 @@
+@mixin fix-all() {
+  .mdc-list-item {
+    &--activated {
+      background-color: color-mix(
+        in srgb,
+        var(--md-sys-color-primary) 20%,
+        transparent
+      );
+    }
+  }
+
+  .mat-mdc-slide-toggle {
+    > .mdc-form-field--align-end {
+      display: flex;
+      flex-grow: 1;
+      > .mdc-label {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  /// @desc \
+  ///    mat-form-field with input and matSuffix / matIconSuffix \
+  ///    adds 4px offset to suffix. \
+  //     Otherwise the icon is directly colliding with border.
+  .mat-mdc-form-field-icon-suffix,
+  [dir="rtl"] .mat-mdc-form-field-icon-prefix {
+    padding: 0 4px;
+  }
+}

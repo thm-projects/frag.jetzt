@@ -2,25 +2,10 @@
   display: none;
 }
 
-.mat-radio-button {
+.mat-mdc-radio-button {
   display: block;
 
-  &:has(+ .mat-radio-button) {
+  &:has(+ .mat-mdc-radio-button) {
     padding-bottom: 0.7em;
   }
-}
-
-:host ::ng-deep .mat-form-field-underline {
-  background-color: transparent !important;
-}
-
-.mat-form-field {
-  margin-bottom: 0;
-  display: block;
-  transition: margin-bottom 0.2s ease-in-out;
-}
-
-.mat-form-field:has(.mat-hint),
-.mat-form-field-invalid {
-  margin-bottom: 2em;
 }

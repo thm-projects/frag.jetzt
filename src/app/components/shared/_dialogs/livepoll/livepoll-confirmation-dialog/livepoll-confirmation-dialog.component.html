@@ -1,56 +1,66 @@
 <h1
   mat-dialog-title
-  *ngIf="titleRef">
-  {{ "common." + titleRef | translate }}
+  [class.no-pad]="true"
+  *ngIf="confirmationDialogId">
+  {{
+    translateKey +
+      ".confirmation-dialog.entries." +
+      confirmationDialogId +
+      ".title" | translate
+  }}
 </h1>
-<mat-dialog-content *ngIf="textRef">
-  <span>{{ "common." + textRef | translate }}</span>
+<mat-dialog-content
+  [class.no-pad]="true"
+  *ngIf="confirmationDialogId">
+  <span>
+    {{
+      translateKey +
+        ".confirmation-dialog.entries." +
+        confirmationDialogId +
+        ".description" | translate
+    }}
+  </span>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions [class.no-pad]="true">
   <ng-container [ngSwitch]="this.data.type">
     <ng-container *ngSwitchCase="ConfirmDialogType.AcceptCancel">
-      <div style="flex-grow: 1"></div>
+      <div [class.fill]="true"></div>
       <button
-        mat-flat-button
-        class="button-cancel"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.Cancel)">
         <span>
-          {{ "common.cancel" | translate }}
+          {{ translateKey + ".confirmation-dialog.common.cancel" | translate }}
         </span>
       </button>
       <button
         mat-flat-button
-        class="button-primary-filled"
         (click)="emitAction(ConfirmDialogAction.Accept)">
         <span>
-          {{ "common.confirm-accept" | translate }}
+          {{ translateKey + ".confirmation-dialog.common.accept" | translate }}
         </span>
       </button>
     </ng-container>
     <ng-container *ngSwitchCase="ConfirmDialogType.YesNoCancel">
       <button
-        mat-flat-button
-        class="button-cancel"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.Cancel)">
         <span>
-          {{ "common.cancel" | translate }}
+          {{ translateKey + ".confirmation-dialog.common.cancel" | translate }}
         </span>
       </button>
-      <div style="flex-grow: 1"></div>
+      <div [class.fill]="true"></div>
       <button
-        mat-flat-button
-        class="button-primary-filled"
+        mat-button
         (click)="emitAction(ConfirmDialogAction.No)">
         <span>
-          {{ "common.confirm-no" | translate }}
+          {{ translateKey + ".confirmation-dialog.common.no" | translate }}
         </span>
       </button>
       <button
         mat-flat-button
-        class="button-primary-filled"
         (click)="emitAction(ConfirmDialogAction.Yes)">
         <span>
-          {{ "common.confirm-yes" | translate }}
+          {{ translateKey + ".confirmation-dialog.common.yes" | translate }}
         </span>
       </button>
     </ng-container>

@@ -1,26 +1,23 @@
 import {
   Directive,
   ElementRef,
-  Inject,
   OnDestroy,
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { themes } from './arsnova-theme.const';
 import { ThemeService } from './theme.service';
-import { ReplaySubject, Subscription, filter, takeUntil } from 'rxjs';
+import { ReplaySubject, filter, takeUntil } from 'rxjs';
 
 @Directive({
   selector: '[appTheme]',
 })
 export class ThemeDirective implements OnInit, OnDestroy {
   private destroyer = new ReplaySubject(1);
+  private lastClass: string;
 
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: any,
     private themService: ThemeService,
   ) {}
 
@@ -37,17 +34,9 @@ export class ThemeDirective implements OnInit, OnDestroy {
   }
 
   updateTheme(themeName: string) {
-    const them = themes[themeName];
-    for (const key in them) {
-      if (them.hasOwnProperty(key)) {
-        this.renderer.setProperty(
-          this.elementRef.nativeElement,
-          key,
-          them[key],
-        );
-        this.document.body.style.setProperty(key, them[key]);
-      }
-    }
+    this.renderer.removeClass(this.elementRef.nativeElement, this.lastClass);
+    this.renderer.addClass(this.elementRef.nativeElement, themeName);
+    this.lastClass = themeName;
   }
 
   ngOnDestroy() {

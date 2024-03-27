@@ -11,7 +11,15 @@ import {
   BookmarkAccess,
   RoomDataService,
 } from '../services/util/room-data.service';
-import { QuillUtils, SerializedDelta } from './quill-utils';
+
+interface Message {
+  type: string;
+  payload: {
+    id: string;
+    changes?: Record<string, unknown>;
+    lights?: boolean;
+  };
+}
 
 interface AnswerCounts {
   fromParticipants: number;
@@ -97,7 +105,7 @@ class DataAccessorUpdateSubscription {
   /**
    * Checks if value1 is a subset of value2
    */
-  private ensureEqual(value1: any, value2: any): boolean {
+  private ensureEqual(value1: unknown, value2: unknown): boolean {
     if (Array.isArray(value1)) {
       return this.checkArrayIsSubset(value1, value2);
     } else if (typeof value1 === 'object') {
@@ -115,7 +123,7 @@ class DataAccessorUpdateSubscription {
     return value1 === value2;
   }
 
-  private checkArrayIsSubset(value1: any[], value2: any) {
+  private checkArrayIsSubset(value1: unknown[], value2: unknown) {
     if (!Array.isArray(value2)) {
       return false;
     }
@@ -154,7 +162,7 @@ export class DataAccessor {
   private _rawComments: BehaviorSubject<ForumComment[]>;
   private _forumComments: BehaviorSubject<ForumComment[]>;
   private _wasReset: boolean;
-  private _messageQueue: any[] = [];
+  private _messageQueue: Message[] = [];
   private _currentSubscriptions: DataAccessorUpdateSubscription[] = [];
   // Room specific
   private _moderatorIds: Set<string>;
@@ -257,9 +265,7 @@ export class DataAccessor {
       });
     }
     this._rawComments.next(forumComments);
-    this._forumComments.next(
-      forumComments.filter((c) => !Boolean(c.commentReference)),
-    );
+    this._forumComments.next(forumComments.filter((c) => !c.commentReference));
     // apply missed messages
     this._messageQueue.forEach((msg) => this.onMessageReceive(msg));
     this._messageQueue.length = 0;
@@ -284,7 +290,7 @@ export class DataAccessor {
     this._userBookmarks = null;
   }
 
-  receiveMessage(message: any) {
+  receiveMessage(message: Message) {
     if (this._wasReset) {
       this._messageQueue.push(message);
       return;
@@ -350,7 +356,7 @@ export class DataAccessor {
     }
     this._rawComments.value.push(forumComment);
     this._rawComments.next(this._rawComments.value);
-    if (!Boolean(forumComment.commentReference)) {
+    if (!forumComment.commentReference) {
       this._forumComments.value.push(forumComment);
       this._forumComments.next(this._forumComments.value);
     }
@@ -386,7 +392,7 @@ export class DataAccessor {
     });
   }
 
-  private onMessageReceive(data: any) {
+  private onMessageReceive(data: Message) {
     switch (data.type) {
       case 'CommentCreated':
         this.onCommentCreate(data.payload);
@@ -403,13 +409,13 @@ export class DataAccessor {
     }
   }
 
-  private onCommentCreate(payload: any) {
+  private onCommentCreate(payload: Message['payload']) {
     this.commentService.getComment(payload.id).subscribe((comment) => {
       this.addComment(comment);
     });
   }
 
-  private onCommentPatched(payload: any) {
+  private onCommentPatched(payload: Message['payload']) {
     const comment = this._fastAccess[payload.id]?.comment;
     if (comment === undefined) {
       console.error('Patch: Comment ' + payload.id + ' was not found!');
@@ -439,7 +445,7 @@ export class DataAccessor {
   private patchCommentValue(
     changeKey: keyof Comment,
     comment: ForumComment,
-    value: any,
+    value: unknown,
   ) {
     let hadKey = true;
     switch (changeKey) {
@@ -456,19 +462,17 @@ export class DataAccessor {
         comment[changeKey] = JSON.parse(value as string);
         break;
       case 'ack':
-        const isNowAck = value as boolean;
-        comment.ack = isNowAck;
-        if (isNowAck !== this.isAcknowledged) {
+        comment.ack = value as boolean;
+        if (value !== this.isAcknowledged) {
           this.removeComment(comment.id);
         }
         break;
       case 'body':
-        comment.body = QuillUtils.deserializeDelta(value as SerializedDelta);
+        comment.body = value as string;
         break;
       default:
         if (SIMPLE_PATCH_PROPERTIES.has(changeKey)) {
-          // @ts-ignore
-          comment[changeKey] = value;
+          comment[changeKey] = value as never;
         } else {
           console.error('Unknown comment patch: ' + changeKey);
           hadKey = false;
@@ -478,7 +482,7 @@ export class DataAccessor {
     return hadKey;
   }
 
-  private onCommentHighlighted(payload: any) {
+  private onCommentHighlighted(payload: Message['payload']) {
     const comment = this._fastAccess[payload.id]?.comment;
     if (comment === undefined) {
       console.error('Highlighted: Comment ' + payload.id + ' was not found!');

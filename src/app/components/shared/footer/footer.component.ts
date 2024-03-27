@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
@@ -12,7 +11,6 @@ import { DataProtectionComponent } from '../../home/_dialogs/data-protection/dat
 import { Theme } from '../../../../theme/Theme';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
-import { MatMenu } from '@angular/material/menu';
 import { ComponentType } from '@angular/cdk/overlay';
 import { IntroductionRoomListComponent } from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
 import { IntroductionRoomPageComponent } from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
@@ -27,9 +25,12 @@ import {
   Language,
   ThemeKey,
 } from 'app/services/state/app-state.service';
-import { ReplaySubject, filter, take, takeUntil, tap } from 'rxjs';
+import { ReplaySubject, filter, take, takeUntil } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { MatMenu } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 
 @Component({
   selector: 'app-footer',
@@ -45,7 +46,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   public themes: Theme[];
   currentLanguage: Language = 'en';
   isMobile = false;
-  private _tourSite: ComponentType<any>;
+  private _tourSite: ComponentType<unknown>;
   private destroyer = new ReplaySubject(1);
 
   constructor(
@@ -59,6 +60,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     public change: DashboardNotificationService,
     private sessionService: SessionService,
     private appState: AppStateService,
+    protected readonly m3ThemeService: M3DynamicThemeService,
     deviceState: DeviceStateService,
     accountState: AccountStateService,
   ) {

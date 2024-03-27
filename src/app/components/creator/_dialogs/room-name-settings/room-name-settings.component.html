@@ -1,33 +1,45 @@
-<h2 class="oldtypo-h2">{{ 'session.edit-session-name' | translate }}</h2>
-<div mat-dialog-content
-     *ngIf="editRoom">
+<span matDialogTitle>{{ "session.edit-session-name" | translate }}</span>
+<mat-dialog-content *ngIf="editRoom">
   <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           matInput
-           [formControl]="roomNameFormControl"
-           name="room-name"
-           [maxlength]="roomNameLengthMax"
-           aria-labelledby="room-name">
-    <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+    <input
+      appAccessibilityEscapedInput
+      matInput
+      [formControl]="roomNameFormControl"
+      [placeholder]="'session.session-name' | translate"
+      name="room-name"
+      [maxlength]="roomNameLengthMax"
+      aria-labelledby="room-name" />
     <mat-hint align="end">
-      <span aria-hidden="true">{{ roomNameFormControl.value.length }} / {{roomNameLengthMax}}</span>
+      <span aria-hidden="true">
+        {{ roomNameFormControl.value.length }} / {{ roomNameLengthMax }}
+      </span>
     </mat-hint>
-    <mat-error *ngIf="roomNameFormControl.hasError('required')
-          || roomNameFormControl.hasError('minlength')
-          || roomNameFormControl.hasError('maxlength')">
-      {{ 'room-page.name-length-error' | translate: {min: roomNameLengthMin, max: roomNameLengthMax} }}
+    <mat-error
+      *ngIf="
+        roomNameFormControl.hasError('required') ||
+        roomNameFormControl.hasError('minlength') ||
+        roomNameFormControl.hasError('maxlength')
+      ">
+      {{
+        "room-page.name-length-error"
+          | translate: { min: roomNameLengthMin, max: roomNameLengthMax }
+      }}
     </mat-error>
   </mat-form-field>
-</div>
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'room-page'"
-  [confirmButtonLabel]="'update'"
-  [showDivider]="false"
-  [spacing]="false"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildConfirmDialogActionCallback()"
-></app-dialog-action-buttons>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button
+    mat-button
+    (click)="dialogRef.close()">
+    cancel
+  </button>
+  <button
+    mat-button
+    (click)="save()">
+    save
+  </button>
+</mat-dialog-actions>
 
 <div class="visually-hidden">
-  <div id="room-name">{{ 'room-page.a11y-room-name' | translate }}</div>
+  <div id="room-name">{{ "room-page.a11y-room-name" | translate }}</div>
 </div>

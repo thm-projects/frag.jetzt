@@ -1,69 +1,68 @@
-<div mat-dialog-content>
-  <h2 class="oldtypo-h2"
-      tabindex="0">{{'user-bonus-token.header' | translate }}</h2>
+<span matDialogTitle>{{ "user-bonus-token.header" | translate }}</span>
+<mat-dialog-content>
   <div *ngIf="bonusTokensMixin.length >= 1">
-    <div fxLayout="column"
-         class="tokens"
-         *ngFor="let bonusToken of bonusTokensMixin; let i = index"
-         (click)="navToComment(i)">
-      <h3 class="token"
-          tabindex="1">{{bonusToken.token}}</h3>
-      <h3
-        class="roomName">{{ 'user-bonus-token.roomName-lq' | translate }}{{bonusToken.roomName}}{{ 'user-bonus-token.roomName-rq' | translate }}</h3>
+    <div
+      class="column"
+      *ngFor="let bonusToken of bonusTokensMixin; let i = index"
+      (click)="navToComment(i)">
+      <span tabindex="1">{{ bonusToken.token }}</span>
+      <span class="roomName">
+        {{ "user-bonus-token.roomName-lq" | translate }}{{ bonusToken.roomName
+        }}{{ "user-bonus-token.roomName-rq" | translate }}
+      </span>
     </div>
 
-    <div fxLayout="column">
+    <div class="column">
       <form class="example-form">
-        <mat-form-field *ngIf="rooms.length > 1" class="example-full-width">
-          <mat-label class="placeholder">{{ 'user-bonus-token.choose-session' | translate }}</mat-label>
-          <input type="text"
-                 matInput
-                 [matAutocomplete]="auto">
+        <mat-form-field
+          *ngIf="rooms.length > 1"
+          class="example-full-width">
+          <mat-label class="placeholder">
+            {{ "user-bonus-token.choose-session" | translate }}
+          </mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="auto" />
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let room of rooms"
-                        [value]="room.name"
-                        (onSelectionChange)="setCurrentRoom($event, room)">
-              {{ 'user-bonus-token.roomName-lq' | translate }}{{room.name}}{{ 'user-bonus-token.roomName-rq' | translate }}
+            <mat-option
+              *ngFor="let room of rooms"
+              [value]="room.name"
+              (onSelectionChange)="setCurrentRoom($event, room)">
+              {{ "user-bonus-token.roomName-lq" | translate }}{{ room.name
+              }}{{ "user-bonus-token.roomName-rq" | translate }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <button mat-flat-button
-                class="mailto"
-                (click)="redeemStars(true)">
+        <button
+          mat-flat-button
+          class="mailto"
+          (click)="redeemStars(true)">
           <mat-icon class="material-icons-outlined">email</mat-icon>
-          {{ 'user-bonus-token.redeem-tokens' | translate }}
+          {{ "user-bonus-token.redeem-tokens" | translate }}
         </button>
-        <button mat-flat-button
-                class="copyClipboard"
-                (click)="redeemStars(false)">
+        <button
+          mat-flat-button
+          class="copyClipboard"
+          (click)="redeemStars(false)">
           <mat-icon class="material-icons-outlined">copy</mat-icon>
-          {{ 'user-bonus-token.redeem-tokens-clipboard' | translate }}
+          {{ "user-bonus-token.redeem-tokens-clipboard" | translate }}
         </button>
       </form>
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-    <p class="oldtypo-p"
-       tabindex="0">{{'user-bonus-token.no-bonus' | translate }}</p>
+    <span tabindex="0">{{ "user-bonus-token.no-bonus" | translate }}</span>
   </div>
-</div>
-
-<ars-row ars-flex-box
-         class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ 'explanation.label' | translate}}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      buttonsLabelSection="introduction"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildDeclineActionCallback()">
-    </app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button>
+    {{ "close" }}
+  </button>
+  <button
+    mat-flat-button
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+</mat-dialog-actions>

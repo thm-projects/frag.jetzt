@@ -1,8 +1,8 @@
-<h3>{{ "gptchat-info.title" | translate }}</h3>
+<h2 mat-dialog-title>{{ "gptchat-info.title" | translate }}</h2>
 
 <mat-dialog-content>
   <mat-accordion>
-    <ng-container *ngFor="let message of messageCodesFori18n">
+    @for (message of messageCodesFori18n; track message) {
       <mat-expansion-panel [ngClass]="message.severity">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -11,17 +11,20 @@
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-expansion-panel-content>
-          <app-custom-markdown
-            [data]="
-              message.key + '-description' | translate
-            "></app-custom-markdown>
-        </mat-expansion-panel-content>
+        <!-- TODO: <app-custom-markdown
+          [data]="
+            message.key + '-description' | translate
+          "></app-custom-markdown> -->
       </mat-expansion-panel>
-    </ng-container>
+    }
   </mat-accordion>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gptchat-info'"
-  [cancelButtonClickAction]="onCancel"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "gptchat-info.cancel" | translate }}
+  </button>
+</mat-dialog-actions>

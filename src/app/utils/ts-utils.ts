@@ -34,13 +34,14 @@ type IsNegativeInteger<T extends number> = `${T}` extends `-${string}`
   : never;
 
 type FixedSizeArrayBuilder<
-  T extends any[],
+  T extends K[],
   L extends number,
+  K = unknown,
 > = T['length'] extends L
   ? T
   : T extends (infer R)[]
-  ? FixedSizeArrayBuilder<[R, ...T], L>
-  : never;
+    ? FixedSizeArrayBuilder<[R, ...T], L>
+    : never;
 export type FixedSizeArray<T, L extends number> = L extends
   | 0
   | IsNegativeInteger<L>
@@ -90,10 +91,11 @@ export type MakeUnique<T, K extends string> = T & { readonly __TYPE_NAME__: K };
 export type JSONString = MakeUnique<string, 'JSONString'>;
 export type UUID = MakeUnique<string, 'UUID'>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
-export type IsClass<T> = T extends abstract new (...args: any[]) => any
+export type IsClass<T> = T extends abstract new (...args: unknown[]) => unknown
   ? true
   : false;
 
@@ -108,16 +110,16 @@ export type Replaces<T, K> = Required<T> extends Required<K> ? true : false;
 export type Get<T, K extends string> = Exclude<T, undefined> extends never
   ? undefined
   : K extends keyof Exclude<T, undefined>
-  ? Exclude<T, undefined>[K]
-  : undefined;
+    ? Exclude<T, undefined>[K]
+    : undefined;
 export type GetDefault<Type, Key extends string, Default> = Exclude<
   Type,
   undefined
 > extends never
   ? Default
   : Key extends keyof Exclude<Type, undefined>
-  ? Exclude<Type, undefined>[Key]
-  : Default;
+    ? Exclude<Type, undefined>[Key]
+    : Default;
 
 export type Immutable<T> = IsObject<T> extends true
   ? {
@@ -131,7 +133,7 @@ export type Mutable<T> = IsObject<T> extends true
     }
   : T;
 
-export type GeneralFunction = (...anyArgs: any) => any;
+export type GeneralFunction = (...anyArgs: unknown[]) => unknown;
 
 export type FieldsOf<T> = IsObject<T> extends true
   ? {
@@ -142,14 +144,14 @@ export type FieldsOf<T> = IsObject<T> extends true
 export type Storable<T> = T extends GeneralFunction
   ? never
   : T extends (infer K)[]
-  ? Storable<K>[]
-  : IsObject<T> extends true
-  ? {
-      [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<
-        T[P]
-      >;
-    }
-  : T;
+    ? Storable<K>[]
+    : IsObject<T> extends true
+      ? {
+          [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<
+            T[P]
+          >;
+        }
+      : T;
 
 export const clone = <T>(elem: T): Mutable<T> => {
   if (Array.isArray(elem)) {
@@ -158,7 +160,7 @@ export const clone = <T>(elem: T): Mutable<T> => {
     return Object.keys(elem).reduce((acc, e) => {
       acc[e] = clone(elem[e]);
       return acc;
-    }, {} as any);
+    }, {} as Mutable<T>);
   }
   return elem as Mutable<T>;
 };
@@ -167,7 +169,7 @@ export type TimeoutHelper = Parameters<typeof clearTimeout>[0];
 
 export type CopyClassType<T> = new (parameterObject: object) => T;
 
-export type ClassType<T> = abstract new (...args: any) => T;
+export type ClassType<T> = abstract new (...args: unknown[]) => T;
 
 export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
   if (obj === null) {

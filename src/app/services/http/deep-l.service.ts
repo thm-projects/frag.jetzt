@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
-import {
-  ImmutableStandardDelta,
-  QuillUtils,
-  StandardDelta,
-} from '../../utils/quill-utils';
-import { clone } from '../../utils/ts-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -146,7 +140,7 @@ export class DeepLService extends BaseHttpService {
         // remove emphasis elements after (*_~)
         .replace(/([^*_~\s])[*_~]+/gm, '$1')
         // replace links
-        .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2')
+        .replace(/\[([^\n[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2')
     );
   }
 
@@ -160,61 +154,19 @@ export class DeepLService extends BaseHttpService {
   }
 
   private static decodeHTML(str: string): string {
-    return str
-      // eslint-disable-next-line @typescript-eslint/quotes
-      .replace(/&apos;/g, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&gt;/g, '>')
-      .replace(/&lt;/g, '<')
-      .replace(/&amp;/g, '&');
+    return (
+      str
+        // eslint-disable-next-line @typescript-eslint/quotes
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&gt;/g, '>')
+        .replace(/&lt;/g, '<')
+        .replace(/&amp;/g, '&')
+    );
   }
 
-  improveDelta(
-    body: ImmutableStandardDelta,
-    targetLang: TargetLang,
-    formality: FormalityType,
-  ): Observable<[StandardDelta, string]> {
-    let isMark = false;
-    const skipped = [];
-    const newDelta: StandardDelta = clone(body);
-    const xml = newDelta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] !== 'string') {
-        skipped.push(i);
-        return acc;
-      }
-      const text = DeepLService.encodeHTML(
-        DeepLService.removeMarkdown(e['insert']),
-      );
-      acc += isMark ? '<x>' + text + '</x>' : text;
-      e['insert'] = '';
-      isMark = !isMark;
-      return acc;
-    }, '');
-    return this.improveTextStyle(xml, targetLang, formality).pipe(
-      map((str) => {
-        let index = 0;
-        const nextStr = (textStr: string) => {
-          while (skipped[0] === index) {
-            skipped.splice(0, 1);
-            index++;
-          }
-          if (index >= newDelta.ops.length) {
-            return;
-          }
-          newDelta.ops[index++]['insert'] = DeepLService.decodeHTML(textStr);
-        };
-        const regex = /<x>([^<]*)<\/x>/g;
-        let m;
-        let start = 0;
-        while ((m = regex.exec(str)) !== null) {
-          nextStr(str.substring(start, m.index));
-          nextStr(m[1]);
-          start = m.index + m[0].length;
-        }
-        nextStr(str.substring(start));
-        return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
-      }),
-    );
+  improveDelta(body: string): Observable<[string, string]> {
+    return of([body, body]);
   }
 
   improveTextStyle(
@@ -238,12 +190,18 @@ export class DeepLService extends BaseHttpService {
 
   private checkAPIStatus(): Observable<boolean> {
     const url = '/deepl/usage';
-    return this.http.post<any>(url, '', httpOptions).pipe(
-      tap((_) => ''),
-      timeout(1500),
-      map((obj) => obj.character_count < obj.character_limit),
-      catchError(this.handleError<any>('checkAPIStatus')),
-    );
+    return this.http
+      .post<{ character_count: number; character_limit: number }>(
+        url,
+        '',
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        timeout(1500),
+        map((obj) => obj.character_count < obj.character_limit),
+        catchError(this.handleError<boolean>('checkAPIStatus')),
+      );
   }
 
   private makeXMLTranslateRequest(
@@ -268,9 +226,9 @@ export class DeepLService extends BaseHttpService {
     return (
       this.checkCanSendRequest('makeXMLTranslateRequest') ||
       this.http.post<DeepLResult>(url, data, httpOptions).pipe(
-        tap((_) => ''),
+        tap(() => ''),
         timeout(4500),
-        catchError(this.handleError<any>('makeXMLTranslateRequest')),
+        catchError(this.handleError<DeepLResult>('makeXMLTranslateRequest')),
       )
     );
   }

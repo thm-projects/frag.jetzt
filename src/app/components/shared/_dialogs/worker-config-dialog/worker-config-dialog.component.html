@@ -1,21 +1,32 @@
-<h3>{{'worker-config.heading' | translate}}</h3>
+<h2 mat-dialog-title>{{ "worker-config.heading" | translate }}</h2>
+
 <mat-dialog-content>
-  <label id="worker-config-group-label">{{'worker-config.label' | translate}}</label>
-  <br><br>
-  <mat-radio-group aria-labelledby="worker-config-group-label"
-                   [(ngModel)]="selection">
+  <label id="worker-config-group-label">
+    {{ "worker-config.label" | translate }}
+  </label>
+  <mat-radio-group
+    aria-labelledby="worker-config-group-label"
+    [(ngModel)]="selection">
     <mat-radio-button [value]="'normal'">
-      {{'worker-config.normal' | translate}}
+      {{ "worker-config.normal" | translate }}
     </mat-radio-button>
-    <br>
     <mat-radio-button [value]="'only-failed'">
-      {{'worker-config.only-failed' | translate}}
+      {{ "worker-config.only-failed" | translate }}
     </mat-radio-button>
   </mat-radio-group>
 </mat-dialog-content>
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'worker-config'"
-  [confirmButtonLabel]="'continue'"
-  [confirmButtonClickAction]="buildConfirmAction()"
-  [cancelButtonClickAction]="buildCancelAction()">
-</app-dialog-action-buttons>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "worker-config.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    [mat-dialog-close]="selection">
+    {{ "worker-config.continue" | translate }}
+  </button>
+</mat-dialog-actions>

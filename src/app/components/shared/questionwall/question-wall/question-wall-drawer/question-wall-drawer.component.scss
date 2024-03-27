@@ -1,0 +1,16 @@
+:host {
+  width: 356px;
+  background-color: var(--md-sys-color-surface2);
+  overflow: auto;
+}
+
+.question-wall-drawer-header {
+  height: 56px;
+  position: sticky;
+  background-color: var(--md-sys-color-surface4);
+  top: 0;
+}
+
+.question-wall-drawer-content {
+  height: 0;
+}

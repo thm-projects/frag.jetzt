@@ -1,0 +1,62 @@
+<ng-container>
+  <div class="content-container">
+    <div class="settings-container"></div>
+    <div class="example-container">
+      <h1 matCardTitle>Reference implementation</h1>
+      <p matCardSubtitle>
+        Material 3 components, based on official
+        <a href="https://www.figma.com/community/file/1035203688168086460">
+          Figma - Material Theme Builder
+        </a>
+        and
+        <a href="https://m3.material.io/">m3.material.io</a>
+        .
+        <br />
+        This serves as reference for future feature implementations of
+        <a href="https://www.frag.jetzt">frag.jetzt</a>
+        .
+      </p>
+      <app-component-test-section [title]="'Chip'">
+        <app-component-test-chip></app-component-test-chip>
+      </app-component-test-section>
+      <app-component-test-section [title]="'Buttons'">
+        <app-component-test-button></app-component-test-button>
+      </app-component-test-section>
+      <h1
+        matCardTitle
+        style="margin-top: 64px">
+        Direct conversions
+      </h1>
+      <p matCardSubtitle>
+        Taken from
+        <a href="https://material.angular.io/">material.angular.io</a>
+        .
+        <br />
+        Demonstrates Material 2 component behaviour when Material 3 theme is
+        applied.
+      </p>
+      <app-component-test-section [title]="'Card'">
+        <app-component-test-card></app-component-test-card>
+      </app-component-test-section>
+    </div>
+    <app-markdown-editor
+      [(data)]="markdownSignal"
+      [additionalInfo]="countInfo"></app-markdown-editor>
+    <br />
+    <app-markdown-viewer [data]="markdown"></app-markdown-viewer>
+  </div>
+</ng-container>
+<ng-template
+  #colorIndicator
+  let-color="color">
+  <div
+    [class.mat-elevation-z1]="true"
+    [class.color-indicator]="true"
+    [ngStyle]="{
+      backgroundColor: 'var(--' + color + ')'
+    }"></div>
+</ng-template>
+
+<ng-template #countInfo>
+  <span style="float: right; margin: 0.75em">Count: {{ count() }} / 500</span>
+</ng-template>

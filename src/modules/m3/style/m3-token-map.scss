@@ -1,0 +1,711 @@
+@mixin _map-protected-button($variant: primary) {
+  --mat-protected-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-protected-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-protected-button-container-color: var(--md-sys-color-background);
+  --mdc-protected-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mdc-protected-button-container-shadow-color: var(--md-sys-color-shadow);
+}
+
+@mixin _map-filled-button($variant: primary) {
+  --mdc-filled-button-container-color: var(--md-sys-color-#{$variant});
+  --mdc-filled-button-label-text-color: var(--md-sys-color-on-#{$variant});
+  --mat-filled-button-state-layer-color: var(--md-sys-color-on-#{$variant});
+  --mat-filled-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
+@mixin _map-outlined-button($variant: primary) {
+  --mdc-outlined-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mdc-outlined-button-outline-color: var(--md-sys-color-outline);
+  --mat-outlined-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-outlined-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
+@mixin _map-text-button($variant: primary) {
+  --mdc-text-button-label-text-color: var(--md-sys-color-#{$variant});
+  --mat-text-button-state-layer-color: var(--md-sys-color-#{$variant});
+  --mat-text-button-disabled-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+}
+
+@mixin _map-fab-button($variant: primary) {
+  --mdc-extended-fab-container-shadow-color: var(--md-sys-color-shadow);
+  --mdc-fab-container-color: var(--md-sys-color-#{$variant}-container);
+  --mdc-fab-container-shadow-color: var(--md-sys-color-shadow);
+  --mdc-fab-small-container-color: var(--md-sys-color-#{$variant}-container);
+  --mdc-fab-small-container-shadow-color: var(--md-sys-color-shadow);
+  --mat-fab-foreground-color: var(--md-sys-color-on-#{$variant}-container);
+  --mat-fab-state-layer-color: var(--md-sys-color-on-#{$variant}-container);
+  --mat-fab-small-foreground-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mat-fab-small-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+}
+
+@mixin _map-icon-button($variant: null) {
+  @if $variant != null {
+    --mdc-icon-button-icon-color: var(--md-sys-color-#{$variant});
+    --mat-icon-button-state-layer-color: var(--md-sys-color-#{$variant});
+    --mat-icon-button-disabled-state-layer-color: var(
+      --md-sys-color-on-surface-variant
+    );
+    &.filled {
+      --mdc-icon-button-icon-color: var(--md-sys-color-on-#{$variant});
+
+      &:not(:disabled) {
+        background-color: var(--md-sys-color-#{$variant});
+      }
+
+      --mat-icon-button-state-layer-color: var(--md-sys-color-#{$variant});
+    }
+  } @else {
+    /// TODO(lph) add filled, tonal and outlined here
+    --mdc-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
+    --mat-icon-button-state-layer-color: var(--md-sys-color-on-surface-variant);
+    --mat-icon-button-disabled-state-layer-color: var(
+      --md-sys-color-on-surface-variant
+    );
+  }
+}
+
+@mixin _map-button($variant: primary) {
+  @include _map-protected-button($variant);
+  @include _map-filled-button($variant);
+  @include _map-outlined-button($variant);
+  @include _map-text-button($variant);
+  @include _map-fab-button($variant);
+  @if $variant == primary {
+    @include _map-icon-button();
+    .primary {
+      @include _map-icon-button(primary);
+    }
+  } @else {
+    @include _map-icon-button($variant);
+  }
+}
+
+@mixin _all-map-button() {
+  @include _map-button();
+  .secondary {
+    @include _map-button(secondary);
+  }
+  .tertiary {
+    @include _map-button(tertiary);
+  }
+}
+
+@mixin _map-chips($variant: secondary) {
+  --mdc-chip-outline-color: var(--md-sys-color-outline);
+  --mdc-chip-focus-outline-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-elevated-selected-container-color: var(
+    --md-sys-color-#{$variant}-container
+  );
+  --mdc-chip-focus-state-layer-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-hover-state-layer-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-selected-hover-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-selected-focus-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-label-text-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-selected-label-text-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-with-icon-icon-color: var(--md-sys-color-on-surface-variant);
+  --mdc-chip-with-icon-disabled-icon-color: var(--md-sys-color-on-background);
+  --mdc-chip-with-icon-selected-icon-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-chip-with-trailing-icon-trailing-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-chip-trailing-action-state-layer-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-chip-selected-trailing-action-state-layer-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+  --mat-chip-selected-disabled-trailing-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-chip-selected-trailing-icon-color: var(
+    --md-sys-color-on-#{$variant}-container
+  );
+}
+
+@mixin _all-map-chips() {
+  @include _map-chips();
+  .primary {
+    @include _map-chips(primary);
+  }
+  .tertiary {
+    @include _map-chips(tertiary);
+  }
+}
+
+@mixin _all-map-cards() {
+  --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+  --mdc-outlined-card-container-color: var(--md-sys-color-background);
+  --mdc-outlined-card-outline-color: var(--md-sys-color-surface-variant);
+  //TODO(lph) add color variations for cards
+  .mat-mdc-card.mat-elevation-z0 {
+    --mdc-elevated-card-container-color: var(--md-sys-color-surface);
+    --mdc-elevated-card-container-elevation: 0 0 0 0 transparent;
+  }
+}
+
+@mixin _map-components() {
+  --mat-app-background-color: var(--md-sys-color-background);
+  --mat-app-text-color: var(--md-sys-color-on-background);
+  @include _all-map-button();
+  @include _all-map-chips();
+  --mat-option-selected-state-label-text-color: var(
+    --md-sys-color-on-secondary-container
+  );
+  --mat-option-label-text-color: var(--md-sys-color-on-background);
+  --mat-option-selected-state-layer-color: var(
+    --md-sys-color-secondary-container
+  );
+  --mat-full-pseudo-checkbox-selected-icon-color: var(--md-sys-color-primary);
+  --mat-full-pseudo-checkbox-selected-checkmark-color: var(
+    --md-sys-color-on-primary
+  );
+  --mat-full-pseudo-checkbox-unselected-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-full-pseudo-checkbox-disabled-selected-checkmark-color: var(
+    --md-sys-color-background
+  );
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(
+    --md-sys-color-primary
+  );
+  @include _all-map-cards();
+
+  --mat-card-subtitle-text-color: var(--md-sys-color-on-background);
+  --mdc-linear-progress-active-indicator-color: var(--md-sys-color-primary);
+  --mdc-linear-progress-track-color: var(--md-sys-color-surface-variant);
+  --mdc-plain-tooltip-container-color: var(--md-sys-color-on-background);
+  --mdc-plain-tooltip-supporting-text-color: var(
+    --md-sys-color-inverse-on-surface
+  );
+  --mdc-filled-text-field-caret-color: var(--md-sys-color-primary);
+  --mdc-filled-text-field-focus-active-indicator-color: var(
+    --md-sys-color-primary
+  );
+  --mdc-filled-text-field-focus-label-text-color: var(--md-sys-color-primary);
+  --mdc-filled-text-field-container-color: var(--md-sys-color-surface-variant);
+  --mdc-filled-text-field-label-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-filled-text-field-hover-label-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-filled-text-field-input-text-color: var(--md-sys-color-on-background);
+  --mdc-filled-text-field-input-text-placeholder-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-filled-text-field-error-focus-label-text-color: var(
+    --md-sys-color-error
+  );
+  --mdc-filled-text-field-error-label-text-color: var(--md-sys-color-error);
+  --mdc-filled-text-field-active-indicator-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-filled-text-field-hover-active-indicator-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-filled-text-field-error-active-indicator-color: var(
+    --md-sys-color-error
+  );
+  --mdc-filled-text-field-error-focus-active-indicator-color: var(
+    --md-sys-color-error
+  );
+  --mdc-outlined-text-field-caret-color: var(--md-sys-color-primary);
+  --mdc-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+  --mdc-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
+  --mdc-outlined-text-field-label-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-outlined-text-field-hover-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-outlined-text-field-input-text-color: var(--md-sys-color-on-background);
+  --mdc-outlined-text-field-input-text-placeholder-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-outlined-text-field-error-focus-label-text-color: var(
+    --md-sys-color-error
+  );
+  --mdc-outlined-text-field-error-label-text-color: var(--md-sys-color-error);
+  --mdc-outlined-text-field-outline-color: var(--md-sys-color-outline);
+  --mdc-outlined-text-field-hover-outline-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-outlined-text-field-error-focus-outline-color: var(
+    --md-sys-color-error
+  );
+  --mdc-outlined-text-field-error-outline-color: var(--md-sys-color-error);
+  --mat-form-field-focus-select-arrow-color: var(--md-sys-color-primary);
+  --mat-form-field-state-layer-color: var(--md-sys-color-on-background);
+  --mat-form-field-error-text-color: var(--md-sys-color-error);
+  --mat-form-field-select-option-text-color: var(--md-sys-color-background);
+  --mat-form-field-leading-icon-color: var(--md-sys-color-on-surface-variant);
+  --mat-form-field-trailing-icon-color: var(--md-sys-color-on-surface-variant);
+  --mat-form-field-error-focus-trailing-icon-color: var(--md-sys-color-error);
+  --mat-form-field-error-trailing-icon-color: var(--md-sys-color-error);
+  --mat-form-field-enabled-select-arrow-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-select-enabled-trigger-text-color: var(--md-sys-color-on-background);
+  --mat-select-placeholder-text-color: var(--md-sys-color-on-surface-variant);
+  --mat-select-enabled-arrow-color: var(--md-sys-color-on-surface-variant);
+  --mat-select-focused-arrow-color: var(--md-sys-color-primary);
+  --mat-select-invalid-arrow-color: var(--md-sys-color-error);
+  --mdc-dialog-container-color: var(--md-sys-color-background);
+  --mdc-dialog-subhead-color: var(--md-sys-color-on-background);
+  --mdc-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
+  --mdc-form-field-label-text-color: var(--md-sys-color-on-background);
+  --mdc-switch-selected-focus-state-layer-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-handle-color: var(--md-sys-color-on-primary);
+  --mdc-switch-selected-hover-state-layer-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-pressed-state-layer-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-focus-handle-color: var(
+    --md-sys-color-primary-container
+  );
+  --mdc-switch-selected-hover-handle-color: var(
+    --md-sys-color-primary-container
+  );
+  --mdc-switch-selected-pressed-handle-color: var(
+    --md-sys-color-primary-container
+  );
+  --mdc-switch-selected-focus-track-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-hover-track-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-pressed-track-color: var(--md-sys-color-primary);
+  --mdc-switch-selected-track-color: var(--md-sys-color-primary);
+  --mdc-switch-disabled-selected-handle-color: var(--md-sys-color-background);
+  --mdc-switch-disabled-selected-icon-color: var(--md-sys-color-on-background);
+  --mdc-switch-disabled-selected-track-color: var(--md-sys-color-on-background);
+  --mdc-switch-disabled-unselected-handle-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-switch-disabled-unselected-icon-color: var(
+    --md-sys-color-surface-variant
+  );
+  --mdc-switch-disabled-unselected-track-color: var(
+    --md-sys-color-surface-variant
+  );
+  --mdc-switch-selected-icon-color: var(--md-sys-color-on-primary-container);
+  --mdc-switch-unselected-focus-handle-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-switch-unselected-focus-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-switch-unselected-focus-track-color: var(
+    --md-sys-color-surface-variant
+  );
+  --mdc-switch-unselected-handle-color: var(--md-sys-color-outline);
+  --mdc-switch-unselected-hover-handle-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-switch-unselected-hover-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-switch-unselected-hover-track-color: var(
+    --md-sys-color-surface-variant
+  );
+  --mdc-switch-unselected-icon-color: var(--md-sys-color-surface-variant);
+  --mdc-switch-unselected-pressed-handle-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-switch-unselected-pressed-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-switch-unselected-pressed-track-color: var(
+    --md-sys-color-surface-variant
+  );
+  --mdc-switch-unselected-track-color: var(--md-sys-color-surface-variant);
+  --mat-switch-track-outline-color: var(--md-sys-color-outline);
+  --mat-switch-disabled-unselected-track-outline-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-radio-disabled-selected-icon-color: var(--md-sys-color-on-background);
+  --mdc-radio-disabled-unselected-icon-color: var(--md-sys-color-on-background);
+  --mdc-radio-unselected-hover-icon-color: var(--md-sys-color-on-background);
+  --mdc-radio-unselected-icon-color: var(--md-sys-color-on-surface-variant);
+  --mdc-radio-unselected-pressed-icon-color: var(--md-sys-color-on-background);
+  --mdc-radio-selected-focus-icon-color: var(--md-sys-color-primary);
+  --mdc-radio-selected-hover-icon-color: var(--md-sys-color-primary);
+  --mdc-radio-selected-icon-color: var(--md-sys-color-primary);
+  --mdc-radio-selected-pressed-icon-color: var(--md-sys-color-primary);
+  --mat-radio-ripple-color: var(--md-sys-color-on-background);
+  --mat-radio-checked-ripple-color: var(--md-sys-color-primary);
+  --mdc-slider-handle-color: var(--md-sys-color-primary);
+  --mdc-slider-focus-handle-color: var(--md-sys-color-primary);
+  --mdc-slider-hover-handle-color: var(--md-sys-color-primary);
+  --mdc-slider-active-track-color: var(--md-sys-color-primary);
+  --mdc-slider-inactive-track-color: var(--md-sys-color-surface-variant);
+  --mdc-slider-with-tick-marks-inactive-container-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-slider-with-tick-marks-active-container-color: var(
+    --md-sys-color-on-primary
+  );
+  --mdc-slider-disabled-active-track-color: var(--md-sys-color-on-background);
+  --mdc-slider-disabled-handle-color: var(--md-sys-color-on-background);
+  --mdc-slider-disabled-inactive-track-color: var(--md-sys-color-on-background);
+  --mdc-slider-label-container-color: var(--md-sys-color-primary);
+  --mdc-slider-label-label-text-color: var(--md-sys-color-on-primary);
+  --mdc-slider-with-overlap-handle-outline-color: var(
+    --md-sys-color-on-primary
+  );
+  --mdc-slider-with-tick-marks-disabled-container-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-slider-handle-shadow-color: var(--md-sys-color-shadow);
+  --mat-slider-ripple-color: var(--md-sys-color-primary);
+  --mat-menu-item-label-text-color: var(--md-sys-color-on-background);
+  --mat-menu-item-icon-color: var(--md-sys-color-on-surface-variant);
+  --mat-menu-divider-color: var(--md-sys-color-surface-variant);
+  --mdc-list-list-item-leading-avatar-color: var(
+    --md-sys-color-primary-container
+  );
+  --mdc-list-list-item-disabled-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-label-text-color: var(--md-sys-color-on-background);
+  --mdc-list-list-item-supporting-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-list-list-item-leading-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-list-list-item-trailing-supporting-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-list-list-item-trailing-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mdc-list-list-item-selected-trailing-icon-color: var(
+    --md-sys-color-primary
+  );
+  --mdc-list-list-item-disabled-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-disabled-leading-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-disabled-trailing-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-hover-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-focus-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-hover-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-list-list-item-focus-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-list-active-indicator-color: var(--md-sys-color-secondary-container);
+  --mat-paginator-container-text-color: var(--md-sys-color-on-background);
+  --mat-paginator-container-background-color: var(--md-sys-color-background);
+  --mat-paginator-enabled-icon-color: var(--md-sys-color-on-surface-variant);
+  --mdc-tab-indicator-active-indicator-color: var(--md-sys-color-primary);
+  --mat-tab-header-divider-color: var(--md-sys-color-surface-variant);
+  --mat-tab-header-pagination-icon-color: var(--md-sys-color-on-background);
+  --mat-tab-header-inactive-label-text-color: var(--md-sys-color-on-background);
+  --mat-tab-header-active-label-text-color: var(--md-sys-color-on-background);
+  --mat-tab-header-active-ripple-color: var(--md-sys-color-on-background);
+  --mat-tab-header-inactive-ripple-color: var(--md-sys-color-on-background);
+  --mat-tab-header-inactive-focus-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-tab-header-inactive-hover-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-tab-header-active-focus-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-tab-header-active-hover-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-tab-header-active-focus-indicator-color: var(--md-sys-color-primary);
+  --mat-tab-header-active-hover-indicator-color: var(--md-sys-color-primary);
+  --mdc-checkbox-disabled-selected-checkmark-color: var(
+    --md-sys-color-background
+  );
+  --mdc-checkbox-selected-checkmark-color: var(--md-sys-color-on-primary);
+  --mdc-checkbox-selected-focus-icon-color: var(--md-sys-color-primary);
+  --mdc-checkbox-selected-hover-icon-color: var(--md-sys-color-primary);
+  --mdc-checkbox-selected-icon-color: var(--md-sys-color-primary);
+  --mdc-checkbox-selected-pressed-icon-color: var(--md-sys-color-primary);
+  --mdc-checkbox-unselected-focus-icon-color: var(--md-sys-color-on-background);
+  --mdc-checkbox-unselected-hover-icon-color: var(--md-sys-color-on-background);
+  --mdc-checkbox-unselected-icon-color: var(--md-sys-color-on-surface-variant);
+  --mdc-checkbox-unselected-pressed-icon-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-checkbox-selected-focus-state-layer-color: var(--md-sys-color-primary);
+  --mdc-checkbox-selected-hover-state-layer-color: var(--md-sys-color-primary);
+  --mdc-checkbox-selected-pressed-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-checkbox-unselected-focus-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-checkbox-unselected-hover-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mdc-checkbox-unselected-pressed-state-layer-color: var(
+    --md-sys-color-primary
+  );
+  --mdc-snackbar-container-color: var(--md-sys-color-on-background);
+  --mdc-snackbar-supporting-text-color: var(--md-sys-color-inverse-on-surface);
+  --mat-snack-bar-button-color: var(--md-sys-color-inverse-primary);
+  --mat-table-background-color: var(--md-sys-color-background);
+  --mat-table-header-headline-color: var(--md-sys-color-on-background);
+  --mat-table-row-item-label-text-color: var(--md-sys-color-on-background);
+  --mat-table-row-item-outline-color: var(--md-sys-color-surface-variant);
+  --mdc-circular-progress-active-indicator-color: var(--md-sys-color-primary);
+  --mat-badge-background-color: var(--md-sys-color-error);
+  --mat-badge-text-color: var(--md-sys-color-on-error);
+  --mat-badge-disabled-state-text-color: var(--md-sys-color-on-error);
+  --mat-bottom-sheet-container-text-color: var(--md-sys-color-on-background);
+  --mat-bottom-sheet-container-background-color: var(--md-sys-color-background);
+  --mat-standard-button-toggle-text-color: var(--md-sys-color-on-background);
+  --mat-standard-button-toggle-state-layer-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-standard-button-toggle-selected-state-background-color: var(
+    --md-sys-color-secondary-container
+  );
+  --mat-standard-button-toggle-selected-state-text-color: var(
+    --md-sys-color-on-secondary-container
+  );
+  --mat-standard-button-toggle-divider-color: var(--md-sys-color-outline);
+  --mat-datepicker-calendar-date-selected-state-text-color: var(
+    --md-sys-color-on-primary
+  );
+  --mat-datepicker-calendar-date-selected-state-background-color: var(
+    --md-sys-color-primary
+  );
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: var(
+    --md-sys-color-primary
+  );
+  --mat-datepicker-toggle-active-state-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-datepicker-calendar-date-in-range-state-background-color: var(
+    --md-sys-color-primary-container
+  );
+  --mat-datepicker-calendar-date-in-comparison-range-state-background-color: var(
+    --md-sys-color-primary-container
+  );
+  --mat-datepicker-calendar-date-in-overlap-range-state-background-color: var(
+    --md-sys-color-secondary-container
+  );
+  --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color: var(
+    --md-sys-color-secondary
+  );
+  --mat-datepicker-toggle-icon-color: var(--md-sys-color-on-surface-variant);
+  --mat-datepicker-calendar-body-label-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-datepicker-calendar-period-button-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-datepicker-calendar-period-button-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-datepicker-calendar-navigation-button-icon-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-datepicker-calendar-header-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-datepicker-calendar-date-today-outline-color: var(
+    --md-sys-color-primary
+  );
+  --mat-datepicker-calendar-date-text-color: var(--md-sys-color-on-background);
+  --mat-datepicker-calendar-date-preview-state-outline-color: var(
+    --md-sys-color-primary
+  );
+  --mat-datepicker-range-input-separator-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-datepicker-calendar-container-text-color: var(
+    --md-sys-color-on-background
+  );
+  --mat-divider-color: var(--md-sys-color-surface-variant);
+  --mat-expansion-container-background-color: var(--surface1);
+  --mat-expansion-container-text-color: var(--md-sys-color-on-background);
+  --mat-expansion-actions-divider-color: var(--md-sys-color-surface-variant);
+  --mat-expansion-header-text-color: var(--md-sys-color-on-background);
+  --mat-expansion-header-description-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-expansion-header-indicator-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-sidenav-container-background-color: var(--md-sys-color-background);
+  --mat-sidenav-container-text-color: var(--md-sys-color-on-surface-variant);
+  --mat-sidenav-content-background-color: var(--md-sys-color-background);
+  --mat-sidenav-content-text-color: var(--md-sys-color-on-background);
+  --mat-stepper-header-icon-foreground-color: var(--md-sys-color-background);
+  --mat-stepper-header-selected-state-icon-background-color: var(
+    --md-sys-color-primary
+  );
+  --mat-stepper-header-selected-state-icon-foreground-color: var(
+    --md-sys-color-on-primary
+  );
+  --mat-stepper-header-edit-state-icon-background-color: var(
+    --md-sys-color-primary
+  );
+  --mat-stepper-header-edit-state-icon-foreground-color: var(
+    --md-sys-color-on-primary
+  );
+  --mat-stepper-container-color: var(--md-sys-color-background);
+  --mat-stepper-line-color: var(--md-sys-color-surface-variant);
+  --mat-stepper-header-label-text-color: var(--md-sys-color-on-surface-variant);
+  --mat-stepper-header-optional-label-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-stepper-header-selected-state-label-text-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-stepper-header-error-state-label-text-color: var(--md-sys-color-error);
+  --mat-stepper-header-icon-background-color: var(
+    --md-sys-color-on-surface-variant
+  );
+  --mat-stepper-header-error-state-icon-foreground-color: var(
+    --md-sys-color-error
+  );
+  --mat-sort-arrow-color: var(--md-sys-color-on-background);
+  --mat-toolbar-container-background-color: var(--md-sys-color-background);
+  --mat-toolbar-container-text-color: var(--md-sys-color-on-background);
+  --mat-tree-container-background-color: var(--md-sys-color-background);
+  --mat-tree-node-text-color: var(--md-sys-color-on-background);
+  --mat-menu-container-color: var(--md-sys-color-surface-variant);
+}
+
+@mixin _map-palettes-dark() {
+  --md-sys-color-on-error-container: var(--md-ref-palette-error80);
+  --md-sys-color-on-error: var(--md-ref-palette-error20);
+  --md-sys-color-error-container: var(--md-ref-palette-error30);
+  --md-sys-color-on-tertiary-container: var(--md-ref-palette-tertiary90);
+  --md-sys-color-on-tertiary: var(--md-ref-palette-tertiary20);
+  --md-sys-color-tertiary-container: var(--md-ref-palette-tertiary30);
+  --md-sys-color-tertiary: var(--md-ref-palette-tertiary80);
+  --md-sys-color-shadow: var(--md-ref-palette-neutral0);
+  --md-sys-color-error: var(--md-ref-palette-error80);
+  --md-sys-color-outline: var(--md-ref-palette-neutral-variant60);
+  --md-sys-color-on-background: var(--md-ref-palette-neutral90);
+  --md-sys-color-background: var(--md-ref-palette-neutral10);
+  --md-sys-color-inverse-on-surface: var(--md-ref-palette-neutral20);
+  --md-sys-color-inverse-surface: var(--md-ref-palette-neutral90);
+  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant80);
+  --md-sys-color-on-surface: var(--md-ref-palette-neutral90);
+  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant30);
+  --md-sys-color-surface: var(--md-ref-palette-neutral10);
+  --md-sys-color-on-secondary-container: var(--md-ref-palette-secondary90);
+  --md-sys-color-on-secondary: var(--md-ref-palette-secondary20);
+  --md-sys-color-secondary-container: var(--md-ref-palette-secondary30);
+  --md-sys-color-secondary: var(--md-ref-palette-secondary80);
+  --md-sys-color-inverse-primary: var(--md-ref-palette-primary40);
+  --md-sys-color-on-primary-container: var(--md-ref-palette-primary90);
+  --md-sys-color-on-primary: var(--md-ref-palette-primary20);
+  --md-sys-color-primary-container: var(--md-ref-palette-primary30);
+  --md-sys-color-primary: var(--md-ref-palette-primary80);
+  --md-sys-color-surface1: var(--md-ref-palette-neutral4);
+  --md-sys-color-surface2: var(--md-ref-palette-neutral10);
+  --md-sys-color-surface3: var(--md-ref-palette-neutral12);
+  --md-sys-color-surface4: var(--md-ref-palette-neutral17);
+  --md-sys-color-surface5: var(--md-ref-palette-neutral22);
+}
+
+@mixin _map-palettes-light() {
+  --md-sys-color-on-error-container: var(--md-ref-palette-error10);
+  --md-sys-color-on-error: var(--md-ref-palette-error100);
+  --md-sys-color-error-container: var(--md-ref-palette-error90);
+  --md-sys-color-on-tertiary-container: var(--md-ref-palette-tertiary10);
+  --md-sys-color-on-tertiary: var(--md-ref-palette-tertiary100);
+  --md-sys-color-tertiary-container: var(--md-ref-palette-tertiary90);
+  --md-sys-color-tertiary: var(--md-ref-palette-tertiary40);
+  --md-sys-color-shadow: var(--md-ref-palette-neutral0);
+  --md-sys-color-error: var(--md-ref-palette-error40);
+  --md-sys-color-outline: var(--md-ref-palette-neutral-variant50);
+  --md-sys-color-on-background: var(--md-ref-palette-neutral10);
+  --md-sys-color-background: var(--md-ref-palette-neutral99);
+  --md-sys-color-inverse-on-surface: var(--md-ref-palette-neutral95);
+  --md-sys-color-inverse-surface: var(--md-ref-palette-neutral20);
+  --md-sys-color-on-surface-variant: var(--md-ref-palette-neutral-variant30);
+  --md-sys-color-on-surface: var(--md-ref-palette-neutral10);
+  --md-sys-color-surface-variant: var(--md-ref-palette-neutral-variant90);
+  --md-sys-color-surface: var(--md-ref-palette-neutral99);
+  --md-sys-color-on-secondary-container: var(--md-ref-palette-secondary10);
+  --md-sys-color-on-secondary: var(--md-ref-palette-secondary100);
+  --md-sys-color-secondary-container: var(--md-ref-palette-secondary90);
+  --md-sys-color-secondary: var(--md-ref-palette-secondary40);
+  --md-sys-color-inverse-primary: var(--md-ref-palette-primary80);
+  --md-sys-color-on-primary-container: var(--md-ref-palette-primary10);
+  --md-sys-color-on-primary: var(--md-ref-palette-primary100);
+  --md-sys-color-primary-container: var(--md-ref-palette-primary90);
+  --md-sys-color-primary: var(--md-ref-palette-primary40);
+  --md-sys-color-surface1: var(--md-ref-palette-neutral100);
+  --md-sys-color-surface2: var(--md-ref-palette-neutral96);
+  --md-sys-color-surface3: var(--md-ref-palette-neutral94);
+  --md-sys-color-surface4: var(--md-ref-palette-neutral92);
+  --md-sys-color-surface5: var(--md-ref-palette-neutral90);
+}
+
+/// TODO(lph) find a better solution for fonts
+@mixin _typescale() {
+  --md-sys-typescale-label-medium-font-family-name: "Roboto Flex";
+  --md-sys-typescale-label-medium-font-family-style: Medium;
+  --md-sys-typescale-label-medium-font-weight: 500px;
+  --md-sys-typescale-label-medium-font-size: 12px;
+  --md-sys-typescale-label-medium-line-height: 16px;
+  --md-sys-typescale-label-medium-letter-spacing: 0.5px;
+}
+
+@mixin _make-components-dynamic-light() {
+  @include _map-palettes-light();
+  @include _map-components();
+}
+
+@mixin _make-components-dynamic-dark() {
+  @include _map-palettes-dark();
+  @include _map-components();
+}
+
+@mixin make-components-dynamic($theme-type) {
+  @include _typescale();
+  @if $theme-type == dark {
+    @include _make-components-dynamic-dark();
+  } @else if $theme-type == light {
+    @include _make-components-dynamic-light();
+  }
+  --md-sys-color-surface-tint: var(--md-sys-color-primary);
+  --md-sys-color-surface-tint-color: var(--md-sys-color-primary);
+  --md-sys-color-surface-container-lowest: var(--md-sys-color-surface1);
+  --md-sys-color-surface-container-low: var(--md-sys-color-surface2);
+  --md-sys-color-surface-container: var(--md-sys-color-surface3);
+  --md-sys-color-surface-container-high: var(--md-sys-color-surface4);
+  --md-sys-color-surface-container-highest: var(--md-sys-color-surface5);
+}

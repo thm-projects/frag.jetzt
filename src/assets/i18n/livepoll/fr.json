@@ -1,62 +1,111 @@
 {
   "common": {
-    "live": "",
-    "option-archive": "",
-    "archive-noname": "Sondage",
-    "archive-finished": "Terminé",
-    "create-dialog-title": "Créer un sondage express",
-    "dialog-title": "Sondage Express",
-    "option-select-title": "Ta question...",
-    "dialog-preview-title": "Aperçu du point de vue du participant:",
-    "create": "Lancer le sondage",
-    "participants": "Participants dans la salle",
-    "user": "Participants actifs au sondage en direct",
-    "close": "Fermer",
-    "cancel": "Annuler",
-    "save": "Envoyer les changements à tous",
-    "new": "Nouveau sondage",
-    "vote-make": "Ton vote a été compté.",
-    "vote-delete": "Ton vote a été réinitialisé.",
-    "peerInstruction-end": "Terminer le sondage",
-    "peerInstruction-start-phase-2": "Démarrer 2ème tour du sondage",
-    "peerInstruction-comparison-results-1": "Premier sondage",
-    "peerInstruction-comparison-results-2": "Deuxième sondage",
-    "peerInstruction-comparison-title": "Résultat",
-    "peerInstruction-button": "",
-    "peerInstruction-phase-2-marker": "",
-    "peerInstruction-title-1": "2ème tour du sondage",
-    "peerInstruction-title-2": "2ème tour du sondage",
-    "peerInstruction-description-phase-1": "En démarrant le 2ème tour, tu peux observer l'évolution des opinions du groupe. Ce tour permet de comparer les réponses collectives avec celles du premier tour.",
-    "peerInstruction-description-phase-2": "Tu peux terminer le sondage en direct. La comparaison des sondages sera affichée dans un dialogue.",
-    "dialog-confirm-peerInstruction-show1stStageResults-description": "Es-tu sûr de vouloir terminer le sondage actuel et commencer le 2ème tour?",
-    "dialog-confirm-peerInstruction-show1stStageResults-title": "Commencer 2ème tour du sondage",
-    "dialog-confirm-create-new-description": "Veux-tu vraiment terminer ce sondage et en commencer un nouveau?",
-    "dialog-confirm-create-new-title": "Nouveau sondage",
-    "dialog-confirm-delete-description": "Es-tu sûr de vouloir terminer le sondage? Les résultats resteront visibles, mais seront supprimés en quittant.",
-    "dialog-confirm-delete-title": "Terminer le sondage",
-    "dialog-confirm-resetResults-description": "Veux-tu vraiment réinitialiser le sondage?",
-    "dialog-confirm-resetResults-title": "Réinitialiser le sondage",
-    "votes": "Votes:",
-    "confirm-yes": "Oui",
-    "confirm-cancel": "Annuler",
-    "confirm-accept": "Oui",
-    "confirm-continue": "Continuer",
-    "confirm-no": "Non",
-    "creator-settings": "Options en direct …",
-    "creator-settings-icon": "flash_on",
-    "creator-settings-delete": "",
-    "creator-settings-pause": "",
-    "creator-settings-continue": "Continuer",
-    "creator-settings-open-editor": "Éditeur",
-    "settings-resetResults": "Reset",
+    "title": "Sondage Express",
+    "create": {
+      "title": "Créer un sondage express",
+      "select-template": {
+        "label": "Choisir un modèle…"
+      }
+    },
+    "peer-instruction": {
+      "second-round": "2ème tour du sondage",
+      "name": "$undefined",
+      "result-statistics": {
+        "title": "Résultat",
+        "result-1": "Premier sondage",
+        "result-2": "Deuxième sondage",
+        "start-next": "Démarrer 2ème tour du sondage",
+        "end": "$undefined"
+      }
+    },
+    "edit": {
+      "view-as-participant": "Aperçu du point de vue du participant:",
+      "reset": "Reset",
+      "pause": "$undefined",
+      "delete": "$undefined",
+      "continue": "Continuer",
+      "close": "Fermer",
+      "new": "Nouveau sondage",
+      "cancel": "Annuler",
+      "start": "Lancer le sondage"
+    },
+    "settings": {
+      "name": "Options en direct…",
+      "option": {
+        "result-visibility": {
+          "text": "Vote visible en directe",
+          "tooltip": "Afficher les votes en temps réel pour tous les participants"
+        },
+        "user-count-visibility": {
+          "text": "Participation visible en direct",
+          "tooltip": "Afficher la participation en temps réel pour tous les participants"
+        },
+        "question": {
+          "label": "Ta question…"
+        },
+        "editor": "Éditeur",
+        "save": "Envoyer les changements à tous"
+      }
+    },
+    "statistics": {
+      "active-user-count": {
+        "tooltip": "Participants actifs au sondage en direct"
+      },
+      "room-user-count": {
+        "tooltip": "Participants dans la salle"
+      },
+      "vote-count": {
+        "text": "Votes:"
+      }
+    },
+    "confirmation-dialog": {
+      "common": {
+        "yes": "Oui",
+        "cancel": "Annuler",
+        "accept": "Oui",
+        "continue": "Continuer",
+        "no": "Non"
+      },
+      "entries": {
+        "new": {
+          "title": "Nouveau sondage",
+          "description": "Veux-tu vraiment terminer ce sondage et en commencer un nouveau?"
+        },
+        "delete": {
+          "title": "Terminer le sondage",
+          "description": "Es-tu sûr de vouloir terminer le sondage? Les résultats resteront visibles, mais seront supprimés en quittant."
+        },
+        "reset": {
+          "title": "Réinitialiser le sondage",
+          "description": "Veux-tu vraiment réinitialiser le sondage?"
+        },
+        "change-peer-instruction-stage": {
+          "title": "Démarrer 2ème tour du sondage",
+          "description": "Es-tu sûr de vouloir terminer le sondage actuel et commencer le 2ème tour?"
+        },
+        "create-peer-instruction": {
+          "title": "2ème tour du sondage",
+          "description": "En démarrant le 2ème tour, tu peux observer l'évolution des opinions du groupe. Ce tour permet de comparer les réponses collectives avec celles du premier tour."
+        },
+        "change-peer-instruction-stage-2": {
+          "title": "2ème tour du sondage",
+          "description": "Tu peux terminer le sondage en direct. La comparaison des sondages sera affichée dans un dialogue."
+        }
+      }
+    },
+    "snack-bar": {
+      "vote": {
+        "make": "Ton vote a été compté.",
+        "delete": "Ton vote a été réinitialisé."
+      }
+    },
+    "misc": {
+      "live": "LIVE",
+      "paused": "PAUSED"
+    },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
     "template-name-symbol": "Humeur",
-    "option-select-result-visibility": "Vote visible en directe",
-    "tooltip-option-select-result-visibility": "Afficher les votes en temps réel pour tous les participants",
-    "option-select-views-visibility": "Participation visible en direct",
-    "tooltip-option-select-views-visibility": "Afficher la participation en temps réel pour tous les participants",
-    "option-select-template": "Choisir un modèle …",
     "template-name-agree-multi": "Accord",
     "option-agree-multi": [
       "Je suis tout à fait d'accord",
@@ -108,19 +157,12 @@
     ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
-      "multiplechoice": "AB …",
+      "multiplechoice": "AB…",
       "likertscale": "Évaluation",
       "mood": "Emojis",
       "custom": "Personnalisé",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    }
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation"
   }
 }

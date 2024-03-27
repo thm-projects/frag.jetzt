@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
@@ -101,11 +101,11 @@
         (mousedown)="stopper.next(true)">
         {{ "gpt-chat.interrupt" | translate }}
       </button>
-      <div
+      <!-- TODO: <div
         [data]="formatText(item)"
         markdown
         emoji
-        katex></div>
+        katex></div> -->
 
       <button
         mat-icon-button
@@ -165,13 +165,15 @@
       </ng-container>
     </div>
 
-    <app-view-comment-data
+    <!-- TODO: <app-view-comment-data
       *ngIf="!answeringWriteComment || conversation.length > 0"
       [onEnter]="enterEvent"
       [currentData]="initDelta"
-      [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
+      [textOverwrite]="'gpt-chat.token-info' | translate: tokenInfo"
       (changeContent)="calculateTokens(getCurrentText())"
-      [isModerator]="(sessionService.currentRole || 0) > 0"
+      [isModerator]="
+        (roomState.getCurrentAssignedRole() || 'Participant') !== 'Participant'
+      "
       [isBrainstorming]="false"
       [isEditor]="true"
       [maxTextCharacters]="1000"
@@ -181,7 +183,7 @@
       [disableEmoji]="true"
       [placeHolderText]="
         'gpt-chat.enter-conversation-text' | translate
-      "></app-view-comment-data>
+      "></app-view-comment-data> -->
 
     <div
       *ngIf="answeringWriteComment && conversation.length < 1"
@@ -193,7 +195,7 @@
           <span>
             {{
               "gpt-chat.context-" + context.name
-                | translate : { value: context.value.text }
+                | translate: { value: context.value.text }
             }}
           </span>
         </div>
@@ -204,41 +206,52 @@
           "
           class="gpt-gap-text">
           <ng-container *ngFor="let part of splitIntoParts(context) | async">
-            <span *ngIf="part.type === 'span'">
-              {{ part.text }}
-            </span>
-            <mat-form-field *ngIf="part.type === 'select'">
-              <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
-              <mat-select
-                [panelClass]="'gpt-chat-room-select'"
-                [(ngModel)]="context.selected"
-                [required]="!context.allowNone">
-                <mat-option
-                  *ngIf="context.allowNone"
-                  [value]="''">
-                  <em>{{ "gpt-chat.none" | translate }}</em>
-                </mat-option>
-                <mat-option
-                  *ngFor="let option of context.value"
-                  [value]="option.key">
-                  {{ option.text }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-icon
-              *ngIf="part.type === 'select' && context.selected && context.access?.[context.selected]?.hover as text"
-              class="material-icons-outlined"
-              [matTooltip]="text">
-              info
-            </mat-icon>
-            <mat-icon
-              *ngIf="part.type === 'select' && !context.selected"
-              [matTooltip]="'gpt-chat.selection-none' | translate">
-              help_outline
-            </mat-icon>
-            <app-view-comment-data
-              *ngIf="part.type === 'quill'"
-              [currentData]="context.value"></app-view-comment-data>
+            @switch (part.type) {
+              @case ("span") {
+                <span>{{ part.text }}</span>
+              }
+              @case ("select") {
+                <mat-form-field>
+                  <mat-label>
+                    {{ "gpt-chat.your-choice" | translate }}
+                  </mat-label>
+                  <mat-select
+                    [panelClass]="'gpt-chat-room-select'"
+                    [(ngModel)]="context.selected"
+                    [required]="!context.allowNone">
+                    <mat-option
+                      *ngIf="context.allowNone"
+                      [value]="''">
+                      <em>{{ "gpt-chat.none" | translate }}</em>
+                    </mat-option>
+                    <mat-option
+                      *ngFor="let option of getAsSelectArray(context)"
+                      [value]="option.key">
+                      {{ option.text }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                @if (
+                  context.selected && context.access?.[context.selected]?.hover;
+                  as text
+                ) {
+                  <mat-icon
+                    class="material-icons-outlined"
+                    [matTooltip]="text">
+                    info
+                  </mat-icon>
+                } @else if (!context.selected) {
+                  <mat-icon
+                    [matTooltip]="'gpt-chat.selection-none' | translate">
+                    help_outline
+                  </mat-icon>
+                }
+              }
+              @case ("quill") {
+                <!-- TODO: <app-view-comment-data
+                  [currentData]="getAsQuill(context)"></app-view-comment-data> -->
+              }
+            }
           </ng-container>
         </div>
       </ng-container>
@@ -340,11 +353,10 @@
     <button
       class="start_introduction"
       mat-fab
-      mat-icon-button
       (click)="showPromptGuide()"
       matTooltip="{{ 'introductions.tooltip-button' | translate }}"
       [matTooltipPosition]="'above'">
-      <mat-icon>question_mark</mat-icon>
+      <button mat-icon-button><mat-icon>question_mark</mat-icon></button>
     </button>
   </div>
 </mat-card>
@@ -352,8 +364,8 @@
 <ng-template #loading>
   <app-mat-spinner-overlay
     color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
+    [diameter]="40"
+    [strokeWidth]="5"></app-mat-spinner-overlay>
 </ng-template>
 
 <mat-menu

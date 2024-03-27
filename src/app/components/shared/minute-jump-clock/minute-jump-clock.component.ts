@@ -11,6 +11,7 @@ import { HeaderService } from '../../../services/util/header.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { TimeoutHelper } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-minute-jump-clock',
@@ -42,7 +43,7 @@ export class MinuteJumpClockComponent
   @ViewChild('clock')
   svgClock: ElementRef<HTMLElement>;
   visible: boolean = false;
-  private _timer: any = 0;
+  private _timer: TimeoutHelper = 0;
   private _initialized = false;
   private _destroyer = new Subject();
   private _matcher: MediaQueryList;
@@ -83,7 +84,7 @@ export class MinuteJumpClockComponent
 
   calculateArc(): [string, string] {
     if (this.arcEnd === null) {
-      return;
+      return null;
     }
     const radius = 210;
     let startAngle;

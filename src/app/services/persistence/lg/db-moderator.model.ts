@@ -1,4 +1,5 @@
 import { FieldsOf } from 'app/utils/ts-utils';
+import { DbStore, ValidKey } from './lg-persist.schema.types';
 
 export class Moderator {
   roomId: string;
@@ -14,12 +15,12 @@ export const MODERATOR_SCHEMA = {
   type: Moderator,
   since: 3,
   options: {
-    keyPath: ['roomId', 'accountId'] as const, // satisfies ValidKey<Moderator>,
+    keyPath: ['roomId', 'accountId'] as const satisfies ValidKey<Moderator>,
   },
   indexes: {
     'room-id': {
       since: 3,
-      keyPath: 'roomId', // satisfies ValidKey<Moderator>,
+      keyPath: 'roomId' satisfies ValidKey<Moderator>,
     },
   },
-} as const; // satisfies DbStore<Moderator>;
+} as const satisfies DbStore<Moderator>;

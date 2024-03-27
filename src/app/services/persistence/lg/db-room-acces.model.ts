@@ -1,4 +1,5 @@
 import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
+import { DbStore, ValidKey } from './lg-persist.schema.types';
 
 export const ROOM_ROLE_ORDER = ['Participant', 'Moderator', 'Creator'] as const;
 export type RoomAccessRole = (typeof ROOM_ROLE_ORDER)[number];
@@ -29,12 +30,12 @@ export const ROOM_ACCESS_SCHEMA = {
   type: RoomAccess,
   since: 3,
   options: {
-    keyPath: ['userId', 'roomShortId'] as const, // satisfies ValidKey<RoomAccess>,
+    keyPath: ['userId', 'roomShortId'] as const satisfies ValidKey<RoomAccess>,
   },
   indexes: {
     'user-id': {
       since: 3,
-      keyPath: 'userId', // satisfies ValidKey<RoomAccess>,
+      keyPath: 'userId' satisfies ValidKey<RoomAccess>,
     },
   },
-} as const; // satisfies DbStore<RoomAccess>;
+} as const satisfies DbStore<RoomAccess>;

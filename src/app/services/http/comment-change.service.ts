@@ -18,6 +18,8 @@ export class CommentChangeService extends BaseHttpService {
     base: '/api',
     commentChange: '/comment-change',
     find: '/find',
+    commentSubscribe: '/comment-subscribe',
+    roomSubscribe: '/room-subscribe',
   };
 
   constructor(private http: HttpClient) {
@@ -39,7 +41,7 @@ export class CommentChangeService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<CommentChange[]>('findAllChangesSince')),
       );
   }
@@ -48,7 +50,7 @@ export class CommentChangeService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.commentChange + '/' + id;
     return this.http.get<CommentChange>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<CommentChange>('getCommentChangeById')),
     );
   }

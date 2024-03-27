@@ -3,32 +3,22 @@ import {
   LanguagetoolResult,
   LanguagetoolService,
 } from '../services/http/languagetool.service';
-import {
-  DeepLService,
-  FormalityType,
-  SourceLang,
-  TargetLang,
-} from '../services/http/deep-l.service';
+import { DeepLService } from '../services/http/deep-l.service';
 import { SpacyKeyword, SpacyService } from '../services/http/spacy.service';
 import { Observable, of, throwError } from 'rxjs';
 import { Comment, Language as CommentLanguage } from '../models/comment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Model } from '../services/http/spacy.interface';
-import {
-  ImmutableStandardDelta,
-  QuillUtils,
-  StandardDelta,
-} from './quill-utils';
 import { SharedTextFormatting } from './shared-text-formatting';
 import { RoomDataService } from '../services/util/room-data.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/util/notification.service';
 import { SpacyDialogComponent } from '../components/shared/_dialogs/spacy-dialog/spacy-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { Injector } from '@angular/core';
 import { UUID } from './ts-utils';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum KeywordsResultType {
   Successful,
@@ -41,13 +31,13 @@ export interface KeywordsResult {
   keywords: SpacyKeyword[];
   language: CommentLanguage;
   resultType: KeywordsResultType;
-  error?: any;
+  error?: unknown;
   wasSpacyError?: boolean;
   wasDeepLError?: boolean;
 }
 
 export interface CommentCreateOptions {
-  body: StandardDelta;
+  body: string;
   tag: string;
   questionerName: string;
   userId: UUID;
@@ -85,7 +75,7 @@ export class KeywordExtractor {
   ) {}
 
   static isKeywordAcceptable(keyword: string): boolean {
-    const regex = /^[ -\/:-@\[-`{-~]+$/g;
+    const regex = /^[ -/:-@[-`{-~]+$/g;
     // accept only if some normal characters are present
     return keyword.match(regex) === null && keyword.length > 2;
   }
@@ -107,10 +97,7 @@ export class KeywordExtractor {
 
   createPlainComment(options: CommentCreateOptions) {
     return new Comment({
-      body: QuillUtils.transformURLtoQuillLink(
-        options.body,
-        options.isModerator,
-      ),
+      body: options.body,
       tag: options.tag,
       questionerName: options.questionerName,
       roomId: this.roomDataService.sessionService.currentRoom.id,
@@ -176,11 +163,11 @@ export class KeywordExtractor {
   }
 
   generateBrainstormingTerm(
-    body: ImmutableStandardDelta,
+    body: string,
     sessionId: string,
     language: string,
   ): Observable<BrainstormingWord> {
-    const text = QuillUtils.getTextFromDelta(body);
+    const text = body;
     const term = SharedTextFormatting.getTerm(text);
     return this.spacyService.getLemma(term, language as Model).pipe(
       catchError((err) => {
@@ -194,11 +181,11 @@ export class KeywordExtractor {
   }
 
   generateKeywords(
-    body: ImmutableStandardDelta,
+    body: string,
     hadUsedDeepL: boolean = false,
     language: Language = 'auto',
   ): Observable<KeywordsResult> {
-    const text = QuillUtils.getTextFromDelta(body).trim();
+    const text = body.trim();
     return this.languagetoolService.checkSpellings(text, language).pipe(
       switchMap((result) =>
         this.spacyKeywordsFromLanguagetoolResult(
@@ -222,7 +209,7 @@ export class KeywordExtractor {
 
   private spacyKeywordsFromLanguagetoolResult(
     text: string,
-    body: ImmutableStandardDelta,
+    body: string,
     selectedLanguage: Language,
     result: LanguagetoolResult,
     hadUsedDeepL: boolean,
@@ -263,30 +250,20 @@ export class KeywordExtractor {
     if (errorQuotient <= ERROR_QUOTIENT_WELL_SPELLED) {
       return this.callSpacy(text, finalLanguage, commentModel);
     }
-    // error quotient higher than well spelled, implies that no deepl was used
-    let target = TargetLang.EN_US;
-    const code = result.language.detectedLanguage.code
-      .split('-', 1)[0]
-      .toUpperCase();
-    if (code === SourceLang.EN) {
-      target = TargetLang.DE;
-    }
-    return this.deeplService
-      .improveDelta(body, target, FormalityType.Less)
-      .pipe(
-        switchMap(([_, improvedText]) =>
-          this.callSpacy(improvedText.trim(), finalLanguage, commentModel),
-        ),
-        catchError((err) =>
-          of({
-            keywords: [],
-            language: finalLanguage,
-            resultType: KeywordsResultType.Failure,
-            error: err,
-            wasDeepLError: true,
-          } as KeywordsResult),
-        ),
-      );
+    return this.deeplService.improveDelta(body).pipe(
+      switchMap(([, improvedText]) =>
+        this.callSpacy(improvedText.trim(), finalLanguage, commentModel),
+      ),
+      catchError((err) =>
+        of({
+          keywords: [],
+          language: finalLanguage,
+          resultType: KeywordsResultType.Failure,
+          error: err,
+          wasDeepLError: true,
+        } as KeywordsResult),
+      ),
+    );
   }
 
   private callSpacy(
@@ -302,7 +279,7 @@ export class KeywordExtractor {
             keywords,
             language: finalLanguage,
             resultType: KeywordsResultType.Successful,
-          } as KeywordsResult),
+          }) as KeywordsResult,
       ),
       catchError((err) =>
         of({

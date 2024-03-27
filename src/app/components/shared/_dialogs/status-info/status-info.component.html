@@ -1,14 +1,18 @@
-<h3>{{ "status-info.title" | translate }}</h3>
+<h2 mat-dialog-title>{{ "status-info.title" | translate }}</h2>
 
 <mat-dialog-content>
-  <div
-    [data]="'status-info.message' | translate : status"
+  <!-- TODO: <div
+    [data]="'status-info.message' | translate: status"
     markdown
     emoji
-    katex></div>
+    katex></div> -->
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'status-info'"
-  [confirmButtonLabel]="'close'"
-  [confirmButtonClickAction]="onConfirm"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    mat-dialog-close>
+    {{ "status-info.close" | translate }}
+  </button>
+</mat-dialog-actions>

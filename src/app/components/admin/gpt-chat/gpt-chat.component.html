@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
@@ -70,12 +70,12 @@
       <mat-icon
         class="chatgpt-robot-icon"
         *ngIf="item.type === 'gpt'"></mat-icon>
-      <div
+      <!-- TODO: <div
         markdown
         emoji
         katex>
         {{ formatText(item.message) }}
-      </div>
+      </div> -->
       <button
         class="refresh-indicator"
         [matTooltip]="'gpt-chat.refresh' | translate"
@@ -97,11 +97,21 @@
       <mat-slider
         [matTooltip]="'gpt-chat.temperature-tooltip' | translate"
         showTickMarks
-        (input)="temperature = $event.value"
         min="0"
         max="2"
         step="0.05"
-        [value]="temperature">
+        #ngSlider>
+        <input
+          matSliderThumb
+          [value]="temperature"
+          (input)="
+            temperature = {
+              source: ngSliderThumb,
+              parent: ngSlider,
+              value: ngSliderThumb.value
+            }.value
+          "
+          #ngSliderThumb="matSliderThumb" />
         <input matSliderThumb />
       </mat-slider>
       <mat-form-field>
@@ -131,7 +141,7 @@
         appAccessibilityEscapedInput
         [(ngModel)]="sendGPTContent"></textarea>
       <mat-hint>
-        {{ "gpt-chat.token-info" | translate : tokenInfo }}
+        {{ "gpt-chat.token-info" | translate: tokenInfo }}
       </mat-hint>
     </mat-form-field>
 
@@ -158,6 +168,6 @@
 <ng-template #loading>
   <app-mat-spinner-overlay
     color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
+    [diameter]="40"
+    [strokeWidth]="5"></app-mat-spinner-overlay>
 </ng-template>

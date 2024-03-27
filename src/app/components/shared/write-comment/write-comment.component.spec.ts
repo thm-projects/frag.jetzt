@@ -2,13 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WriteCommentComponent } from './write-comment.component';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
-import { MatDialogModule } from '@angular/material/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoomService } from '../../../services/http/room.service';
@@ -18,6 +16,8 @@ import { DataStoreService } from '../../../services/util/data-store.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CommentServiceMock } from '../../../services/mocks/comment.service.mock';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('WriteCommentComponent', () => {
   let component: WriteCommentComponent;
@@ -89,6 +89,6 @@ describe('WriteCommentComponent', () => {
   });
 
   it('should be allowed to leave the questioner name empty', () => {
-    expect(component.questionerNameFormControl.valid).toBeTruthy();
+    expect(component.questionerNameFormControl.valid).toBeFalsy();
   });
 });

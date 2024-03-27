@@ -1,56 +1,40 @@
-<mat-dialog-content>
-  <h3>
-    {{
-      room?.mode === "ARS"
-        ? ("topic-cloud-filter.questions-title" | translate)
-        : ("topic-cloud-filter.ple.questions-title" | translate)
-    }}
-  </h3>
+<h2 mat-dialog-title>
+  {{
+    room?.mode === "ARS"
+      ? ("topic-cloud-filter.questions-title" | translate)
+      : ("topic-cloud-filter.ple.questions-title" | translate)
+  }}
+</h2>
 
-  <span
-    *ngIf="isTopicRequirementActive"
-    style="margin-bottom: 1em; display: block">
-    <mat-icon
-      [inline]="true"
-      style="
-        color: var(--red) !important;
-        font-size: x-large;
-        padding-right: 10px;
-        margin-bottom: -10px;
-      ">
-      tag
-    </mat-icon>
-    {{ "header.overview-admin-config-enabled" | translate }}
-  </span>
+<mat-dialog-content>
+  @if (isTopicRequirementActive) {
+    <span style="margin-bottom: 1em; display: block">
+      <mat-icon
+        [inline]="true"
+        class="error-icon">
+        tag
+      </mat-icon>
+      {{ "header.overview-admin-config-enabled" | translate }}
+    </span>
+  }
 
   <mat-radio-group
+    class="spaced-radio-buttons"
     [(ngModel)]="continueFilter"
     aria-label="Select an option">
     <ng-container *ngFor="let radioTyp of filterTypes(); let i = index">
       <mat-radio-button
         *ngIf="filterInfos[radioTyp].active"
         [value]="radioTyp">
-        <div class="elementRow">
+        <div>
+          {{
+            "topic-cloud-filter." +
+              (room?.mode === "ARS" ? ".ple" : "") +
+              radioTyp +
+              (isMobile ? "-short" : "") | translate
+          }}
           <div
-            class="elementText"
-            *ngIf="isMobile">
-            {{
-              room?.mode === "ARS"
-                ? ("topic-cloud-filter." + radioTyp + "-short" | translate)
-                : ("topic-cloud-filter.ple." + radioTyp + "-short" | translate)
-            }}
-          </div>
-          <div
-            class="elementText"
-            *ngIf="!isMobile">
-            {{
-              room?.mode === "ARS"
-                ? ("topic-cloud-filter." + radioTyp | translate)
-                : ("topic-cloud-filter.ple." + radioTyp | translate)
-            }}
-          </div>
-          <div
-            class="elementIcons"
+            class="radio-button-counts"
             *ngIf="filterInfos[radioTyp].count">
             <mat-icon
               [inline]="true"
@@ -73,7 +57,6 @@
             </mat-icon>
             {{ filterInfos[radioTyp].count.users }}
             <mat-icon
-              class="comment_tag-icon"
               matTooltip="{{ 'header.overview-keywords-tooltip' | translate }}">
               tag
             </mat-icon>
@@ -84,43 +67,47 @@
     </ng-container>
   </mat-radio-group>
 
-  <mat-card
-    *ngIf="hasNoKeywords"
-    class="noKeywords">
-    <p>{{ "topic-cloud-filter.info-no-keywords" | translate }}</p>
-    <button
-      mat-flat-button
-      type="button"
-      class="mat-flat-button secondary-confirm-button"
-      (click)="onKeywordRefreshClick()">
-      {{ "topic-cloud-filter.label-refresh-keywords-start" | translate }}
-    </button>
-  </mat-card>
+  @if (hasNoKeywords) {
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        {{ "topic-cloud-filter.info-no-keywords" | translate }}
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          mat-stroked-button
+          type="button"
+          class="secondary-button"
+          (click)="onKeywordRefreshClick()">
+          {{ "topic-cloud-filter.label-refresh-keywords-start" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
 
   <app-worker-dialog [inlined]="true"></app-worker-dialog>
-
-  <ars-row
-    ars-flex-box
-    class="action-button-container">
-    <ars-col>
-      <button
-        mat-flat-button
-        class="help-button"
-        (click)="openHelp()">
-        <mat-icon>question_mark</mat-icon>
-        {{ "explanation.label" | translate }}
-      </button>
-    </ars-col>
-    <ars-col>
-      <app-dialog-action-buttons
-        buttonsLabelSection="topic-cloud-filter"
-        confirmButtonLabel="create"
-        buttonIcon="radar"
-        [spacing]="false"
-        [cancelButtonClickAction]="cancelButtonActionCallback()"
-        [confirmButtonClickAction]="
-          confirmButtonActionCallback()
-        "></app-dialog-action-buttons>
-    </ars-col>
-  </ars-row>
 </mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    class="secondary-button"
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close="abort">
+    {{ "topic-cloud-filter.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="confirm()">
+    <mat-icon>radar</mat-icon>
+    {{ "topic-cloud-filter.create" | translate }}
+  </button>
+</mat-dialog-actions>

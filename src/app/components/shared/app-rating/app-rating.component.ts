@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -15,10 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
-import { MatDialog } from '@angular/material/dialog';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-app-rating',
@@ -30,7 +29,6 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
-  @Input() popUpBelow = false;
   people: string = '?';
   private isSaving = false;
   private visibleRating = 0;
@@ -81,7 +79,7 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.canSubmit();
   }
 
@@ -130,13 +128,8 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
     this.listeningToMove = true;
   }
 
-  openPopup(target: HTMLElement) {
-    AppRatingPopUpComponent.openDialogAt(
-      this.dialog,
-      target,
-      this.ratingResults,
-      this.popUpBelow,
-    );
+  openPopup() {
+    AppRatingPopUpComponent.openDialogAt(this.dialog, this.ratingResults);
   }
 
   save() {

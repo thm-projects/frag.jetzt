@@ -1,5 +1,4 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   AnsweredMultiLevelData,
   MultiLevelData,
@@ -19,9 +18,10 @@ import {
   map,
   of,
   switchMap,
-  tap,
 } from 'rxjs';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
 
 const WINDOW_SIZE = 3;
 
@@ -29,10 +29,10 @@ export type MultiLevelDialogSubmit<T> = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
   data?: T,
-) => Observable<any>;
+) => Observable<unknown>;
 
 class MultiLevelStepper {
-  elements: MultiLevelDataBuiltAction<any>[] = [];
+  elements: MultiLevelDataBuiltAction<unknown>[] = [];
   progress = 0;
   highestIndex = -1;
   private answers: AnsweredMultiLevelData = {};
@@ -40,7 +40,7 @@ class MultiLevelStepper {
   private remaining = 0;
   private readonly removedCache = new Map<
     string,
-    MultiLevelDataBuiltAction<any>
+    MultiLevelDataBuiltAction<unknown>
   >();
   private isRefreshing = false;
 
@@ -152,7 +152,7 @@ class MultiLevelStepper {
     const found = this.createdIndexes.findIndex((e) => e === currentIndex);
     if (found < 0) {
       console.error('This should not happen!');
-      return;
+      return of();
     }
     const previousState = this.elements[found];
     const elemOrObservable = previousState.buildAction(
@@ -185,7 +185,7 @@ class MultiLevelStepper {
     const found = this.createdIndexes.findIndex((e) => e === currentIndex);
     if (found < 0) {
       console.error('This should not happen!');
-      return;
+      return of();
     }
     this.createdIndexes.splice(found, 1);
     const previousState = this.elements.splice(found, 1)[0];
@@ -221,7 +221,7 @@ class MultiLevelStepper {
     if (index < 0) {
       index = this.createdIndexes.length;
     }
-    const dummy = {} as MultiLevelDataBuiltAction<any>;
+    const dummy = {} as MultiLevelDataBuiltAction<unknown>;
     this.elements.splice(index, 0, dummy);
     this.createdIndexes.splice(index, 0, currentIndex);
     const obs = isObservable(elemOrObservable)
@@ -267,7 +267,7 @@ class MultiLevelStepper {
 export class MultiLevelDialogComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
   @Input() data: MultiLevelData;
-  currentElements: MultiLevelDataBuiltAction<any>[] = [];
+  currentElements: MultiLevelDataBuiltAction<unknown>[] = [];
   readonly onClose = this.close.bind(this);
   remaining: number = 0;
   currentStepperIndex = 0;
@@ -275,13 +275,13 @@ export class MultiLevelDialogComponent implements OnInit {
   showForwardOption = false;
   offsetIndex = 0;
   loadingCount = 0;
-  currentQuestion: MultiLevelDataBuiltAction<any>;
+  currentQuestion: MultiLevelDataBuiltAction<unknown>;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   protected dialogStepper: MultiLevelStepper;
   protected defaultTouched: boolean;
-  private onSubmit: MultiLevelDialogSubmit<any>;
-  private dialogData: any;
+  private onSubmit: MultiLevelDialogSubmit<unknown>;
+  private dialogData: unknown;
 
   constructor(
     private dialogRef: MatDialogRef<MultiLevelDialogComponent>,
@@ -289,7 +289,7 @@ export class MultiLevelDialogComponent implements OnInit {
     private injector: Injector,
   ) {}
 
-  public static open<T = any>(
+  public static open<T = unknown>(
     dialog: MatDialog,
     data: MultiLevelData<T>,
     onSubmit: MultiLevelDialogSubmit<T>,
@@ -333,7 +333,7 @@ export class MultiLevelDialogComponent implements OnInit {
       const ref = this.dialog.open(ExplanationDialogComponent);
       ref.componentInstance.translateKey = help;
     } else {
-      this.dialog.open(help);
+      this.dialog.open(help as ComponentType<unknown>);
     }
   }
 

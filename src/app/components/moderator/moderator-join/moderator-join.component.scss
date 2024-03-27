@@ -6,6 +6,7 @@
   height: calc(100vh - 110px);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   background-color: var(--surface);
   color: var(--on-surface) !important;

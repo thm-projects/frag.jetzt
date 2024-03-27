@@ -1,8 +1,8 @@
 import { AbstractVote } from './abstract-vote';
 
 export class DownVote extends AbstractVote {
-  type: string;
-  payload: {
+  override type: string;
+  override payload: {
     userId: string;
     commentId: string;
     vote: number;

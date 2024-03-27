@@ -6,7 +6,6 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { ForumComment } from '../../../utils/data-accessor';
@@ -25,13 +24,13 @@ import {
   SortType,
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
-import { MatDialog } from '@angular/material/dialog';
 import { CommentService } from 'app/services/http/comment.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface ResponseViewInformation {
   user: User;
@@ -113,7 +112,7 @@ export class CommentResponseViewComponent
     this._canNew = width >= 400;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (!this._keywordFilter) {
       this.changeParent(this.owningComment.id);
     } else {

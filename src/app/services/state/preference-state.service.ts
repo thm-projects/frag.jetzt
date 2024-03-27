@@ -65,7 +65,7 @@ export const DEFAULT_CACHE_POLICY = {
   room: {
     type: 'always',
   },
-}; // satisfies CacheStrategyObject;
+} satisfies CacheStrategyObject;
 
 @Injectable({
   providedIn: 'root',

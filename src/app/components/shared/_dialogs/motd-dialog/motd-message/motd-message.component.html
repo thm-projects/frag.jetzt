@@ -1,18 +1,20 @@
-<ars-row class="container" ars-flex-box>
-  <ars-row [height]="45" ars-flex-box>
-    <ars-col class="align-center-y force-wrap">
-      <p class="timestamp">{{message.date}}</p>
-    </ars-col>
-    <ars-fill></ars-fill>
-    <ars-col class="align-center-y">
-      <mat-checkbox [color]="'accent'" *ngIf="!message.isRead"
-                    [checked]="message.isRead"
-                    (change)="setIsRead($event.checked)">
-        <span>{{ 'footer.motd-mark-read' | translate }}</span>
+<mat-card class="primary-container">
+  <mat-card-header>
+    <p>{{ message.date }}</p>
+    @if (!message.isRead) {
+      <span style="flex: 1"></span>
+      <mat-checkbox
+        [checked]="message.isRead"
+        (change)="setIsRead($event.checked)">
+        {{ "footer.motd-mark-read" | translate }}
       </mat-checkbox>
-    </ars-col>
-  </ars-row>
-  <ars-row>
-    <app-custom-markdown class="images" #markdown [data]="translatedMessage"></app-custom-markdown>
-  </ars-row>
-</ars-row>
+    }
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- <app-custom-markdown
+      class="images"
+      #markdown
+      [data]="translatedMessage"></app-custom-markdown> -->
+  </mat-card-content>
+</mat-card>

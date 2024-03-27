@@ -38,7 +38,7 @@ export class ModeratorJoinComponent implements OnInit {
           return;
         }
         this.roomService
-          .getErrorHandledRoomByShortId(params.shortId, () => {
+          .getErrorHandledRoomByShortId(params['shortId'], () => {
             this.router.navigate(['/']);
           })
           .subscribe((room) => {

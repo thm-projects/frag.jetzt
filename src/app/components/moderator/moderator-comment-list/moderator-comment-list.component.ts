@@ -9,7 +9,6 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
@@ -19,16 +18,13 @@ import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { PageEvent } from '@angular/material/paginator';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
-import { forkJoin, ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { FormControl } from '@angular/forms';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   FilterType,
   FilterTypeKey,
@@ -47,6 +43,10 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { PageEvent } from '@angular/material/paginator';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -97,7 +97,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   questionNumberOptions: string[] = [];
   private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private destroyer = new ReplaySubject(1);
 
@@ -256,7 +256,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.period = filter.period;
   }
 
-  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
     this.pageIndex = 0;
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];

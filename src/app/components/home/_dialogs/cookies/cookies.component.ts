@@ -7,11 +7,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { Language } from 'app/services/http/languagetool.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cookies',

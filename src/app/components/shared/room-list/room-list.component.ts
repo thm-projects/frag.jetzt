@@ -7,7 +7,6 @@ import { Moderator } from '../../../models/moderator';
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ReplaySubject } from 'rxjs';
 import {
   CommentService,
@@ -16,12 +15,11 @@ import {
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
-import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
@@ -29,6 +27,8 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -95,7 +95,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.getRooms();
       });
     this.eventService
-      .on<any>('RoomDeleted')
+      .on<{ id: string }>('RoomDeleted')
       .pipe(takeUntil(this.destroyer))
       .subscribe((payload) => {
         this.rooms = this.rooms.filter((r) => r.id !== payload.id);
@@ -238,6 +238,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       case UserRole.EXECUTIVE_MODERATOR:
         return 'moderator';
     }
+    return 'N/A';
   }
 
   updateTable(): void {

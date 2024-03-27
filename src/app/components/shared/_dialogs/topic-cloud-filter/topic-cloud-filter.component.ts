@@ -1,9 +1,4 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -17,7 +12,7 @@ import { Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import {
   Period,
@@ -27,6 +22,11 @@ import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 class CommentsCount {
   comments: number;
@@ -169,7 +169,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.roomDataService.dataAccessor
       .receiveUpdates([{ finished: true }])
       .pipe(takeUntil(this.destroyer))
-      .subscribe((_) => this.commentsLoadedCallback());
+      .subscribe(() => this.commentsLoadedCallback());
     this.sessionService.getRoom().subscribe((room) => {
       this.room = room;
     });
@@ -220,7 +220,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         } else {
           setTimeout(() => {
             this.continueFilter = last;
-            this.confirmButtonActionCallback()();
+            this.confirm();
           });
         }
       }
@@ -266,47 +266,42 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     return counts;
   }
 
-  cancelButtonActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  confirmButtonActionCallback() {
-    return () => {
-      const filter = RoomDataFilter.loadFilter('tagCloud');
-      filter.resetToDefault();
-      filter.lastRoomId = this.sessionService.currentRoom?.id;
-      let onlyQuestions = false;
-      switch (this.continueFilter) {
-        case 'all-questions-and-answers':
-          // all questions allowed
-          break;
-        case 'only-questions':
-          onlyQuestions = true;
-          break;
-        case 'current-filter':
-          onlyQuestions = true;
-          const roomId = filter.lastRoomId;
-          filter.applyOptions(this.data.filterObject.dataFilter);
-          filter.lastRoomId = roomId;
-          break;
-        case 'from-now':
-          onlyQuestions = true;
-          filter.period = Period.FromNow;
-          filter.timeFilterStart = Date.now();
-          break;
-        default:
-          return;
-      }
-      filter.save();
-      sessionStorage.setItem('tagCloudOnlyQuestions', String(onlyQuestions));
-      this.dialogRef.close();
-      this.router.navigateByUrl(this.target);
-    };
+  confirm() {
+    const filter = RoomDataFilter.loadFilter('tagCloud');
+    filter.resetToDefault();
+    filter.lastRoomId = this.sessionService.currentRoom?.id;
+    let onlyQuestions = false;
+    let roomId: string;
+    switch (this.continueFilter) {
+      case 'all-questions-and-answers':
+        // all questions allowed
+        break;
+      case 'only-questions':
+        onlyQuestions = true;
+        break;
+      case 'current-filter':
+        onlyQuestions = true;
+        roomId = filter.lastRoomId;
+        filter.applyOptions(this.data.filterObject.dataFilter);
+        filter.lastRoomId = roomId;
+        break;
+      case 'from-now':
+        onlyQuestions = true;
+        filter.period = Period.FromNow;
+        filter.timeFilterStart = Date.now();
+        break;
+      default:
+        return;
+    }
+    filter.save();
+    sessionStorage.setItem('tagCloudOnlyQuestions', String(onlyQuestions));
+    this.dialogRef.close();
+    this.router.navigateByUrl(this.target);
   }
 
   checkForEnter(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      this.confirmButtonActionCallback()();
+      this.confirm();
     }
   }
 

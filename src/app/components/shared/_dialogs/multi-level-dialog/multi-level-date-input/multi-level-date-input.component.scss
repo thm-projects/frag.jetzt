@@ -38,7 +38,6 @@ button {
   color: var(--on-surface);
 }
 
-
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
@@ -48,7 +47,6 @@ button {
   border-radius: 4px;
   margin-bottom: 14px;
 }
-
 
 .even {
   background-color: var(--background);
@@ -75,4 +73,3 @@ button {
   display: none;
   cursor: pointer;
 }
-

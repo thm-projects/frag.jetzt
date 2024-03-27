@@ -40,7 +40,7 @@ export class LivepollComponentUtility {
     appState: AppStateService,
     translationService: TranslateService,
     http: HttpClient,
-    _destroyer: ReplaySubject<any>,
+    _destroyer: ReplaySubject<unknown>,
   ) {
     appState.language$.pipe(takeUntil(_destroyer)).subscribe((lang) => {
       translationService.use(lang);

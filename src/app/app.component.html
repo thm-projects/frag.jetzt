@@ -1,71 +1,79 @@
-<script src="models/rescale.ts"></script>
+<!--<header #headerElement>-->
+<!--  <app-header #header></app-header>-->
+<!--</header>-->
+<!--<div-->
+<!--  id="scroll_container"-->
+<!--  #scrollElement-->
+<!--  (scroll)="onScroll()">-->
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->
+<!--<footer-->
+<!--  role="contentinfo"-->
+<!--  #footerElement>-->
+<!--  <app-footer></app-footer>-->
+<!--</footer>-->
+
+<app-header></app-header>
+<m3-nav-pane>
+  <router-outlet></router-outlet>
+</m3-nav-pane>
+
+<style>
+  #debugger {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 256px;
+    top: 256px;
+    z-index: 1000000;
+    padding: 12px 8px;
+    box-shadow: var(--mdc-elevation-box-shadow-for-gss);
+    background-color: var(--mdc-chip-elevated-selected-container-color);
+    border-radius: var(--mdc-chip-container-shape-radius);
+    border-style: solid;
+    border-width: var(--mdc-chip-outline-width);
+    border-color: var(--mdc-chip-disabled-outline-color);
+
+    > * + * {
+      margin-top: 8px;
+    }
+  }
+
+  #debugger-state-button {
+    position: fixed;
+    z-index: 1000000;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    background-color: var(--md-sys-color-surface4);
+  }
+</style>
+<button
+  mat-icon-button
+  id="debugger-state-button"
+  *ngIf="!__debugger.isExtended"
+  (click)="__debugger.__options.toggleExtension()">
+  <mat-icon>arrow_left</mat-icon>
+</button>
 <div
-  fxLayout="column"
-  fxFill
-  appTheme
-  id="outer_main_container">
-  <header
-    class="header"
-    id="header_rescale"
-    #headerElement>
-    <app-header #header></app-header>
-  </header>
-  <div id="rescale_screen">
-    <div
-      class="main_container"
-      id="scroll_container"
-      #scrollElement
-      (scroll)="onScroll()">
-      <div class="inner_main_container">
-        <main
-          fxFlex
-          class="app-component">
-          <router-outlet></router-outlet>
-        </main>
-      </div>
-    </div>
-  </div>
-  <footer
-    role="contentinfo"
-    class="footer"
-    id="footer_rescale"
-    #footerElement>
-    <app-footer></app-footer>
-  </footer>
-  <div
-    class="rescale_overlay"
-    id="overlay_rescale"
-    aria-hidden="true"
-    [ngClass]="{
-      'bottom-before': isMobile || router.url.endsWith('/brainstorming'),
-      bottom:
-        rescaleActive && (isMobile || router.url.endsWith('/brainstorming')),
-      above:
-        rescaleActive && !isMobile && !router.url.endsWith('/brainstorming')
-    }">
+  id="debugger"
+  *ngIf="__debugger.isExtended">
+  <mat-chip
+    *ngFor="let option of __debugger.self"
+    (click)="option[1]()">
+    {{ option[0] }}
+  </mat-chip>
+  <div class="row content-start gap-small">
     <button
       mat-icon-button
-      (click)="getRescale().toggleState()"
-      matTooltip="{{ 'header.zoom-exit' | translate }}">
-      <mat-icon>close_fullscreen</mat-icon>
+      (click)="m3DynamicThemeService.themeType = 'light'">
+      <mat-icon>light_mode</mat-icon>
     </button>
     <button
       mat-icon-button
-      (click)="getRescale().scaleUp()"
-      matTooltip="{{ 'header.zoom-plus' | translate }}">
-      <mat-icon>zoom_in</mat-icon>
+      (click)="m3DynamicThemeService.themeType = 'dark'">
+      <mat-icon>dark_mode</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      (click)="getRescale().scaleDown()"
-      matTooltip="{{ 'header.zoom-minus' | translate }}">
-      <mat-icon>zoom_out</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="getRescale().scaleUndo()"
-      matTooltip="{{ 'header.zoom-reset' | translate }}">
-      <mat-icon>undo</mat-icon>
-    </button>
+    <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
   </div>
 </div>

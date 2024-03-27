@@ -1,0 +1,42 @@
+<div class="column">
+  <div class="row content-space-between items-center">
+    <h2>listbox</h2>
+    <div class="row gap-medium content-end">
+      <mat-chip-listbox
+        [multiple]="false"
+        [(ngModel)]="listbox.multiple">
+        <mat-chip-option [value]="false">single</mat-chip-option>
+        <mat-chip-option [value]="true">multiple</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+  </div>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="column">
+            <mat-chip-listbox
+              aria-label="Fish selection"
+              [multiple]="listbox.multiple">
+              <mat-chip-option class="{{ variant }}">
+                Extra Soft
+              </mat-chip-option>
+              <mat-chip-option class="{{ variant }}">Soft</mat-chip-option>
+              <mat-chip-option
+                class="{{ variant }}"
+                selected>
+                Medium
+              </mat-chip-option>
+              <mat-chip-option class="{{ variant }}">Hard</mat-chip-option>
+            </mat-chip-listbox>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

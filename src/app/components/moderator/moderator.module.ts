@@ -13,7 +13,6 @@ import {
 } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MarkdownModule } from 'ngx-markdown';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { ModeratorJoinComponent } from './moderator-join/moderator-join.component';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -36,7 +35,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       },
       isolate: true,
     }),
-    MarkdownModule,
     ArsModule,
   ],
   declarations: [

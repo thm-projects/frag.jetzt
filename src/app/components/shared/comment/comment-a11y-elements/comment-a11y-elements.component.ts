@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IconActionARIA, IconActionArias } from '../comment-action';
 
 @Component({
@@ -6,13 +6,9 @@ import { IconActionARIA, IconActionArias } from '../comment-action';
   templateUrl: './comment-a11y-elements.component.html',
   styleUrls: ['./comment-a11y-elements.component.scss'],
 })
-export class CommentA11yElementsComponent implements OnInit {
+export class CommentA11yElementsComponent {
   a11yData = Object.keys(IconActionArias).reduce((acc, e) => {
     acc.push(...IconActionArias[e]);
     return acc;
   }, [] as IconActionARIA[]);
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

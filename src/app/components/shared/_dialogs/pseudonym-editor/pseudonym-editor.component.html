@@ -1,23 +1,17 @@
-<ars-row>
-  <h2 style="padding: 0; margin: 0 0 20px 0">
-    {{ "pseudonym-editor.title" | translate }}
-  </h2>
-</ars-row>
+<h2 mat-dialog-title>
+  {{ "pseudonym-editor.title" | translate }}
+</h2>
 
-<mat-dialog-content
-  class="container"
-  ars-flex-box>
-  <mat-form-field class="questioner-name-input">
+<mat-dialog-content>
+  <mat-form-field>
     <input
       appAccessibilityEscapedInput
       matInput
       [formControl]="questionerNameFormControl"
+      [placeholder]="'pseudonym-editor.name' | translate"
       name="questioner-name"
       [maxlength]="questionerNameMax"
       aria-labelledby="questioner-name" />
-    <mat-placeholder class="placeholder">
-      {{ "pseudonym-editor.name" | translate }}
-    </mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">
         {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
@@ -30,11 +24,11 @@
       ">
       {{
         "write-comment.name-length-error"
-          | translate : { min: questionerNameMin, max: questionerNameMax }
+          | translate: { min: questionerNameMin, max: questionerNameMax }
       }}
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="deepl-form-field">
+  <mat-form-field>
     <mat-label>
       {{ "pseudonym-editor.deepl" | translate }}
     </mat-label>
@@ -52,12 +46,17 @@
   </mat-form-field>
 </mat-dialog-content>
 
-<ars-row>
-  <app-dialog-action-buttons
-    buttonsLabelSection="pseudonym-editor"
-    cancelButtonLabel="cancel"
-    confirmButtonLabel="update"
-    [cancelButtonClickAction]="decline()"
-    [confirmButtonClickAction]="accept()"
-    [spacing]="false"></app-dialog-action-buttons>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "pseudonym-editor.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="accept()">
+    {{ "pseudonym-editor.update" | translate }}
+  </button>
+</mat-dialog-actions>

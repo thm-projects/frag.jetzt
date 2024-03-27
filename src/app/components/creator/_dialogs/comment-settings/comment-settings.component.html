@@ -1,60 +1,61 @@
-<div mat-dialog-content>
-  <!--questions-->
-  <h2 class="oldtypo-h2">{{'room-page.moderation-mode' | translate }}</h2>
-
-
-  <div fxLayout="column">
-
-    <div fxLayout="row">
-      <!--direct send-->
-      <p class="oldtypo-p">&nbsp;
-        <mat-slide-toggle [(ngModel)]="directSend"
-                          aria-labelledby="settings-direct-send"
-                          matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
-          {{ 'room-page.settings-direct-send' | translate}}
-        </mat-slide-toggle>
-      </p>
-    </div>
-  </div>
-
-  <div fxLayout="column">
-    <div fxLayout="row">
-      <!--comment threshold-->
-      <p class="oldtypo-p">&nbsp;
-        <mat-slide-toggle [(ngModel)]="settingThreshold"
-                          aria-labelledby="threshold"
-                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
-          {{ 'room-page.threshold' | translate}}
-        </mat-slide-toggle>
-      </p>
-    </div>
-    <div fxLayout="row"
-         *ngIf="settingThreshold">
-      <mat-icon class="material-icons-round" style="margin-top: 12px">gavel</mat-icon>
-      <mat-slider id="commentSlider"
-                  invert
-                  min="-100"
-                  max="0"
-                  step="10"
-                  [(ngModel)]="commentThreshold"
-                  (input)="onSliderChange($event)"></mat-slider>
-      <h2 class="oldtypo-h2">&nbsp;{{commentThreshold | number}}</h2>
-    </div>
-  </div>
-
-</div>
-
-<app-dialog-action-buttons
-  buttonsLabelSection="room-page"
-  confirmButtonLabel="update"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildSaveActionCallback()"
-></app-dialog-action-buttons>
+<span matDialogTitle>{{ "room-page.moderation-mode" | translate }}</span>
+<mat-dialog-content class="column gap-small">
+  <mat-slide-toggle
+    [(ngModel)]="directSend"
+    aria-labelledby="settings-direct-send"
+    matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
+    {{ "room-page.settings-direct-send" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="settingThreshold"
+    aria-labelledby="threshold"
+    matTooltip="{{ 'room-page.threshold-description' | translate }}">
+    {{ "room-page.threshold" | translate }}
+  </mat-slide-toggle>
+  <mat-slider
+    *ngIf="settingThreshold"
+    id="commentSlider"
+    min="-100"
+    max="0"
+    step="10"
+    [(ngModel)]="commentThreshold"
+    #ngSlider>
+    <input
+      matSliderThumb
+      (input)="
+        onSliderChange({
+          value: ngSliderThumb.value
+        })
+      "
+      #ngSliderThumb="matSliderThumb" />
+  </mat-slider>
+  <span>{{ commentThreshold | number }}</span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="dialogRef.close('abort')">
+    cancel
+  </button>
+  <button
+    mat-button
+    (click)="dialogRef.close('delete')">
+    delete
+  </button>
+</mat-dialog-actions>
 
 <div class="visually-hidden">
-  <div id="threshold">{{'room-page.a11y-threshold' | translate}} </div>
-  <div id="settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
-  <div id="settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
-  <div id="export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
-  <div id="delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
+  <div id="threshold">{{ "room-page.a11y-threshold" | translate }}</div>
+  <div id="settings-comment-moderation">
+    {{ "room-page.a11y-settings-comment-moderation" | translate }}
+  </div>
+  <div id="settings-direct-send">
+    {{ "room-page.a11y-settings-direct-send" | translate }}
+  </div>
+  <div id="export-comments">
+    {{ "room-page.a11y-export-comments" | translate }}
+  </div>
+  <div id="delete-all-comments">
+    {{ "room-page.a11y-delete-all-comments" | translate }}
+  </div>
 </div>
