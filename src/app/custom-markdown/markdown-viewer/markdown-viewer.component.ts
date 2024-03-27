@@ -10,7 +10,10 @@ import {
   viewChild,
 } from '@angular/core';
 import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
-import { MD_PLUGINS } from '../markdown-common/plugins';
+import {
+  MD_CUSTOM_TEXT_RENDERER,
+  MD_PLUGINS,
+} from '../markdown-common/plugins';
 
 @Component({
   selector: 'app-markdown-viewer',
@@ -32,6 +35,7 @@ export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
       theme: 'fragjetzt',
       viewer: true,
       plugins: MD_PLUGINS,
+      customHTMLRenderer: MD_CUSTOM_TEXT_RENDERER,
     });
     effect(() => this.editor.setMarkdown(this.data()), {
       injector: this.injector,

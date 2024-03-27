@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ComponentTestButtonComponent } from './component-test-button/component-test-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { NgForOf, NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
@@ -50,6 +50,8 @@ import { MD_EXAMPLE } from 'app/custom-markdown/markdown-common/plugins';
 export class ComponentTestPageComponent {
   protected currentTheme: string = 'light';
   protected markdown = MD_EXAMPLE;
+  protected markdownSignal = signal(this.markdown);
+  protected count = computed(() => this.markdownSignal().length);
 
   constructor() {
     this.currentTheme = document.body.classList.contains('light')

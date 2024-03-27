@@ -21,11 +21,16 @@ export interface PluginOptions {
   globalGroup?: boolean; // default (false)
 }
 
-const generateId = () => `katex-${Math.random().toString(36).substring(2, 12)}`;
+export const generateId = () =>
+  `katex-${Math.random().toString(36).substring(2, 12)}`;
 
-const renderKatex = (id: string, text: string, options: PluginOptions) => {
+export const renderKatex = (
+  id: string,
+  text: string,
+  options: PluginOptions,
+) => {
   const container = document.querySelector(
-    `div[data-katex-id=${id}]`,
+    `[data-katex-id=${id}]`,
   ) as HTMLDivElement;
   if (!container) {
     return;

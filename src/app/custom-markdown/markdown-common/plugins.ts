@@ -9,11 +9,20 @@ import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell';
 import umlPlugin, {
   PluginOptions as UmlOptions,
 } from '@toast-ui/editor-plugin-uml';
-import { EditorPlugin } from '@toast-ui/editor/types/editor';
+import {
+  CustomHTMLRenderer,
+  EditorPlugin,
+} from '@toast-ui/editor/types/editor';
 // Import languages
 import '@toast-ui/editor/dist/i18n/de-de';
-import { PluginOptions as KatexOptions, katexPlugin } from './katex-plugin';
+import {
+  PluginOptions as KatexOptions,
+  generateId,
+  katexPlugin,
+  renderKatex,
+} from './katex-plugin';
 import { dsgvoMediaPlugin } from './dsgvo-media-plugin';
+import { HTMLToken } from '@toast-ui/editor/types/toastmark';
 
 export const MD_EXAMPLE = `
 # h1
@@ -32,6 +41,8 @@ $$
 $$katex
 c = \\pm\\sqrt{a^2 + b^2}
 $$
+
+ Hier ein Test für inline-katex $c = \\pm\\sqrt{a^2 + b^2}$
 
 $$uml
 partition Conductor {
@@ -143,7 +154,7 @@ Hier ist ein einfaches Beispiel, wie man einen Text in Markdown mit ToastUI form
 
 Dieser Code erzeugt eine strukturierte Dokumentation mit Überschriften, Fett- und Kursivschrift, Listen, Zitaten, Code-Blöcken, Links und Bildern, alles in einem sauberen Format, das leicht zu lesen und zu verstehen ist.
 
-\`\`\`JavaScript
+\`\`\`javascript
 function test() {
   let a = 1;
   console.log(a);
@@ -189,3 +200,53 @@ export const MD_PLUGINS: EditorPlugin[] = [
   // Dsgvo Media
   dsgvoMediaPlugin,
 ];
+
+export const MD_CUSTOM_TEXT_RENDERER: CustomHTMLRenderer = {
+  text(node) {
+    const katexRegex = /\$([^$]+)\$/gm;
+    let m: RegExpExecArray;
+    let lastIndex = 0;
+    const returnArr: HTMLToken[] = [];
+    const toRender: [string, string][] = [];
+    const text = node.literal;
+    while ((m = katexRegex.exec(text)) !== null) {
+      if (m.index > lastIndex) {
+        returnArr.push({
+          type: 'text',
+          content: text.substring(lastIndex, m.index),
+        });
+      }
+      const id = generateId();
+      returnArr.push(
+        {
+          type: 'openTag',
+          tagName: 'span',
+          attributes: {
+            'data-katex-id': id,
+          },
+        },
+        {
+          type: 'closeTag',
+          tagName: 'span',
+        },
+      );
+      toRender.push([id, m[1]]);
+      lastIndex = katexRegex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      returnArr.push({
+        type: 'text',
+        content: text.substring(lastIndex),
+      });
+    }
+    setTimeout(() => {
+      for (const [id, text] of toRender) {
+        renderKatex(id, text, {
+          displayMode: false,
+          output: 'mathml',
+        });
+      }
+    });
+    return returnArr;
+  },
+};

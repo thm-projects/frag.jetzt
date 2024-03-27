@@ -3,7 +3,7 @@
 @import "@toast-ui/editor/dist/toastui-editor.css";
 @import "tui-color-picker/dist/tui-color-picker.css";
 @import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
-@import "prismjs/themes/prism-dark.min.css";
+@import "prismjs/themes/prism-okaidia.min.css";
 @import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 @import "@toast-ui/chart/dist/toastui-chart.css";
 @import "@toast-ui/editor-plugin-table-merged-cell/dist/toastui-editor-plugin-table-merged-cell.css";
@@ -41,6 +41,107 @@
     cursor: default;
     opacity: 0.38;
   }
+}
+
+.toastui-editor-code-block-language
+  .toastui-editor-code-block-language-input::after {
+  content: "";
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 60%;
+  mask-image: url(/assets/editor-icons/wysiwg/chevron-down-s.svg);
+}
+
+.toastui-editor-code-block-language.active
+  .toastui-editor-code-block-language-input::after {
+  content: "";
+  mask-image: url(/assets/editor-icons/wysiwg/chevron-up-s.svg);
+}
+
+// plugin code syntax
+.toastui-editor-code-block-language-input {
+  // .mat-mdc-form-field
+  min-height: calc(
+    var(--mat-form-field-container-height) - var(
+        --mat-form-field-filled-with-label-container-padding-top
+      ) - var(--mat-form-field-filled-with-label-container-padding-bottom)
+  );
+  background-size: 0;
+  // .mdc-text-field
+  display: inline-flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  overflow: hidden;
+  will-change: opacity, transform, color;
+  border-top-left-radius: var(--mdc-filled-text-field-container-shape);
+  border-top-right-radius: var(--mdc-filled-text-field-container-shape);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  flex: auto;
+  background-color: color-mix(
+    in srgb,
+    var(--mat-form-field-state-layer-color)
+      calc(var(--mat-form-field-hover-state-layer-opacity) * 100%),
+    var(--mdc-filled-text-field-container-color)
+  );
+  // custom
+  padding-inline: 16px;
+  position: relative;
+  border: none;
+  // .mdc-text-field--filled .mdc-line-ripple::before
+  border-bottom-color: var(
+    --mdc-filled-text-field-focus-active-indicator-color
+  );
+  border-bottom-width: var(
+    --mdc-filled-text-field-focus-active-indicator-height
+  );
+  border-bottom-style: solid;
+  // ??
+  color: var(--mdc-filled-text-field-input-text-color);
+  caret-color: var(--mdc-filled-text-field-caret-color);
+
+  input {
+    color: inherit;
+    background: inherit;
+  }
+}
+
+.toastui-editor-code-block-language-list {
+  border: solid var(--mat-divider-width) var(--mat-divider-color);
+  border-radius: var(--mat-menu-container-shape);
+  background-color: var(--mat-menu-container-color);
+
+  .buttons {
+    width: min-content;
+    max-width: 144px;
+  }
+
+  button {
+    border-radius: 0;
+    @include mat-mdc-menu-item();
+
+    &.active {
+      color: var(--mdc-filled-button-label-text-color);
+      background-color: var(--mdc-filled-button-container-color);
+
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--mat-filled-button-state-layer-color)
+            calc(var(--mat-filled-button-hover-state-layer-opacity) * 100%),
+          var(--mdc-filled-button-container-color)
+        );
+      }
+    }
+  }
+}
+
+// own extension
+.toastui-editor-additional {
+  border-top-style: solid;
+  border-top-color: var(--mat-divider-color);
+  border-top-width: var(--mat-divider-width);
 }
 
 div.toastui-editor-fragjetzt {
@@ -1362,9 +1463,62 @@ div.toastui-editor-fragjetzt {
     }
   }
 
+  .toastui-editor-ww-code-block-highlighting:after {
+    content: attr(data-language) var(--markdown-change-language, " [Edit]");
+    // .mat-mdc-form-field
+    min-height: calc(
+      var(--mat-form-field-container-height) - var(
+          --mat-form-field-filled-with-label-container-padding-top
+        ) - var(--mat-form-field-filled-with-label-container-padding-bottom)
+    );
+    background-size: 0;
+    // .mdc-text-field
+    display: inline-flex;
+    align-items: baseline;
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+    will-change: opacity, transform, color;
+    border-top-left-radius: var(--mdc-filled-text-field-container-shape);
+    border-top-right-radius: var(--mdc-filled-text-field-container-shape);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    flex: auto;
+    background-color: color-mix(
+      in srgb,
+      var(--mat-form-field-state-layer-color)
+        calc(var(--mat-form-field-hover-state-layer-opacity) * 100%),
+      var(--mdc-filled-text-field-container-color)
+    );
+    // custom
+    padding-inline: 16px;
+    border: none;
+    // .mdc-text-field--filled .mdc-line-ripple::before
+    border-bottom-color: var(
+      --mdc-filled-text-field-focus-active-indicator-color
+    );
+    border-bottom-width: var(
+      --mdc-filled-text-field-focus-active-indicator-height
+    );
+    border-bottom-style: solid;
+    // ??
+    color: var(--mdc-filled-text-field-input-text-color);
+    caret-color: var(--mdc-filled-text-field-caret-color);
+  }
+
   table.ProseMirror-selectednode,
   .html-block.ProseMirror-selectednode {
     outline-color: var(--mdc-filled-button-container-color);
+  }
+
+  .toastui-editor-contents {
+    .toastui-editor-custom-block-editor {
+      background-color: var(--mdc-filled-text-field-container-color);
+      color: var(--mdc-filled-text-field-input-text-color);
+      border-color: var(--mat-divider-color);
+      border-style: solid;
+      border-width: var(--mat-divider-width);
+    }
   }
 
   // -------------------------------------
@@ -1529,9 +1683,28 @@ div.toastui-editor-fragjetzt {
       background-color: var(--mdc-filled-text-field-container-color);
       border-radius: 0.25rem;
 
+      &[class*="language-"],
+      &[class*="lang-"] {
+        // prism background color
+        // prism: #f5f2f0
+        // prism-dark: #4c3f33
+        // prism-coy: #fdfdfd
+        // prism-okaidia: #272822
+        background-color: #272822;
+      }
+
       code {
         background: none;
         color: var(--mdc-filled-text-field-input-text-color);
+
+        &[data-language] {
+          // prism foreground color
+          // prism: #000
+          // prism-dark: #fff
+          // prism-coy: #000
+          // prism-okaidia: #f8f8f2
+          color: #f8f8f2;
+        }
       }
     }
 

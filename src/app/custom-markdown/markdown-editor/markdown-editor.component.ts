@@ -4,14 +4,19 @@ import {
   ElementRef,
   Injector,
   Renderer2,
+  TemplateRef,
   effect,
   inject,
+  input,
   model,
   untracked,
   viewChild,
 } from '@angular/core';
 import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
-import { MD_PLUGINS } from '../markdown-common/plugins';
+import {
+  MD_CUSTOM_TEXT_RENDERER,
+  MD_PLUGINS,
+} from '../markdown-common/plugins';
 import { DSGVOService } from 'app/services/util/dsgvo.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
@@ -23,8 +28,11 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 })
 export class MarkdownEditorComponent implements AfterViewInit {
   data = model<string>('');
+  additionalInfo = input<TemplateRef<unknown>>();
   protected editorElement =
     viewChild.required<ElementRef<HTMLDivElement>>('editor');
+  protected additionalElement =
+    viewChild.required<ElementRef<HTMLSpanElement>>('additionalContent');
   private editor: EditorCore | Viewer;
   private renderer = inject(Renderer2);
   private injector = inject(Injector);
@@ -41,7 +49,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
     // TODO: Signal
     const language = this.appState.getCurrentLanguage();
     // TODO: Signal
-    const isMobile = this.deviceState.isMobile;
+    const isMobile = this.deviceState.isMobile();
     // fired when language or mobile is changed
     effect(
       (onCleanup) => {
@@ -58,11 +66,13 @@ export class MarkdownEditorComponent implements AfterViewInit {
           theme: 'fragjetzt',
           plugins: MD_PLUGINS,
           initialValue,
+          customHTMLRenderer: MD_CUSTOM_TEXT_RENDERER,
         });
 
         const e = this.editor as Editor;
         e.on('change', () => this.data.set(e.getMarkdown()));
         const observer = this.addRipples(container);
+        this.addAdditionalContainer(container);
 
         onCleanup(() => {
           this.editor.destroy();
@@ -71,6 +81,13 @@ export class MarkdownEditorComponent implements AfterViewInit {
       },
       { injector: this.injector },
     );
+  }
+
+  private addAdditionalContainer(container: HTMLDivElement) {
+    const div = container.querySelector(
+      'div.toastui-editor-defaultUI > .toastui-editor-mode-switch',
+    );
+    div.before(this.additionalElement().nativeElement);
   }
 
   private addRipples(container: HTMLDivElement): MutationObserver {
