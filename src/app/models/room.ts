@@ -1,5 +1,4 @@
 import { BrainstormingSession } from './brainstorming-session';
-import { ImmutableStandardDelta } from '../utils/quill-utils';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { LivepollSession } from './livepoll-session';
 
@@ -8,7 +7,7 @@ export class Room {
   ownerId: UUID;
   shortId: string;
   name: string;
-  description: ImmutableStandardDelta;
+  description: string;
   closed: boolean;
   bonusArchiveActive: boolean;
   directSend: boolean;
@@ -42,7 +41,7 @@ export class Room {
     ownerId = null,
     shortId = null,
     name = null,
-    description = { ops: [] },
+    description = '',
     closed = false,
     bonusArchiveActive = false,
     directSend = false,

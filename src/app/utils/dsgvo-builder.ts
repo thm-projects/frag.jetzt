@@ -1,5 +1,4 @@
 import { TranslateService } from '@ngx-translate/core';
-import { QuillUtils, URLType } from './quill-utils';
 import { EventService } from 'app/services/util/event.service';
 
 export enum DsgvoSource {
@@ -9,6 +8,12 @@ export enum DsgvoSource {
   Vimeo,
   External,
   ExternalUntrusted,
+}
+
+enum URLType {
+  NORMAL,
+  YOUTUBE,
+  VIMEO,
 }
 
 const EXTERNAL_TRUSTED = new Set([
@@ -27,6 +32,64 @@ export class DsgvoBuilder {
       return;
     }
     this._trustedURLs.add(url);
+  }
+
+  static transformURLs(markdown: string): string {
+    let m: RegExpExecArray;
+    let lastIndex = 0;
+    const urlRegex = /(^|[^[(])(www\.|https?:\/\/)(\S+)/gi;
+    let result = '';
+    while ((m = urlRegex.exec(markdown)) !== null) {
+      if (m.index > lastIndex) {
+        result += markdown.substring(lastIndex, m.index);
+      }
+      lastIndex = m.index + m[0].length;
+      result += m[1];
+      const written = m[2] + m[3];
+      const link =
+        m[2]?.toLowerCase() === 'www.' ? 'https://' + written : written;
+      const [videoLink, videoType] = DsgvoBuilder.getVideoUrl(link);
+      if (!videoType) {
+        // youtube or vimeo
+        result += `\n$$dsgvoMedia\n${videoLink}\n$$\n`;
+      } else {
+        result += `[${written}](${link})`;
+      }
+    }
+    if (lastIndex < markdown.length) {
+      result += markdown.substring(lastIndex);
+    }
+    return result;
+  }
+
+  static getVideoUrl(url): [string, URLType] {
+    let match =
+      url.match(
+        /^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/,
+      ) ||
+      url.match(
+        /^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/,
+      ) ||
+      url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/) ||
+      url.match(
+        /^(?:(https?):\/\/)?www\.youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]+)/,
+      );
+    if (match && match[2].length === 11) {
+      return [
+        'https://www.youtube-nocookie.com/embed/' + match[2],
+        URLType.YOUTUBE,
+      ];
+    }
+    match = url.match(
+      /^(?:(https?):\/\/)?(?:(?:www|player)\.)?vimeo\.com\/(\d+)/,
+    );
+    if (match) {
+      return [
+        (match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/',
+        URLType.VIMEO,
+      ];
+    }
+    return [url, URLType.NORMAL];
   }
 
   static buildArticle(
@@ -106,7 +169,7 @@ export class DsgvoBuilder {
     if (isTrusted) {
       return [DsgvoSource.Trusted, srcURL];
     }
-    const [url, type] = QuillUtils.getVideoUrl(srcURL);
+    const [url, type] = DsgvoBuilder.getVideoUrl(srcURL);
     if (type === URLType.YOUTUBE) {
       return [DsgvoSource.YouTube, url];
     } else if (type === URLType.VIMEO) {

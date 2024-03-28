@@ -34,7 +34,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]
             },
-            "scripts": ["node_modules/@toast-ui/editor/dist/esm/index.js"],
+            "scripts": [],
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": {
@@ -109,7 +109,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]
             },
-            "scripts": ["node_modules/@toast-ui/editor/dist/esm/index.js"]
+            "scripts": []
           }
         },
         "lint": {

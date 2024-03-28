@@ -52,7 +52,6 @@ import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
-import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { User } from 'app/models/user';
@@ -438,9 +437,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected postRoomLoadHook() {}
 
   protected saveChanges(data: Partial<Room>) {
-    const description = data?.description
-      ? QuillUtils.serializeDelta(data.description)
-      : null;
+    const description = data?.description;
     const obj: RoomPatch = (
       description ? { ...data, description } : { ...data }
     ) as RoomPatch;

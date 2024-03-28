@@ -13,7 +13,6 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
-import { QuillUtils, SerializedDelta } from './quill-utils';
 import { UUID } from './ts-utils';
 
 const serializeDate = (str: string | number | Date) => {
@@ -301,11 +300,6 @@ const roomImportExport = (
     {
       type: 'value',
       languageKey: translatePath + '.room-welcome',
-      ...ImportExportManager.createQuillMapper<SerializedDelta>(
-        empty,
-        (e) => e,
-        (e) => e as SerializedDelta,
-      ),
     },
     {
       type: 'value',
@@ -609,7 +603,7 @@ export const exportBrainstorming = (
               room.name,
               room.shortId,
               dateString,
-              QuillUtils.serializeDelta(room.description),
+              room.description,
               room.tags,
               comments,
             ])
@@ -675,7 +669,7 @@ export const exportRoom = (
               room.name,
               room.shortId,
               dateString,
-              QuillUtils.serializeDelta(room.description),
+              room.description,
               room.tags,
               comments,
             ])
@@ -689,7 +683,7 @@ export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
-  roomDescription: SerializedDelta,
+  roomDescription: string,
   roomTags: string[],
   comments: CommentBonusTokenMixin[],
 ];

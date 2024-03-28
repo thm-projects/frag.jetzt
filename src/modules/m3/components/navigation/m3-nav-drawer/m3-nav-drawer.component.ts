@@ -24,7 +24,7 @@ export class M3NavDrawerComponent {
   }
   constructor(private readonly navigationService: M3NavigationService) {
     this.navigationService.on(M3NavigationKind.Drawer).subscribe((data) => {
-      this.template = data.template;
+      this.template = data?.template;
     });
   }
 }

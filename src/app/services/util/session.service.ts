@@ -17,7 +17,6 @@ import { ModeratorService } from '../http/moderator.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { WsConnectorService } from '../websockets/ws-connector.service';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
@@ -240,13 +239,7 @@ export class SessionService {
   updateCurrentRoom(room: Partial<Room>): void {
     const current = this._currentRoom.getValue();
     for (const key of Object.keys(room)) {
-      if (key === 'description') {
-        current[key] = QuillUtils.deserializeDelta(
-          room[key] as unknown as SerializedDelta,
-        );
-      } else {
-        current[key] = room[key];
-      }
+      current[key] = room[key];
     }
   }
 

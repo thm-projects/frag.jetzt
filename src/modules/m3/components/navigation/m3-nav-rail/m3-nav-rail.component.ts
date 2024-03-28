@@ -17,7 +17,7 @@ export class M3NavRailComponent {
   }
   constructor(private readonly navigationService: M3NavigationService) {
     this.navigationService.on(M3NavigationKind.Rail).subscribe((data) => {
-      this.template = data.template;
+      this.template = data?.template;
     });
   }
 }

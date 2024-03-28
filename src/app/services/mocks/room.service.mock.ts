@@ -10,7 +10,6 @@ import {
   generateShortId,
 } from '../../utils/test-utils';
 import { defaultCategories } from '../../utils/defaultCategories';
-import { QuillUtils } from '../../utils/quill-utils';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from '../state/account-state.service';
 import { Router } from '@angular/router';
@@ -29,7 +28,7 @@ export class RoomServiceMock extends RoomService {
     shortId: '',
     abbreviation: '00000000',
     name: '',
-    description: { ops: [] },
+    description: '',
     blacklist: '[]',
     closed: false,
     moderated: true,
@@ -54,6 +53,10 @@ export class RoomServiceMock extends RoomService {
     keywordExtractionActive: true,
     livepollActive: false,
     livepollSession: null,
+    radarActive: true,
+    focusActive: true,
+    chatGptActive: true,
+    mode: 'ARS',
   } as Readonly<Room>;
 
   rooms: Readonly<Room>[] = [];
@@ -271,7 +274,7 @@ export class RoomServiceMock extends RoomService {
       !room.name ||
       room.name.length > 30 ||
       !room.description ||
-      QuillUtils.serializeDelta(room.description).length > 5000
+      room.description.length > 5000
     ) {
       throw new Error('Bad Request');
     }

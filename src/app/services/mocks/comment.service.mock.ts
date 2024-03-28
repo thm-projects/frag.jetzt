@@ -6,7 +6,6 @@ import { Comment, Language } from '../../models/comment';
 import { generateConsequentlyUUID } from '../../utils/test-utils';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { map } from 'rxjs/operators';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 
 @Injectable()
 export class CommentServiceMock extends CommentService {
@@ -32,7 +31,7 @@ export class CommentServiceMock extends CommentService {
         roomId: generateConsequentlyUUID(),
         creatorId: generateConsequentlyUUID(),
         number: '1',
-        body: QuillUtils.deserializeDelta('["Hello!\n"]' as SerializedDelta),
+        body: 'Hello!',
         ack: true,
         correct: CorrectWrong.NULL,
         favorite: false,

@@ -13,8 +13,6 @@ import {
   CustomHTMLRenderer,
   EditorPlugin,
 } from '@toast-ui/editor/types/editor';
-// Import languages
-import '@toast-ui/editor/dist/i18n/de-de';
 import {
   PluginOptions as KatexOptions,
   generateId,

@@ -8,11 +8,6 @@ import { GptService, PropmtPresetAdd } from 'app/services/http/gpt.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { SessionService } from 'app/services/util/session.service';
-import {
-  MarkdownDelta,
-  QuillUtils,
-  StandardDelta,
-} from 'app/utils/quill-utils';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { take } from 'rxjs';
 import {
@@ -30,7 +25,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
   readonly onCancel = this.cancel.bind(this);
   readonly onSave = this.save.bind(this);
   searchTerm: string = '';
-  initDelta: StandardDelta = { ops: [] };
+  initDelta = '';
   tokenInfo = {
     promptTokens: 0,
   };
@@ -77,9 +72,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
 
   setValue(prompt: GPTPromptPreset) {
     this.selectedPrompt = prompt;
-    this.initDelta = QuillUtils.getDeltaFromMarkdown(
-      (this.selectedPrompt?.prompt || '') as MarkdownDelta,
-    );
+    this.initDelta = this.selectedPrompt?.prompt || '';
     this.language = prompt?.language || this.startLanguage;
     this.temperature = prompt?.temperature || 0.7;
     this.presencePenalty = prompt?.presencePenalty || 0;

@@ -29,7 +29,6 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { ForumComment } from '../../../utils/data-accessor';
 import { KeywordExtractor } from '../../../utils/keyword-extractor';
-import { StandardDelta } from '../../../utils/quill-utils';
 import { Comment } from '../../../models/comment';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
@@ -54,7 +53,7 @@ export class CommentAnswerComponent
   canOpenGPT = false;
   consentGPT = false;
   comment: ForumComment;
-  answer: StandardDelta = { ops: [] };
+  answer = '';
   isLoading = true;
   userRole: UserRole;
   user: User;
