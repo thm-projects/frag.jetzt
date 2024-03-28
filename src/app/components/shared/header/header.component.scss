@@ -1,10 +1,36 @@
+@use "style/layout/component-sizes" as comp-size;
+@use "modules/m3/style/m3-layout" as layout;
+
 :host {
-  --mat-toolbar-container-background-color: var(--md-sys-color-surface3);
+  display: flex;
+  flex-direction: column;
 }
 
-.header-row-section {
+.header-comp {
   display: flex;
   align-items: center;
+  height: var(--mat-toolbar-standard-height);
+  padding: 0 16px;
+  @include layout.to-expanded {
+    padding: 0 8px;
+    height: var(--mat-toolbar-mobile-height);
+  }
+}
+
+.header-comp-page {
+  width: comp-size.$page-size;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+.header-comp-side {
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
   flex-direction: row;
-  flex: 1;
+  max-width: calc((100% - #{comp-size.$page-size}) / 2);
+}
+
+.header-comp-side.right {
+  justify-content: flex-end;
 }

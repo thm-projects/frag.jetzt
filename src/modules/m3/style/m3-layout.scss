@@ -1,0 +1,141 @@
+@use "sass:map";
+
+$_window-class: (
+  compact: (
+    width: (
+      min: 0,
+      max: 600,
+    ),
+    panes: (
+      1,
+    ),
+    preferred-pane: 1,
+  ),
+  medium: (
+    width: (
+      min: 600,
+      max: 840,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    preferred-pane: 1,
+  ),
+  expanded: (
+    width: (
+      min: 840,
+      max: 1200,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    preferred-pane: 2,
+  ),
+  large: (
+    width: (
+      min: 1200,
+      max: 1600,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    preferred-pane: 2,
+  ),
+  extra-large: (
+    width: (
+      min: 1600,
+    ),
+    panes: (
+      1,
+      2,
+      3,
+    ),
+    preferred-pane: 1,
+  ),
+);
+
+@function _validate-existence($window-class-key) {
+  $has-key: map.has-key($_window-class, $window-class-key);
+  @if $has-key {
+    @return false;
+  } @else {
+    @return $window-class-key;
+  }
+}
+
+@function _validate-bounds($from, $to) {
+  $from-min: map.get($from, width, min);
+  $to-min: map.get($to, width, min);
+  @if $from-min > $to-min {
+    @return "from-class higher than to-class";
+  } @else {
+    @return false;
+  }
+}
+
+@mixin to-large() {
+  @include explicit-range(compact, large) {
+    @content;
+  }
+}
+
+@mixin to-expanded() {
+  @include explicit-range(compact, expanded) {
+    @content;
+  }
+}
+
+@mixin to-medium() {
+  @include explicit-range(compact, medium) {
+    @content;
+  }
+}
+
+@mixin compact() {
+  @include explicit-range(compact, compact) {
+    @content;
+  }
+}
+
+///
+/// creates a media-query based on window-classes
+/// min value from $from-window-class
+/// max value from $to-window-class
+/// example usage:
+///
+/// .my-class {
+///   height: var(--mat-toolbar-standard-height);
+///   padding:0 16px;
+///   @include layout.to-expanded {
+///     padding:0 8px;
+///     height: var(--mat-toolbar-mobile-height);
+///   }
+/// }
+///
+/// @param {string} from-window-class
+/// @param {string} to-window-class
+@mixin explicit-range($from-window-class, $to-window-class) {
+  $err-exists: _validate-existence($from-window-class) or
+    _validate-existence($to-window-class);
+  @if $err-exists {
+    @error ('#{$err-exists} is not a known window-class. allowed window-classes: #{map.get(map.keys($_window-class))}');
+  }
+  $_from: map.get($_window-class, $from-window-class);
+  $_to: map.get($_window-class, $to-window-class);
+  $err-from-to-bound: _validate-bounds($_from, $_to);
+  @if $err-from-to-bound {
+    @error ($err-from-to-bound);
+  }
+  @if map.has-key(map.get($_to, width), max) {
+    @media (#{map.get($_from, width, min)}px <= width < #{map.get($_to, width, max)}px) {
+      @content;
+    }
+  } @else {
+    @media (min-width: #{map.get($_from, width, min)}px) {
+      @content;
+    }
+  }
+}

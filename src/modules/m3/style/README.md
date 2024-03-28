@@ -26,6 +26,9 @@ Provides **material 3** utility for
   - (TODO)
 - `m3-token-map.scss`
   - (TODO)
+- `m3-layout.scss`
+  - (TODO)
+  - https://m3.material.io/foundations/layout/applying-layout/window-size-classes
 
 ### services/m3-style
 
