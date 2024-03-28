@@ -12,7 +12,6 @@
   height: var(--mat-toolbar-standard-height);
   padding: 0 16px;
   @include layout.to-expanded {
-    padding: 0 8px;
     height: var(--mat-toolbar-mobile-height);
   }
 }

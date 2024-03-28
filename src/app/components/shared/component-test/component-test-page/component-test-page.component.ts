@@ -18,6 +18,9 @@ import { ComponentTestSectionComponent } from './component-test-section/componen
 import { MatDivider } from '@angular/material/divider';
 import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
 import { MD_EXAMPLE } from 'app/custom-markdown/markdown-common/plugins';
+import { M3BodyPaneComponent } from '../../../../../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
+import { M3PrimarySupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-primary-supporting-pane/m3-primary-supporting-pane.component';
+import { M3SecondarySupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-secondary-supporting-pane/m3-secondary-supporting-pane.component';
 
 @Component({
   selector: 'app-component-test-page',
@@ -44,6 +47,9 @@ import { MD_EXAMPLE } from 'app/custom-markdown/markdown-common/plugins';
     MatDivider,
     MatCardSubtitle,
     CustomMarkdownModule,
+    M3BodyPaneComponent,
+    M3PrimarySupportingPaneComponent,
+    M3SecondarySupportingPaneComponent,
   ],
   styleUrl: './component-test-page.component.scss',
 })
