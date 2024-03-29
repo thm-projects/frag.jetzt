@@ -14,7 +14,10 @@ import { FocusMonitor } from '@angular/cdk/a11y';
   selector: `button[m3-label-button]`,
   templateUrl: 'label-button.html',
   host: {
-    class: 'm3-label-button __drawers',
+    '[class]': `{
+      'm3-label-button': true,
+      'activated': activated
+    }`,
   },
   standalone: true,
   styleUrls: ['label-button.scss'],
@@ -30,25 +33,41 @@ export class M3LabelButton implements AfterViewInit, OnDestroy {
       className: 'mat-mdc-button-ripple',
     });
   }
+
   @Input({ transform: booleanAttribute })
   get disableRipple(): boolean {
     return this._disableRipple;
   }
+
   set disableRipple(value: any) {
     this._disableRipple = value;
     this._updateRippleDisabled();
   }
+
   private _disableRipple: boolean = false;
 
   @Input({ transform: booleanAttribute })
   get disabled(): boolean {
     return this._disabled;
   }
+
   set disabled(value: any) {
     this._disabled = value;
     this._updateRippleDisabled();
   }
+
   private _disabled: boolean = false;
+
+  @Input({ transform: booleanAttribute })
+  get activated(): boolean {
+    return this._activated;
+  }
+
+  set activated(value: any) {
+    this._activated = value;
+  }
+
+  private _activated: boolean = false;
 
   get ripple(): MatRipple {
     return this._rippleLoader?.getRipple(this._elementRef.nativeElement);

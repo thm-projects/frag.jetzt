@@ -2,7 +2,7 @@
 <!--<m3-nav-drawer></m3-nav-drawer>-->
 <div class="m3-nav-content-pane">
   <div
-    class="mock-rail"
+    class="mock-rail __rail"
     *ngIf="!extended">
     <button
       mat-icon-button
@@ -14,12 +14,12 @@
       class="mat-elevation-z0">
       <mat-icon>edit</mat-icon>
     </button>
-    <div class="mock-rail-button-container">
+    <div style="width: 100%">
       <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
   <div
-    class="mock-drawer"
+    class="mock-drawer __drawers"
     *ngIf="extended">
     <div class="mock-drawer-header">
       <button
@@ -28,27 +28,8 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="mock-drawer-content">
-      <button m3-label-button>
-        <span m3-icon>face</span>
-        <span m3-label>face</span>
-        <span m3-badge>+420</span>
-      </button>
-      <button m3-label-button>
-        <span m3-icon>face</span>
-        <span m3-label>face</span>
-        <span m3-badge>+420</span>
-      </button>
-      <button m3-label-button>
-        <span m3-icon>face</span>
-        <span m3-label>face</span>
-        <span m3-badge>+420</span>
-      </button>
-      <button m3-label-button>
-        <span m3-icon>face</span>
-        <span m3-label>face</span>
-        <span m3-badge>+420</span>
-      </button>
+    <div>
+      <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
   <div
@@ -67,20 +48,42 @@
 </div>
 
 <ng-template #actions>
-  <button class="m3-label-button">
-    <span class="material-symbols-outlined">home</span>
-    <div class="m3-label label-medium">test</div>
+  <button
+    m3-label-button
+    [activated]="true">
+    <span m3-icon>face</span>
+    <span m3-label>face</span>
+    <span m3-badge>+420</span>
   </button>
-  <button class="m3-label-button">
-    <span class="material-symbols-outlined">list</span>
-    <div class="m3-label label-medium">rooms</div>
+  <button m3-label-button>
+    <span m3-icon>face</span>
+    <span m3-label>face</span>
+    <span m3-badge>+420</span>
   </button>
-  <button class="m3-label-button">
-    <span class="material-symbols-outlined">settings</span>
-    <div class="m3-label label-medium">settings</div>
+  <button m3-label-button>
+    <span m3-icon>face</span>
+    <span m3-label>face</span>
+    <span m3-badge>+420</span>
   </button>
-  <button class="m3-label-button">
-    <span class="material-symbols-outlined">language</span>
-    <div class="m3-label label-medium">language</div>
+  <button m3-label-button>
+    <span m3-icon>face</span>
+    <span m3-label>face</span>
+    <span m3-badge>+420</span>
   </button>
+  <!--  <button class="m3-label-button">-->
+  <!--    <span class="material-symbols-outlined">home</span>-->
+  <!--    <div class="m3-label label-medium">test</div>-->
+  <!--  </button>-->
+  <!--  <button class="m3-label-button">-->
+  <!--    <span class="material-symbols-outlined">list</span>-->
+  <!--    <div class="m3-label label-medium">rooms</div>-->
+  <!--  </button>-->
+  <!--  <button class="m3-label-button">-->
+  <!--    <span class="material-symbols-outlined">settings</span>-->
+  <!--    <div class="m3-label label-medium">settings</div>-->
+  <!--  </button>-->
+  <!--  <button class="m3-label-button">-->
+  <!--    <span class="material-symbols-outlined">language</span>-->
+  <!--    <div class="m3-label label-medium">language</div>-->
+  <!--  </button>-->
 </ng-template>

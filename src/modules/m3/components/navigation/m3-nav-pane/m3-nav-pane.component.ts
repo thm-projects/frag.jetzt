@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { M3LabelButton } from '../../buttons/label-button';
 import { M3Badge, M3Icon, M3Label } from '../../buttons/base';
+import { MatList, MatListItem } from '@angular/material/list';
 
 @Component({
   selector: 'm3-nav-pane',
@@ -23,12 +24,14 @@ import { M3Badge, M3Icon, M3Label } from '../../buttons/base';
     M3Icon,
     M3Label,
     M3Badge,
+    MatList,
+    MatListItem,
   ],
   templateUrl: './m3-nav-pane.component.html',
   styleUrl: './m3-nav-pane.component.scss',
 })
 export class M3NavPaneComponent {
-  extended: boolean = true;
+  extended: boolean = false;
 
   @ViewChild('content', { static: true, read: ElementRef }) set _element(
     ref: ElementRef,
