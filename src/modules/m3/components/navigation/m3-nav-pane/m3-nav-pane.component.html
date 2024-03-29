@@ -21,13 +21,34 @@
   <div
     class="mock-drawer"
     *ngIf="extended">
-    <button
-      mat-icon-button
-      (click)="extended = !extended">
-      <mat-icon>close</mat-icon>
-    </button>
-    <div class="mock-drawer-button-container">
-      <ng-container *ngTemplateOutlet="actions"></ng-container>
+    <div class="mock-drawer-header">
+      <button
+        mat-icon-button
+        (click)="extended = !extended">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="mock-drawer-content">
+      <button m3-label-button>
+        <span m3-icon>face</span>
+        <span m3-label>face</span>
+        <span m3-badge>+420</span>
+      </button>
+      <button m3-label-button>
+        <span m3-icon>face</span>
+        <span m3-label>face</span>
+        <span m3-badge>+420</span>
+      </button>
+      <button m3-label-button>
+        <span m3-icon>face</span>
+        <span m3-label>face</span>
+        <span m3-badge>+420</span>
+      </button>
+      <button m3-label-button>
+        <span m3-icon>face</span>
+        <span m3-label>face</span>
+        <span m3-badge>+420</span>
+      </button>
     </div>
   </div>
   <div

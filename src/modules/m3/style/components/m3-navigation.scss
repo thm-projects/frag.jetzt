@@ -1,0 +1,78 @@
+@use "../../style/m3-typescale" as m3-typescale;
+
+@mixin component() {
+  /// https://m3.material.io/components/navigation-drawer/specs#25f67916-87fa-4cbb-b390-175096ae559b
+  .m3-label-button.__drawers {
+    $active-indicator-height: 56;
+    $active-indicator-shape: #{$active-indicator-height/2};
+    $active-indicator-width: 336;
+    $active-indicator-padding: 12;
+    $icon-size: 24;
+    $left-padding: 28;
+    $right-padding: 28;
+
+    .m3-label,
+    .m3-badge,
+    .m3-icon {
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    &:active {
+      .m3-label,
+      .m3-badge,
+      .m3-icon {
+        color: var(--md-sys-color-on-secondary-container);
+      }
+    }
+
+    .m3-label {
+      @include m3-typescale.typescale(label, large);
+      align-self: center;
+
+      & + * {
+        margin-left: 14px;
+      }
+    }
+
+    .mat-mdc-button-ripple,
+    .m3-label-button-active-indicator {
+      width: #{$active-indicator-width}px;
+      height: #{$active-indicator-height}px;
+      border-radius: #{$active-indicator-shape}px;
+      margin-left: #{$active-indicator-padding}px;
+      position: absolute;
+    }
+
+    .m3-icon {
+      width: #{$icon-size}px;
+      height: #{$icon-size}px;
+      font-size: #{$icon-size}px;
+      align-self: center;
+    }
+
+    .m3-badge {
+      @include m3-typescale.typescale(label, large);
+      flex-grow: 1;
+      text-align: end;
+      align-self: center;
+    }
+
+    .m3-label-button-content {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      box-sizing: border-box;
+      padding-left: #{$left-padding}px;
+      padding-right: #{$right-padding}px;
+
+      > * + * {
+        margin-left: #{$active-indicator-padding}px;
+      }
+    }
+
+    .m3-label-button-active-indicator {
+      //background-color: var(--md-sys-color-secondary-container);
+    }
+  }
+}

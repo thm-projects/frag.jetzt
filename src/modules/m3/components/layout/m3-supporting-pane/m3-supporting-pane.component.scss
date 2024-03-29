@@ -25,3 +25,10 @@
     display: block;
   }
 }
+
+:host-context(.priority-tertiary) {
+  display: none;
+  @include m3-layout.explicit-range(extra-large, extra-large) {
+    display: block;
+  }
+}

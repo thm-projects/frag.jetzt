@@ -62,7 +62,6 @@
   flex-direction: column;
   align-items: center;
   padding: 32px 0;
-  // only on elevation https://m3.material.io/foundations/layout/applying-layout/medium#a93938a0-88e6-4533-8439-89ae2f9b9813
 
   > * + * {
     margin-top: 16px;
@@ -87,50 +86,49 @@
   display: flex;
   flex-direction: column;
 
-  .mock-drawer-button-container {
+  .mock-drawer-header {
     display: flex;
-    flex-direction: column;
+    padding: 32px 22px;
   }
 
-  .m3-label-button {
-    width: 100%;
-    margin: 0;
-    flex-direction: row;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+  .mock-drawer-content {
+    .m3-label-button {
+    }
 
-    > .material-symbols-outlined {
-      margin: 0;
-      width: unset;
-      height: unset;
+    .m3-label-button-content {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .m3-label-button-active-indicator {
     }
   }
 }
 
-.m3-label-button {
-  margin: -2px auto 14px;
-
-  > .material-symbols-outlined {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    //background-color: red;
-    width: 56px;
-    height: 32px;
-    margin-bottom: 4px;
-    border-radius: 16px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: var(--md-sys-color-on-surface);
-
-  width: 80px;
-}
+//.m3-label-button {
+//  margin: -2px auto 14px;
+//
+//  > .material-symbols-outlined {
+//    display: flex;
+//    align-items: center;
+//    justify-content: center;
+//    //background-color: red;
+//    width: 56px;
+//    height: 32px;
+//    margin-bottom: 4px;
+//    border-radius: 16px;
+//    margin-left: auto;
+//    margin-right: auto;
+//  }
+//
+//  background-color: transparent;
+//  border: none;
+//  outline: none;
+//  color: var(--md-sys-color-on-surface);
+//
+//  width: 80px;
+//}
 
 .m3-nav-drawer-content {
   flex-grow: 1;

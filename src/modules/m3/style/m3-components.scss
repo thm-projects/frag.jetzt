@@ -1,6 +1,8 @@
 /// css token for m3 components.
 /// Based on m3 component specifications
 
+@use "../style/components/m3-navigation" as m3-navigation;
+
 @mixin _custom-components() {
   /// https://m3.material.io/foundations/layout/understanding-layout/parts-of-layout#5fd0c81f-4a33-41db-be42-349b91da8d92
   --m3-comp-supporting-pane-fixed-width: 360px;
@@ -8,4 +10,5 @@
 
 @mixin all-components() {
   @include _custom-components();
+  @include m3-navigation.component();
 }
