@@ -6,11 +6,16 @@ import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 import { ComponentTestPageComponent } from './component-test/component-test-page/component-test-page.component';
+import { ComponentLayoutTestPageComponent } from './component-test/component-layout-test-page/component-layout-test-page.component';
 
 const routes: Routes = [
   {
     path: 'component-test-page',
     component: ComponentTestPageComponent,
+  },
+  {
+    path: 'component-layout-test-page',
+    component: ComponentLayoutTestPageComponent,
   },
   {
     path: 'room/:shortId/comments/questionwall',

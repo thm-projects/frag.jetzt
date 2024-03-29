@@ -1,0 +1,16 @@
+<m3-body-pane>
+  <m3-supporting-pane
+    [type]="'flexible'"
+    [priority]="'primary'">
+    <span>m3-supporting-pane (flexible, primary)</span>
+    <div class="mock-content"></div>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    [type]="'fixed'"
+    [priority]="'secondary'">
+    <span>m3-supporting-pane (fixed, secondary)</span>
+    <div
+      class="mock-card"
+      *ngFor="let _ of [].constructor(10)"></div>
+  </m3-supporting-pane>
+</m3-body-pane>

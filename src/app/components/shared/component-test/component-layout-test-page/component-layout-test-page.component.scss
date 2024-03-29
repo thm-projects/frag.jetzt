@@ -1,0 +1,14 @@
+.mock-content {
+  height: 1000px;
+  background-color: var(--md-sys-color-surface3);
+  border-radius: var(--md-sys-shape-corner-large);
+}
+
+.mock-card {
+  height: 128px;
+  background-color: var(--md-sys-color-surface3);
+  border-radius: var(--md-sys-shape-corner-large);
+  & + * {
+    margin-top: 16px;
+  }
+}

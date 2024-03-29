@@ -1,18 +1,3 @@
-:host {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  justify-content: center;
-}
-
-.content-container {
-  width: 1200px;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 500px;
-}
-
 .settings-container {
   display: flex;
   flex-direction: column;

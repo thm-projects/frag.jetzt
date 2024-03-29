@@ -7,6 +7,7 @@
 @use "../style/m3-motion" as m3-motion;
 @use "../style/m3-shape" as m3-shape;
 @use "../style/m3-fix" as m3-fix;
+@use "../style/m3-layout" as m3-layout;
 @use "../../../../node_modules/@angular/material-experimental/index" as matx;
 @use "style/layout/flex-layout";
 
@@ -38,6 +39,7 @@ $base-theme: m3.define-theme(
     @include m3-motion.all-motion-token();
     @include m3-shape.all-shape-token();
     @include m3-typescale.all-typescale();
+    @include m3-layout.all-layout-token();
     @include m3-fix.fix-all();
 
     //@include matx.color-variants-back-compat($light-theme);

@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentTestButtonComponent } from './component-test-button/component-test-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { NgForOf, NgIf, NgStyle, NgTemplateOutlet } from '@angular/common';
@@ -17,10 +17,9 @@ import { MatLabel } from '@angular/material/form-field';
 import { ComponentTestSectionComponent } from './component-test-section/component-test-section.component';
 import { MatDivider } from '@angular/material/divider';
 import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
-import { MD_EXAMPLE } from 'app/custom-markdown/markdown-common/plugins';
 import { M3BodyPaneComponent } from '../../../../../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
-import { M3PrimarySupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-primary-supporting-pane/m3-primary-supporting-pane.component';
-import { M3SecondarySupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-secondary-supporting-pane/m3-secondary-supporting-pane.component';
+import { M3SupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
+import { ComponentTestMarkdownComponent } from './component-test-markdown/component-test-markdown.component';
 
 @Component({
   selector: 'app-component-test-page',
@@ -48,20 +47,11 @@ import { M3SecondarySupportingPaneComponent } from '../../../../../modules/m3/co
     MatCardSubtitle,
     CustomMarkdownModule,
     M3BodyPaneComponent,
-    M3PrimarySupportingPaneComponent,
-    M3SecondarySupportingPaneComponent,
+    M3SupportingPaneComponent,
+    ComponentTestMarkdownComponent,
   ],
   styleUrl: './component-test-page.component.scss',
 })
 export class ComponentTestPageComponent {
-  protected currentTheme: string = 'light';
-  protected markdown = MD_EXAMPLE;
-  protected markdownSignal = signal(this.markdown);
-  protected count = computed(() => this.markdownSignal().length);
-
-  constructor() {
-    this.currentTheme = document.body.classList.contains('light')
-      ? 'light'
-      : 'dark';
-  }
+  constructor() {}
 }

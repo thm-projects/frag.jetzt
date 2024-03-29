@@ -1,5 +1,6 @@
 <m3-body-pane>
-  <m3-primary-supporting-pane>
+  <m3-supporting-pane>
+    <p>test</p>
     <ng-container>
       <div class="content-container">
         <div class="settings-container"></div>
@@ -40,30 +41,16 @@
           <app-component-test-section [title]="'Card'">
             <app-component-test-card></app-component-test-card>
           </app-component-test-section>
+          <app-component-test-section
+            [title]="'Markdown'"
+            *ngIf="false">
+            <app-component-test-markdown></app-component-test-markdown>
+          </app-component-test-section>
         </div>
-        <app-markdown-editor
-          [(data)]="markdownSignal"
-          [additionalInfo]="countInfo"></app-markdown-editor>
-        <br />
-        <app-markdown-viewer [data]="markdown"></app-markdown-viewer>
       </div>
     </ng-container>
-    <ng-template
-      #colorIndicator
-      let-color="color">
-      <div
-        [class.mat-elevation-z1]="true"
-        [class.color-indicator]="true"
-        [ngStyle]="{
-          backgroundColor: 'var(--' + color + ')'
-        }"></div>
-    </ng-template>
-
-    <ng-template #countInfo>
-      <span style="float: right; margin: 0.75em">
-        Count: {{ count() }} / 500
-      </span>
-    </ng-template>
-  </m3-primary-supporting-pane>
-  <m3-secondary-supporting-pane></m3-secondary-supporting-pane>
+  </m3-supporting-pane>
+  <m3-supporting-pane>
+    <p>test</p>
+  </m3-supporting-pane>
 </m3-body-pane>

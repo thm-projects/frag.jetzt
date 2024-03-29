@@ -8,7 +8,8 @@
   text-transform: var(--md-sys-typescale-label-medium-text-transform);
   text-decoration: var(--md-sys-typescale-label-medium-text-decoration);
 }
-
+// todo(lph) this is taken from https://github.com/material-foundation/material-tokens
+// check license before production.
 @mixin all-typescale() {
   /* Label Small */
   --md-sys-typescale-label-small-text-transform: unset;

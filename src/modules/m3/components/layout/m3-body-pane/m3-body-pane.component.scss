@@ -1,3 +1,6 @@
 :host {
   display: flex;
+  &:first-child {
+    margin-left: var(--m3-sys-layout-spacing-rail-to-pane);
+  }
 }

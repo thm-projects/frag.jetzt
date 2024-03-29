@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { M3PrimarySupportingPaneComponent } from './m3-primary-supporting-pane.component';
+import { M3SupportingPaneComponent } from './m3-supporting-pane.component';
 
 describe('M3PrimarySupportingPaneComponent', () => {
-  let component: M3PrimarySupportingPaneComponent;
-  let fixture: ComponentFixture<M3PrimarySupportingPaneComponent>;
+  let component: M3SupportingPaneComponent;
+  let fixture: ComponentFixture<M3SupportingPaneComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [M3PrimarySupportingPaneComponent],
+      imports: [M3SupportingPaneComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(M3PrimarySupportingPaneComponent);
+    fixture = TestBed.createComponent(M3SupportingPaneComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

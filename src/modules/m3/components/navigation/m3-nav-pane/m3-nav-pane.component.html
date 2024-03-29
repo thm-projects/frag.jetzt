@@ -1,7 +1,65 @@
 <!--<m3-nav-rail></m3-nav-rail>-->
 <!--<m3-nav-drawer></m3-nav-drawer>-->
-<div class="mock-rail"></div>
-<div class="mock-drawer"></div>
-<div class="m3-nav-drawer-content">
-  <ng-content></ng-content>
+<div class="m3-nav-content-pane">
+  <div
+    class="mock-rail"
+    *ngIf="!extended">
+    <button
+      mat-icon-button
+      (click)="extended = !extended">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button
+      mat-fab
+      class="mat-elevation-z0">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <div class="mock-rail-button-container">
+      <ng-container *ngTemplateOutlet="actions"></ng-container>
+    </div>
+  </div>
+  <div
+    class="mock-drawer"
+    *ngIf="extended">
+    <button
+      mat-icon-button
+      (click)="extended = !extended">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="mock-drawer-button-container">
+      <ng-container *ngTemplateOutlet="actions"></ng-container>
+    </div>
+  </div>
+  <div
+    class="m3-nav-drawer-content"
+    #content>
+    <div class="mock-top-bar"></div>
+    <div class="m3-nav-drawer-content-pane">
+      <ng-content></ng-content>
+    </div>
+    <div class="mock-bottom-bar">
+      <div class="mock-bottom-bar-button-container">
+        <ng-container *ngTemplateOutlet="actions"></ng-container>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #actions>
+  <button class="m3-label-button">
+    <span class="material-symbols-outlined">home</span>
+    <div class="m3-label label-medium">test</div>
+  </button>
+  <button class="m3-label-button">
+    <span class="material-symbols-outlined">list</span>
+    <div class="m3-label label-medium">rooms</div>
+  </button>
+  <button class="m3-label-button">
+    <span class="material-symbols-outlined">settings</span>
+    <div class="m3-label label-medium">settings</div>
+  </button>
+  <button class="m3-label-button">
+    <span class="material-symbols-outlined">language</span>
+    <div class="m3-label label-medium">language</div>
+  </button>
+</ng-template>

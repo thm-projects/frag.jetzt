@@ -263,6 +263,9 @@ export class AppComponent implements OnInit {
       gotoComponentTest: () => {
         this.router.navigate(['creator', 'component-test-page']);
       },
+      gotoLayoutTest: () => {
+        this.router.navigate(['creator', 'component-layout-test-page']);
+      },
     },
     self: undefined,
   };
