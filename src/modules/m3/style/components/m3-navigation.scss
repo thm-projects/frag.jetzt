@@ -2,6 +2,13 @@
 
 @mixin component() {
   /// https://m3.material.io/components/navigation-drawer/specs#25f67916-87fa-4cbb-b390-175096ae559b
+  .m3-label-button,
+  .m3-label,
+  .m3-badge,
+  .m3-icon,
+  .m3-label-button-active-indicator {
+    transition: all 0.2s ease-in-out;
+  }
   .__rail {
     $label-width: 80;
     $label-height: 56;

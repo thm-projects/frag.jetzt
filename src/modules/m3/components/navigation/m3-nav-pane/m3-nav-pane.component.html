@@ -1,37 +1,42 @@
 <!--<m3-nav-rail></m3-nav-rail>-->
 <!--<m3-nav-drawer></m3-nav-drawer>-->
 <div class="m3-nav-content-pane">
-  <div
-    class="mock-rail __rail"
-    *ngIf="!extended">
-    <button
-      mat-icon-button
-      (click)="extended = !extended">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <button
-      mat-fab
-      class="mat-elevation-z0">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <div style="width: 100%">
-      <ng-container *ngTemplateOutlet="actions"></ng-container>
-    </div>
-  </div>
-  <div
-    class="mock-drawer __drawers"
-    *ngIf="extended">
-    <div class="mock-drawer-header">
+  <div [ngClass]="extended ? 'mock-drawer __drawers' : 'mock-rail __rail'">
+    <ng-container *ngIf="!extended">
       <button
         mat-icon-button
         (click)="extended = !extended">
-        <mat-icon>close</mat-icon>
+        <mat-icon>menu</mat-icon>
       </button>
-    </div>
-    <div>
+      <button
+        mat-fab
+        class="mat-elevation-z0">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="extended">
+      <div class="mock-drawer-header">
+        <button
+          mat-icon-button
+          (click)="extended = !extended">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+    <div
+      [ngStyle]="{
+        width: extended ? 'auto' : '100%'
+      }">
       <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
+  <!--  <div-->
+  <!--    class="mock-drawer __drawers"-->
+  <!--    *ngIf="extended">-->
+  <!--    <div>-->
+  <!--      <ng-container *ngTemplateOutlet="actions"></ng-container>-->
+  <!--    </div>-->
+  <!--  </div>-->
   <div
     class="m3-nav-drawer-content"
     #content>
