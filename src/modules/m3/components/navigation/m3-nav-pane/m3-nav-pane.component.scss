@@ -8,80 +8,78 @@
 }
 
 :host-context(.m3-elevation-z0) {
-  .mock-bottom-bar {
+  .m3-nav-bottom-bar {
     background-color: var(--md-sys-color-background);
   }
 
-  .mock-top-bar {
+  .m3-nav-top-bar {
     background-color: var(--md-sys-color-background);
   }
 
-  .mock-rail {
+  .m3-nav-drawer-rail {
     background-color: var(--md-sys-color-background);
   }
 
-  .mock-drawer {
-    background-color: var(--md-sys-color-background);
+  .m3-nav-drawer-expansion {
+    @include m3-layout.explicit-range(compact, large) {
+      background-color: var(--md-sys-color-surface3);
+    }
+    background-color: var(--md-sys-color-surface2);
   }
 
-  .m3-nav-drawer-content-pane {
-    padding: 0;
+  .m3-nav-drawer-content-outlet {
+    padding-top: 0;
+    padding-right: var(--m3-sys-layout-spacing-pane);
+    padding-left: 0;
+    padding-bottom: 0;
   }
 }
 
 :host-context(.m3-elevation-z1) {
-  .mock-bottom-bar {
+  .m3-nav-bottom-bar {
     background-color: var(--md-sys-color-surface3);
   }
 
-  .mock-top-bar {
+  .m3-nav-top-bar {
     background-color: var(--md-sys-color-surface3);
   }
 
-  .mock-rail {
+  .m3-nav-drawer-rail {
     background-color: var(--md-sys-color-surface3);
   }
 
-  .mock-drawer {
-    background-color: var(--md-sys-color-surface3);
+  .m3-nav-drawer-expansion {
     @include m3-layout.explicit-range(compact, large) {
       background-color: var(--md-sys-color-surface4);
     }
+    background-color: var(--md-sys-color-surface3);
   }
 
-  .m3-nav-drawer-content-pane {
+  .m3-nav-drawer-content-outlet {
     padding: var(--m3-sys-layout-spacing-pane);
   }
 }
 
 .m3-nav-drawer-shadow {
+  @include m3-layout.explicit-range(compact, large) {
+    max-width: 80px;
+  }
   display: flex;
   flex-direction: column;
   > * {
     flex-grow: 1;
   }
-  @include m3-layout.explicit-range(compact, large) {
-    max-width: 80px;
-  }
-
-  &.drawer {
-    background-color: green;
-  }
-
-  &.rail {
-    background-color: red;
-  }
 }
 
-.m3-nav-drawer-content-pane {
+.m3-nav-drawer-content-outlet {
   transition: var(--m3-comp-nav-pane-transition);
 }
 
-.mock-bottom-bar {
-  height: 0px;
+.m3-nav-bottom-bar {
   @include m3-layout.compact() {
     height: var(--mat-toolbar-standard-height);
   }
+  height: 0px;
   width: 100%;
   flex-shrink: 0;
   position: fixed;
@@ -89,16 +87,13 @@
   z-index: 2;
   bottom: 0;
 
-  .mock-bottom-bar-button-container {
+  .m3-nav-bar-button-container {
     display: flex;
     padding: 0 16px;
     flex-grow: 1;
 
     .m3-label-button {
       margin: auto;
-
-      > .material-symbols-outlined {
-      }
     }
   }
 }
@@ -106,7 +101,7 @@
 .m3-nav-content-pane {
 }
 
-.mock-top-bar {
+.m3-nav-top-bar {
   height: 80px;
   position: sticky;
   flex-shrink: 0;
@@ -114,7 +109,7 @@
   top: 0;
 }
 
-.mock-rail {
+.m3-nav-drawer-rail {
   width: 80px;
   display: flex;
   flex-shrink: 0;
@@ -122,39 +117,35 @@
   align-items: center;
   transition: var(--m3-comp-nav-pane-transition);
   z-index: 3;
-  //.mock-rail-button-container {
-  //  display: flex;
-  //  flex-direction: column;
-  //  margin-top: 24px;
-  //}
   overflow: hidden;
 }
 
-.header {
+.m3-nav-drawer-header {
   padding-bottom: 12px;
   display: flex;
   align-self: flex-start;
 
-  .header-button {
+  .m3-nav-drawer-menu-button {
     width: 24px;
     height: 24px;
     padding: 28px;
   }
 
-  .header-title {
+  .m3-nav-drawer-title {
     align-self: center;
   }
 }
 
-.mock-drawer {
+.m3-nav-drawer-expansion {
+  @include m3-layout.explicit-range(compact, large) {
+    position: relative;
+    border-radius: var(--md-sys-shape-corner-large-end);
+  }
   width: 360px;
   flex-shrink: 0;
   flex-direction: column;
   transition: var(--m3-comp-nav-pane-transition);
   z-index: 3;
-  @include m3-layout.explicit-range(compact, large) {
-    position: relative;
-  }
 }
 
 .m3-nav-drawer-content {

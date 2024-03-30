@@ -12,4 +12,8 @@
 @mixin all-components() {
   @include _custom-components();
   @include m3-navigation.component();
+
+  .m3-supporting-pane + .m3-supporting-pane {
+    margin-left: var(--m3-sys-layout-spacing-pane);
+  }
 }

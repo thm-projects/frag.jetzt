@@ -1,19 +1,20 @@
-<!--<m3-nav-rail></m3-nav-rail>-->
-<!--<m3-nav-drawer></m3-nav-drawer>-->
 <div
   class="m3-nav-drawer-shadow"
   [ngClass]="extended ? 'drawer' : 'rail'">
   <div
-    class="m3-nav-drawer"
-    [ngClass]="extended ? 'mock-drawer __drawers' : 'mock-rail __rail'">
-    <div class="header">
+    [ngClass]="
+      extended
+        ? 'm3-nav-drawer-expansion __drawers'
+        : 'm3-nav-drawer-rail __rail'
+    ">
+    <div class="m3-nav-drawer-header">
       <span
-        class="header-button material-symbols-outlined"
+        class="m3-nav-drawer-menu-button material-symbols-outlined"
         role="button"
         (click)="extended = !extended">
         menu
       </span>
-      <span class="header-title">Title</span>
+      <span class="m3-nav-drawer-title">Title</span>
     </div>
     <ng-container *ngIf="!extended">
       <button
@@ -33,15 +34,15 @@
 <div
   class="m3-nav-drawer-content"
   #content>
-  <div class="mock-top-bar">
+  <div class="m3-nav-top-bar">
     <button (click)="elevation = 1">elevation 1</button>
     <button (click)="elevation = 0">elevation 0</button>
   </div>
-  <div class="m3-nav-drawer-content-pane">
+  <div class="m3-nav-drawer-content-outlet">
     <ng-content></ng-content>
   </div>
-  <div class="mock-bottom-bar">
-    <div class="mock-bottom-bar-button-container">
+  <div class="m3-nav-bottom-bar">
+    <div class="m3-nav-bar-button-container">
       <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
@@ -51,39 +52,21 @@
   <button
     m3-label-button
     [activated]="true">
-    <span m3-icon>face</span>
-    <span m3-label>face</span>
-    <span m3-badge>+420</span>
+    <span m3-icon>home</span>
+    <span m3-label>Home</span>
   </button>
   <button m3-label-button>
-    <span m3-icon>face</span>
-    <span m3-label>face</span>
-    <span m3-badge>+420</span>
+    <span m3-icon>list</span>
+    <span m3-label>List</span>
+    <span m3-badge>+4</span>
   </button>
   <button m3-label-button>
-    <span m3-icon>face</span>
-    <span m3-label>face</span>
-    <span m3-badge>+420</span>
+    <span m3-icon>backup_table</span>
+    <span m3-label>Room</span>
   </button>
   <button m3-label-button>
-    <span m3-icon>face</span>
-    <span m3-label>face</span>
+    <span m3-icon>question_answer</span>
+    <span m3-label>Comments</span>
     <span m3-badge>+420</span>
   </button>
-  <!--  <button class="m3-label-button">-->
-  <!--    <span class="material-symbols-outlined">home</span>-->
-  <!--    <div class="m3-label label-medium">test</div>-->
-  <!--  </button>-->
-  <!--  <button class="m3-label-button">-->
-  <!--    <span class="material-symbols-outlined">list</span>-->
-  <!--    <div class="m3-label label-medium">rooms</div>-->
-  <!--  </button>-->
-  <!--  <button class="m3-label-button">-->
-  <!--    <span class="material-symbols-outlined">settings</span>-->
-  <!--    <div class="m3-label label-medium">settings</div>-->
-  <!--  </button>-->
-  <!--  <button class="m3-label-button">-->
-  <!--    <span class="material-symbols-outlined">language</span>-->
-  <!--    <div class="m3-label label-medium">language</div>-->
-  <!--  </button>-->
 </ng-template>
