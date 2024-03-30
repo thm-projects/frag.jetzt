@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'm3-body-pane',
   standalone: true,
   imports: [],
-  templateUrl: './m3-body-pane.component.html',
+  template: '<ng-content></ng-content>',
   styleUrl: './m3-body-pane.component.scss',
 })
 export class M3BodyPaneComponent {}

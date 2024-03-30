@@ -1,27 +1,26 @@
 <!--<m3-nav-rail></m3-nav-rail>-->
 <!--<m3-nav-drawer></m3-nav-drawer>-->
-<div class="m3-nav-content-pane">
-  <div [ngClass]="extended ? 'mock-drawer __drawers' : 'mock-rail __rail'">
-    <ng-container *ngIf="!extended">
-      <button
-        mat-icon-button
+<div
+  class="m3-nav-drawer-shadow"
+  [ngClass]="extended ? 'drawer' : 'rail'">
+  <div
+    class="m3-nav-drawer"
+    [ngClass]="extended ? 'mock-drawer __drawers' : 'mock-rail __rail'">
+    <div class="header">
+      <span
+        class="header-button material-symbols-outlined"
+        role="button"
         (click)="extended = !extended">
-        <mat-icon>menu</mat-icon>
-      </button>
+        menu
+      </span>
+      <span class="header-title">Title</span>
+    </div>
+    <ng-container *ngIf="!extended">
       <button
         mat-fab
         class="mat-elevation-z0">
         <mat-icon>edit</mat-icon>
       </button>
-    </ng-container>
-    <ng-container *ngIf="extended">
-      <div class="mock-drawer-header">
-        <button
-          mat-icon-button
-          (click)="extended = !extended">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
     </ng-container>
     <div
       [ngStyle]="{
@@ -30,24 +29,20 @@
       <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
-  <!--  <div-->
-  <!--    class="mock-drawer __drawers"-->
-  <!--    *ngIf="extended">-->
-  <!--    <div>-->
-  <!--      <ng-container *ngTemplateOutlet="actions"></ng-container>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <div
-    class="m3-nav-drawer-content"
-    #content>
-    <div class="mock-top-bar"></div>
-    <div class="m3-nav-drawer-content-pane">
-      <ng-content></ng-content>
-    </div>
-    <div class="mock-bottom-bar">
-      <div class="mock-bottom-bar-button-container">
-        <ng-container *ngTemplateOutlet="actions"></ng-container>
-      </div>
+</div>
+<div
+  class="m3-nav-drawer-content"
+  #content>
+  <div class="mock-top-bar">
+    <button (click)="elevation = 1">elevation 1</button>
+    <button (click)="elevation = 0">elevation 0</button>
+  </div>
+  <div class="m3-nav-drawer-content-pane">
+    <ng-content></ng-content>
+  </div>
+  <div class="mock-bottom-bar">
+    <div class="mock-bottom-bar-button-container">
+      <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>
 </div>

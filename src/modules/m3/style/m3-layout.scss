@@ -10,10 +10,6 @@ $_window-class: (
     ),
     spacing: (
       pane: 16,
-      /// elevated navigation rail has pane margin
-      /// todo(lph) maybe bind this with elevation?
-      /// https://m3.material.io/foundations/layout/applying-layout/medium#a93938a0-88e6-4533-8439-89ae2f9b9813
-      rail-to-pane: 0,
     ),
     /// https://m3.material.io/foundations/layout/applying-layout/medium#06c4914a-5ca6-4d91-a3ca-a6b494623189
     reachability-offset: 25,
@@ -31,7 +27,6 @@ $_window-class: (
     reachability-offset: 25,
     spacing: (
       pane: 24,
-      rail-to-pane: 24,
     ),
     preferred-pane: 1,
   ),
@@ -47,7 +42,6 @@ $_window-class: (
     reachability-offset: 25,
     spacing: (
       pane: 24,
-      rail-to-pane: 24,
     ),
     preferred-pane: 2,
   ),
@@ -63,7 +57,6 @@ $_window-class: (
     reachability-offset: 25,
     spacing: (
       pane: 24,
-      rail-to-pane: 24,
     ),
     preferred-pane: 2,
   ),
@@ -79,7 +72,6 @@ $_window-class: (
     reachability-offset: 25,
     spacing: (
       pane: 24,
-      rail-to-pane: 24,
     ),
     preferred-pane: 1,
   ),
@@ -172,11 +164,6 @@ $_window-class: (
   @each $key, $value in $_window-class {
     @include explicit-range(#{$key}, #{$key}) {
       --m3-sys-layout-spacing-pane: #{map.get($value, spacing, pane)}px;
-      --m3-sys-layout-spacing-rail-to-pane: #{map.get(
-          $value,
-          spacing,
-          rail-to-pane
-        )}px;
       --m3-sys-layout-reachability-offset: #{map.get(
           $value,
           reachability-offset
