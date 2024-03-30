@@ -24,7 +24,7 @@
     @include m3-layout.explicit-range(compact, large) {
       background-color: var(--md-sys-color-surface3);
     }
-    background-color: var(--md-sys-color-surface2);
+    background-color: var(--md-sys-color-background);
   }
 
   .m3-nav-drawer-content-outlet {
