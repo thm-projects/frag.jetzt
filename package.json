@@ -109,6 +109,12 @@
     "ts-node": "^10.8.1",
     "typescript": "^5.2.2"
   },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "18.0.4",
+    "@nx/nx-darwin-x64": "18.0.4",
+    "@nx/nx-linux-x64-gnu": "18.0.4",
+    "@nx/nx-win32-x64-msvc": "18.0.4"
+  },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
     "stepDefinitions": "cypress/e2e"
