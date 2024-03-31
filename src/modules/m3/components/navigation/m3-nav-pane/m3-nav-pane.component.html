@@ -35,14 +35,17 @@
   class="m3-nav-drawer-content"
   #content>
   <div class="m3-nav-top-bar">
-    <button (click)="elevation = 1">elevation 1</button>
-    <button (click)="elevation = 0">elevation 0</button>
+    <div class="m3-nav-top-bar-content">
+      <button (click)="elevation = 1">elevation 1</button>
+      <button (click)="elevation = 0">elevation 0</button>
+    </div>
   </div>
   <div class="m3-nav-drawer-content-outlet">
     <ng-content></ng-content>
   </div>
+  <div class="m3-nav-bottom-bar-shadow"></div>
   <div class="m3-nav-bottom-bar">
-    <div class="m3-nav-bar-button-container">
+    <div class="m3-nav-bar-button-container __bar">
       <ng-container *ngTemplateOutlet="actions"></ng-container>
     </div>
   </div>

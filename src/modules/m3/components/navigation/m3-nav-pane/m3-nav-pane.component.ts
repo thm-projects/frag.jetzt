@@ -43,7 +43,7 @@ import { M3BodyPaneComponent } from '../../layout/m3-body-pane/m3-body-pane.comp
   styleUrl: './m3-nav-pane.component.scss',
 })
 export class M3NavPaneComponent {
-  extended: boolean = true;
+  extended: boolean = false;
 
   @Input({ transform: numberAttribute })
   set elevation(value: number) {

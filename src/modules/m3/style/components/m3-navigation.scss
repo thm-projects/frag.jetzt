@@ -7,7 +7,14 @@
   .m3-badge,
   .m3-icon,
   .m3-label-button-active-indicator {
-    transition: all 0.2s ease-in-out;
+    transition: var(--m3-comp-nav-pane-transition);
+  }
+  .__bar {
+    @extend .__rail;
+    .m3-label-button {
+      margin: 0;
+      padding: 0;
+    }
   }
   .__rail {
     $label-width: 80;

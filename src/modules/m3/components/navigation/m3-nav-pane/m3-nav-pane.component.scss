@@ -32,6 +32,10 @@
     padding-right: var(--m3-sys-layout-spacing-pane);
     padding-left: 0;
     padding-bottom: 0;
+    @include m3-layout.compact {
+      padding-left: var(--m3-sys-layout-spacing-pane);
+      transition: unset;
+    }
   }
 }
 
@@ -64,8 +68,12 @@
   @include m3-layout.explicit-range(compact, large) {
     max-width: 80px;
   }
+  @include m3-layout.compact {
+    max-width: 0;
+  }
   display: flex;
   flex-direction: column;
+
   > * {
     flex-grow: 1;
   }
@@ -77,24 +85,30 @@
 
 .m3-nav-bottom-bar {
   @include m3-layout.compact() {
-    height: var(--mat-toolbar-standard-height);
+    height: 80px;
+    display: flex;
   }
-  height: 0px;
+  height: 0;
+  display: none;
   width: 100%;
   flex-shrink: 0;
   position: fixed;
-  display: flex;
   z-index: 2;
   bottom: 0;
+  align-items: center;
 
   .m3-nav-bar-button-container {
     display: flex;
     padding: 0 16px;
     flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 
-    .m3-label-button {
-      margin: auto;
-    }
+.m3-nav-bottom-bar-shadow {
+  @include m3-layout.compact {
+    height: 80px;
   }
 }
 
@@ -107,10 +121,25 @@
   flex-shrink: 0;
   z-index: 2;
   top: 0;
+  display: flex;
+}
+
+.m3-nav-top-bar-content {
+  flex-grow: 1;
+  @include m3-layout.compact {
+    margin-left: 80px;
+  }
 }
 
 .m3-nav-drawer-rail {
   width: 80px;
+  @include m3-layout.compact {
+    height: 80px;
+    position: absolute;
+    > *:not(.m3-nav-drawer-header) {
+      display: none;
+    }
+  }
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
