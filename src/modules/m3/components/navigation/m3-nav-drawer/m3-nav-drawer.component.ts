@@ -23,8 +23,8 @@ export class M3NavDrawerComponent {
     return !this.template;
   }
   constructor(private readonly navigationService: M3NavigationService) {
-    this.navigationService.on(M3NavigationKind.Drawer).subscribe((data) => {
-      this.template = data?.template;
-    });
+    // this.navigationService.on(M3NavigationKind.Drawer).subscribe((data) => {
+    //   this.template = data?.template;
+    // });
   }
 }

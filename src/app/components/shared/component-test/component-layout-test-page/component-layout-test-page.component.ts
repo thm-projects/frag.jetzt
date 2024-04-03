@@ -4,6 +4,8 @@ import { M3SupportingPaneComponent } from '../../../../../modules/m3/components/
 import { NgForOf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { M3NavigationService } from '../../../../../modules/m3/services/navigation/m3-navigation.service';
+import { M3TemplateKind } from '../../../../../modules/m3/services/navigation/m3-navigation-types';
 
 @Component({
   selector: 'app-component-layout-test-page',
@@ -18,4 +20,30 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './component-layout-test-page.component.html',
   styleUrl: './component-layout-test-page.component.scss',
 })
-export class ComponentLayoutTestPageComponent {}
+export class ComponentLayoutTestPageComponent {
+  constructor(private readonly m3NavigationService: M3NavigationService) {
+    this.m3NavigationService.emit({
+      elevation: 0,
+      header: {
+        kind: M3TemplateKind.Header,
+      },
+      kind: M3TemplateKind.Navigation,
+      rail: {
+        kind: M3TemplateKind.Rail,
+        title: 'Component-Layout',
+      },
+      railExtension: {
+        kind: M3TemplateKind.RailExtension,
+        sections: [
+          {
+            kind: M3TemplateKind.RailSection,
+            title: 'test',
+            labels: [
+              { kind: M3TemplateKind.Label, text: 'test', icon: 'face' },
+            ],
+          },
+        ],
+      },
+    });
+  }
+}

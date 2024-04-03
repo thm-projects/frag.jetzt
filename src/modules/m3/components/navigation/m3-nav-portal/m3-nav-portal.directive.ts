@@ -8,8 +8,9 @@ import { M3NavigationService } from '../../../services/navigation/m3-navigation.
 })
 export class M3NavPortalDirective implements OnDestroy {
   protected _kind: M3NavigationKind | undefined;
+
   @Input('m3NavPortal') set _setTarget(kind: 'drawer' | 'rail') {
-    this.navigationService.build(kind as M3NavigationKind, this.template);
+    // this.navigationService.build(kind as M3NavigationKind, this.template);
   }
 
   constructor(
@@ -19,7 +20,7 @@ export class M3NavPortalDirective implements OnDestroy {
 
   ngOnDestroy() {
     if (this._kind) {
-      this.navigationService.destroy(this._kind);
+      // this.navigationService.destroy(this._kind);
     }
   }
 }

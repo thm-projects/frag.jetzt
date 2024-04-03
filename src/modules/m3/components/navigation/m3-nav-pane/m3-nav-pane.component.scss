@@ -115,6 +115,10 @@
 .m3-nav-content-pane {
 }
 
+.m3-nav-section-title {
+  margin-left: 28px;
+}
+
 .m3-nav-top-bar {
   height: 80px;
   position: sticky;
@@ -162,6 +166,7 @@
 
   .m3-nav-drawer-title {
     align-self: center;
+    white-space: nowrap;
   }
 }
 

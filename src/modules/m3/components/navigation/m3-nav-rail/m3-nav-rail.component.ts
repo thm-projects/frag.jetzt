@@ -1,7 +1,6 @@
-import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
+import { Component, HostBinding, TemplateRef } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { M3NavigationService } from '../../../services/navigation/m3-navigation.service';
-import { M3NavigationKind } from '../m3-nav-types';
 
 @Component({
   selector: 'm3-nav-rail',
@@ -12,12 +11,14 @@ import { M3NavigationKind } from '../m3-nav-types';
 })
 export class M3NavRailComponent {
   protected template: TemplateRef<any> | undefined;
+
   @HostBinding('class.hide') get _classHide() {
     return !this.template;
   }
+
   constructor(private readonly navigationService: M3NavigationService) {
-    this.navigationService.on(M3NavigationKind.Rail).subscribe((data) => {
-      this.template = data?.template;
-    });
+    // this.navigationService.on(M3NavigationKind.Rail).subscribe((data) => {
+    //   this.template = data?.template;
+    // });
   }
 }

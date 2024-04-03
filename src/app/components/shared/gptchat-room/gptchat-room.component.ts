@@ -76,6 +76,9 @@ import {
 import { MatMenu } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { HeaderComponent } from '../header/header.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -237,8 +240,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
     protected roomState: RoomStateService,
+    protected readonly m3NavigationService: M3NavigationService,
     appState: AppStateService,
   ) {
+    this.m3NavigationService.emit(
+      M3NavigationUtility.emptyPortal(HeaderComponent),
+    );
     this.keywordExtractor = new KeywordExtractor(injector);
     appState.language$.pipe(takeUntil(this.destroyer)).subscribe((lang) => {
       this.language = lang;

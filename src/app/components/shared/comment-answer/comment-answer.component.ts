@@ -40,6 +40,9 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-comment-answer',
@@ -90,8 +93,12 @@ export class CommentAnswerComponent
     private headerService: HeaderService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
+    private readonly m3NavigationService: M3NavigationService,
     injector: Injector,
   ) {
+    this.m3NavigationService.emit(
+      M3NavigationUtility.emptyPortal(HeaderComponent),
+    );
     this._keywordExtractor = new KeywordExtractor(injector);
   }
 

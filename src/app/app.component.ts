@@ -15,6 +15,7 @@ import { EventService } from './services/util/event.service';
 import {
   CookieDialogRequest,
   CookieDialogResponse,
+  listenEvent,
   LivepollDialogRequest,
   LivepollDialogResponse,
   LoginDialogRequest,
@@ -27,7 +28,6 @@ import {
   RescaleResponse,
   SafariUnsupportedRequest,
   SafariUnsupportedResponse,
-  listenEvent,
   sendEvent,
 } from './utils/service-component-events';
 import { LoginComponent } from './components/shared/login/login.component';
@@ -39,7 +39,7 @@ import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/l
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 import { LivepollPeerInstructionComparisonComponent } from './components/shared/_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
-import { Observable, concat, interval, of } from 'rxjs';
+import { concat, interval, Observable, of } from 'rxjs';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
 import { UUID } from './utils/ts-utils';
 import { DeviceStateService } from './services/state/device-state.service';
@@ -64,7 +64,11 @@ import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
+import { M3NavigationService } from '../modules/m3/services/navigation/m3-navigation.service';
+import { M3NavigationTemplate } from '../modules/m3/services/navigation/m3-navigation-types';
+
 const PUSH_KEY = 'push-subscription';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -269,6 +273,7 @@ export class AppComponent implements OnInit {
     },
     self: undefined,
   };
+  template: M3NavigationTemplate | undefined;
 
   constructor(
     private translationService: TranslateService,
@@ -288,6 +293,7 @@ export class AppComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
+    protected m3NavigationService: M3NavigationService,
     public readonly m3DynamicThemeService: M3DynamicThemeService,
     // TODO remove after refactoring
     private readonly _sessionService: SessionService,
@@ -295,6 +301,7 @@ export class AppComponent implements OnInit {
     private readonly _userService: UserService,
     private readonly _commentService: CommentService,
   ) {
+    this.m3NavigationService.template.subscribe((x) => (this.template = x));
     this.__debugger.load();
     this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;
@@ -599,5 +606,21 @@ export class AppComponent implements OnInit {
         }),
       ),
     );
+  }
+
+  onActive($event: unknown) {
+    console.log('activate', $event);
+  }
+
+  onDetach($event: unknown) {
+    console.log('detach', $event);
+  }
+
+  onAttach($event: unknown) {
+    console.log('attach', $event);
+  }
+
+  onDeactivate($event: unknown) {
+    console.log('deactivate', $event);
   }
 }

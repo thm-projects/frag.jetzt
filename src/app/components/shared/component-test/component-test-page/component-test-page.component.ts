@@ -20,6 +20,11 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
 import { M3BodyPaneComponent } from '../../../../../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ComponentTestMarkdownComponent } from './component-test-markdown/component-test-markdown.component';
+import { M3NavigationService } from '../../../../../modules/m3/services/navigation/m3-navigation.service';
+import {
+  M3NavigationTemplate,
+  M3TemplateKind,
+} from '../../../../../modules/m3/services/navigation/m3-navigation-types';
 
 @Component({
   selector: 'app-component-test-page',
@@ -53,5 +58,36 @@ import { ComponentTestMarkdownComponent } from './component-test-markdown/compon
   styleUrl: './component-test-page.component.scss',
 })
 export class ComponentTestPageComponent {
-  constructor() {}
+  constructor(private readonly navigation: M3NavigationService) {
+    navigation.emit({
+      kind: M3TemplateKind.Navigation,
+      elevation: 1,
+      header: {
+        kind: M3TemplateKind.Header,
+      },
+      rail: {
+        kind: M3TemplateKind.Rail,
+        title: 'Component-Test',
+        display: true,
+        labels: [
+          {
+            kind: M3TemplateKind.Label,
+            text: 'Home',
+            icon: 'home',
+          },
+        ],
+      },
+      railExtension: {
+        kind: M3TemplateKind.RailExtension,
+        sections: [
+          {
+            kind: M3TemplateKind.RailSection,
+            labels: [
+              { kind: M3TemplateKind.Label, text: 'test', icon: 'face' },
+            ],
+          },
+        ],
+      },
+    } as M3NavigationTemplate);
+  }
 }

@@ -24,7 +24,8 @@ import {
   trigger,
 } from '@angular/animations';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationKind } from '../../../../modules/m3/components/navigation/m3-nav-types';
+import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -56,18 +57,19 @@ export class RoomCreatorPageComponent
   /**
    * on true: shows all elements regardless of *ngIf
    */
-  __debug = true;
+  __debug = false;
 
   @HostBinding('class.new-ui') get _HostBindingNewUI() {
     return this.newUI;
   }
 
-  newUI = true;
+  newUI = false;
   contentTemplate: TemplateRef<unknown>;
   templateName: string;
   roomTags: FormControl = new FormControl<unknown>([]);
   contentAnimationState: string = 'out';
   formControl: FormControl;
+
   @ViewChild('roomTemplate', { read: TemplateRef<unknown>, static: true })
   set _defaultContentTemplate(template: TemplateRef<unknown>) {
     this.setTemplate(template, 'roomTemplate');
@@ -80,6 +82,9 @@ export class RoomCreatorPageComponent
     protected readonly m3NavigationService: M3NavigationService,
   ) {
     super(injector);
+    this.m3NavigationService.emit(
+      M3NavigationUtility.emptyPortal(HeaderComponent),
+    );
   }
 
   ngAfterViewInit() {
@@ -88,7 +93,6 @@ export class RoomCreatorPageComponent
 
   override ngOnDestroy() {
     super.ngOnDestroy();
-    this.m3NavigationService.destroy(M3NavigationKind.Drawer);
   }
 
   ngAfterContentInit(): void {

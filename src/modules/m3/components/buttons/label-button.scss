@@ -7,4 +7,8 @@
   border: none;
   outline: none;
   position: relative;
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+  touch-action: none;
 }

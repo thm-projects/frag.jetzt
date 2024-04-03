@@ -1,6 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-export interface M3NavigationTemplate {
+export interface M3NavigationTemplateRef {
   template: TemplateRef<any>;
 }
 

@@ -23,6 +23,9 @@ import { carousel } from './home-page-carousel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -65,8 +68,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appState: AppStateService,
     public readonly themeService: ThemeService,
+    public readonly m3NavigationService: M3NavigationService,
     sanitizer: DomSanitizer,
   ) {
+    m3NavigationService.emit(M3NavigationUtility.emptyPortal(HeaderComponent));
     themeService
       .getTheme()
       .pipe(

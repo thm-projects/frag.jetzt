@@ -6,7 +6,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { M3NavigationService } from '../../../services/navigation/m3-navigation.service';
-import { M3NavigationKind } from '../m3-nav-types';
 
 @Directive({
   selector: '[m3NavDrawerTriggerFor]',
@@ -26,6 +25,6 @@ export class M3NavDrawerTriggerForDirective {
   }
 
   @HostListener('click', ['$event']) _click($event: MouseEvent) {
-    this.navigationService.build(M3NavigationKind.Drawer, this._templateRef);
+    // this.navigationService.build(M3NavigationKind.Drawer, this._templateRef);
   }
 }

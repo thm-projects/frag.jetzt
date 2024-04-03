@@ -87,6 +87,9 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
+import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { HeaderComponent } from '../header/header.component';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 
 class TagComment implements WordMeta {
   constructor(
@@ -179,8 +182,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
     private roomState: RoomStateService,
+    protected readonly m3NavigationService: M3NavigationService,
     injector: Injector,
   ) {
+    this.m3NavigationService.emit(
+      M3NavigationUtility.emptyPortal(HeaderComponent),
+    );
     this.keywordExtractor = new KeywordExtractor(injector);
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {

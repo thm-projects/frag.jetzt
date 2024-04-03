@@ -2,6 +2,8 @@
   height: 1000px;
   background-color: var(--md-sys-color-surface3);
   border-radius: var(--md-sys-shape-corner-large);
+  display: flex;
+  flex-direction: column;
 }
 
 .mock-card {

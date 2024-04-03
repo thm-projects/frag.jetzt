@@ -73,76 +73,76 @@
 <!--  </button>-->
 <!--</ng-template>-->
 
-<ng-template
-  #appsTemplate
-  [m3NavPortal]="'drawer'">
-  <span mat-subheader>Room</span>
-  <mat-nav-list>
-    <mat-list-item
-      (click)="setTemplate(roomTemplate, 'roomTemplate')"
-      [activated]="templateName === 'roomTemplate'">
-      <mat-icon matListItemIcon>meeting_room</mat-icon>
-      <span matListItemTitle>Room</span>
-    </mat-list-item>
-    <mat-list-item>
-      <mat-icon matListItemIcon>comment</mat-icon>
-      <span matListItemTitle>Comments</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(moderationTemplate, 'moderationTemplate')"
-      [activated]="templateName === 'moderationTemplate'">
-      <mat-icon matListItemIcon>gavel</mat-icon>
-      <span matListItemTitle>Moderation</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(settingsTemplate, 'settingsTemplate')"
-      [activated]="templateName === 'settingsTemplate'">
-      <mat-icon matListItemIcon>settings</mat-icon>
-      <span matListItemTitle>Settings</span>
-    </mat-list-item>
-  </mat-nav-list>
-  <span matSubheader>Apps</span>
-  <mat-nav-list>
-    <mat-list-item
-      (click)="setTemplate(questionFocusTemplate, 'questionFocusTemplate')"
-      [activated]="templateName === 'questionFocusTemplate'">
-      <mat-icon matListItemIcon>view_kanban</mat-icon>
-      <span matListItemTitle>Question Focus</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(flashPollTemplate, 'flashPollTemplate')"
-      [activated]="templateName === 'flashPollTemplate'">
-      <mat-icon matListItemIcon>flash_on</mat-icon>
-      <span matListItemTitle>Flash Poll</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(questionRadarTemplate, 'questionRadarTemplate')"
-      [activated]="templateName === 'questionRadarTemplate'">
-      <mat-icon matListItemIcon>radar</mat-icon>
-      <span matListItemTitle>Question Radar</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(brainstormingTemplate, 'brainstormingTemplate')"
-      [activated]="templateName === 'brainstormingTemplate'">
-      <mat-icon matListItemIcon>tips_and_updates</mat-icon>
-      <span matListItemTitle>Brainstorming</span>
-    </mat-list-item>
-    <mat-list-item
-      (click)="setTemplate(quizRallyTemplate, 'quizRallyTemplate')"
-      [activated]="templateName === 'quizRallyTemplate'">
-      <mat-icon matListItemIcon>rocket_launch</mat-icon>
-      <span matListItemTitle>Quiz Rally</span>
-    </mat-list-item>
-  </mat-nav-list>
-</ng-template>
+<!--<ng-template-->
+<!--  #appsTemplate-->
+<!--  [m3NavPortal]="'drawer'">-->
+<!--  <span mat-subheader>Room</span>-->
+<!--  <mat-nav-list>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(roomTemplate, 'roomTemplate')"-->
+<!--      [activated]="templateName === 'roomTemplate'">-->
+<!--      <mat-icon matListItemIcon>meeting_room</mat-icon>-->
+<!--      <span matListItemTitle>Room</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item>-->
+<!--      <mat-icon matListItemIcon>comment</mat-icon>-->
+<!--      <span matListItemTitle>Comments</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(moderationTemplate, 'moderationTemplate')"-->
+<!--      [activated]="templateName === 'moderationTemplate'">-->
+<!--      <mat-icon matListItemIcon>gavel</mat-icon>-->
+<!--      <span matListItemTitle>Moderation</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(settingsTemplate, 'settingsTemplate')"-->
+<!--      [activated]="templateName === 'settingsTemplate'">-->
+<!--      <mat-icon matListItemIcon>settings</mat-icon>-->
+<!--      <span matListItemTitle>Settings</span>-->
+<!--    </mat-list-item>-->
+<!--  </mat-nav-list>-->
+<!--  <span matSubheader>Apps</span>-->
+<!--  <mat-nav-list>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(questionFocusTemplate, 'questionFocusTemplate')"-->
+<!--      [activated]="templateName === 'questionFocusTemplate'">-->
+<!--      <mat-icon matListItemIcon>view_kanban</mat-icon>-->
+<!--      <span matListItemTitle>Question Focus</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(flashPollTemplate, 'flashPollTemplate')"-->
+<!--      [activated]="templateName === 'flashPollTemplate'">-->
+<!--      <mat-icon matListItemIcon>flash_on</mat-icon>-->
+<!--      <span matListItemTitle>Flash Poll</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(questionRadarTemplate, 'questionRadarTemplate')"-->
+<!--      [activated]="templateName === 'questionRadarTemplate'">-->
+<!--      <mat-icon matListItemIcon>radar</mat-icon>-->
+<!--      <span matListItemTitle>Question Radar</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(brainstormingTemplate, 'brainstormingTemplate')"-->
+<!--      [activated]="templateName === 'brainstormingTemplate'">-->
+<!--      <mat-icon matListItemIcon>tips_and_updates</mat-icon>-->
+<!--      <span matListItemTitle>Brainstorming</span>-->
+<!--    </mat-list-item>-->
+<!--    <mat-list-item-->
+<!--      (click)="setTemplate(quizRallyTemplate, 'quizRallyTemplate')"-->
+<!--      [activated]="templateName === 'quizRallyTemplate'">-->
+<!--      <mat-icon matListItemIcon>rocket_launch</mat-icon>-->
+<!--      <span matListItemTitle>Quiz Rally</span>-->
+<!--    </mat-list-item>-->
+<!--  </mat-nav-list>-->
+<!--</ng-template>-->
 
-<ng-template #settingsTemplate>
-  <ng-container [m3DynamicThemePortal]="'#561236'"></ng-container>
-  <div class="left-content-pane">
-    <h1>Settings</h1>
-    <app-room-settings-overview [room]="room"></app-room-settings-overview>
-  </div>
-</ng-template>
+<!--<ng-template #settingsTemplate>-->
+<!--  <ng-container [m3DynamicThemePortal]="'#561236'"></ng-container>-->
+<!--  <div class="left-content-pane">-->
+<!--    <h1>Settings</h1>-->
+<!--    <app-room-settings-overview [room]="room"></app-room-settings-overview>-->
+<!--  </div>-->
+<!--</ng-template>-->
 <ng-template #moderationTemplate>
   <div class="grow column gap-extra-large">
     <div class="column">
