@@ -10,13 +10,11 @@ interface BroadcastEvent {
 @Injectable()
 export class EventService {
   static instance: EventService;
-  focusOnInput: boolean;
-  private _eventBus: Subject<BroadcastEvent>;
+  focusOnInput = false;
+  private _eventBus = new Subject<BroadcastEvent>();
 
   constructor() {
     EventService.instance = this;
-    this._eventBus = new Subject<BroadcastEvent>();
-    this.focusOnInput = false;
   }
 
   broadcast(key: string, data?: unknown) {
