@@ -1,5 +1,5 @@
 import { EventService } from '../services/util/event.service';
-import { Observable, first } from 'rxjs';
+import { Observable, filter, first } from 'rxjs';
 import { MotdAPI } from '../services/http/motd.service';
 import { ClassType, UUID } from './ts-utils';
 import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -200,7 +200,7 @@ export const callServiceEvent = <
 export const listenEvent = <T extends ServiceRequest<T, any>>(
   eventService: EventService,
   clazz: ClassType<T>,
-) => eventService.on<T>(clazz.name);
+) => eventService.on<T>(clazz.name).pipe(filter((v) => v instanceof clazz));
 
 export const sendEvent = (
   eventService: EventService,
