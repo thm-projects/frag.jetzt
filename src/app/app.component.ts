@@ -292,7 +292,6 @@ export class AppComponent implements OnInit {
     private readonly _userService: UserService,
     private readonly _commentService: CommentService,
   ) {
-    console.log('init');
     this.__debugger.load();
     this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;
@@ -316,7 +315,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     this.initUpdates();
     this.initPush();
     document.documentElement.classList.add('theme-target');
@@ -391,8 +389,11 @@ export class AppComponent implements OnInit {
   }
 
   private initDialogsForServices() {
-    console.log('init dialog');
     listenEvent(this.eventService, LoginDialogRequest).subscribe((request) => {
+      console.log(request);
+      console.trace();
+      // eslint-disable-next-line no-debugger
+      debugger;
       const dialogRef = this.dialog.open(LoginComponent, {
         width: '350px',
       });
