@@ -32,7 +32,7 @@ export class EventService {
   }
 
   on<T>(key: string): Observable<T> {
-    return this._eventBus.asObservable().pipe(
+    return this._eventBus.pipe(
       filter((event) => event.key === key),
       map((event) => event.data as T),
     );
