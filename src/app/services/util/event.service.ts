@@ -18,7 +18,6 @@ export class EventService {
   }
 
   broadcast(key: string, data?: unknown) {
-    console.log('broadcasting', key, data);
     this._eventBus.next({ key, data });
   }
 
