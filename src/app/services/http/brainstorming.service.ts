@@ -71,7 +71,7 @@ export class BrainstormingService extends BaseHttpService {
     sessionChanges: Partial<BrainstormingSessionAPI>,
   ) {
     const connectionUrl =
-      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId + '/';
+      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
     return this.http
       .patch<BrainstormingSession>(connectionUrl, sessionChanges, httpOptions)
       .pipe(
