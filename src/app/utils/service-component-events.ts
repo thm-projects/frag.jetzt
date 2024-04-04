@@ -7,10 +7,7 @@ import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 let counter = 0;
 
 export class ServiceComponentEvent {
-  constructor(
-    public readonly name: string,
-    public readonly id: number,
-  ) {}
+  constructor(public readonly name: string, public readonly id: number) {}
 }
 
 export class ServiceRequest<
@@ -72,10 +69,7 @@ export class CookieDialogResponse extends ComponentResponse<
   CookieDialogResponse,
   CookieDialogRequest
 > {
-  constructor(
-    request: CookieDialogRequest,
-    public readonly accepted: boolean,
-  ) {
+  constructor(request: CookieDialogRequest, public readonly accepted: boolean) {
     super(CookieDialogResponse, request);
   }
 }
@@ -187,7 +181,12 @@ export const callServiceEvent = <
   return new Observable<K>((subscriber) => {
     eventService
       .on<K>(event.responseClass.name)
-      .pipe(first((v) => v?.id === event.id))
+      .pipe(
+        first(
+          (v) =>
+            (v as object) instanceof event.responseClass && v?.id === event.id,
+        ),
+      )
       .subscribe((v) => {
         subscriber.next(v);
         subscriber.complete();
