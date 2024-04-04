@@ -390,10 +390,6 @@ export class AppComponent implements OnInit {
 
   private initDialogsForServices() {
     listenEvent(this.eventService, LoginDialogRequest).subscribe((request) => {
-      console.log(request);
-      console.trace();
-      // eslint-disable-next-line no-debugger
-      debugger;
       const dialogRef = this.dialog.open(LoginComponent, {
         width: '350px',
       });
