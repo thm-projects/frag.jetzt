@@ -1,5 +1,5 @@
 import { EventService } from '../services/util/event.service';
-import { Observable, Subject, filter, takeUntil, tap } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { MotdAPI } from '../services/http/motd.service';
 import { ClassType, UUID } from './ts-utils';
 import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -7,7 +7,10 @@ import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 let counter = 0;
 
 export class ServiceComponentEvent {
-  constructor(public readonly name: string, public readonly id: number) {}
+  constructor(
+    public readonly name: string,
+    public readonly id: number,
+  ) {}
 }
 
 export class ServiceRequest<
@@ -16,10 +19,11 @@ export class ServiceRequest<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Response extends ComponentResponse<any, Type>,
 > extends ServiceComponentEvent {
-  public readonly responseClass: ClassType<Response>;
-  constructor(clazz: ClassType<Type>, responseClass: ClassType<Response>) {
+  constructor(
+    clazz: ClassType<Type>,
+    public readonly responseClass: ClassType<Response>,
+  ) {
     super(clazz.name, counter++);
-    this.responseClass = responseClass;
   }
 }
 
@@ -68,7 +72,10 @@ export class CookieDialogResponse extends ComponentResponse<
   CookieDialogResponse,
   CookieDialogRequest
 > {
-  constructor(request: CookieDialogRequest, public readonly accepted: boolean) {
+  constructor(
+    request: CookieDialogRequest,
+    public readonly accepted: boolean,
+  ) {
     super(CookieDialogResponse, request);
   }
 }
@@ -178,20 +185,13 @@ export const callServiceEvent = <
   event: T,
 ): Observable<K> => {
   return new Observable<K>((subscriber) => {
-    const finished = new Subject();
     eventService
       .on<K>(event.responseClass.name)
-      .pipe(
-        takeUntil(finished),
-        filter((v) => v?.id === event.id),
-        tap((data) => {
-          finished.next(true);
-          finished.complete();
-          subscriber.next(data);
-          subscriber.complete();
-        }),
-      )
-      .subscribe();
+      .pipe(first((v) => v?.id === event.id))
+      .subscribe((v) => {
+        subscriber.next(v);
+        subscriber.complete();
+      });
     eventService.broadcast(event.name, event);
   });
 };

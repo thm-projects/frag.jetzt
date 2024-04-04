@@ -266,8 +266,8 @@ export class AccountStateService {
             role === UserRole.CREATOR
               ? 'Creator'
               : role > UserRole.PARTICIPANT
-              ? 'Moderator'
-              : 'Participant',
+                ? 'Moderator'
+                : 'Participant',
           lastAccess: new Date(),
         }),
       )
@@ -397,6 +397,9 @@ export class AccountStateService {
   }
 
   private redirectLogin(): Observable<User> {
+    console.trace();
+    // eslint-disable-next-line no-debugger
+    debugger;
     return callServiceEvent(
       this.eventService,
       new LoginDialogRequest(window.location.href),
