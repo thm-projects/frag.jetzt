@@ -153,6 +153,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.headerService.isActive = true;
     this.headerService.initHeader(() => this);
     if (this.toolbarRow) {
       this.shrinkObserver = new ShrinkObserver(this.toolbarRow?.nativeElement);

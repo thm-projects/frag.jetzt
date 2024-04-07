@@ -24,7 +24,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../../shared/header/header.component';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';

@@ -9,6 +9,6 @@
   position: relative;
   &:not(:disabled) {
     cursor: pointer;
+    user-select: none;
   }
-  touch-action: none;
 }

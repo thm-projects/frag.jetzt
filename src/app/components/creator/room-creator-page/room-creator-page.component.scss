@@ -108,3 +108,225 @@
   display: flex;
   flex-direction: column;
 }
+
+$margin: 40px;
+$padding: 16px;
+$footer-size: 46px;
+$header-size: 64px;
+
+* {
+  box-sizing: border-box !important;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: $margin;
+  margin-bottom: $margin;
+
+  > mat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: $padding;
+    min-height: calc(
+      100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2}
+    );
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+
+    > mat-card-header {
+      margin: 8px 0;
+      display: flex;
+      justify-content: center;
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+      mat-card-title {
+        display: flex;
+        justify-content: center;
+
+        h2 {
+          font-size: 16px !important;
+          font-weight: normal;
+          margin-top: 35px;
+        }
+
+        .inline-icon-button {
+          width: 40px;
+          height: 40px;
+          margin-top: 25px;
+        }
+      }
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+      mat-card-subtitle {
+        display: flex;
+        justify-content: center;
+
+        .room-short-id {
+          font-size: 14px;
+          margin-top: -8px;
+        }
+
+        .subtitle-btn {
+          width: 40px;
+          height: 40px;
+          margin-top: -20px;
+          color: var(--primary);
+        }
+
+        .key-icon {
+          color: var(--red);
+          font-size: 36px;
+          width: 40px;
+          height: 40px;
+          margin-left: 6px;
+          margin-top: 5px;
+        }
+      }
+    }
+
+    > mat-card-content {
+      margin: 8px 3%;
+      display: flex;
+      justify-content: center;
+    }
+
+    > mat-card-footer {
+      width: 100%;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+
+      h3 {
+        margin: 0;
+        color: var(--on-surface) !important;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 0 20px 20px 20px; //Bugfix for Safari, which otherwise cuts off the text at the corners
+      }
+
+      .mat-mdc-icon-button {
+        width: max-content;
+        height: 100%;
+        color: var(--primary) !important;
+        transition: all 0.3s;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+
+      .gavel-icon {
+        color: var(--red);
+      }
+
+      .main-icon {
+        font-size: 80px;
+        height: 80px;
+        width: 80px;
+        line-height: 100% !important;
+      }
+
+      .smallerIcon {
+        font-size: 60px;
+        height: 60px;
+        width: 60px;
+        line-height: 100% !important;
+      }
+
+      mat-icon > ::ng-deep .mat-badge-content {
+        font-size: 16px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: var(--secondary);
+        color: var(--on-secondary);
+        font-weight: normal;
+      }
+
+      .response-badge {
+        width: 40px;
+        display: inline-block;
+        height: 80px;
+        line-height: 100% !important;
+
+        &.smallerIcon {
+          height: 60px;
+
+          > .mat-badge-content {
+            margin-top: 20px;
+          }
+        }
+
+        > .mat-badge-content {
+          width: 40px !important;
+          height: 40px !important;
+          line-height: 40px !important;
+          background-color: var(--primary);
+          color: var(--on-primary);
+          font-size: 16px !important;
+          font-weight: normal;
+          margin: 30px 0 0 10px;
+        }
+      }
+    }
+  }
+}
+
+.main-icon material-icons-outlined {
+  width: 65px;
+}
+
+.spending-container {
+  width: 75%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.spending {
+  padding: 24px;
+  flex-basis: calc(33.33% - 16px);
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  background-color: var(--background);
+  font-size: small;
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 100%;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+
+  & .label:last-child {
+    text-align: right;
+  }
+}
+
+.bar {
+  padding: 2px;
+  background-color: var(--primary);
+  border-radius: 14px;
+
+  & .spent {
+    width: 0;
+    padding: 1px;
+    background-color: var(--on-primary);
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .spending {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}

@@ -13,7 +13,7 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../header/header.component';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 

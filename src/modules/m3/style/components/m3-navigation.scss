@@ -1,26 +1,26 @@
 @use "../../style/m3-typescale" as m3-typescale;
 
+@mixin _label() {
+}
+
 @mixin component() {
   /// https://m3.material.io/components/navigation-drawer/specs#25f67916-87fa-4cbb-b390-175096ae559b
   .m3-label-button,
-  .m3-label,
-  .m3-badge,
-  .m3-icon,
   .m3-label-button-active-indicator {
     transition: var(--m3-comp-nav-pane-transition);
   }
-  .__bar {
-    @extend .__rail;
+  .m3-navigation-bar-labels {
+    @extend .m3-navigation-rail-labels;
     .m3-label-button {
       margin: 0;
       padding: 0;
     }
   }
-  .__rail {
+  .m3-navigation-rail-labels {
     $label-width: 80;
     $label-height: 56;
     $active-indicator-height: 32;
-    $active-indicator-shape: #{$active-indicator-height/2};
+    $active-indicator-shape: #{$active-indicator-height * 0.5};
     $active-indicator-width: 56;
     $active-indicator-padding: 12;
     $icon-size: 24;
@@ -95,11 +95,11 @@
       }
     }
   }
-  .__drawers {
-    $label-width: 80;
+  .m3-navigation-drawer-labels {
+    $label-width: 360;
     $label-height: 56;
     $active-indicator-height: 56;
-    $active-indicator-shape: #{$active-indicator-height/2};
+    $active-indicator-shape: #{$active-indicator-height * 0.5};
     $active-indicator-width: 336;
     $active-indicator-padding: 12;
     $icon-size: 24;

@@ -24,7 +24,7 @@ import { M3NavigationService } from '../../../../../modules/m3/services/navigati
 import {
   M3NavigationTemplate,
   M3TemplateKind,
-} from '../../../../../modules/m3/services/navigation/m3-navigation-types';
+} from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 
 @Component({
   selector: 'app-component-test-page',

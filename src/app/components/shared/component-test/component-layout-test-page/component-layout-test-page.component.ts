@@ -5,7 +5,11 @@ import { NgForOf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { M3NavigationService } from '../../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3TemplateKind } from '../../../../../modules/m3/services/navigation/m3-navigation-types';
+import {
+  M3State,
+  M3TemplateKind,
+} from '../../../../../modules/m3/components/navigation/m3-navigation-types';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-component-layout-test-page',
@@ -26,6 +30,7 @@ export class ComponentLayoutTestPageComponent {
       elevation: 0,
       header: {
         kind: M3TemplateKind.Header,
+        component: HeaderComponent,
       },
       kind: M3TemplateKind.Navigation,
       rail: {
@@ -39,7 +44,12 @@ export class ComponentLayoutTestPageComponent {
             kind: M3TemplateKind.RailSection,
             title: 'test',
             labels: [
-              { kind: M3TemplateKind.Label, text: 'test', icon: 'face' },
+              {
+                kind: M3TemplateKind.Label,
+                text: 'test',
+                icon: 'face',
+                state: M3State.Active,
+              },
             ],
           },
         ],

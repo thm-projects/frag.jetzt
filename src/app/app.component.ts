@@ -65,7 +65,7 @@ import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
 import { M3NavigationService } from '../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationTemplate } from '../modules/m3/services/navigation/m3-navigation-types';
+import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-navigation-types';
 
 const PUSH_KEY = 'push-subscription';
 

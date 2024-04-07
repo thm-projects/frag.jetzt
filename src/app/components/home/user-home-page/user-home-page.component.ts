@@ -21,13 +21,19 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
 import { SessionService } from '../../../services/util/session.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { ReplaySubject, forkJoin, takeUntil } from 'rxjs';
+import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
+import {
+  M3State,
+  M3TemplateKind,
+} from '../../../../modules/m3/components/navigation/m3-navigation-types';
+import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { Navigation } from '../../navigation/common-navigation-templates';
 
 @Component({
   selector: 'app-user-home-page',
@@ -60,7 +66,49 @@ export class UserHomePageComponent
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
-  ) {}
+    private readonly m3NavigationService: M3NavigationService,
+  ) {
+    this.initM3Navigation();
+  }
+
+  initM3Navigation() {
+    this.m3NavigationService.emit({
+      kind: M3TemplateKind.Navigation,
+      elevation: 1,
+      header: {
+        kind: M3TemplateKind.Header,
+        right: [
+          Navigation.more([
+            Navigation.common.CreateRoom,
+            Navigation.common.BonusToken,
+            Navigation.common.LogOut,
+          ]),
+        ],
+      },
+      railExtension: {
+        kind: M3TemplateKind.RailExtension,
+        sections: [
+          {
+            title: 'some arbitrary name',
+            kind: M3TemplateKind.RailSection,
+            labels: [
+              Navigation.common.CreateRoom,
+              Navigation.common.BonusToken,
+            ],
+          },
+        ],
+      },
+      rail: {
+        kind: M3TemplateKind.Rail,
+        labels: [
+          Navigation.location.HomePage,
+          Navigation.transform(Navigation.location.UserHomePage, {
+            state: M3State.Active,
+          }),
+        ],
+      },
+    });
+  }
 
   ngAfterContentInit(): void {
     setTimeout(() => {
@@ -176,7 +224,7 @@ export class UserHomePageComponent
   }
 
   private initNavigation() {
-    if (this._list) {
+    if (this._list || !this.headerService.isActive) {
       return;
     }
     this._list = this.composeService.builder(

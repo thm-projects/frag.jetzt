@@ -77,7 +77,7 @@ import { MatMenu } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationUtility } from '../../../../modules/m3/services/navigation/m3-navigation-types';
+import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../header/header.component';
 
 interface ConversationEntry {

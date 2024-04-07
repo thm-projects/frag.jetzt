@@ -29,25 +29,16 @@ export interface M3NavigationTemplate
   railExtension?: M3RailExtensionTemplate;
 }
 
-interface M3ButtonAction {
-  triggerFor?: M3MenuTemplate;
+export interface M3ButtonAction {
+  triggerFor?: M3LabelTemplate[];
   route?: {
     commands: string[];
     extras: NavigationExtras;
   };
-  action?: VoidFunction;
+  click?: VoidFunction;
 }
 
 export interface M3BadgeTemplate extends M3AbstractNode<M3TemplateKind.Badge> {}
-
-export interface M3MenuItemTemplate extends M3ButtonAction {
-  name: string;
-  icon?: string;
-}
-
-export interface M3MenuTemplate {
-  items: M3MenuItemTemplate[];
-}
 
 export interface M3LabelTemplate
   extends M3AbstractNode<M3TemplateKind.Label>,
@@ -80,9 +71,34 @@ export interface M3PortalTemplate {
   component?: Type<any>;
 }
 
+type M3Themable = {
+  color?: 'primary' | 'secondary' | 'tertiary';
+};
+
+export type M3ButtonTemplate =
+  | ({
+      type: 'raised' | 'flat' | 'stroked' | 'default';
+      color?: 'primary' | 'secondary' | 'tertiary';
+      text: string;
+      icon?: string;
+      state?: M3State;
+    } & M3ButtonAction &
+      M3Themable)
+  | ({
+      type: 'icon';
+      icon: string;
+      // todo(lph) remove this when ide support can properly differentiate types
+      text?: undefined;
+      state?: M3State;
+    } & M3ButtonAction &
+      M3Themable);
+
 export interface M3HeaderTemplate
   extends M3AbstractNode<M3TemplateKind.Header>,
-    M3PortalTemplate {}
+    M3PortalTemplate {
+  left?: M3ButtonTemplate[];
+  right?: M3ButtonTemplate[];
+}
 
 export const M3NavigationUtility = {
   emptyPortal(component: Type<any>): M3NavigationTemplate {

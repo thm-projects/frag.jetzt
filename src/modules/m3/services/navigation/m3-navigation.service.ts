@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { M3NavigationTemplate } from './m3-navigation-types';
+import { M3NavigationTemplate } from '../../components/navigation/m3-navigation-types';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

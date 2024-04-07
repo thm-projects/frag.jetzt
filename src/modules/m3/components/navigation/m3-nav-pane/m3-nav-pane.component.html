@@ -5,8 +5,8 @@
   <div
     [ngClass]="
       extended
-        ? 'm3-nav-drawer-expansion __drawers'
-        : 'm3-nav-drawer-rail __rail'
+        ? 'm3-nav-drawer-expansion m3-navigation-drawer-labels'
+        : 'm3-nav-drawer-rail m3-navigation-rail-labels'
     ">
     <div class="m3-nav-drawer-header">
       <span
@@ -21,21 +21,13 @@
         {{ template.rail.title }}
       </span>
     </div>
-    <!--    <ng-container *ngIf="!extended">-->
-    <!--      <button-->
-    <!--        mat-fab-->
-    <!--        class="mat-elevation-z0">-->
-    <!--        <mat-icon>edit</mat-icon>-->
-    <!--      </button>-->
-    <!--    </ng-container>-->
     <div
       [ngStyle]="{
         width: extended ? 'auto' : '100%'
-      }">
-      <ng-container *ngTemplateOutlet="actions"></ng-container>
-      <ng-container *ngIf="extended">
-        <ng-container *ngTemplateOutlet="extendedActions"></ng-container>
-      </ng-container>
+      }"
+      [m3LabelTemplateList]="template.rail.labels"></div>
+    <div #extendedActionsContainer>
+      <ng-container *ngTemplateOutlet="extendedActions"></ng-container>
     </div>
   </div>
 </div>
@@ -44,11 +36,19 @@
   #content>
   <div class="m3-nav-top-bar">
     <div class="m3-nav-top-bar-content">
-      <ng-container *ngIf="template && template.header.component">
+      <div
+        class="left"
+        *ngIf="template.header.left"
+        [m3ButtonTemplateList]="template.header.left"></div>
+      <div
+        class="right"
+        *ngIf="template.header.right"
+        [m3ButtonTemplateList]="template.header.right"></div>
+      <ng-container *ngIf="template.header.component">
         <ng-container
           *ngComponentOutlet="template.header.component"></ng-container>
       </ng-container>
-      <ng-container *ngIf="template && template.header.templateRef">
+      <ng-container *ngIf="template.header.templateRef">
         <ng-container
           *ngTemplateOutlet="template.header.templateRef"></ng-container>
       </ng-container>
@@ -59,65 +59,25 @@
   </div>
   <div class="m3-nav-bottom-bar-shadow"></div>
   <div class="m3-nav-bottom-bar">
-    <div class="m3-nav-bar-button-container __bar">
-      <ng-container *ngTemplateOutlet="actions"></ng-container>
-    </div>
+    <div
+      class="m3-nav-bar-button-container m3-navigation-bar-labels"
+      [m3LabelTemplateList]="template.rail.labels"></div>
   </div>
 </div>
-
-<ng-template #actions>
-  <ng-container *ngIf="template">
-    <ng-container *ngFor="let label of template.rail.labels || []">
-      <ng-container
-        *ngTemplateOutlet="
-          labelTemplate;
-          context: { label: label }
-        "></ng-container>
-    </ng-container>
-  </ng-container>
-</ng-template>
 
 <ng-template #extendedActions>
   <ng-container *ngIf="template">
     <ng-container *ngFor="let section of template.railExtension.sections">
       <div
         class="m3-nav-section"
-        @M3SectionAnimation>
+        [ngClass]="extended ? 'open' : 'closed'">
         <span
           class="m3-nav-section-title label-medium"
           *ngIf="section.title">
           {{ section.title }}
         </span>
-        <ng-container *ngFor="let label of section.labels">
-          <ng-container
-            *ngTemplateOutlet="
-              labelTemplate;
-              context: { label: label }
-            "></ng-container>
-        </ng-container>
+        <div [m3LabelTemplateList]="section.labels"></div>
       </div>
     </ng-container>
   </ng-container>
-</ng-template>
-
-<ng-template
-  #labelTemplate
-  let-label="label">
-  <button
-    m3-label-button
-    (click)="applyLabelAction(label)"
-    [activated]="label.state === M3State.Active"
-    [matMenuTriggerFor]="label.triggerFor ? labelTemplateMenu : undefined"
-    [disabled]="label.state === M3State.Disabled">
-    <span m3-icon>{{ label.icon }}</span>
-    <span m3-label>{{ label.text }}</span>
-  </button>
-  <mat-menu #labelTemplateMenu>
-    <ng-container *ngFor="let menuItem of label.triggerFor">
-      <button mat-menu-item>
-        <mat-icon *ngIf="menuItem.icon">{{ menuItem.icon }}</mat-icon>
-        {{ menuItem.text }}
-      </button>
-    </ng-container>
-  </mat-menu>
 </ng-template>

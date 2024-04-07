@@ -36,7 +36,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { M3NavigationUtility } from '../../../../../modules/m3/services/navigation/m3-navigation-types';
+import { M3NavigationUtility } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../../header/header.component';
 import { M3NavigationService } from '../../../../../modules/m3/services/navigation/m3-navigation.service';
 

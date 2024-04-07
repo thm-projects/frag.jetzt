@@ -3,6 +3,7 @@ import { HeaderComponent } from '../../components/shared/header/header.component
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,9 @@ export class HeaderService {
   private userActivityToggle: boolean;
   private userActivityToggleListener: ((v: boolean) => void)[] = [];
   private headerComponent: () => HeaderComponent;
+  private readonly _isActive: BehaviorSubject<boolean> = new BehaviorSubject(
+    false,
+  );
 
   public getHeaderComponent(): HeaderComponent {
     return this.headerComponent();
@@ -64,5 +68,13 @@ export class HeaderService {
 
   public getHost(): ArsComposeHostDirective {
     return this.headerComponent().host;
+  }
+
+  set isActive(value: boolean) {
+    this._isActive.next(value);
+  }
+
+  get isActive() {
+    return this._isActive.value;
   }
 }

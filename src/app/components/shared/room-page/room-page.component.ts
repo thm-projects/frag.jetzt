@@ -142,6 +142,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this._list?.forEach((e) => e.destroy());
     this._sub?.unsubscribe();
     this.titleService.resetTitle();
+    this.headerService.isActive = false;
   }
 
   tryInitNavigation() {
@@ -478,6 +479,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
+    if (!this.headerService.isActive) return;
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
