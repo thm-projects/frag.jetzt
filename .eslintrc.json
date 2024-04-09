@@ -5,17 +5,14 @@
     "src/assets/i18n/**/*",
     "src/assets/theme-m3/**/*",
     "src/modules/**/*",
-    "cypress/**/*"
+    "cypress/**/*",
+    "install/**/*"
   ],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -53,25 +50,14 @@
         "@typescript-eslint/naming-convention": [
           "error",
           {
-            "format": [
-              "UPPER_CASE",
-              "StrictPascalCase"
-            ],
-            "selector": [
-              "enumMember"
-            ]
+            "format": ["UPPER_CASE", "StrictPascalCase"],
+            "selector": ["enumMember"]
           }
         ],
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-shadow": "off",
-        "arrow-body-style": [
-          "off",
-          "as-needed"
-        ],
-        "brace-style": [
-          "error",
-          "1tbs"
-        ],
+        "arrow-body-style": ["off", "as-needed"],
+        "brace-style": ["error", "1tbs"],
         "id-blacklist": "off",
         "id-match": "off",
         "no-bitwise": "off",
@@ -79,13 +65,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "prettier"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
       "rules": {}
     }
   ]

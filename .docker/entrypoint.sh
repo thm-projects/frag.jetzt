@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Only build node_modules if they do not exist or if package-lock changed
 if [ ! -d node_modules ] || (! sha1sum --check /cache/lock); then
