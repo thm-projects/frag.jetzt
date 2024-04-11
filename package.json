@@ -18,7 +18,9 @@
     "i18n:count-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated",
     "i18n:find-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated --show-all",
     "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "node ./install/post-install.js",
+    "docker": "node ./install/manage-dependency.mjs"
   },
   "private": true,
   "dependencies": {
@@ -80,7 +82,7 @@
     "@angular/cli": "^17.2.2",
     "@angular/compiler-cli": "^17.2.3",
     "@angular/language-service": "^17.2.3",
-    "@cucumber/cucumber": "^8.3.0",
+    "@cucumber/cucumber": "^10.3.2",
     "@cypress/schematic": "^2.0.0",
     "@types/jasmine": "^4.0.3",
     "@types/jasminewd2": "~2.0.2",
@@ -88,7 +90,7 @@
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@typescript-eslint/types": "^7.1.0",
-    "cypress": "^12.14.0",
+    "cypress": "^13.7.1",
     "cypress-cucumber-preprocessor": "^4.3.1",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.1.0",
@@ -109,6 +111,12 @@
     "ts-node": "^10.8.1",
     "typescript": "^5.2.2"
   },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "18.0.4",
+    "@nx/nx-darwin-x64": "18.0.4",
+    "@nx/nx-linux-x64-gnu": "18.0.4",
+    "@nx/nx-win32-x64-msvc": "18.0.4"
+  },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
     "stepDefinitions": "cypress/e2e"
@@ -116,7 +124,7 @@
   "lint-staged": {
     "src/**/*.{js,ts}": [
       "prettier --write",
-      "eslint --cache --fix"
+      "eslint --fix"
     ],
     "*.{scss,md,component.html}": "prettier --write"
   },

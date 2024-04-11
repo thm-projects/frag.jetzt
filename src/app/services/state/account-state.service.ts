@@ -266,8 +266,8 @@ export class AccountStateService {
             role === UserRole.CREATOR
               ? 'Creator'
               : role > UserRole.PARTICIPANT
-              ? 'Moderator'
-              : 'Participant',
+                ? 'Moderator'
+                : 'Participant',
           lastAccess: new Date(),
         }),
       )

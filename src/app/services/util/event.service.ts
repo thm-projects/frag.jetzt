@@ -10,13 +10,11 @@ interface BroadcastEvent {
 @Injectable()
 export class EventService {
   static instance: EventService;
-  focusOnInput: boolean;
-  private _eventBus: Subject<BroadcastEvent>;
+  focusOnInput = false;
+  private _eventBus = new Subject<BroadcastEvent>();
 
   constructor() {
     EventService.instance = this;
-    this._eventBus = new Subject<BroadcastEvent>();
-    this.focusOnInput = false;
   }
 
   broadcast(key: string, data?: unknown) {
@@ -32,7 +30,7 @@ export class EventService {
   }
 
   on<T>(key: string): Observable<T> {
-    return this._eventBus.asObservable().pipe(
+    return this._eventBus.pipe(
       filter((event) => event.key === key),
       map((event) => event.data as T),
     );
