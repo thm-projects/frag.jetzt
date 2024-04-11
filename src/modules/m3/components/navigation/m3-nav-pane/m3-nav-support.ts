@@ -3,7 +3,6 @@ import {
   M3ButtonAction,
   M3ButtonTemplate,
   M3LabelTemplate,
-  M3PortalTemplate,
   M3State,
 } from '../m3-navigation-types';
 import { M3Icon, M3Label } from '../../buttons/base';

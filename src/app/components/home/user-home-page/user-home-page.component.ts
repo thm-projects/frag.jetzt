@@ -77,13 +77,15 @@ export class UserHomePageComponent
       elevation: 1,
       header: {
         kind: M3TemplateKind.Header,
-        right: [
-          Navigation.more([
-            Navigation.common.CreateRoom,
-            Navigation.common.BonusToken,
-            Navigation.common.LogOut,
-          ]),
-        ],
+        right: {
+          buttons: [
+            Navigation.more([
+              Navigation.common.CreateRoom,
+              Navigation.common.BonusToken,
+              Navigation.common.LogOut,
+            ]),
+          ],
+        },
       },
       railExtension: {
         kind: M3TemplateKind.RailExtension,

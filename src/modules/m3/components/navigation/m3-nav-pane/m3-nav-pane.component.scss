@@ -145,17 +145,19 @@
 .m3-nav-top-bar-content {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   @include m3-layout.compact {
     margin-left: 80px;
   }
   > .left {
-    align-self: flex-start;
     padding-left: 24px;
   }
+  > .spacing {
+    flex-grow: 1;
+  }
   > .right {
-    align-self: flex-end;
     padding-right: 24px;
   }
 }

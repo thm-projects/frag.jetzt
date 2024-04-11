@@ -27,6 +27,7 @@ import { M3NavigationService } from '../../../../modules/m3/services/navigation/
 import {
   M3State,
   M3TemplateKind,
+  M3WindowSizeClass,
 } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { Navigation } from '../../navigation/common-navigation-templates';
 
@@ -94,19 +95,30 @@ export class RoomCreatorPageComponent
       elevation: 1,
       header: {
         kind: M3TemplateKind.Header,
-        // left: Navigation.allButtonTemplates([
-        //   Navigation.feature.QuestionFocus,
-        //   Navigation.feature.FlashPoll,
-        //   Navigation.feature.QuestionRadar,
-        //   Navigation.feature.QuizRally
-        // ], {type: 'default'}),
-        right: [
-          Navigation.more([
-            Navigation.common.CreateRoom,
-            Navigation.common.BonusToken,
-            Navigation.common.LogOut,
-          ]),
-        ],
+        left: {
+          window: {
+            from: M3WindowSizeClass.Expanded,
+            to: M3WindowSizeClass.Large,
+          },
+          buttons: Navigation.allButtonTemplates(
+            [
+              Navigation.feature.Brainstorming,
+              Navigation.feature.QuestionRadar,
+              Navigation.feature.QuizRally,
+              Navigation.feature.QuestionRadar,
+            ],
+            { type: 'stroked' },
+          ),
+        },
+        right: {
+          buttons: [
+            Navigation.more([
+              Navigation.common.CreateRoom,
+              Navigation.common.BonusToken,
+              Navigation.common.LogOut,
+            ]),
+          ],
+        },
       },
       railExtension: {
         kind: M3TemplateKind.RailExtension,
@@ -136,8 +148,11 @@ export class RoomCreatorPageComponent
           Navigation.location.UserHomePage,
           Navigation.transform(Navigation.location.RoomPage, {
             state: M3State.Active,
+            route: Navigation.routeFrom(this.router.url),
           }),
-          Navigation.location.Comments,
+          Navigation.transform(Navigation.location.Comments, {
+            route: Navigation.routeFrom(this.router.url + '/comments'),
+          }),
         ],
       },
     });
