@@ -27,10 +27,10 @@ import {
   M3State,
   M3TemplateKind,
 } from '../m3-navigation-types';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { M3ButtonTemplateList, M3LabelTemplateList } from './m3-nav-support';
+import { M3WindowClassDirective } from '../../window-class/window-class';
 
 @Component({
   selector: 'm3-nav-pane',
@@ -57,6 +57,7 @@ import { M3ButtonTemplateList, M3LabelTemplateList } from './m3-nav-support';
     NgComponentOutlet,
     M3LabelTemplateList,
     M3ButtonTemplateList,
+    M3WindowClassDirective,
   ],
   host: {
     '[class]': `'m3-nav-pane ' + 'm3-elevation-z' + elevation `,

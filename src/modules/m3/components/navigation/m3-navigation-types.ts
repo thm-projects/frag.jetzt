@@ -17,12 +17,30 @@ export enum M3State {
   Active,
 }
 
-export interface M3AbstractNode<E extends M3TemplateKind> {
+export enum M3WindowSizeClass {
+  Compact = 'compact',
+  Medium = 'medium',
+  Expanded = 'expanded',
+  Large = 'large',
+  ExtraLarge = 'extra-large',
+}
+
+export interface M3WindowClass {
+  window?:
+    | {
+        from: M3WindowSizeClass;
+      }
+    | {
+        to: M3WindowSizeClass;
+      };
+}
+
+export interface M3Node<E extends M3TemplateKind> {
   kind: E;
 }
 
 export interface M3NavigationTemplate
-  extends M3AbstractNode<M3TemplateKind.Navigation> {
+  extends M3Node<M3TemplateKind.Navigation> {
   elevation: 0 | 1;
   header: M3HeaderTemplate;
   rail: M3RailTemplate;
@@ -35,34 +53,35 @@ export interface M3ButtonAction {
     commands: string[];
     extras: NavigationExtras;
   };
+  routerConfig?: () => { [key: string]: any };
   click?: VoidFunction;
 }
 
-export interface M3BadgeTemplate extends M3AbstractNode<M3TemplateKind.Badge> {}
+export interface M3BadgeTemplate extends M3Node<M3TemplateKind.Badge> {}
 
 export interface M3LabelTemplate
-  extends M3AbstractNode<M3TemplateKind.Label>,
-    M3ButtonAction {
+  extends M3Node<M3TemplateKind.Label>,
+    M3ButtonAction,
+    M3WindowClass {
   text: string;
   icon: string;
   state?: M3State;
   badge?: M3BadgeTemplate;
 }
 
-export interface M3RailTemplate extends M3AbstractNode<M3TemplateKind.Rail> {
+export interface M3RailTemplate extends M3Node<M3TemplateKind.Rail> {
   title?: string;
   hide?: boolean;
   labels?: M3LabelTemplate[];
 }
 
-export interface M3RailSection
-  extends M3AbstractNode<M3TemplateKind.RailSection> {
+export interface M3RailSection extends M3Node<M3TemplateKind.RailSection> {
   title?: string;
   labels: M3LabelTemplate[];
 }
 
 export interface M3RailExtensionTemplate
-  extends M3AbstractNode<M3TemplateKind.RailExtension> {
+  extends M3Node<M3TemplateKind.RailExtension> {
   sections: M3RailSection[];
 }
 
@@ -83,7 +102,8 @@ export type M3ButtonTemplate =
       icon?: string;
       state?: M3State;
     } & M3ButtonAction &
-      M3Themable)
+      M3Themable &
+      M3WindowClass)
   | ({
       type: 'icon';
       icon: string;
@@ -91,13 +111,18 @@ export type M3ButtonTemplate =
       text?: undefined;
       state?: M3State;
     } & M3ButtonAction &
-      M3Themable);
+      M3Themable &
+      M3WindowClass);
+
+export interface M3HeaderTemplateSection extends M3WindowClass {
+  buttons: M3ButtonTemplate[];
+}
 
 export interface M3HeaderTemplate
-  extends M3AbstractNode<M3TemplateKind.Header>,
+  extends M3Node<M3TemplateKind.Header>,
     M3PortalTemplate {
-  left?: M3ButtonTemplate[];
-  right?: M3ButtonTemplate[];
+  left?: M3HeaderTemplateSection;
+  right?: M3HeaderTemplateSection;
 }
 
 export const M3NavigationUtility = {

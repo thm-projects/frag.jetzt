@@ -46,6 +46,9 @@ export const Navigation = {
     } as M3LabelTemplate,
     RoomPage: {
       kind: M3TemplateKind.Label,
+      route: {
+        commands: [':role', 'room', ':shortId'],
+      },
       icon: 'room',
       text: 'Room',
     } as M3LabelTemplate,
@@ -123,5 +126,11 @@ export const Navigation = {
     return transform(common.more, {
       triggerFor: data,
     });
+  },
+  routeFrom(s: string | string[]) {
+    if (typeof s === 'string') {
+      return this.routeFrom(s.split('/'));
+    }
+    return { commands: s, extras: {} };
   },
 };

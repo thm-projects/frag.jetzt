@@ -1,4 +1,5 @@
 @use "sass:map";
+
 $_window-class: (
   compact: (
     width: (
@@ -77,6 +78,14 @@ $_window-class: (
   ),
 );
 
+$_window-class-enum: (
+  0: compact,
+  1: medium,
+  2: expanded,
+  3: large,
+  4: extra-large,
+);
+
 @function _validate-existence($window-class-key) {
   $has-key: map.has-key($_window-class, $window-class-key);
   @if $has-key {
@@ -141,7 +150,8 @@ $_window-class: (
   $err-exists: _validate-existence($from-window-class) or
     _validate-existence($to-window-class);
   @if $err-exists {
-    @error ('#{$err-exists} is not a known window-class. allowed window-classes: #{map.get(map.keys($_window-class))}');
+    $_err-keys: map.keys($_window-class);
+    @error ('#{$err-exists} is not a known window-class. allowed window-classes: #{$_err-keys}');
   }
   $_from: map.get($_window-class, $from-window-class);
   $_to: map.get($_window-class, $to-window-class);
@@ -168,6 +178,22 @@ $_window-class: (
           $value,
           reachability-offset
         )}px;
+    }
+  }
+  @for $i from 1 through 3 {
+    $window-class-name: map.get($_window-class-enum, $i);
+    .m3-window-class-to-#{$window-class-name} {
+      @include explicit-range(
+        map.get($_window-class-enum, $i + 1),
+        extra-large
+      ) {
+        display: none;
+      }
+    }
+    .m3-window-class-from-#{$window-class-name} {
+      @include explicit-range(compact, map.get($_window-class-enum, $i - 1)) {
+        display: none;
+      }
     }
   }
 }

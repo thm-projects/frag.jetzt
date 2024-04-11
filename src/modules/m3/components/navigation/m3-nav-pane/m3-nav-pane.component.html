@@ -39,11 +39,16 @@
       <div
         class="left"
         *ngIf="template.header.left"
-        [m3ButtonTemplateList]="template.header.left"></div>
+        [m3WindowClass]="template.header.left.window"
+        [m3ButtonTemplateList]="template.header.left.buttons"></div>
+      <div
+        class="spacing"
+        *ngIf="template.header.right"></div>
       <div
         class="right"
         *ngIf="template.header.right"
-        [m3ButtonTemplateList]="template.header.right"></div>
+        [m3WindowClass]="template.header.right.window"
+        [m3ButtonTemplateList]="template.header.right.buttons"></div>
       <ng-container *ngIf="template.header.component">
         <ng-container
           *ngComponentOutlet="template.header.component"></ng-container>
