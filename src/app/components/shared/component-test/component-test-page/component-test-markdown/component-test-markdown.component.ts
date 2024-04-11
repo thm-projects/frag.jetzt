@@ -10,7 +10,6 @@ import { CustomMarkdownModule } from '../../../../../custom-markdown/custom-mark
   styleUrl: './component-test-markdown.component.scss',
 })
 export class ComponentTestMarkdownComponent {
-  protected markdown = MD_EXAMPLE;
-  protected markdownSignal = signal(this.markdown);
+  protected markdownSignal = signal(MD_EXAMPLE);
   protected count = computed(() => this.markdownSignal().length);
 }
