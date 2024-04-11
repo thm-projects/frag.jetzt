@@ -692,90 +692,91 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(() => {
         this._filterObject.dataFilter.save();
       });
+    const host = this.headerService.getHost();
+    if (!host) {
+      return;
+    }
     /* eslint-disable @typescript-eslint/no-shadow */
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'add',
-          class: 'header-icons material-icons-outlined',
-          text: 'header.create-question',
-          callback: () => this.writeComment(),
-          condition: () =>
-            !this.isMobile &&
-            this.room &&
-            !this.room.questionsBlocked &&
-            this.room?.mode === 'ARS',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'add',
-          class: 'header-icons material-icons-outlined',
-          text: 'header.ple.create-question',
-          callback: () => this.writeComment(),
-          condition: () =>
-            !this.isMobile &&
-            this.room &&
-            !this.room.questionsBlocked &&
-            this.room?.mode === 'PLE',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.export-questions',
-          callback: () => {
-            const room = this.sessionService.currentRoom;
-            exportRoom(
-              this.translateService,
-              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-                UserRole.PARTICIPANT,
-              this.notificationService,
-              this.bonusTokenService,
-              this.commentService,
-              'room-export',
-              this.user,
-              room,
-              new Set<string>(this.moderatorAccountIds),
-            ).subscribe((text) => {
-              copyCSVString(
-                text[0],
-                room.name + '-' + room.shortId + '-' + text[1] + '.csv',
-              );
-            });
-          },
-          condition: () => true && this.room?.mode === 'ARS',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.ple.export-questions',
-          callback: () => {
-            const room = this.sessionService.currentRoom;
-            exportRoom(
-              this.translateService,
-              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-                UserRole.PARTICIPANT,
-              this.notificationService,
-              this.bonusTokenService,
-              this.commentService,
-              'room-export',
-              this.user,
-              room,
-              new Set<string>(this.moderatorAccountIds),
-            ).subscribe((text) => {
-              copyCSVString(
-                text[0],
-                room.name + '-' + room.shortId + '-' + text[1] + '.csv',
-              );
-            });
-          },
-          condition: () => true && this.room?.mode === 'PLE',
-        });
-      },
-    );
+    this._list = this.composeService.builder(host, (e) => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'add',
+        class: 'header-icons material-icons-outlined',
+        text: 'header.create-question',
+        callback: () => this.writeComment(),
+        condition: () =>
+          !this.isMobile &&
+          this.room &&
+          !this.room.questionsBlocked &&
+          this.room?.mode === 'ARS',
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'add',
+        class: 'header-icons material-icons-outlined',
+        text: 'header.ple.create-question',
+        callback: () => this.writeComment(),
+        condition: () =>
+          !this.isMobile &&
+          this.room &&
+          !this.room.questionsBlocked &&
+          this.room?.mode === 'PLE',
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_download',
+        class: 'material-icons-outlined',
+        text: 'header.export-questions',
+        callback: () => {
+          const room = this.sessionService.currentRoom;
+          exportRoom(
+            this.translateService,
+            ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+              UserRole.PARTICIPANT,
+            this.notificationService,
+            this.bonusTokenService,
+            this.commentService,
+            'room-export',
+            this.user,
+            room,
+            new Set<string>(this.moderatorAccountIds),
+          ).subscribe((text) => {
+            copyCSVString(
+              text[0],
+              room.name + '-' + room.shortId + '-' + text[1] + '.csv',
+            );
+          });
+        },
+        condition: () => true && this.room?.mode === 'ARS',
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_download',
+        class: 'material-icons-outlined',
+        text: 'header.ple.export-questions',
+        callback: () => {
+          const room = this.sessionService.currentRoom;
+          exportRoom(
+            this.translateService,
+            ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+              UserRole.PARTICIPANT,
+            this.notificationService,
+            this.bonusTokenService,
+            this.commentService,
+            'room-export',
+            this.user,
+            room,
+            new Set<string>(this.moderatorAccountIds),
+          ).subscribe((text) => {
+            copyCSVString(
+              text[0],
+              room.name + '-' + room.shortId + '-' + text[1] + '.csv',
+            );
+          });
+        },
+        condition: () => true && this.room?.mode === 'PLE',
+      });
+    });
   }
 
   private updateKeywordMark() {

@@ -33,7 +33,7 @@ export const MD_EXAMPLE = `
 ***
 
 $$dsgvoMedia
-https://www.wacon.de/typo3-know-how/youtube-ohne-cookies-einbinden.html
+https://youtu.be/de8UG1oeH30
 $$
 
 $$katex
@@ -123,7 +123,7 @@ Hier sind einige grundlegende Markdown-Formatierungen, die mit ToastUI verwendet
     Zeile 2
 
 
-![Test](https://png.pngtree.com/png-vector/20191126/ourmid/pngtree-image-of-cute-radish-vector-or-color-illustration-png-image_2040180.jpg)
+![Test](https://blog.frag.jetzt/wp-content/themes/arsnova/img/arsnova-logo.png)
 
 Hier ist ein einfaches Beispiel, wie man einen Text in Markdown mit ToastUI formatieren könnte:
 
@@ -162,8 +162,8 @@ function test() {
 | Header 1 | Header 2 | Header 3 | Header 4 | Header 5 |
 | -------- | -------- | -------- | -------- | -------- |
 | D1 | D2 | D3 | D4 | D5 |
-| D6 | D7 | D8 | D9 | D10 |
-| D11 | D12 | D13 | D14 | D15 |
+| D6 | @rows=2:@cols=2:D7, D8, D12, D13 | D9 | D10 |
+| D11 | D14 | D15 |
 | D16 | D17 | D18 | D19 | D20 |
 `;
 

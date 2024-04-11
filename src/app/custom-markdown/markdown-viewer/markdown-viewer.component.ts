@@ -14,6 +14,7 @@ import {
   MD_CUSTOM_TEXT_RENDERER,
   MD_PLUGINS,
 } from '../markdown-common/plugins';
+import { DSGVOService } from 'app/services/util/dsgvo.service';
 
 @Component({
   selector: 'app-markdown-viewer',
@@ -26,6 +27,11 @@ export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
     viewChild.required<ElementRef<HTMLDivElement>>('editor');
   private injector = inject(Injector);
   private editor: EditorCore | Viewer;
+
+  constructor() {
+    // inject dsgvo service for media
+    inject(DSGVOService);
+  }
 
   ngAfterViewInit(): void {
     const container = this.editorElement().nativeElement;

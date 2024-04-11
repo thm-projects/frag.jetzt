@@ -19,7 +19,7 @@ export class HeaderService {
   );
 
   public getHeaderComponent(): HeaderComponent {
-    return this.headerComponent();
+    return this.headerComponent?.();
   }
 
   public initHeader(headerComponent: () => HeaderComponent) {
@@ -59,15 +59,15 @@ export class HeaderService {
   }
 
   public getTranslate(): TranslateService {
-    return this.headerComponent().translationService;
+    return this.getHeaderComponent()?.translationService;
   }
 
   public getNotificationService(): NotificationService {
-    return this.headerComponent().notificationService;
+    return this.getHeaderComponent()?.notificationService;
   }
 
   public getHost(): ArsComposeHostDirective {
-    return this.headerComponent().host;
+    return this.getHeaderComponent()?.host;
   }
 
   set isActive(value: boolean) {
