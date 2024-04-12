@@ -42,6 +42,7 @@
       &.activated {
         .m3-label-button-active-indicator {
           background-color: var(--md-sys-color-secondary-container);
+          transform: scale(1);
         }
       }
 
@@ -65,6 +66,10 @@
         border-radius: #{$active-indicator-shape}px;
         margin-left: #{$active-indicator-padding}px;
         position: absolute;
+      }
+
+      .m3-label-button-active-indicator {
+        transform: scale(0);
       }
 
       .m3-icon {
@@ -121,6 +126,8 @@
       &.activated {
         .m3-label-button-active-indicator {
           background-color: var(--md-sys-color-secondary-container);
+          width: #{$active-indicator-width}px;
+          margin-left: #{$active-indicator-padding}px;
         }
       }
 
@@ -149,6 +156,11 @@
         border-radius: #{$active-indicator-shape}px;
         margin-left: #{$active-indicator-padding}px;
         position: absolute;
+      }
+
+      .m3-label-button-active-indicator {
+        width: #{$active-indicator-width - 40}px;
+        margin-left: #{$active-indicator-padding + 20}px;
       }
 
       .m3-icon {
