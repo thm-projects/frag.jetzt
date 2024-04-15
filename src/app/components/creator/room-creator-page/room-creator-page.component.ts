@@ -143,6 +143,7 @@ export class RoomCreatorPageComponent
       },
       rail: {
         kind: M3TemplateKind.Rail,
+        title: 'Room',
         labels: [
           Navigation.location.HomePage,
           Navigation.location.UserHomePage,

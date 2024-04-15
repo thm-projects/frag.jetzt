@@ -25,7 +25,8 @@
       [ngStyle]="{
         width: extended ? 'auto' : '100%'
       }"
-      [m3LabelTemplateList]="template.rail.labels"></div>
+      [m3LabelTemplateList]="template.rail.labels"
+      [labelClass]="this.labelState"></div>
     <div #extendedActionsContainer>
       <ng-container *ngTemplateOutlet="extendedActions"></ng-container>
     </div>
@@ -41,22 +42,21 @@
         *ngIf="template.header.left"
         [m3WindowClass]="template.header.left.window"
         [m3ButtonTemplateList]="template.header.left.buttons"></div>
-      <div
-        class="spacing"
-        *ngIf="template.header.right"></div>
+      <div class="spacing">
+        <ng-container *ngIf="template.header.component">
+          <ng-container
+            *ngComponentOutlet="template.header.component"></ng-container>
+        </ng-container>
+        <ng-container *ngIf="template.header.templateRef">
+          <ng-container
+            *ngTemplateOutlet="template.header.templateRef"></ng-container>
+        </ng-container>
+      </div>
       <div
         class="right"
         *ngIf="template.header.right"
         [m3WindowClass]="template.header.right.window"
         [m3ButtonTemplateList]="template.header.right.buttons"></div>
-      <ng-container *ngIf="template.header.component">
-        <ng-container
-          *ngComponentOutlet="template.header.component"></ng-container>
-      </ng-container>
-      <ng-container *ngIf="template.header.templateRef">
-        <ng-container
-          *ngTemplateOutlet="template.header.templateRef"></ng-container>
-      </ng-container>
     </div>
   </div>
   <div class="m3-nav-drawer-content-outlet">

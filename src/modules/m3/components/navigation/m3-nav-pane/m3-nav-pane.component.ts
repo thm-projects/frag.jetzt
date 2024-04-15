@@ -66,12 +66,13 @@ import { M3WindowClassDirective } from '../../window-class/window-class';
   styleUrl: './m3-nav-pane.component.scss',
 })
 export class M3NavPaneComponent {
+  protected _labelState: boolean = true;
   @Input({ transform: booleanAttribute })
   set extended(value: boolean) {
     if (this._extended === value) {
       return;
     }
-    this._extended = value;
+    this.triggerLabelState();
   }
 
   get extended() {
@@ -121,6 +122,10 @@ export class M3NavPaneComponent {
     });
   }
 
+  get labelState() {
+    return this._labelState;
+  }
+
   get template() {
     return (
       this._currentTemplate || {
@@ -148,4 +153,14 @@ export class M3NavPaneComponent {
   }
 
   protected readonly M3LabelTemplateList = M3LabelTemplateList;
+
+  private triggerLabelState() {
+    this._labelState = false;
+    setTimeout(() => {
+      this._extended = !this._extended;
+      setTimeout(() => {
+        this._labelState = true;
+      }, 150);
+    }, 50);
+  }
 }
