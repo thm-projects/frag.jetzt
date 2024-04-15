@@ -206,7 +206,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         left: {
           window: {
             from: M3WindowSizeClass.Expanded,
-            to: M3WindowSizeClass.Large,
           },
           buttons: Navigation.allButtonTemplates(
             [
@@ -251,6 +250,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       rail: {
         kind: M3TemplateKind.Rail,
+        title: 'Comments',
         labels: [
           Navigation.location.HomePage,
           Navigation.location.UserHomePage,
