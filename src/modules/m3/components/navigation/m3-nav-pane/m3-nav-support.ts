@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { booleanAttribute, Component, inject, Input } from '@angular/core';
 import {
   M3ButtonAction,
   M3ButtonTemplate,
@@ -14,7 +14,7 @@ import {
   MatMenuItem,
   MatMenuTrigger,
 } from '@angular/material/menu';
-import { NgComponentOutlet, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgComponentOutlet, NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatButton, MatIconButton } from '@angular/material/button';
 
@@ -43,7 +43,7 @@ abstract class M3TemplateList {
         [disabled]="label.state === M3State.Disabled"
       >
         <span m3-icon>{{ label.icon }}</span>
-        <span m3-label>{{ label.text }}</span>
+        <span m3-label [class.hide]="labelState">{{ label.text }}</span>
       </button>
       <mat-menu #labelMenu>
         <button mat-menu-item *ngFor="let item of label.triggerFor">
@@ -59,7 +59,7 @@ abstract class M3TemplateList {
         [disabled]="label.state === M3State.Disabled"
       >
         <span m3-icon>{{ label.icon }}</span>
-        <span m3-label>{{ label.text }}</span>
+        <span m3-label [class.hide]="!labelState">{{ label.text }}</span>
       </button>
     }
   }`,
@@ -76,16 +76,23 @@ abstract class M3TemplateList {
     RouterLink,
     NgComponentOutlet,
     MatMenuContent,
+    NgClass,
   ],
   standalone: true,
 })
 export class M3LabelTemplateList extends M3TemplateList {
   protected readonly M3State = M3State;
   protected labels: M3LabelTemplate[] = [];
+  protected labelState: boolean = true;
 
   @Input({ alias: 'm3LabelTemplateList' })
   set _labels(labels: M3LabelTemplate[]) {
     this.labels = labels;
+  }
+
+  @Input({ alias: 'labelClass', transform: booleanAttribute })
+  set _labelState(value: boolean) {
+    this.labelState = value;
   }
 }
 

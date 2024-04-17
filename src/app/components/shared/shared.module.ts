@@ -346,6 +346,8 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
     GlobalStatusIndicatorComponent,
     MultiLevelDialogComponent,
     RoomSettingsOverviewComponent,
+    LivepollCreateComponent,
+    BrainstormingEditComponent,
   ],
 })
 export class SharedModule {

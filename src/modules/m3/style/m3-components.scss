@@ -6,7 +6,7 @@
 @mixin _custom-components() {
   /// https://m3.material.io/foundations/layout/understanding-layout/parts-of-layout#5fd0c81f-4a33-41db-be42-349b91da8d92
   --m3-comp-supporting-pane-fixed-width: 360px;
-  --m3-comp-nav-pane-transition: all 200ms
+  --m3-comp-nav-pane-transition: all 500ms
     var(--md-sys-motion-easing-emphasized);
 }
 
