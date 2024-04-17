@@ -155,7 +155,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   searchTerm: string = '';
   answeringComment = false;
   answeringWriteComment = false;
-  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo-1106';
+  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo';
   temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
     [
       {
@@ -203,8 +203,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
   chatModels: (typeof ChatCompletionModels)[number][] = [
-    'gpt-3.5-turbo-1106',
-    'gpt-4-1106-preview',
+    'gpt-3.5-turbo',
+    'gpt-4-turbo',
   ];
   prettifyModel = this.translateModel.bind(this);
   enterEvent = this.onEnter.bind(this);

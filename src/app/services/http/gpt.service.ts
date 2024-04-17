@@ -56,10 +56,7 @@ export interface TextCompletionRequest {
   logitBias?: { [key: string]: number };
 }
 
-export const ChatCompletionModels = [
-  'gpt-3.5-turbo-1106',
-  'gpt-4-1106-preview',
-] as const;
+export const ChatCompletionModels = ['gpt-3.5-turbo', 'gpt-4-turbo'] as const;
 
 export interface ChatCompletionRequest {
   roomId?: UUID;
