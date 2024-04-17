@@ -69,7 +69,7 @@ export class ChatGPTBrainstormComponent {
                 content: prompt,
               },
             ],
-            model: 'gpt-3.5-turbo-1106',
+            model: 'gpt-3.5-turbo',
             temperature: 1.0,
             roomId: this.roomId,
           })
