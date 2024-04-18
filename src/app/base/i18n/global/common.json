@@ -1,0 +1,26 @@
+{
+  "de": {
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "confirm": "Übernehmen",
+    "abort": "Abbrechen",
+    "submit": "Abschicken"
+  },
+  "en": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "confirm": "Confirm",
+    "abort": "Cancel",
+    "submit": "Submit"
+  },
+  "fr": {
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "confirm": "Appliquer",
+    "abort": "Annuler",
+    "submit": "Envoyer"
+  }
+}
