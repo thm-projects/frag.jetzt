@@ -17,6 +17,33 @@
 
 @include m3-init.load();
 
+@font-face {
+  font-family: "STIX Two Math";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/STIX/STIXTwoMath-Regular.woff2") format("woff2"),
+    url("/assets/fonts/STIX/STIXTwoMath-Regular.woff2") format("woff");
+}
+
+@font-face {
+  font-family: "Latin Modern Math";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/Latin_Modern_Math/latinmodern-math.woff2")
+      format("woff2"),
+    url("/assets/fonts/Latin_Modern_Math/latinmodern-math.woff") format("woff");
+}
+
+math {
+  font-family: "Latin Modern Math", math;
+}
+
 html,
 body {
   margin: 0;
