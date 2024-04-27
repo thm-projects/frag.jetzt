@@ -224,7 +224,8 @@ $_m3-navigation-properties: (
   }
 
   .m3-label-button-content {
-    position: absolute;
+    position: relative;
+    width: 100%;
     //@include _m3-label-button-content(map.get($config, button));
   }
 }

@@ -84,6 +84,7 @@ import { M3BodyPaneComponent } from '../modules/m3/components/layout/m3-body-pan
 import { M3SupportingPaneComponent } from '../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ComponentTestCardComponent } from './components/shared/component-test/component-test-page/component-test-card/component-test-card.component';
 import { ComponentTestButtonComponent } from './components/shared/component-test/component-test-page/component-test-button/component-test-button.component';
+import { M3NavigationComponent } from 'modules/navigation/m3-navigation/m3-navigation.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -130,6 +131,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     BrowserAnimationsModule,
     EssentialsModule,
     M3Module,
+    M3NavigationComponent,
     SharedModule,
     ThemeModule,
     MatIconModule,
