@@ -23,7 +23,9 @@
               </mat-icon>
             </button>
             @if (state === "drawer") {
-              <span class="m3-nav-drawer-title">Test</span>
+              <span class="m3-nav-drawer-title">
+                {{ data.title || data.header.title || "" }}
+              </span>
             }
           </div>
           @if (data.primaryAction; as primary) {

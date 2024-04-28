@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   Component,
   HostBinding,
   Injector,
@@ -57,7 +56,7 @@ import { Navigation } from '../../navigation/common-navigation-templates';
 })
 export class RoomCreatorPageComponent
   extends RoomPageComponent
-  implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+  implements OnInit, OnDestroy, AfterContentInit {
   /**
    * on true: shows all elements regardless of *ngIf
    */
@@ -157,10 +156,6 @@ export class RoomCreatorPageComponent
         ],
       },
     });
-  }
-
-  ngAfterViewInit() {
-    this.tryInitNavigation();
   }
 
   override ngOnDestroy() {

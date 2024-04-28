@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
   Component,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
@@ -36,9 +38,8 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { M3NavigationUtility } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
-import { HeaderComponent } from '../../header/header.component';
-import { M3NavigationService } from '../../../../../modules/m3/services/navigation/m3-navigation.service';
+import { getRoomTemplate } from '../../room-page/room-navigation';
+import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 
 interface CommentCache {
   [commentId: string]: {
@@ -90,6 +91,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly commentCache: CommentCache = {};
   private _filterObj: FilteredDataAccess;
   private destroyer = new ReplaySubject();
+  private injector = inject(Injector);
 
   constructor(
     public router: Router,
@@ -103,11 +105,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     public headerService: HeaderService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {
-    this.m3NavigationService.emit(
-      M3NavigationUtility.emptyPortal(HeaderComponent),
-    );
     this.keySupport = new QuestionWallKeyEventSupport();
     this._filterObj = FilteredDataAccess.buildNormalAccess(
       this.sessionService,
@@ -115,6 +113,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       false,
       'presentation',
     );
+    this.initNavigation();
   }
 
   get hasFilter() {
@@ -595,5 +594,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userMap.forEach((num, user) => {
       this.userList.push([num, user]);
     });
+  }
+
+  private initNavigation() {
+    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
   }
 }

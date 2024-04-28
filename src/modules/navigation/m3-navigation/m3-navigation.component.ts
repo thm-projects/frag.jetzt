@@ -8,7 +8,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { M3NavDrawerRailComponent } from '../m3-nav-drawer-rail/m3-nav-drawer-rail.component';
-import { DEFAULT_TEMPLATE } from 'app/utils/temp-test';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { M3LabelButton } from 'modules/m3/components/buttons/label-button';
 import { M3Icon, M3Label } from 'modules/m3/components/buttons/base';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NAVIGATION } from '../m3-navigation-emitter';
 
 export type InternalTemplate = Omit<
   M3NavigationTemplate,
@@ -56,10 +56,8 @@ export type InternalTemplate = Omit<
   styleUrl: './m3-navigation.component.scss',
 })
 export class M3NavigationComponent {
-  DATA = DEFAULT_TEMPLATE;
   protected drawerRail = viewChild(M3NavDrawerRailComponent);
   protected data = computed(() => {
-    const data = this.DATA();
     const isSmall = windowWatcher.windowState() === 'compact';
     const internal: InternalTemplate = {
       divideOptions: true,
@@ -68,9 +66,13 @@ export class M3NavigationComponent {
         railDivider: false,
         railOrientation: 'center',
       },
-      ...this.DATA(),
+      navigations: [],
+      options: [],
+      elevation: 0,
+      header: { options: [], title: '' },
+      ...NAVIGATION(),
     };
-    if (data.navigations.length < 3) {
+    if (internal.navigations.length < 3) {
       internal.preferedNavigation = {
         type: 'tabs',
         maxTabs: internal.preferedNavigation['maxTabs'] || null,

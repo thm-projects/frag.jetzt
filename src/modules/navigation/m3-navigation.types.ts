@@ -31,6 +31,7 @@ export interface M3NavigationTemplate {
    * https://m3.material.io/components/navigation-drawer/guidelines#4ef4dd75-740b-462d-a602-ba1f762a4c1a
    */
   divideOptions?: boolean;
+  title?: string;
 }
 
 export interface M3HeaderTemplate {

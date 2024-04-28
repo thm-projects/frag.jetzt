@@ -40,7 +40,6 @@ import { CommentSettingsComponent } from '../../creator/_dialogs/comment-setting
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
-import { SyncFence } from '../../../utils/SyncFence';
 import {
   copyCSVString,
   exportRoom,
@@ -67,6 +66,9 @@ import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { QuotaService } from 'app/services/http/quota.service';
+import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { LivepollService } from 'app/services/http/livepoll.service';
+import { getRoomTemplate } from './room-navigation';
 
 @Component({
   selector: 'app-room-page',
@@ -87,6 +89,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   moderationEnabled = true;
   protected deviceState = inject(DeviceStateService);
   protected accountState = inject(AccountStateService);
+  protected livepoll = inject(LivepollService);
   protected listenerFn: () => void;
   protected roomService: RoomService;
   protected route: ActivatedRoute;
@@ -107,7 +110,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomState: RoomStateService;
   protected quotaService: QuotaService;
   protected destroyer = new ReplaySubject(1);
-  private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<unknown>[];
 
@@ -145,11 +147,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.headerService.isActive = false;
   }
 
-  tryInitNavigation() {
-    this._navigationBuild.resolveCondition(1);
-  }
-
   initializeRoom(): void {
+    this.initNavigation();
     this.accountState.user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((user) => {
@@ -180,7 +179,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
-        this._navigationBuild.resolveCondition(0);
       });
     });
   }
@@ -479,7 +477,10 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
-    if (!this.headerService.isActive) return;
+    getRoomTemplate(this.injector).subscribe((template) => {
+      NAVIGATION.set(template);
+    });
+    return;
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
