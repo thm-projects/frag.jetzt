@@ -1,0 +1,485 @@
+import { Injector } from '@angular/core';
+import { Router } from '@angular/router';
+import { getDefaultTemplate } from 'app/navigation/default-navigation';
+import { LivepollService } from 'app/services/http/livepoll.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
+import { EventService } from 'app/services/util/event.service';
+import { SessionService } from 'app/services/util/session.service';
+import {
+  M3NavigationEntry,
+  M3NavigationOptionSection,
+  M3NavigationTemplate,
+} from 'modules/navigation/m3-navigation.types';
+import { Observable, first, forkJoin, map, of, switchMap, take } from 'rxjs';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
+import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { KeycloakRoles, User } from 'app/models/user';
+import { CommentSettingsComponent } from 'app/components/creator/_dialogs/comment-settings/comment-settings.component';
+import { CommentSettingsDialog } from 'app/models/comment-settings-dialog';
+import { RoomService } from 'app/services/http/room.service';
+import { Room } from 'app/models/room';
+import { ToggleConversationComponent } from 'app/components/creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { TagsComponent } from 'app/components/creator/_dialogs/tags/tags.component';
+import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
+import { RoomDeleteComponent } from 'app/components/creator/_dialogs/room-delete/room-delete.component';
+import { RoomDeleted } from 'app/models/events/room-deleted';
+import { DeleteCommentsComponent } from 'app/components/creator/_dialogs/delete-comments/delete-comments.component';
+import { CommentService } from 'app/services/http/comment.service';
+import { GPTRoomService } from 'app/services/http/gptroom.service';
+import { QuotaService } from 'app/services/http/quota.service';
+import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
+import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
+import { copyCSVString, exportRoom } from 'app/utils/ImportExportMethods';
+import { TranslateService } from '@ngx-translate/core';
+import { UserRole } from 'app/models/user-roles.enum';
+import { NotificationService } from 'app/services/util/notification.service';
+import { BonusTokenService } from 'app/services/http/bonus-token.service';
+import { Rescale } from 'app/models/rescale';
+import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+
+export const getRoomTemplate = (
+  injector: Injector,
+): Observable<M3NavigationTemplate> => {
+  const accountState = injector.get(AccountStateService);
+  const roomState = injector.get(RoomStateService);
+  const router = injector.get(Router);
+  const eventService = injector.get(EventService);
+  const dialog = injector.get(MatDialog);
+  const livepoll = injector.get(LivepollService);
+  const session = injector.get(SessionService);
+  // Start building
+  return getDefaultTemplate(injector).pipe(
+    switchMap((template) => {
+      return forkJoin([
+        of(template),
+        accountState.user$.pipe(first((e) => Boolean(e))),
+        roomState.room$.pipe(first((e) => Boolean(e))),
+        roomState.assignedRole$.pipe(take(1)),
+      ]);
+    }),
+    map(([template, user, room, assignedRole]) => {
+      let url = router.url;
+      const hashIndex = url.indexOf('#');
+      if (hashIndex > 0) {
+        url = url.substring(0, hashIndex);
+      }
+      if (!url.endsWith('/')) {
+        url += '/';
+      }
+      const roomIndex = url.indexOf('/room/');
+      const role = url.substring(1, roomIndex);
+      const urlEndIndex = url.indexOf('/', roomIndex + 6);
+      const shortId = url.substring(roomIndex + 6, urlEndIndex);
+      const isMod = assignedRole !== 'Participant';
+      const isOverview = url.endsWith(shortId + '/');
+      template.title = 'Features';
+      // Navigation
+      const navs: M3NavigationEntry[] = [];
+      navs.push({
+        title: 'Q&A Forum',
+        icon: 'forum',
+        onClick: () => router.navigate([`/${role}/room/${shortId}/comments`]),
+        activated: url.endsWith(`/${shortId}/comments/`),
+      });
+      if (isMod) {
+        navs.push({
+          title: 'Moderation',
+          icon: 'gavel',
+          onClick: () =>
+            router.navigate([`/${role}/room/${shortId}/moderator/comments`]),
+          activated: url.endsWith('/moderator/comments/'),
+        });
+      }
+      if (room?.livepollActive && (room.livepollSession || isMod)) {
+        navs.push({
+          title: 'Blitzumfrage',
+          icon: 'flash_on',
+          onClick: () => livepoll.open(session),
+        });
+      }
+      if (room?.chatGptActive) {
+        navs.push({
+          title: 'KI Assistenten',
+          icon: 'smart_toy',
+          onClick: () =>
+            router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]),
+          activated: url.endsWith('/gpt-chat-room/'),
+        });
+      }
+      if (room?.focusActive) {
+        navs.push({
+          title: 'Fragen-Fokus',
+          icon: 'featured_play_list',
+          onClick: () =>
+            router.navigate([`/${role}/room/${shortId}/comments/questionwall`]),
+          activated: url.endsWith('/comments/questionwall/'),
+        });
+      }
+      if (room?.radarActive) {
+        navs.push({
+          title: 'Fragen-Radar',
+          icon: 'radar',
+          onClick: () => {
+            if (url.endsWith('/tagcloud/')) {
+              return;
+            }
+            eventService.broadcast('save-comment-filter');
+            const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
+              autoFocus: false,
+              data: {
+                filterObject: RoomDataFilter.loadFilter('commentList'),
+              },
+            });
+            confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
+            confirmDialogRef.componentInstance.userRole =
+              ROOM_ROLE_MAPPER[assignedRole];
+          },
+          activated: url.endsWith('/tagcloud/'),
+        });
+      }
+      if (room?.brainstormingActive && (room.brainstormingSession || isMod)) {
+        navs.push({
+          title: 'Brainstorming',
+          icon: 'tips_and_updates',
+          onClick: () => {
+            if (url.endsWith('/brainstorming/')) {
+              return;
+            }
+            const confirmDialogRef = dialog.open(
+              TopicCloudBrainstormingComponent,
+              {
+                autoFocus: false,
+              },
+            );
+            confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
+            confirmDialogRef.componentInstance.userRole =
+              ROOM_ROLE_MAPPER[assignedRole];
+          },
+          activated: url.endsWith('/brainstorming/'),
+        });
+      }
+      if (room?.quizActive) {
+        navs.push({
+          title: 'Quiz-Rallye',
+          icon: 'quiz',
+          onClick: () => router.navigate(['/quiz']),
+        });
+      }
+      if (
+        isOverview &&
+        user.keycloakRoles.includes(KeycloakRoles.AdminDashboard)
+      ) {
+        navs.push({
+          title: 'Administration',
+          icon: 'admin_panel_settings',
+          onClick: () => router.navigate(['/admin/overview']),
+        });
+      }
+      if (isMod) {
+        navs.push({
+          title: 'Raumverwaltung',
+          icon: 'settings',
+          onClick: () => router.navigate([`/${role}/room/${shortId}/`]),
+          activated: isOverview,
+        });
+      } else {
+        navs.push({
+          title: 'Empfang',
+          icon: 'checkroom',
+          onClick: () => router.navigate([`/${role}/room/${shortId}/`]),
+          activated: isOverview,
+        });
+      }
+      template.navigations.unshift(...navs);
+      const options: M3NavigationOptionSection[] = [];
+      if (isMod) {
+        options.push({
+          title: 'Raumeinstellungen',
+          options: [
+            {
+              title: 'Allgemeine Einstellungen',
+              icon: 'settings_applications',
+              options: [
+                {
+                  title: 'Features',
+                  icon: 'settings_suggest',
+                  onClick: () => console.log('Features clicked'),
+                },
+                {
+                  title: 'Moderationsmodus',
+                  icon: 'visibility_off',
+                  onClick: () => openModeration(room, injector),
+                },
+                {
+                  title: 'Forumkonversation',
+                  icon: 'forum',
+                  onClick: () => openConversation(room, injector),
+                },
+                {
+                  title: 'Fragenkategorien',
+                  icon: 'sell',
+                  onClick: () => openRoomTags(room, injector),
+                },
+                room.bonusArchiveActive &&
+                  room.mode !== 'PLE' && {
+                    title: 'Bonusarchiv',
+                    icon: 'grade',
+                    onClick: () => openBonusArchive(room, injector),
+                  },
+                {
+                  title: room.questionsBlocked
+                    ? 'Fragenstellen freigeben'
+                    : 'Fragenstellen sperren',
+                  icon: 'comments_disabled',
+                  onClick: () => {
+                    saveChanges(
+                      room.id,
+                      {
+                        questionsBlocked: !room.questionsBlocked,
+                      },
+                      injector,
+                    );
+                  },
+                },
+                {
+                  title: 'Teilnehmeransicht',
+                  icon: 'groups_3',
+                  onClick: () => {
+                    router.navigate([
+                      `/participant/room/${shortId}${url.substring(
+                        urlEndIndex,
+                      )}`,
+                    ]);
+                  },
+                },
+                {
+                  title: 'Fragen löschen',
+                  icon: 'delete_sweep',
+                  onClick: () => openDeleteComments(room, injector),
+                },
+                assignedRole === 'Creator' && {
+                  title: 'Raum löschen',
+                  icon: 'delete',
+                  onClick: () => openDeleteRoom(room, injector),
+                },
+              ].filter(Boolean),
+            },
+            {
+              title: 'KI-Einstellungen',
+              icon: 'smart_toy',
+              onClick: () => openAISettings(room, injector),
+            },
+            {
+              title: 'Q&A-Export',
+              icon: 'file_download',
+              onClick: () => doExport(user, room, injector),
+            },
+            {
+              title: 'QR-Code',
+              icon: 'qr_code',
+              onClick: () => openQr(room, injector),
+            },
+          ],
+        });
+      }
+      template.options.unshift(...options);
+      return template;
+    }),
+  );
+};
+
+const openModeration = (room: Room, injector: Injector) => {
+  const dialog = injector.get(MatDialog);
+  const dialogRef = dialog.open(CommentSettingsComponent, {
+    width: '400px',
+  });
+  dialogRef.componentInstance.editRoom = room;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result instanceof CommentSettingsDialog) {
+      saveChanges(
+        room.id,
+        {
+          threshold: result.threshold,
+          directSend: result.directSend,
+        },
+        injector,
+      );
+    }
+  });
+};
+
+const openConversation = (room: Room, injector: Injector) => {
+  const dialog = injector.get(MatDialog);
+  const dialogRef = dialog.open(ToggleConversationComponent, {
+    width: '600px',
+    data: {
+      conversationDepth: room.conversationDepth,
+      directSend: room.directSend,
+    },
+  });
+  dialogRef.componentInstance.editorRoom = room;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (typeof result === 'number') {
+      saveChanges(
+        room.id,
+        {
+          conversationDepth: result,
+        },
+        injector,
+      );
+    }
+  });
+};
+
+const openRoomTags = (room: Room, injector: Injector) => {
+  const dialog = injector.get(MatDialog);
+  const dialogRef = dialog.open(TagsComponent, {
+    width: '400px',
+  });
+  const tags = [...(room.tags || [])];
+  const tagsBefore = [...tags];
+  dialogRef.componentInstance.tags = tags;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (!result || result === 'abort') {
+      return;
+    }
+    if (
+      tagsBefore.length === result.length &&
+      tagsBefore.every((tag) => result.includes(tag))
+    ) {
+      return;
+    }
+    saveChanges(room.id, { tags: result }, injector);
+  });
+};
+
+const openBonusArchive = (room: Room, injector: Injector) => {
+  const dialogRef = injector.get(MatDialog).open(BonusTokenComponent, {
+    width: '400px',
+  });
+  dialogRef.componentInstance.room = room;
+};
+
+const openDeleteRoom = (room: Room, injector: Injector) => {
+  const roomService = injector.get(RoomService);
+  const eventService = injector.get(EventService);
+  const accountState = injector.get(AccountStateService);
+  const router = injector.get(Router);
+  const dialogRef = injector.get(MatDialog).open(RoomDeleteComponent, {
+    width: '400px',
+  });
+  dialogRef.componentInstance.room = room;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'delete') {
+      roomService.deleteRoom(room.id).subscribe({
+        next: () => {
+          const event = new RoomDeleted(room.id);
+          eventService.broadcast(event.type, event.payload);
+          accountState.removeAccess(room.shortId);
+          router.navigate(['/user']);
+        },
+      });
+    }
+  });
+};
+
+const openDeleteComments = (room: Room, injector: Injector) => {
+  const dialogRef = injector.get(MatDialog).open(DeleteCommentsComponent, {
+    width: '400px',
+  });
+  dialogRef.componentInstance.roomId = room.id;
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === 'delete') {
+      injector.get(CommentService).deleteCommentsByRoomId(room.id).subscribe();
+    }
+  });
+};
+
+const openAISettings = (room: Room, injector: Injector) => {
+  const quotaService = injector.get(QuotaService);
+  injector
+    .get(GPTRoomService)
+    .getByRoomId(room.id)
+    .pipe(
+      switchMap((res) => {
+        return forkJoin([
+          of(res),
+          quotaService.get(res.roomQuotaId),
+          quotaService.get(res.moderatorQuotaId),
+          quotaService.get(res.participantQuotaId),
+        ]);
+      }),
+    )
+    .subscribe(([setting, roomQuota, moderatorQuota, participantQuota]) => {
+      MultiLevelDialogComponent.open(
+        injector.get(MatDialog),
+        MULTI_LEVEL_GPT_ROOM_SETTINGS,
+        saveSettings,
+        {
+          GPTSettings: setting,
+          roomQuota,
+          moderatorQuota,
+          participantQuota,
+          roomID: room.id,
+        },
+      );
+    });
+};
+
+const doExport = (user: User, room: Room, injector: Injector) => {
+  const translateService = injector.get(TranslateService);
+  const roomState = injector.get(RoomStateService);
+  const notificationService = injector.get(NotificationService);
+  const bonusTokenService = injector.get(BonusTokenService);
+  const commentService = injector.get(CommentService);
+  injector
+    .get(SessionService)
+    .getModeratorsOnce()
+    .subscribe((mods) => {
+      exportRoom(
+        translateService,
+        ROOM_ROLE_MAPPER[roomState.getCurrentRole()] || UserRole.PARTICIPANT,
+        notificationService,
+        bonusTokenService,
+        commentService,
+        'room-export',
+        user,
+        room,
+        new Set<string>(mods.map((mod) => mod.accountId)),
+      ).subscribe((text) => {
+        copyCSVString(
+          text[0],
+          room.name + '-' + room.shortId + '-' + text[1] + '.csv',
+        );
+      });
+    });
+};
+
+const openQr = (room: Room, injector: Injector) => {
+  const dialog = injector.get(MatDialog);
+  Rescale.requestFullscreen();
+  const dialogRef = dialog.open(QrCodeDialogComponent, {
+    panelClass: 'screenDialog',
+  });
+  dialogRef.componentInstance.data = `${location.origin}/participant/room/${room?.shortId}`;
+  dialogRef.componentInstance.key = room?.shortId;
+  dialogRef.afterClosed().subscribe(() => {
+    Rescale.exitFullscreen();
+  });
+};
+
+const saveChanges = (
+  roomId: string,
+  partialRoom: Partial<Room>,
+  injector: Injector,
+) => {
+  const roomService = injector.get(RoomService);
+  roomService.patchRoom(roomId, partialRoom).subscribe();
+};

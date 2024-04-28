@@ -1,9 +1,11 @@
 import {
   AfterContentInit,
   Component,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -13,9 +15,8 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { HeaderComponent } from '../header/header.component';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { getRoomTemplate } from '../room-page/room-navigation';
+import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 
 @Component({
   selector: 'app-comment-page',
@@ -25,6 +26,7 @@ import { M3NavigationService } from '../../../../modules/m3/services/navigation/
 export class CommentPageComponent
   implements OnInit, OnDestroy, AfterContentInit {
   listenerFn: () => void;
+  private injector = inject(Injector);
 
   constructor(
     private translateService: TranslateService,
@@ -33,12 +35,9 @@ export class CommentPageComponent
     private authenticationService: AuthenticationService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
-    private readonly m3NavigationService: M3NavigationService,
     private _r: Renderer2,
   ) {
-    this.m3NavigationService.emit(
-      M3NavigationUtility.emptyPortal(HeaderComponent),
-    );
+    this.initNavigation();
   }
 
   ngAfterContentInit(): void {
@@ -179,5 +178,9 @@ export class CommentPageComponent
     } else {
       document.getElementById('filter-button').focus();
     }
+  }
+
+  private initNavigation() {
+    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
   }
 }

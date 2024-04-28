@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   Component,
   Injector,
   OnDestroy,
@@ -25,17 +24,13 @@ import { Observable, of } from 'rxjs';
 })
 export class RoomParticipantPageComponent
   extends RoomPageComponent
-  implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+  implements OnInit, OnDestroy, AfterContentInit {
   constructor(
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
     protected override injector: Injector,
   ) {
     super(injector);
-  }
-
-  ngAfterViewInit() {
-    this.tryInitNavigation();
   }
 
   ngAfterContentInit(): void {

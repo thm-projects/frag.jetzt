@@ -2,9 +2,11 @@ import {
   AfterContentInit,
   Component,
   ComponentRef,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -28,12 +30,8 @@ import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-cr
 import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import {
-  M3State,
-  M3TemplateKind,
-} from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { Navigation } from '../../navigation/common-navigation-templates';
+import { getDefaultTemplate } from 'app/navigation/default-navigation';
+import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 
 @Component({
   selector: 'app-user-home-page',
@@ -52,6 +50,7 @@ export class UserHomePageComponent
   accumulatedRatings: RatingResult = undefined;
   private _list: ComponentRef<unknown>[];
   private destroyer = new ReplaySubject(1);
+  private injector = inject(Injector);
 
   constructor(
     public dialog: MatDialog,
@@ -66,49 +65,13 @@ export class UserHomePageComponent
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {
     this.initM3Navigation();
   }
 
   initM3Navigation() {
-    this.m3NavigationService.emit({
-      kind: M3TemplateKind.Navigation,
-      elevation: 1,
-      header: {
-        kind: M3TemplateKind.Header,
-        right: {
-          buttons: [
-            Navigation.more([
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-              Navigation.common.LogOut,
-            ]),
-          ],
-        },
-      },
-      railExtension: {
-        kind: M3TemplateKind.RailExtension,
-        sections: [
-          {
-            title: 'some arbitrary name',
-            kind: M3TemplateKind.RailSection,
-            labels: [
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-            ],
-          },
-        ],
-      },
-      rail: {
-        kind: M3TemplateKind.Rail,
-        labels: [
-          Navigation.location.HomePage,
-          Navigation.transform(Navigation.location.UserHomePage, {
-            state: M3State.Active,
-          }),
-        ],
-      },
+    getDefaultTemplate(this.injector).subscribe((template) => {
+      NAVIGATION.set(template);
     });
   }
 
