@@ -157,32 +157,50 @@ body {
     height: 100%;
   }
 }
-//
-///* width */
-//::-webkit-scrollbar {
-//  width: 10px;
-//}
-//
-///* Track */
-//::-webkit-scrollbar-track {
-//  background: transparent;
-//}
-//
-///* Handle */
-//::-webkit-scrollbar-thumb {
-//  background: color-mix(
-//    in srgb,
-//    var(--mdc-filled-button-container-color) 67%,
-//    transparent
-//  );
-//  border-radius: 1rem;
-//}
-//
-///* Handle on hover */
-//::-webkit-scrollbar-thumb:hover {
-//  background: color-mix(
-//    in srgb,
-//    var(--mdc-filled-button-container-color) 75%,
-//    transparent
-//  );
-//}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface-variant) 66%,
+      transparent
+    )
+    var(--md-sys-color-surface3);
+}
+
+@supports selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: unset;
+    scrollbar-color: unset;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--md-sys-color-surface3);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface-variant) 66%,
+      transparent
+    );
+    border-radius: 1rem;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface-variant) 50%,
+      transparent
+    );
+  }
+}

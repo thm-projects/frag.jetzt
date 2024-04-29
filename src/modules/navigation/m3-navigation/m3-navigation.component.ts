@@ -19,10 +19,9 @@ import { windowWatcher } from '../utils/window-watcher';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
-import { M3LabelButton } from 'modules/m3/components/buttons/label-button';
-import { M3Icon, M3Label } from 'modules/m3/components/buttons/base';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NAVIGATION } from '../m3-navigation-emitter';
+import { M3LabelComponent } from '../m3-label/m3-label.component';
 
 export type InternalTemplate = Omit<
   M3NavigationTemplate,
@@ -47,10 +46,8 @@ export type InternalTemplate = Omit<
     MatMenuModule,
     MatTooltipModule,
     CommonModule,
-    M3LabelButton,
-    M3Label,
-    M3Icon,
     MatTabsModule,
+    M3LabelComponent,
   ],
   templateUrl: './m3-navigation.component.html',
   styleUrl: './m3-navigation.component.scss',
@@ -64,7 +61,7 @@ export class M3NavigationComponent {
       preferedNavigation: {
         type: 'rail',
         railDivider: false,
-        railOrientation: 'center',
+        railOrientation: 'start',
       },
       navigations: [],
       options: [],
@@ -72,7 +69,7 @@ export class M3NavigationComponent {
       header: { options: [], title: '' },
       ...NAVIGATION(),
     };
-    if (internal.navigations.length < 3) {
+    if (internal.navigations.length < 2) {
       internal.preferedNavigation = {
         type: 'tabs',
         maxTabs: internal.preferedNavigation['maxTabs'] || null,

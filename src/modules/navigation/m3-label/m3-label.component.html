@@ -1,0 +1,30 @@
+@if (active()) {
+  <button
+    mat-flat-button
+    [class.collapsed]="collapsed()"
+    class="label-large">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+} @else {
+  <button
+    mat-button
+    [class.collapsed]="collapsed()"
+    class="label-large">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+}
+@if (collapsed()) {
+  <span class="label-large m3-nav-label-collapsed">{{ title() }}</span>
+}
+
+<ng-template #content>
+  <mat-icon>{{ icon() }}</mat-icon>
+  @if (!collapsed()) {
+    <span class="m3-nav-label-expanded">{{ title() }}</span>
+    @if (endIcon(); as icon) {
+      <span class="m3-nav-label-end">
+        <mat-icon>{{ icon }}</mat-icon>
+      </span>
+    }
+  }
+</ng-template>

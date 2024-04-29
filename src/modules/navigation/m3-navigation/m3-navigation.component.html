@@ -84,18 +84,15 @@
     [class.hide]="hideBottomBar()">
     <mat-toolbar-row class="m3-navigation-rail-labels">
       @for (nav of bottomBarData(); track nav; let index = $index) {
-        <button
-          m3-label-button
+        <app-m3-label
           class="m3-nav-footer-animated"
-          [activated]="nav.activated"
+          [active]="nav.activated"
           [style]="'--i: ' + index + ';'"
           [class.show]="!hideBottomBar()"
-          (click)="nav.onClick()">
-          <span m3-icon>
-            {{ nav.icon ? nav.icon : "unknown_document" }}
-          </span>
-          <span m3-label>{{ nav.title }}</span>
-        </button>
+          (click)="nav.onClick()"
+          [icon]="nav.icon ? nav.icon : 'unknown_document'"
+          [collapsed]="true"
+          [title]="nav.title"></app-m3-label>
       }
     </mat-toolbar-row>
   </mat-toolbar>

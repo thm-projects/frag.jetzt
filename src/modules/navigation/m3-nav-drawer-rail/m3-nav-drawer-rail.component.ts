@@ -20,14 +20,10 @@ import {
 import { windowWatcher } from '../utils/window-watcher';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { M3LabelButton } from 'modules/m3/components/buttons/label-button';
-import { M3Icon, M3Label } from 'modules/m3/components/buttons/base';
-import {
-  M3NavigationOptionSection,
-  M3NavigationTemplate,
-} from '../m3-navigation.types';
+import { M3NavigationOptionSection } from '../m3-navigation.types';
 import { CommonModule } from '@angular/common';
 import { InternalTemplate } from '../m3-navigation/m3-navigation.component';
+import { M3LabelComponent } from '../m3-label/m3-label.component';
 
 interface RailDrawerEntry {
   title: string;
@@ -55,10 +51,8 @@ const RAIL_TRACKER = 1;
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    M3LabelButton,
-    M3Icon,
-    M3Label,
     CommonModule,
+    M3LabelComponent,
   ],
   templateUrl: './m3-nav-drawer-rail.component.html',
   styleUrl: './m3-nav-drawer-rail.component.scss',

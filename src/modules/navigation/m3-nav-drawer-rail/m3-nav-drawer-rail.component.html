@@ -141,21 +141,12 @@
     <span class="m3-nav-section-title label-medium">{{ title }}</span>
   }
   @for (entry of elem.options; track entry.title) {
-    <button
-      m3-label-button
+    <app-m3-label
       (click)="onNavClick(entry?.onClick)"
-      [activated]="entry.activated">
-      <span m3-icon>
-        {{ entry.icon ? entry.icon : "unknown_document" }}
-      </span>
-      <span m3-label>{{ entry.title }}</span>
-      @if (entry.forward) {
-        <span
-          m3-icon
-          class="m3-nav-forward">
-          arrow_forward
-        </span>
-      }
-    </button>
+      [collapsed]="state === 'rail'"
+      [active]="entry.activated"
+      [icon]="entry.icon ? entry.icon : 'unknown_document'"
+      [title]="entry.title"
+      [endIcon]="entry.forward ? 'arrow_forward' : ''"></app-m3-label>
   }
 </ng-template>

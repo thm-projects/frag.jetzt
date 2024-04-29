@@ -1,16 +1,31 @@
+@use "sass:math";
+$rail-size: 96px;
+$drawer-size: 280px;
+
+.m3-navigation-drawer-labels > app-m3-label {
+  width: calc(var(--mat-sidenav-container-width) - 28px);
+  margin-left: 12px;
+}
+
+.m3-navigation-rail-labels > app-m3-label {
+  width: var(--mat-sidenav-container-width);
+}
+
 mat-drawer-container {
   width: 100%;
   height: 100%;
 
   mat-drawer {
     transition: width 500ms var(--md-sys-motion-easing-emphasized);
-    background-color: var(--md-sys-color-surface);
+    background-color: var(
+      --md-sys-color-surface3
+    ); // non compliant, but works better
     height: 100%;
     --nav-margin: 24px;
     --nav-grid-rows: auto 48px 0fr auto 1fr;
 
-    &.mat-drawer-over {
-      background-color: var(--md-sys-color-surface2);
+    &.mat-drawer-side {
+      border-radius: unset;
     }
 
     &.divide {
@@ -20,6 +35,10 @@ mat-drawer-container {
     &.open {
       --nav-margin: 4px;
       --nav-grid-rows: auto 24px 0fr auto 1fr !important;
+
+      .m3-menu-button {
+        margin-left: 18px;
+      }
     }
 
     &.center {
@@ -48,7 +67,11 @@ mat-drawer-container {
   }
 
   &.rail {
-    --mat-sidenav-container-width: 80px;
+    --mat-sidenav-container-width: #{$rail-size};
+  }
+
+  &.drawer {
+    --mat-sidenav-container-width: #{$drawer-size};
   }
 
   &.mat-drawer-container-explicit-backdrop ::ng-deep mat-drawer-content,
@@ -101,7 +124,7 @@ mat-drawer-container {
 
 .m3-menu-button {
   margin: 10px;
-  margin-left: 22px;
+  margin-left: #{math.div($rail-size - 36px, 2)};
 }
 
 .m3-nav-fab-button {
