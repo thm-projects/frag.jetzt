@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { DataProtectionComponent } from 'app/components/home/_dialogs/data-protection/data-protection.component';
 import { DemoVideoComponent } from 'app/components/home/_dialogs/demo-video/demo-video.component';
 import { ImprintComponent } from 'app/components/home/_dialogs/imprint/imprint.component';
+import { AppRatingComponent } from 'app/components/shared/app-rating/app-rating.component';
+import { User } from 'app/models/user';
+import { RatingService } from 'app/services/http/rating.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { OnboardingService } from 'app/services/util/onboarding.service';
@@ -112,7 +115,10 @@ export const getDefaultTemplate = (
         template.navigations.push({
           title: 'Meine Räume',
           icon: 'person',
-          onClick: () => router.navigate(['/user']),
+          onClick: () => {
+            router.navigate(['/user']);
+            return true;
+          },
           activated: isUser,
         });
       }
@@ -120,14 +126,20 @@ export const getDefaultTemplate = (
         template.navigations.unshift({
           title: 'Home',
           icon: 'home',
-          onClick: () => router.navigate(['/home']),
+          onClick: () => {
+            router.navigate(['/home']);
+            return true;
+          },
           activated: isHome,
         });
       } else {
         template.navigations.push({
           title: 'Home',
           icon: 'home',
-          onClick: () => router.navigate(['/home']),
+          onClick: () => {
+            router.navigate(['/home']);
+            return true;
+          },
           activated: isHome,
         });
       }
@@ -137,44 +149,77 @@ export const getDefaultTemplate = (
           {
             icon: 'summarize',
             title: 'Intro',
-            onClick: () => showDemo(injector),
+            onClick: () => {
+              showDemo(injector);
+              return false;
+            },
           },
           {
             icon: 'flag',
             title: 'Tour',
-            onClick: () => startTour(injector),
+            onClick: () => {
+              startTour(injector);
+              return false;
+            },
           },
           accountState.getCurrentUser() && {
             icon: 'campaign',
             title: 'News',
-            onClick: () => showNews(injector),
+            onClick: () => {
+              showNews(injector);
+              return false;
+            },
           },
           {
             icon: 'rate_review',
             title: 'Feedback-Raum',
-            onClick: () =>
-              open('https://frag.jetzt/participant/room/Feedback', '_blank'),
+            onClick: () => {
+              open('https://frag.jetzt/participant/room/Feedback', '_blank');
+              return true;
+            },
           },
           {
             icon: 'grade',
             title: 'App bewerten',
-            onClick: () => console.log('rate app'),
+            onClick: () => {
+              openRateApp(user, injector);
+              return false;
+            },
           },
           {
             icon: 'security',
             title: 'Datenschutz',
-            onClick: () => showGDPR(injector),
+            onClick: () => {
+              showGDPR(injector);
+              return false;
+            },
           },
           {
             icon: 'privacy_tip',
             title: 'Impressum',
-            onClick: () => showImprint(injector),
+            onClick: () => {
+              showImprint(injector);
+              return false;
+            },
           },
         ].filter(Boolean),
       });
       return template;
     }),
   );
+};
+
+const openRateApp = (user: User, injector: Injector) => {
+  injector
+    .get(RatingService)
+    .getByAccountId(user.id)
+    .subscribe((r) => {
+      const dialogRef = injector.get(MatDialog).open(AppRatingComponent);
+      dialogRef.componentInstance.rating = r;
+      dialogRef.componentInstance.onSuccess = () => {
+        dialogRef.close();
+      };
+    });
 };
 
 const showImprint = (injector: Injector) => {

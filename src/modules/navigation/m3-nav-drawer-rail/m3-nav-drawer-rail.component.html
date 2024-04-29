@@ -143,7 +143,7 @@
   @for (entry of elem.options; track entry.title) {
     <button
       m3-label-button
-      (click)="entry?.onClick()"
+      (click)="onNavClick(entry?.onClick)"
       [activated]="entry.activated">
       <span m3-icon>
         {{ entry.icon ? entry.icon : "unknown_document" }}

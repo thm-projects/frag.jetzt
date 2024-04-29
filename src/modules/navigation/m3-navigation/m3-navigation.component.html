@@ -70,7 +70,12 @@
     }
   </mat-toolbar>
   <!-- Content -->
-  <div class="m3-nav-body">
+  <div
+    class="m3-nav-body"
+    [class.tabs]="
+      data().preferedNavigation.type === 'tabs' && data().navigations.length > 1
+    "
+    [class.bottom-bar]="!hideBottomBar()">
     <ng-content></ng-content>
   </div>
   <!-- Footer -->

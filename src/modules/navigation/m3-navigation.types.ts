@@ -1,5 +1,3 @@
-import { DestroyRef } from '@angular/core';
-
 /**
  * If the navigation options are less than 2, no navigation is displayed.
  * If the navigation options are 2, the navigation is displayed as 'tabs', no matter the value of the NavigationOption.
@@ -59,12 +57,12 @@ export interface M3HeaderMenu {
 export interface M3FabEntry {
   title?: string;
   icon: string;
-  onClick: () => void;
+  onClick: () => boolean;
 }
 
 export interface M3NavigationEntry {
   title: string;
-  onClick: () => void;
+  onClick: () => boolean;
   icon?: string;
   activated?: boolean;
 }
@@ -81,6 +79,6 @@ export interface M3NavigationNestedOptionSection
 
 export interface M3NavigationOptionEntry {
   title: string;
-  onClick: () => void;
+  onClick: () => boolean;
   icon?: string;
 }

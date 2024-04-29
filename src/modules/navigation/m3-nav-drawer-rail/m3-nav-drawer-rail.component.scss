@@ -4,9 +4,14 @@ mat-drawer-container {
 
   mat-drawer {
     transition: width 500ms var(--md-sys-motion-easing-emphasized);
+    background-color: var(--md-sys-color-surface);
     height: 100%;
     --nav-margin: 24px;
     --nav-grid-rows: auto 48px 0fr auto 1fr;
+
+    &.mat-drawer-over {
+      background-color: var(--md-sys-color-surface2);
+    }
 
     &.divide {
       --mat-sidenav-container-divider-color: var(--mat-divider-color);

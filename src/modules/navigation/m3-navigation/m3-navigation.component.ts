@@ -106,7 +106,10 @@ export class M3NavigationComponent {
       navs.push({
         title: 'More',
         icon: 'menu',
-        onClick: () => this.drawerRail().open(),
+        onClick: () => {
+          this.drawerRail().open();
+          return false;
+        },
         activated: false,
       });
     }

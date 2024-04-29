@@ -199,6 +199,12 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     this.finishLastAnim = () => this.stateOffset.set(0);
   }
 
+  protected onNavClick(clickAction?: () => boolean) {
+    if (clickAction?.()) {
+      this.close();
+    }
+  }
+
   private getStateData(previous: boolean): Section[] {
     const data = this.data();
     if (!data) {

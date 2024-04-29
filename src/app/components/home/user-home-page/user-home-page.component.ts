@@ -1,7 +1,6 @@
 import {
   AfterContentInit,
   Component,
-  ComponentRef,
   Injector,
   OnDestroy,
   OnInit,
@@ -20,7 +19,6 @@ import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
 import { SessionService } from '../../../services/util/session.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
@@ -48,7 +46,6 @@ export class UserHomePageComponent
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
   accumulatedRatings: RatingResult = undefined;
-  private _list: ComponentRef<unknown>[];
   private destroyer = new ReplaySubject(1);
   private injector = inject(Injector);
 
@@ -136,7 +133,6 @@ export class UserHomePageComponent
   ngOnDestroy() {
     this.destroyer.next(true);
     this.destroyer.complete();
-    this._list?.forEach((e) => e.destroy());
     this.listenerFn();
   }
 
@@ -144,7 +140,6 @@ export class UserHomePageComponent
     this.fetchedRating = r;
     this.ratingService.getRatings().subscribe((ratings) => {
       this.accumulatedRatings = ratings;
-      this.initNavigation();
       this.loadingRatings = false;
     });
   }
@@ -186,33 +181,5 @@ export class UserHomePageComponent
         },
       );
     });
-  }
-
-  private initNavigation() {
-    if (this._list || !this.headerService.isActive) {
-      return;
-    }
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'star',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'home-page.app-rating',
-          callback: () => {
-            const dialogRef = this.dialog.open(AppRatingComponent);
-            dialogRef.componentInstance.rating = this.fetchedRating;
-            dialogRef.componentInstance.onSuccess = (r: Rating) => {
-              dialogRef.close();
-              this.onRate(r);
-            };
-          },
-          condition: () =>
-            this.fetchedRating !== null && this.fetchedRating !== undefined,
-        });
-      },
-    );
   }
 }

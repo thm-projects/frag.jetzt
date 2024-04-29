@@ -85,15 +85,20 @@ export const getRoomTemplate = (
       navs.push({
         title: 'Q&A Forum',
         icon: 'forum',
-        onClick: () => router.navigate([`/${role}/room/${shortId}/comments`]),
+        onClick: () => {
+          router.navigate([`/${role}/room/${shortId}/comments`]);
+          return true;
+        },
         activated: url.endsWith(`/${shortId}/comments/`),
       });
       if (isMod) {
         navs.push({
           title: 'Moderation',
           icon: 'gavel',
-          onClick: () =>
-            router.navigate([`/${role}/room/${shortId}/moderator/comments`]),
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/moderator/comments`]);
+            return true;
+          },
           activated: url.endsWith('/moderator/comments/'),
         });
       }
@@ -101,15 +106,20 @@ export const getRoomTemplate = (
         navs.push({
           title: 'Blitzumfrage',
           icon: 'flash_on',
-          onClick: () => livepoll.open(session),
+          onClick: () => {
+            livepoll.open(session);
+            return true;
+          },
         });
       }
       if (room?.chatGptActive) {
         navs.push({
           title: 'KI Assistenten',
           icon: 'smart_toy',
-          onClick: () =>
-            router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]),
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
+            return true;
+          },
           activated: url.endsWith('/gpt-chat-room/'),
         });
       }
@@ -117,8 +127,10 @@ export const getRoomTemplate = (
         navs.push({
           title: 'Fragen-Fokus',
           icon: 'featured_play_list',
-          onClick: () =>
-            router.navigate([`/${role}/room/${shortId}/comments/questionwall`]),
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/comments/questionwall`]);
+            return true;
+          },
           activated: url.endsWith('/comments/questionwall/'),
         });
       }
@@ -128,7 +140,7 @@ export const getRoomTemplate = (
           icon: 'radar',
           onClick: () => {
             if (url.endsWith('/tagcloud/')) {
-              return;
+              return false;
             }
             eventService.broadcast('save-comment-filter');
             const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
@@ -140,6 +152,7 @@ export const getRoomTemplate = (
             confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
             confirmDialogRef.componentInstance.userRole =
               ROOM_ROLE_MAPPER[assignedRole];
+            return true;
           },
           activated: url.endsWith('/tagcloud/'),
         });
@@ -150,7 +163,7 @@ export const getRoomTemplate = (
           icon: 'tips_and_updates',
           onClick: () => {
             if (url.endsWith('/brainstorming/')) {
-              return;
+              return false;
             }
             const confirmDialogRef = dialog.open(
               TopicCloudBrainstormingComponent,
@@ -161,6 +174,7 @@ export const getRoomTemplate = (
             confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
             confirmDialogRef.componentInstance.userRole =
               ROOM_ROLE_MAPPER[assignedRole];
+            return true;
           },
           activated: url.endsWith('/brainstorming/'),
         });
@@ -169,7 +183,10 @@ export const getRoomTemplate = (
         navs.push({
           title: 'Quiz-Rallye',
           icon: 'quiz',
-          onClick: () => router.navigate(['/quiz']),
+          onClick: () => {
+            router.navigate(['/quiz']);
+            return true;
+          },
         });
       }
       if (
@@ -179,21 +196,30 @@ export const getRoomTemplate = (
         navs.push({
           title: 'Administration',
           icon: 'admin_panel_settings',
-          onClick: () => router.navigate(['/admin/overview']),
+          onClick: () => {
+            router.navigate(['/admin/overview']);
+            return true;
+          },
         });
       }
       if (isMod) {
         navs.push({
           title: 'Raumverwaltung',
           icon: 'settings',
-          onClick: () => router.navigate([`/${role}/room/${shortId}/`]),
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/`]);
+            return true;
+          },
           activated: isOverview,
         });
       } else {
         navs.push({
           title: 'Empfang',
           icon: 'checkroom',
-          onClick: () => router.navigate([`/${role}/room/${shortId}/`]),
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/`]);
+            return true;
+          },
           activated: isOverview,
         });
       }
@@ -210,28 +236,43 @@ export const getRoomTemplate = (
                 {
                   title: 'Features',
                   icon: 'settings_suggest',
-                  onClick: () => console.log('Features clicked'),
+                  onClick: () => {
+                    console.log('Features clicked');
+                    return false;
+                  },
                 },
                 {
                   title: 'Moderationsmodus',
                   icon: 'visibility_off',
-                  onClick: () => openModeration(room, injector),
+                  onClick: () => {
+                    openModeration(room, injector);
+                    return false;
+                  },
                 },
                 {
                   title: 'Forumkonversation',
                   icon: 'forum',
-                  onClick: () => openConversation(room, injector),
+                  onClick: () => {
+                    openConversation(room, injector);
+                    return false;
+                  },
                 },
                 {
                   title: 'Fragenkategorien',
                   icon: 'sell',
-                  onClick: () => openRoomTags(room, injector),
+                  onClick: () => {
+                    openRoomTags(room, injector);
+                    return false;
+                  },
                 },
                 room.bonusArchiveActive &&
                   room.mode !== 'PLE' && {
                     title: 'Bonusarchiv',
                     icon: 'grade',
-                    onClick: () => openBonusArchive(room, injector),
+                    onClick: () => {
+                      openBonusArchive(room, injector);
+                      return false;
+                    },
                   },
                 {
                   title: room.questionsBlocked
@@ -246,6 +287,7 @@ export const getRoomTemplate = (
                       },
                       injector,
                     );
+                    return true;
                   },
                 },
                 {
@@ -257,34 +299,50 @@ export const getRoomTemplate = (
                         urlEndIndex,
                       )}`,
                     ]);
+                    return true;
                   },
                 },
                 {
                   title: 'Fragen löschen',
                   icon: 'delete_sweep',
-                  onClick: () => openDeleteComments(room, injector),
+                  onClick: () => {
+                    openDeleteComments(room, injector);
+                    return false;
+                  },
                 },
                 assignedRole === 'Creator' && {
                   title: 'Raum löschen',
                   icon: 'delete',
-                  onClick: () => openDeleteRoom(room, injector),
+                  onClick: () => {
+                    openDeleteRoom(room, injector);
+                    return true;
+                  },
                 },
               ].filter(Boolean),
             },
             {
               title: 'KI-Einstellungen',
               icon: 'smart_toy',
-              onClick: () => openAISettings(room, injector),
+              onClick: () => {
+                openAISettings(room, injector);
+                return false;
+              },
             },
             {
               title: 'Q&A-Export',
               icon: 'file_download',
-              onClick: () => doExport(user, room, injector),
+              onClick: () => {
+                doExport(user, room, injector);
+                return true;
+              },
             },
             {
               title: 'QR-Code',
               icon: 'qr_code',
-              onClick: () => openQr(room, injector),
+              onClick: () => {
+                openQr(room, injector);
+                return true;
+              },
             },
           ],
         });
