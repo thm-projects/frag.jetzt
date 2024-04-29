@@ -4,11 +4,14 @@ import { Router } from '@angular/router';
 import { DataProtectionComponent } from 'app/components/home/_dialogs/data-protection/data-protection.component';
 import { DemoVideoComponent } from 'app/components/home/_dialogs/demo-video/demo-video.component';
 import { ImprintComponent } from 'app/components/home/_dialogs/imprint/imprint.component';
+import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { AppRatingComponent } from 'app/components/shared/app-rating/app-rating.component';
 import { User } from 'app/models/user';
 import { RatingService } from 'app/services/http/rating.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { KeycloakService } from 'app/services/util/keycloak.service';
 import { OnboardingService } from 'app/services/util/onboarding.service';
 import { M3NavigationTemplate } from 'modules/navigation/m3-navigation.types';
 import { Observable, map } from 'rxjs';
@@ -40,32 +43,42 @@ export const getDefaultTemplate = (
                     {
                       icon: 'grade',
                       title: 'Meine Bonus-Sterne',
-                      onClick: () => console.log(''),
-                    },
-                    {
-                      icon: 'badge',
-                      title: 'Q&A Pseudonym',
-                      onClick: () => console.log('Pseudo clicked'),
+                      onClick: () => {
+                        UserBonusTokenComponent.openDialog(
+                          injector.get(MatDialog),
+                          user.id,
+                        );
+                      },
                     },
                     {
                       icon: 'policy',
                       title: 'KI Datenschutz',
-                      onClick: () => console.log('AI clicked'),
+                      onClick: () => {
+                        openAIConsent(injector);
+                      },
                     },
                     {
                       icon: 'smart_toy',
                       title: 'Meine KI-Prompts',
-                      onClick: () => router.navigate(['/gpt-prompts']),
+                      onClick: () => {
+                        router.navigate(['/gpt-prompts']);
+                      },
                     },
                     {
                       icon: 'manage_accounts',
                       title: 'Konto anpassen',
-                      onClick: () => console.log('Manage clicked'),
+                      onClick: () => {
+                        injector
+                          .get(KeycloakService)
+                          .redirectAccountManagement();
+                      },
                     },
                     {
                       icon: 'person_remove',
                       title: 'Konto löschen',
-                      onClick: () => console.log('Delete clicked'),
+                      onClick: () => {
+                        injector.get(KeycloakService).deleteAccount();
+                      },
                     },
                     {
                       icon: 'logout',
@@ -207,6 +220,17 @@ export const getDefaultTemplate = (
       return template;
     }),
   );
+};
+
+const openAIConsent = (injector: Injector) => {
+  const dialogRef = injector.get(MatDialog).open(GptOptInPrivacyComponent, {
+    autoFocus: false,
+    width: '80%',
+    maxWidth: '600px',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    injector.get(AccountStateService).updateGPTConsentState(result);
+  });
 };
 
 const openRateApp = (user: User, injector: Injector) => {

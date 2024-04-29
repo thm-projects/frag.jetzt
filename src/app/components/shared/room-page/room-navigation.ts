@@ -10,6 +10,7 @@ import {
 import { EventService } from 'app/services/util/event.service';
 import { SessionService } from 'app/services/util/session.service';
 import {
+  M3HeaderMenu,
   M3NavigationEntry,
   M3NavigationOptionSection,
   M3NavigationTemplate,
@@ -43,6 +44,7 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { Rescale } from 'app/models/rescale';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 
 export const getRoomTemplate = (
   injector: Injector,
@@ -80,6 +82,15 @@ export const getRoomTemplate = (
       const isMod = assignedRole !== 'Participant';
       const isOverview = url.endsWith(shortId + '/');
       template.title = 'Features';
+      // Header adjust
+      const headerOpts = template.header.options.find(
+        (e) => e.icon === 'account_circle',
+      ) as M3HeaderMenu;
+      headerOpts.items.unshift({
+        icon: 'badge',
+        title: 'Q&A Pseudonym',
+        onClick: () => openQAPseudo(user, room, injector),
+      });
       // Navigation
       const navs: M3NavigationEntry[] = [];
       navs.push({
@@ -540,4 +551,8 @@ const saveChanges = (
 ) => {
   const roomService = injector.get(RoomService);
   roomService.patchRoom(roomId, partialRoom).subscribe();
+};
+
+const openQAPseudo = (user: User, room: Room, injector: Injector) => {
+  PseudonymEditorComponent.open(injector.get(MatDialog), user.id, room.id);
 };
