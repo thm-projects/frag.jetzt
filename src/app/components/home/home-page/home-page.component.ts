@@ -25,9 +25,8 @@ import { carousel } from './home-page-carousel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 import { Router } from '@angular/router';
-import { getDefaultTemplate } from 'app/navigation/default-navigation';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -381,8 +380,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   private emitNavigation() {
-    getDefaultTemplate(this.injector).subscribe((template) => {
-      NAVIGATION.set(template);
-    });
+    applyDefaultNavigation(this.injector)
+      .pipe(takeUntil(this._destroyer))
+      .subscribe();
   }
 }

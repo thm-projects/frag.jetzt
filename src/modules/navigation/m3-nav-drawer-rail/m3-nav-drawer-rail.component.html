@@ -1,123 +1,104 @@
 @if (openState(); as state) {
-  @if (data(); as data) {
-    <mat-drawer-container
-      [class]="state"
-      [hasBackdrop]="mode() === 'over'"
-      [autosize]="false">
-      <!-- Rail + Drawer -->
-      <mat-drawer
-        [class.open]="state === 'drawer'"
-        [class]="data.preferedNavigation['railOrientation']"
-        [class.divide]="data.preferedNavigation['railDivider']"
-        #drawer
-        [mode]="mode()">
-        <!-- Menu + Button -->
-        <div class="m3-nav-drawer-header">
-          <div class="m3-nav-headline">
-            <button
-              class="m3-menu-button"
-              mat-icon-button
-              (click)="state !== 'drawer' ? open() : close()">
-              <mat-icon>
-                {{ state !== "drawer" ? "menu" : "menu_open" }}
-              </mat-icon>
-            </button>
-            @if (state === "drawer") {
-              <span class="m3-nav-drawer-title">
-                {{ data.title || data.header.title || "" }}
-              </span>
-            }
-          </div>
-          @if (data.primaryAction; as primary) {
-            <button
-              mat-fab
-              (click)="primary.onClick()"
-              class="m3-nav-fab-button"
-              [tabIndex]="hasFabButton() ? 0 : -1"
-              [class.appeared]="hasFabButton()"
-              [extended]="state === 'drawer' && primary.title">
-              <mat-icon>{{ primary.icon }}</mat-icon>
-              {{ state === "drawer" && primary.title ? primary.title : "" }}
-            </button>
+  <mat-drawer-container
+    [class]="state"
+    [hasBackdrop]="mode() === 'over'"
+    [autosize]="false">
+    <!-- Rail + Drawer -->
+    <mat-drawer
+      [class.open]="state === 'drawer'"
+      [class]="preferredNavigation().railOrientation"
+      [class.divide]="preferredNavigation().railDivider"
+      #drawer
+      [mode]="mode()">
+      <!-- Menu + Button -->
+      <div class="m3-nav-drawer-header">
+        <div class="m3-nav-headline">
+          <button
+            class="m3-menu-button"
+            mat-icon-button
+            (click)="state !== 'drawer' ? open() : close()">
+            <mat-icon>
+              {{ state !== "drawer" ? "menu" : "menu_open" }}
+            </mat-icon>
+          </button>
+          @if (state === "drawer") {
+            <span class="m3-nav-drawer-title">
+              {{ navigation().title }}
+            </span>
           }
         </div>
+        @if (!isSmall() && fab(); as fab) {
+          <button
+            mat-fab
+            (click)="fab.onClick()"
+            class="m3-nav-fab-button"
+            [tabIndex]="hasFabButton() ? 0 : -1"
+            [class.appeared]="hasFabButton()"
+            [extended]="state === 'drawer' && fab.title">
+            <mat-icon>{{ fab.icon }}</mat-icon>
+            {{ state === "drawer" && fab.title ? fab.title : "" }}
+          </button>
+        }
+      </div>
 
-        <!-- Content: Navigation + Options (in drawer only) -->
-        <div class="m3-nav-drawer-content">
-          <!-- Previous state for animation-->
-          @if (stateOffset() == -1) {
-            <div
-              class="fadeRight"
-              [class]="'m3-navigation-' + state + '-labels'">
-              @for (
-                elem of animData();
-                track elem.tracker;
-                let first = $first
-              ) {
-                <ng-container
-                  [ngTemplateOutlet]="section"
-                  [ngTemplateOutletContext]="{
-                    elem,
-                    first,
-                    state,
-                    data
-                  }"></ng-container>
-              }
-            </div>
-          }
-
-          <!-- Current data of rail/drawer -->
+      <!-- Content: Navigation + Options (in drawer only) -->
+      <div class="m3-nav-drawer-content">
+        <!-- Previous state for animation-->
+        @if (stateOffset() == -1) {
           <div
-            [class]="'m3-navigation-' + state + '-labels'"
-            [class.fadeRight]="stateOffset() == -1"
-            [class.fadeLeft]="stateOffset() == 1"
-            (animationend)="animationEnded()">
-            @for (
-              elem of railBarData();
-              track elem.tracker;
-              let first = $first
-            ) {
+            class="fadeRight"
+            [class]="'m3-navigation-' + state + '-labels'">
+            @for (elem of animData(); track elem.tracker; let first = $first) {
               <ng-container
                 [ngTemplateOutlet]="section"
                 [ngTemplateOutletContext]="{
                   elem,
                   first,
-                  state,
-                  data
+                  state
                 }"></ng-container>
             }
           </div>
+        }
 
-          <!-- Next state for animation -->
-          @if (stateOffset() == 1) {
-            <div
-              class="fadeLeft"
-              [class]="'m3-navigation-' + state + '-labels'">
-              @for (
-                elem of animData();
-                track elem.tracker;
-                let first = $first
-              ) {
-                <ng-container
-                  [ngTemplateOutlet]="section"
-                  [ngTemplateOutletContext]="{
-                    elem,
-                    first,
-                    state,
-                    data
-                  }"></ng-container>
-              }
-            </div>
+        <!-- Current data of rail/drawer -->
+        <div
+          [class]="'m3-navigation-' + state + '-labels'"
+          [class.fadeRight]="stateOffset() == -1"
+          [class.fadeLeft]="stateOffset() == 1"
+          (animationend)="animationEnded()">
+          @for (elem of railBarData(); track elem.tracker; let first = $first) {
+            <ng-container
+              [ngTemplateOutlet]="section"
+              [ngTemplateOutletContext]="{
+                elem,
+                first,
+                state
+              }"></ng-container>
           }
         </div>
-      </mat-drawer>
 
-      <!-- Drawer/Rail right side-->
-      <ng-container [ngTemplateOutlet]="content"></ng-container>
-    </mat-drawer-container>
-  } @else {
+        <!-- Next state for animation -->
+        @if (stateOffset() == 1) {
+          <div
+            class="fadeLeft"
+            [class]="'m3-navigation-' + state + '-labels'">
+            @for (elem of animData(); track elem.tracker; let first = $first) {
+              <ng-container
+                [ngTemplateOutlet]="section"
+                [ngTemplateOutletContext]="{
+                  elem,
+                  first,
+                  state
+                }"></ng-container>
+            }
+          </div>
+        }
+      </div>
+    </mat-drawer>
+
+    <!-- Drawer/Rail right side-->
     <ng-container [ngTemplateOutlet]="content"></ng-container>
-  }
+  </mat-drawer-container>
 } @else {
   <ng-container [ngTemplateOutlet]="content"></ng-container>
 }
@@ -128,14 +109,11 @@
 
 <ng-template
   #section
-  let-data="data"
   let-state="state"
   let-elem="elem"
   let-first="first">
-  @if (!first && data.divideOptions) {
-    <mat-divider
-      class="m3-nav-divider"
-      [class.open]="state === 'drawer'"></mat-divider>
+  @if (!first && state === "drawer") {
+    <mat-divider class="m3-nav-divider open"></mat-divider>
   }
   @if (state === "drawer" && elem.title; as title) {
     <span class="m3-nav-section-title label-medium">{{ title }}</span>

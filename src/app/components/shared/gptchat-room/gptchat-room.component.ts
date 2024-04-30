@@ -76,8 +76,7 @@ import {
 import { MatMenu } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { getRoomTemplate } from '../room-page/room-navigation';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { applyRoomNavigation } from '../room-page/room-navigation';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -1206,6 +1205,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initNav() {
-    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
   }
 }

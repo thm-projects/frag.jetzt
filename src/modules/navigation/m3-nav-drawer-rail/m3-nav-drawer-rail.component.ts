@@ -20,10 +20,19 @@ import {
 import { windowWatcher } from '../utils/window-watcher';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { M3NavigationOptionSection } from '../m3-navigation.types';
-import { CommonModule } from '@angular/common';
-import { InternalTemplate } from '../m3-navigation/m3-navigation.component';
+import {
+  M3NavigationEntry,
+  M3NavigationOptionSection,
+} from '../m3-navigation.types';
+import { CommonModule, Location } from '@angular/common';
 import { M3LabelComponent } from '../m3-label/m3-label.component';
+import {
+  FAB_BUTTON,
+  NAVIGATION,
+  OPTIONS,
+  PREFERRED_NAVIGATION,
+} from '../m3-navigation-emitter';
+import { Router } from '@angular/router';
 
 interface RailDrawerEntry {
   title: string;
@@ -39,8 +48,8 @@ interface Section {
   options: RailDrawerEntry[];
 }
 
-const MAIN_TRACKER = 0;
-const RAIL_TRACKER = 1;
+const RAIL_TRACKER = 0;
+const BACK_TRACKER = 1;
 
 @Component({
   selector: 'm3-nav-drawer-rail',
@@ -58,8 +67,13 @@ const RAIL_TRACKER = 1;
   styleUrl: './m3-nav-drawer-rail.component.scss',
 })
 export class M3NavDrawerRailComponent implements AfterViewInit {
-  data = input<InternalTemplate>();
   drawerOpen: Signal<boolean>;
+  protected preferredNavigation = PREFERRED_NAVIGATION.asReadonly();
+  protected navigation = NAVIGATION.asReadonly();
+  protected options = OPTIONS.asReadonly();
+  protected fab = FAB_BUTTON.asReadonly();
+  protected showBack = input(true);
+  protected isSmall = computed(() => windowWatcher.windowState() === 'compact');
   protected stack = signal<M3NavigationOptionSection[]>([]);
   /**
    *
@@ -90,7 +104,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     return this.getStateData(offset == -1);
   });
   protected openState = signal<'drawer' | 'rail' | 'none'>(
-    this.supportsRail() ? 'rail' : 'none',
+    this.isSmall() ? 'none' : 'rail',
   );
   protected hasFabButton = computed(() => {
     const offset = this.stateOffset();
@@ -106,11 +120,13 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   protected finishLastAnim: (() => void) | null;
   protected drawer = viewChild(MatDrawer);
   private injector = inject(Injector);
+  private router = inject(Router);
+  private location = inject(Location);
 
   constructor() {
     effect(
       () => {
-        const rails = this.supportsRail();
+        const rails = !this.isSmall();
         untracked(() => {
           const state = this.openState();
           if (state === 'rail' && !rails) {
@@ -151,7 +167,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       { injector: this.injector },
     );
     drawer.closedStart.subscribe(() => {
-      if (this.supportsRail()) {
+      if (!this.isSmall()) {
         this.openState.set('rail');
         drawer.open();
       } else {
@@ -200,14 +216,10 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   }
 
   private getStateData(previous: boolean): Section[] {
-    const data = this.data();
-    if (!data) {
-      return [] as Section[];
-    }
     const barData = [] as Section[];
     const state = this.openState();
     if (state !== 'drawer') {
-      this.appendRailEntry(barData, data);
+      this.appendRailEntry(barData);
       return barData;
     }
     const stack = this.stack();
@@ -215,21 +227,46 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       this.appendStackEntry(barData, stack, previous);
       return barData;
     }
-    this.appendDrawerEntry(barData, data);
+    this.appendDrawerEntry(barData);
     return barData;
   }
 
-  private appendDrawerEntry(barData: Section[], data: InternalTemplate) {
-    barData.push({
-      tracker: MAIN_TRACKER,
-      options: data.navigations.map((nav) => ({
-        title: nav.title,
-        icon: nav.icon,
-        onClick: nav.onClick,
-        activated: nav.activated,
-      })),
+  private appendDrawerEntry(barData: Section[]) {
+    if (this.canGoBack() && this.showBack()) {
+      barData.push({
+        tracker: BACK_TRACKER,
+        options: [
+          {
+            title: 'Back',
+            icon: 'arrow_back',
+            onClick: () => {
+              this.location.subscribe((e) => {
+                console.log(e);
+              });
+              this.location.back();
+              return true;
+            },
+            activated: false,
+            forward: false,
+          },
+        ],
+      });
+    }
+    const navs = this.navigation()?.sections;
+    navs?.forEach((entry) => {
+      barData.push({
+        tracker: entry,
+        title: entry.title,
+        options: entry.entries.map((nav) => ({
+          title: nav.title,
+          icon: nav.icon,
+          onClick: nav.onClick,
+          activated: nav.activated,
+        })),
+      });
     });
-    for (const entry of data.options) {
+    const opts = this.options();
+    opts?.forEach((entry) => {
       barData.push({
         title: entry.title,
         tracker: entry,
@@ -241,15 +278,40 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
           forward: 'options' in opt,
         })),
       });
-    }
+    });
   }
 
-  private appendRailEntry(barData: Section[], data: InternalTemplate) {
+  private appendRailEntry(barData: Section[]) {
+    if (this.canGoBack() && this.showBack()) {
+      barData.push({
+        tracker: BACK_TRACKER,
+        options: [
+          {
+            title: 'Back',
+            icon: 'arrow_back',
+            onClick: () => {
+              this.location.subscribe((e) => {
+                console.log(e);
+              });
+              this.location.back();
+              return true;
+            },
+            activated: false,
+            forward: false,
+          },
+        ],
+      });
+    }
+    const navigations = this.navigation()?.sections.reduce((acc, e) => {
+      acc.push(...e.entries);
+      return acc;
+    }, [] as M3NavigationEntry[]);
+    if (!navigations) return;
     const maxElements = 7;
-    const navs = data.navigations.slice(0, maxElements);
-    const index = data.navigations.findIndex((e) => e.activated);
+    const navs = navigations.slice(0, maxElements);
+    const index = navigations.findIndex((e) => e.activated);
     if (index > maxElements - 1) {
-      navs[maxElements - 1] = data.navigations[index];
+      navs[maxElements - 1] = navigations[index];
     }
     barData.push({
       tracker: RAIL_TRACKER,
@@ -289,7 +351,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     });
   }
 
-  private supportsRail(): boolean {
-    return this.data()?.preferedNavigation.type === 'rail';
+  private canGoBack() {
+    return !this.router.url.startsWith('/home');
   }
 }

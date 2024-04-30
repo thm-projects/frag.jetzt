@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { getDefaultTemplate } from 'app/navigation/default-navigation';
 import { LivepollService } from 'app/services/http/livepoll.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import {
@@ -11,11 +10,21 @@ import { EventService } from 'app/services/util/event.service';
 import { SessionService } from 'app/services/util/session.service';
 import {
   M3HeaderMenu,
-  M3NavigationEntry,
+  M3HeaderTemplate,
   M3NavigationOptionSection,
+  M3NavigationSection,
   M3NavigationTemplate,
 } from 'modules/navigation/m3-navigation.types';
-import { Observable, first, forkJoin, map, of, switchMap, take } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  first,
+  forkJoin,
+  map,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
@@ -45,8 +54,56 @@ import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { Rescale } from 'app/models/rescale';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
+import {
+  getDefaultHeader,
+  getDefaultNavigation,
+  getDefaultOptions,
+} from 'app/navigation/default-navigation';
+import {
+  HEADER,
+  NAVIGATION,
+  OPTIONS,
+} from 'modules/navigation/m3-navigation-emitter';
 
-export const getRoomTemplate = (
+export const applyRoomNavigation = (injector: Injector): Observable<void> => {
+  return combineLatest([
+    getRoomHeader(injector),
+    getRoomNavigation(injector),
+    getRoomOptions(injector),
+  ]).pipe(
+    map(([header, navigation, options]) => {
+      HEADER.set(header);
+      NAVIGATION.set(navigation);
+      OPTIONS.set(options);
+    }),
+  );
+};
+
+export const getRoomHeader = (
+  injector: Injector,
+): Observable<M3HeaderTemplate> => {
+  const accountState = injector.get(AccountStateService);
+  const roomState = injector.get(RoomStateService);
+  return combineLatest([
+    getDefaultHeader(injector),
+    accountState.user$.pipe(first((e) => Boolean(e))),
+    roomState.room$.pipe(first((e) => Boolean(e))),
+  ]).pipe(
+    map(([template, user, room]) => {
+      const headerOpts = template.options.find(
+        (e) => e.icon === 'account_circle',
+      ) as M3HeaderMenu;
+      headerOpts.items.unshift({
+        icon: 'badge',
+        title: 'Q&A Pseudonym',
+        onClick: () => openQAPseudo(user, room, injector),
+      });
+      return template;
+    }),
+  );
+};
+
+export const getRoomNavigation = (
   injector: Injector,
 ): Observable<M3NavigationTemplate> => {
   const accountState = injector.get(AccountStateService);
@@ -57,15 +114,12 @@ export const getRoomTemplate = (
   const livepoll = injector.get(LivepollService);
   const session = injector.get(SessionService);
   // Start building
-  return getDefaultTemplate(injector).pipe(
-    switchMap((template) => {
-      return forkJoin([
-        of(template),
-        accountState.user$.pipe(first((e) => Boolean(e))),
-        roomState.room$.pipe(first((e) => Boolean(e))),
-        roomState.assignedRole$.pipe(take(1)),
-      ]);
-    }),
+  return combineLatest([
+    getDefaultNavigation(injector),
+    accountState.user$.pipe(first((e) => Boolean(e))),
+    roomState.room$.pipe(first((e) => Boolean(e))),
+    roomState.assignedRole$.pipe(take(1)),
+  ]).pipe(
     map(([template, user, room, assignedRole]) => {
       let url = router.url;
       const hashIndex = url.indexOf('#');
@@ -82,159 +136,178 @@ export const getRoomTemplate = (
       const isMod = assignedRole !== 'Participant';
       const isOverview = url.endsWith(shortId + '/');
       template.title = 'Features';
-      // Header adjust
-      const headerOpts = template.header.options.find(
-        (e) => e.icon === 'account_circle',
-      ) as M3HeaderMenu;
-      headerOpts.items.unshift({
-        icon: 'badge',
-        title: 'Q&A Pseudonym',
-        onClick: () => openQAPseudo(user, room, injector),
-      });
       // Navigation
-      const navs: M3NavigationEntry[] = [];
+      const navs: M3NavigationSection[] = [];
       navs.push({
-        title: 'Q&A Forum',
-        icon: 'forum',
-        onClick: () => {
-          router.navigate([`/${role}/room/${shortId}/comments`]);
-          return true;
-        },
-        activated: url.endsWith(`/${shortId}/comments/`),
-      });
-      if (isMod) {
-        navs.push({
-          title: 'Moderation',
-          icon: 'gavel',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/moderator/comments`]);
-            return true;
+        title: 'Features',
+        entries: [
+          {
+            title: 'Q&A Forum',
+            icon: 'forum',
+            onClick: () => {
+              router.navigate([`/${role}/room/${shortId}/comments`]);
+              return true;
+            },
+            activated: url.endsWith(`/${shortId}/comments/`),
           },
-          activated: url.endsWith('/moderator/comments/'),
-        });
-      }
-      if (room?.livepollActive && (room.livepollSession || isMod)) {
-        navs.push({
-          title: 'Blitzumfrage',
-          icon: 'flash_on',
-          onClick: () => {
-            livepoll.open(session);
-            return true;
-          },
-        });
-      }
-      if (room?.chatGptActive) {
-        navs.push({
-          title: 'KI Assistenten',
-          icon: 'smart_toy',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
-            return true;
-          },
-          activated: url.endsWith('/gpt-chat-room/'),
-        });
-      }
-      if (room?.focusActive) {
-        navs.push({
-          title: 'Fragen-Fokus',
-          icon: 'featured_play_list',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/comments/questionwall`]);
-            return true;
-          },
-          activated: url.endsWith('/comments/questionwall/'),
-        });
-      }
-      if (room?.radarActive) {
-        navs.push({
-          title: 'Fragen-Radar',
-          icon: 'radar',
-          onClick: () => {
-            if (url.endsWith('/tagcloud/')) {
-              return false;
-            }
-            eventService.broadcast('save-comment-filter');
-            const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
-              autoFocus: false,
-              data: {
-                filterObject: RoomDataFilter.loadFilter('commentList'),
+          room?.livepollActive &&
+            (room.livepollSession || isMod) && {
+              title: 'Blitzumfrage',
+              icon: 'flash_on',
+              onClick: () => {
+                livepoll.open(session);
+                return true;
               },
-            });
-            confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
-            confirmDialogRef.componentInstance.userRole =
-              ROOM_ROLE_MAPPER[assignedRole];
-            return true;
+            },
+          room?.chatGptActive && {
+            title: 'KI Assistenten',
+            icon: 'smart_toy',
+            onClick: () => {
+              router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
+              return true;
+            },
+            activated: url.endsWith('/gpt-chat-room/'),
           },
-          activated: url.endsWith('/tagcloud/'),
-        });
-      }
-      if (room?.brainstormingActive && (room.brainstormingSession || isMod)) {
-        navs.push({
-          title: 'Brainstorming',
-          icon: 'tips_and_updates',
-          onClick: () => {
-            if (url.endsWith('/brainstorming/')) {
-              return false;
-            }
-            const confirmDialogRef = dialog.open(
-              TopicCloudBrainstormingComponent,
-              {
+          room?.focusActive && {
+            title: 'Fragen-Fokus',
+            icon: 'featured_play_list',
+            onClick: () => {
+              router.navigate([
+                `/${role}/room/${shortId}/comments/questionwall`,
+              ]);
+              return true;
+            },
+            activated: url.endsWith('/comments/questionwall/'),
+          },
+          room?.radarActive && {
+            title: 'Fragen-Radar',
+            icon: 'radar',
+            onClick: () => {
+              if (url.endsWith('/tagcloud/')) {
+                return false;
+              }
+              eventService.broadcast('save-comment-filter');
+              const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
                 autoFocus: false,
+                data: {
+                  filterObject: RoomDataFilter.loadFilter('commentList'),
+                },
+              });
+              confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
+              confirmDialogRef.componentInstance.userRole =
+                ROOM_ROLE_MAPPER[assignedRole];
+              return true;
+            },
+            activated: url.endsWith('/tagcloud/'),
+          },
+          room?.brainstormingActive &&
+            (room.brainstormingSession || isMod) && {
+              title: 'Brainstorming',
+              icon: 'tips_and_updates',
+              onClick: () => {
+                if (url.endsWith('/brainstorming/')) {
+                  return false;
+                }
+                const confirmDialogRef = dialog.open(
+                  TopicCloudBrainstormingComponent,
+                  {
+                    autoFocus: false,
+                  },
+                );
+                confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
+                confirmDialogRef.componentInstance.userRole =
+                  ROOM_ROLE_MAPPER[assignedRole];
+                return true;
               },
-            );
-            confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
-            confirmDialogRef.componentInstance.userRole =
-              ROOM_ROLE_MAPPER[assignedRole];
-            return true;
+              activated: url.endsWith('/brainstorming/'),
+            },
+          room?.quizActive && {
+            title: 'Quiz-Rallye',
+            icon: 'quiz',
+            onClick: () => {
+              router.navigate(['/quiz']);
+              return true;
+            },
           },
-          activated: url.endsWith('/brainstorming/'),
+          !isMod && {
+            title: 'Empfang',
+            icon: 'checkroom',
+            onClick: () => {
+              router.navigate([`/${role}/room/${shortId}/`]);
+              return true;
+            },
+            activated: isOverview,
+          },
+        ].filter(Boolean),
+      });
+      const hasAdmin =
+        isOverview && user.keycloakRoles.includes(KeycloakRoles.AdminDashboard);
+      if (isMod || hasAdmin) {
+        navs.push({
+          title: 'Verwaltung',
+          entries: [
+            isMod && {
+              title: 'Moderation',
+              icon: 'gavel',
+              onClick: () => {
+                router.navigate([
+                  `/${role}/room/${shortId}/moderator/comments`,
+                ]);
+                return true;
+              },
+              activated: url.endsWith('/moderator/comments/'),
+            },
+            hasAdmin && {
+              title: 'Administration',
+              icon: 'admin_panel_settings',
+              onClick: () => {
+                router.navigate(['/admin/overview']);
+                return true;
+              },
+            },
+            isMod && {
+              title: 'Raumverwaltung',
+              icon: 'settings',
+              onClick: () => {
+                router.navigate([`/${role}/room/${shortId}/`]);
+                return true;
+              },
+              activated: isOverview,
+            },
+          ].filter(Boolean),
         });
       }
-      if (room?.quizActive) {
-        navs.push({
-          title: 'Quiz-Rallye',
-          icon: 'quiz',
-          onClick: () => {
-            router.navigate(['/quiz']);
-            return true;
-          },
-        });
+      template.sections.unshift(...navs);
+      return template;
+    }),
+  );
+};
+
+export const getRoomOptions = (
+  injector: Injector,
+): Observable<M3NavigationOptionSection[]> => {
+  const accountState = injector.get(AccountStateService);
+  const roomState = injector.get(RoomStateService);
+  const router = injector.get(Router);
+  return combineLatest([
+    getDefaultOptions(injector),
+    accountState.user$.pipe(first((e) => Boolean(e))),
+    roomState.room$.pipe(first((e) => Boolean(e))),
+    roomState.assignedRole$,
+  ]).pipe(
+    map(([defaultOpts, user, room, assignedRole]) => {
+      let url = router.url;
+      const hashIndex = url.indexOf('#');
+      if (hashIndex > 0) {
+        url = url.substring(0, hashIndex);
       }
-      if (
-        isOverview &&
-        user.keycloakRoles.includes(KeycloakRoles.AdminDashboard)
-      ) {
-        navs.push({
-          title: 'Administration',
-          icon: 'admin_panel_settings',
-          onClick: () => {
-            router.navigate(['/admin/overview']);
-            return true;
-          },
-        });
+      if (!url.endsWith('/')) {
+        url += '/';
       }
-      if (isMod) {
-        navs.push({
-          title: 'Raumverwaltung',
-          icon: 'settings',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/`]);
-            return true;
-          },
-          activated: isOverview,
-        });
-      } else {
-        navs.push({
-          title: 'Empfang',
-          icon: 'checkroom',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/`]);
-            return true;
-          },
-          activated: isOverview,
-        });
-      }
-      template.navigations.unshift(...navs);
+      const roomIndex = url.indexOf('/room/');
+      const urlEndIndex = url.indexOf('/', roomIndex + 6);
+      const shortId = url.substring(roomIndex + 6, urlEndIndex);
+      const isMod = assignedRole !== 'Participant';
       const options: M3NavigationOptionSection[] = [];
       if (isMod) {
         options.push({
@@ -358,8 +431,8 @@ export const getRoomTemplate = (
           ],
         });
       }
-      template.options.unshift(...options);
-      return template;
+      options.push(...defaultOpts);
+      return options;
     }),
   );
 };

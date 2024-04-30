@@ -14,8 +14,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { getRoomTemplate } from 'app/components/shared/room-page/room-navigation';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { applyRoomNavigation } from 'app/components/shared/room-page/room-navigation';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-moderator-comment-page',
@@ -26,6 +26,7 @@ export class ModeratorCommentPageComponent
   implements OnInit, OnDestroy, AfterContentInit {
   listenerFn: () => void;
   private injector = inject(Injector);
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private route: ActivatedRoute,
@@ -98,6 +99,8 @@ export class ModeratorCommentPageComponent
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   public announce() {
@@ -114,6 +117,8 @@ export class ModeratorCommentPageComponent
   }
 
   private initNavigation() {
-    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
   }
 }

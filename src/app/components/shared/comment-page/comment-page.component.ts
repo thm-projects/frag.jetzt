@@ -15,8 +15,8 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { getRoomTemplate } from '../room-page/room-navigation';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { applyRoomNavigation } from '../room-page/room-navigation';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-comment-page',
@@ -27,6 +27,7 @@ export class CommentPageComponent
   implements OnInit, OnDestroy, AfterContentInit {
   listenerFn: () => void;
   private injector = inject(Injector);
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private translateService: TranslateService,
@@ -89,6 +90,8 @@ export class CommentPageComponent
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   public announce() {
@@ -181,6 +184,8 @@ export class CommentPageComponent
   }
 
   private initNavigation() {
-    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
   }
 }

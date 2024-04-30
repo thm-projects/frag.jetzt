@@ -28,8 +28,7 @@ import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-cr
 import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import { getDefaultTemplate } from 'app/navigation/default-navigation';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 @Component({
   selector: 'app-user-home-page',
@@ -67,9 +66,9 @@ export class UserHomePageComponent
   }
 
   initM3Navigation() {
-    getDefaultTemplate(this.injector).subscribe((template) => {
-      NAVIGATION.set(template);
-    });
+    applyDefaultNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
   }
 
   ngAfterContentInit(): void {

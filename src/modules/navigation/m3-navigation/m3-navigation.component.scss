@@ -22,18 +22,6 @@ mat-toolbar {
     display: grid;
     grid-template-columns: auto 1fr auto;
   }
-
-  > .m3-nav-header-tabs {
-    display: flex;
-
-    > * {
-      flex: 1;
-    }
-  }
-}
-
-.m3-nav-header-tab-icon {
-  margin-right: 8px;
 }
 
 .m3-nav-header-menu {
@@ -44,6 +32,15 @@ mat-toolbar {
 .m3-nav-header-title {
   grid-column: 2;
   text-align: center;
+}
+
+.m3-nav-fab {
+  right: 16px;
+  bottom: 16px;
+
+  &.move-up {
+    bottom: #{$footer-height + 16px};
+  }
 }
 
 .m3-nav-header-options {
@@ -59,10 +56,6 @@ mat-toolbar {
   --header-height: #{$header-height};
   --footer-height: 0px;
   min-height: calc(100dvh - var(--header-height) - var(--footer-height));
-
-  &.tabs {
-    --header-height: #{$header-height * 2};
-  }
 
   &.bottom-bar {
     --footer-height: #{$footer-height};

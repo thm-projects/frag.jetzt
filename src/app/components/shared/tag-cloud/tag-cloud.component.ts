@@ -88,8 +88,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { getRoomTemplate } from '../room-page/room-navigation';
-import { NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
+import { applyRoomNavigation } from '../room-page/room-navigation';
 
 class TagComment implements WordMeta {
   constructor(
@@ -786,7 +785,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    getRoomTemplate(this.injector).subscribe((t) => NAVIGATION.set(t));
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
     if (this.brainstormingActive) {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.brainstormingData = room.brainstormingSession;

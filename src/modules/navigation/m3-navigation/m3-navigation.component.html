@@ -1,13 +1,9 @@
-<m3-nav-drawer-rail
-  #drawerRail
-  [data]="data()">
+<m3-nav-drawer-rail #drawerRail>
   <!-- Header -->
   <mat-toolbar class="m3-nav-header">
     <mat-toolbar-row>
       <!-- Menu icon -->
-      @if (
-        data().preferedNavigation.type !== "rail" && !drawerRail.drawerOpen()
-      ) {
+      @if (isSmall() && !drawerRail.drawerOpen()) {
         <button
           mat-icon-button
           (click)="drawerRail.open()"
@@ -16,9 +12,9 @@
         </button>
       }
       <!-- Header -->
-      @if (data().header; as header) {
+      @if (header(); as header) {
         <span class="m3-nav-header-title title-large">
-          {{ header.title }}
+          {{ isExpanded() ? header.slogan : "" }}
         </span>
         <!-- Header Options -->
         @if (header.options.length; as length) {
@@ -47,42 +43,29 @@
         }
       }
     </mat-toolbar-row>
-    @if (
-      data().preferedNavigation.type === "tabs" && data().navigations.length > 1
-    ) {
-      <mat-toolbar-row class="m3-nav-header-tabs">
-        <mat-tab-group
-          [mat-stretch-tabs]="true"
-          [(selectedIndex)]="selectedIndex"
-          (selectedTabChange)="onClick()">
-          @for (tab of data().navigations; track tab) {
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="m3-nav-header-tab-icon">
-                  {{ tab.icon ? tab.icon : "unknown_document" }}
-                </mat-icon>
-                {{ tab.title }}
-              </ng-template>
-            </mat-tab>
-          }
-        </mat-tab-group>
-      </mat-toolbar-row>
-    }
   </mat-toolbar>
   <!-- Content -->
   <div
     class="m3-nav-body"
-    [class.tabs]="
-      data().preferedNavigation.type === 'tabs' && data().navigations.length > 1
-    "
     [class.bottom-bar]="!hideBottomBar()">
     <ng-content></ng-content>
   </div>
+  @if (isSmall() && fab(); as fab) {
+    <button
+      mat-fab
+      class="m3-nav-fab"
+      [extended]="fab.title"
+      [class.move-up]="!hideBottomBar()"
+      (click)="fab.onClick()">
+      <mat-icon>{{ fab.icon }}</mat-icon>
+      {{ fab.title }}
+    </button>
+  }
   <!-- Footer -->
   <mat-toolbar
     class="m3-nav-footer"
     [class.hide]="hideBottomBar()">
-    <mat-toolbar-row class="m3-navigation-rail-labels">
+    <mat-toolbar-row>
       @for (nav of bottomBarData(); track nav; let index = $index) {
         <app-m3-label
           class="m3-nav-footer-animated"
