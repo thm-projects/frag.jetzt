@@ -194,6 +194,8 @@ body {
       transparent
     );
     border-radius: 1rem;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 
   /* Handle on hover */
@@ -203,5 +205,8 @@ body {
       var(--md-sys-color-on-surface-variant) 50%,
       transparent
     );
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 }
