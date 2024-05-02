@@ -51,106 +51,128 @@ export const getDefaultHeader = (
   const keycloak = injector.get(KeycloakService);
   return accountState.user$.pipe(
     map((user) => {
+      return {
+        slogan: 'Du fragst. ChatGPT antwortet.',
+        options: [
+          user
+            ? {
+                icon: 'account_circle',
+                title: 'Manage account',
+                items: [
+                  {
+                    icon: 'grade',
+                    title: 'Meine Bonus-Sterne',
+                    onClick: () => {
+                      UserBonusTokenComponent.openDialog(dialog, user.id);
+                    },
+                  },
+                  {
+                    icon: 'policy',
+                    title: 'KI Datenschutz',
+                    onClick: () => {
+                      openAIConsent(injector);
+                    },
+                  },
+                  {
+                    icon: 'smart_toy',
+                    title: 'Meine KI-Prompts',
+                    onClick: () => {
+                      router.navigate(['/gpt-prompts']);
+                    },
+                  },
+                  {
+                    icon: 'manage_accounts',
+                    title: 'Konto anpassen',
+                    onClick: () => {
+                      keycloak.redirectAccountManagement();
+                    },
+                  },
+                  {
+                    icon: 'person_remove',
+                    title: 'Konto löschen',
+                    onClick: () => {
+                      keycloak.deleteAccount();
+                    },
+                  },
+                  {
+                    icon: 'logout',
+                    title: 'Abmelden',
+                    onClick: () => accountState.logout().subscribe(),
+                  },
+                ],
+              }
+            : {
+                icon: 'login',
+                title: 'Login',
+                onClick: () => accountState.openLogin().subscribe(),
+              },
+          {
+            icon: 'language',
+            title: 'Sprache',
+            items: [
+              {
+                icon: 'flag',
+                title: 'Deutsch',
+                onClick: () => console.log('German clicked'),
+              },
+              {
+                icon: 'flag',
+                title: 'English',
+                onClick: () => console.log('English clicked'),
+              },
+              {
+                icon: 'flag',
+                title: 'Français',
+                onClick: () => console.log('French clicked'),
+              },
+            ],
+          },
+          {
+            icon: 'settings_brightness',
+            title: 'Design',
+            items: [
+              {
+                icon: 'light_mode',
+                title: 'Hell',
+                onClick: () => console.log('Light clicked'),
+              },
+              {
+                icon: 'dark_mode',
+                title: 'Dunkel',
+                onClick: () => console.log('Dark clicked'),
+              },
+              {
+                icon: 'nights_stay',
+                title: 'System',
+                onClick: () => console.log('System clicked'),
+              },
+            ],
+          },
+        ],
+      };
+    }),
+  );
+};
+
+export const getDefaultNavigation = (
+  injector: Injector,
+): Observable<M3NavigationTemplate> => {
+  const accountState = injector.get(AccountStateService);
+  const router = injector.get(Router);
+
+  return combineLatest([
+    accountState.user$,
+    router.events.pipe(
+      first((e) => e instanceof NavigationEnd),
+      startWith({}),
+    ),
+  ]).pipe(
+    map((user) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
-      const template: M3NavigationTemplate = {
-        elevation: 0,
-        header: {
-          title: 'frag.jetzt',
-          options: [
-            user
-              ? {
-                  icon: 'account_circle',
-                  title: 'Manage account',
-                  items: [
-                    {
-                      icon: 'grade',
-                      title: 'Meine Bonus-Sterne',
-                      onClick: () => {
-                        UserBonusTokenComponent.openDialog(
-                          injector.get(MatDialog),
-                          user.id,
-                        );
-                      },
-                    },
-                    {
-                      icon: 'policy',
-                      title: 'KI Datenschutz',
-                      onClick: () => {
-                        openAIConsent(injector);
-                      },
-                    },
-                    {
-                      icon: 'smart_toy',
-                      title: 'Meine KI-Prompts',
-                      onClick: () => {
-                        router.navigate(['/gpt-prompts']);
-                      },
-                    },
-                    {
-                      icon: 'manage_accounts',
-                      title: 'Konto anpassen',
-                      onClick: () => {
-                        injector
-                          .get(KeycloakService)
-                          .redirectAccountManagement();
-                      },
-                    },
-                    {
-                      icon: 'person_remove',
-                      title: 'Konto löschen',
-                      onClick: () => {
-                        injector.get(KeycloakService).deleteAccount();
-                      },
-                    },
-                    {
-                      icon: 'logout',
-                      title: 'Abmelden',
-                      onClick: () => accountState.logout().subscribe(),
-                    },
-                  ],
-                }
-              : {
-                  icon: 'login',
-                  title: 'Login',
-                  onClick: () => accountState.openLogin().subscribe(),
-                },
-            {
-              icon: 'language',
-              title: 'Sprache',
-              items: [
-                {
-                  icon: 'flag',
-                  title: 'Deutsch',
-                  onClick: () => console.log('German clicked'),
-                },
-                {
-                  icon: 'flag',
-                  title: 'English',
-                  onClick: () => console.log('English clicked'),
-                },
-                {
-                  icon: 'flag',
-                  title: 'Français',
-                  onClick: () => console.log('French clicked'),
-                },
-              ],
-            },
-            {
-              icon: 'light_mode',
-              title: 'Heller Modus',
-              onClick: () => console.log('Light clicked'),
-            },
-            {
-              icon: 'help_outline',
-              title: 'Help',
-              onClick: () => console.log('Help clicked'),
-            },
-          ],
-        },
-        navigations: [],
-        options: [],
-        divideOptions: true,
+      const navSection: M3NavigationSection = {
+        title: 'App',
+        entries: [],
       };
       if (user) {
         navSection.entries.push({

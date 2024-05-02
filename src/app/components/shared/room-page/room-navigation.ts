@@ -135,7 +135,7 @@ export const getRoomNavigation = (
       const shortId = url.substring(roomIndex + 6, urlEndIndex);
       const isMod = assignedRole !== 'Participant';
       const isOverview = url.endsWith(shortId + '/');
-      template.title = 'Features';
+      template.title = 'Main Menu';
       // Navigation
       const navs: M3NavigationSection[] = [];
       navs.push({

@@ -24,6 +24,7 @@ export interface M3HeaderOption {
   title: string;
   icon: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 export interface M3HeaderMenu {
