@@ -52,10 +52,15 @@ mat-toolbar {
   }
 }
 
+$content-padding: 16px;
 .m3-nav-body {
   --header-height: #{$header-height};
   --footer-height: 0px;
-  min-height: calc(100dvh - var(--header-height) - var(--footer-height));
+  min-height: calc(
+    100dvh - var(--header-height) - var(--footer-height) - #{2 *
+      $content-padding}
+  );
+  padding: #{$content-padding};
 
   &.bottom-bar {
     --footer-height: #{$footer-height};

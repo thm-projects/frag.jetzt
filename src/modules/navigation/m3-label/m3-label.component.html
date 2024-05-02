@@ -14,11 +14,16 @@
   </button>
 }
 @if (collapsed()) {
-  <span class="label-large m3-nav-label-collapsed">{{ title() }}</span>
+  <span
+    class="m3-nav-label-collapsed"
+    [class.label-large]="!smallLabel()"
+    [class.label-small]="smallLabel()">
+    {{ title() }}
+  </span>
 }
 
 <ng-template #content>
-  <mat-icon>{{ icon() }}</mat-icon>
+  <mat-icon [svgIcon]="svgIcon()">{{ icon() }}</mat-icon>
   @if (!collapsed()) {
     <span class="m3-nav-label-expanded">{{ title() }}</span>
     @if (endIcon(); as icon) {

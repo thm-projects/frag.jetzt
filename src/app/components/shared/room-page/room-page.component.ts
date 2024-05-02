@@ -119,6 +119,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomState = injector.get(RoomStateService);
     this.gptRoomService = injector.get(GPTRoomService);
     this.quotaService = injector.get(QuotaService);
+    this.initNavigation();
   }
 
   ngOnInit() {
@@ -135,7 +136,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   initializeRoom(): void {
-    this.initNavigation();
     this.accountState.user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((user) => {

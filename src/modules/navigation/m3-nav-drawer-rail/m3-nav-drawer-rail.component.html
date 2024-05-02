@@ -123,8 +123,9 @@
       (click)="onNavClick(entry?.onClick)"
       [collapsed]="state === 'rail'"
       [active]="entry.activated"
-      [icon]="entry.icon ? entry.icon : 'unknown_document'"
+      [icon]="entry.icon"
       [title]="entry.title"
+      [svgIcon]="entry.svgIcon"
       [endIcon]="entry.forward ? 'arrow_forward' : ''"></app-m3-label>
   }
 </ng-template>

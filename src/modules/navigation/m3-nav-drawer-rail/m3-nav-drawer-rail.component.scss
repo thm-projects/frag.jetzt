@@ -7,13 +7,17 @@ $drawer-size: 280px;
   margin-left: 12px;
 }
 
+$rail-label-padding: 6px;
 .m3-navigation-rail-labels {
   > * + * {
     margin-top: 12px;
   }
 
   > app-m3-label {
-    width: var(--mat-sidenav-container-width);
+    width: calc(
+      var(--mat-sidenav-container-width) - #{2 * $rail-label-padding}
+    );
+    margin-left: #{$rail-label-padding};
   }
 }
 
