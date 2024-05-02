@@ -94,9 +94,12 @@ export class RoomStateService {
       ),
       shareReplay(1),
     );
-    this.room$ = this.roomShortId$.pipe(
-      startWith(null),
-      switchMap((shortId) => {
+    this.room$ = combineLatest([
+      this.roomShortId$,
+      accountState.user$.pipe(filter((v) => Boolean(v))),
+    ]).pipe(
+      startWith([null, null]),
+      switchMap(([shortId]) => {
         if (!shortId) {
           return of(null);
         }

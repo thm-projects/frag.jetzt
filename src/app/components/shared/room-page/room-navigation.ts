@@ -18,12 +18,12 @@ import {
 import {
   Observable,
   combineLatest,
+  filter,
   first,
   forkJoin,
   map,
   of,
   switchMap,
-  take,
 } from 'rxjs';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -64,6 +64,8 @@ import {
   NAVIGATION,
   OPTIONS,
 } from 'modules/navigation/m3-navigation-emitter';
+import { clone } from 'app/utils/ts-utils';
+import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
   return combineLatest([
@@ -118,9 +120,11 @@ export const getRoomNavigation = (
     getDefaultNavigation(injector),
     accountState.user$.pipe(first((e) => Boolean(e))),
     roomState.room$.pipe(first((e) => Boolean(e))),
-    roomState.assignedRole$.pipe(take(1)),
+    roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
+    roomState.role$.pipe(filter((e) => Boolean(e))),
   ]).pipe(
-    map(([template, user, room, assignedRole]) => {
+    map(([template, user, room, assignedRole, currentRole]) => {
+      template = clone(template) as M3NavigationTemplate;
       let url = router.url;
       const hashIndex = url.indexOf('#');
       if (hashIndex > 0) {
@@ -161,7 +165,7 @@ export const getRoomNavigation = (
             },
           room?.chatGptActive && {
             title: 'KI Assistenten',
-            icon: 'smart_toy',
+            svgIcon: 'fj_robot',
             onClick: () => {
               router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
               return true;
@@ -170,7 +174,7 @@ export const getRoomNavigation = (
           },
           room?.focusActive && {
             title: 'Fragen-Fokus',
-            icon: 'featured_play_list',
+            svgIcon: 'fj_beamer',
             onClick: () => {
               router.navigate([
                 `/${role}/room/${shortId}/comments/questionwall`,
@@ -229,52 +233,98 @@ export const getRoomNavigation = (
               return true;
             },
           },
-          !isMod && {
-            title: 'Empfang',
-            icon: 'checkroom',
+        ].filter(Boolean),
+      });
+      const hasAdmin =
+        isOverview && user.keycloakRoles.includes(KeycloakRoles.AdminDashboard);
+      const isRealMod =
+        currentRole !== 'Participant' && assignedRole !== currentRole;
+      navs.push({
+        title: 'Verwaltung',
+        entries: [
+          isMod && {
+            title: 'Moderation',
+            icon: 'gavel',
+            onClick: () => {
+              router.navigate([`/${role}/room/${shortId}/moderator/comments`]);
+              return true;
+            },
+            activated: url.endsWith('/moderator/comments/'),
+          },
+          hasAdmin && {
+            title: 'Administration',
+            icon: 'admin_panel_settings',
+            onClick: () => {
+              router.navigate(['/admin/overview']);
+              return true;
+            },
+          },
+          isMod && {
+            title: 'Raumverwaltung',
+            icon: 'settings',
             onClick: () => {
               router.navigate([`/${role}/room/${shortId}/`]);
               return true;
             },
             activated: isOverview,
           },
+          isMod && {
+            title: room.questionsBlocked
+              ? 'Fragenstellen freigeben'
+              : 'Fragenstellen sperren',
+            icon: 'comments_disabled',
+            onClick: () => {
+              saveChanges(
+                room.id,
+                {
+                  questionsBlocked: !room.questionsBlocked,
+                },
+                injector,
+              );
+              return true;
+            },
+          },
+          isMod && {
+            title: 'Teilnehmeransicht',
+            icon: 'groups_3',
+            onClick: () => {
+              router.navigate([
+                `/participant/room/${shortId}${url.substring(urlEndIndex)}`,
+              ]);
+              return true;
+            },
+          },
+          isRealMod && {
+            title: 'Meine Sicht',
+            icon: 'groups_3',
+            onClick: () => {
+              const userRole =
+                currentRole === 'Moderator' ? 'moderator' : 'creator';
+              router.navigate([
+                `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
+              ]);
+              return true;
+            },
+          },
+          {
+            title: 'Per Mail benachrichtigen',
+            icon: 'mail',
+            onClick: () => {
+              openMail(user, room, injector);
+              return true;
+            },
+          },
         ].filter(Boolean),
       });
-      const hasAdmin =
-        isOverview && user.keycloakRoles.includes(KeycloakRoles.AdminDashboard);
-      if (isMod || hasAdmin) {
-        navs.push({
-          title: 'Verwaltung',
-          entries: [
-            isMod && {
-              title: 'Moderation',
-              icon: 'gavel',
-              onClick: () => {
-                router.navigate([
-                  `/${role}/room/${shortId}/moderator/comments`,
-                ]);
-                return true;
-              },
-              activated: url.endsWith('/moderator/comments/'),
-            },
-            hasAdmin && {
-              title: 'Administration',
-              icon: 'admin_panel_settings',
-              onClick: () => {
-                router.navigate(['/admin/overview']);
-                return true;
-              },
-            },
-            isMod && {
-              title: 'Raumverwaltung',
-              icon: 'settings',
-              onClick: () => {
-                router.navigate([`/${role}/room/${shortId}/`]);
-                return true;
-              },
-              activated: isOverview,
-            },
-          ].filter(Boolean),
+      if (!isMod) {
+        template.sections[0].entries.unshift({
+          title: 'Empfang',
+          icon: 'checkroom',
+          onClick: () => {
+            router.navigate([`/${role}/room/${shortId}/`]);
+            return true;
+          },
+          activated: isOverview,
         });
       }
       template.sections.unshift(...navs);
@@ -288,7 +338,6 @@ export const getRoomOptions = (
 ): Observable<M3NavigationOptionSection[]> => {
   const accountState = injector.get(AccountStateService);
   const roomState = injector.get(RoomStateService);
-  const router = injector.get(Router);
   return combineLatest([
     getDefaultOptions(injector),
     accountState.user$.pipe(first((e) => Boolean(e))),
@@ -296,17 +345,6 @@ export const getRoomOptions = (
     roomState.assignedRole$,
   ]).pipe(
     map(([defaultOpts, user, room, assignedRole]) => {
-      let url = router.url;
-      const hashIndex = url.indexOf('#');
-      if (hashIndex > 0) {
-        url = url.substring(0, hashIndex);
-      }
-      if (!url.endsWith('/')) {
-        url += '/';
-      }
-      const roomIndex = url.indexOf('/room/');
-      const urlEndIndex = url.indexOf('/', roomIndex + 6);
-      const shortId = url.substring(roomIndex + 6, urlEndIndex);
       const isMod = assignedRole !== 'Participant';
       const options: M3NavigationOptionSection[] = [];
       if (isMod) {
@@ -314,7 +352,7 @@ export const getRoomOptions = (
           title: 'Raumeinstellungen',
           options: [
             {
-              title: 'Allgemeine Einstellungen',
+              title: 'Allgemein',
               icon: 'settings_applications',
               options: [
                 {
@@ -359,34 +397,6 @@ export const getRoomOptions = (
                     },
                   },
                 {
-                  title: room.questionsBlocked
-                    ? 'Fragenstellen freigeben'
-                    : 'Fragenstellen sperren',
-                  icon: 'comments_disabled',
-                  onClick: () => {
-                    saveChanges(
-                      room.id,
-                      {
-                        questionsBlocked: !room.questionsBlocked,
-                      },
-                      injector,
-                    );
-                    return true;
-                  },
-                },
-                {
-                  title: 'Teilnehmeransicht',
-                  icon: 'groups_3',
-                  onClick: () => {
-                    router.navigate([
-                      `/participant/room/${shortId}${url.substring(
-                        urlEndIndex,
-                      )}`,
-                    ]);
-                    return true;
-                  },
-                },
-                {
                   title: 'Fragen löschen',
                   icon: 'delete_sweep',
                   onClick: () => {
@@ -406,7 +416,7 @@ export const getRoomOptions = (
             },
             {
               title: 'KI-Einstellungen',
-              icon: 'smart_toy',
+              svgIcon: 'fj_robot',
               onClick: () => {
                 openAISettings(room, injector);
                 return false;
@@ -628,4 +638,20 @@ const saveChanges = (
 
 const openQAPseudo = (user: User, room: Room, injector: Injector) => {
   PseudonymEditorComponent.open(injector.get(MatDialog), user.id, room.id);
+};
+
+const openMail = (user: User, room: Room, injector: Injector) => {
+  if (!user?.loginId) {
+    injector
+      .get(TranslateService)
+      .get('comment-notification.needs-user-account')
+      .subscribe((msg) =>
+        injector.get(NotificationService).show(msg, undefined, {
+          duration: 7000,
+          panelClass: ['snackbar', 'important'],
+        }),
+      );
+    return;
+  }
+  CommentNotificationDialogComponent.openDialog(injector.get(MatDialog), room);
 };

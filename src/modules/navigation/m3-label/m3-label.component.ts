@@ -21,8 +21,10 @@ export class M3LabelComponent {
   active = input(false);
   collapsed = input(false);
   icon = input('unknown_document');
+  svgIcon = input('');
   title = input('Button');
   endIcon = input('');
+  smallLabel = input(false);
   @HostBinding('class.collapsed')
   protected hostCollapsed = false;
   private injector = inject(Injector);

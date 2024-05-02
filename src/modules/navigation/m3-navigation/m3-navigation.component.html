@@ -72,9 +72,11 @@
           [active]="nav.activated"
           [style]="'--i: ' + index + ';'"
           [class.show]="!hideBottomBar()"
+          [smallLabel]="true"
           (click)="nav.onClick()"
-          [icon]="nav.icon ? nav.icon : 'unknown_document'"
+          [icon]="nav.icon"
           [collapsed]="true"
+          [svgIcon]="nav.svgIcon"
           [title]="nav.title"></app-m3-label>
       }
     </mat-toolbar-row>

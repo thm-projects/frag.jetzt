@@ -57,6 +57,7 @@ export interface M3NavigationEntry {
   title: string;
   onClick: () => boolean;
   icon?: string;
+  svgIcon?: string;
   activated?: boolean;
 }
 
@@ -70,10 +71,12 @@ export interface M3NavigationOptionSection {
 export interface M3NavigationNestedOptionSection
   extends M3NavigationOptionSection {
   icon?: string;
+  svgIcon?: string;
 }
 
 export interface M3NavigationOptionEntry {
   title: string;
   onClick: () => boolean;
   icon?: string;
+  svgIcon?: string;
 }

@@ -37,6 +37,7 @@ import { Router } from '@angular/router';
 interface RailDrawerEntry {
   title: string;
   icon: string;
+  svgIcon: string;
   onClick: () => void;
   activated: boolean;
   forward?: boolean;
@@ -239,10 +240,8 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
           {
             title: 'Back',
             icon: 'arrow_back',
+            svgIcon: '',
             onClick: () => {
-              this.location.subscribe((e) => {
-                console.log(e);
-              });
               this.location.back();
               return true;
             },
@@ -260,6 +259,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         options: entry.entries.map((nav) => ({
           title: nav.title,
           icon: nav.icon,
+          svgIcon: nav.svgIcon,
           onClick: nav.onClick,
           activated: nav.activated,
         })),
@@ -273,6 +273,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         options: entry.options.map((opt) => ({
           title: opt.title,
           icon: opt.icon,
+          svgIcon: opt.svgIcon,
           onClick: 'onClick' in opt ? opt.onClick : () => this.forward(opt),
           activated: false,
           forward: 'options' in opt,
@@ -289,6 +290,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
           {
             title: 'Back',
             icon: 'arrow_back',
+            svgIcon: '',
             onClick: () => {
               this.location.subscribe((e) => {
                 console.log(e);
@@ -318,6 +320,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       options: navs.map((nav) => ({
         title: nav.title,
         icon: nav.icon,
+        svgIcon: nav.svgIcon,
         onClick: nav.onClick,
         activated: nav.activated,
       })),
@@ -334,6 +337,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     const options = tracker.options.map((opt) => ({
       title: opt.title,
       icon: opt.icon,
+      svgIcon: opt.svgIcon,
       onClick: 'onClick' in opt ? opt.onClick : () => this.forward(opt),
       activated: false,
       forward: 'options' in opt,
@@ -341,6 +345,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     options.unshift({
       title: index < 1 ? 'Main Menu' : stack[index - 1].title,
       icon: 'arrow_back',
+      svgIcon: '',
       onClick: () => this.backward(),
       activated: true,
       forward: false,
