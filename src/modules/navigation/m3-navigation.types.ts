@@ -55,6 +55,7 @@ export interface M3NavigationSection {
 
 export interface M3NavigationEntry {
   title: string;
+  smallTitle?: string;
   onClick: () => boolean;
   icon?: string;
   svgIcon?: string;
