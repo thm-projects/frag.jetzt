@@ -69,6 +69,7 @@
   "start_url": "/home",
   "id": "/home",
   "orientation": "any",
+  "display_override": ["window-controls-overlay"],
   "display": "standalone",
   "dir": "ltr",
   "prefer_related_applications": false,
