@@ -4,7 +4,7 @@
       [joyrideStep]="'roomJoin'"
       [stepPosition]="'top'"
       appJoyrideTemplate>
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <input
           id="session_id-input"
           matInput
@@ -21,15 +21,15 @@
           aria-hidden="true">
           {{ "home-page.please-enter" | translate }}
         </mat-error>
+        <button
+          type="submit"
+          mat-icon-button
+          matSuffix
+          id="session_enter-button"
+          aria-labelledby="join-button-label">
+          <mat-icon>input</mat-icon>
+        </button>
       </mat-form-field>
-      <button
-        [disabled]="!sessionService.isReady"
-        id="session_enter-button"
-        mat-icon-button
-        type="submit"
-        aria-labelledby="join-button-label">
-        <mat-icon>input</mat-icon>
-      </button>
     </div>
   </form>
 </div>
