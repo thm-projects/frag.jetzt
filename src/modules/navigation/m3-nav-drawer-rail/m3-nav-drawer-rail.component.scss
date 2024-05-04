@@ -68,7 +68,8 @@ mat-drawer-container {
       transition:
         margin 500ms var(--md-sys-motion-easing-emphasized),
         height 500ms var(--md-sys-motion-easing-emphasized),
-        grid-template-rows 500ms var(--md-sys-motion-easing-emphasized);
+        grid-template-rows 500ms var(--md-sys-motion-easing-emphasized),
+        --scrollbar-color 500ms var(--md-sys-motion-easing-emphasized);
     }
   }
 
