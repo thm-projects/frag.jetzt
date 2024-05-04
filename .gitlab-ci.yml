@@ -115,6 +115,7 @@ ngbuild:
     - |
       echo "LICENSE: \"$(jq .license node_modules/@shopware-ag/meteor-icon-kit/package.json)\"" >> dist/3rdpartylicenses.txt
     - cat node_modules/@shopware-ag/meteor-icon-kit/LICENSE.md >> dist/3rdpartylicenses.txt
+    - echo "" >> dist/3rdpartylicenses.txt
     - echo "--------------------------------------------------------------------------------" >> dist/3rdpartylicenses.txt
   artifacts:
     paths:
