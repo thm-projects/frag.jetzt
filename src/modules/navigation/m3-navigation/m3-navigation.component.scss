@@ -2,7 +2,7 @@ $header-height: 64px;
 $footer-height: 80px;
 
 :host {
-  width: 100%;
+  width: 100dvw;
   height: 100dvh;
 }
 
@@ -56,7 +56,8 @@ $content-padding: 16px;
 .m3-nav-body {
   --header-height: #{$header-height};
   --footer-height: 0px;
-  min-height: calc(
+  overflow: auto;
+  height: calc(
     100dvh - var(--header-height) - var(--footer-height) - #{2 *
       $content-padding}
   );

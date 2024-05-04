@@ -7,7 +7,7 @@ $drawer-size: 280px;
   margin-left: 12px;
 }
 
-$rail-label-padding: 6px;
+$rail-label-padding: 8px;
 .m3-navigation-rail-labels {
   > * + * {
     margin-top: 12px;
@@ -68,7 +68,8 @@ mat-drawer-container {
       transition:
         margin 500ms var(--md-sys-motion-easing-emphasized),
         height 500ms var(--md-sys-motion-easing-emphasized),
-        grid-template-rows 500ms var(--md-sys-motion-easing-emphasized);
+        grid-template-rows 500ms var(--md-sys-motion-easing-emphasized),
+        --scrollbar-color 500ms var(--md-sys-motion-easing-emphasized);
     }
   }
 
