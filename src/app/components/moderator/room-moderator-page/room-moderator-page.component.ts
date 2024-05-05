@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   Component,
   Injector,
   OnDestroy,
@@ -26,7 +25,7 @@ import { first } from 'rxjs';
 })
 export class RoomModeratorPageComponent
   extends RoomPageComponent
-  implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+  implements OnInit, OnDestroy, AfterContentInit {
   roomQuota = {
     spent: 0,
     limit: 0,
@@ -51,10 +50,6 @@ export class RoomModeratorPageComponent
     protected override injector: Injector,
   ) {
     super(injector);
-  }
-
-  ngAfterViewInit() {
-    this.tryInitNavigation();
   }
 
   ngAfterContentInit(): void {

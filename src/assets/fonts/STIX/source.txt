@@ -1,0 +1,3 @@
+https://www.stixfonts.org/
+
+Version: STIX Two v2.13 b171

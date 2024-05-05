@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
@@ -87,9 +88,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { HeaderComponent } from '../header/header.component';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
+import { applyRoomNavigation } from '../room-page/room-navigation';
 
 class TagComment implements WordMeta {
   constructor(
@@ -158,6 +157,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
   private keywordExtractor: KeywordExtractor;
+  private injector = inject(Injector);
 
   constructor(
     private commentService: CommentService,
@@ -182,13 +182,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
     private roomState: RoomStateService,
-    protected readonly m3NavigationService: M3NavigationService,
-    injector: Injector,
   ) {
-    this.m3NavigationService.emit(
-      M3NavigationUtility.emptyPortal(HeaderComponent),
-    );
-    this.keywordExtractor = new KeywordExtractor(injector);
+    this.keywordExtractor = new KeywordExtractor(this.injector);
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
       this.demoDataKeys.push([
@@ -790,6 +785,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
     if (this.brainstormingActive) {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.brainstormingData = room.brainstormingSession;

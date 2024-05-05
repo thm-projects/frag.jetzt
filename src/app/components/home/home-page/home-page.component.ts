@@ -2,10 +2,12 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -23,9 +25,8 @@ import { carousel } from './home-page-carousel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { HeaderComponent } from '../../shared/header/header.component';
+import { Router } from '@angular/router';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -56,6 +57,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private currentTheme: string;
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
   private lastScrollMs: number = -1;
+  private router = inject(Router);
+  private injector = inject(Injector);
 
   constructor(
     private translateService: TranslateService,
@@ -68,10 +71,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appState: AppStateService,
     public readonly themeService: ThemeService,
-    public readonly m3NavigationService: M3NavigationService,
     sanitizer: DomSanitizer,
   ) {
-    m3NavigationService.emit(M3NavigationUtility.emptyPortal(HeaderComponent));
+    this.emitNavigation();
     themeService
       .getTheme()
       .pipe(
@@ -375,5 +377,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
       return 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw';
     }
     return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
+  }
+
+  private emitNavigation() {
+    applyDefaultNavigation(this.injector)
+      .pipe(takeUntil(this._destroyer))
+      .subscribe();
   }
 }

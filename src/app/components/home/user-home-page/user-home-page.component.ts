@@ -1,10 +1,11 @@
 import {
   AfterContentInit,
   Component,
-  ComponentRef,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -18,7 +19,6 @@ import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
 import { SessionService } from '../../../services/util/session.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
@@ -28,12 +28,7 @@ import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-cr
 import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import {
-  M3State,
-  M3TemplateKind,
-} from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { Navigation } from '../../navigation/common-navigation-templates';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 @Component({
   selector: 'app-user-home-page',
@@ -50,8 +45,8 @@ export class UserHomePageComponent
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
   accumulatedRatings: RatingResult = undefined;
-  private _list: ComponentRef<unknown>[];
   private destroyer = new ReplaySubject(1);
+  private injector = inject(Injector);
 
   constructor(
     public dialog: MatDialog,
@@ -66,50 +61,14 @@ export class UserHomePageComponent
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {
     this.initM3Navigation();
   }
 
   initM3Navigation() {
-    this.m3NavigationService.emit({
-      kind: M3TemplateKind.Navigation,
-      elevation: 1,
-      header: {
-        kind: M3TemplateKind.Header,
-        right: {
-          buttons: [
-            Navigation.more([
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-              Navigation.common.LogOut,
-            ]),
-          ],
-        },
-      },
-      railExtension: {
-        kind: M3TemplateKind.RailExtension,
-        sections: [
-          {
-            title: 'some arbitrary name',
-            kind: M3TemplateKind.RailSection,
-            labels: [
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-            ],
-          },
-        ],
-      },
-      rail: {
-        kind: M3TemplateKind.Rail,
-        labels: [
-          Navigation.location.HomePage,
-          Navigation.transform(Navigation.location.UserHomePage, {
-            state: M3State.Active,
-          }),
-        ],
-      },
-    });
+    applyDefaultNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
   }
 
   ngAfterContentInit(): void {
@@ -173,7 +132,6 @@ export class UserHomePageComponent
   ngOnDestroy() {
     this.destroyer.next(true);
     this.destroyer.complete();
-    this._list?.forEach((e) => e.destroy());
     this.listenerFn();
   }
 
@@ -181,7 +139,6 @@ export class UserHomePageComponent
     this.fetchedRating = r;
     this.ratingService.getRatings().subscribe((ratings) => {
       this.accumulatedRatings = ratings;
-      this.initNavigation();
       this.loadingRatings = false;
     });
   }
@@ -223,33 +180,5 @@ export class UserHomePageComponent
         },
       );
     });
-  }
-
-  private initNavigation() {
-    if (this._list || !this.headerService.isActive) {
-      return;
-    }
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'star',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'home-page.app-rating',
-          callback: () => {
-            const dialogRef = this.dialog.open(AppRatingComponent);
-            dialogRef.componentInstance.rating = this.fetchedRating;
-            dialogRef.componentInstance.onSuccess = (r: Rating) => {
-              dialogRef.close();
-              this.onRate(r);
-            };
-          },
-          condition: () =>
-            this.fetchedRating !== null && this.fetchedRating !== undefined,
-        });
-      },
-    );
   }
 }

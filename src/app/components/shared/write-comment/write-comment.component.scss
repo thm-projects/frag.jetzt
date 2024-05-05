@@ -307,26 +307,12 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
   width: $width;
   height: $height;
   top: calc(50% - #{math.div($height, 2)});
-  transition: left 0.5s ease, opacity 0.5s ease;
+  transition:
+    left 0.5s ease,
+    opacity 0.5s ease;
   z-index: -1;
   overflow: hidden;
   transform: translate(var(--additional-padding, 0px)) scale($customScaleFactor);
-
-  ::ng-deep {
-    div::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    div::-webkit-scrollbar-track {
-      background: var(--dialog);
-    }
-
-    div::-webkit-scrollbar-thumb {
-      background-color: var(--secondary-variant);
-      border-radius: 20px;
-      border: 3px solid var(--surface);
-    }
-  }
 
   > div {
     display: flex;

@@ -66,8 +66,7 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
-      "rules": {}
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"]
     }
   ]
 }

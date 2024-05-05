@@ -20,7 +20,7 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
@@ -55,7 +55,7 @@ import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.com
 import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
@@ -84,6 +84,7 @@ import { M3BodyPaneComponent } from '../modules/m3/components/layout/m3-body-pan
 import { M3SupportingPaneComponent } from '../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ComponentTestCardComponent } from './components/shared/component-test/component-test-page/component-test-card/component-test-card.component';
 import { ComponentTestButtonComponent } from './components/shared/component-test/component-test-page/component-test-button/component-test-button.component';
+import { M3NavigationComponent } from 'modules/navigation/m3-navigation/m3-navigation.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -130,6 +131,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     BrowserAnimationsModule,
     EssentialsModule,
     M3Module,
+    M3NavigationComponent,
     SharedModule,
     ThemeModule,
     MatIconModule,
@@ -206,9 +208,22 @@ export class AppModule {
   constructor(
     private appState: AppStateService,
     private translateService: TranslateService,
+    iconRegistry: MatIconRegistry,
+    domSanitizer: DomSanitizer,
   ) {
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),
     );
+    iconRegistry
+      .addSvgIcon(
+        'fj_robot',
+        domSanitizer.bypassSecurityTrustResourceUrl(
+          'assets/images/chat_bot.svg',
+        ),
+      )
+      .addSvgIcon(
+        'fj_beamer',
+        domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/beamer.svg'),
+      );
   }
 }

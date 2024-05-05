@@ -108,7 +108,15 @@ ngbuild:
     - ng build --configuration production --aot
     - mv dist dist2
     - mv dist2/fragjetzt/browser/ dist/
+    - mv dist2/fragjetzt/3rdpartylicenses.txt dist/
     - rm -rf dist2/
+    - |
+      echo "Package: @shopware-ag/meteor-icon-kit" >> dist/3rdpartylicenses.txt
+    - |
+      echo "LICENSE: \"$(jq .license node_modules/@shopware-ag/meteor-icon-kit/package.json)\"" >> dist/3rdpartylicenses.txt
+    - cat node_modules/@shopware-ag/meteor-icon-kit/LICENSE.md >> dist/3rdpartylicenses.txt
+    - echo "" >> dist/3rdpartylicenses.txt
+    - echo "--------------------------------------------------------------------------------" >> dist/3rdpartylicenses.txt
   artifacts:
     paths:
       - "$BUILD_DIR"

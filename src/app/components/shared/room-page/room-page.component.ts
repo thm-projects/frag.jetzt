@@ -13,17 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import {
-  forkJoin,
-  Observable,
-  of,
-  ReplaySubject,
-  Subscription,
-  tap,
-} from 'rxjs';
+import { Observable, of, ReplaySubject, Subscription, tap } from 'rxjs';
 import { UserRole } from '../../../models/user-roles.enum';
-import { Palette } from '../../../../theme/Theme';
-import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
@@ -40,7 +31,6 @@ import { CommentSettingsComponent } from '../../creator/_dialogs/comment-setting
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
-import { SyncFence } from '../../../utils/SyncFence';
 import {
   copyCSVString,
   exportRoom,
@@ -50,7 +40,7 @@ import {
 } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { mergeMap, switchMap, takeUntil } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { TitleService } from '../../../services/util/title.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
@@ -62,11 +52,10 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
-import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
-import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { QuotaService } from 'app/services/http/quota.service';
+import { LivepollService } from 'app/services/http/livepoll.service';
+import { applyRoomNavigation } from './room-navigation';
 
 @Component({
   selector: 'app-room-page',
@@ -87,6 +76,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   moderationEnabled = true;
   protected deviceState = inject(DeviceStateService);
   protected accountState = inject(AccountStateService);
+  protected livepoll = inject(LivepollService);
   protected listenerFn: () => void;
   protected roomService: RoomService;
   protected route: ActivatedRoute;
@@ -107,7 +97,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomState: RoomStateService;
   protected quotaService: QuotaService;
   protected destroyer = new ReplaySubject(1);
-  private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<unknown>[];
 
@@ -130,6 +119,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomState = injector.get(RoomStateService);
     this.gptRoomService = injector.get(GPTRoomService);
     this.quotaService = injector.get(QuotaService);
+    this.initNavigation();
   }
 
   ngOnInit() {
@@ -143,10 +133,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this._sub?.unsubscribe();
     this.titleService.resetTitle();
     this.headerService.isActive = false;
-  }
-
-  tryInitNavigation() {
-    this._navigationBuild.resolveCondition(1);
   }
 
   initializeRoom(): void {
@@ -180,7 +166,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
-        this._navigationBuild.resolveCondition(0);
       });
     });
   }
@@ -479,47 +464,13 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
-    if (!this.headerService.isActive) return;
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
+    return;
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: '',
-          class: 'chatgpt-robot-icon settings',
-          text: 'header.gpt-settings',
-          callback: () => {
-            this.gptRoomService
-              .getByRoomId(this.room.id)
-              .pipe(
-                switchMap((res) => {
-                  return forkJoin([
-                    of(res),
-                    this.quotaService.get(res.roomQuotaId),
-                    this.quotaService.get(res.moderatorQuotaId),
-                    this.quotaService.get(res.participantQuotaId),
-                  ]);
-                }),
-              )
-              .subscribe(
-                ([setting, roomQuota, moderatorQuota, participantQuota]) => {
-                  MultiLevelDialogComponent.open(
-                    this.dialog,
-                    MULTI_LEVEL_GPT_ROOM_SETTINGS,
-                    saveSettings,
-                    {
-                      GPTSettings: setting,
-                      roomQuota,
-                      moderatorQuota,
-                      participantQuota,
-                      roomID: this.room.id,
-                    },
-                  );
-                },
-              );
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'room_preferences',
@@ -532,26 +483,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
             ref.componentInstance.room = this.room;
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'visibility_off',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'header.moderation-mode',
-          callback: () => this.showCommentsDialog(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'header.conversation',
-          callback: () => this.showToggleConversationDialog(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -575,27 +506,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'grade',
-          class: 'material-icons-round',
-          iconColor: Palette.YELLOW,
-          text: 'header.bonustoken',
-          callback: () => this.showBonusTokenDialog(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT &&
-            this.room?.bonusArchiveActive &&
-            this.room?.mode !== 'PLE',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.export-questions',
-          callback: () => this.exportQuestions(),
-          condition: () =>
-            this.userRole >= UserRole.PARTICIPANT && this.room?.mode === 'ARS',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'file_upload',
           class: 'material-icons-outlined',
           text: 'header.import-questions',
@@ -609,15 +519,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
             this.user.id === this.room.ownerId &&
             this.userRole > UserRole.PARTICIPANT &&
             this.room?.mode === 'ARS',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.ple.export-questions',
-          callback: () => this.exportQuestions(),
-          condition: () =>
-            this.userRole >= UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -642,72 +543,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           text: 'header.edit-session-description',
           callback: () => this.editSessionDescription(),
           condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.altToggle(
-          {
-            translate: this.headerService.getTranslate(),
-            text: 'header.block',
-            icon: 'comments_disabled',
-            class: 'material-icons-outlined',
-            iconColor: Palette.RED,
-            color: Palette.RED,
-          },
-          {
-            translate: this.headerService.getTranslate(),
-            text: 'header.unlock',
-            icon: 'comments_disabled',
-            class: 'material-icons-outlined',
-            iconColor: Palette.RED,
-          },
-          ArsObserver.build<boolean>((ev) => {
-            ev.set(this.room.questionsBlocked);
-            ev.onChange((a) => {
-              this.roomService
-                .patchRoom(this.room.id, { questionsBlocked: a.get() })
-                .subscribe();
-              if (a.get()) {
-                this.headerService
-                  .getTranslate()
-                  .get('header.questions-blocked')
-                  .subscribe((msg) => {
-                    this.headerService.getNotificationService().show(msg);
-                  });
-              }
-            });
-          }),
-          () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
-        );
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'delete_sweep',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          text: 'header.delete-questions',
-          callback: () => this.deleteQuestions(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
-        });
-
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'delete_sweep',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          text: 'header.ple.delete-questions',
-          callback: () => this.deleteQuestions(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'delete',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          isSVGIcon: false,
-          text: 'header.delete-room',
-          callback: () => this.openDeleteRoomDialog(),
-          condition: () => this.userRole === UserRole.CREATOR,
         });
       },
     );

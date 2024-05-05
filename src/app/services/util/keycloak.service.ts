@@ -59,6 +59,13 @@ export class KeycloakService {
     this.updateStream$.next(true);
   }
 
+  deleteAccount() {
+    const url = this.keycloak.createLoginUrl({
+      redirectUri: location.origin + '/home',
+    });
+    open(url + '&kc_action=delete_account');
+  }
+
   redirectAccountManagement() {
     this.keycloak.accountManagement();
   }
