@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { MD_EXAMPLE } from '../../../../../custom-markdown/markdown-common/plugins';
-import { CustomMarkdownModule } from '../../../../../custom-markdown/custom-markdown.module';
+import { MD_EXAMPLE } from '../../../../../base/custom-markdown/markdown-common/plugins';
+import { CustomMarkdownModule } from '../../../../../base/custom-markdown/custom-markdown.module';
 
 @Component({
   selector: 'app-component-test-markdown',

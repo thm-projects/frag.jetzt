@@ -156,7 +156,7 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer-comment/question-wall-drawer-comment.component';
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
-import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 
 @NgModule({
   imports: [

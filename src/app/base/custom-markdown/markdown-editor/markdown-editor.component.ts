@@ -17,9 +17,8 @@ import {
   MD_CUSTOM_TEXT_RENDERER,
   MD_PLUGINS,
 } from '../markdown-common/plugins';
-import { DSGVOService } from 'app/services/util/dsgvo.service';
-import { AppStateService } from 'app/services/state/app-state.service';
-import { DeviceStateService } from 'app/services/state/device-state.service';
+import { language } from 'app/base/language/language';
+import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 
 @Component({
   selector: 'app-markdown-editor',
@@ -36,23 +35,14 @@ export class MarkdownEditorComponent implements AfterViewInit {
   private editor: EditorCore | Viewer;
   private renderer = inject(Renderer2);
   private injector = inject(Injector);
-  private appState = inject(AppStateService);
-  private deviceState = inject(DeviceStateService);
-
-  constructor() {
-    // inject dsgvo service for media
-    inject(DSGVOService);
-  }
 
   ngAfterViewInit(): void {
     const container = this.editorElement().nativeElement;
-    // TODO: Signal
-    const language = this.appState.getCurrentLanguage();
-    // TODO: Signal
-    const isMobile = this.deviceState.isMobile();
     // fired when language or mobile is changed
     effect(
       (onCleanup) => {
+        const lang = language();
+        const isMobile = windowWatcher.windowState() === 'compact';
         let initialValue: string;
         untracked(() => {
           initialValue = this.data();
@@ -62,7 +52,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
           initialEditType: 'wysiwyg',
           previewStyle: isMobile ? 'tab' : 'vertical',
           usageStatistics: false,
-          language,
+          language: lang,
           theme: 'fragjetzt',
           plugins: MD_PLUGINS,
           initialValue,

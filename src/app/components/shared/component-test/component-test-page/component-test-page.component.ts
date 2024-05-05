@@ -16,7 +16,7 @@ import { MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatLabel } from '@angular/material/form-field';
 import { ComponentTestSectionComponent } from './component-test-section/component-test-section.component';
 import { MatDivider } from '@angular/material/divider';
-import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { M3BodyPaneComponent } from '../../../../../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ComponentTestMarkdownComponent } from './component-test-markdown/component-test-markdown.component';
