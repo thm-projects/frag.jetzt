@@ -57,11 +57,12 @@
     fxLayoutGap="16px"
     fxLayout="row">
     <div
-      class="book-room-container"
+      class="flex-container book-room-container"
       fxLayout="column"
       fxLayoutGap="42px">
-      <app-frag-jetzt-logo></app-frag-jetzt-logo>
+      <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
       <div
+        class="flex-item"
         data-nosnippet
         fxLayout="row">
         <app-app-rating
@@ -69,12 +70,13 @@
           [ratingResults]="accumulatedRatings"></app-app-rating>
       </div>
       <div
+        class="flex-item"
         fxLayout="row"
         fxLayoutGap="16px"
         fxLayoutAlign="flex-start center">
         <app-new-landing></app-new-landing>
       </div>
-      <div class="yt-video-wrapper">
+      <div class="flex-item yt-video-wrapper">
         <img
           style="border-radius: 15px"
           (click)="isAccepted = true"
@@ -89,6 +91,7 @@
           #scaledIframe
           allowfullscreen
           tabindex="0"
+          frameBorder="0"
           data-verified="true"
           title=""
           [src]="iframeSrc"></iframe>

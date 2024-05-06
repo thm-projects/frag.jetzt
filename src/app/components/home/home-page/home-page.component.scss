@@ -4,6 +4,10 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
 
 $carousel-container-size: 450px;
 
+.flex-container {
+  flex-direction: column;
+}
+
 .book-room-container {
   width: 500px;
   padding-bottom: 1em;
@@ -16,6 +20,8 @@ $carousel-container-size: 450px;
 
 .yt-video-wrapper {
   width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
 
   > img {
     max-width: calc(100% - 1em);
@@ -26,6 +32,12 @@ $carousel-container-size: 450px;
   > app-view-comment-data {
     width: 100%;
     display: inline-block;
+  }
+
+  > iframe {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
   }
 }
 
