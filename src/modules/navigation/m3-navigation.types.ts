@@ -22,14 +22,16 @@ export interface M3HeaderTemplate {
 
 export interface M3HeaderOption {
   title: string;
-  icon: string;
+  icon?: string;
+  svgIcon?: string;
   onClick: () => void;
   disabled?: boolean;
 }
 
 export interface M3HeaderMenu {
   title: string;
-  icon: string;
+  icon?: string;
+  svgIcon?: string;
   items: M3HeaderOption[];
 }
 

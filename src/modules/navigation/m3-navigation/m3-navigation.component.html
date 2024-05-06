@@ -98,23 +98,27 @@
       @if (elem.onClick) {
         <button
           mat-menu-item
+          [disabled]="elem.disabled"
           (click)="elem.onClick()">
-          <mat-icon>{{ elem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
           {{ elem.title }}
         </button>
       } @else {
         <button
           mat-menu-item
           [matMenuTriggerFor]="temp">
-          <mat-icon>{{ elem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
           {{ elem.title }}
         </button>
         <mat-menu #temp="matMenu">
           @for (innerElem of elem.items; track innerElem) {
             <button
               mat-menu-item
+              [disabled]="elem.disabled"
               (click)="innerElem.onClick()">
-              <mat-icon>{{ innerElem.icon }}</mat-icon>
+              <mat-icon [svgIcon]="innerElem.svgIcon">
+                {{ innerElem.icon }}
+              </mat-icon>
               {{ innerElem.title }}
             </button>
           }
@@ -131,22 +135,26 @@
     <button
       [matTooltip]="elem.title"
       mat-icon-button
+      [disabled]="elem.disabled"
       (click)="elem.onClick()">
-      <mat-icon>{{ elem.icon }}</mat-icon>
+      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
     </button>
   } @else {
     <button
       [matTooltip]="elem.title"
       mat-icon-button
       [matMenuTriggerFor]="temp">
-      <mat-icon>{{ elem.icon }}</mat-icon>
+      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
     </button>
     <mat-menu #temp="matMenu">
       @for (innerElem of elem.items; track innerElem) {
         <button
           mat-menu-item
+          [disabled]="innerElem.disabled"
           (click)="innerElem.onClick()">
-          <mat-icon>{{ innerElem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="innerElem.svgIcon">
+            {{ innerElem.icon }}
+          </mat-icon>
           {{ innerElem.title }}
         </button>
       }
