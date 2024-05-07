@@ -10,10 +10,8 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { SessionService } from 'app/services/util/session.service';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { take } from 'rxjs';
-import {
-  AVAILABLE_LANGUAGES,
-  AppStateService,
-} from 'app/services/state/app-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
 
 @Component({
   selector: 'app-chat-gptprompt-preset',

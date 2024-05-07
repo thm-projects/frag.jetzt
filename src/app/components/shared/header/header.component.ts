@@ -51,7 +51,6 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import {
   AppStateService,
-  Language,
   ThemeKey,
 } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -64,6 +63,7 @@ import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
 import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
+import { Language, setLanguage } from 'app/base/language/language';
 
 @Component({
   selector: 'app-header',
@@ -254,7 +254,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   useLanguage(language: Language) {
     this.translationService.use(language);
-    this.appState.changeLanguage(language);
+    setLanguage(language);
   }
 
   getClockCount() {

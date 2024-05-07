@@ -7,12 +7,12 @@ type KeyTree<Pre extends string, K extends object> = keyof {
     ? string extends Key
       ? never
       : K[Key] extends IDBValidKey
-      ? Pre extends ''
-        ? Key
-        : `${Pre}.${Key}`
-      : K[Key] extends object
-      ? KeyTree<Pre extends '' ? Key : `${Pre}.${Key}`, K[Key]>
-      : never
+        ? Pre extends ''
+          ? Key
+          : `${Pre}.${Key}`
+        : K[Key] extends object
+          ? KeyTree<Pre extends '' ? Key : `${Pre}.${Key}`, K[Key]>
+          : never
     : never]: undefined;
 };
 
@@ -68,8 +68,8 @@ const DEFAULT_LEVEL =
   environment.db_migration === LogLevel.Trace
     ? LogLevel.Trace
     : environment.db_migration === LogLevel.Info
-    ? LogLevel.Info
-    : LogLevel.Warn;
+      ? LogLevel.Info
+      : LogLevel.Warn;
 
 class Logger {
   version: string = '0';
@@ -80,7 +80,10 @@ class Logger {
     [LogLevel.Warn]: 2,
   };
 
-  constructor(private schema: DatabaseSchema, logLevel: LogLevel) {
+  constructor(
+    private schema: DatabaseSchema,
+    logLevel: LogLevel,
+  ) {
     this.logLevel = this.logLevelToNumber[logLevel];
   }
 
@@ -311,8 +314,8 @@ type TransformArray<
 export type Transform<Path, Obj> = Path extends string
   ? Walk<Path, Obj>
   : Path extends readonly string[]
-  ? TransformArray<Path, Obj, []>
-  : unknown;
+    ? TransformArray<Path, Obj, []>
+    : unknown;
 
 export interface LgCursor<T> extends IDBCursor {
   update(value: T): IDBRequest<IDBValidKey>;

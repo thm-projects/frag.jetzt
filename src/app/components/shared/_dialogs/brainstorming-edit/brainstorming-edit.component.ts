@@ -1,10 +1,10 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { UserRole } from 'app/models/user-roles.enum';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
-import { AVAILABLE_LANGUAGES } from 'app/services/state/app-state.service';
 import { Subscription } from 'rxjs';
 
 @Component({

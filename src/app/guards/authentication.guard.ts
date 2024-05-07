@@ -11,9 +11,9 @@ import { EventService } from 'app/services/util/event.service';
 import { Observable, filter, map, of, switchMap, take, tap } from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
 import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
+import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 
 @Injectable()
 export class AuthenticationGuard {

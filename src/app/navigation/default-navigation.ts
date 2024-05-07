@@ -28,14 +28,15 @@ import {
 import { Observable, combineLatest, first, map, startWith } from 'rxjs';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { toObservable } from '@angular/core/rxjs-interop';
-
-import i18n from './default-navigation.i18n.json';
 import {
   AVAILABLE_LANGUAGES,
   language,
   setLanguage,
 } from 'app/base/language/language';
-const l10n = I18nLoader.loadModule(i18n);
+import { setTheme } from 'app/base/theme/theme';
+
+import i18nRaw from './default-navigation.i18n.json';
+const i18n = I18nLoader.loadModule(i18nRaw);
 
 export const applyDefaultNavigation = (
   injector: Injector,
@@ -60,71 +61,71 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([accountState.user$, toObservable(l10n)]).pipe(
-    map(([user, l10n]) => {
+  return combineLatest([accountState.user$, toObservable(i18n)]).pipe(
+    map(([user, i18n]) => {
       return {
         slogan: 'Du fragst. ChatGPT antwortet.',
         options: [
           user
             ? {
                 icon: 'account_circle',
-                title: l10n.header.myAccount,
+                title: i18n.header.myAccount,
                 items: [
                   {
                     icon: 'grade',
-                    title: l10n.header.myStars,
+                    title: i18n.header.myStars,
                     onClick: () => {
                       UserBonusTokenComponent.openDialog(dialog, user.id);
                     },
                   },
                   {
                     icon: 'policy',
-                    title: l10n.header.aiConsent,
+                    title: i18n.header.aiConsent,
                     onClick: () => {
                       openAIConsent(injector);
                     },
                   },
                   {
                     svgIcon: 'fj_robot',
-                    title: l10n.header.myAiPrompts,
+                    title: i18n.header.myAiPrompts,
                     onClick: () => {
                       router.navigate(['/gpt-prompts']);
                     },
                   },
                   {
                     icon: 'manage_accounts',
-                    title: l10n.header.manageAccount,
+                    title: i18n.header.manageAccount,
                     onClick: () => {
                       keycloak.redirectAccountManagement();
                     },
                   },
                   {
                     icon: 'person_remove',
-                    title: l10n.header.deleteAccount,
+                    title: i18n.header.deleteAccount,
                     onClick: () => {
                       keycloak.deleteAccount();
                     },
                   },
                   {
                     icon: 'logout',
-                    title: l10n.header.logout,
+                    title: i18n.header.logout,
                     onClick: () => accountState.logout().subscribe(),
                   },
                 ],
               }
             : {
                 icon: 'login',
-                title: l10n.header.login,
+                title: i18n.header.login,
                 onClick: () => accountState.openLogin().subscribe(),
               },
           {
             icon: 'language',
-            title: l10n.header.language,
+            title: i18n.header.language,
             items: AVAILABLE_LANGUAGES.map(
               (lang) =>
                 ({
                   icon: language() === lang ? 'check' : 'flag',
-                  title: l10n.header.languages[lang],
+                  title: i18n.header.languages[lang],
                   disabled: language() === lang,
                   onClick: () => setLanguage(lang),
                 }) as M3HeaderOption,
@@ -132,22 +133,22 @@ export const getDefaultHeader = (
           },
           {
             icon: 'settings_brightness',
-            title: l10n.header.theme,
+            title: i18n.header.theme,
             items: [
               {
                 icon: 'light_mode',
-                title: l10n.header.light,
-                onClick: () => console.log('Light clicked'),
+                title: i18n.header.light,
+                onClick: () => setTheme('light'),
               },
               {
                 icon: 'dark_mode',
-                title: l10n.header.dark,
-                onClick: () => console.log('Dark clicked'),
+                title: i18n.header.dark,
+                onClick: () => setTheme('dark'),
               },
               {
                 icon: 'nights_stay',
-                title: l10n.header.system,
-                onClick: () => console.log('System clicked'),
+                title: i18n.header.system,
+                onClick: () => setTheme('system'),
               },
             ],
           },
@@ -168,18 +169,18 @@ export const getDefaultNavigation = (
       first((e) => e instanceof NavigationEnd),
       startWith({}),
     ),
-    toObservable(l10n),
+    toObservable(i18n),
   ]).pipe(
-    map(([user, , l10n]) => {
+    map(([user, , i18n]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const navSection: M3NavigationSection = {
-        title: l10n.navigation.app,
+        title: i18n.navigation.app,
         entries: [],
       };
       if (user) {
         navSection.entries.push({
-          title: l10n.navigation.myRooms,
+          title: i18n.navigation.myRooms,
           icon: 'person',
           onClick: () => {
             router.navigate(['/user']);
@@ -190,7 +191,7 @@ export const getDefaultNavigation = (
       }
       if (isHome || isUser) {
         navSection.entries.unshift({
-          title: l10n.navigation.home,
+          title: i18n.navigation.home,
           icon: 'home',
           onClick: () => {
             router.navigate(['/home']);
@@ -200,7 +201,7 @@ export const getDefaultNavigation = (
         });
       } else {
         navSection.entries.push({
-          title: l10n.navigation.home,
+          title: i18n.navigation.home,
           icon: 'home',
           onClick: () => {
             router.navigate(['/home']);
@@ -210,7 +211,7 @@ export const getDefaultNavigation = (
         });
       }
       return {
-        title: l10n.navigation.title,
+        title: i18n.navigation.title,
         sections: [navSection],
       };
     }),
@@ -221,18 +222,18 @@ export const getDefaultOptions = (
   injector: Injector,
 ): Observable<M3NavigationOptionSection[]> => {
   const accountState = injector.get(AccountStateService);
-  return combineLatest([accountState.user$, toObservable(l10n)]).pipe(
-    map(([user, l10n]) => {
+  return combineLatest([accountState.user$, toObservable(i18n)]).pipe(
+    map(([user, i18n]) => {
       return [
         {
-          title: l10n.options.about,
+          title: i18n.options.about,
           options: [
             {
-              title: l10n.options.introTitle,
+              title: i18n.options.introTitle,
               icon: 'summarize',
               options: [
                 {
-                  title: l10n.options.intro,
+                  title: i18n.options.intro,
                   icon: 'summarize',
                   onClick: () => {
                     showDemo(injector);
@@ -241,7 +242,7 @@ export const getDefaultOptions = (
                 },
                 {
                   icon: 'flag',
-                  title: l10n.options.tour,
+                  title: i18n.options.tour,
                   onClick: () => {
                     startTour(injector);
                     return false;
@@ -250,12 +251,12 @@ export const getDefaultOptions = (
               ],
             },
             {
-              title: l10n.options.feedbackTitle,
+              title: i18n.options.feedbackTitle,
               icon: 'rate_review',
               options: [
                 {
                   icon: 'rate_review',
-                  title: l10n.options.feedbackRoom,
+                  title: i18n.options.feedbackRoom,
                   onClick: () => {
                     open(
                       'https://frag.jetzt/participant/room/Feedback',
@@ -266,7 +267,7 @@ export const getDefaultOptions = (
                 },
                 {
                   icon: 'grade',
-                  title: l10n.options.rateApp,
+                  title: i18n.options.rateApp,
                   onClick: () => {
                     openRateApp(user, injector);
                     return false;
@@ -276,7 +277,7 @@ export const getDefaultOptions = (
             },
             user && {
               icon: 'campaign',
-              title: l10n.options.news,
+              title: i18n.options.news,
               onClick: () => {
                 showNews(injector);
                 return false;
@@ -284,7 +285,7 @@ export const getDefaultOptions = (
             },
             {
               icon: 'security',
-              title: l10n.options.dataProtection,
+              title: i18n.options.dataProtection,
               onClick: () => {
                 showGDPR(injector);
                 return false;
@@ -292,7 +293,7 @@ export const getDefaultOptions = (
             },
             {
               icon: 'privacy_tip',
-              title: l10n.options.imprint,
+              title: i18n.options.imprint,
               onClick: () => {
                 showImprint(injector);
                 return false;

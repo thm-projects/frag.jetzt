@@ -22,7 +22,6 @@ import { DashboardNotificationService } from '../../../services/util/dashboard-n
 import { SessionService } from '../../../services/util/session.service';
 import {
   AppStateService,
-  Language,
   ThemeKey,
 } from 'app/services/state/app-state.service';
 import { ReplaySubject, filter, take, takeUntil } from 'rxjs';
@@ -31,6 +30,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
+import { Language, setLanguage } from 'app/base/language/language';
 
 @Component({
   selector: 'app-footer',
@@ -148,7 +148,7 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   useLanguage(language: Language) {
     this.translateService.use(language);
-    this.appState.changeLanguage(language);
+    setLanguage(language);
   }
 
   changeTheme(theme: Theme) {

@@ -1,5 +1,5 @@
 import { Comment } from 'app/models/comment';
-import { DbStore, ValidKey } from './lg-persist.schema.types';
+import { DbStore, ValidKey } from '../data.types';
 
 export const COMMENT_SCHEMA = {
   type: Comment,
