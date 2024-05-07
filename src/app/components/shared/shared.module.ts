@@ -157,6 +157,7 @@ import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module';
+import { M3BodyPaneComponent } from '../../../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 
 @NgModule({
   imports: [
@@ -178,6 +179,7 @@ import { CustomMarkdownModule } from 'app/custom-markdown/custom-markdown.module
     QuestionWallDisplayCommentComponent,
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
+    M3BodyPaneComponent,
   ],
   declarations: [
     RoomJoinComponent,

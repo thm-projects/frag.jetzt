@@ -27,7 +27,7 @@ import {
   M3State,
   M3TemplateKind,
 } from '../m3-navigation-types';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { M3ButtonTemplateList, M3LabelTemplateList } from './m3-nav-support';
 import { M3WindowClassDirective } from '../../window-class/window-class';
@@ -67,6 +67,8 @@ import { M3WindowClassDirective } from '../../window-class/window-class';
 })
 export class M3NavPaneComponent {
   protected _labelState: boolean = true;
+  @Input() outlet!: RouterOutlet;
+
   @Input({ transform: booleanAttribute })
   set extended(value: boolean) {
     if (this._extended === value) {
@@ -89,8 +91,8 @@ export class M3NavPaneComponent {
   get elevation() {
     return this._elevation;
   }
-
   private _elevation: number = 1;
+
   private _currentTemplate: M3NavigationTemplate | undefined;
 
   @ViewChild('content', { static: true, read: ElementRef }) set _element(
@@ -151,7 +153,6 @@ export class M3NavPaneComponent {
       this.router.navigate(label.route.commands, label.route.extras);
     }
   }
-
   protected readonly M3LabelTemplateList = M3LabelTemplateList;
 
   private triggerLabelState() {
@@ -160,7 +161,7 @@ export class M3NavPaneComponent {
       this._extended = !this._extended;
       setTimeout(() => {
         this._labelState = true;
-      }, 150);
+      }, 50);
     }, 50);
   }
 }

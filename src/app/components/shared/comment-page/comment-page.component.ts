@@ -5,7 +5,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -13,9 +13,16 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { HeaderComponent } from '../header/header.component';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import {
+  M3NavigationTemplate,
+  M3State,
+  M3TemplateKind,
+} from '../../../../modules/m3/components/navigation/m3-navigation-types';
+import {
+  M3NavigationService,
+  M3NavigationTemplateEmitter,
+} from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { Navigation } from '../../navigation/common-navigation-templates';
 
 @Component({
   selector: 'app-comment-page',
@@ -23,7 +30,7 @@ import { M3NavigationService } from '../../../../modules/m3/services/navigation/
   styleUrls: ['./comment-page.component.scss'],
 })
 export class CommentPageComponent
-  implements OnInit, OnDestroy, AfterContentInit {
+  implements OnInit, OnDestroy, AfterContentInit, M3NavigationTemplateEmitter {
   listenerFn: () => void;
 
   constructor(
@@ -34,11 +41,66 @@ export class CommentPageComponent
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private readonly m3NavigationService: M3NavigationService,
+    private readonly router: Router,
     private _r: Renderer2,
   ) {
-    this.m3NavigationService.emit(
-      M3NavigationUtility.emptyPortal(HeaderComponent),
-    );
+    m3NavigationService.emit(this);
+  }
+
+  get m3NavigationTemplate(): M3NavigationTemplate {
+    return {
+      kind: M3TemplateKind.Navigation,
+      elevation: 0,
+      header: {
+        kind: M3TemplateKind.Header,
+        right: {
+          buttons: [
+            Navigation.more([
+              Navigation.common.CreateRoom,
+              Navigation.common.BonusToken,
+              Navigation.common.LogOut,
+            ]),
+          ],
+        },
+      },
+      railExtension: {
+        kind: M3TemplateKind.RailExtension,
+        sections: [
+          {
+            title: 'some arbitrary name',
+            kind: M3TemplateKind.RailSection,
+            labels: [Navigation.common.BonusToken],
+          },
+          {
+            title: 'Features',
+            kind: M3TemplateKind.RailSection,
+            labels: [
+              Navigation.feature.QuestionFocus,
+              Navigation.feature.FlashPoll,
+              Navigation.feature.QuestionRadar,
+              Navigation.feature.QuizRally,
+              Navigation.feature.Brainstorming,
+            ],
+          },
+        ],
+      },
+      rail: {
+        kind: M3TemplateKind.Rail,
+        title: 'Comments',
+        labels: [
+          Navigation.location.HomePage,
+          Navigation.location.UserHomePage,
+          Navigation.transform(Navigation.location.RoomPage, {
+            route: Navigation.routeFrom(
+              this.router.url.replace(/\/comments.*/gm, ''),
+            ),
+          }),
+          Navigation.transform(Navigation.location.Comments, {
+            state: M3State.Active,
+          }),
+        ],
+      },
+    };
   }
 
   ngAfterContentInit(): void {

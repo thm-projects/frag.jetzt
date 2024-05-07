@@ -107,7 +107,7 @@ $_m3-navigation-properties: (
   }
 }
 
-@mixin _m3-label-button($config) {
+@mixin _m3-label-button($config, $animate: true) {
   width: #{map.get($config, label, width)}px;
   height: #{map.get($config, label, height)}px;
   @include _collapse-shorthand(map.get($config, label, padding), padding);
@@ -186,34 +186,35 @@ $_m3-navigation-properties: (
     }
   }
 
-  &:hover {
-    .m3-icon {
-      font-variation-settings:
-        "wght" 600,
-        "opsz" 24;
+  @if $animate {
+    &:hover {
+      .m3-icon {
+        font-variation-settings:
+          "wght" 600,
+          "opsz" 24;
+      }
+
+      .m3-label {
+        font-variation-settings:
+          "GRAD" 50,
+          "opsz" 17;
+      }
     }
 
-    .m3-label {
-      font-variation-settings:
-        "GRAD" 50,
-        "opsz" 17;
+    &:active {
+      .m3-icon {
+        font-variation-settings:
+          "wght" 300,
+          "opsz" 24;
+      }
+
+      .m3-label {
+        font-variation-settings:
+          "GRAD" -50,
+          "opsz" 17;
+      }
     }
   }
-
-  &:active {
-    .m3-icon {
-      font-variation-settings:
-        "wght" 300,
-        "opsz" 24;
-    }
-
-    .m3-label {
-      font-variation-settings:
-        "GRAD" -50,
-        "opsz" 17;
-    }
-  }
-
   .mat-mdc-button-ripple,
   .m3-label-button-active-indicator {
     @include _m3-active-indicator(map.get($config, active-indicator));
@@ -233,39 +234,6 @@ $_m3-navigation-properties: (
   width: #{map.get($config, width)}px;
   height: #{map.get($config, height)}px;
   font-size: #{map.get($config, size)}px;
-}
-
-@keyframes rail-label-button-content-animation {
-}
-
-@keyframes rail-label-animation-B {
-  0% {
-    opacity: 1;
-  }
-  1% {
-    opacity: 0;
-  }
-  99% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes rail-label-animation-A {
-  0% {
-    opacity: 1;
-  }
-  1% {
-    opacity: 0;
-  }
-  99% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 @mixin _m3-navigation-rail-labels() {
@@ -295,8 +263,11 @@ $_m3-navigation-properties: (
       > .m3-label {
         width: 80px;
         position: absolute;
-        left: 0px;
+        left: 0;
         top: 36px;
+        transition:
+          left 0ms linear,
+          top 0ms linear;
         white-space: nowrap;
       }
     }
@@ -305,16 +276,14 @@ $_m3-navigation-properties: (
 
 @mixin _m3-navigation-drawer-labels() {
   .m3-label-button {
-    @include _m3-label-button(map.get($_m3-navigation-properties, drawer-like));
+    @include _m3-label-button(
+      map.get($_m3-navigation-properties, drawer-like),
+      false
+    );
 
-    //.m3-label {
-    //  @include m3-typescale.typescale(label, large);
-    //  align-self: center;
-    //
-    //  & + * {
-    //    margin-left: 14px;
-    //  }
-    //}
+    .m3-label {
+      @include m3-typescale.typescale(label, large);
+    }
 
     .m3-badge {
       @include m3-typescale.typescale(label, large);
@@ -335,7 +304,10 @@ $_m3-navigation-properties: (
         position: absolute;
         width: auto;
         left: 62px;
-        top: 20px;
+        top: 18px;
+        transition:
+          left 0ms linear,
+          top 0ms linear;
         white-space: nowrap;
       }
     }

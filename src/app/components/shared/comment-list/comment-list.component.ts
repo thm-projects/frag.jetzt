@@ -66,13 +66,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  M3State,
-  M3TemplateKind,
-  M3WindowSizeClass,
-} from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { Navigation } from '../../navigation/common-navigation-templates';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -166,7 +159,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
     appState: AppStateService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {
     appState.language$.pipe(takeUntil(this._destroySubject)).subscribe(() => {
       this.translateService.get('comment-list.search').subscribe((msg) => {
@@ -194,77 +186,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
       );
-    this.initM3Navigation();
-  }
-
-  initM3Navigation() {
-    this.m3NavigationService.emit({
-      kind: M3TemplateKind.Navigation,
-      elevation: 1,
-      header: {
-        kind: M3TemplateKind.Header,
-        left: {
-          window: {
-            from: M3WindowSizeClass.Expanded,
-          },
-          buttons: Navigation.allButtonTemplates(
-            [
-              Navigation.feature.Brainstorming,
-              Navigation.feature.QuestionRadar,
-              Navigation.feature.QuizRally,
-              Navigation.feature.QuestionRadar,
-            ],
-            { type: 'stroked' },
-          ),
-        },
-        right: {
-          buttons: [
-            Navigation.more([
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-              Navigation.common.LogOut,
-            ]),
-          ],
-        },
-      },
-      railExtension: {
-        kind: M3TemplateKind.RailExtension,
-        sections: [
-          {
-            title: 'some arbitrary name',
-            kind: M3TemplateKind.RailSection,
-            labels: [Navigation.common.BonusToken],
-          },
-          {
-            title: 'Features',
-            kind: M3TemplateKind.RailSection,
-            labels: [
-              Navigation.feature.QuestionFocus,
-              Navigation.feature.FlashPoll,
-              Navigation.feature.QuestionRadar,
-              Navigation.feature.QuizRally,
-              Navigation.feature.Brainstorming,
-            ],
-          },
-        ],
-      },
-      rail: {
-        kind: M3TemplateKind.Rail,
-        title: 'Comments',
-        labels: [
-          Navigation.location.HomePage,
-          Navigation.location.UserHomePage,
-          Navigation.transform(Navigation.location.RoomPage, {
-            route: Navigation.routeFrom(
-              this.router.url.replace(/\/comments.*/gm, ''),
-            ),
-          }),
-          Navigation.transform(Navigation.location.Comments, {
-            state: M3State.Active,
-          }),
-        ],
-      },
-    });
   }
 
   handlePageEvent(e: PageEvent) {

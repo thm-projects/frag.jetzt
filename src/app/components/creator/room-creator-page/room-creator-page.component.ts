@@ -112,6 +112,9 @@ export class RoomCreatorPageComponent
         },
         right: {
           buttons: [
+            Navigation.asButtonTemplate(Navigation.common.Export, {
+              type: 'stroked',
+            }),
             Navigation.more([
               Navigation.common.CreateRoom,
               Navigation.common.BonusToken,
@@ -123,6 +126,10 @@ export class RoomCreatorPageComponent
       railExtension: {
         kind: M3TemplateKind.RailExtension,
         sections: [
+          {
+            kind: M3TemplateKind.RailSection,
+            labels: [Navigation.common.Settings],
+          },
           {
             title: 'some arbitrary name',
             kind: M3TemplateKind.RailSection,

@@ -79,6 +79,15 @@ export const Navigation = {
       icon: 'logout',
       text: 'Logout',
     } as M3LabelTemplate,
+    Export: {
+      kind: M3TemplateKind.Label,
+      text: 'Export',
+    } as M3LabelTemplate,
+    Settings: {
+      kind: M3TemplateKind.Label,
+      icon: 'settings',
+      text: 'Settings',
+    } as M3LabelTemplate,
   },
   feature: {
     QuestionFocus: {

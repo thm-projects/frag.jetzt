@@ -153,12 +153,14 @@
   }
   > .left {
     padding-left: 24px;
+    display: flex;
   }
   > .spacing {
     flex-grow: 1;
   }
   > .right {
     padding-right: 24px;
+    display: flex;
   }
 }
 

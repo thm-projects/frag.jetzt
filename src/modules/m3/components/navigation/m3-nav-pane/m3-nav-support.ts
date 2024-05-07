@@ -98,6 +98,7 @@ export class M3LabelTemplateList extends M3TemplateList {
 
 @Component({
   selector: '[m3ButtonTemplateList]',
+  styleUrl: 'm3-button-template-list.scss',
   template: `
     @for (label of labels; track label) {
       @if (label.triggerFor) {
