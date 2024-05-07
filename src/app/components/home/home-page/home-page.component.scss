@@ -14,21 +14,6 @@ $carousel-container-size: 450px;
   }
 }
 
-.yt-video-wrapper {
-  width: 100%;
-
-  > img {
-    max-width: calc(100% - 1em);
-    margin-inline: 0.5em;
-    cursor: pointer;
-  }
-
-  > app-view-comment-data {
-    width: 100%;
-    display: inline-block;
-  }
-}
-
 .content {
   width: 100%;
 }

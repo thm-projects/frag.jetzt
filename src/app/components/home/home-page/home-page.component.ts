@@ -2,12 +2,12 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   Injector,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -22,8 +22,6 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { Router } from '@angular/router';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
@@ -38,16 +36,9 @@ export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 export class HomePageComponent implements OnInit, OnDestroy {
   @ViewChild('carouselScrollElement')
   _carouselScrollElement: ElementRef<HTMLDivElement>;
-  @ViewChild('scaledIframe')
-  scaledIframe: ElementRef<HTMLIFrameElement>;
   listenerFn: () => void;
 
   accumulatedRatings: RatingResult;
-  iframeSrc: SafeUrl;
-  imageSrc: string;
-  isAccepted = false;
-
-  currentLanguage: Language = 'en';
 
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
@@ -71,7 +62,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appState: AppStateService,
     public readonly themeService: ThemeService,
-    sanitizer: DomSanitizer,
   ) {
     this.emitNavigation();
     themeService
@@ -81,14 +71,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
         takeUntil(this._destroyer),
       )
       .subscribe((x) => (this.currentTheme = x.key));
-    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
-      this.currentLanguage = lang;
-      this.isAccepted = false;
-      this.imageSrc = this.getImageByLang(lang);
-      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
-        this.getVideoByLang(lang),
-      );
-    });
     const arrowEventListener = (event: KeyboardEvent) => {
       if (!document.activeElement.hasAttribute('mat-menu-item')) {
         switch (event.key) {
@@ -153,15 +135,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
-
-  onResize() {
-    const style = this.scaledIframe?.nativeElement;
-    if (!style) {
-      return;
-    }
-    const height = (parseFloat(getComputedStyle(style).width) * 9) / 16;
-    style.height = height.toFixed(2) + 'px';
   }
 
   getForegroundStyleForEntry(i: number, offsetLeft: number) {
@@ -359,24 +332,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     } else {
       this.carouselIndex = carouselIndex;
     }
-  }
-
-  private getImageByLang(lang: string) {
-    if (lang === 'de') {
-      return '/assets/images/youtube-start_de.webp';
-    } else if (lang === 'fr') {
-      return '/assets/images/youtube-start_fr.webp';
-    }
-    return '/assets/images/youtube-start_en.webp';
-  }
-
-  private getVideoByLang(lang: string) {
-    if (lang === 'de') {
-      return 'https://www.youtube-nocookie.com/embed/de8UG1oeH30';
-    } else if (lang === 'fr') {
-      return 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw';
-    }
-    return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
   }
 
   private emitNavigation() {
