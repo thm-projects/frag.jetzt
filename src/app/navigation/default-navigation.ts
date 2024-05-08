@@ -217,7 +217,7 @@ export const getDefaultNavigation = (
           activated: isHome,
         });
       }
-      if (user.hasRole(KeycloakRoles.AdminDashboard)) {
+      if (user?.hasRole(KeycloakRoles.AdminDashboard)) {
         navSection.entries.push({
           id: 'admin',
           title: i18n.navigation.admin,

@@ -128,6 +128,13 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   private location = inject(Location);
 
   constructor() {
+    // TODO: Fix not updating properly because of zone.js
+    effect(
+      () => {
+        this.railBarData();
+      },
+      { injector: this.injector },
+    );
     effect(
       () => {
         const rails = !this.isSmall();
@@ -222,7 +229,10 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   private getStateData(previous: boolean): Section[] {
     const barData = [] as Section[];
     const state = this.openState();
-    if (state !== 'drawer') {
+    if (state === 'none') {
+      return barData;
+    }
+    if (state === 'rail') {
       this.appendRailEntry(barData);
       return barData;
     }
