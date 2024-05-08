@@ -7,17 +7,13 @@ import { ImprintComponent } from 'app/components/home/_dialogs/imprint/imprint.c
 import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { AppRatingComponent } from 'app/components/shared/app-rating/app-rating.component';
-import { User } from 'app/models/user';
+import { KeycloakRoles, User } from 'app/models/user';
 import { RatingService } from 'app/services/http/rating.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { KeycloakService } from 'app/services/util/keycloak.service';
 import { OnboardingService } from 'app/services/util/onboarding.service';
-import {
-  HEADER,
-  NAVIGATION,
-  OPTIONS,
-} from 'modules/navigation/m3-navigation-emitter';
+import { HEADER, NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 import {
   M3HeaderOption,
   M3HeaderTemplate,
@@ -33,7 +29,7 @@ import {
   language,
   setLanguage,
 } from 'app/base/language/language';
-import { setTheme } from 'app/base/theme/theme';
+import { setTheme, theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
 const i18n = I18nLoader.loadModule(i18nRaw);
@@ -44,12 +40,10 @@ export const applyDefaultNavigation = (
   return combineLatest([
     getDefaultHeader(injector),
     getDefaultNavigation(injector),
-    getDefaultOptions(injector),
   ]).pipe(
-    map(([header, navigation, options]) => {
+    map(([header, navigation]) => {
       HEADER.set(header);
       NAVIGATION.set(navigation);
-      OPTIONS.set(options);
     }),
   );
 };
@@ -61,8 +55,12 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([accountState.user$, toObservable(i18n)]).pipe(
-    map(([user, i18n]) => {
+  return combineLatest([
+    accountState.user$,
+    toObservable(i18n),
+    toObservable(theme),
+  ]).pipe(
+    map(([user, i18n, theme]) => {
       return {
         slogan: 'Du fragst. ChatGPT antwortet.',
         options: [
@@ -136,17 +134,20 @@ export const getDefaultHeader = (
             title: i18n.header.theme,
             items: [
               {
-                icon: 'light_mode',
+                icon: theme === 'light' ? 'check' : 'light_mode',
+                disabled: theme === 'light',
                 title: i18n.header.light,
                 onClick: () => setTheme('light'),
               },
               {
-                icon: 'dark_mode',
+                icon: theme === 'dark' ? 'check' : 'dark_mode',
+                disabled: theme === 'dark',
                 title: i18n.header.dark,
                 onClick: () => setTheme('dark'),
               },
               {
-                icon: 'nights_stay',
+                icon: theme === 'system' ? 'check' : 'nights_stay',
+                disabled: theme === 'system',
                 title: i18n.header.system,
                 onClick: () => setTheme('system'),
               },
@@ -172,14 +173,18 @@ export const getDefaultNavigation = (
     toObservable(i18n),
   ]).pipe(
     map(([user, , i18n]) => {
+      // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const navSection: M3NavigationSection = {
+        id: 'main',
+        kind: 'navigation',
         title: i18n.navigation.app,
         entries: [],
       };
       if (user) {
         navSection.entries.push({
+          id: 'my-rooms',
           title: i18n.navigation.myRooms,
           icon: 'person',
           onClick: () => {
@@ -191,6 +196,7 @@ export const getDefaultNavigation = (
       }
       if (isHome || isUser) {
         navSection.entries.unshift({
+          id: 'home',
           title: i18n.navigation.home,
           icon: 'home',
           onClick: () => {
@@ -201,6 +207,7 @@ export const getDefaultNavigation = (
         });
       } else {
         navSection.entries.push({
+          id: 'home',
           title: i18n.navigation.home,
           icon: 'home',
           onClick: () => {
@@ -210,98 +217,109 @@ export const getDefaultNavigation = (
           activated: isHome,
         });
       }
+      if (user.hasRole(KeycloakRoles.AdminDashboard)) {
+        navSection.entries.push({
+          id: 'admin',
+          title: i18n.navigation.admin,
+          icon: 'admin_panel_settings',
+          onClick: () => {
+            router.navigate(['/admin/overview']);
+            return true;
+          },
+        });
+      }
+      // OPTIONS
+      const optionSection: M3NavigationOptionSection = {
+        id: 'about',
+        kind: 'options',
+        title: i18n.options.about,
+        options: [
+          {
+            id: 'intro',
+            title: i18n.options.introTitle,
+            icon: 'summarize',
+            options: [
+              {
+                id: 'demo',
+                title: i18n.options.intro,
+                icon: 'summarize',
+                onClick: () => {
+                  showDemo(injector);
+                  return false;
+                },
+              },
+              {
+                id: 'tour',
+                icon: 'flag',
+                title: i18n.options.tour,
+                onClick: () => {
+                  startTour(injector);
+                  return false;
+                },
+              },
+            ],
+          },
+          {
+            id: 'feedback',
+            title: i18n.options.feedbackTitle,
+            icon: 'rate_review',
+            options: [
+              {
+                id: 'feedback-room',
+                icon: 'rate_review',
+                title: i18n.options.feedbackRoom,
+                onClick: () => {
+                  open(
+                    'https://frag.jetzt/participant/room/Feedback',
+                    '_blank',
+                  );
+                  return true;
+                },
+              },
+              {
+                id: 'rate-app',
+                icon: 'grade',
+                title: i18n.options.rateApp,
+                onClick: () => {
+                  openRateApp(user, injector);
+                  return false;
+                },
+              },
+            ],
+          },
+          user && {
+            id: 'news',
+            icon: 'campaign',
+            title: i18n.options.news,
+            onClick: () => {
+              showNews(injector);
+              return false;
+            },
+          },
+          {
+            id: 'privacy',
+            icon: 'security',
+            title: i18n.options.dataProtection,
+            onClick: () => {
+              showGDPR(injector);
+              return false;
+            },
+          },
+          {
+            id: 'imprint',
+            icon: 'privacy_tip',
+            title: i18n.options.imprint,
+            onClick: () => {
+              showImprint(injector);
+              return false;
+            },
+          },
+        ].filter(Boolean),
+      };
       return {
         title: i18n.navigation.title,
-        sections: [navSection],
+        sections: [navSection, optionSection],
       };
-    }),
-  );
-};
-
-export const getDefaultOptions = (
-  injector: Injector,
-): Observable<M3NavigationOptionSection[]> => {
-  const accountState = injector.get(AccountStateService);
-  return combineLatest([accountState.user$, toObservable(i18n)]).pipe(
-    map(([user, i18n]) => {
-      return [
-        {
-          title: i18n.options.about,
-          options: [
-            {
-              title: i18n.options.introTitle,
-              icon: 'summarize',
-              options: [
-                {
-                  title: i18n.options.intro,
-                  icon: 'summarize',
-                  onClick: () => {
-                    showDemo(injector);
-                    return false;
-                  },
-                },
-                {
-                  icon: 'flag',
-                  title: i18n.options.tour,
-                  onClick: () => {
-                    startTour(injector);
-                    return false;
-                  },
-                },
-              ],
-            },
-            {
-              title: i18n.options.feedbackTitle,
-              icon: 'rate_review',
-              options: [
-                {
-                  icon: 'rate_review',
-                  title: i18n.options.feedbackRoom,
-                  onClick: () => {
-                    open(
-                      'https://frag.jetzt/participant/room/Feedback',
-                      '_blank',
-                    );
-                    return true;
-                  },
-                },
-                {
-                  icon: 'grade',
-                  title: i18n.options.rateApp,
-                  onClick: () => {
-                    openRateApp(user, injector);
-                    return false;
-                  },
-                },
-              ],
-            },
-            user && {
-              icon: 'campaign',
-              title: i18n.options.news,
-              onClick: () => {
-                showNews(injector);
-                return false;
-              },
-            },
-            {
-              icon: 'security',
-              title: i18n.options.dataProtection,
-              onClick: () => {
-                showGDPR(injector);
-                return false;
-              },
-            },
-            {
-              icon: 'privacy_tip',
-              title: i18n.options.imprint,
-              onClick: () => {
-                showImprint(injector);
-                return false;
-              },
-            },
-          ].filter(Boolean),
-        },
-      ];
     }),
   );
 };

@@ -25,7 +25,8 @@
       "title": "Navigation & Optionen",
       "app": "Anwendung",
       "home": "Startseite",
-      "myRooms": "Meine Räume"
+      "myRooms": "Meine Räume",
+      "admin": "Administration"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -65,7 +66,8 @@
       "title": "Navigation & Options",
       "app": "App",
       "home": "Home",
-      "myRooms": "My rooms"
+      "myRooms": "My rooms",
+      "admin": "Administration"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -105,7 +107,8 @@
       "title": "Navigation & options",
       "app": "Application",
       "home": "Page d'accueil",
-      "myRooms": "Mes salles"
+      "myRooms": "Mes salles",
+      "admin": "Administration"
     },
     "options": {
       "about": "À propos de frag.jetzt",

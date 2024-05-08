@@ -55,7 +55,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { QuotaService } from 'app/services/http/quota.service';
 import { LivepollService } from 'app/services/http/livepoll.service';
-import { applyRoomNavigation } from './room-navigation';
+import { applyRoomNavigation } from '../../../navigation/room-navigation';
 
 @Component({
   selector: 'app-room-page',

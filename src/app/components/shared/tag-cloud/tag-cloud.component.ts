@@ -88,7 +88,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../room-page/room-navigation';
+import { applyRoomNavigation } from '../../../navigation/room-navigation';
 
 class TagComment implements WordMeta {
   constructor(

@@ -22,17 +22,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import {
   M3NavigationEntry,
-  M3NavigationOptionSection,
+  M3NavigationNestedOptionSection,
 } from '../m3-navigation.types';
 import { CommonModule, Location } from '@angular/common';
 import { M3LabelComponent } from '../m3-label/m3-label.component';
 import {
   FAB_BUTTON,
   NAVIGATION,
-  OPTIONS,
   PREFERRED_NAVIGATION,
 } from '../m3-navigation-emitter';
 import { Router } from '@angular/router';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+
+import rawI18n from './i18n.json';
+const i18n = I18nLoader.loadModule(rawI18n);
 
 interface RailDrawerEntry {
   title: string;
@@ -69,13 +72,13 @@ const BACK_TRACKER = 1;
 })
 export class M3NavDrawerRailComponent implements AfterViewInit {
   drawerOpen: Signal<boolean>;
+  protected readonly i18n = i18n;
   protected preferredNavigation = PREFERRED_NAVIGATION.asReadonly();
   protected navigation = NAVIGATION.asReadonly();
-  protected options = OPTIONS.asReadonly();
   protected fab = FAB_BUTTON.asReadonly();
   protected showBack = input(true);
   protected isSmall = computed(() => windowWatcher.windowState() === 'compact');
-  protected stack = signal<M3NavigationOptionSection[]>([]);
+  protected stack = signal<M3NavigationNestedOptionSection[]>([]);
   /**
    *
    * menu -> (click on entry -> push stack, offset = 1)
@@ -201,7 +204,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     };
   }
 
-  protected forward(e: M3NavigationOptionSection) {
+  protected forward(e: M3NavigationNestedOptionSection) {
     this.finishLastAnim?.();
     this.stack.update((stack) => {
       return [...stack, e];
@@ -238,7 +241,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         tracker: BACK_TRACKER,
         options: [
           {
-            title: 'Back',
+            title: i18n().back,
             icon: 'arrow_back',
             svgIcon: '',
             onClick: () => {
@@ -251,22 +254,22 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         ],
       });
     }
-    const navs = this.navigation()?.sections;
-    navs?.forEach((entry) => {
-      barData.push({
-        tracker: entry,
-        title: entry.title,
-        options: entry.entries.map((nav) => ({
-          title: nav.title,
-          icon: nav.icon,
-          svgIcon: nav.svgIcon,
-          onClick: nav.onClick,
-          activated: nav.activated,
-        })),
-      });
-    });
-    const opts = this.options();
-    opts?.forEach((entry) => {
+    this.navigation()?.sections.forEach((entry) => {
+      if (entry.kind === 'navigation') {
+        barData.push({
+          tracker: entry,
+          title: entry.title,
+          options: entry.entries.map((nav) => ({
+            title: nav.title,
+            icon: nav.icon,
+            svgIcon: nav.svgIcon,
+            onClick: nav.onClick,
+            activated: nav.activated,
+          })),
+        });
+        return;
+      }
+      // option
       barData.push({
         title: entry.title,
         tracker: entry,
@@ -288,7 +291,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         tracker: BACK_TRACKER,
         options: [
           {
-            title: 'Back',
+            title: i18n().back,
             icon: 'arrow_back',
             svgIcon: '',
             onClick: () => {
@@ -305,6 +308,9 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       });
     }
     const navigations = this.navigation()?.sections.reduce((acc, e) => {
+      if (e.kind !== 'navigation') {
+        return acc;
+      }
       acc.push(...e.entries);
       return acc;
     }, [] as M3NavigationEntry[]);
@@ -329,7 +335,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
 
   private appendStackEntry(
     barData: Section[],
-    stack: M3NavigationOptionSection[],
+    stack: M3NavigationNestedOptionSection[],
     previous: boolean,
   ) {
     const index = previous ? stack.length - 2 : stack.length - 1;
@@ -343,7 +349,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       forward: 'options' in opt,
     }));
     options.unshift({
-      title: index < 1 ? 'Main Menu' : stack[index - 1].title,
+      title: index < 1 ? i18n().mainMenu : stack[index - 1].title,
       icon: 'arrow_back',
       svgIcon: '',
       onClick: () => this.backward(),

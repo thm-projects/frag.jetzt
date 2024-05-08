@@ -38,7 +38,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../../room-page/room-navigation';
+import { applyRoomNavigation } from '../../../../navigation/room-navigation';
 
 interface CommentCache {
   [commentId: string]: {

@@ -76,7 +76,7 @@ import {
 import { MatMenu } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../room-page/room-navigation';
+import { applyRoomNavigation } from '../../../navigation/room-navigation';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
