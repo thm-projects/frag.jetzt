@@ -32,12 +32,12 @@ import { ForumComment } from '../../../utils/data-accessor';
 import { forkJoin, switchMap, take } from 'rxjs';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
+import { dataService } from 'app/base/db/data-service';
 
 @Component({
   selector: 'app-write-comment',
@@ -99,7 +99,6 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private sessionService: SessionService,
     private accountState: AccountStateService,
-    private localRoomSeting: DbLocalRoomSettingService,
     private roomState: RoomStateService,
     injector: Injector,
   ) {
@@ -164,7 +163,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
       ])
         .pipe(
           switchMap(([room, user]) =>
-            this.localRoomSeting.get([room.id, user.id]),
+            dataService.localRoomSetting.get([room.id, user.id]),
           ),
         )
         .subscribe((data) => {

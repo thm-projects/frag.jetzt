@@ -14,8 +14,6 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { DbConfigService } from '../persistence/lg/db-config.service';
-import { DbMotdService } from '../persistence/lg/db-motd.service';
 import { OnlineStateService } from './online-state.service';
 import { PreferenceStateService } from './preference-state.service';
 import { MotdService } from '../http/motd.service';
@@ -28,13 +26,12 @@ import {
 } from 'app/utils/service-component-events';
 import { themes, themes_meta } from '../../../theme/arsnova-theme.const';
 import { DeviceStateService } from './device-state.service';
-import { Motd } from '../persistence/lg/db-motd.model';
 import { EventService } from '../util/event.service';
 import { InitService } from '../util/init.service';
-
-export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'] as const;
-
-export type Language = (typeof AVAILABLE_LANGUAGES)[number];
+import { Language, language } from 'app/base/language/language';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { dataService } from 'app/base/db/data-service';
+import { Motd } from 'app/base/db/models/db-motd';
 
 export type ThemeKey = keyof typeof themes;
 
@@ -42,18 +39,15 @@ export type ThemeKey = keyof typeof themes;
   providedIn: 'root',
 })
 export class AppStateService {
-  readonly language$: Observable<Language>;
+  readonly language$ = toObservable(language);
   readonly appliedTheme$: Observable<ThemeKey>;
   readonly theme$: Observable<ThemeKey>;
   readonly motd$: Observable<Motd[]>;
   readonly cookiesAccepted$: Observable<boolean>;
-  private readonly updateLanguage$ = new Subject<Language>();
   private readonly updateTheme$ = new Subject<ThemeKey>();
   private readonly updateCookieAccepted$ = new Subject<boolean>();
 
   constructor(
-    private dbConfig: DbConfigService,
-    private dbMotd: DbMotdService,
     private onlineState: OnlineStateService,
     private preferences: PreferenceStateService,
     private motd: MotdService,
@@ -61,21 +55,17 @@ export class AppStateService {
     private eventService: EventService,
     private initService: InitService,
   ) {
-    this.language$ = concat(this.loadLanguage(), this.updateLanguage$).pipe(
-      distinctUntilChanged(),
-      shareReplay(1),
-    );
     this.motd$ = this.onlineState
-      .refreshWhenReachable(this.dbMotd.getAll(), this.fetchMotds())
+      .refreshWhenReachable(dataService.motd.getAll(), this.fetchMotds())
       .pipe(shareReplay(1));
     this.cookiesAccepted$ = concat(
-      this.dbConfig
+      dataService.config
         .get('cookieAccepted')
         .pipe(map((v) => (v?.value ?? false) as boolean)),
       this.updateCookieAccepted$,
     ).pipe(distinctUntilChanged(), shareReplay(1));
     this.theme$ = concat(
-      this.dbConfig.get('theme').pipe(
+      dataService.config.get('theme').pipe(
         map((v) => {
           const key = (v?.value as string) || 'systemDefault';
           return Object.keys(themes).includes(key)
@@ -109,7 +99,7 @@ export class AppStateService {
             callServiceEvent(this.eventService, new CookieDialogRequest()),
           ),
           switchMap((v) =>
-            this.dbConfig
+            dataService.config
               .createOrUpdate({ key: 'cookieAccepted', value: v.accepted })
               .pipe(
                 switchMap(() => {
@@ -128,12 +118,6 @@ export class AppStateService {
     });
   }
 
-  changeLanguage(language: Language) {
-    this.dbConfig
-      .createOrUpdate({ key: 'language', value: language })
-      .subscribe(() => this.updateLanguage$.next(language));
-  }
-
   getCurrentLanguage() {
     let lang: Language = null;
     this.language$.subscribe((l) => (lang = l)).unsubscribe();
@@ -147,7 +131,7 @@ export class AppStateService {
   }
 
   changeTheme(theme: ThemeKey) {
-    this.dbConfig
+    dataService.config
       .createOrUpdate({ key: 'theme', value: theme })
       .subscribe(() => this.updateTheme$.next(theme));
   }
@@ -188,35 +172,16 @@ export class AppStateService {
         take(1),
         switchMap((pref) => {
           const needsDelete = pref?.motd?.type !== 'always';
-          const first = needsDelete ? this.dbMotd.clear() : of(undefined);
+          const first = needsDelete ? dataService.motd.clear() : of(undefined);
           return first;
         }),
         switchMap(() => {
-          return this.dbMotd.createOrUpdateMany(
+          return dataService.motd.createOrUpdateMany(
             motds.map((value) => ({ value })),
           );
         }),
       )
       .subscribe();
-  }
-
-  private loadLanguage(): Observable<Language> {
-    return this.dbConfig.get('language').pipe(
-      map((cfg) => {
-        let lang = cfg?.value as Language;
-        lang = AVAILABLE_LANGUAGES.includes(lang) ? lang : null;
-        if (!lang) {
-          for (const language of navigator.languages) {
-            const langKey = language.split('-')[0].toLowerCase() as Language;
-            if (AVAILABLE_LANGUAGES.includes(langKey)) {
-              lang = langKey;
-              break;
-            }
-          }
-        }
-        return lang || AVAILABLE_LANGUAGES[0];
-      }),
-    );
   }
 
   private leaveApp(): Observable<unknown> {

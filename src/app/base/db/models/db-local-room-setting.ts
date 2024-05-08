@@ -1,5 +1,5 @@
 import { FieldsOf } from 'app/utils/ts-utils';
-import { DbStore, ValidKey } from './lg-persist.schema.types';
+import { DbStore, ValidKey } from '../data.types';
 
 export class LocalRoomSetting {
   accountId: string;

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { dataService } from 'app/base/db/data-service';
 import { FormalityType } from 'app/services/http/deep-l.service';
-import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -23,10 +23,7 @@ export class PseudonymEditorComponent implements OnInit {
   ]);
   selectedFormality: FormalityType = FormalityType.Default;
 
-  constructor(
-    public dialogRef: MatDialogRef<PseudonymEditorComponent>,
-    private localRoomSetting: DbLocalRoomSettingService,
-  ) {}
+  constructor(public dialogRef: MatDialogRef<PseudonymEditorComponent>) {}
 
   public static open(dialog: MatDialog, accountId: string, roomId: string) {
     const ref = dialog.open(PseudonymEditorComponent);
@@ -36,7 +33,7 @@ export class PseudonymEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localRoomSetting
+    dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .subscribe((data) => {
         this.selectedFormality = FormalityType.Default;
@@ -48,7 +45,7 @@ export class PseudonymEditorComponent implements OnInit {
     if (this.questionerNameFormControl.errors) {
       return;
     }
-    this.localRoomSetting
+    dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .pipe(
         switchMap((data) => {
@@ -62,7 +59,7 @@ export class PseudonymEditorComponent implements OnInit {
             data.pseudonym = this.questionerNameFormControl.value;
             //data.formality = this.selectedFormality;
           }
-          return this.localRoomSetting.createOrUpdate(data);
+          return dataService.localRoomSetting.createOrUpdate(data);
         }),
       )
       .subscribe();

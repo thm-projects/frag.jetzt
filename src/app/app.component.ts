@@ -48,7 +48,6 @@ import { OnboardingService } from './services/util/onboarding.service';
 import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { InitService } from './services/util/init.service';
 import { MatomoTrackingService } from './services/util/matomo-tracking.service';
-import { DbConfigService } from './services/persistence/lg/db-config.service';
 import {
   WebPushService,
   WebPushSubscription,
@@ -66,6 +65,7 @@ import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
 import { M3NavigationService } from '../modules/m3/services/navigation/m3-navigation.service';
 import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-navigation-types';
+import { dataService } from './base/db/data-service';
 
 const PUSH_KEY = 'push-subscription';
 
@@ -286,7 +286,6 @@ export class AppComponent implements OnInit {
     public router: Router,
     private onboarding: OnboardingService,
     private applicationRef: ApplicationRef,
-    private config: DbConfigService,
     private webPush: WebPushService,
     deviceState: DeviceStateService,
     initService: InitService,
@@ -395,7 +394,7 @@ export class AppComponent implements OnInit {
   }
 
   hasPushSubscription() {
-    return this.config.get(PUSH_KEY).pipe(map((v) => Boolean(v?.value)));
+    return dataService.config.get(PUSH_KEY).pipe(map((v) => Boolean(v?.value)));
   }
 
   private initDialogsForServices() {
@@ -566,7 +565,7 @@ export class AppComponent implements OnInit {
       }
       // Check if subscription has changed or updated
       const current = WebPushSubscription.fromPushSubscription(sub);
-      this.config
+      dataService.config
         .get(PUSH_KEY)
         .pipe(
           switchMap((entry) => {
@@ -594,13 +593,13 @@ export class AppComponent implements OnInit {
   private deletePush(subId: WebPushSubscription['id']): Observable<void> {
     return this.webPush
       .deleteSubscription(subId)
-      .pipe(switchMap(() => this.config.delete(PUSH_KEY)));
+      .pipe(switchMap(() => dataService.config.delete(PUSH_KEY)));
   }
 
   private savePush(sub: WebPushSubscription): Observable<unknown> {
     return this.webPush.createSubscription(sub).pipe(
       switchMap((data) =>
-        this.config.createOrUpdate({
+        dataService.config.createOrUpdate({
           key: PUSH_KEY,
           value: data,
         }),

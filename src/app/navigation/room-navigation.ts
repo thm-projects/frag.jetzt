@@ -14,6 +14,7 @@ import {
   M3NavigationOptionSection,
   M3NavigationSection,
   M3NavigationTemplate,
+  addAround,
 } from 'modules/navigation/m3-navigation.types';
 import {
   Observable,
@@ -25,11 +26,11 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../components/shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
-import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
-import { KeycloakRoles, User } from 'app/models/user';
+import { TopicCloudBrainstormingComponent } from '../components/shared/_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { User } from 'app/models/user';
 import { CommentSettingsComponent } from 'app/components/creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from 'app/models/comment-settings-dialog';
 import { RoomService } from 'app/services/http/room.service';
@@ -43,40 +44,41 @@ import { DeleteCommentsComponent } from 'app/components/creator/_dialogs/delete-
 import { CommentService } from 'app/services/http/comment.service';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { QuotaService } from 'app/services/http/quota.service';
-import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
-import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
-import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
+import { MultiLevelDialogComponent } from '../components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
+import { saveSettings } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { copyCSVString, exportRoom } from 'app/utils/ImportExportMethods';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from 'app/models/user-roles.enum';
 import { NotificationService } from 'app/services/util/notification.service';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { Rescale } from 'app/models/rescale';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
+import { QrCodeDialogComponent } from '../components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { PseudonymEditorComponent } from '../components/shared/_dialogs/pseudonym-editor/pseudonym-editor.component';
 import {
   getDefaultHeader,
   getDefaultNavigation,
-  getDefaultOptions,
 } from 'app/navigation/default-navigation';
-import {
-  HEADER,
-  NAVIGATION,
-  OPTIONS,
-} from 'modules/navigation/m3-navigation-emitter';
+import { HEADER, NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
 import { clone } from 'app/utils/ts-utils';
-import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationDialogComponent } from '../components/shared/_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { RoomDescriptionSettingsComponent } from 'app/components/creator/_dialogs/room-description-settings/room-description-settings.component';
+import { ModeratorsComponent } from 'app/components/shared/_dialogs/moderators/moderators.component';
+import { RoomAccessRole } from 'app/base/db/models/db-room-access.model';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+
+import rawI18n from './room-navigation.i18n.json';
+import { toObservable } from '@angular/core/rxjs-interop';
+const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
   return combineLatest([
     getRoomHeader(injector),
     getRoomNavigation(injector),
-    getRoomOptions(injector),
   ]).pipe(
-    map(([header, navigation, options]) => {
+    map(([header, navigation]) => {
       HEADER.set(header);
       NAVIGATION.set(navigation);
-      OPTIONS.set(options);
     }),
   );
 };
@@ -97,7 +99,7 @@ export const getRoomHeader = (
       ) as M3HeaderMenu;
       headerOpts.items.unshift({
         icon: 'badge',
-        title: 'Q&A Pseudonym',
+        title: i18n().qaPseudonym,
         onClick: () => openQAPseudo(user, room, injector),
       });
       return template;
@@ -122,8 +124,9 @@ export const getRoomNavigation = (
     roomState.room$.pipe(first((e) => Boolean(e))),
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
     roomState.role$.pipe(filter((e) => Boolean(e))),
+    toObservable(i18n),
   ]).pipe(
-    map(([template, user, room, assignedRole, currentRole]) => {
+    map(([template, user, room, assignedRole, currentRole, i18n]) => {
       template = clone(template) as M3NavigationTemplate;
       let url = router.url;
       const hashIndex = url.indexOf('#');
@@ -139,14 +142,18 @@ export const getRoomNavigation = (
       const shortId = url.substring(roomIndex + 6, urlEndIndex);
       const isMod = assignedRole !== 'Participant';
       const isOverview = url.endsWith(shortId + '/');
-      template.title = 'Main Menu';
+      template.title = i18n.mainMenu;
       // Navigation
-      const navs: M3NavigationSection[] = [];
-      navs.push({
-        title: 'Features',
+      const navsOrOpts: (M3NavigationSection | M3NavigationOptionSection)[] =
+        [];
+      navsOrOpts.push({
+        id: 'features',
+        kind: 'navigation',
+        title: i18n.features.title,
         entries: [
           {
-            title: 'Q&A Forum',
+            id: 'forum',
+            title: i18n.features.forum,
             icon: 'forum',
             onClick: () => {
               router.navigate([`/${role}/room/${shortId}/comments`]);
@@ -156,7 +163,8 @@ export const getRoomNavigation = (
           },
           room?.livepollActive &&
             (room.livepollSession || isMod) && {
-              title: 'Blitzumfrage',
+              id: 'flashpoll',
+              title: i18n.features.flashpoll,
               icon: 'flash_on',
               onClick: () => {
                 livepoll.open(session);
@@ -164,7 +172,8 @@ export const getRoomNavigation = (
               },
             },
           room?.chatGptActive && {
-            title: 'KI Assistenten',
+            id: 'assistant',
+            title: i18n.features.assistant,
             svgIcon: 'fj_robot',
             onClick: () => {
               router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
@@ -173,7 +182,8 @@ export const getRoomNavigation = (
             activated: url.endsWith('/gpt-chat-room/'),
           },
           room?.focusActive && {
-            title: 'Fragen-Fokus',
+            id: 'focus',
+            title: i18n.features.focus,
             svgIcon: 'fj_beamer',
             onClick: () => {
               router.navigate([
@@ -184,7 +194,8 @@ export const getRoomNavigation = (
             activated: url.endsWith('/comments/questionwall/'),
           },
           room?.radarActive && {
-            title: 'Fragen-Radar',
+            id: 'radar',
+            title: i18n.features.radar,
             icon: 'radar',
             onClick: () => {
               if (url.endsWith('/tagcloud/')) {
@@ -206,7 +217,8 @@ export const getRoomNavigation = (
           },
           room?.brainstormingActive &&
             (room.brainstormingSession || isMod) && {
-              title: 'Brainstorming',
+              id: 'brainstorming',
+              title: i18n.features.brainstorming,
               icon: 'tips_and_updates',
               onClick: () => {
                 if (url.endsWith('/brainstorming/')) {
@@ -226,24 +238,17 @@ export const getRoomNavigation = (
               activated: url.endsWith('/brainstorming/'),
             },
           room?.quizActive && {
-            title: 'Quiz-Rallye',
+            id: 'rallye',
+            title: i18n.features.rallye,
             icon: 'quiz',
             onClick: () => {
               router.navigate(['/quiz']);
               return true;
             },
           },
-        ].filter(Boolean),
-      });
-      const hasAdmin =
-        isOverview && user.keycloakRoles.includes(KeycloakRoles.AdminDashboard);
-      const isRealMod =
-        currentRole !== 'Participant' && assignedRole !== currentRole;
-      navs.push({
-        title: 'Verwaltung',
-        entries: [
           isMod && {
-            title: 'Moderation',
+            id: 'moderation',
+            title: i18n.features.moderation,
             icon: 'gavel',
             onClick: () => {
               router.navigate([`/${role}/room/${shortId}/moderator/comments`]);
@@ -251,120 +256,40 @@ export const getRoomNavigation = (
             },
             activated: url.endsWith('/moderator/comments/'),
           },
-          hasAdmin && {
-            title: 'Administration',
-            icon: 'admin_panel_settings',
-            onClick: () => {
-              router.navigate(['/admin/overview']);
-              return true;
-            },
-          },
-          isMod && {
-            title: 'Raumverwaltung',
-            icon: 'settings',
-            onClick: () => {
-              router.navigate([`/${role}/room/${shortId}/`]);
-              return true;
-            },
-            activated: isOverview,
-          },
-          isMod && {
-            title: room.questionsBlocked
-              ? 'Fragenstellen freigeben'
-              : 'Fragenstellen sperren',
-            icon: 'comments_disabled',
-            onClick: () => {
-              saveChanges(
-                room.id,
-                {
-                  questionsBlocked: !room.questionsBlocked,
-                },
-                injector,
-              );
-              return true;
-            },
-          },
-          isMod && {
-            title: 'Teilnehmeransicht',
-            icon: 'groups_3',
-            onClick: () => {
-              router.navigate([
-                `/participant/room/${shortId}${url.substring(urlEndIndex)}`,
-              ]);
-              return true;
-            },
-          },
-          isRealMod && {
-            title: 'Meine Sicht',
-            icon: 'groups_3',
-            onClick: () => {
-              const userRole =
-                currentRole === 'Moderator' ? 'moderator' : 'creator';
-              router.navigate([
-                `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
-              ]);
-              return true;
-            },
-          },
-          {
-            title: 'Per Mail benachrichtigen',
-            icon: 'mail',
-            onClick: () => {
-              openMail(user, room, injector);
-              return true;
-            },
-          },
         ].filter(Boolean),
       });
-      if (!isMod) {
-        template.sections[0].entries.unshift({
-          title: 'Empfang',
-          icon: 'checkroom',
+      addAround(
+        template,
+        'main.my-rooms',
+        {
+          id: isMod ? 'room-home' : 'reception',
+          title: isMod ? i18n.roomHome : i18n.reception,
+          icon: isMod ? 'settings' : 'checkroom',
           onClick: () => {
             router.navigate([`/${role}/room/${shortId}/`]);
             return true;
           },
           activated: isOverview,
-        });
-      }
-      template.sections.unshift(...navs);
-      return template;
-    }),
-  );
-};
-
-export const getRoomOptions = (
-  injector: Injector,
-): Observable<M3NavigationOptionSection[]> => {
-  const accountState = injector.get(AccountStateService);
-  const roomState = injector.get(RoomStateService);
-  return combineLatest([
-    getDefaultOptions(injector),
-    accountState.user$.pipe(first((e) => Boolean(e))),
-    roomState.room$.pipe(first((e) => Boolean(e))),
-    roomState.assignedRole$,
-  ]).pipe(
-    map(([defaultOpts, user, room, assignedRole]) => {
-      const isMod = assignedRole !== 'Participant';
-      const options: M3NavigationOptionSection[] = [];
-      if (isMod) {
-        options.push({
-          title: 'Raumeinstellungen',
+        },
+        true,
+      );
+      // Einstellungen
+      const isRealMod =
+        currentRole !== 'Participant' && assignedRole !== currentRole;
+      if (isMod || isRealMod) {
+        navsOrOpts.push({
+          id: 'room-settings',
+          title: i18n.options.title,
+          kind: 'options',
           options: [
-            {
-              title: 'Allgemein',
-              icon: 'settings_applications',
+            isMod && {
+              id: 'qa',
+              title: i18n.options.qa.title,
+              icon: 'forum',
               options: [
                 {
-                  title: 'Features',
-                  icon: 'settings_suggest',
-                  onClick: () => {
-                    console.log('Features clicked');
-                    return false;
-                  },
-                },
-                {
-                  title: 'Moderationsmodus',
+                  id: 'moderation',
+                  title: i18n.options.qa.moderation,
                   icon: 'visibility_off',
                   onClick: () => {
                     openModeration(room, injector);
@@ -372,7 +297,8 @@ export const getRoomOptions = (
                   },
                 },
                 {
-                  title: 'Forumkonversation',
+                  id: 'conversation',
+                  title: i18n.options.qa.conversation,
                   icon: 'forum',
                   onClick: () => {
                     openConversation(room, injector);
@@ -380,7 +306,8 @@ export const getRoomOptions = (
                   },
                 },
                 {
-                  title: 'Fragenkategorien',
+                  id: 'categorys',
+                  title: i18n.options.qa.categorys,
                   icon: 'sell',
                   onClick: () => {
                     openRoomTags(room, injector);
@@ -389,7 +316,8 @@ export const getRoomOptions = (
                 },
                 room.bonusArchiveActive &&
                   room.mode !== 'PLE' && {
-                    title: 'Bonusarchiv',
+                    id: 'bonus-archive',
+                    title: i18n.options.qa.bonusArchive,
                     icon: 'grade',
                     onClick: () => {
                       openBonusArchive(room, injector);
@@ -397,15 +325,95 @@ export const getRoomOptions = (
                     },
                   },
                 {
-                  title: 'Fragen löschen',
+                  id: 'disable-comments',
+                  title: room.questionsBlocked
+                    ? i18n.options.qa.enableComments
+                    : i18n.options.qa.disableComments,
+                  icon: 'comments_disabled',
+                  onClick: () => {
+                    saveChanges(
+                      room.id,
+                      {
+                        questionsBlocked: !room.questionsBlocked,
+                      },
+                      injector,
+                    );
+                    return false;
+                  },
+                },
+                {
+                  id: 'mail',
+                  title: i18n.options.qa.mail,
+                  icon: 'mail',
+                  onClick: () => {
+                    openMail(user, room, injector);
+                    return true;
+                  },
+                },
+                {
+                  id: 'export',
+                  title: i18n.options.qa.export,
+                  icon: 'file_download',
+                  onClick: () => {
+                    doExport(user, room, injector);
+                    return true;
+                  },
+                },
+                {
+                  id: 'delete-questions',
+                  title: i18n.options.qa.deleteQuestions,
                   icon: 'delete_sweep',
                   onClick: () => {
                     openDeleteComments(room, injector);
                     return false;
                   },
                 },
+              ].filter(Boolean),
+            },
+            isMod && {
+              id: 'room',
+              title: i18n.options.room.title,
+              icon: 'meeting_room',
+              options: [
+                {
+                  id: 'qr',
+                  title: i18n.options.room.qr,
+                  icon: 'qr_code',
+                  onClick: () => {
+                    openQr(room, injector);
+                    return true;
+                  },
+                },
+                {
+                  id: 'features',
+                  title: i18n.options.room.features,
+                  icon: 'settings_suggest',
+                  onClick: () => {
+                    console.log('Features clicked');
+                    return false;
+                  },
+                },
+                {
+                  id: 'welcome-text',
+                  title: i18n.options.room.welcomeText,
+                  icon: 'waving_hand',
+                  onClick: () => {
+                    openEditDescription(room, injector);
+                    return false;
+                  },
+                },
+                {
+                  id: 'moderators',
+                  title: i18n.options.room.moderators,
+                  icon: 'key',
+                  onClick: () => {
+                    showModeratorsDialog(room, assignedRole, injector);
+                    return false;
+                  },
+                },
                 assignedRole === 'Creator' && {
-                  title: 'Raum löschen',
+                  id: 'delete-room',
+                  title: i18n.options.room.deleteRoom,
                   icon: 'delete',
                   onClick: () => {
                     openDeleteRoom(room, injector);
@@ -414,35 +422,62 @@ export const getRoomOptions = (
                 },
               ].filter(Boolean),
             },
-            {
-              title: 'KI-Einstellungen',
+            isMod && {
+              id: 'ai',
+              title: i18n.options.ai.title,
               svgIcon: 'fj_robot',
+              options: [
+                {
+                  id: 'quota',
+                  title: i18n.options.ai.quota,
+                  icon: 'payments',
+                  onClick: () => {
+                    console.log('Quota clicked');
+                    openAISettings(room, injector);
+                    return false;
+                  },
+                },
+                {
+                  id: 'model-selection',
+                  svgIcon: 'fj_robot',
+                  title: i18n.options.ai.selection,
+                  onClick: () => {
+                    console.log('Model clicked');
+                    return false;
+                  },
+                },
+              ],
+            },
+            isMod && {
+              id: 'switch-view',
+              title: i18n.options.switchView,
+              icon: 'groups_3',
               onClick: () => {
-                openAISettings(room, injector);
+                router.navigate([
+                  `/participant/room/${shortId}${url.substring(urlEndIndex)}`,
+                ]);
                 return false;
               },
             },
-            {
-              title: 'Q&A-Export',
-              icon: 'file_download',
+            isRealMod && {
+              id: 'my-view',
+              title: i18n.options.myView,
+              icon: 'groups_3',
               onClick: () => {
-                doExport(user, room, injector);
-                return true;
+                const userRole =
+                  currentRole === 'Moderator' ? 'moderator' : 'creator';
+                router.navigate([
+                  `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
+                ]);
+                return false;
               },
             },
-            {
-              title: 'QR-Code',
-              icon: 'qr_code',
-              onClick: () => {
-                openQr(room, injector);
-                return true;
-              },
-            },
-          ],
+          ].filter(Boolean),
         });
       }
-      options.push(...defaultOpts);
-      return options;
+      // Adding
+      template.sections.unshift(...navsOrOpts);
+      return template;
     }),
   );
 };
@@ -552,6 +587,30 @@ const openDeleteComments = (room: Room, injector: Injector) => {
       injector.get(CommentService).deleteCommentsByRoomId(room.id).subscribe();
     }
   });
+};
+
+const openEditDescription = (room: Room, injector: Injector) => {
+  const dialogRef = injector
+    .get(MatDialog)
+    .open(RoomDescriptionSettingsComponent, {
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false,
+    });
+  dialogRef.componentInstance.editRoom = room;
+};
+
+const showModeratorsDialog = (
+  room: Room,
+  assignedRole: RoomAccessRole,
+  injector: Injector,
+) => {
+  const dialogRef = injector.get(MatDialog).open(ModeratorsComponent, {
+    width: '400px',
+  });
+  dialogRef.componentInstance.roomId = room.id;
+  dialogRef.componentInstance.isCreator = assignedRole === 'Creator';
 };
 
 const openAISettings = (room: Room, injector: Injector) => {

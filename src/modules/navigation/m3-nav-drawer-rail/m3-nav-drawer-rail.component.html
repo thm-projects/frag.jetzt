@@ -116,7 +116,9 @@
     <mat-divider class="m3-nav-divider open"></mat-divider>
   }
   @if (state === "drawer" && elem.title; as title) {
-    <span class="m3-nav-section-title label-medium">{{ title }}</span>
+    <span class="m3-nav-section-title label-medium">
+      {{ title }}
+    </span>
   }
   @for (entry of elem.options; track entry.title) {
     <app-m3-label

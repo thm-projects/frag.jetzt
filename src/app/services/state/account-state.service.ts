@@ -23,9 +23,6 @@ import { ClientAuthentication } from 'app/models/client-authentication';
 import { User } from 'app/models/user';
 import { UUID } from 'app/utils/ts-utils';
 import { UserRole } from 'app/models/user-roles.enum';
-import { DbReadMotdService } from '../persistence/lg/db-read-motd.service';
-import { DbRoomAccessService } from '../persistence/lg/db-room-access.service';
-import { DbConfigService } from '../persistence/lg/db-config.service';
 import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
 import {
@@ -36,11 +33,12 @@ import {
 } from 'app/utils/service-component-events';
 import { KeycloakService, TokenReturn } from '../util/keycloak.service';
 import { AppStateService } from './app-state.service';
-import { RoomAccess } from '../persistence/lg/db-room-acces.model';
-import { ReadMotd } from '../persistence/lg/db-read-motd.model';
 import { EventService } from '../util/event.service';
 import { Router } from '@angular/router';
 import { InitService } from '../util/init.service';
+import { RoomAccess } from 'app/base/db/models/db-room-access.model';
+import { ReadMotd } from 'app/base/db/models/db-read-motd';
+import { dataService } from 'app/base/db/data-service';
 
 @Injectable({
   providedIn: 'root',
@@ -59,9 +57,6 @@ export class AccountStateService {
 
   constructor(
     private authService: AuthenticationService,
-    private dbReadMotd: DbReadMotdService,
-    private dbRoomAccess: DbRoomAccessService,
-    private dbConfig: DbConfigService,
     private gptService: GptService,
     private onlineState: OnlineStateService,
     private keycloak: KeycloakService,
@@ -81,7 +76,7 @@ export class AccountStateService {
         if (!user) {
           return of(null);
         }
-        const local = this.dbRoomAccess.getAllByIndex('user-id', user.id);
+        const local = dataService.roomAccess.getAllByIndex('user-id', user.id);
         return isUpdate ? local : local.pipe(startWith(null));
       }),
       distinctUntilChanged(),
@@ -93,7 +88,7 @@ export class AccountStateService {
         if (!user) {
           return of(null);
         }
-        return this.dbReadMotd
+        return dataService.readMotd
           .getAllByIndex('user-id', user.id)
           .pipe(startWith(null));
       }),
@@ -174,7 +169,7 @@ export class AccountStateService {
       return throwError(() => 'User already logged out');
     }
     return forkJoin([
-      this.dbConfig.delete('account-registered'),
+      dataService.config.delete('account-registered'),
       this.setLoggedIn('false'),
     ]).pipe(
       switchMap(() => from(this.router.navigate(['/']))),
@@ -220,8 +215,8 @@ export class AccountStateService {
 
   updateToken(keycloakToken: TokenReturn) {
     forkJoin([
-      this.dbConfig.get('logged-in'),
-      this.dbConfig.get('account-registered'),
+      dataService.config.get('logged-in'),
+      dataService.config.get('account-registered'),
     ])
       .pipe(
         switchMap(([logged, userCfg]) => {
@@ -238,7 +233,7 @@ export class AccountStateService {
           user.keycloakToken = keycloakToken.token;
           user.keycloakRefreshToken = keycloakToken.refreshToken;
           user.keycloakRoles = keycloakToken.roles;
-          return this.dbConfig.createOrUpdate({
+          return dataService.config.createOrUpdate({
             key: 'account-registered',
             value: user,
           });
@@ -256,7 +251,7 @@ export class AccountStateService {
     if (!userId) {
       throw new Error('setAccess: User not logged in');
     }
-    return this.dbRoomAccess
+    return dataService.roomAccess
       .createOrUpdate(
         new RoomAccess({
           userId,
@@ -282,7 +277,7 @@ export class AccountStateService {
     if (!userId) {
       throw new Error('updateAccess: User not logged in');
     }
-    this.dbRoomAccess
+    dataService.roomAccess
       .get([userId, roomShortId])
       .pipe(
         switchMap((v) => {
@@ -290,7 +285,7 @@ export class AccountStateService {
             return of();
           }
           v.lastAccess = new Date();
-          return this.dbRoomAccess.createOrUpdate(v);
+          return dataService.roomAccess.createOrUpdate(v);
         }),
       )
       .subscribe(() => this.updateAccess$.next(true));
@@ -301,7 +296,7 @@ export class AccountStateService {
     if (!userId) {
       throw new Error('removeAccess: User not logged in');
     }
-    this.dbRoomAccess
+    dataService.roomAccess
       .delete([userId, roomShortId])
       .subscribe(() => this.updateAccess$.next(true));
   }
@@ -345,7 +340,7 @@ export class AccountStateService {
     if (!userId) {
       throw new Error('readMotds: User not logged in');
     }
-    this.dbReadMotd
+    dataService.readMotd
       .createOrUpdateMany(
         motdIds.map((motdId) => ({ value: new ReadMotd({ motdId, userId }) })),
       )
@@ -357,7 +352,7 @@ export class AccountStateService {
     if (!userId) {
       throw new Error('unreadMotd: User not logged in');
     }
-    this.dbReadMotd
+    dataService.readMotd
       .delete([motdId, userId])
       .subscribe(() => this.updateReadMotds$.next(true));
   }
@@ -372,7 +367,7 @@ export class AccountStateService {
   }
 
   private makeGuestSession(force: boolean, navigate: boolean) {
-    return this.dbConfig.get('account-guest').pipe(
+    return dataService.config.get('account-guest').pipe(
       switchMap((userCfg) => {
         if (!userCfg?.value) {
           return of(null);
@@ -414,7 +409,7 @@ export class AccountStateService {
   }
 
   private loadUser(): Observable<User> {
-    return this.dbConfig.get('logged-in').pipe(
+    return dataService.config.get('logged-in').pipe(
       map((cfg) => cfg?.value || 'false'),
       switchMap((v) => {
         if (v === 'false') {
@@ -448,14 +443,14 @@ export class AccountStateService {
     redirectUser: boolean,
   ): Observable<User> {
     return forkJoin([
-      this.dbConfig.get('logged-in'),
-      this.dbConfig.get('account-registered'),
+      dataService.config.get('logged-in'),
+      dataService.config.get('account-registered'),
     ]).pipe(
       switchMap(([loggedCfg, accCfg]) => {
         if (loggedCfg?.value !== keycloakId) {
           return forkJoin([
             this.setLoggedIn(keycloakId),
-            this.dbConfig.delete('account-registered'),
+            dataService.config.delete('account-registered'),
           ]).pipe(map(() => ({ token: undefined, refreshToken: undefined })));
         }
         const user = accCfg?.value as User;
@@ -491,7 +486,7 @@ export class AccountStateService {
         map((auth) => this.fromAuth(auth, tokenReturn)),
         switchMap((user) =>
           forkJoin([
-            this.dbConfig.createOrUpdate({
+            dataService.config.createOrUpdate({
               key: 'account-registered',
               value: user,
             }),
@@ -512,7 +507,10 @@ export class AccountStateService {
       map((auth) => this.fromAuth(auth, null)),
       switchMap((user) =>
         forkJoin([
-          this.dbConfig.createOrUpdate({ key: 'account-guest', value: user }),
+          dataService.config.createOrUpdate({
+            key: 'account-guest',
+            value: user,
+          }),
           this.setLoggedIn('guest'),
         ]).pipe(map(() => user)),
       ),
@@ -526,7 +524,7 @@ export class AccountStateService {
   }
 
   private setLoggedIn(value: 'false' | 'guest' | UUID) {
-    return this.dbConfig.createOrUpdate({ key: 'logged-in', value });
+    return dataService.config.createOrUpdate({ key: 'logged-in', value });
   }
 
   private fromAuth(auth: ClientAuthentication, keycloakData: TokenReturn) {

@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -6,21 +5,11 @@ import {
   Subscriber,
   share,
 } from 'rxjs';
-import { LgDb } from './lg-persist.schema.types';
-import { SCHEMA } from './lg-persist.schema';
+import { LgDb } from './data.types';
+import { SCHEMA } from './data.defintion';
+import { LgDbBaseService } from './data.base';
 
-export enum LgDbEvents {
-  // no errors
-  Blocked = 'Blocked',
-  // errors
-  Outdated = 'Outdated',
-  ReadOnly = '',
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class LgPersistService {
+export class DataService {
   readonly database$ = this.openDatabase().pipe(
     share({
       connector: () => new ReplaySubject(1),
@@ -29,6 +18,14 @@ export class LgPersistService {
       resetOnRefCountZero: false,
     }),
   );
+  readonly comment = new LgDbBaseService('comment', this);
+  readonly config = new LgDbBaseService('config', this);
+  readonly localRoomSetting = new LgDbBaseService('local-room-setting', this);
+  readonly moderator = new LgDbBaseService('moderator', this);
+  readonly motd = new LgDbBaseService('motd', this);
+  readonly readMotd = new LgDbBaseService('read-motd', this);
+  readonly roomAccess = new LgDbBaseService('room-access', this);
+  readonly room = new LgDbBaseService('room', this);
   private readonly newVersion$ = new ReplaySubject<number>(1);
   private readonly isBlocked$ = new BehaviorSubject<boolean>(false);
 
@@ -124,3 +121,5 @@ export class LgPersistService {
     });
   }
 }
+
+export const dataService = new DataService();

@@ -1,11 +1,6 @@
-import { inject } from '@angular/core';
-import { LgPersistService } from './lg-persist.service';
-import {
-  Transform,
-  fromRequest,
-  fromRequestClosing,
-  fromWriteRequestClosing,
-} from './lg-persist.schema.types';
+import { FieldsOf } from 'app/utils/ts-utils';
+import { SCHEMA } from './data.defintion';
+import { DataService } from './data-service';
 import {
   Observable,
   forkJoin,
@@ -16,8 +11,12 @@ import {
   take,
   throwError,
 } from 'rxjs';
-import { SCHEMA } from './lg-persist.schema';
-import { FieldsOf } from 'app/utils/ts-utils';
+import {
+  Transform,
+  fromRequest,
+  fromRequestClosing,
+  fromWriteRequestClosing,
+} from './data.types';
 
 class BatchedCursor<
   Name extends keyof (typeof SCHEMA)['stores'],
@@ -28,7 +27,7 @@ class BatchedCursor<
   private previousFinished = true;
 
   constructor(
-    private lgPersist: LgPersistService,
+    private lgPersist: DataService,
     private storeName: Name,
     private lowerBound,
     private lowerOpen: boolean,
@@ -144,13 +143,14 @@ export class LgDbBaseService<
     (typeof SCHEMA)['stores'][Name]['options']['keyPath'],
     Type
   > = Transform<(typeof SCHEMA)['stores'][Name]['options']['keyPath'], Type>,
-  IndexKeys extends keyof (typeof SCHEMA)['stores'][Name]['indexes'] = keyof (typeof SCHEMA)['stores'][Name]['indexes'],
+  IndexKeys extends
+    keyof (typeof SCHEMA)['stores'][Name]['indexes'] = keyof (typeof SCHEMA)['stores'][Name]['indexes'],
 > {
-  protected lgPersist = inject(LgPersistService);
   protected typeClass: new (obj: FieldsOf<Type>) => Type;
 
   constructor(
     private storeName: Name,
+    private lgPersist: DataService,
     private durability: IDBTransactionDurability = 'relaxed',
     private copyOnFetch: boolean = false,
   ) {

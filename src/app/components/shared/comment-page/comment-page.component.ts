@@ -15,7 +15,7 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { applyRoomNavigation } from '../room-page/room-navigation';
+import { applyRoomNavigation } from '../../../navigation/room-navigation';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({

@@ -16,13 +16,11 @@ import { DeleteAllNotificationsComponent } from '../delete-all-notifications/del
 import { Router } from '@angular/router';
 import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
-import {
-  AppStateService,
-  Language,
-} from 'app/services/state/app-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AppComponent } from 'app/app.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Language } from 'app/base/language/language';
 
 const LANG_KEYS = [
   'PARTICIPANT',

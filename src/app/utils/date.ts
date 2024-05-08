@@ -1,8 +1,6 @@
-import { Language } from 'app/services/state/app-state.service';
-
 export const prettyPrintDate = (
   inputDate: Date | null | undefined,
-  language: Language,
+  language: string,
 ): string => {
   const date = new Date(inputDate);
   const dateString = date.toLocaleDateString(language ?? undefined, {

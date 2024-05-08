@@ -1,5 +1,5 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import {
   argbFromHex,
@@ -17,6 +17,8 @@ import {
   M3ThemeType,
 } from './m3-dynamic-theme-utility';
 import { catchError } from 'rxjs/operators';
+import { actualTheme, setTheme } from 'app/base/theme/theme';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 /**
  * TODO(lph) make preferred theme default
@@ -28,8 +30,8 @@ const _M3_DEFAULT_THEME = 'light';
 })
 export class M3DynamicThemeService {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly _themeTypeSubject: BehaviorSubject<M3ThemeType> =
-    new BehaviorSubject<M3ThemeType>(this.localThemeType);
+  private readonly _themeTypeSubject: Observable<M3ThemeType> =
+    toObservable(actualTheme);
   private readonly _themeColorSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('#42069F');
   private readonly _paletteRequirement: BehaviorSubject<M3PaletteRequirement> =
@@ -131,7 +133,7 @@ export class M3DynamicThemeService {
       JSON.stringify(this._currentTheme.value) !== JSON.stringify(theme)
     ) {
       M3DynamicThemeUtility.applyTheme({
-        themeType: this._themeTypeSubject.value,
+        themeType: actualTheme(),
         paletteRequirements: this._paletteRequirement.value,
         theme: theme,
         customColors: this._m3CustomColors.value,
@@ -151,13 +153,11 @@ export class M3DynamicThemeService {
   }
 
   set themeType(type: M3ThemeType) {
-    if (this._themeTypeSubject.value !== type) {
-      this._themeTypeSubject.next(type);
-    }
+    setTheme(type);
   }
 
   get themeType(): M3ThemeType {
-    return this._themeTypeSubject.value;
+    return actualTheme();
   }
 
   set themeColor(type: string) {
@@ -167,6 +167,6 @@ export class M3DynamicThemeService {
   }
 
   get themeColor(): string {
-    return this._themeTypeSubject.value;
+    return this._themeColorSubject.value;
   }
 }

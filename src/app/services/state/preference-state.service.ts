@@ -8,8 +8,8 @@ import {
   shareReplay,
   take,
 } from 'rxjs';
-import { DbConfigService } from '../persistence/lg/db-config.service';
 import { InitService } from '../util/init.service';
+import { dataService } from 'app/base/db/data-service';
 
 export interface CacheStrategyAlways {
   type: 'always';
@@ -74,12 +74,9 @@ export class PreferenceStateService {
   readonly preferences$: Observable<CacheStrategyObject>;
   private readonly updatePreference$ = new Subject<CacheStrategyObject>();
 
-  constructor(
-    private dbConfig: DbConfigService,
-    private initService: InitService,
-  ) {
+  constructor(private initService: InitService) {
     this.preferences$ = concat(
-      this.dbConfig
+      dataService.config
         .get('cache-preferences')
         .pipe(map((v) => v?.value as CacheStrategyObject)),
       this.updatePreference$,
@@ -116,7 +113,7 @@ export class PreferenceStateService {
   }
 
   updatePreferences(preferences: CacheStrategyObject) {
-    this.dbConfig
+    dataService.config
       .createOrUpdate({ key: 'cache-preferences', value: preferences })
       .subscribe(() => this.updatePreference$.next(preferences));
   }

@@ -1,9 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  AppStateService,
-  Language,
-} from 'app/services/state/app-state.service';
+import { Language } from 'app/base/language/language';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
