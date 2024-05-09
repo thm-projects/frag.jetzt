@@ -23,14 +23,27 @@
       @for (tile of carousel.entries; track tile) {
         <mat-grid-tile
           [colspan]="
-            tile.window[windowClass]?.colspan ||
-            carousel.defaultEntryWindow.colspan
+            Math.min(
+              tile.window[windowClass]?.colspan ||
+                carousel.defaultEntryWindow.colspan,
+              carousel.window[windowClass].cols
+            )
           "
           [rowspan]="
-            tile.window[windowClass]?.rowspan ||
-            carousel.defaultEntryWindow.rowspan
+            Math.min(
+              tile.window[windowClass]?.rowspan ||
+                carousel.defaultEntryWindow.rowspan,
+              carousel.window[windowClass].cols
+            )
           ">
-          <mat-card style="width: 100%; height: 100%">
+          <mat-card
+            style="width: 100%; height: 100%"
+            [appearance]="'outlined'">
+            <img
+              mat-card-image
+              src="{{ tile.content.image.url }}"
+              alt="{{ tile.content.image.alt }}"
+              style="max-height: 50%; object-fit: contain" />
             <mat-card-header>
               <mat-card-title>
                 {{ tile.content.title[currentLanguage] }}

@@ -311,4 +311,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroyer))
       .subscribe();
   }
+
+  protected readonly Math = Math;
 }
