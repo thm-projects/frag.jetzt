@@ -4,6 +4,7 @@
   flex-direction: column;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   font-size: 100%;
 }
 
@@ -12,8 +13,9 @@
   font-size: 3.5em;
   font-weight: 700;
   color: var(--md-sys-color-primary);
-  line-height: 0.6em;
   letter-spacing: 2pt;
+  padding: 0;
+  margin: 0;
 }
 
 .subtitle {
@@ -24,5 +26,4 @@
   color: var(--md-sys-color-secondary);
   padding: 0;
   margin: 0;
-  line-height: 0.05em;
 }

@@ -1,7 +1,8 @@
 <m3-body-pane>
   <m3-supporting-pane
     priority="primary"
-    type="fixed">
+    type="fixed"
+    #supportingPaneComponent>
     <app-frag-jetzt-logo></app-frag-jetzt-logo>
     <div>
       <app-app-rating
@@ -15,5 +16,32 @@
   </m3-supporting-pane>
   <m3-supporting-pane
     priority="secondary"
-    type="flexible"></m3-supporting-pane>
+    type="flexible">
+    <mat-grid-list
+      [cols]="carousel.window[windowClass].cols"
+      [rowHeight]="carousel.window[windowClass].rowHeight">
+      @for (tile of carousel.entries; track tile) {
+        <mat-grid-tile
+          [colspan]="
+            tile.window[windowClass]?.colspan ||
+            carousel.defaultEntryWindow.colspan
+          "
+          [rowspan]="
+            tile.window[windowClass]?.rowspan ||
+            carousel.defaultEntryWindow.rowspan
+          ">
+          <mat-card style="width: 100%; height: 100%">
+            <mat-card-header>
+              <mat-card-title>
+                {{ tile.content.title[currentLanguage] }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <span>{{ tile.content.description[currentLanguage] }}</span>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  </m3-supporting-pane>
 </m3-body-pane>

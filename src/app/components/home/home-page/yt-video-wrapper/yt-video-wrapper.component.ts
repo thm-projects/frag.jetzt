@@ -4,8 +4,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { AppStateService } from '../../../../services/state/app-state.service';
 import { Language } from '../../../../services/http/languagetool.service';
+import { LanguageKey } from '../home-page-types';
 
-type LanguageKey = 'de' | 'en' | 'fr';
 const LanguageKeyToImageURL: { [A in LanguageKey]: string } = {
   de: '/assets/images/youtube-start_de.webp',
   en: '/assets/images/youtube-start_en.webp',
