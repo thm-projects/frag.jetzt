@@ -57,22 +57,22 @@
     fxLayout="row">
     <div
       class="flex-container book-room-container"
-      fxLayout="column"
-      fxLayoutGap="42px">
+      fxLayout="column">
       <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
       <div
-        class="flex-item"
+        class="flex-item flex-container"
         data-nosnippet
-        fxLayout="row">
+        fxLayout="column">
         <app-app-rating
+          class="flex-item"
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
-      </div>
-      <div
-        class="flex-item"
-        fxLayout="row"
-        fxLayoutAlign="flex-start center">
-        <app-new-landing></app-new-landing>
+        <div
+          class="flex-item"
+          fxLayout="row"
+          fxLayoutAlign="flex-start center">
+          <app-new-landing></app-new-landing>
+        </div>
       </div>
       <div class="flex-item yt-video-wrapper">
         <img

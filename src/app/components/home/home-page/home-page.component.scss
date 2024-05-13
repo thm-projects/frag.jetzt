@@ -5,46 +5,23 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
 $carousel-container-size: 450px;
 
 .flex-container {
-  flex-direction: column;
-}
+  display: flex;
+  gap: 1.75rem;
+  width: min-content;
 
-.book-room-container {
-  width: 500px;
+  .flex-item {
+    justify-content: center;
 
-  @media (max-width: 1700px) {
-    width: calc(100vw - 1600px + 500px);
-    min-width: 300px;
+    > iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    > img {
+      width: 100%;
+      height: 100%;
+    }
   }
-}
-
-.yt-video-wrapper {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 16 / 9;
-
-  > img {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
-    max-width: calc(100% - 1em);
-    margin-inline: 0.5em;
-    cursor: pointer;
-  }
-
-  > app-view-comment-data {
-    width: 100%;
-    display: inline-block;
-  }
-
-  > iframe {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
-  }
-}
-
-.content {
-  width: 100%;
 }
 
 .content-container {

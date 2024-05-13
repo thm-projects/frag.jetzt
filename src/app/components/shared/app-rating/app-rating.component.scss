@@ -1,14 +1,13 @@
-div {
-  margin: 1em;
-}
-
 h2 {
   text-align: center;
 }
 
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+
 button {
-  margin-top: 10px;
-  border-radius: 5px;
   font-size: 1em;
   width: 100%;
   background-color: transparent;
@@ -50,15 +49,17 @@ mat-icon.interactive {
 }
 
 .star-preview {
-  justify-content: center;
   color: var(--md-sys-color-highlight-yellow);
   display: flex;
   align-items: center;
   font-size: 1em;
-  width: max-content;
-  margin: 0 auto;
+  width: 100%;
+  justify-content: space-between;
 
   .star {
+    font-size: 1.7em;
+    width: 1em;
+    height: 1em;
     color: var(--md-sys-color-highlight-yellow);
   }
 }
