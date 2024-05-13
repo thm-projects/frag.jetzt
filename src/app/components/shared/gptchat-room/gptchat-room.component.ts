@@ -201,8 +201,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
   chatModels: (typeof ChatCompletionModels)[number][] = [
-    'gpt-3.5-turbo',
-    'gpt-4-turbo',
+    ...ChatCompletionModels,
   ];
   prettifyModel = this.translateModel.bind(this);
   enterEvent = this.onEnter.bind(this);
@@ -1031,7 +1030,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.addMessage(index).subscribe();
         const errorIndex = index + 1;
         const error = this.conversation[errorIndex];
-        console.error('Error at index ' + errorIndex + ': ' + error.message);
+        console.error(
+          'Error at index ' + errorIndex + ': ' + error?.message || error,
+        );
         let errorMessage = e.message ? e.message : e;
         if (e instanceof HttpErrorResponse) {
           const data = JSON.parse(e.error || null);

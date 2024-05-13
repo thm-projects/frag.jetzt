@@ -340,6 +340,8 @@
     "model-description-gpt-4": "Modèle le plus récent et le plus puissant avec environ 8 000 caractères Contexte",
     "model-gpt-4-turbo": "GPT-4 »Turbo«",
     "model-description-gpt-4-turbo": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
+    "model-gpt-4o": "GPT-4o",
+    "model-description-gpt-4o": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
     "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
     "title-answer": "ChatGPT répond …",
     "interrupt": "Arrêter la sortie",
