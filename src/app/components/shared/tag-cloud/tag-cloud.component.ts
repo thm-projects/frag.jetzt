@@ -183,6 +183,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private deviceState: DeviceStateService,
     private roomState: RoomStateService,
   ) {
+    this.initNavigation();
     this.keywordExtractor = new KeywordExtractor(this.injector);
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
@@ -248,7 +249,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngAfterContentInit() {
     this.sessionService.onReady.subscribe(() => {
-      this.initNavigation();
       this.translateService
         .get('tag-cloud.demo-data-topic')
         .subscribe((text) => {
@@ -799,6 +799,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNormalNavigation() {
+    // TODO: Remove old
     const list: ComponentRef<unknown>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {

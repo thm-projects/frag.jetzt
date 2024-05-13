@@ -23,7 +23,7 @@
           </button>
           @if (state === "drawer") {
             <span class="m3-nav-drawer-title">
-              {{ navigation().title }}
+              {{ navigation()?.title }}
             </span>
           }
         </div>
@@ -128,6 +128,7 @@
       [icon]="entry.icon"
       [title]="entry.title"
       [svgIcon]="entry.svgIcon"
+      [endSwitch]="entry.switchState"
       [endIcon]="entry.forward ? 'arrow_forward' : ''"></app-m3-label>
   }
 </ng-template>

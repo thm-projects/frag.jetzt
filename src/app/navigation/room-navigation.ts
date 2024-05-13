@@ -458,6 +458,7 @@ export const getRoomNavigation = (
                 ]);
                 return false;
               },
+              switchState: false,
             },
             isRealMod && {
               id: 'my-view',
@@ -471,6 +472,7 @@ export const getRoomNavigation = (
                 ]);
                 return false;
               },
+              switchState: true,
             },
           ].filter(Boolean),
         });

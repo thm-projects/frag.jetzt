@@ -85,12 +85,12 @@ mat-drawer-container {
     --mat-sidenav-container-width: #{$drawer-size};
   }
 
-  &.mat-drawer-container-explicit-backdrop ::ng-deep mat-drawer-content,
-  &.none ::ng-deep mat-drawer-content {
+  &.mat-drawer-container-explicit-backdrop > ::ng-deep mat-drawer-content,
+  &.none > ::ng-deep mat-drawer-content {
     margin-left: 0 !important;
   }
 
-  ::ng-deep mat-drawer-content {
+  > ::ng-deep mat-drawer-content {
     margin-left: var(--mat-sidenav-container-width) !important;
     height: 100%;
   }

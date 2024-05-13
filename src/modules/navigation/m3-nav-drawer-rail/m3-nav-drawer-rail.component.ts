@@ -44,6 +44,7 @@ interface RailDrawerEntry {
   onClick: () => void;
   activated: boolean;
   forward?: boolean;
+  switchState?: boolean;
 }
 
 interface Section {
@@ -267,7 +268,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     this.navigation()?.sections.forEach((entry) => {
       if (entry.kind === 'navigation') {
         barData.push({
-          tracker: entry,
+          tracker: entry.id,
           title: entry.title,
           options: entry.entries.map((nav) => ({
             title: nav.title,
@@ -282,7 +283,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       // option
       barData.push({
         title: entry.title,
-        tracker: entry,
+        tracker: entry.id,
         options: entry.options.map((opt) => ({
           title: opt.title,
           icon: opt.icon,
@@ -290,6 +291,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
           onClick: 'onClick' in opt ? opt.onClick : () => this.forward(opt),
           activated: false,
           forward: 'options' in opt,
+          switchState: opt['switchState'],
         })),
       });
     });

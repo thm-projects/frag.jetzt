@@ -500,7 +500,7 @@ export class WordCloudComponent<T extends WordMeta>
       weights: [],
     };
     sheet.insertRule(
-      '.spacyTagCloudContainer, body, #rescale_screen {' +
+      '.spacyTagCloudContainer1, body, #rescale_screen {' +
         ' background-color: var(--tag-cloud-background-color, unset);' +
         ' }',
       sheet.cssRules.length,

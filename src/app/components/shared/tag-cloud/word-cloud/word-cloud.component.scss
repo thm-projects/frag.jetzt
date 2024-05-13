@@ -1,24 +1,20 @@
 @use "sass:math";
 
-.word-cloud-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-image: url('/assets/images/radar.svg'), url('/assets/images/radar.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
+.custom-background {
   width: 100%;
   height: 100%;
-  z-index: 0;
-  filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
+  position: absolute;
+
+  ::ng-deep .dot {
+    fill: red;
+  }
 
   &.brainstorm {
-    background-image: url('/assets/images/clouds.svg');
+    background-image: url("/assets/images/clouds.svg");
     filter: unset;
 
     &.dark {
-      background-image: url('/assets/images/dark-theme-brainstorm.jpeg');
+      background-image: url("/assets/images/dark-theme-brainstorm.jpeg");
     }
   }
 }
@@ -33,7 +29,9 @@
     line-height: math.div(1, 1.2);
     opacity: 0;
     z-index: 0;
-    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg)) scale(var(--scale, 1)) scale(var(--offset-scale, 1));
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px))
+      rotate(var(--rot, 0deg)) scale(var(--scale, 1))
+      scale(var(--offset-scale, 1));
     user-select: none;
     text-transform: var(--tag-cloud-transform, unset);
     font-family: var(--tag-cloud-font-family, unset);
@@ -41,7 +39,9 @@
     font-style: var(--tag-cloud-font-style, unset);
 
     &.visible {
-      transition: opacity ease var(--fadeInTime, 0ms), transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
+      transition:
+        opacity ease var(--fadeInTime, 0ms),
+        transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
       opacity: 1;
       border-radius: 20px;
     }

@@ -1,10 +1,12 @@
-<div [ngClass]="{'brainstorm': !isRadar, 'dark': isDark()}"
-     class="word-cloud-image">
-</div>
-<div #wordCloud
-     class="word-cloud"
-     (window:resize)="redraw()"
-     (document:mouseover)="onMouseEvent($event)"
-     (document:mouseout)="onMouseEvent($event)"
-     (document:click)="onMouseEvent($event)">
-</div>
+<mat-icon
+  [class.brainstorm]="!isRadar"
+  [class.dark]="isDark()"
+  class="custom-background"
+  svgIcon="fj_radar"></mat-icon>
+<div
+  #wordCloud
+  class="word-cloud"
+  (window:resize)="redraw()"
+  (document:mouseover)="onMouseEvent($event)"
+  (document:mouseout)="onMouseEvent($event)"
+  (document:click)="onMouseEvent($event)"></div>

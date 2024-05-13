@@ -89,6 +89,7 @@ export interface M3NavigationOptionEntry extends Identifiable {
   onClick: () => boolean;
   icon?: string;
   svgIcon?: string;
+  switchState?: boolean;
 }
 
 // Utilities
