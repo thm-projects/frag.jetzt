@@ -3,7 +3,7 @@ $rail-size: 96px;
 $drawer-size: 280px;
 
 .m3-navigation-drawer-labels > app-m3-label {
-  width: calc(var(--mat-sidenav-container-width) - 28px);
+  width: calc(var(--nav-drawer-width) - 28px);
   margin-left: 12px;
 }
 
@@ -14,9 +14,7 @@ $rail-label-padding: 8px;
   }
 
   > app-m3-label {
-    width: calc(
-      var(--mat-sidenav-container-width) - #{2 * $rail-label-padding}
-    );
+    width: calc(var(--nav-drawer-width) - #{2 * $rail-label-padding});
     margin-left: #{$rail-label-padding};
   }
 }
@@ -26,6 +24,7 @@ mat-drawer-container {
   height: 100%;
 
   mat-drawer {
+    width: var(--nav-drawer-width);
     transition: width 500ms var(--md-sys-motion-easing-emphasized);
     background-color: var(
       --md-sys-color-surface3
@@ -74,15 +73,15 @@ mat-drawer-container {
   }
 
   &.none {
-    --mat-sidenav-container-width: 0;
+    --nav-drawer-width: 0;
   }
 
   &.rail {
-    --mat-sidenav-container-width: #{$rail-size};
+    --nav-drawer-width: #{$rail-size};
   }
 
   &.drawer {
-    --mat-sidenav-container-width: #{$drawer-size};
+    --nav-drawer-width: #{$drawer-size};
   }
 
   &.mat-drawer-container-explicit-backdrop > ::ng-deep mat-drawer-content,
@@ -91,7 +90,7 @@ mat-drawer-container {
   }
 
   > ::ng-deep mat-drawer-content {
-    margin-left: var(--mat-sidenav-container-width) !important;
+    margin-left: var(--nav-drawer-width) !important;
     height: 100%;
   }
 }

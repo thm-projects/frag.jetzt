@@ -1,8 +1,12 @@
-<mat-icon
-  [class.brainstorm]="!isRadar"
-  [class.dark]="isDark()"
-  class="custom-background"
-  svgIcon="fj_radar"></mat-icon>
+@if (isRadar) {
+  <mat-icon
+    class="custom-background"
+    svgIcon="fj_radar"></mat-icon>
+} @else {
+  <div
+    class="background-image"
+    [class.dark]="isDark()"></div>
+}
 <div
   #wordCloud
   class="word-cloud"

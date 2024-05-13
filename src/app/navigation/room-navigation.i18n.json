@@ -43,8 +43,7 @@
         "quota": "Quota-Management",
         "selection": "Modellauswahl"
       },
-      "switchView": "Teilnehmeransicht",
-      "myView": "Meine Ansicht"
+      "switchView": "Teilnehmeransicht"
     }
   },
   "en": {
@@ -90,8 +89,7 @@
         "quota": "Quota Management",
         "selection": "Model Selection"
       },
-      "switchView": "Participant View",
-      "myView": "My View"
+      "switchView": "Participant View"
     }
   },
   "fr": {
@@ -137,8 +135,7 @@
         "quota": "Gestion des Quotas",
         "selection": "Sélection du Modèle"
       },
-      "switchView": "Vue des Participants",
-      "myView": "Ma Vue"
+      "switchView": "Vue des Participants"
     }
   }
 }

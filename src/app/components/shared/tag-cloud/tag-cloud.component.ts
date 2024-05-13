@@ -20,7 +20,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
-import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
@@ -39,7 +38,6 @@ import {
 } from './word-cloud/word-cloud.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
-import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
@@ -88,7 +86,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../../../navigation/room-navigation';
+import { applyRadarNavigation } from './navigation/word.cloud-navigation';
 
 class TagComment implements WordMeta {
   constructor(
@@ -785,59 +783,19 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    applyRoomNavigation(this.injector)
-      .pipe(takeUntil(this.destroyer))
-      .subscribe();
     if (this.brainstormingActive) {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.brainstormingData = room.brainstormingSession;
         this.initBrainstormingNavigation();
       });
     } else {
-      this.initNormalNavigation();
+      applyRadarNavigation(this.injector, () => {
+        this.drawer.toggle();
+        return true;
+      })
+        .pipe(takeUntil(this.destroyer))
+        .subscribe();
     }
-  }
-
-  private initNormalNavigation() {
-    // TODO: Remove old
-    const list: ComponentRef<unknown>[] = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'format_paint',
-          class: 'material-icons-filled',
-          text: 'header.tag-cloud-config',
-          callback: () => this.drawer.toggle(),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'handyman',
-          class: 'material-icons-outlined',
-          text: 'header.tag-cloud-administration',
-          callback: () =>
-            this.dialog.open(TopicCloudAdministrationComponent, {
-              data: {
-                userRole: this.userRole,
-              },
-            }),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'auto_fix_high',
-          class: 'material-icons-outlined',
-          text: 'header.update-spacy-keywords',
-          callback: () =>
-            WorkerConfigDialogComponent.addTask(this.dialog, this.room),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-      },
-    );
-    this.onDestroyListener.subscribe(() => {
-      list.forEach((e) => e.destroy());
-    });
   }
 
   private initBrainstormingNavigation() {

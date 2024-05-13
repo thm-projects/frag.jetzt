@@ -448,31 +448,22 @@ export const getRoomNavigation = (
                 },
               ],
             },
-            isMod && {
+            (isMod || isRealMod) && {
               id: 'switch-view',
               title: i18n.options.switchView,
               icon: 'groups_3',
               onClick: () => {
-                router.navigate([
-                  `/participant/room/${shortId}${url.substring(urlEndIndex)}`,
-                ]);
-                return false;
-              },
-              switchState: false,
-            },
-            isRealMod && {
-              id: 'my-view',
-              title: i18n.options.myView,
-              icon: 'groups_3',
-              onClick: () => {
-                const userRole =
-                  currentRole === 'Moderator' ? 'moderator' : 'creator';
+                let userRole = 'participant';
+                if (!isMod) {
+                  userRole =
+                    currentRole === 'Moderator' ? 'moderator' : 'creator';
+                }
                 router.navigate([
                   `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
                 ]);
                 return false;
               },
-              switchState: true,
+              switchState: isRealMod,
             },
           ].filter(Boolean),
         });

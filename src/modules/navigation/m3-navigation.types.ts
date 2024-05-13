@@ -60,7 +60,9 @@ export interface M3NavigationSection extends Identifiable {
   entries: M3NavigationEntry[];
 }
 
-export interface M3NavigationEntry extends Identifiable {
+export interface M3NavigationEntry
+  extends Identifiable,
+    Partial<Pick<M3NavigationNestedOptionSection, 'options'>> {
   title: string;
   smallTitle?: string;
   onClick: () => boolean;
@@ -147,4 +149,30 @@ export const addAround = (
   }
   container.splice(before ? index : index + 1, 0, elem as any);
   return true;
+};
+
+export const getById = (
+  template: M3NavigationTemplate,
+  id: string,
+): NavigationElements => {
+  const idStack = id.split('.');
+  let container: ContainerType = template.sections;
+  while (idStack.length > 1) {
+    const currentId = idStack.shift();
+    const current = container.find(
+      (c) => c.id === currentId,
+    ) as ContainerType[number];
+    if (!current) {
+      return null;
+    }
+    if ('entries' in current) {
+      container = current.entries;
+    } else if ('options' in current) {
+      container = current.options;
+    } else {
+      return null;
+    }
+  }
+  const currentId = idStack.shift();
+  return container.find((c) => c.id === currentId);
 };

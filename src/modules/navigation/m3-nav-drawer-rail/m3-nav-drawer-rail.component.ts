@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   M3NavigationEntry,
   M3NavigationNestedOptionSection,
+  getById,
 } from '../m3-navigation.types';
 import { CommonModule, Location } from '@angular/common';
 import { M3LabelComponent } from '../m3-label/m3-label.component';
@@ -79,7 +80,18 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   protected fab = FAB_BUTTON.asReadonly();
   protected showBack = input(true);
   protected isSmall = computed(() => windowWatcher.windowState() === 'compact');
-  protected stack = signal<M3NavigationNestedOptionSection[]>([]);
+  protected stack = signal<M3NavigationNestedOptionSection['id'][]>([]);
+  protected drawerTitle = computed(() => {
+    const stack = this.stack();
+    const navigation = this.navigation();
+    if (!navigation) {
+      return null;
+    }
+    if (stack.length) {
+      return getById(navigation, this.makeId(stack.length)).title;
+    }
+    return navigation.title;
+  });
   /**
    *
    * menu -> (click on entry -> push stack, offset = 1)
@@ -206,16 +218,26 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
     this.stateOffset.set(-1);
     this.finishLastAnim = () => {
       this.stack.update((stack) => {
+        if (stack.length < 3) {
+          return [];
+        }
         return stack.slice(0, stack.length - 1);
       });
       this.stateOffset.set(0);
     };
   }
 
-  protected forward(e: M3NavigationNestedOptionSection) {
+  forward(parentId: string, e: M3NavigationNestedOptionSection) {
     this.finishLastAnim?.();
+    if (this.openState() !== 'drawer') {
+      this.openState.set('drawer');
+    }
     this.stack.update((stack) => {
-      return [...stack, e];
+      if (stack.length > 0) {
+        return [...stack, e.id];
+      } else {
+        return [parentId, e.id];
+      }
     });
     this.stateOffset.set(1);
     this.finishLastAnim = () => this.stateOffset.set(0);
@@ -238,7 +260,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       return barData;
     }
     const stack = this.stack();
-    if (stack.length > Number(previous)) {
+    if (stack.length > Number(previous) * 2) {
       this.appendStackEntry(barData, stack, previous);
       return barData;
     }
@@ -274,7 +296,15 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
             title: nav.title,
             icon: nav.icon,
             svgIcon: nav.svgIcon,
-            onClick: nav.onClick,
+            forward: nav.activated && 'options' in nav,
+            onClick:
+              nav.activated && 'options' in nav
+                ? () =>
+                    this.forward(
+                      entry.id,
+                      nav as M3NavigationNestedOptionSection,
+                    )
+                : nav.onClick,
             activated: nav.activated,
           })),
         });
@@ -288,7 +318,8 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
           title: opt.title,
           icon: opt.icon,
           svgIcon: opt.svgIcon,
-          onClick: 'onClick' in opt ? opt.onClick : () => this.forward(opt),
+          onClick:
+            'onClick' in opt ? opt.onClick : () => this.forward(entry.id, opt),
           activated: false,
           forward: 'options' in opt,
           switchState: opt['switchState'],
@@ -319,49 +350,68 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
         ],
       });
     }
-    const navigations = this.navigation()?.sections.reduce((acc, e) => {
-      if (e.kind !== 'navigation') {
+    const navigations = this.navigation()?.sections.reduce(
+      (acc, e) => {
+        if (e.kind !== 'navigation') {
+          return acc;
+        }
+        acc.push(
+          ...e.entries.map(
+            (entry) => [e.id, entry] as [string, M3NavigationEntry],
+          ),
+        );
         return acc;
-      }
-      acc.push(...e.entries);
-      return acc;
-    }, [] as M3NavigationEntry[]);
+      },
+      [] as [string, M3NavigationEntry][],
+    );
     if (!navigations) return;
     const maxElements = 7;
     const navs = navigations.slice(0, maxElements);
-    const index = navigations.findIndex((e) => e.activated);
+    const index = navigations.findIndex((e) => e[1].activated);
     if (index > maxElements - 1) {
       navs[maxElements - 1] = navigations[index];
     }
     barData.push({
       tracker: RAIL_TRACKER,
-      options: navs.map((nav) => ({
+      options: navs.map(([parentId, nav]) => ({
         title: nav.title,
         icon: nav.icon,
         svgIcon: nav.svgIcon,
-        onClick: nav.onClick,
         activated: nav.activated,
+        onClick:
+          nav.activated && 'options' in nav
+            ? () =>
+                this.forward(parentId, nav as M3NavigationNestedOptionSection)
+            : nav.onClick,
+        forward: nav.activated && 'options' in nav,
       })),
     });
   }
 
   private appendStackEntry(
     barData: Section[],
-    stack: M3NavigationNestedOptionSection[],
+    stack: M3NavigationNestedOptionSection['id'][],
     previous: boolean,
   ) {
     const index = previous ? stack.length - 2 : stack.length - 1;
-    const tracker = stack[index];
-    const options = tracker.options.map((opt) => ({
+    const trackId = this.makeId(index + 1);
+    const data = getById(
+      this.navigation(),
+      trackId,
+    ) as M3NavigationNestedOptionSection;
+    const options = data.options.map((opt) => ({
       title: opt.title,
       icon: opt.icon,
       svgIcon: opt.svgIcon,
-      onClick: 'onClick' in opt ? opt.onClick : () => this.forward(opt),
+      onClick: 'onClick' in opt ? opt.onClick : () => this.forward('', opt),
       activated: false,
       forward: 'options' in opt,
     }));
     options.unshift({
-      title: index < 1 ? i18n().mainMenu : stack[index - 1].title,
+      title:
+        index < 1
+          ? i18n().mainMenu
+          : getById(this.navigation(), this.makeId(index)).title,
       icon: 'arrow_back',
       svgIcon: '',
       onClick: () => this.backward(),
@@ -369,9 +419,15 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       forward: false,
     });
     barData.push({
-      tracker,
+      tracker: trackId,
       options,
     });
+  }
+
+  private makeId(len: number) {
+    return this.stack()
+      .slice(0, len)
+      .reduce((acc, e) => (acc ? acc + '.' + e : e), '');
   }
 
   private canGoBack() {
