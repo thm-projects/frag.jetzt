@@ -2,3 +2,14 @@
 :host {
   @extend .page-container;
 }
+
+.flex-container {
+  width: min-content;
+  justify-content: center;
+  display: flex;
+  gap: 1.5em;
+
+  > app-room-list {
+    align-self: center;
+  }
+}
