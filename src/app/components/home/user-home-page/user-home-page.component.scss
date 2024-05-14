@@ -1,15 +1,7 @@
-@import "styles-prod";
-:host {
-  @extend .page-container;
-}
-
 .flex-container {
+  display: flex;
   width: min-content;
   justify-content: center;
-  display: flex;
   gap: 1.5em;
-
-  > app-room-list {
-    align-self: center;
-  }
+  flex-direction: column;
 }

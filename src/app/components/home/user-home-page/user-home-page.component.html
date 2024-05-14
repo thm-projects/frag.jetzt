@@ -5,22 +5,18 @@
       [onSuccess]="onRate.bind(this)"
       [ratingResults]="accumulatedRatings"></app-app-rating>
   </ng-container>
-  <app-room-join class="flex-item"></app-room-join>
-  <button
+  <div
     class="flex-item"
-    [disabled]="!this.sessionService.isReady"
-    mat-flat-button
-    (click)="openCreateRoomDialog()"
-    id="create_session-button">
-    <mat-icon>add</mat-icon>
-    {{ "home-page.create-session" | translate }}
-  </button>
-  <app-room-list class="flex-item"></app-room-list>
-  <button
-    id="live_announcer-button"
-    tabIndex="-1"
-    (click)="announce()"
-    class="visually-hidden flex-item">
-    {{ "home-page.live-announcer-user" | translate }}
-  </button>
+    fxLayout="row"
+    fxLayoutAlign="flex-start center">
+    <app-new-landing></app-new-landing>
+  </div>
 </div>
+<app-room-list></app-room-list>
+<button
+  id="live_announcer-button"
+  tabIndex="-1"
+  (click)="announce()"
+  class="visually-hidden">
+  {{ "home-page.live-announcer-user" | translate }}
+</button>

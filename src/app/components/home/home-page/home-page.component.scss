@@ -13,11 +13,15 @@ $carousel-container-size: 450px;
     justify-content: center;
 
     > iframe {
+      border-radius: 4px;
+      aspect-ratio: 16 / 9;
       width: 100%;
       height: 100%;
     }
 
     > img {
+      border-radius: 4px;
+      aspect-ratio: 16 / 9;
       width: 100%;
       height: 100%;
     }

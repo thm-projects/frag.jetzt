@@ -1,6 +1,7 @@
-<div class="column content-center items-center gap-medium grow">
-  <app-room-join></app-room-join>
+<div class="column content-center items-center gap-medium grow flex-container">
+  <app-room-join class="flex-item"></app-room-join>
   <button
+    class="flex-item"
     [joyrideStep]="'createRoom'"
     appJoyrideTemplate
     [stepPosition]="'top'"
