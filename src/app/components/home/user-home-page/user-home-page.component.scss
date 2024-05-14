@@ -1,4 +1,14 @@
-@import "styles-prod";
 :host {
-  @extend .page-container;
+  display: flex;
+  gap: 1.5em;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-container {
+  display: flex;
+  width: min-content;
+  justify-content: center;
+  gap: 1.5em;
+  flex-direction: column;
 }

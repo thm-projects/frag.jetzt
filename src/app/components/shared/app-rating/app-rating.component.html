@@ -21,19 +21,27 @@
   <span
     #spanRef
     (click)="openPopup()"
-    class="star-preview">
-    <mat-icon
-      style="cursor: pointer"
-      *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined star"
-      [ngClass]="getIconAccumulated(index)">
-      {{ getIconAccumulated(index) }}
-    </mat-icon>
-    <mat-icon style="cursor: pointer">expand_more</mat-icon>
-    {{ people }}
-    <span
-      *ngIf="indicator.status"
-      style="margin-inline: 0.75em"></span>
-    <app-global-status-indicator #indicator></app-global-status-indicator>
+    class="star-preview flex-container"
+    [ngStyle]="{
+      justifyContent: indicator.status ? 'space-between' : 'center'
+    }">
+    <span class="flex-container">
+      <mat-icon
+        style="cursor: pointer"
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="material-icons-outlined star flex-item"
+        [ngClass]="getIconAccumulated(index)">
+        {{ getIconAccumulated(index) }}
+      </mat-icon>
+      <mat-icon
+        class="flex-item"
+        style="cursor: pointer">
+        expand_more
+      </mat-icon>
+      {{ people }}
+    </span>
+    <app-global-status-indicator
+      class="flex-item"
+      #indicator></app-global-status-indicator>
   </span>
 </ng-template>
