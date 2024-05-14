@@ -73,25 +73,25 @@
           fxLayoutAlign="flex-start center">
           <app-new-landing></app-new-landing>
         </div>
-      </div>
-      <div class="flex-item yt-video-wrapper">
-        <img
-          (click)="isAccepted = true"
-          *ngIf="!isAccepted"
-          [src]="imageSrc"
-          alt="" />
-        <iframe
-          style="border-radius: 15px"
-          *ngIf="isAccepted"
-          (window:resize)="onResize()"
-          (load)="onResize()"
-          #scaledIframe
-          allowfullscreen
-          tabindex="0"
-          frameBorder="0"
-          data-verified="true"
-          title=""
-          [src]="iframeSrc"></iframe>
+        <div class="flex-item yt-video-wrapper">
+          <img
+            (click)="isAccepted = true"
+            *ngIf="!isAccepted"
+            [src]="imageSrc"
+            alt="" />
+          <iframe
+            style="border-radius: 15px"
+            *ngIf="isAccepted"
+            (window:resize)="onResize()"
+            (load)="onResize()"
+            #scaledIframe
+            allowfullscreen
+            tabindex="0"
+            frameBorder="0"
+            data-verified="true"
+            title=""
+            [src]="iframeSrc"></iframe>
+        </div>
       </div>
     </div>
     <div
