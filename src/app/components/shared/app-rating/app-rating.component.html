@@ -22,7 +22,9 @@
     #spanRef
     (click)="openPopup()"
     class="star-preview flex-container"
-    [ngStyle]="{ justifyContent: alignCenter ? 'center' : 'space-between' }">
+    [ngStyle]="{
+      justifyContent: indicator.status ? 'space-between' : 'center'
+    }">
     <span class="flex-container">
       <mat-icon
         style="cursor: pointer"

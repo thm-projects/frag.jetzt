@@ -12,7 +12,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { RatingService } from '../../../services/http/rating.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
-import { SessionService } from 'app/services/util/session.service';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -27,7 +26,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   @Input() rating: Rating = undefined;
-  @Input() alignCenter: boolean = false;
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
@@ -39,7 +37,6 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   private destroyer = new ReplaySubject(1);
 
   constructor(
-    private sessionService: SessionService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private readonly accountState: AccountStateService,
@@ -64,13 +61,6 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sessionService
-      .getGlobalData()
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => {
-        this.alignCenter = !data;
-      });
-
     if (!this.canSubmit()) {
       return;
     }
