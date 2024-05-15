@@ -1,6 +1,7 @@
 @use "../../../style/m3-layout" as m3-layout;
 
 :host-context(.type-flexible) {
+  max-width: 1600px;
   flex-grow: 1;
 }
 

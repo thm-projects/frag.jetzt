@@ -119,8 +119,8 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.Large]: {
-        colspan: 2,
-        rowspan: 2,
+        colspan: 1,
+        rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
         colspan: 2,

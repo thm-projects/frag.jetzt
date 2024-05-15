@@ -46,6 +46,18 @@
 <div
   id="debugger"
   *ngIf="__debugger.isExtended">
+  <div
+    class="row content-space-between"
+    (click)="__debugger.__options['toggleExtension']()">
+    <a
+      mat-icon-button
+      href="https://i.imgur.com/u8RGnMR.gif">
+      <mat-icon>more_vert</mat-icon>
+    </a>
+    <button mat-icon-button>
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+  </div>
   <mat-chip
     *ngFor="let option of __debugger.self"
     (click)="option[1]()">

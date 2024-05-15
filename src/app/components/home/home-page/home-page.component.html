@@ -2,22 +2,26 @@
   <m3-supporting-pane
     priority="primary"
     type="fixed"
+    style="position: static"
     #supportingPaneComponent>
-    <app-frag-jetzt-logo></app-frag-jetzt-logo>
-    <div>
-      <app-app-rating
-        *ngIf="accumulatedRatings"
-        [ratingResults]="accumulatedRatings"></app-app-rating>
+    <div class="sticky">
+      <app-frag-jetzt-logo></app-frag-jetzt-logo>
+      <div>
+        <app-app-rating
+          *ngIf="accumulatedRatings"
+          [ratingResults]="accumulatedRatings"></app-app-rating>
+      </div>
+      <div>
+        <app-new-landing></app-new-landing>
+      </div>
+      <app-yt-video-wrapper></app-yt-video-wrapper>
     </div>
-    <div>
-      <app-new-landing></app-new-landing>
-    </div>
-    <app-yt-video-wrapper></app-yt-video-wrapper>
   </m3-supporting-pane>
   <m3-supporting-pane
     priority="secondary"
     type="flexible">
     <mat-grid-list
+      [gutterSize]="'12px'"
       [cols]="carousel.window[windowClass].cols"
       [rowHeight]="carousel.window[windowClass].rowHeight">
       @for (tile of carousel.entries; track tile) {
@@ -39,11 +43,19 @@
           <mat-card
             style="width: 100%; height: 100%"
             [appearance]="'outlined'">
-            <img
-              mat-card-image
-              src="{{ tile.content.image.url }}"
-              alt="{{ tile.content.image.alt }}"
-              style="max-height: 50%; object-fit: contain" />
+            <div
+              style="
+                flex-grow: 1;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+              ">
+              <img
+                mat-card-image
+                style="height: 100%; align-self: center; padding: 8px"
+                src="{{ tile.content.image.url }}"
+                alt="{{ tile.content.image.alt }}" />
+            </div>
             <mat-card-header>
               <mat-card-title>
                 {{ tile.content.title[currentLanguage] }}
