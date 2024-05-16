@@ -14,8 +14,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { applyRoomNavigation } from 'app/components/shared/room-page/room-navigation';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { applyRoomNavigation } from 'app/navigation/room-navigation';
 
 @Component({
   selector: 'app-moderator-comment-page',

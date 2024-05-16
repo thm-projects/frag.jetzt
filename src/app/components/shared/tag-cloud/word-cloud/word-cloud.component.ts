@@ -9,6 +9,7 @@ import {
   Renderer2,
   SimpleChanges,
   ViewChild,
+  computed,
 } from '@angular/core';
 import { FontInfoService } from '../../../../services/util/font-info.service';
 import {
@@ -20,7 +21,7 @@ import {
   CloudDrawFuncType,
   WordCloudDrawFunctions,
 } from './word-cloud-draw-functions';
-import { ThemeService } from '../../../../../theme/theme.service';
+import { actualTheme } from 'app/base/theme/theme';
 
 export interface WordMeta {
   text: string;
@@ -81,6 +82,7 @@ export class WordCloudComponent<T extends WordMeta>
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.Lowest;
   @Input() parameters: CloudParameters = null;
+  protected isDark = computed(() => actualTheme() === 'dark');
   private _elements: ActiveWord<T, CloudDrawFuncType<T>>[] = [];
   private _cssStyleElement: HTMLStyleElement;
   private _styleIndexes: StyleDeclarations;
@@ -89,7 +91,6 @@ export class WordCloudComponent<T extends WordMeta>
   constructor(
     private renderer2: Renderer2,
     private fontInfoService: FontInfoService,
-    public themeService: ThemeService,
   ) {}
 
   ngOnDestroy() {
@@ -296,10 +297,6 @@ export class WordCloudComponent<T extends WordMeta>
     this.left.emit(activeWord);
   }
 
-  isDark() {
-    return this.themeService.currentTheme?.isDark ?? true;
-  }
-
   private isAlreadyCreated(
     obsoleteElements: { word: ActiveWord<T>; index: number }[],
     dataEntry: T,
@@ -500,7 +497,7 @@ export class WordCloudComponent<T extends WordMeta>
       weights: [],
     };
     sheet.insertRule(
-      '.spacyTagCloudContainer, body, #rescale_screen {' +
+      '.spacyTagCloudContainer1, body, #rescale_screen {' +
         ' background-color: var(--tag-cloud-background-color, unset);' +
         ' }',
       sheet.cssRules.length,

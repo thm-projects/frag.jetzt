@@ -67,6 +67,10 @@ $max-collapsed-width: 300px;
     }
   }
 
+  &.switch {
+    padding-right: 8px !important;
+  }
+
   > ::ng-deep .mat-mdc-button-touch-target {
     height: 56px;
   }

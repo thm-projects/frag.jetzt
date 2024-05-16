@@ -1,6 +1,7 @@
 @if (active()) {
   <button
     mat-flat-button
+    [class.switch]="!endIcon() && endSwitch() !== undefined"
     [class.collapsed]="collapsed()"
     class="label-large">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
@@ -8,6 +9,7 @@
 } @else {
   <button
     mat-button
+    [class.switch]="!endIcon() && endSwitch() !== undefined"
     [class.collapsed]="collapsed()"
     class="label-large">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
@@ -29,6 +31,10 @@
     @if (endIcon(); as icon) {
       <span class="m3-nav-label-end">
         <mat-icon>{{ icon }}</mat-icon>
+      </span>
+    } @else if (endSwitch() !== undefined) {
+      <span class="m3-nav-label-end">
+        <mat-slide-toggle [checked]="endSwitch()"></mat-slide-toggle>
       </span>
     }
   }

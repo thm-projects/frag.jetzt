@@ -66,18 +66,18 @@
     class="m3-nav-footer"
     [class.hide]="hideBottomBar()">
     <mat-toolbar-row>
-      @for (nav of bottomBarData(); track nav; let index = $index) {
+      @for (navArr of bottomBarData(); track navArr[1].id; let index = $index) {
         <app-m3-label
           class="m3-nav-footer-animated"
-          [active]="nav.activated"
+          [active]="navArr[1].activated"
           [style]="'--i: ' + index + ';'"
           [class.show]="!hideBottomBar()"
           [smallLabel]="true"
-          (click)="nav.onClick()"
-          [icon]="nav.icon"
+          (click)="this.forward(navArr[0], navArr[1])"
+          [icon]="navArr[1].icon"
           [collapsed]="true"
-          [svgIcon]="nav.svgIcon"
-          [title]="nav.title"></app-m3-label>
+          [svgIcon]="navArr[1].svgIcon"
+          [title]="navArr[1].title"></app-m3-label>
       }
     </mat-toolbar-row>
   </mat-toolbar>
@@ -90,6 +90,7 @@
   let-elements="elements">
   <button
     mat-icon-button
+    [matTooltip]="i18n().more"
     [matMenuTriggerFor]="more">
     <mat-icon>more_vert</mat-icon>
   </button>
@@ -98,23 +99,27 @@
       @if (elem.onClick) {
         <button
           mat-menu-item
+          [disabled]="elem.disabled"
           (click)="elem.onClick()">
-          <mat-icon>{{ elem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
           {{ elem.title }}
         </button>
       } @else {
         <button
           mat-menu-item
           [matMenuTriggerFor]="temp">
-          <mat-icon>{{ elem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
           {{ elem.title }}
         </button>
         <mat-menu #temp="matMenu">
           @for (innerElem of elem.items; track innerElem) {
             <button
               mat-menu-item
+              [disabled]="elem.disabled"
               (click)="innerElem.onClick()">
-              <mat-icon>{{ innerElem.icon }}</mat-icon>
+              <mat-icon [svgIcon]="innerElem.svgIcon">
+                {{ innerElem.icon }}
+              </mat-icon>
               {{ innerElem.title }}
             </button>
           }
@@ -131,22 +136,26 @@
     <button
       [matTooltip]="elem.title"
       mat-icon-button
+      [disabled]="elem.disabled"
       (click)="elem.onClick()">
-      <mat-icon>{{ elem.icon }}</mat-icon>
+      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
     </button>
   } @else {
     <button
       [matTooltip]="elem.title"
       mat-icon-button
       [matMenuTriggerFor]="temp">
-      <mat-icon>{{ elem.icon }}</mat-icon>
+      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
     </button>
     <mat-menu #temp="matMenu">
       @for (innerElem of elem.items; track innerElem) {
         <button
           mat-menu-item
+          [disabled]="innerElem.disabled"
           (click)="innerElem.onClick()">
-          <mat-icon>{{ innerElem.icon }}</mat-icon>
+          <mat-icon [svgIcon]="innerElem.svgIcon">
+            {{ innerElem.icon }}
+          </mat-icon>
           {{ innerElem.title }}
         </button>
       }

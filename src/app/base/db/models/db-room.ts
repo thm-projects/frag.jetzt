@@ -1,5 +1,5 @@
 import { Room } from 'app/models/room';
-import { DbStore, ValidKey } from './lg-persist.schema.types';
+import { DbStore, ValidKey } from '../data.types';
 
 export const ROOM_SCHEMA = {
   type: Room,

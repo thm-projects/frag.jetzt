@@ -1,23 +1,50 @@
+<div
+  style="display: none"
+  [joyrideStep]="'greeting'"
+  appJoyrideTemplate
+  [stepPosition]="'center'"></div>
 <m3-body-pane>
-  <m3-supporting-pane
-    priority="primary"
-    type="fixed"
-    style="position: static"
-    #supportingPaneComponent>
-    <div class="sticky">
-      <app-frag-jetzt-logo></app-frag-jetzt-logo>
-      <div>
+  <m3-supporting-pane class="input-pane">
+    <div
+      class="flex-container book-room-container"
+      fxLayout="column">
+      <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
+      <div
+        class="flex-item flex-container"
+        data-nosnippet
+        fxLayout="column">
         <app-app-rating
+          class="flex-item"
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
+        <div
+          class="flex-item"
+          fxLayout="row"
+          fxLayoutAlign="flex-start center">
+          <app-new-landing></app-new-landing>
+        </div>
+        <div class="flex-item yt-video-wrapper">
+          <img
+            (click)="isAccepted = true"
+            *ngIf="!isAccepted"
+            [src]="imageSrc"
+            alt="" />
+          <iframe
+            style="border-radius: 15px"
+            *ngIf="isAccepted"
+            #scaledIframe
+            allowfullscreen
+            tabindex="0"
+            frameBorder="0"
+            data-verified="true"
+            title=""
+            [src]="iframeSrc"></iframe>
+        </div>
       </div>
-      <div>
-        <app-new-landing></app-new-landing>
-      </div>
-      <app-yt-video-wrapper></app-yt-video-wrapper>
     </div>
   </m3-supporting-pane>
   <m3-supporting-pane
+    class="grid-pane"
     priority="secondary"
     type="flexible">
     <mat-grid-list

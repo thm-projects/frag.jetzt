@@ -27,6 +27,7 @@ import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { LanguageKey } from './home-page-types';
 import { M3WindowSizeClass } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -78,6 +79,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   listenerFn: () => void;
 
   accumulatedRatings: RatingResult;
+  isAccepted = false;
+  iframeSrc: SafeUrl;
+  imageSrc: string;
 
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
@@ -102,11 +106,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appState: AppStateService,
     public readonly themeService: ThemeService,
+    sanitizer: DomSanitizer,
   ) {
     this.emitNavigation();
-    appState.language$
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((language) => (this._currentLanguage = language));
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      this._currentLanguage = lang;
+      this.imageSrc = this.getImageByLang(lang);
+      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
+        this.getVideoByLang(lang),
+      );
+    });
     themeService
       .getTheme()
       .pipe(
@@ -310,6 +319,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
     applyDefaultNavigation(this.injector)
       .pipe(takeUntil(this._destroyer))
       .subscribe();
+  }
+
+  private getImageByLang(lang: string) {
+    if (lang === 'de') {
+      return '/assets/images/youtube-start_de.webp';
+    } else if (lang === 'fr') {
+      return '/assets/images/youtube-start_fr.webp';
+    }
+    return '/assets/images/youtube-start_en.webp';
+  }
+
+  private getVideoByLang(lang: string) {
+    if (lang === 'de') {
+      return 'https://www.youtube-nocookie.com/embed/de8UG1oeH30';
+    } else if (lang === 'fr') {
+      return 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw';
+    }
+    return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
   }
 
   protected readonly Math = Math;

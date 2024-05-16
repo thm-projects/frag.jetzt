@@ -1,5 +1,5 @@
 import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
-import { DbStore, ValidKey } from './lg-persist.schema.types';
+import { DbStore, ValidKey } from '../data.types';
 
 export const ROOM_ROLE_ORDER = ['Participant', 'Moderator', 'Creator'] as const;
 export type RoomAccessRole = (typeof ROOM_ROLE_ORDER)[number];

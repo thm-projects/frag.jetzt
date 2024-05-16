@@ -1,24 +1,22 @@
-<div class="column gap-medium">
-  <app-room-join></app-room-join>
-  <button
-    [disabled]="!this.sessionService.isReady"
-    mat-flat-button
-    (click)="openCreateRoomDialog()"
-    id="create_session-button">
-    <mat-icon>add</mat-icon>
-    {{ "home-page.create-session" | translate }}
-  </button>
+<div class="column gap-medium flex-container">
   <ng-container *ngIf="!loadingRatings">
     <app-app-rating
+      class="flex-item"
       [onSuccess]="onRate.bind(this)"
       [ratingResults]="accumulatedRatings"></app-app-rating>
   </ng-container>
-  <app-room-list></app-room-list>
-  <button
-    id="live_announcer-button"
-    tabIndex="-1"
-    (click)="announce()"
-    class="visually-hidden">
-    {{ "home-page.live-announcer-user" | translate }}
-  </button>
+  <div
+    class="flex-item"
+    fxLayout="row"
+    fxLayoutAlign="flex-start center">
+    <app-new-landing></app-new-landing>
+  </div>
 </div>
+<app-room-list></app-room-list>
+<button
+  id="live_announcer-button"
+  tabIndex="-1"
+  (click)="announce()"
+  class="visually-hidden">
+  {{ "home-page.live-announcer-user" | translate }}
+</button>

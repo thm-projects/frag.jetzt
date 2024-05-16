@@ -12,12 +12,10 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import {
-  AVAILABLE_LANGUAGES,
-  AppStateService,
-} from 'app/services/state/app-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',

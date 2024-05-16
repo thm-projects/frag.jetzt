@@ -1,25 +1,72 @@
 @use "sass:math";
 
-.word-cloud-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-image: url('/assets/images/radar.svg'), url('/assets/images/radar.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
+.custom-background {
   width: 100%;
   height: 100%;
-  z-index: 0;
-  filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.5;
 
-  &.brainstorm {
-    background-image: url('/assets/images/clouds.svg');
-    filter: unset;
-
-    &.dark {
-      background-image: url('/assets/images/dark-theme-brainstorm.jpeg');
+  ::ng-deep {
+    .dot {
+      fill: var(--md-ref-palette-primary40);
     }
+
+    .rays {
+      stroke: var(--md-ref-palette-primary30);
+      fill: var(--md-ref-palette-primary20);
+    }
+
+    .circle {
+      stroke: var(--md-ref-palette-primary30);
+    }
+
+    .pulse-1 {
+      stop-color: var(--md-ref-palette-primary30);
+      stop-opacity: 0.2;
+    }
+
+    .pulse-2 {
+      stop-color: var(--md-ref-palette-primary40);
+      stop-opacity: 0.2;
+    }
+
+    .pulse-3 {
+      stop-opacity: 0;
+    }
+
+    .swipe-1 {
+      stop-color: var(--md-ref-palette-primary30);
+    }
+
+    .swipe-2 {
+      stop-color: var(--md-ref-palette-primary40);
+    }
+
+    .dot-1 {
+      stop-color: var(--md-ref-palette-primary80);
+    }
+
+    .dot-2 {
+      stop-color: var(--md-ref-palette-primary40);
+    }
+
+    .outer {
+      stop-color: var(--md-ref-palette-primary0);
+    }
+  }
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url("/assets/images/clouds.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  &.dark {
+    background-image: url("/assets/images/dark-theme-brainstorm.jpeg");
   }
 }
 
@@ -33,7 +80,9 @@
     line-height: math.div(1, 1.2);
     opacity: 0;
     z-index: 0;
-    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg)) scale(var(--scale, 1)) scale(var(--offset-scale, 1));
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px))
+      rotate(var(--rot, 0deg)) scale(var(--scale, 1))
+      scale(var(--offset-scale, 1));
     user-select: none;
     text-transform: var(--tag-cloud-transform, unset);
     font-family: var(--tag-cloud-font-family, unset);
@@ -41,7 +90,9 @@
     font-style: var(--tag-cloud-font-style, unset);
 
     &.visible {
-      transition: opacity ease var(--fadeInTime, 0ms), transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
+      transition:
+        opacity ease var(--fadeInTime, 0ms),
+        transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
       opacity: 1;
       border-radius: 20px;
     }

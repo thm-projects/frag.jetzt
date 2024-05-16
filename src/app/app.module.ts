@@ -229,6 +229,12 @@ export class AppModule {
       .addSvgIcon(
         'fj_beamer',
         domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/beamer.svg'),
+      )
+      .addSvgIcon(
+        'fj_radar',
+        domSanitizer.bypassSecurityTrustResourceUrl(
+          'assets/images/radar_clean.svg',
+        ),
       );
   }
 }

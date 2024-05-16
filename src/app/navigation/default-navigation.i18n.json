@@ -1,0 +1,126 @@
+{
+  "key": "default-navigation",
+  "de": {
+    "header": {
+      "myAccount": "Mein Konto",
+      "myStars": "Meine Bonus-Sterne",
+      "aiConsent": "KI Datenschutz",
+      "myAiPrompts": "Meine KI-Prompts",
+      "manageAccount": "Konto verwalten",
+      "deleteAccount": "Konto löschen",
+      "logout": "Abmelden",
+      "login": "Anmelden",
+      "language": "Sprache",
+      "languages": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch"
+      },
+      "theme": "Thema",
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "navigation": {
+      "title": "Navigation & Optionen",
+      "app": "Anwendung",
+      "home": "Startseite",
+      "myRooms": "Meine Räume",
+      "admin": "Administration"
+    },
+    "options": {
+      "about": "Über frag.jetzt",
+      "introTitle": "Einführung",
+      "intro": "Intro",
+      "tour": "Tour",
+      "feedbackTitle": "Feedback",
+      "feedbackRoom": "Feedback-Raum",
+      "rateApp": "App bewerten",
+      "news": "Neuigkeiten",
+      "dataProtection": "Datenschutz",
+      "imprint": "Impressum"
+    }
+  },
+  "en": {
+    "header": {
+      "myAccount": "My account",
+      "myStars": "My bonus stars",
+      "aiConsent": "AI privacy",
+      "myAiPrompts": "My AI prompts",
+      "manageAccount": "Manage account",
+      "deleteAccount": "Delete account",
+      "logout": "Logout",
+      "login": "Login",
+      "language": "Language",
+      "languages": {
+        "de": "German",
+        "en": "English",
+        "fr": "French"
+      },
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "navigation": {
+      "title": "Navigation & Options",
+      "app": "App",
+      "home": "Home",
+      "myRooms": "My rooms",
+      "admin": "Administration"
+    },
+    "options": {
+      "about": "About frag.jetzt",
+      "introTitle": "Introduction",
+      "intro": "Intro",
+      "tour": "Tour",
+      "feedbackTitle": "Feedback",
+      "feedbackRoom": "Feedback room",
+      "rateApp": "Rate app",
+      "news": "News",
+      "dataProtection": "Data protection",
+      "imprint": "Imprint"
+    }
+  },
+  "fr": {
+    "header": {
+      "myAccount": "Mon compte",
+      "myStars": "Mes étoiles bonus",
+      "aiConsent": "Confidentialité de l'IA",
+      "myAiPrompts": "Mes prompts de l'IA",
+      "manageAccount": "Gérer le compte",
+      "deleteAccount": "Supprimer le compte",
+      "logout": "Se déconnecter",
+      "login": "S'inscrire",
+      "language": "Langue",
+      "languages": {
+        "de": "Allemand",
+        "en": "Anglais",
+        "fr": "Français"
+      },
+      "theme": "Thème",
+      "light": "Lumière",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "navigation": {
+      "title": "Navigation & options",
+      "app": "Application",
+      "home": "Page d'accueil",
+      "myRooms": "Mes salles",
+      "admin": "Administration"
+    },
+    "options": {
+      "about": "À propos de frag.jetzt",
+      "introTitle": "Introduction",
+      "intro": "Intro",
+      "tour": "Tour",
+      "feedbackTitle": "Retour d'information",
+      "feedbackRoom": "Salle de rétroaction",
+      "rateApp": "Évaluer l'application",
+      "news": "Nouvelles",
+      "dataProtection": "Protection des données",
+      "imprint": "Empreinte"
+    }
+  }
+}

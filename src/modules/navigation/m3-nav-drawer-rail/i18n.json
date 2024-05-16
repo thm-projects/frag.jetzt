@@ -1,0 +1,15 @@
+{
+  "key": "m3-nav-drawer-rail",
+  "de": {
+    "back": "Zurück",
+    "mainMenu": "Hauptmenü"
+  },
+  "en": {
+    "back": "Back",
+    "mainMenu": "Main Menu"
+  },
+  "fr": {
+    "back": "Retour",
+    "mainMenu": "Menu principal"
+  }
+}
