@@ -37,7 +37,7 @@ https://youtu.be/de8UG1oeH30
 $$
 
 $$katex
-c = \\pm\\sqrt{a^2 + b^2}
+  \\int_{0}^{\\infty} x^{\\alpha-1} e^{-\\beta x} \\, dx = \\frac{\\Gamma(\\alpha)}{\\beta^\\alpha} + \\sum_{n=1}^{\\infty} \\frac{(-1)^n}{n!} \\left( \\frac{\\beta}{\\gamma} \\right)^{n \\alpha} \\int_{0}^{1} t^{n \\alpha - 1} (1-t)^{\\alpha-1} \\, dt
 $$
 
  Hier ein Test für inline-katex $c = \\pm\\sqrt{a^2 + b^2}$
