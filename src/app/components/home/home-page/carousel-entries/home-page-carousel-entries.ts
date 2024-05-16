@@ -39,7 +39,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.Large]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
@@ -70,7 +70,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.Large]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
@@ -78,24 +78,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
     },
-  },
-  {
-    content: {
-      title: {
-        en: 'Performance',
-        de: 'Performance',
-        fr: 'Performance',
-      },
-      description: {
-        en: 'Free yourself from the traffic on the OpenAI website! We directly query the OpenAI API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
-        de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die OpenAI-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
-        fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API OpenAI. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
-      },
-      image: {
-        url: '/assets/background/porsche.svg',
-      },
-    },
-    window: _1x1windowSize,
   },
   {
     content: {
@@ -167,6 +149,37 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
+        en: 'Performance',
+        de: 'Performance',
+        fr: 'Performance',
+      },
+      description: {
+        en: 'Free yourself from the traffic on the OpenAI website! We directly query the OpenAI API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
+        de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die OpenAI-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
+        fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API OpenAI. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
+      },
+      image: {
+        url: '/assets/background/porsche.svg',
+      },
+    },
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
+  },
+  {
+    content: {
+      title: {
         en: 'Write with AI!',
         de: 'Schreibe mit KI!',
         fr: "Écris avec l'IA !",
@@ -204,11 +217,11 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.Large]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -271,12 +284,12 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.Large]: {
-        colspan: 2,
-        rowspan: 2,
+        colspan: 1,
+        rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
-        rowspan: 2,
+        colspan: 1,
+        rowspan: 1,
       },
     },
   },
@@ -314,7 +327,20 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/quizzing-7.webp',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 2,
+        rowspan: 2,
+      },
+    },
   },
   {
     content: {
@@ -499,24 +525,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Price? Nothing.',
-        de: 'Der Preis? Nichts.',
-        fr: 'Le Prix ? Rien.',
-      },
-      description: {
-        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
-        de: 'frag.jetzt ist Open Source und wird als kostenloser Software-as-a-Service angeboten. Jeder Raum hat ein ChatGPT-Guthaben: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an unserer Studie teilnimmst. Dafür generiert der Chatbot Millionen von Wörtern! Wenn das nicht genug ist, kannst du mit deinem eigenen API-Key von OpenAI weitermachen.',
-        fr: "frag.jetzt est open source et offert comme un logiciel en tant que service gratuit. Chaque salle a un crédit ChatGPT : 5 $ de la part de OpenAI ou 20 $ de notre part si tu participes à notre étude. En échange, le chatbot génère des millions de mots ! Si ce n'est pas suffisant, tu peux continuer avec ta propre clé API de OpenAI.",
-      },
-      image: {
-        url: '/assets/background/dollars.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
         en: 'Token credit',
         de: 'Token-Guthaben',
         fr: 'Crédit en tokens',
@@ -530,7 +538,51 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/traffic-light.svg',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 2,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 2,
+        rowspan: 2,
+      },
+    },
+  },
+  {
+    content: {
+      title: {
+        en: 'Price? Nothing.',
+        de: 'Der Preis? Nichts.',
+        fr: 'Le Prix ? Rien.',
+      },
+      description: {
+        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
+        de: 'frag.jetzt ist Open Source und wird als kostenloser Software-as-a-Service angeboten. Jeder Raum hat ein ChatGPT-Guthaben: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an unserer Studie teilnimmst. Dafür generiert der Chatbot Millionen von Wörtern! Wenn das nicht genug ist, kannst du mit deinem eigenen API-Key von OpenAI weitermachen.',
+        fr: "frag.jetzt est open source et offert comme un logiciel en tant que service gratuit. Chaque salle a un crédit ChatGPT : 5 $ de la part de OpenAI ou 20 $ de notre part si tu participes à notre étude. En échange, le chatbot génère des millions de mots ! Si ce n'est pas suffisant, tu peux continuer avec ta propre clé API de OpenAI.",
+      },
+      image: {
+        url: '/assets/background/dollars.svg',
+      },
+    },
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {

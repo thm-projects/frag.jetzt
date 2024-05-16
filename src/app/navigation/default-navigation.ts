@@ -62,7 +62,7 @@ export const getDefaultHeader = (
   ]).pipe(
     map(([user, i18n, theme]) => {
       return {
-        slogan: 'Du fragst. ChatGPT antwortet.',
+        slogan: 'Du fragst. KI antwortet.',
         options: [
           user
             ? {

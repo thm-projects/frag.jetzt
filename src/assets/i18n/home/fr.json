@@ -252,7 +252,7 @@
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. En tant qu'invité, tu peux uniquement créer des salles sans utiliser ChatGPT. Remarque : tes salles sont associées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles ChatGPT dans n'importe quel navigateur. N'oublie pas que les salles sont automatiquement supprimées après 180 jours d'inactivité.",
-    "home-header": "Tu demandes. ChatGPT répond.",
+    "home-header": "Tu demandes. IA répond.",
     "home-header-mobile": "Q&R en direct avec l'IA",
     "id": "Code ",
     "import-questions": "Importer des Q&R",
