@@ -6,7 +6,7 @@ function isM3PaneType(value: string): value is M3PaneType {
   return value === 'fixed' || value === 'flexible';
 }
 
-export function m3PaneTypeAttribute(value: unknown): M3PaneType {
+export function m3PaneTypeAttribute(value: M3PaneType | unknown): M3PaneType {
   return typeof value === 'string' && isM3PaneType(value)
     ? value
     : M3_DEFAULT_PANE_TYPE;

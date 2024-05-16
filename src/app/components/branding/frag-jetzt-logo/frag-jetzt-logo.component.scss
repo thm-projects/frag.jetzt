@@ -4,6 +4,7 @@
   flex-direction: column;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   font-size: 100%;
 }
 
@@ -20,8 +21,15 @@
 .subtitle {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 1.9em;
   font-weight: 400;
   color: var(--md-sys-color-secondary);
   line-height: 1.5em;
+
+  > mat-icon {
+    color: var(--md-sys-color-secondary);
+    width: 2em;
+    height: 2em;
+  }
 }

@@ -42,9 +42,10 @@ export class M3NavigationComponent {
   protected navigation = NAVIGATION.asReadonly();
   protected fab = FAB_BUTTON.asReadonly();
   protected isSmall = computed(() => windowWatcher.windowState() === 'compact');
-  protected isExpanded = computed(
-    () => windowWatcher.windowState() === 'expanded',
-  );
+  protected isExpanded = computed(() => {
+    const state = windowWatcher.windowState();
+    return state !== 'compact' && state !== 'medium';
+  });
   protected drawerRail = viewChild(M3NavDrawerRailComponent);
   protected bottomData = computed(() => {
     return this.navigation()?.sections.reduce(

@@ -3,58 +3,10 @@
   [joyrideStep]="'greeting'"
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
-
-<div
-  class="background-container"
-  *ngIf="
-    contentContainer.offsetWidth > mobileBoundaryWidth &&
-    contentContainer.offsetHeight > mobileBoundaryHeight
-  ">
-  <div
-    class="background-image"
-    *ngFor="let background of carousel; index as i"
-    [ngStyle]="getBackgroundStyleForEntry(i)">
-    <div
-      *ngIf="contentContainer.offsetWidth > 1100"
-      class="foreground-container"
-      [ngStyle]="
-        getForegroundStyleForEntry(i, foregroundAnchor.offsetLeft)
-      "></div>
-  </div>
-</div>
-<div
-  *ngIf="
-    contentContainer.offsetWidth > mobileBoundaryWidth &&
-    contentContainer.offsetHeight > mobileBoundaryHeight
-  "
-  [ngClass]="
-    (contentContainer.offsetWidth < mobileBoundaryWidth ||
-    contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'mobile'
-      : 'desktop') +
-    ' ' +
-    (themeService.activeTheme?.key || 'undefined')
-  "></div>
-<div
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  class="content-container"
-  #contentContainer
-  [ngClass]="
-    (contentContainer.offsetWidth < mobileBoundaryWidth ||
-    contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'mobile'
-      : 'desktop') +
-    ' ' +
-    (themeService.activeTheme?.key || 'undefined') +
-    ' ' +
-    (contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'scroll-bound'
-      : ' ')
-  ">
-  <div
-    class="content"
-    fxLayout="row">
+<m3-body-pane>
+  <m3-supporting-pane
+    class="input-pane"
+    [class.mobile]="isMobile()">
     <div
       class="flex-container book-room-container"
       fxLayout="column">
@@ -82,8 +34,6 @@
           <iframe
             style="border-radius: 15px"
             *ngIf="isAccepted"
-            (window:resize)="onResize()"
-            (load)="onResize()"
             #scaledIframe
             allowfullscreen
             tabindex="0"
@@ -94,70 +44,58 @@
         </div>
       </div>
     </div>
-    <div
-      class="carousel-container-ghost"
-      *ngIf="
-        contentContainer.offsetWidth > mobileBoundaryWidth &&
-        contentContainer.offsetHeight > mobileBoundaryHeight
-      ">
-      <div class="carousel-anchor">
-        <div class="carousel-transform">
-          <div
-            class="carousel-scroll"
-            [ngStyle]="carouselOffset"
-            #carouselScrollElement>
-            <ng-container *ngFor="let entry of carousel; index as i">
-              <div
-                class="carousel-entry"
-                *ngIf="getEntryKind(i) as kind"
-                [ngClass]="kind"
-                [ngStyle]="getStyleForEntry(i, kind)"
-                role="button"
-                #entryElement>
-                <div
-                  mat-ripple
-                  class="carousel-pointer"
-                  (click)="selectEntry(i)"
-                  [ngStyle]="{ 'height.px': content.offsetHeight }">
-                  <div
-                    class="pointer"
-                    [ngClass]="getPositionClass(i)">
-                    <div class="point"></div>
-                  </div>
-                </div>
-                <div
-                  mat-ripple
-                  [matRippleColor]="'rgba(123,123,123,0.1)'"
-                  class="carousel-content"
-                  (click)="selectEntry(i)"
-                  #content>
-                  <div
-                    fxLayout="row"
-                    fxLayoutAlign="space-between center">
-                    <!--                    <span class="carousel-entry-title">-->
-                    <span matCardTitle>
-                      {{ entry.title[currentLanguage] }}
-                    </span>
-                  </div>
-                  <span matCardSubtitle>
-                    {{ entry.description[currentLanguage] }}
-                  </span>
-                </div>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div #foregroundAnchor></div>
-  </div>
-</div>
-
-<div class="visually-hidden">
-  <div
-    data-nosnippet
-    id="feedback-aria"
-    style="display: none">
-    {{ "login.feedback-aria" | translate }}
-  </div>
-</div>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    class="grid-pane"
+    priority="secondary"
+    type="flexible">
+    <mat-grid-list
+      [gutterSize]="'12px'"
+      [cols]="carousel.window[windowClass].cols"
+      [rowHeight]="carousel.window[windowClass].rowHeight">
+      @for (tile of carousel.entries; track tile) {
+        <mat-grid-tile
+          [colspan]="
+            Math.min(
+              tile.window[windowClass]?.colspan ||
+                carousel.defaultEntryWindow.colspan,
+              carousel.window[windowClass].cols
+            )
+          "
+          [rowspan]="
+            Math.min(
+              tile.window[windowClass]?.rowspan ||
+                carousel.defaultEntryWindow.rowspan,
+              carousel.window[windowClass].cols
+            )
+          ">
+          <mat-card
+            style="width: 100%; height: 100%"
+            [appearance]="'raised'">
+            <div
+              style="
+                flex-grow: 1;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+              ">
+              <img
+                mat-card-image
+                style="height: 100%; align-self: center; padding: 8px"
+                src="{{ tile.content.image.url }}"
+                alt="{{ tile.content.image.alt }}" />
+            </div>
+            <mat-card-header>
+              <mat-card-title>
+                {{ tile.content.title[currentLanguage] }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <span>{{ tile.content.description[currentLanguage] }}</span>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  </m3-supporting-pane>
+</m3-body-pane>

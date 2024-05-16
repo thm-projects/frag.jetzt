@@ -22,7 +22,7 @@ export class M3SupportingPaneComponent {
     this._type = type;
   }
 
-  get type() {
+  get type(): M3PaneType {
     return this._type;
   }
 
@@ -33,7 +33,7 @@ export class M3SupportingPaneComponent {
     this._priority = value;
   }
 
-  get priority() {
+  get priority(): M3PanePriority {
     return this._priority;
   }
 

@@ -1,13 +1,12 @@
 import {
   Component,
   ElementRef,
-  HostListener,
+  inject,
   Injector,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -22,13 +21,22 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { Router } from '@angular/router';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+import { LanguageKey } from './home-page-types';
+import { M3WindowSizeClass } from '../../../../modules/m3/components/navigation/m3-navigation-types';
+import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
+
+export interface Tile {
+  color: string;
+  cols: number;
+  rows: number;
+  text: string;
+}
 
 @Component({
   selector: 'app-home-page',
@@ -38,17 +46,47 @@ export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 export class HomePageComponent implements OnInit, OnDestroy {
   @ViewChild('carouselScrollElement')
   _carouselScrollElement: ElementRef<HTMLDivElement>;
-  @ViewChild('scaledIframe')
-  scaledIframe: ElementRef<HTMLIFrameElement>;
+  @ViewChild('supportingPaneComponent', { read: HTMLElement })
+  supportingPaneComponent: HTMLElement;
+  tiles: Tile[] = [
+    { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
+    { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
+    { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
+    { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
+    { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
+    { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
+    { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
+    { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
+    { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
+    { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
+    { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
+    { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
+    { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
+    { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
+    { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
+    { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
+  ];
+
+  get supportingPaneOffset() {
+    if (!this.supportingPaneComponent) return {};
+    const rect = this.supportingPaneComponent.getBoundingClientRect();
+    return {
+      'left.px': rect.x,
+      'top.px': rect.y,
+    };
+  }
+
   listenerFn: () => void;
 
   accumulatedRatings: RatingResult;
+  isAccepted = false;
   iframeSrc: SafeUrl;
   imageSrc: string;
-  isAccepted = false;
 
-  currentLanguage: Language = 'en';
-
+  protected isMobile = () => {
+    const state = windowWatcher.windowState();
+    return state === 'compact' || state === 'medium';
+  };
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
   protected readonly mobileBoundaryHeight = 630;
@@ -59,6 +97,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private lastScrollMs: number = -1;
   private router = inject(Router);
   private injector = inject(Injector);
+  private _currentLanguage: LanguageKey = 'en';
 
   constructor(
     private translateService: TranslateService,
@@ -74,6 +113,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
     sanitizer: DomSanitizer,
   ) {
     this.emitNavigation();
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      this._currentLanguage = lang;
+      this.imageSrc = this.getImageByLang(lang);
+      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
+        this.getVideoByLang(lang),
+      );
+    });
     themeService
       .getTheme()
       .pipe(
@@ -81,38 +127,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
         takeUntil(this._destroyer),
       )
       .subscribe((x) => (this.currentTheme = x.key));
-    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
-      this.currentLanguage = lang;
-      this.isAccepted = false;
-      this.imageSrc = this.getImageByLang(lang);
-      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
-        this.getVideoByLang(lang),
-      );
-    });
-    const arrowEventListener = (event: KeyboardEvent) => {
-      if (!document.activeElement.hasAttribute('mat-menu-item')) {
-        switch (event.key) {
-          case 'ArrowUp':
-            this.setCarouselIndex(this.carouselIndex - 1);
-            break;
-          case 'ArrowDown':
-            this.setCarouselIndex(this.carouselIndex + 1);
-            break;
-          case 'ArrowLeft':
-            this.setCarouselIndex(this.carouselIndex - 1);
-            break;
-          case 'ArrowRight':
-            this.setCarouselIndex(this.carouselIndex + 1);
-            break;
-        }
-      }
-    };
-    window.addEventListener('keydown', arrowEventListener, true);
-    this._destroyer.subscribe(() => {
-      this.listenerFn?.();
-      this.eventService.makeFocusOnInputFalse();
-      window.removeEventListener('keydown', arrowEventListener);
-    });
+  }
+
+  get windowClass(): M3WindowSizeClass {
+    return windowWatcher.windowState();
   }
 
   get carouselOffset() {
@@ -128,40 +146,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * @desc touchpad scroll fires multiple events with different deltaY.\
-   * In order to limit the request amount, a time switch is added.
-   * @param wheel
-   */
-  @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
-    if (!wheel.ctrlKey && wheel.deltaY) {
-      if (
-        Math.abs(wheel.deltaY) === 120 ||
-        this.lastScrollMs === -1 ||
-        new Date().getTime() - this.lastScrollMs > 200
-      ) {
-        let changed = true;
-        if (wheel.deltaY > 0) {
-          this.setCarouselIndex(this.carouselIndex + 1);
-        } else if (wheel.deltaY < 0) {
-          this.setCarouselIndex(this.carouselIndex - 1);
-        } else {
-          changed = false;
-        }
-        if (changed) {
-          this.lastScrollMs = new Date().getTime();
-        }
-      }
-    }
-  }
-
-  onResize() {
-    const style = this.scaledIframe?.nativeElement;
-    if (!style) {
-      return;
-    }
-    const height = (parseFloat(getComputedStyle(style).width) * 9) / 16;
-    style.height = height.toFixed(2) + 'px';
+  get currentLanguage(): LanguageKey {
+    return this._currentLanguage;
   }
 
   getForegroundStyleForEntry(i: number, offsetLeft: number) {
@@ -333,32 +319,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectEntry(i: number) {
-    this.carouselIndex = i;
-  }
-
-  getPositionClass(i: number) {
-    let _class = '';
-    const offset = i - this.carouselIndex;
-    if (offset === -2 || offset === 2) {
-      _class = '';
-    } else {
-      _class += 'hide ';
-    }
-    if (offset === 0) _class += 'center';
-    else if (offset < 0) _class += 'bottom';
-    else _class += 'top';
-    return _class;
-  }
-
-  private setCarouselIndex(carouselIndex: number, throwError: boolean = false) {
-    if (carouselIndex < 0 || carouselIndex >= this.carousel.length) {
-      if (throwError) {
-        throw new Error();
-      }
-    } else {
-      this.carouselIndex = carouselIndex;
-    }
+  private emitNavigation() {
+    applyDefaultNavigation(this.injector)
+      .pipe(takeUntil(this._destroyer))
+      .subscribe();
   }
 
   private getImageByLang(lang: string) {
@@ -379,9 +343,5 @@ export class HomePageComponent implements OnInit, OnDestroy {
     return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
   }
 
-  private emitNavigation() {
-    applyDefaultNavigation(this.injector)
-      .pipe(takeUntil(this._destroyer))
-      .subscribe();
-  }
+  protected readonly Math = Math;
 }

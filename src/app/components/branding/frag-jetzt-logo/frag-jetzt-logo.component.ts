@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
 import { MatCard, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -12,6 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     MatCardSubtitle,
     MatCardTitle,
     TranslateModule,
+    MatIconModule,
   ],
   templateUrl: './frag-jetzt-logo.component.html',
   styleUrl: './frag-jetzt-logo.component.scss',

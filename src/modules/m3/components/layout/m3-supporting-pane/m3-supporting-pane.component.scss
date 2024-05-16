@@ -1,20 +1,7 @@
 @use "../../../style/m3-layout" as m3-layout;
 
-:host {
-  // https://m3.material.io/foundations/layout/applying-layout/large-extra-large#067c15dd-1f3c-42d4-8505-0b183a0bf7e7
-  //margin-right: var(--m3-sys-layout-spacing-pane);
-  //
-
-  //@include m3-layout.compact {
-  //  margin-left: var(--m3-sys-layout-spacing-pane);
-  //  & + .m3-supporting-pane {
-  //
-  //  }
-  //}
-}
-
 :host-context(.type-flexible) {
-  max-width: 1200px;
+  max-width: 1600px;
   flex-grow: 1;
 }
 

@@ -1,0 +1,9 @@
+:host {
+  width: 100%;
+
+  > img {
+    max-width: calc(100% - 1em);
+    margin-inline: 0.5em;
+    cursor: pointer;
+  }
+}
