@@ -83,6 +83,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   iframeSrc: SafeUrl;
   imageSrc: string;
 
+  protected isMobile = () => {
+    const state = windowWatcher.windowState();
+    return state === 'compact' || state === 'medium';
+  };
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
   protected readonly mobileBoundaryHeight = 630;

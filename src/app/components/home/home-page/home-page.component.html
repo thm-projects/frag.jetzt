@@ -4,7 +4,9 @@
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
 <m3-body-pane>
-  <m3-supporting-pane class="input-pane">
+  <m3-supporting-pane
+    class="input-pane"
+    [class.mobile]="isMobile()">
     <div
       class="flex-container book-room-container"
       fxLayout="column">
@@ -69,7 +71,7 @@
           ">
           <mat-card
             style="width: 100%; height: 100%"
-            [appearance]="'outlined'">
+            [appearance]="'raised'">
             <div
               style="
                 flex-grow: 1;
