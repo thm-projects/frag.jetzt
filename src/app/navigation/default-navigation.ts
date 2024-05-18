@@ -77,17 +77,17 @@ export const getDefaultHeader = (
                     },
                   },
                   {
-                    icon: 'policy',
-                    title: i18n.header.aiConsent,
-                    onClick: () => {
-                      openAIConsent(injector);
-                    },
-                  },
-                  {
                     svgIcon: 'fj_robot',
                     title: i18n.header.myAiPrompts,
                     onClick: () => {
                       router.navigate(['/gpt-prompts']);
+                    },
+                  },
+                  {
+                    icon: 'policy',
+                    title: i18n.header.aiConsent,
+                    onClick: () => {
+                      openAIConsent(injector);
                     },
                   },
                   {
