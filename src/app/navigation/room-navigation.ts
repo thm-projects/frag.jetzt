@@ -263,8 +263,8 @@ export const getRoomNavigation = (
         'main.my-rooms',
         {
           id: isMod ? 'room-home' : 'reception',
-          title: isMod ? i18n.roomHome : i18n.reception,
-          icon: isMod ? 'settings' : 'checkroom',
+          title: isMod ? i18n.reception : i18n.reception,
+          icon: isMod ? 'room' : 'room',
           onClick: () => {
             router.navigate([`/${role}/room/${shortId}/`]);
             return true;
@@ -290,7 +290,7 @@ export const getRoomNavigation = (
                 {
                   id: 'moderation',
                   title: i18n.options.qa.moderation,
-                  icon: 'visibility_off',
+                  icon: 'gavel',
                   onClick: () => {
                     openModeration(room, injector);
                     return false;

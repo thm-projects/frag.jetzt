@@ -1041,7 +1041,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'summarize',
+          icon: 'info',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-blacklist',
           callback: () => {

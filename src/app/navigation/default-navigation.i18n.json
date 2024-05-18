@@ -4,7 +4,7 @@
     "header": {
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
-      "aiConsent": "KI Datenschutz",
+      "aiConsent": "KI-Datenschutz",
       "myAiPrompts": "Meine KI-Prompts",
       "manageAccount": "Konto verwalten",
       "deleteAccount": "Konto löschen",
@@ -16,14 +16,14 @@
         "en": "Englisch",
         "fr": "Französisch"
       },
-      "theme": "Thema",
+      "theme": "Display",
       "light": "Hell",
       "dark": "Dunkel",
-      "system": "System"
+      "system": "Automatisch"
     },
     "navigation": {
       "title": "Navigation & Optionen",
-      "app": "Anwendung",
+      "app": "Orte",
       "home": "Startseite",
       "myRooms": "Meine Räume",
       "admin": "Administration"
@@ -57,14 +57,14 @@
         "en": "English",
         "fr": "French"
       },
-      "theme": "Theme",
+      "theme": "Display",
       "light": "Light",
       "dark": "Dark",
-      "system": "System"
+      "system": "Automatic"
     },
     "navigation": {
       "title": "Navigation & Options",
-      "app": "App",
+      "app": "Places",
       "home": "Home",
       "myRooms": "My rooms",
       "admin": "Administration"
@@ -98,14 +98,14 @@
         "en": "Anglais",
         "fr": "Français"
       },
-      "theme": "Thème",
+      "theme": "Display",
       "light": "Lumière",
       "dark": "Sombre",
-      "system": "Système"
+      "system": "Automatique"
     },
     "navigation": {
       "title": "Navigation & options",
-      "app": "Application",
+      "app": "Lieux",
       "home": "Page d'accueil",
       "myRooms": "Mes salles",
       "admin": "Administration"

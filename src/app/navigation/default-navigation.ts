@@ -237,7 +237,7 @@ export const getDefaultNavigation = (
           {
             id: 'intro',
             title: i18n.options.introTitle,
-            icon: 'summarize',
+            icon: 'info',
             options: [
               {
                 id: 'demo',

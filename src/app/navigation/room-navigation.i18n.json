@@ -5,9 +5,9 @@
     "qaPseudonym": "Q&A Pseudonym",
     "features": {
       "title": "Features",
-      "forum": "Q&A Forum",
+      "forum": "Q&A-Forum",
       "flashpoll": "Blitzumfrage",
-      "assistant": "KI Assistenten",
+      "assistant": "KI-Assistenten",
       "focus": "Fragen-Fokus",
       "radar": "Fragen-Radar",
       "brainstorming": "Brainstorming",
@@ -15,13 +15,13 @@
       "moderation": "Moderation"
     },
     "reception": "Empfang",
-    "roomHome": "Startseite Raum",
+    "roomHome": "Aktueller Raum",
     "options": {
       "title": "Einstellungen",
       "qa": {
         "title": "Q&A",
         "moderation": "Moderationsmodus",
-        "conversation": "Forumkonversation",
+        "conversation": "Forumskonversation",
         "categorys": "Fragenkategorien",
         "bonusArchive": "Bonusarchiv",
         "disableComments": "Fragenstellen sperren",
@@ -61,7 +61,7 @@
       "moderation": "Moderation"
     },
     "reception": "Reception",
-    "roomHome": "Room Homepage",
+    "roomHome": "Current Room",
     "options": {
       "title": "Settings",
       "qa": {
@@ -107,7 +107,7 @@
       "moderation": "Modération"
     },
     "reception": "Réception",
-    "roomHome": "Page d'Accueil de la Salle",
+    "roomHome": "Salle Actuelle",
     "options": {
       "title": "Options",
       "qa": {
