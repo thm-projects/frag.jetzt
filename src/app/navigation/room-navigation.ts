@@ -430,7 +430,7 @@ export const getRoomNavigation = (
                 {
                   id: 'quota',
                   title: i18n.options.ai.quota,
-                  icon: 'payments',
+                  icon: 'payment',
                   onClick: () => {
                     console.log('Quota clicked');
                     openAISettings(room, injector);
