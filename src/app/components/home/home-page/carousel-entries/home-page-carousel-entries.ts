@@ -43,7 +43,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -74,7 +74,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -471,60 +471,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Progressive App',
-        de: 'Progressive App',
-        fr: 'App Progressive',
-      },
-      description: {
-        en: "Imagine an app that requires no downloads or updates, adapts perfectly to any device, and can even be installed on your laptop. That's frag.jetzt, our Progressive Web App (PWA). Install it directly on your home screen and always enjoy the latest version. Smart, simple, forward-thinking.",
-        de: 'Stell dir eine App vor, die keine Downloads oder Updates benötigt, sich perfekt an jedes Gerät anpasst und sogar auf deinem Laptop installiert werden kann. Das ist frag.jetzt, unsere Progressive Web App (PWA). Installiere sie direkt auf deinem Startbildschirm und genieße immer die aktuellste Version. Smart, einfach, zukunftsorientiert.',
-        fr: "Imagine une application qui ne nécessite aucun téléchargement ou mise à jour, qui s'adapte parfaitement à n'importe quel appareil et qui peut même être installée sur ton laptop. C'est frag.jetzt, notre application Web progressive (PWA). Installe-la directement sur ton écran d'accueil et profite toujours de la dernière version. Intelligent, simple, tourné vers l'avenir.",
-      },
-      image: {
-        url: '/assets/background/PWA.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
-        en: 'GDPR',
-        de: 'DSGVO',
-        fr: 'RGPD',
-      },
-      description: {
-        en: "frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
-        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Beachte: Die Nutzung von ChatGPT erfordert die Annahme der Datenschutzerklärung von OpenAI.',
-        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
-      },
-      image: {
-        url: '/assets/background/europa.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
-        en: 'Learn more …',
-        de: 'Mehr erfahren …',
-        fr: 'En savoir plus …',
-      },
-      description: {
-        en: "Nice that you've made it this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
-        de: 'Schön, dass du bis hierher gekommen bist! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Geh jetzt auf Entdeckungsreise!',
-        fr: "C'est bien que tu sois arrivé jusqu'ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
-      },
-      image: {
-        url: '/assets/background/info.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
         en: 'Token credit',
         de: 'Token-Guthaben',
         fr: 'Crédit en tokens',
@@ -545,11 +491,11 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       [M3WindowSizeClass.Large]: {
         colspan: 1,
-        rowspan: 2,
+        rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
-        rowspan: 2,
+        colspan: 1,
+        rowspan: 1,
       },
     },
   },
@@ -579,7 +525,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -598,6 +544,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/all-inclusive.svg',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
+        en: 'GDPR',
+        de: 'DSGVO',
+        fr: 'RGPD',
+      },
+      description: {
+        en: "frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
+        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Beachte: Die Nutzung von ChatGPT erfordert die Annahme der Datenschutzerklärung von OpenAI.',
+        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
+      },
+      image: {
+        url: '/assets/background/europa.svg',
       },
     },
     window: _1x1windowSize,
