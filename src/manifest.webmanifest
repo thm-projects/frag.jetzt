@@ -1,9 +1,10 @@
 {
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
-  "description": "Digitalizing the way we ask questions",
+  "description": "Digitizing how we ask questions and get answers from AI chatbots",
   "categories": [
     "ChatGPT",
+    "AI Tutoring",
     "Education",
     "Q&A",
     "Feedback",
@@ -58,7 +59,7 @@
     }
   ],
   "theme_color": "#ffffff",
-  "background_color": "#018000",
+  "background_color": "#1c1c1e",
   "scope": "/",
   "start_url": "/home",
   "id": "/home",
