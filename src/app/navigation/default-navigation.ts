@@ -62,7 +62,7 @@ export const getDefaultHeader = (
   ]).pipe(
     map(([user, i18n, theme]) => {
       return {
-        slogan: 'Du fragst. KI antwortet.',
+        slogan: '',
         options: [
           user
             ? {
@@ -70,17 +70,17 @@ export const getDefaultHeader = (
                 title: i18n.header.myAccount,
                 items: [
                   {
-                    icon: 'grade',
-                    title: i18n.header.myStars,
-                    onClick: () => {
-                      UserBonusTokenComponent.openDialog(dialog, user.id);
-                    },
-                  },
-                  {
                     svgIcon: 'fj_robot',
                     title: i18n.header.myAiPrompts,
                     onClick: () => {
                       router.navigate(['/gpt-prompts']);
+                    },
+                  },
+                  {
+                    icon: 'grade',
+                    title: i18n.header.myStars,
+                    onClick: () => {
+                      UserBonusTokenComponent.openDialog(dialog, user.id);
                     },
                   },
                   {

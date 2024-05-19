@@ -20,14 +20,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Q&A Rooms with AI',
-        de: 'Q&A-Räume mit KI',
-        fr: 'Salles Q&R avec IA',
+        en: 'Q&A Rooms with AI Assistants',
+        de: 'Q&A-Räume mit KI-Assistenten',
+        fr: 'Salles Q&R avec Assistants IA',
       },
       description: {
-        en: "Let ChatGPT answer all knowledge questions. Your prompt presets, by which you narrow down the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-        de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben, mit denen du das Thema eines Raumes eingrenzt, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-        fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, qui te permettent de délimiter le thème d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+        en: "Let AI assistants answer your knowledge questions. Your prompts, with which you define the topic of a room and your learning objectives, ensure precise and individual answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+        de: 'Lass deine Wissensfragen von KI-Assistenten beantworten. Deine Prompts, mit denen du das Thema eines Raumes und deine Lernziele festlegst, sorgen für präzise und individuelle Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie KI dich effizienter macht!',
+        fr: "Laisse les assistants IA répondre à tes questions de connaissances. Tes prompts, avec lesquels tu définis le sujet d'une salle et tes objectifs d'apprentissage, garantissent des réponses précises et individuelles. Une vérification rapide des faits, et tu t'es épargné des heures de travail. Découvre comment l'IA te rend plus efficace !",
       },
       image: {
         url: '/assets/background/chat_bot_green.svg',
@@ -56,9 +56,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Prompting',
       },
       description: {
-        en: 'You can set the context for the users of your room and the role you want ChatGPT to take. Also, the format and scope of the responses. With keywords, you limit the chat to the topic of your event. The bot will reject inappropriate or unwanted questions in a friendly but firm way.',
-        de: 'Du kannst für die User deines Raumes den Kontext festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
-        fr: "Tu peux définir pour les utilisateurs de ta salle le contexte et le rôle que ChatGPT doit jouer. De même que le format et l'étendue des réponses. Avec des mots-clés, tu limites le chat au thème de ton événement. Le bot refuse gentiment, mais fermement les questions inappropriées ou indésirables.",
+        en: 'You can define the role that the AI assistant should play in your room. Also the format and scope of its responses. You can use keywords to focus the chat on a specific topic. The assistant rejects inappropriate questions in a friendly manner.',
+        de: 'Du kannst die Rolle festlegen, die der KI-Assistent in deinem Raum spielen soll. Auch das Format und den Umfang seiner Antworten. Mit Schlüsselwörtern fokussierst du den Chat auf ein Thema. Unpassende Fragen weist der Assistent freundlich zurück.',
+        fr: "Tu peux définir le rôle que l'assistant IA doit jouer dans ta salle. De même que le format et la portée de ses réponses. Avec des mots-clés, tu focalises le chat sur un thème. L'assistant rejette gentiment les questions inappropriées.",
       },
       image: {
         url: '/assets/background/prompting.svg',
@@ -123,7 +123,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
       },
       image: {
-        url: '/assets/background/graduation-cap.svg',
+        url: '/assets/background/teaching.svg',
       },
     },
     window: _1x1windowSize,
@@ -141,7 +141,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Laisse-toi interroger par ChatGPT avant de passer l'examen : affronte l'IA dans un duel de quiz !",
       },
       image: {
-        url: '/assets/background/books.svg',
+        url: '/assets/background/learning.svg',
       },
     },
     window: _1x1windowSize,
@@ -190,7 +190,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
       },
       image: {
-        url: '/assets/background/paper.svg',
+        url: '/assets/background/keyboard.png',
       },
     },
     window: _1x1windowSize,
