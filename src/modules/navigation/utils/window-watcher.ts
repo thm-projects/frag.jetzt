@@ -12,6 +12,9 @@ class WindowWatcher {
   private readonly medium: MediaQueryList = matchMedia('(max-width: 839px)');
   private readonly expanded: MediaQueryList = matchMedia('(max-width: 1199px)');
   private readonly large: MediaQueryList = matchMedia('(max-width: 1599px)');
+  private readonly extraLarge: MediaQueryList = matchMedia(
+    '(max-width: 2559px)',
+  );
   private readonly state = signal<M3WindowSizeClass>(this.getCurrentState());
 
   constructor() {
@@ -20,6 +23,7 @@ class WindowWatcher {
     this.medium.addEventListener('change', () => this.update());
     this.expanded.addEventListener('change', () => this.update());
     this.large.addEventListener('change', () => this.update());
+    this.extraLarge.addEventListener('change', () => this.update());
   }
 
   private update() {
@@ -43,7 +47,10 @@ class WindowWatcher {
     if (this.large.matches) {
       return M3WindowSizeClass.Large;
     }
-    return M3WindowSizeClass.ExtraLarge;
+    if (this.extraLarge.matches) {
+      return M3WindowSizeClass.ExtraLarge;
+    }
+    return M3WindowSizeClass.QHD;
   }
 }
 export const windowWatcher = new WindowWatcher();

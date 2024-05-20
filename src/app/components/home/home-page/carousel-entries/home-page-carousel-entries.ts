@@ -14,6 +14,10 @@ const _1x1windowSize: HomePageCarouselEntry['window'] = {
     colspan: 1,
     rowspan: 1,
   },
+  [M3WindowSizeClass.QHD]: {
+    colspan: 1,
+    rowspan: 1,
+  },
 };
 
 export const homePageCarouselEntries: HomePageCarouselEntry[] = [
@@ -44,6 +48,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       [M3WindowSizeClass.ExtraLarge]: {
         colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
         rowspan: 1,
       },
     },
@@ -77,6 +85,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 1,
+      },
     },
   },
   {
@@ -108,6 +120,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 2,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 2,
+      },
     },
   },
   {
@@ -126,7 +142,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/learning.svg',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
@@ -144,7 +177,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/keyboard.png',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
@@ -193,6 +243,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 1,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 3,
+        rowspan: 2,
+      },
     },
   },
   {
@@ -239,6 +293,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
         colspan: 1,
         rowspan: 1,
       },
@@ -309,6 +367,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 1,
+        rowspan: 1,
+      },
     },
   },
   {
@@ -340,6 +402,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 2,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 3,
+        rowspan: 3,
+      },
     },
   },
   {
@@ -358,7 +424,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/feedback.webp',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
@@ -412,7 +495,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/question_radar.svg',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
@@ -497,6 +597,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 1,
+        rowspan: 1,
+      },
     },
   },
   {
@@ -526,6 +630,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       [M3WindowSizeClass.ExtraLarge]: {
         colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.QHD]: {
+        colspan: 2,
         rowspan: 1,
       },
     },
