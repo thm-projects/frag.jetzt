@@ -12,14 +12,14 @@
 
 :host-context(.priority-secondary) {
   display: none;
-  @include m3-layout.explicit-range(expanded, extra-large) {
+  @include m3-layout.explicit-range(expanded) {
     display: block;
   }
 }
 
 :host-context(.priority-tertiary) {
   display: none;
-  @include m3-layout.explicit-range(extra-large, extra-large) {
+  @include m3-layout.explicit-range(extra-large) {
     display: block;
   }
 }
