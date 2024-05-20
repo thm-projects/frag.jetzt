@@ -87,9 +87,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'StudyBuddy IA',
       },
       description: {
-        en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students with us: Are AI tutors the future? Contact us via the legal notice.',
-        de: 'Mach mit bei unserer Studie »ChatGPT in Lehre & Studium«. Erhalte unbegrenzten Zugang zum KI-Tutor in allen deinen Räumen. Teile uns das Feedback deiner Studierenden mit: Sind KI-Tutoren die Zukunft? Kontaktiere uns über das Impressum.',
-        fr: "Participe à notre étude « ChatGPT dans l'Enseignement & l'Apprentissage ». Bénéficie d'un accès illimité au Tuteur AI dans toutes tes salles. Partage avec nous les retours de tes étudiants : Les tuteurs IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
+        en: "Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your students' feedback with us: Are AI assistants the future? Contact us via the imprint.",
+        de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil. Erhalte uneingeschränkten Zugang zu den neuesten Sprachmodellen in all deinen Räumen. Teile uns das Feedback deiner Studierenden mit: Sind KI-Assistenten die Zukunft? Kontaktiere uns über das Impressum.',
+        fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude ». Bénéficie d'un accès illimité aux derniers modèles linguistiques dans toutes tes salles. Partage avec nous les retours d'expérience de tes élèves : Les assistants IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
       },
       image: {
         url: '/assets/background/KI-Chatbot-MNI-1024.webp',
@@ -113,14 +113,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Learn with AI!',
-        de: 'Lerne mit KI!',
-        fr: "Apprends avec l'IA !",
+        en: 'Learn with AI',
+        de: 'Lerne mit KI',
+        fr: "Apprends avec l'IA",
       },
       description: {
-        en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. Get quizzed by ChatGPT before the exam: face the quiz duel with the AI!',
-        de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Lass dich vor der Prüfung von ChatGPT abfragen: Stell dich dem Quiz-Duell mit der KI!',
-        fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Laisse-toi interroger par ChatGPT avant de passer l'examen : affronte l'IA dans un duel de quiz !",
+        en: 'Create your own rooms: one room per course. Ask the AI questions about your lectures and save the answers in the Q&A forum. Give the AI assistant your transcript and let it generate learning materials from it: from Anki flashcards to exam questions. Be quizzed before the exam: face the quiz duel with the AI!',
+        de: 'Erstelle deine eigenen Räume: ein Raum pro Kurs. Stelle der KI Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem KI-Assistenten deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Anki-Flashcards bis hin zu Prüfungsfragen. Lass dich vor der Prüfung abfragen: Stell dich dem Quizduell mit der KI!',
+        fr: "Crée tes propres salles : une salle par cours. Pose à l'IA des questions sur tes cours et enregistre les réponses dans le forum de questions-réponses. Donne ta transcription à l'assistant IA et laisse-le générer des supports d'apprentissage à partir de celle-ci : des flashcards Anki aux questions d'examen. Sois interrogé avant l'examen : affronte le duel de quiz avec l'IA !",
       },
       image: {
         url: '/assets/background/learning.svg',
@@ -131,14 +131,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Write with AI!',
-        de: 'Schreibe mit KI!',
-        fr: "Écris avec l'IA !",
+        en: 'Write with AI',
+        de: 'Schreibe mit KI',
+        fr: "Écris avec l'IA",
       },
       description: {
-        en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block. It supports you in formulating your thoughts, creates outlines, and revises your texts. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
-        de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie organisiert deinen Schreibprozess. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
-        fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
+        en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. It organizes your writing process. Since code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
+        de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Er organisiert deinen Schreibprozess. Da Code im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
+        fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Il organise ton processus d'écriture. Comme le code n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
       },
       image: {
         url: '/assets/background/keyboard.png',
@@ -149,14 +149,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Teach with AI!',
-        de: 'Lehre mit KI!',
-        fr: "Enseigne avec l'IA !",
+        en: 'Teach with AI',
+        de: 'Lehre mit KI',
+        fr: "Enseigne avec l'IA",
       },
       description: {
-        en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions 24/7: competently and in line with the target group.",
-        de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet 24/7 alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
-        fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
+        en: "The AI summarizes the chapters of your script, extracts learning objectives and concepts and generates a glossary of technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all your students' questions 24/7: always competently and in line with your target group.",
+        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und erstellt ein Glossar mit Fachbegriffen. Sie erstellt Übungen und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einsendungen und Antworten aus. Sie beantwortet alle Fragen deiner Schüler/innen 24/7: immer kompetent und zielgruppengerecht.',
+        fr: "L'IA résume les chapitres de ton script, extrait les objectifs et les concepts d'apprentissage et génère un glossaire de termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions de tes élèves 24 heures sur 24 et 7 jours sur 7 : toujours avec compétence et en fonction de ton groupe cible.",
       },
       image: {
         url: '/assets/background/teaching.svg',
@@ -216,14 +216,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'ARSnova 2.0',
-        de: 'ARSnova 2.0',
-        fr: 'ARSnova 2.0',
+        en: 'frag.jetzt vs. ARSnova',
+        de: 'frag.jetzt vs. ARSnova',
+        fr: 'frag.jetzt vs. ARSnova',
       },
       description: {
-        en: 'frag.jetzt is the new ARSnova and a novelty among audience response systems in three respects: 1. everyone can rate all questions to signal a collective interest in answering them. 2. tutors can rate the quality of the posts: right, wrong or especially good. And 3. ChatGPT can provide individualized feedback as an AI tutor and patiently answer all comprehension questions.',
-        de: 'frag.jetzt ist das neue ARSnova und in drei Punkten ein Novum unter den Audience Response Systemen: 1. Alle können alle Fragen bewerten, um ein kollektives Interesse an der Beantwortung zu signalisieren. 2. Tutor*innen können die Qualität der Posts bewerten: ob richtig, falsch oder besonders gut. Und 3. kann ChatGPT als KI-Tutor individualisiertes Feedback geben und alle Verständnisfragen geduldig beantworten.',
-        fr: "frag.jetzt est le nouvel ARSnova et constitue une nouveauté parmi les systèmes de réponse de l'audience sur trois points : 1. tout le monde peut évaluer toutes les questions afin de signaler un intérêt collectif à y répondre. 2. les tuteurs peuvent évaluer la qualité des posts : s'ils sont corrects, incorrects ou particulièrement bons. Et 3. ChatGPT peut, en tant que tuteur IA, donner un feedback individualisé et répondre patiemment à toutes les questions de compréhension.",
+        en: 'frag.jetzt is the new ARSnova and is a novelty among audience response systems in three respects: First, everyone can rate all questions to signal a collective interest in answering them. Second, tutors can rate the quality of posts: whether they are correct, incorrect or particularly good. And finally, an AI assistant can provide individualized feedback and patiently answer all comprehension questions.',
+        de: 'frag.jetzt ist das neue ARSnova und stellt in dreierlei Hinsicht ein Novum unter den Audience-Response-Systemen dar: Erstens kann jeder alle Fragen bewerten, um ein kollektives Interesse an deren Beantwortung zu signalisieren. Zweitens können Tutoren die Qualität der Beiträge bewerten: ob sie richtig, falsch oder besonders gut sind. Und schließlich kann ein KI-Assistent individuelles Feedback geben und geduldig alle Verständnisfragen beantworten.',
+        fr: "frag.jetzt est la nouvelle ARSnova et constitue une nouveauté parmi les systèmes de réponse du public à trois égards : Premièrement, tout le monde peut noter toutes les questions pour signaler un intérêt collectif à y répondre. Deuxièmement, les tuteurs peuvent évaluer la qualité des messages : s'ils sont corrects, incorrects ou particulièrement bons. Et enfin, un assistant IA peut fournir des commentaires individualisés et répondre patiemment à toutes les questions de compréhension.",
       },
       image: {
         url: '/assets/background/supernova.svg',
@@ -422,9 +422,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Peer Instruction',
       },
       description: {
-        en: 'Get a detailed description of the evidence-based teaching method Peer Instruction from ChatGPT. frag.jetzt supports you in using the method. Students answer concept questions and discuss their answers with their seatmates. They argue their answers and develop a deeper understanding of the subject. With our app, you can make Peer Instruction an integral part of your lecture!',
-        de: 'Lass dir von ChatGPT die evidenzbasierte Lehrmethode Peer Instruction erläutern. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit unserer App machst du Peer Instruction zum festen Bestandteil deiner Vorlesung!',
-        fr: "Demande à ChatGPT de t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec notre application, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
+        en: 'Let the AI assistant explain the evidence-based teaching method of peer instruction to you. frag.jetzt supports you in its application: students answer concept questions and discuss their answers with the person sitting next to them. They argue their answers and thus develop a deeper understanding of the material. With frag.jetzt, peer instruction becomes an integral part of your lecture!',
+        de: 'Lass dir vom KI-Assistenten die evidenzbasierte Lehrmethode Peer Instruction erklären. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit frag.jetzt wird Peer Instruction zum festen Bestandteil deiner Vorlesung!',
+        fr: "Laisse l'assistant IA t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec frag.jetzt, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
       },
       image: {
         url: '/assets/background/Peer-Instruction.webp',
@@ -458,9 +458,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Teste frag.jetzt !',
       },
       description: {
-        en: 'Discover our experimental room and immerse yourself in the new world of audience-response systems! Enter the key code »Feedback«. Explore all features of our platform and chat with ChatGPT, your personal AI tutor. Experiment with realistic data and use cases. Share your feedback, ask us your questions.',
-        de: 'Entdecke unseren Experimentierraum und tauche ein in die neue Welt der Audience-Response-Systeme! Gib den Raum-Code »Feedback« ein. Erkunde alle Funktionen unserer Plattform und chatte mit ChatGPT, deinem persönlichen KI-Tutor. Experimentiere mit realistischen Daten und Use Cases. Teile dein Feedback, stelle uns deine Fragen.',
-        fr: "Découvre notre salle d'expérimentation et plonge-toi dans le monde novateur des systèmes de réponse de l'auditoire! Saisis le code de salle « Feedback ». Explore toutes les fonctionnalités de notre plateforme et chatte avec ChatGPT, ton tuteur AI personnel. Expérimente avec des données réalistes et des cas d'utilisation. Partage tes commentaires, pose-nous tes questions.",
+        en: 'Discover our experimental room and immerse yourself in the new world of audience-response systems! Enter the key code »Feedback«. Explore all features of our platform and chat with an AI assistant. Experiment with realistic data and use cases. Share your feedback, ask us your questions.',
+        de: 'Entdecke unseren Experimentierraum und tauche ein in die neue Welt der Audience-Response-Systeme! Gib den Raum-Code »Feedback« ein. Erkunde alle Funktionen unserer Plattform und chatte mit einem KI-Assistenten. Experimentiere mit realistischen Daten und Use Cases. Teile dein Feedback, stelle uns deine Fragen.',
+        fr: "Découvre notre salle d'expérimentation et plonge-toi dans le monde novateur des systèmes de réponse de l'auditoire! Saisis le code de salle « Feedback ». Explore toutes les fonctionnalités de notre plateforme et chatte avec un assistant IA. Expérimente avec des données réalistes et des cas d'utilisation. Partage tes commentaires, pose-nous tes questions.",
       },
       image: {
         url: '/assets/background/test-tubes.svg',
@@ -471,14 +471,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Token credit',
-        de: 'Token-Guthaben',
-        fr: 'Crédit en tokens',
+        en: 'Quota Management',
+        de: 'Quota-Management',
+        fr: 'Gestion des quotas',
       },
       description: {
-        en: 'Optimize the cost of the OpenAI API by using GPT-3.5 Turbo (1,000,000 words per dollar) instead of GPT-4 Turbo (75,000 words per dollar). Use our quota management for token limits by room, month, day, time span, and user role. Take advantage of the OpenAI credit ($5 for three months). Participate as a teacher in our study and receive a $20 monthly bonus. Review and adjust your quota settings to use your credit efficiently.',
-        de: 'Optimiere die Kosten der OpenAI-API, indem du GPT-3.5 Turbo (1.000.000 Wörter pro Dollar) anstelle von GPT-4 Turbo (75.000 Wörter pro Dollar) verwendest. Nutze unsere Kontingentverwaltung für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nutze das OpenAI-Guthaben (5 Dollar für drei Monate). Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Überprüfe deine Quota-Einstellungen und passe sie an, um dein Guthaben effizient zu nutzen.',
-        fr: "Optimise les coûts de l'API OpenAI en utilisant GPT-3.5 Turbo (1.000.000 mots par dollar) au lieu de GPT-4 Turbo (75.000 mots par dollar). Utilise notre gestion des quotas pour les limites de tokens par salle, mois, jour, période et rôle d'utilisateur. Utilise le crédit OpenAI (5 dollars pour trois mois). Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Vérifie tes paramètres de quotas et ajuste-les pour utiliser efficacement ton crédit",
+        en: 'Optimize the costs for AI. Use our quota management for token limits by room, month, day, time period and user role. Take part in our study as a teacher and receive a monthly bonus of 20 dollars. You can generate tens of millions of words.',
+        de: 'Optimiere die Kosten für KI. Nutze unser Kontingentmanagement für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Damit kannst du zig Millionen Wörter generieren.',
+        fr: "Optimise les coûts pour l'IA. Utilise notre gestion des quotas pour les limites de jetons par salle, par mois, par jour, par période et par rôle d'utilisateur. Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Tu peux générer des dizaines de millions de mots.",
       },
       image: {
         url: '/assets/background/traffic-light.svg',
@@ -507,9 +507,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Le Prix ? Rien.',
       },
       description: {
-        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
-        de: 'frag.jetzt ist Open Source und wird als kostenloser Software-as-a-Service angeboten. Jeder Raum hat ein ChatGPT-Guthaben: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an unserer Studie teilnimmst. Dafür generiert der Chatbot Millionen von Wörtern! Wenn das nicht genug ist, kannst du mit deinem eigenen API-Key von OpenAI weitermachen.',
-        fr: "frag.jetzt est open source et offert comme un logiciel en tant que service gratuit. Chaque salle a un crédit ChatGPT : 5 $ de la part de OpenAI ou 20 $ de notre part si tu participes à notre étude. En échange, le chatbot génère des millions de mots ! Si ce n'est pas suffisant, tu peux continuer avec ta propre clé API de OpenAI.",
+        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit of 5 dollars or even 20 dollars if you participate in our study as a teacher. In return, the chatbot generates tens of millions of words! If that's not enough, you can continue with your own API key.",
+        de: 'frag.jetzt ist Open Source und wird als kostenlose Software-as-a-Service angeboten. Für jeden Raum gibt es ein ChatGPT-Guthaben von 5 Dollar oder sogar 20 Dollar, wenn du als Lehrkraft an unserer Studie teilnimmst. Im Gegenzug generiert der Chatbot zig Millionen Wörter! Wenn dir das nicht reicht, kannst du mit deinem eigenen API- Key weitermachen.',
+        fr: "frag.jetzt est open source et proposé comme un logiciel libre en tant que service. Chaque salle dispose d'un crédit ChatGPT de 5 dollars ou même de 20 dollars si tu participes à notre étude en tant qu'enseignant. En retour, le chatbot génère des dizaines de millions de mots ! Si cela ne suffit pas, tu peux continuer avec ta propre clé API.",
       },
       image: {
         url: '/assets/background/dollars.svg',
@@ -574,9 +574,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Démarre maintenant !',
       },
       description: {
-        en: "Create a room, share the key code. It's that easy! No registration, completely anonymous. If you want to use ChatGPT in any browser, on any device, set up a free account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
-        de: "Raum erstellen, Raum-Code teilen. So einfach geht's! Ohne Registrierung, völlig anonym. Wenn du ChatGPT in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!",
-        fr: "Crée une salle, distribue le code de la salle. C'est si simple ! Pas d'inscription, complètement anonyme. Si tu veux utiliser ChatGPT dans n'importe quel navigateur, sur n'importe quel appareil, crée un compte gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
+        en: "Create a room, share the key code. It's that easy! No registration, completely anonymous. If you want to use your AI assistants in any browser on any device, set up a free frag.jetzt account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
+        de: 'Raum erstellen, Raum-Code teilen. So einfach geht’s! Ohne Registrierung, völlig anonym. Wenn du deine KI-Assistenten in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses frag.jetzt-Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!',
+        fr: "Si tu veux utiliser tes assistants IA dans n'importe quel navigateur sur n'importe quel appareil, crée un compte frag.jetzt gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
       },
       image: {
         url: '/assets/background/rocket.svg',

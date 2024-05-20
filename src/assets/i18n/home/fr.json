@@ -464,7 +464,7 @@
     "restart-account-activation-correct": "Le code d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie un nouveau code d'activation à ton adresse.",
     "welcome": "frag.jetzt",
-    "welcome-primary": "répond",
+    "welcome-primary": "IA répond",
     "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
