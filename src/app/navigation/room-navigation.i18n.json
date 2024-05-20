@@ -24,8 +24,7 @@
         "conversation": "Forumskonversation",
         "categorys": "Fragenkategorien",
         "bonusArchive": "Bonusarchiv",
-        "disableComments": "Fragenstellen sperren",
-        "enableComments": "Fragenstellen freigeben",
+        "disableComments": "Fragen sperren",
         "mail": "Mail-Benachrichtigung",
         "export": "Q&A-Export",
         "deleteQuestions": "Fragen löschen"
@@ -70,8 +69,7 @@
         "conversation": "Forum Conversation",
         "categorys": "Question Categories",
         "bonusArchive": "Bonus Archive",
-        "disableComments": "Lock Questions",
-        "enableComments": "Unlock Questions",
+        "disableComments": "Block questions",
         "mail": "Mail Notification",
         "export": "Q&A Export",
         "deleteQuestions": "Delete Questions"
@@ -117,7 +115,6 @@
         "categorys": "Catégories de Questions",
         "bonusArchive": "Archive Bonus",
         "disableComments": "Bloquer les Questions",
-        "enableComments": "Débloquer les Questions",
         "mail": "Notification par Mail",
         "export": "Exportation Q&A",
         "deleteQuestions": "Supprimer les Questions"

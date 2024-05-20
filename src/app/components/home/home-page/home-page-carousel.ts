@@ -73,6 +73,10 @@ export const carousel: HomePageCarousel = {
       cols: 4,
       rowHeight: 400,
     },
+    [M3WindowSizeClass.QHD]: {
+      cols: 6,
+      rowHeight: 400,
+    },
   },
   defaultEntryWindow: {
     colspan: 1,

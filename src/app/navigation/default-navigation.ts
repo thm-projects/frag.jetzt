@@ -62,7 +62,7 @@ export const getDefaultHeader = (
   ]).pipe(
     map(([user, i18n, theme]) => {
       return {
-        slogan: '',
+        slogan: i18n.header.slogan,
         options: [
           user
             ? {

@@ -1,12 +1,10 @@
 import {
   Component,
-  ElementRef,
   inject,
   Injector,
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild,
 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -18,18 +16,11 @@ import { RatingResult } from '../../../models/rating-result';
 import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
-import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { ThemeService } from '../../../../theme/theme.service';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { carousel } from './home-page-carousel';
-import { AppStateService } from 'app/services/state/app-state.service';
-import { Router } from '@angular/router';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
-import { LanguageKey } from './home-page-types';
-import { M3WindowSizeClass } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
+import { language } from 'app/base/language/language';
 
 export interface Tile {
   color: string;
@@ -44,10 +35,6 @@ export interface Tile {
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  @ViewChild('carouselScrollElement')
-  _carouselScrollElement: ElementRef<HTMLDivElement>;
-  @ViewChild('supportingPaneComponent', { read: HTMLElement })
-  supportingPaneComponent: HTMLElement;
   tiles: Tile[] = [
     { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
     { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
@@ -66,38 +53,19 @@ export class HomePageComponent implements OnInit, OnDestroy {
     { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
     { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
   ];
-
-  get supportingPaneOffset() {
-    if (!this.supportingPaneComponent) return {};
-    const rect = this.supportingPaneComponent.getBoundingClientRect();
-    return {
-      'left.px': rect.x,
-      'top.px': rect.y,
-    };
-  }
-
   listenerFn: () => void;
-
   accumulatedRatings: RatingResult;
-  isAccepted = false;
-  iframeSrc: SafeUrl;
-  imageSrc: string;
 
   protected isMobile = () => {
     const state = windowWatcher.windowState();
     return state === 'compact' || state === 'medium';
   };
-  protected carouselIndex: number = 0;
-  protected readonly mobileBoundaryWidth = 600;
-  protected readonly mobileBoundaryHeight = 630;
   protected carousel = carousel;
+  protected readonly language = language;
+  protected readonly windowClass = windowWatcher.windowState;
 
-  private currentTheme: string;
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
-  private lastScrollMs: number = -1;
-  private router = inject(Router);
   private injector = inject(Injector);
-  private _currentLanguage: LanguageKey = 'en';
 
   constructor(
     private translateService: TranslateService,
@@ -106,134 +74,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private _r: Renderer2,
     private ratingService: RatingService,
     private sessionService: SessionService,
-    private onboardingService: OnboardingService,
     private notificationService: NotificationService,
-    private appState: AppStateService,
-    public readonly themeService: ThemeService,
-    sanitizer: DomSanitizer,
   ) {
     this.emitNavigation();
-    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
-      this._currentLanguage = lang;
-      this.imageSrc = this.getImageByLang(lang);
-      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
-        this.getVideoByLang(lang),
-      );
-    });
-    themeService
-      .getTheme()
-      .pipe(
-        filter((v) => Boolean(v)),
-        takeUntil(this._destroyer),
-      )
-      .subscribe((x) => (this.currentTheme = x.key));
-  }
-
-  get windowClass(): M3WindowSizeClass {
-    return windowWatcher.windowState();
-  }
-
-  get carouselOffset() {
-    if (this._carouselScrollElement) {
-      const target = this._carouselScrollElement.nativeElement.children[
-        this.carouselIndex
-      ] as HTMLDivElement;
-      return {
-        'top.px': -target.offsetTop - target.offsetHeight / 2,
-      };
-    } else {
-      return {};
-    }
-  }
-
-  get currentLanguage(): LanguageKey {
-    return this._currentLanguage;
-  }
-
-  getForegroundStyleForEntry(i: number, offsetLeft: number) {
-    const imageTargets = this.carousel[i].images.filter((x) => !x.isBackground);
-    let _override = {};
-    if (imageTargets && imageTargets.length > 0) {
-      const target = imageTargets[0];
-      _override = {
-        ..._override,
-        ...target.override[this.currentTheme + '-theme'],
-        ...{
-          backgroundImage: target.url,
-        },
-      };
-      if (target.override['default']) {
-        _override = {
-          ..._override,
-          ...target.override['default'],
-        };
-      }
-    }
-    return {
-      ..._override,
-      ...{
-        width: `calc( 100vw - ${offsetLeft}px )`,
-      },
-    };
-  }
-
-  getBackgroundStyleForEntry(i: number): object {
-    const imageTargets = this.carousel[i].images.filter(
-      (x) => !!x.isBackground,
-    );
-    let _override = {};
-    if (imageTargets && imageTargets.length > 0) {
-      const target = imageTargets[0];
-      _override = {
-        ..._override,
-        ...target.override[this.currentTheme + '-theme'],
-        ...{
-          backgroundImage: target.url,
-        },
-      };
-      if (target.override['default']) {
-        _override = {
-          ..._override,
-          ...target.override['default'],
-        };
-      }
-    }
-    if (i < this.carouselIndex) {
-      _override['opacity'] = 0;
-    } else if (i > this.carouselIndex) {
-      _override['opacity'] = 0;
-    } else {
-      _override['opacity'] = 1;
-    }
-    return {
-      ..._override,
-      ...{
-        transform: `translateY(${(this.carouselIndex - i) * -1000}px)`,
-      },
-    };
-  }
-
-  getStyleForEntry(i: number, kind: CarouselEntryKind): object {
-    switch (kind) {
-      case 'highlight':
-        return {};
-      case 'peek':
-        return {};
-      case 'hidden':
-        return {};
-      default:
-        return {};
-    }
-  }
-
-  getEntryKind(i: number): CarouselEntryKind {
-    if (i === this.carouselIndex) {
-      return 'highlight';
-    } else if (i === this.carouselIndex - 1 || i === this.carouselIndex + 1) {
-      return 'peek';
-    } else {
-      return 'hidden';
-    }
+    inject(OnboardingService);
   }
 
   ngOnInit() {
@@ -244,16 +88,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.loadListener();
     });
     this.eventService.on('not-authorized').subscribe(() => {
-      this.appState.language$
-        .pipe(
-          filter((v) => Boolean(v)),
-          take(1),
-        )
-        .subscribe(() => {
-          this.translateService
-            .get('login.not-authorized')
-            .subscribe((msg) => this.notificationService.show(msg));
-        });
+      this.translateService
+        .get('login.not-authorized')
+        .subscribe((msg) => this.notificationService.show(msg));
     });
   }
 
@@ -295,6 +132,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   announce() {
@@ -323,24 +161,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     applyDefaultNavigation(this.injector)
       .pipe(takeUntil(this._destroyer))
       .subscribe();
-  }
-
-  private getImageByLang(lang: string) {
-    if (lang === 'de') {
-      return '/assets/images/youtube-start_de.webp';
-    } else if (lang === 'fr') {
-      return '/assets/images/youtube-start_fr.webp';
-    }
-    return '/assets/images/youtube-start_en.webp';
-  }
-
-  private getVideoByLang(lang: string) {
-    if (lang === 'de') {
-      return 'https://www.youtube-nocookie.com/embed/de8UG1oeH30';
-    } else if (lang === 'fr') {
-      return 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw';
-    }
-    return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
   }
 
   protected readonly Math = Math;
