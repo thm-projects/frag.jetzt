@@ -20,13 +20,13 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Q&A Rooms with AI Assistants',
-        de: 'Q&A-Räume mit KI-Assistenten',
-        fr: 'Salles Q&R avec Assistants IA',
+        en: 'Q&A Rooms & AI Assistants',
+        de: 'Q&A-Räume & KI-Assistenten',
+        fr: 'Salles Q&R & Assistants IA',
       },
       description: {
         en: "Let AI assistants answer your knowledge questions. Your prompts, with which you define the topic of a room and your learning objectives, ensure precise and individual answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-        de: 'Lass deine Wissensfragen von KI-Assistenten beantworten. Deine Prompts, mit denen du das Thema eines Raumes und deine Lernziele festlegst, sorgen für präzise und individuelle Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie KI dich effizienter macht!',
+        de: 'Lass deine Wissensfragen von KI-Assistenten beantworten. Deine Prompts, mit denen du das Thema eines Raumes und deine Lernziele festlegst, sorgen für präzise und individuelle Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
         fr: "Laisse les assistants IA répondre à tes questions de connaissances. Tes prompts, avec lesquels tu définis le sujet d'une salle et tes objectifs d'apprentissage, garantissent des réponses précises et individuelles. Une vérification rapide des faits, et tu t'es épargné des heures de travail. Découvre comment l'IA te rend plus efficace !",
       },
       image: {
@@ -51,9 +51,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Prompting',
-        de: 'Prompting',
-        fr: 'Prompting',
+        en: 'Pre-Prompting & Role-playing',
+        de: 'Pre-Prompting & Rollenspiel',
+        fr: 'Pré-Prompting & Jeu de rôle',
       },
       description: {
         en: 'You can define the role that the AI assistant should play in your room. Also the format and scope of its responses. You can use keywords to focus the chat on a specific topic. The assistant rejects inappropriate questions in a friendly manner.',
@@ -113,24 +113,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Teach with AI!',
-        de: 'Lehre mit KI!',
-        fr: "Enseigne avec l'IA !",
-      },
-      description: {
-        en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions 24/7: competently and in line with the target group.",
-        de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet 24/7 alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
-        fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
-      },
-      image: {
-        url: '/assets/background/teaching.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
         en: 'Learn with AI!',
         de: 'Lerne mit KI!',
         fr: "Apprends avec l'IA !",
@@ -142,6 +124,42 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/learning.svg',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
+        en: 'Write with AI!',
+        de: 'Schreibe mit KI!',
+        fr: "Écris avec l'IA !",
+      },
+      description: {
+        en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block. It supports you in formulating your thoughts, creates outlines, and revises your texts. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
+        de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie organisiert deinen Schreibprozess. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
+        fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
+      },
+      image: {
+        url: '/assets/background/keyboard.png',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
+        en: 'Teach with AI!',
+        de: 'Lehre mit KI!',
+        fr: "Enseigne avec l'IA !",
+      },
+      description: {
+        en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions 24/7: competently and in line with the target group.",
+        de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet 24/7 alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
+        fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
+      },
+      image: {
+        url: '/assets/background/teaching.svg',
       },
     },
     window: _1x1windowSize,
@@ -180,17 +198,17 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Write with AI!',
-        de: 'Schreibe mit KI!',
-        fr: "Écris avec l'IA !",
+        en: 'Good Questions',
+        de: 'Gute Fragen',
+        fr: 'Bonnes Questions',
       },
       description: {
-        en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block. It supports you in formulating your thoughts, creates outlines, and revises your texts. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
-        de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie organisiert deinen Schreibprozess. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
-        fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
+        en: 'Boost engagement and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
+        de: 'Fördere Engagement und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
+        fr: "Stimule l'engagement et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
       },
       image: {
-        url: '/assets/background/keyboard.png',
+        url: '/assets/background/bonus.svg',
       },
     },
     window: _1x1windowSize,
@@ -296,24 +314,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Good Questions',
-        de: 'Gute Fragen',
-        fr: 'Bonnes Questions',
-      },
-      description: {
-        en: 'Boost engagement and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
-        de: 'Fördere Engagement und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
-        fr: "Stimule l'engagement et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
-      },
-      image: {
-        url: '/assets/background/bonus.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
         en: 'Quiz Rally',
         de: 'Quiz-Rallye',
         fr: 'Rallye quiz',
@@ -363,24 +363,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Peer Instruction',
-        de: 'Peer Instruction',
-        fr: 'Peer Instruction',
-      },
-      description: {
-        en: 'Get a detailed description of the evidence-based teaching method Peer Instruction from ChatGPT. frag.jetzt supports you in using the method. Students answer concept questions and discuss their answers with their seatmates. They argue their answers and develop a deeper understanding of the subject. With our app, you can make Peer Instruction an integral part of your lecture!',
-        de: 'Lass dir von ChatGPT die evidenzbasierte Lehrmethode Peer Instruction erläutern. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit unserer App machst du Peer Instruction zum festen Bestandteil deiner Vorlesung!',
-        fr: "Demande à ChatGPT de t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec notre application, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
-      },
-      image: {
-        url: '/assets/background/Peer-Instruction.webp',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
         en: 'Brainstorming',
         de: 'Brainstorming',
         fr: 'Brainstorming',
@@ -392,6 +374,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/brainstorming.svg',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
+        en: 'Question Focus',
+        de: 'Fragen-Fokus',
+        fr: 'Focus sur les Questions',
+      },
+      description: {
+        en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
+        de: 'Präsentier Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalt auf Autofokus, um neue Fragen automatisch anzuzeigen. Wähle die passende Blende für hoch bewertete oder kontroverse Fragen.',
+        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
+      },
+      image: {
+        url: '/assets/background/lens.svg',
       },
     },
     window: _1x1windowSize,
@@ -417,17 +417,17 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Question Focus',
-        de: 'Fragen-Fokus',
-        fr: 'Focus sur les Questions',
+        en: 'Peer Instruction',
+        de: 'Peer Instruction',
+        fr: 'Peer Instruction',
       },
       description: {
-        en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
-        de: 'Präsentier Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalt auf Autofokus, um neue Fragen automatisch anzuzeigen. Wähle die passende Blende für hoch bewertete oder kontroverse Fragen.',
-        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
+        en: 'Get a detailed description of the evidence-based teaching method Peer Instruction from ChatGPT. frag.jetzt supports you in using the method. Students answer concept questions and discuss their answers with their seatmates. They argue their answers and develop a deeper understanding of the subject. With our app, you can make Peer Instruction an integral part of your lecture!',
+        de: 'Lass dir von ChatGPT die evidenzbasierte Lehrmethode Peer Instruction erläutern. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit unserer App machst du Peer Instruction zum festen Bestandteil deiner Vorlesung!',
+        fr: "Demande à ChatGPT de t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec notre application, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
       },
       image: {
-        url: '/assets/background/lens.svg',
+        url: '/assets/background/Peer-Instruction.webp',
       },
     },
     window: _1x1windowSize,

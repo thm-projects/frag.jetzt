@@ -130,7 +130,7 @@ export const getDefaultHeader = (
             ),
           },
           {
-            icon: 'settings_brightness',
+            icon: 'format_color_fill',
             title: i18n.header.theme,
             items: [
               {
