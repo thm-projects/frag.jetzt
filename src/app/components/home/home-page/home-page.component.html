@@ -25,23 +25,7 @@
           fxLayoutAlign="flex-start center">
           <app-new-landing></app-new-landing>
         </div>
-        <div class="flex-item yt-video-wrapper">
-          <img
-            (click)="isAccepted = true"
-            *ngIf="!isAccepted"
-            [src]="imageSrc"
-            alt="" />
-          <iframe
-            style="border-radius: 15px"
-            *ngIf="isAccepted"
-            #scaledIframe
-            allowfullscreen
-            tabindex="0"
-            frameBorder="0"
-            data-verified="true"
-            title=""
-            [src]="iframeSrc"></iframe>
-        </div>
+        <app-yt-video-wrapper class="flex-item"></app-yt-video-wrapper>
       </div>
     </div>
   </m3-supporting-pane>
@@ -51,22 +35,22 @@
     type="flexible">
     <mat-grid-list
       [gutterSize]="'12px'"
-      [cols]="carousel.window[windowClass].cols"
-      [rowHeight]="carousel.window[windowClass].rowHeight">
+      [cols]="carousel.window[windowClass()].cols"
+      [rowHeight]="carousel.window[windowClass()].rowHeight">
       @for (tile of carousel.entries; track tile) {
         <mat-grid-tile
           [colspan]="
             Math.min(
-              tile.window[windowClass]?.colspan ||
+              tile.window[windowClass()]?.colspan ||
                 carousel.defaultEntryWindow.colspan,
-              carousel.window[windowClass].cols
+              carousel.window[windowClass()].cols
             )
           "
           [rowspan]="
             Math.min(
-              tile.window[windowClass]?.rowspan ||
+              tile.window[windowClass()]?.rowspan ||
                 carousel.defaultEntryWindow.rowspan,
-              carousel.window[windowClass].cols
+              carousel.window[windowClass()].cols
             )
           ">
           <mat-card
@@ -87,11 +71,11 @@
             </div>
             <mat-card-header>
               <mat-card-title>
-                {{ tile.content.title[currentLanguage] }}
+                {{ tile.content.title[language()] }}
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <span>{{ tile.content.description[currentLanguage] }}</span>
+              <span>{{ tile.content.description[language()] }}</span>
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>

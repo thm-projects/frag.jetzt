@@ -11,8 +11,6 @@ import { SessionService } from 'app/services/util/session.service';
 import {
   M3HeaderMenu,
   M3HeaderTemplate,
-  M3NavigationOptionSection,
-  M3NavigationSection,
   M3NavigationTemplate,
   addAround,
 } from 'modules/navigation/m3-navigation.types';
@@ -144,9 +142,7 @@ export const getRoomNavigation = (
       const isOverview = url.endsWith(shortId + '/');
       template.title = i18n.mainMenu;
       // Navigation
-      const navsOrOpts: (M3NavigationSection | M3NavigationOptionSection)[] =
-        [];
-      navsOrOpts.push({
+      template.sections.unshift({
         id: 'features',
         kind: 'navigation',
         title: i18n.features.title,
@@ -277,7 +273,7 @@ export const getRoomNavigation = (
       const isRealMod =
         currentRole !== 'Participant' && assignedRole !== currentRole;
       if (isMod || isRealMod) {
-        navsOrOpts.push({
+        template.sections.splice(2, 0, {
           id: 'room-settings',
           title: i18n.options.title,
           kind: 'options',
@@ -326,9 +322,7 @@ export const getRoomNavigation = (
                   },
                 {
                   id: 'disable-comments',
-                  title: room.questionsBlocked
-                    ? i18n.options.qa.enableComments
-                    : i18n.options.qa.disableComments,
+                  title: i18n.options.qa.disableComments,
                   icon: 'comments_disabled',
                   onClick: () => {
                     saveChanges(
@@ -340,6 +334,7 @@ export const getRoomNavigation = (
                     );
                     return false;
                   },
+                  switchState: room.questionsBlocked,
                 },
                 {
                   id: 'mail',
@@ -468,8 +463,6 @@ export const getRoomNavigation = (
           ].filter(Boolean),
         });
       }
-      // Adding
-      template.sections.unshift(...navsOrOpts);
       return template;
     }),
   );

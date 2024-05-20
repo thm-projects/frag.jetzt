@@ -17,6 +17,12 @@ export const setTheme = (theme: Theme): boolean => {
     return false;
   }
   themeSignal.set(theme);
+  dataService.config
+    .createOrUpdate({
+      key: 'theme',
+      value: theme,
+    })
+    .subscribe();
   return true;
 };
 export const actualTheme = computed(() => {

@@ -399,13 +399,14 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
       this.navigation(),
       trackId,
     ) as M3NavigationNestedOptionSection;
-    const options = data.options.map((opt) => ({
+    const options: RailDrawerEntry[] = data.options.map((opt) => ({
       title: opt.title,
       icon: opt.icon,
       svgIcon: opt.svgIcon,
       onClick: 'onClick' in opt ? opt.onClick : () => this.forward('', opt),
       activated: false,
       forward: 'options' in opt,
+      switchState: opt['switchState'],
     }));
     options.unshift({
       title:
