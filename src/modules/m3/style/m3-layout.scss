@@ -64,6 +64,7 @@ $_window-class: (
   extra-large: (
     width: (
       min: 1600,
+      max: 1900,
     ),
     panes: (
       1,
@@ -76,6 +77,23 @@ $_window-class: (
     ),
     preferred-pane: 1,
   ),
+  /// unoffical
+  ultra-large:
+    (
+      width: (
+        min: 1900,
+      ),
+      panes: (
+        1,
+        2,
+        3,
+      ),
+      reachability-offset: 25,
+      spacing: (
+        pane: 24,
+      ),
+      preferred-pane: 1,
+    ),
 );
 
 $_window-class-enum: (
@@ -84,6 +102,8 @@ $_window-class-enum: (
   2: expanded,
   3: large,
   4: extra-large,
+  // unofficial
+  5: ultra-large,
 );
 
 @function _validate-existence($window-class-key) {
@@ -146,9 +166,8 @@ $_window-class-enum: (
 ///
 /// @param {string} from-window-class
 /// @param {string} to-window-class
-@mixin explicit-range($from-window-class, $to-window-class) {
-  $err-exists: _validate-existence($from-window-class) or
-    _validate-existence($to-window-class);
+@mixin explicit-range($from-window-class, $to-window-class: ultra-large) {
+  $err-exists: _validate-existence($from-window-class);
   @if $err-exists {
     $_err-keys: map.keys($_window-class);
     @error ('#{$err-exists} is not a known window-class. allowed window-classes: #{$_err-keys}');

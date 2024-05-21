@@ -3,10 +3,8 @@
   [joyrideStep]="'greeting'"
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
-<m3-body-pane>
-  <m3-supporting-pane
-    class="input-pane"
-    [class.mobile]="isMobile()">
+<m3-body-pane [center-single-pane]="true">
+  <m3-supporting-pane class="input-pane">
     <div
       class="flex-container book-room-container"
       fxLayout="column">
@@ -65,7 +63,7 @@
               ">
               <img
                 mat-card-image
-                style="height: 100%; align-self: center; padding: 8px"
+                style="height: 100%; align-self: center; transform: scale(0.9)"
                 src="{{ tile.content.image.url }}"
                 alt="{{ tile.content.image.alt }}" />
             </div>
