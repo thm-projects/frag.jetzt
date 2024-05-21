@@ -1,41 +1,36 @@
-<div>
-  <div class="header-container">
-    <h2
-      class="oldtypo-h2"
-      mat-dialog-title
-      tabindex="0"
-      id="cookie-header">
-      {{ "cookies.title" | translate }}
-    </h2>
-    <button
-      mat-icon-button
-      aria-labelledby="info-label"
-      class="info"
-      (click)="openDataProtection()">
-      <mat-icon
-        class="info-icon material-icons-outlined"
-        matTooltip="{{ 'cookies.data-protection' | translate }}">
-        security
-      </mat-icon>
-    </button>
-  </div>
+<h2
+  mat-dialog-title
+  tabindex="0"
+  id="cookie-header">
+  {{ "cookies.title" | translate }}
+</h2>
 
-  <mat-dialog-content tabindex="-1">
-    <app-cookies-de *ngIf="currentLanguage === 'de'"></app-cookies-de>
-    <app-cookies-en *ngIf="currentLanguage === 'en'"></app-cookies-en>
-    <app-cookies-fr *ngIf="currentLanguage === 'fr'"></app-cookies-fr>
-  </mat-dialog-content>
+<mat-dialog-content tabindex="-1">
+  <app-cookies-de *ngIf="currentLanguage === 'de'"></app-cookies-de>
+  <app-cookies-en *ngIf="currentLanguage === 'en'"></app-cookies-en>
+  <app-cookies-fr *ngIf="currentLanguage === 'fr'"></app-cookies-fr>
+</mat-dialog-content>
 
-  <app-dialog-action-buttons
-    buttonsLabelSection="cookies"
-    confirmButtonLabel="accept"
-    [confirmButtonType]="confirmButtonType"
-    [cancelButtonClickAction]="buildDeclineActionCallback()"
-    [confirmButtonClickAction]="
-      buildConfirmActionCallback()
-    "></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    [mat-dialog-close]="false"
+    mat-button>
+    {{ "cookies.cancel" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    class="secondary"
+    (click)="openDataProtection()">
+    {{ "Open GDPR" }}
+  </button>
+  <button
+    mat-flat-button
+    (click)="acceptCookies()">
+    {{ "cookies.accept" | translate }}
+  </button>
+</mat-dialog-actions>
 
-  <div class="visually-hidden">
-    <div id="info-label">{{ "cookies.info-label" | translate }}</div>
-  </div>
+<div class="visually-hidden">
+  <div id="info-label">{{ "cookies.info-label" | translate }}</div>
 </div>
