@@ -1,7 +1,7 @@
 <ng-template #nextButton>
   <button
-    mat-stroked-button
-    class="primary-button"
+    mat-flat-button
+    class="secondary"
     (click)="handle($event, 1)">
     {{ "joyride.next" | translate }}
   </button>
@@ -9,15 +9,13 @@
 <ng-template #prevButton>
   <button
     mat-button
-    class="secondary-button"
     (click)="handle($event, -1)">
     {{ "joyride.prev" | translate }}
   </button>
 </ng-template>
 <ng-template #doneButton>
   <button
-    mat-stroked-button
-    class="primary-button"
+    mat-flat-button
     (click)="finish()">
     {{ "joyride.done" | translate }}
   </button>

@@ -254,7 +254,7 @@ export const getDefaultNavigation = (
                 title: i18n.options.tour,
                 onClick: () => {
                   startTour(injector);
-                  return false;
+                  return true;
                 },
               },
             ],

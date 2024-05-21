@@ -64,27 +64,9 @@ export class CookiesComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
-  exitApp() {
-    this.dialogRef.close(false);
-  }
-
   openDataProtection() {
     this.dialog.open(DataProtectionComponent, {
       width: '90%',
     });
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildConfirmActionCallback(): () => void {
-    return () => this.acceptCookies();
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildDeclineActionCallback(): () => void {
-    return () => this.exitApp();
   }
 }
