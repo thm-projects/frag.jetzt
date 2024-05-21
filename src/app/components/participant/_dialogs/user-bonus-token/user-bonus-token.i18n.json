@@ -1,8 +1,8 @@
 {
     "key": "user-bonus-token", 
     "de": {
-        "roomNamelq": "<", 
-        "roomNamerq": ">",
+        "roomNamelq": "»", 
+        "roomNamerq": "«",
         "redeemTokens": "Bonuscode per Mail einlösen",
         "redeemTokensClipboard": "Bonuscode in die Zwischenablage",
         "noBonus": "Du hast noch keinen Stern für eine »gute« Frage erhalten.",
@@ -10,8 +10,8 @@
         "header": "Sterne für Bonuspunkte einlösen"
     }, 
     "en": {
-        "roomNamelq": "<", 
-        "roomNamerq": ">",
+        "roomNamelq": "»", 
+        "roomNamerq": "«",
         "redeemTokens": "Redeem bonus code by mail",
         "redeemTokensClipboard": "Bonus code to clipboard",
         "noBonus": "You haven't received a bonus star for a »good« question yet.",
@@ -19,8 +19,8 @@
         "header": "Redeem stars for bonus"
     },
     "fr": {
-        "roomNamelq": "<", 
-        "roomNamerq": ">",
+        "roomNamelq": "»", 
+        "roomNamerq": "«",
         "redeemTokens": "Encaisser le code bonus par mail",
         "redeemTokensClipboard": "Code bonus dans le presse-papiers",
         "noBonus": "Tu n'as pas encore reçu d'étoile pour une « bonne » question.",
