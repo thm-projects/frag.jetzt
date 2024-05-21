@@ -3,10 +3,8 @@
   [joyrideStep]="'greeting'"
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
-<m3-body-pane>
-  <m3-supporting-pane
-    class="input-pane"
-    [class.mobile]="isMobile()">
+<m3-body-pane [center-single-pane]="true">
+  <m3-supporting-pane class="input-pane">
     <div
       class="flex-container book-room-container"
       fxLayout="column">

@@ -24,11 +24,6 @@ m3-body-pane {
   display: flex;
   margin-block: auto;
   max-height: 100%;
-
-  &.mobile {
-    width: 100%;
-    justify-content: center;
-  }
 }
 
 .grid-pane {

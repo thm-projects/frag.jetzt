@@ -1,29 +1,5 @@
 @import "../style/layout.scss";
 
-//:host {
-//  display: flex;
-//  flex-direction: row;
-//  height:100%;
-//}
-//
-//.app-left-nav {
-//  width:80px;
-//}
-//
-//.app-container {
-//  flex-grow: 1;
-//}
-//
-//.app-content-container{
-//  display:flex;
-//}
-//
-//.app-header {
-//  height:80px;
-//  position:sticky;
-//  top:0;
-//}
-
 :host {
   display: flex;
   flex-direction: column;
