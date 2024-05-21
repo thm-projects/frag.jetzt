@@ -1,4 +1,4 @@
-<span matDialogTitle>{{ "user-bonus-token.header" | translate }}</span>
+<span matDialogTitle>{{ i18n().header }}</span>
 <mat-dialog-content>
   <div *ngIf="bonusTokensMixin.length >= 1">
     <div
@@ -7,8 +7,9 @@
       (click)="navToComment(i)">
       <span tabindex="1">{{ bonusToken.token }}</span>
       <span class="roomName">
-        {{ "user-bonus-token.roomName-lq" | translate }}{{ bonusToken.roomName
-        }}{{ "user-bonus-token.roomName-rq" | translate }}
+        {{ i18n().roomNamelq }}
+        {{ bonusToken.roomName }}
+        {{ i18n().roomNamerq }}
       </span>
     </div>
 
@@ -18,7 +19,7 @@
           *ngIf="rooms.length > 1"
           class="example-full-width">
           <mat-label class="placeholder">
-            {{ "user-bonus-token.choose-session" | translate }}
+            {{ i18n().chooseSession }}
           </mat-label>
           <input
             type="text"
@@ -29,8 +30,9 @@
               *ngFor="let room of rooms"
               [value]="room.name"
               (onSelectionChange)="setCurrentRoom($event, room)">
-              {{ "user-bonus-token.roomName-lq" | translate }}{{ room.name
-              }}{{ "user-bonus-token.roomName-rq" | translate }}
+              {{ i18n().roomNamelq }}
+              {{ room.name }}
+              {{ i18n().roomNamerq }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -39,30 +41,29 @@
           class="mailto"
           (click)="redeemStars(true)">
           <mat-icon class="material-icons-outlined">email</mat-icon>
-          {{ "user-bonus-token.redeem-tokens" | translate }}
+          {{ i18n().redeemTokens }}
         </button>
         <button
           mat-flat-button
           class="copyClipboard"
           (click)="redeemStars(false)">
           <mat-icon class="material-icons-outlined">copy</mat-icon>
-          {{ "user-bonus-token.redeem-tokens-clipboard" | translate }}
+          {{ i18n().redeemTokensClipboard }}
         </button>
       </form>
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-    <span tabindex="0">{{ "user-bonus-token.no-bonus" | translate }}</span>
+    <span tabindex="0">{{ i18n().noBonus }}</span>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions [align]="'end'">
+<mat-dialog-actions>
   <button mat-button>
-    {{ "close" }}
+    {{ i18n().global.cancel }}
   </button>
   <button
     mat-flat-button
     (click)="openHelp()">
-    <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    {{ i18n().global.explain }}
   </button>
 </mat-dialog-actions>
