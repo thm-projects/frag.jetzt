@@ -66,6 +66,7 @@ import { CorrectWrong } from './models/correct-wrong.enum';
 import { M3NavigationService } from '../modules/m3/services/navigation/m3-navigation.service';
 import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-navigation-types';
 import { dataService } from './base/db/data-service';
+import { windowWatcher } from '../modules/navigation/utils/window-watcher';
 
 const PUSH_KEY = 'push-subscription';
 
@@ -274,6 +275,7 @@ export class AppComponent implements OnInit {
     self: undefined,
   };
   template: M3NavigationTemplate | undefined;
+  protected readonly windowClass = windowWatcher.windowState;
 
   constructor(
     private translationService: TranslateService,

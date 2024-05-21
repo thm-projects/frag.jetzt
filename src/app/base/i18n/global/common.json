@@ -6,7 +6,8 @@
     "continue": "Weiter",
     "confirm": "Übernehmen",
     "abort": "Abbrechen",
-    "submit": "Abschicken"
+    "submit": "Abschicken",
+    "explain": "Erkläre"
   },
   "en": {
     "close": "Close",
@@ -14,7 +15,8 @@
     "continue": "Continue",
     "confirm": "Confirm",
     "abort": "Cancel",
-    "submit": "Submit"
+    "submit": "Submit",
+    "explain": "Explain"
   },
   "fr": {
     "close": "Fermer",
@@ -22,6 +24,7 @@
     "continue": "Continuer",
     "confirm": "Appliquer",
     "abort": "Annuler",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "explain": "Expliquer"
   }
 }

@@ -23,7 +23,7 @@ export enum M3WindowSizeClass {
   Expanded = 'expanded',
   Large = 'large',
   ExtraLarge = 'extra-large',
-  QHD = 'qhd',
+  UltraLarge = 'ultra-large',
 }
 
 export interface M3WindowClass {

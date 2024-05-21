@@ -14,7 +14,11 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 import { numberSorter } from '../../../../models/comment';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { MatOptionSelectionChange } from '@angular/material/core';
+
+import i18nRaw from './user-bonus-token.i18n.json';
+const i18n = I18nLoader.load(i18nRaw);
 
 export class MinRoom {
   name: string;
@@ -38,6 +42,7 @@ export class UserBonusTokenComponent implements OnInit {
   currentRoom: MinRoom;
   rooms: MinRoom[] = [];
   lang: string;
+  protected readonly i18n = i18n;
 
   constructor(
     private bonusTokenService: BonusTokenService,

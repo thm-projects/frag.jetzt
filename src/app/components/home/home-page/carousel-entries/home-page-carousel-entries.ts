@@ -14,7 +14,7 @@ const _1x1windowSize: HomePageCarouselEntry['window'] = {
     colspan: 1,
     rowspan: 1,
   },
-  [M3WindowSizeClass.QHD]: {
+  [M3WindowSizeClass.UltraLarge]: {
     colspan: 1,
     rowspan: 1,
   },
@@ -50,7 +50,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -85,7 +85,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -120,7 +120,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 2,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 2,
       },
@@ -155,7 +155,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -190,7 +190,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -243,7 +243,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 3,
         rowspan: 2,
       },
@@ -296,7 +296,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 1,
         rowspan: 1,
       },
@@ -367,7 +367,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 1,
         rowspan: 1,
       },
@@ -402,7 +402,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 2,
         rowspan: 2,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 3,
         rowspan: 3,
       },
@@ -437,7 +437,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -508,7 +508,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },
@@ -597,7 +597,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 1,
         rowspan: 1,
       },
@@ -632,7 +632,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         colspan: 1,
         rowspan: 1,
       },
-      [M3WindowSizeClass.QHD]: {
+      [M3WindowSizeClass.UltraLarge]: {
         colspan: 2,
         rowspan: 1,
       },

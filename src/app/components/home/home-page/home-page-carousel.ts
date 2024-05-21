@@ -73,7 +73,7 @@ export const carousel: HomePageCarousel = {
       cols: 4,
       rowHeight: 400,
     },
-    [M3WindowSizeClass.QHD]: {
+    [M3WindowSizeClass.UltraLarge]: {
       cols: 6,
       rowHeight: 400,
     },

@@ -50,7 +50,7 @@ class WindowWatcher {
     if (this.extraLarge.matches) {
       return M3WindowSizeClass.ExtraLarge;
     }
-    return M3WindowSizeClass.QHD;
+    return M3WindowSizeClass.UltraLarge;
   }
 }
 export const windowWatcher = new WindowWatcher();
