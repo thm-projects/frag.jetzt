@@ -175,13 +175,13 @@
     "help": "Aide",
     "imprint": "Mentions légales",
     "language": "Langue",
-    "motd-mark-all-read": "Masquer",
+    "motd-mark-all-read": "Tout lu",
     "motd-mark-read": "Lu",
-    "motd-title-main": "Nouvelles des développeurs",
+    "motd-title-main": "Nouvelles",
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
-    "motd-empty-new": "Pas de nouveaux messages",
-    "motd-empty-old": "Pas encore de messages lus",
+    "motd-empty-new": "",
+    "motd-empty-old": "",
     "open": "Ouvert",
     "style": "Design"
   },
@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Statistiques du projet backend :",
-    "cancel": "Fermer",
+    "cancel": "Annuler",
     "cancel-description": "Ferme l'impressum.",
     "frontend": "Statistiques du projet frontend :",
     "title": "Mentions légales"

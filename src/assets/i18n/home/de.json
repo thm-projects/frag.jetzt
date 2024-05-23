@@ -175,13 +175,13 @@
     "help": "Hilfe",
     "imprint": "Impressum",
     "language": "Sprache",
-    "motd-mark-all-read": "Ausblenden",
+    "motd-mark-all-read": "Alles gelesen",
     "motd-mark-read": "Gelesen",
-    "motd-title-main": "Neues von den Entwicklern",
-    "motd-title-new": "Aktuell",
+    "motd-title-main": "Neuigkeiten",
+    "motd-title-new": "Noch nicht gelesen",
     "motd-title-old": "Archiv",
-    "motd-empty-new": "Keine neuen Nachrichten",
-    "motd-empty-old": "Noch keine gelesenen Nachrichten",
+    "motd-empty-new": "",
+    "motd-empty-old": "",
     "open": "Offen",
     "style": "Design"
   },
@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Projekt-Statistik des Backends:",
-    "cancel": "Schließen",
+    "cancel": "Abbrechen",
     "cancel-description": "Schließt das Impressum.",
     "frontend": "Projekt-Statistik des Frontends:",
     "title": "Impressum"
