@@ -100,7 +100,7 @@
     "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Abbrechen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
-    "data-protection": "Datenschutzerklärung",
+    "data-protection": "Datenschutz",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
     "title": "Willkommen auf »frag.jetzt«!"
   },
