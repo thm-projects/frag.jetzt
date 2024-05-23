@@ -9,7 +9,7 @@
 </mat-dialog-content>
 <mat-dialog-actions class="align-column-wide">
   <button
-    mat-button
+    mat-flat-button
     (click)="guestLogin()"
     matTooltip="{{ 'login.guest-login-tooltip' | translate }}"
     aria-labelledby="guest-login-description">
@@ -22,7 +22,7 @@
       provider['translated_description' + access]
     "
     (click)="providerLogin(provider.id)"
-    mat-flat-button>
+    mat-button>
     {{ provider["name" + access] || provider["translated_name" + access] }}
   </button>
 </mat-dialog-actions>

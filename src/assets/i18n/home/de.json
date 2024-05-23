@@ -100,7 +100,7 @@
     "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Abbrechen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
-    "data-protection": "Datenschutzerklärung",
+    "data-protection": "Datenschutz",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
     "title": "Willkommen auf »frag.jetzt«!"
   },
@@ -175,13 +175,13 @@
     "help": "Hilfe",
     "imprint": "Impressum",
     "language": "Sprache",
-    "motd-mark-all-read": "Ausblenden",
+    "motd-mark-all-read": "Alles gelesen",
     "motd-mark-read": "Gelesen",
-    "motd-title-main": "Neues von den Entwicklern",
-    "motd-title-new": "Aktuell",
+    "motd-title-main": "Neuigkeiten",
+    "motd-title-new": "Noch nicht gelesen",
     "motd-title-old": "Archiv",
-    "motd-empty-new": "Keine neuen Nachrichten",
-    "motd-empty-old": "Noch keine gelesenen Nachrichten",
+    "motd-empty-new": "",
+    "motd-empty-old": "",
     "open": "Offen",
     "style": "Design"
   },
@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Projekt-Statistik des Backends:",
-    "cancel": "Schließen",
+    "cancel": "Abbrechen",
     "cancel-description": "Schließt das Impressum.",
     "frontend": "Projekt-Statistik des Frontends:",
     "title": "Impressum"
@@ -637,7 +637,7 @@
     "cancel-description": "Verlässt die App",
     "message": "Als Gast kannst du »frag.jetzt« völlig anonym nutzen.",
     "title": "Noch einmal überlegen?",
-    "understood": "Ich hab's mir überlegt …",
+    "understood": "Okay",
     "understood-description": "Kehre zurück zum vorherigen Dialog"
   },
   "password-reset": {

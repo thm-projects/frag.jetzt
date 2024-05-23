@@ -100,9 +100,9 @@
     "accept-description": "Confirme l'utilisation de la technique de stockage web et active l'application.",
     "cancel": "Annuler",
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
-    "data-protection": "Déclaration de protection des données",
+    "data-protection": "Protection des données",
     "info-label": "Ouvre une boîte de dialogue avec la déclaration de confidentialité de frag.jetzt",
-    "title": "Bienvenue sur « frag.jetzt » !"
+    "title": "Bienvenue sur « frag.jetzt » !"
   },
   "data-protection": {
     "cancel": "Refuser",
@@ -175,13 +175,13 @@
     "help": "Aide",
     "imprint": "Mentions légales",
     "language": "Langue",
-    "motd-mark-all-read": "Masquer",
+    "motd-mark-all-read": "Tout lu",
     "motd-mark-read": "Lu",
-    "motd-title-main": "Nouvelles des développeurs",
+    "motd-title-main": "Nouvelles",
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
-    "motd-empty-new": "Pas de nouveaux messages",
-    "motd-empty-old": "Pas encore de messages lus",
+    "motd-empty-new": "",
+    "motd-empty-old": "",
     "open": "Ouvert",
     "style": "Design"
   },
@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Statistiques du projet backend :",
-    "cancel": "Fermer",
+    "cancel": "Annuler",
     "cancel-description": "Ferme l'impressum.",
     "frontend": "Statistiques du projet frontend :",
     "title": "Mentions légales"
@@ -639,7 +639,7 @@
     "cancel-description": "Quitte l'application",
     "message": "En tant qu'invité, tu peux utiliser « frag.jetzt » de manière totalement anonyme.",
     "title": "Tu en es sûr ?",
-    "understood": "J'ai changé d'avis …",
+    "understood": "D'accord.",
     "understood-description": "Retourner au dialogue précédent"
   },
   "password-reset": {

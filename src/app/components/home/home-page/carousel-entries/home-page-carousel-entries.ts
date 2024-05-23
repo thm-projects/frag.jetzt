@@ -99,9 +99,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'StudyBuddy IA',
       },
       description: {
-        en: "Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your students' feedback with us: Are AI assistants the future? Contact us via the imprint.",
-        de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil. Erhalte uneingeschränkten Zugang zu den neuesten Sprachmodellen in all deinen Räumen. Teile uns das Feedback deiner Studierenden mit: Sind KI-Assistenten die Zukunft? Kontaktiere uns über das Impressum.',
-        fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude ». Bénéficie d'un accès illimité aux derniers modèles linguistiques dans toutes tes salles. Partage avec nous les retours d'expérience de tes élèves : Les assistants IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
+        en: "Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your feedback with us: Are AI assistants the future? Contact us via the imprint.",
+        de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil. Erhalte uneingeschränkten Zugang zu den neuesten Sprachmodellen in all deinen Räumen. Teile uns dein Feedback mit: Sind KI-Assistenten die Zukunft? Kontaktiere uns über das Impressum.',
+        fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude ». Bénéficie d'un accès illimité aux derniers modèles linguistiques dans toutes tes salles. Fais-nous part de tes commentaires : Les assistants IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
       },
       image: {
         url: '/assets/background/KI-Chatbot-MNI-1024.webp',
@@ -169,9 +169,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Écris avec l'IA",
       },
       description: {
-        en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. It organizes your writing process. Since code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
-        de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Er organisiert deinen Schreibprozess. Da Code im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
-        fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Il organise ton processus d'écriture. Comme le code n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
+        en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. Since program code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
+        de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Da Programmcode im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
+        fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Comme le code du programme n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
       },
       image: {
         url: '/assets/background/keyboard.png',
@@ -540,9 +540,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Navigation',
       },
       description: {
-        en: "Are you looking for the manual? Don't worry, you don't need one. There are only two menus: the navigation on the top left and the options on the top right. The navigation gives you access to the features of the platform. You can find the functions of each feature in the options menu. It couldn't be simpler.",
-        de: 'Suchst du das Handbuch? Keine Sorge, du brauchst keins. Es gibt nur zwei Menüs: Die Navigation oben links und die Optionen oben rechts. Über die Navigation erhältst du Zugriff auf die Features der Plattform. Die Funktionen jedes Features findest du im Optionsmenü. Einfacher geht’s nicht.',
-        fr: "Tu cherches le manuel ? Ne t'inquiète pas, tu n'en as pas besoin. Il n'y a que deux menus : la navigation en haut à gauche et les options en haut à droite. La navigation te donne accès aux fonctionnalités de la plateforme. Tu peux trouver les fonctions de chaque fonctionnalité dans le menu des options. Cela ne pourrait pas être plus simple.",
+        en: "Looking for the manual? Don't worry, you won't need one. There is only one menu: The navigation on the top left. The navigation gives you access to the features of the platform. The options for each feature are found in the submenus of the navigation. It couldn't be simpler.",
+        de: 'Suchst du das Handbuch? Keine Sorge, du brauchst keins. Es gibt nur ein Menü: Die Navigation oben links. Über die Navigation kannst du auf die Features der Plattform zugreifen. Die Optionen zu den einzelnen Features findest du in den Untermenüs der Navigation. Einfacher geht’s nicht.',
+        fr: "Tu cherches le manuel ? Ne t'inquiète pas, tu n'en auras pas besoin. Il n'y a qu'un seul menu : La navigation en haut à gauche. La navigation te donne accès aux fonctionnalités de la plateforme. Les options de chaque fonctionnalité se trouvent dans les sous-menus de la navigation. On ne peut pas faire plus simple.",
       },
       image: {
         url: '/assets/background/compass.svg',
@@ -576,9 +576,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Gestion des quotas',
       },
       description: {
-        en: 'Optimize the costs for AI. Use our quota management for token limits by room, month, day, time period and user role. Take part in our study as a teacher and receive a monthly bonus of 20 dollars. You can generate tens of millions of words.',
-        de: 'Optimiere die Kosten für KI. Nutze unser Kontingentmanagement für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Damit kannst du zig Millionen Wörter generieren.',
-        fr: "Optimise les coûts pour l'IA. Utilise notre gestion des quotas pour les limites de jetons par salle, par mois, par jour, par période et par rôle d'utilisateur. Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Tu peux générer des dizaines de millions de mots.",
+        en: 'Optimize the costs of AI. Use our quota management for token limits by room, month, day, time period and user role. Take part in our study as a teacher and receive a monthly bonus of 20 dollars. You can generate tens of millions of words.',
+        de: 'Optimiere die Kosten der KI. Nutze unser Kontingentmanagement für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Damit kannst du zig Millionen Wörter generieren.',
+        fr: "Optimise les coûts de l'IA. Utilise notre gestion des quotas pour les limites de jetons par salle, par mois, par jour, par période et par rôle d'utilisateur. Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Tu peux générer des dizaines de millions de mots.",
       },
       image: {
         url: '/assets/background/traffic-light.svg',
@@ -606,9 +606,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Price? Nothing.',
-        de: 'Der Preis? Nichts.',
-        fr: 'Le Prix ? Rien.',
+        en: 'Price?',
+        de: 'Der Preis?',
+        fr: 'Le Prix ?',
       },
       description: {
         en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit of 5 dollars or even 20 dollars if you participate in our study as a teacher. In return, the chatbot generates tens of millions of words! If that's not enough, you can continue with your own API key.",
@@ -646,9 +646,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Tout compris',
       },
       description: {
-        en: "On our platform, you'll find everything you need: learning rooms, coaching zones, discussion forums, chats with others and the AI, and so much more. Are you a teacher? Perfect! Distribute the key code in your course. Are you a student looking for a digital room just for you? We've got that too. Quantity and size of the rooms? Unlimited! Welcome to us! Digital, flexible, all inclusive.",
-        de: 'Auf unserer Plattform findest du alles, was du brauchst: Lernräume, Coaching-Zonen, Diskussionsforen, Chats mit anderen und der KI, und vieles mehr. Du bist Lehrkraft? Perfekt! Teile den Raum-Code in deinem Kurs. Du studierst und suchst nach einem digitalen Raum nur für dich? Das geht auch. Anzahl und Größe der Räume? Unbegrenzt! Willkommen bei uns! Digital, flexibel, all inclusive.',
-        fr: "Sur notre plateforme, tu trouveras tout ce dont tu as besoin : des salles d'étude, des zones de coaching, des forums de discussion, des chats avec d'autres personnes et l'IA, et bien plus encore. Tu es enseignant ? Parfait ! Partage le code de salle dans ton cours. Tu es étudiant à la recherche d'une salle numérique juste pour toi ? Nous avons ça aussi. Quantité et taille des salles ? Illimitées ! Bienvenue chez nous ! Numérique, flexible, tous compris.",
+        en: "On our platform, you'll find everything you need: learning rooms, coaching zones, discussion forums, and so much more. Are you a teacher? Perfect! Distribute the key code in your course. Are you a student looking for a digital room just for you? We've got that too. Quantity and size of the rooms? Unlimited! Welcome to us! Digital, flexible, all inclusive.",
+        de: 'Auf unserer Plattform findest du alles, was du brauchst: Lernräume, Coaching-Zonen, Diskussionsforen und vieles mehr. Du bist Lehrkraft? Perfekt! Teile den Raum-Code in deinem Kurs. Du studierst und suchst nach einem digitalen Raum nur für dich? Das geht auch. Anzahl und Größe der Räume? Unbegrenzt! Willkommen bei uns! Digital, flexibel, all inclusive.',
+        fr: "Sur notre plateforme, tu trouveras tout ce dont tu as besoin : des salles d'étude, des zones de coaching, des forums de discussion, et bien plus encore. Tu es enseignant ? Parfait ! Partage le code de salle dans ton cours. Tu es étudiant à la recherche d'une salle numérique juste pour toi ? Nous avons ça aussi. Quantité et taille des salles ? Illimitées ! Bienvenue chez nous ! Numérique, flexible, tous compris.",
       },
       image: {
         url: '/assets/background/all-inclusive.svg',
