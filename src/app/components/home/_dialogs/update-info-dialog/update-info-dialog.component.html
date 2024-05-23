@@ -1,7 +1,11 @@
-<h2 matDialogTitle>{{ "update-info.title" | translate }}</h2>
+<h3 matDialogTitle>{{ "update-info.title" | translate }}</h3>
+
 <mat-dialog-content>
-  {{update-info.description' | translate">}}
+  <!-- TODO: <div
+    markdown
+    [data]="'update-info.description' | translate"></div> -->
 </mat-dialog-content>
+
 <app-dialog-action-buttons
   [buttonsLabelSection]="'update-info'"
   [confirmButtonLabel]="'install'"
