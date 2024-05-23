@@ -639,7 +639,7 @@
     "cancel-description": "Quitte l'application",
     "message": "En tant qu'invité, tu peux utiliser « frag.jetzt » de manière totalement anonyme.",
     "title": "Tu en es sûr ?",
-    "understood": "J'ai changé d'avis …",
+    "understood": "D'accord.",
     "understood-description": "Retourner au dialogue précédent"
   },
   "password-reset": {

@@ -639,7 +639,7 @@
     "cancel-description": "Exits the app",
     "message": "As a guest, you can use »frag.jetzt« completely anonymously.",
     "title": "Think again?",
-    "understood": "I have thought it over again …",
+    "understood": "Okay",
     "understood-description": "Return to the previous dialog"
   },
   "password-reset": {

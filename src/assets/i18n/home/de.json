@@ -637,7 +637,7 @@
     "cancel-description": "Verlässt die App",
     "message": "Als Gast kannst du »frag.jetzt« völlig anonym nutzen.",
     "title": "Noch einmal überlegen?",
-    "understood": "Ich hab's mir überlegt …",
+    "understood": "Okay",
     "understood-description": "Kehre zurück zum vorherigen Dialog"
   },
   "password-reset": {
