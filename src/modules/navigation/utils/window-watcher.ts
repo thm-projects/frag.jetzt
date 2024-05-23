@@ -1,4 +1,4 @@
-import { Signal, signal } from '@angular/core';
+import { Signal, computed, signal } from '@angular/core';
 import { M3WindowSizeClass } from '../../m3/components/navigation/m3-navigation-types';
 
 /**
@@ -8,6 +8,12 @@ import { M3WindowSizeClass } from '../../m3/components/navigation/m3-navigation-
  */
 class WindowWatcher {
   public readonly windowState: Signal<M3WindowSizeClass>;
+  public readonly isMobile = computed(() => {
+    const state = windowWatcher.windowState();
+    return (
+      state === M3WindowSizeClass.Compact || state === M3WindowSizeClass.Medium
+    );
+  });
   private readonly compact: MediaQueryList = matchMedia('(max-width: 599px)');
   private readonly medium: MediaQueryList = matchMedia('(max-width: 839px)');
   private readonly expanded: MediaQueryList = matchMedia('(max-width: 1199px)');

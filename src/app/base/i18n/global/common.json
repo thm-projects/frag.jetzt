@@ -7,7 +7,9 @@
     "confirm": "Übernehmen",
     "abort": "Abbrechen",
     "submit": "Abschicken",
-    "explain": "Erkläre"
+    "explain": "Erkläre",
+    "changeSuccessful": "Änderungen gespeichert",
+    "changesGoneWrong": "Etwas ist schief gelaufen!"
   },
   "en": {
     "close": "Close",
@@ -16,7 +18,9 @@
     "confirm": "Confirm",
     "abort": "Cancel",
     "submit": "Submit",
-    "explain": "Explain"
+    "explain": "Explain",
+    "changeSuccessful": "Successfully updated",
+    "changesGoneWrong": "Something has gone wrong!"
   },
   "fr": {
     "close": "Fermer",
@@ -25,6 +29,8 @@
     "confirm": "Appliquer",
     "abort": "Annuler",
     "submit": "Envoyer",
-    "explain": "Expliquer"
+    "explain": "Expliquer",
+    "changeSuccessful": "Modifications enregistrées",
+    "changesGoneWrong": "Quelque chose a mal tourné !"
   }
 }

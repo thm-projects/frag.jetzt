@@ -1,7 +1,6 @@
 import {
   AfterContentInit,
   Component,
-  ComponentRef,
   EventEmitter,
   Injector,
   OnDestroy,
@@ -11,48 +10,48 @@ import {
 } from '@angular/core';
 
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
-import { CommentService } from '../../../services/http/comment.service';
+import { CommentService } from '../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from '../../../models/user';
-import { Room } from '../../../models/room';
-import { NotificationService } from '../../../services/util/notification.service';
+import { User } from '../../models/user';
+import { Room } from '../../models/room';
+import { NotificationService } from '../../services/util/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserRole } from '../../../models/user-roles.enum';
-import { RoomService } from '../../../services/http/room.service';
-import { ThemeService } from '../../../../theme/theme.service';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
-import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { UserRole } from '../../models/user-roles.enum';
+import { RoomService } from '../../services/http/room.service';
+import { ThemeService } from '../../../theme/theme.service';
+import { WsCommentService } from '../../services/websockets/ws-comment.service';
+import { CreateCommentWrapper } from '../../utils/create-comment-wrapper';
+import { TopicCloudAdminService } from '../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import {
   TagCloudDataService,
   TagCloudDataTagEntry,
-} from '../../../services/util/tag-cloud-data.service';
-import { CloudParameters } from '../../../utils/cloud-parameters';
-import { SmartDebounce } from '../../../utils/smart-debounce';
+} from '../../services/util/tag-cloud-data.service';
+import { CloudParameters } from '../../utils/cloud-parameters';
+import { SmartDebounce } from '../../utils/smart-debounce';
 import { MatDrawer } from '@angular/material/sidenav';
 import {
   ActiveWord,
   WordCloudComponent,
   WordMeta,
 } from './word-cloud/word-cloud.component';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
-import { TagCloudSettings } from '../../../utils/TagCloudSettings';
-import { SessionService } from '../../../services/util/session.service';
-import { BrainstormingSession } from '../../../models/brainstorming-session';
-import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { ArsComposeService } from '../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../services/util/header.service';
+import { TagCloudSettings } from '../../utils/TagCloudSettings';
+import { SessionService } from '../../services/util/session.service';
+import { BrainstormingSession } from '../../models/brainstorming-session';
+import { IntroductionTagCloudComponent } from '../../components/shared/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
+import { IntroductionBrainstormingComponent } from '../../components/shared/_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
-import { RoomDataService } from '../../../services/util/room-data.service';
+import { RoomDataService } from '../../services/util/room-data.service';
 import {
   BrainstormingFilter,
   FilterType,
   Period,
   RoomDataFilter,
-} from '../../../utils/data-filter-object.lib';
-import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
-import { FilteredDataAccess } from '../../../utils/filtered-data-access';
+} from '../../utils/data-filter-object.lib';
+import { maskKeyword } from '../../services/util/tag-cloud-data.util';
+import { FilteredDataAccess } from '../../utils/filtered-data-access';
 import {
   filter,
   forkJoin,
@@ -61,23 +60,14 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
-import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
-import { BrainstormingCategoryEditorComponent } from '../_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
-import { BrainstormingEditComponent } from '../_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { TimeoutHelper } from 'app/utils/ts-utils';
-import { BrainstormingDeleteConfirmComponent } from '../_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
-import {
-  copyCSVString,
-  exportBrainstorming,
-} from 'app/utils/ImportExportMethods';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { EventService } from 'app/services/util/event.service';
-import { ChatGPTBrainstormComponent } from '../_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
+import { ChatGPTBrainstormComponent } from '../../components/shared/_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
 import { KeywordExtractor } from 'app/utils/keyword-extractor';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
@@ -86,7 +76,8 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRadarNavigation } from './navigation/word.cloud-navigation';
+import { applyRadarNavigation } from './navigation/word-cloud-navigation';
+import { applyBrainstormingNavigation } from './navigation/brainstorming-navigation';
 
 class TagComment implements WordMeta {
   constructor(
@@ -181,9 +172,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private deviceState: DeviceStateService,
     private roomState: RoomStateService,
   ) {
+    let url = this.router.url;
+    if (url.includes('#')) {
+      url = url.substring(0, url.indexOf('#'));
+    }
+    this.brainstormingActive = url.endsWith('/brainstorming');
     this.initNavigation();
     this.keywordExtractor = new KeywordExtractor(this.injector);
-    this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
       this.demoDataKeys.push([
         '',
@@ -784,9 +779,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private initNavigation() {
     if (this.brainstormingActive) {
+      applyBrainstormingNavigation(this.injector, () => {
+        this.drawer.toggle();
+        return true;
+      })
+        .pipe(takeUntil(this.destroyer))
+        .subscribe();
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.brainstormingData = room.brainstormingSession;
-        this.initBrainstormingNavigation();
       });
     } else {
       applyRadarNavigation(this.injector, () => {
@@ -796,331 +796,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         .pipe(takeUntil(this.destroyer))
         .subscribe();
     }
-  }
-
-  private initBrainstormingNavigation() {
-    const list: ComponentRef<unknown>[] = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'question_mark',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-info',
-          callback: () => {
-            this.dialog.open(IntroductionBrainstormingComponent, {
-              autoFocus: false,
-            });
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.altToggle(
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'timer',
-            class: 'material-icons-outlined',
-            text: 'header.brainstorm-start',
-          },
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'timer_off',
-            class: 'material-icons-outlined',
-            text: 'header.brainstorm-stop',
-          },
-          ArsObserver.build<boolean>((emitter) => {
-            emitter.internalSet(
-              this.brainstormingData.ideasEndTimestamp !== null,
-            );
-            this.sessionService
-              .receiveRoomUpdates()
-              .pipe(takeUntil(this.destroyer))
-              .subscribe((room) => {
-                emitter.internalSet(
-                  (room.brainstormingSession?.ideasEndTimestamp ?? null) !==
-                    null,
-                );
-              });
-            emitter.onChange((observer) => {
-              this.brainstormingService
-                .patchSession(this.brainstormingData.id, {
-                  ideasEndTimestamp: observer.get()
-                    ? ((Date.now() +
-                        this.brainstormingData.ideasTimeDuration *
-                          60_000) as unknown as Date)
-                    : null,
-                  ideasFrozen: !observer.get(),
-                })
-                .subscribe();
-            });
-          }),
-          () =>
-            this.userRole > UserRole.PARTICIPANT &&
-            this.brainstormingData.active,
-        );
-        e.altToggle(
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'lightbulb_circle',
-            class: 'material-icons-outlined',
-            text: 'header.brainstorm-freeze-ideas',
-          },
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'lightbulb_circle',
-            class: 'material-icons',
-            text: 'header.brainstorm-unfreeze-ideas',
-          },
-          ArsObserver.build<boolean>((emitter) => {
-            emitter.internalSet(this.brainstormingData.ideasFrozen ?? true);
-            this.sessionService
-              .receiveRoomUpdates()
-              .pipe(takeUntil(this.destroyer))
-              .subscribe((room) => {
-                emitter.internalSet(
-                  room.brainstormingSession?.ideasFrozen ?? true,
-                );
-              });
-            emitter.onChange((observer) => {
-              this.brainstormingService
-                .patchSession(this.brainstormingData.id, {
-                  ideasFrozen: observer.get(),
-                })
-                .subscribe();
-            });
-          }),
-          () =>
-            this.userRole > UserRole.PARTICIPANT &&
-            this.brainstormingData.ideasEndTimestamp === null &&
-            this.brainstormingData.active,
-        );
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          isSVGIcon: true,
-          icon: 'beamer',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-question-focus',
-          callback: () => {
-            const filter = RoomDataFilter.loadFilter('presentation');
-            filter.resetToDefault();
-            filter.sourceFilterBrainstorming =
-              BrainstormingFilter.OnlyBrainstorming;
-            filter.lastRoomId = this.room.id;
-            filter.save();
-            this.router.navigate([
-              '/participant/room/' +
-                this.room.shortId +
-                '/comments/questionwall',
-            ]);
-          },
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT &&
-            !this.deviceState.isMobile(),
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'batch_prediction',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-q-and-a',
-          callback: () => {
-            const filter = RoomDataFilter.loadFilter('commentList');
-            filter.resetToDefault();
-            filter.sourceFilterBrainstorming =
-              BrainstormingFilter.OnlyBrainstorming;
-            filter.lastRoomId = this.room.id;
-            filter.save();
-            this.router.navigate(['../'], { relativeTo: this.route });
-          },
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'interests',
-          class: 'material-icons-filled',
-          text: 'header.brainstorm-categories',
-          callback: () => {
-            const dialogRef = this.dialog.open(
-              BrainstormingCategoryEditorComponent,
-              {
-                width: '400px',
-              },
-            );
-            dialogRef.componentInstance.tags = this.brainstormingCategories.map(
-              (c) => c.name,
-            );
-            dialogRef.afterClosed().subscribe((result) => {
-              if (!result || result === 'abort') {
-                return;
-              }
-              this.brainstormingService
-                .updateCategories(this.sessionService.currentRoom.id, result)
-                .subscribe({
-                  next: () => {
-                    this.translateService
-                      .get('room-page.changes-successful')
-                      .subscribe((msg) => {
-                        this.notificationService.show(msg);
-                      });
-                  },
-                  error: () => {
-                    this.translateService
-                      .get('room-page.changes-gone-wrong')
-                      .subscribe((msg) => {
-                        this.notificationService.show(msg);
-                      });
-                  },
-                });
-            });
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'model_training',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-reset-rating',
-          callback: () => {
-            const dialogRef = this.dialog.open(
-              BrainstormingDeleteConfirmComponent,
-              {
-                autoFocus: true,
-              },
-            );
-            dialogRef.componentInstance.type = 'rating';
-            dialogRef.componentInstance.sessionId = this.brainstormingData.id;
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'restart_alt',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-reset-categorization',
-          callback: () => {
-            const dialogRef = this.dialog.open(
-              BrainstormingDeleteConfirmComponent,
-              {
-                autoFocus: true,
-              },
-            );
-            dialogRef.componentInstance.type = 'category';
-            dialogRef.componentInstance.sessionId = this.brainstormingData.id;
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.altToggle(
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'lock_open',
-            class: 'material-icons',
-            text: 'header.brainstorm-unfreeze-session',
-          },
-          {
-            translate: this.headerService.getTranslate(),
-            icon: 'lock_clock',
-            class: 'material-icons-outlined',
-            text: 'header.brainstorm-freeze-session',
-          },
-          ArsObserver.build<boolean>((emitter) => {
-            emitter.set(this.brainstormingData.active ?? true);
-            emitter.onChange((observer) => {
-              const update: Partial<BrainstormingSession> = {};
-              if (observer.get()) {
-                update.active = true;
-              } else {
-                update.active = false;
-                update.ideasEndTimestamp = null;
-                update.ideasFrozen = true;
-                update.ratingAllowed = false;
-              }
-              this.brainstormingService
-                .patchSession(this.brainstormingData.id, update)
-                .subscribe();
-            });
-          }),
-          () => this.userRole > UserRole.PARTICIPANT,
-        );
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'info',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-blacklist',
-          callback: () => {
-            const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {
-              maxHeight: '95%',
-              data: {
-                userRole: this.userRole,
-              },
-            });
-            ref.componentInstance.room = this.room;
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'handyman',
-          class: 'material-icons-filled',
-          text: 'header.brainstorm-settings',
-          callback: () => {
-            const dialogRef = this.dialog.open(BrainstormingEditComponent, {
-              autoFocus: true,
-            });
-            dialogRef.componentInstance.session = this.brainstormingData;
-            dialogRef.componentInstance.userRole = this.userRole;
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'format_paint',
-          class: 'material-icons-filled',
-          text: 'header.brainstorm-look-and-feel',
-          callback: () => this.drawer.toggle(),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-export',
-          callback: () => {
-            this.sessionService
-              .getModeratorsOnce()
-              .pipe(
-                switchMap((mods) =>
-                  exportBrainstorming(
-                    this.translateService,
-                    ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-                      UserRole.PARTICIPANT,
-                    this.notificationService,
-                    this.bonusTokenService,
-                    this.commentService,
-                    'room-export',
-                    this.user,
-                    this.room,
-                    new Set(mods.map((m) => m.accountId)),
-                  ),
-                ),
-              )
-              .subscribe((text) => {
-                copyCSVString(
-                  text[0],
-                  'brainstorming-' +
-                    this.room.name +
-                    '-' +
-                    this.room.shortId +
-                    '-' +
-                    text[1] +
-                    '.csv',
-                );
-              });
-          },
-          condition: () => true,
-        });
-      },
-    );
-    this.onDestroyListener.subscribe(() => {
-      list.forEach((e) => e.destroy());
-    });
   }
 
   private redraw(dataUpdate: boolean): void {

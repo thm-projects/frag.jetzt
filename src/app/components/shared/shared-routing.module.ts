@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { UserRole } from '../../models/user-roles.enum';
-import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { TagCloudComponent } from '../../room/tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 import { ComponentTestPageComponent } from './component-test/component-test-page/component-test-page.component';
