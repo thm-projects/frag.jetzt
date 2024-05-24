@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, numberAttribute } from '@angular/core';
 import {
   M3PanePriority,
   m3PanePriorityAttribute,
@@ -10,7 +10,7 @@ import {
   selector: 'm3-supporting-pane',
   standalone: true,
   host: {
-    '[class]': `'m3-supporting-pane ' + 'type-' + type + ' priority-' + priority`,
+    '[class]': `'m3-supporting-pane ' + 'type-' + type + ' priority-' + priority + ' elevation-' + elevation`,
   },
   imports: [],
   template: '<ng-content></ng-content>',
@@ -38,4 +38,15 @@ export class M3SupportingPaneComponent {
   }
 
   private _priority: M3PanePriority;
+
+  @Input({ transform: numberAttribute })
+  set elevation(value: 0 | 1) {
+    this._elevation = value;
+  }
+
+  get elevation(): 0 | 1 {
+    return this._elevation;
+  }
+
+  private _elevation: 0 | 1 = 1;
 }
