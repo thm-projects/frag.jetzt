@@ -32,6 +32,7 @@ import {
 import { setTheme, theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
+import { HomePageService } from '../components/home/home-page/home-page.service';
 const i18n = I18nLoader.loadModule(i18nRaw);
 
 export const applyDefaultNavigation = (
@@ -239,6 +240,15 @@ export const getDefaultNavigation = (
             title: i18n.options.introTitle,
             icon: 'info',
             options: [
+              {
+                id: 'features',
+                icon: 'cake',
+                title: i18n.options.features,
+                onClick: () => {
+                  injector.get(HomePageService).toggleFeatureState();
+                  return false;
+                },
+              },
               {
                 id: 'demo',
                 title: i18n.options.intro,

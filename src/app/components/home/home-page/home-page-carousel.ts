@@ -51,14 +51,14 @@ export const carousel: HomePageCarousel = {
      * unreachable
      */
     [M3WindowSizeClass.Compact]: {
-      cols: 0,
+      cols: 1,
       rowHeight: 0,
     },
     /**
      * unreachable
      */
     [M3WindowSizeClass.Medium]: {
-      cols: 0,
+      cols: 2,
       rowHeight: 0,
     },
     [M3WindowSizeClass.Expanded]: {
