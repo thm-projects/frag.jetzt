@@ -262,11 +262,11 @@ export const getDefaultNavigation = (
           {
             id: 'feedback',
             title: i18n.options.feedbackTitle,
-            icon: 'rate_review',
+            icon: 'reviews',
             options: [
               {
                 id: 'feedback-room',
-                icon: 'rate_review',
+                icon: 'meeting_room',
                 title: i18n.options.feedbackRoom,
                 onClick: () => {
                   open(

@@ -454,7 +454,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       accessible: false,
       active: false,
       i18n: 'header.feedback',
-      icon: 'rate_review',
+      icon: 'meeting_room',
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
