@@ -174,7 +174,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Comme le code du programme n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
       },
       image: {
-        url: '/assets/background/keyboard.png',
+        url: '/assets/background/keyboard.webp',
       },
     },
     window: {
