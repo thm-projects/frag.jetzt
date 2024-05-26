@@ -109,7 +109,7 @@
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
-    "title": "Data Privacy"
+    "title": "Data protection"
   },
   "delete-account": {
     "cancel": "Cancel",
