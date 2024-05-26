@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Project statistics of the backend:",
-    "cancel": "Cancel",
+    "cancel": "Close",
     "cancel-description": "Close the imprint dialog",
     "frontend": "Project statistics of the frontend:",
     "title": "Imprint"

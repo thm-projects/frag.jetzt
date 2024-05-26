@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Statistiques du projet backend :",
-    "cancel": "Annuler",
+    "cancel": "Fermer",
     "cancel-description": "Ferme l'impressum.",
     "frontend": "Statistiques du projet frontend :",
     "title": "Mentions légales"
