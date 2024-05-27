@@ -1,7 +1,6 @@
 @use "sass:map";
 @use "sass:meta";
 @use "../../../../node_modules/@angular/material/index" as mat;
-@use "../../../../node_modules/@angular/material-experimental/index" as matx;
 
 /// Defines Light and Dark Material Theme based on a reference $config
 /// @param {Map} $config The theme configuration; based on matx.define-theme($config)
@@ -11,7 +10,7 @@
 @function define-theme($config) {
   @return (
     light:
-      matx.define-theme(
+      mat.define-theme(
         map.deep-merge(
           $config,
           (
@@ -22,7 +21,7 @@
         )
       ),
     dark:
-      matx.define-theme(
+      mat.define-theme(
         map.deep-merge(
           $config,
           (

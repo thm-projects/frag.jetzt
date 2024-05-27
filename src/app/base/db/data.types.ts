@@ -2,22 +2,20 @@ import { FieldsOf } from 'app/utils/ts-utils';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
-type KeyTree<Pre extends string, K extends object> = keyof {
-  [Key in keyof K as Key extends string
-    ? string extends Key
-      ? never
-      : K[Key] extends IDBValidKey
-        ? Pre extends ''
-          ? Key
-          : `${Pre}.${Key}`
-        : K[Key] extends object
-          ? KeyTree<Pre extends '' ? Key : `${Pre}.${Key}`, K[Key]>
-          : never
-    : never]: undefined;
-};
+type Access<T> = T[keyof T];
+
+type ExtractValidKeys<T, Prefix extends string = ''> = Access<{
+  [K in keyof T]: K extends string
+    ? T[K] extends IDBValidKey
+      ? `${Prefix}${K}`
+      : T[K] extends object
+        ? ExtractValidKeys<T[K], `${Prefix}${K}.`>
+        : never
+    : never;
+}>;
 
 type ArrayOrSingle<T> = T | Readonly<T[]>;
-export type ValidKey<T extends object> = ArrayOrSingle<KeyTree<'', T>>;
+export type ValidKey<T extends object> = ArrayOrSingle<ExtractValidKeys<T>>;
 
 export interface DbStoreIndex {
   since: number;
@@ -296,12 +294,13 @@ const haveIndexesSameProps = (
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Walk<Path extends string, Obj> = Obj extends Record<string, any>
-  ? Path extends `${infer Pre}.${infer Last}`
-    ? Walk<Last, Obj[Pre]>
-    : Obj[Path]
-  : never;
+type Walk<Path extends string, Obj> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Obj extends Record<string, any>
+    ? Path extends `${infer Pre}.${infer Last}`
+      ? Walk<Last, Obj[Pre]>
+      : Obj[Path]
+    : never;
 
 type TransformArray<
   Path,
