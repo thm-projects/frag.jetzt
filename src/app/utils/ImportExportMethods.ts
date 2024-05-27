@@ -9,7 +9,7 @@ import { UserRole } from '../models/user-roles.enum';
 import { CommentBonusTokenMixin } from '../models/comment-bonus-token-mixin';
 import { NotificationService } from '../services/util/notification.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
@@ -234,6 +234,9 @@ export const exportBonusArchive = (
                 }
               });
               return comments.map((c) => [fastAccess[c?.creatorId], c]);
+            }),
+            catchError(() => {
+              return of(comments.map((c) => [undefined, c]));
             }),
           );
         }),
