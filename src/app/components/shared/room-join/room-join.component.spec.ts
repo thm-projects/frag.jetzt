@@ -1,4 +1,4 @@
-/* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoomJoinComponent } from './room-join.component';
 
