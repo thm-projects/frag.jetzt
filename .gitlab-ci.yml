@@ -34,7 +34,7 @@ eslint:
   needs:
     - install
   script:
-    - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
+    - npx eslint src
 
 unit_tests:
   stage: test
