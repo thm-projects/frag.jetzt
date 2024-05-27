@@ -109,7 +109,7 @@
     "cancel-description": "Lehnt die Datenschutzerklärung ab",
     "consent": "Zum Onboarding …",
     "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung",
-    "title": "Datenschutzerklärung"
+    "title": "Datenschutz"
   },
   "delete-account": {
     "cancel": "Abbrechen",
@@ -384,7 +384,7 @@
   },
   "imprint": {
     "backend": "Projekt-Statistik des Backends:",
-    "cancel": "Abbrechen",
+    "cancel": "Schließen",
     "cancel-description": "Schließt das Impressum.",
     "frontend": "Projekt-Statistik des Frontends:",
     "title": "Impressum"
