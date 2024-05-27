@@ -1,0 +1,47 @@
+<button
+  appJoyrideTemplate
+  [joyrideStep]="'navigationButton'"
+  [stepPosition]="'center'"
+  [ngClass]="{ 'question-wall': isQuestionWall }"
+  mat-button
+  *ngIf="!possibleLocationsEmpty"
+  (click)="refreshLocations()"
+  [matMenuTriggerFor]="locationMenu">
+  <mat-icon>place</mat-icon>
+  <ng-container *ngIf="!isMobile && showText">
+    <!-- TODO -->
+    {{
+      (currentLocation?.i18n
+        ? "header.navigation"
+        : "header.navigation-no-target"
+      ) | translate: { loc: currentLocation?.i18n || "" | translate }
+    }}
+  </ng-container>
+</button>
+
+<mat-menu
+  #locationMenu="matMenu"
+  [overlapTrigger]="false">
+  <ng-container *ngFor="let location of possibleLocations">
+    <button
+      *ngIf="location.accessible"
+      [ngClass]="{
+        'active-nav-button': location.active,
+        outside: location.outside
+      }"
+      (click)="navigateToPage(location)"
+      mat-menu-item
+      tabindex="0">
+      <mat-icon
+        *ngIf="location.icon"
+        [ngClass]="location.class">
+        {{ location.icon }}
+      </mat-icon>
+      <mat-icon
+        *ngIf="location.svgIcon"
+        [ngClass]="location.class"
+        [svgIcon]="location.svgIcon"></mat-icon>
+      {{ location.i18n | translate }}
+    </button>
+  </ng-container>
+</mat-menu>

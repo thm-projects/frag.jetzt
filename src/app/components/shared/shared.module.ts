@@ -48,7 +48,6 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
-import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
 import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { IntroductionQuestionWallDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
@@ -220,7 +219,6 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     WorkerConfigDialogComponent,
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     TopicCloudBrainstormingComponent,
     IntroductionQuestionWallComponent,
     IntroductionQuestionWallDEComponent,
@@ -339,7 +337,6 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     ScrollIntoViewDirective,
     WriteCommentComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     DashboardComponent,
     AppRatingComponent,
     MinuteJumpClockComponent,
