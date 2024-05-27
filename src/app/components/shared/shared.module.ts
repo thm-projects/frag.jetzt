@@ -156,6 +156,8 @@ import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
+import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/question-wall-comment-focus.component';
 
 @NgModule({
   imports: [
@@ -177,6 +179,8 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     QuestionWallDisplayCommentComponent,
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
+    QuestionWallCommentComponent,
+    QuestionWallCommentFocusComponent,
   ],
   declarations: [
     RoomJoinComponent,
