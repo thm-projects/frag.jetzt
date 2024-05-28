@@ -21,6 +21,7 @@ import { carousel } from './home-page-carousel';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
 import { language } from 'app/base/language/language';
+import { HomePageService } from './home-page.service';
 
 export interface Tile {
   color: string;
@@ -48,6 +49,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
   private injector = inject(Injector);
+  protected featureState: boolean = false;
 
   constructor(
     private translateService: TranslateService,
@@ -57,9 +59,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private ratingService: RatingService,
     private sessionService: SessionService,
     private notificationService: NotificationService,
+    protected self: HomePageService,
   ) {
     this.emitNavigation();
     inject(OnboardingService);
+    self.featureState
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((featureState) => {
+        this.featureState = featureState;
+      });
   }
 
   ngOnInit() {

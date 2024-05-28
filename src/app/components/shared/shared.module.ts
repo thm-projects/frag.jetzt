@@ -48,7 +48,6 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
-import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
 import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { IntroductionQuestionWallDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
@@ -157,6 +156,8 @@ import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
+import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/question-wall-comment-focus.component';
 
 @NgModule({
   imports: [
@@ -178,6 +179,8 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     QuestionWallDisplayCommentComponent,
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
+    QuestionWallCommentComponent,
+    QuestionWallCommentFocusComponent,
   ],
   declarations: [
     RoomJoinComponent,
@@ -220,7 +223,6 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     WorkerConfigDialogComponent,
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     TopicCloudBrainstormingComponent,
     IntroductionQuestionWallComponent,
     IntroductionQuestionWallDEComponent,
@@ -339,7 +341,6 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     ScrollIntoViewDirective,
     WriteCommentComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     DashboardComponent,
     AppRatingComponent,
     MinuteJumpClockComponent,

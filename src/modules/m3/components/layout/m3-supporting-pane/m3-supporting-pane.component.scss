@@ -5,6 +5,13 @@
   flex-grow: 1;
 }
 
+:host-context(.elevation-0) {
+}
+
+:host-context(.elevation-1) {
+  padding: 16px 0;
+}
+
 :host-context(.type-fixed) {
   width: var(--m3-comp-supporting-pane-fixed-width);
   flex-shrink: 0;

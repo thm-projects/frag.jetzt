@@ -39,6 +39,7 @@ import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { applyRoomNavigation } from '../../../../navigation/room-navigation';
+import { QuestionWallService } from './question-wall.service';
 
 interface CommentCache {
   [commentId: string]: {
@@ -58,9 +59,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('footer') footerComponent: RowComponent;
   @ViewChild('sidelist') sidelist: ColComponent;
 
+  comments: ForumComment[] = [];
+  // unused
   sidelistExpanded = true;
   qrCodeExpanded = false;
-  comments: ForumComment[] = [];
   commentFocus: ForumComment = null;
   commentFocusId: string = null;
   commentsCountQuestions = 0;
@@ -104,7 +106,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     public headerService: HeaderService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
+    public readonly self: QuestionWallService,
   ) {
+    self.focus.subscribe((focus) => (this.commentFocus = focus));
     this.keySupport = new QuestionWallKeyEventSupport();
     this._filterObj = FilteredDataAccess.buildNormalAccess(
       this.sessionService,

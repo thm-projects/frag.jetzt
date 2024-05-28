@@ -57,11 +57,7 @@ $content-padding: 16px;
   --header-height: #{$header-height};
   --footer-height: 0px;
   overflow: auto;
-  height: calc(
-    100dvh - var(--header-height) - var(--footer-height) - #{2 *
-      $content-padding}
-  );
-  padding: #{$content-padding};
+  height: calc(100dvh - var(--header-height) - var(--footer-height));
 
   &.bottom-bar {
     --footer-height: #{$footer-height};

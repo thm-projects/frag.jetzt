@@ -8,11 +8,10 @@ export type I18nData = { key: string } & {
   [key in Language]: Record<string, unknown>;
 };
 
-type IsEquals<T, U> = (<G>() => G extends T ? 1 : 2) extends <
-  G,
->() => G extends U ? 1 : 2
-  ? true
-  : false;
+type IsEquals<T, U> =
+  (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
+    ? true
+    : false;
 
 type Checker<
   T extends string,
@@ -25,7 +24,7 @@ type Checker<
         ? Rest extends T[]
           ? Checker<T, RootObj, [Second, ...Rest]>
           : never
-        : never
+        : `${First} and ${Second} are not equal`
       : never
     : never
   : LangArr extends [infer First]
