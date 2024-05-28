@@ -4,7 +4,9 @@
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
 <m3-body-pane [center-single-pane]="true">
-  <m3-supporting-pane class="input-pane">
+  <m3-supporting-pane
+    class="input-pane"
+    *ngIf="!featureState">
     <div
       class="flex-container book-room-container"
       fxLayout="column">
@@ -29,55 +31,87 @@
   </m3-supporting-pane>
   <m3-supporting-pane
     class="grid-pane"
-    priority="secondary"
+    [priority]="featureState ? 'primary' : 'secondary'"
     type="flexible">
-    <mat-grid-list
-      [gutterSize]="'12px'"
-      [cols]="carousel.window[windowClass()].cols"
-      [rowHeight]="carousel.window[windowClass()].rowHeight">
+    @if (featureState) {
+      <div
+        class="row content-start items-center gap-medium"
+        style="margin-bottom: 16px">
+        <button
+          mat-icon-button
+          (click)="this.self.toggleFeatureState()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>back to home</span>
+      </div>
+    }
+    @if (carousel.window[windowClass()].rowHeight === 0) {
       @for (tile of carousel.entries; track tile) {
-        <mat-grid-tile
-          [colspan]="
-            Math.min(
-              tile.window[windowClass()]?.colspan ||
-                carousel.defaultEntryWindow.colspan,
-              carousel.window[windowClass()].cols
-            )
-          "
-          [rowspan]="
-            Math.min(
-              tile.window[windowClass()]?.rowspan ||
-                carousel.defaultEntryWindow.rowspan,
-              carousel.window[windowClass()].cols
-            )
-          ">
-          <mat-card
-            style="width: 100%; height: 100%"
-            [appearance]="'raised'">
-            <div
-              style="
-                flex-grow: 1;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-              ">
-              <img
-                mat-card-image
-                style="height: 100%; align-self: center; transform: scale(0.9)"
-                src="{{ tile.content.image.url }}"
-                alt="{{ tile.content.image.alt }}" />
-            </div>
-            <mat-card-header>
-              <mat-card-title>
-                {{ tile.content.title[language()] }}
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <span>{{ tile.content.description[language()] }}</span>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
+        <ng-container
+          *ngTemplateOutlet="
+            card;
+            context: { tile: tile, cls: 'fit-tile' }
+          "></ng-container>
       }
-    </mat-grid-list>
+    } @else {
+      <mat-grid-list
+        [gutterSize]="'12px'"
+        [cols]="carousel.window[windowClass()].cols"
+        [rowHeight]="carousel.window[windowClass()].rowHeight">
+        @for (tile of carousel.entries; track tile) {
+          <mat-grid-tile
+            [colspan]="
+              Math.min(
+                tile.window[windowClass()]?.colspan ||
+                  carousel.defaultEntryWindow.colspan,
+                carousel.window[windowClass()].cols
+              )
+            "
+            [rowspan]="
+              Math.min(
+                tile.window[windowClass()]?.rowspan ||
+                  carousel.defaultEntryWindow.rowspan,
+                carousel.window[windowClass()].cols
+              )
+            ">
+            <ng-container
+              *ngTemplateOutlet="
+                card;
+                context: { tile: tile, cls: 'grid-tile' }
+              "></ng-container>
+          </mat-grid-tile>
+        }
+      </mat-grid-list>
+    }
   </m3-supporting-pane>
 </m3-body-pane>
+
+<ng-template
+  #card
+  let-tile="tile"
+  let-cls="cls">
+  <mat-card
+    [ngClass]="cls"
+    [appearance]="'raised'">
+    <div
+      style="
+        flex-grow: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      ">
+      <img
+        mat-card-image
+        src="{{ tile.content.image.url }}"
+        alt="{{ tile.content.image.alt }}" />
+    </div>
+    <mat-card-header>
+      <mat-card-title>
+        {{ tile.content.title[language()] }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <span>{{ tile.content.description[language()] }}</span>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

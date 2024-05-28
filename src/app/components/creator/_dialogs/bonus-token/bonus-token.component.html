@@ -12,228 +12,199 @@
   </div>
 </div>
 
+<h2 mat-dialog-title>
+  {{ i18n().header }}
+</h2>
+
 <div
   mat-dialog-content
-  xmlns="http://www.w3.org/1999/html">
-  <div class="flexbox-container">
-    <!-- dialog capital -->
-    <div>
-      <h2 class="oldtypo-h2">
-        {{ "token-validator.bonus-token-header" | translate }}
-      </h2>
-    </div>
+  class="flexbox-container">
+  <!-- dialog capital -->
+  @if (bonusTokens.length >= 1 && tableDataSource.data.length > 0) {
+    <!-- search field -->
+    <mat-form-field class="flex-item">
+      <mat-label>Code</mat-label>
+      <input
+        matInput
+        appAccessibilityEscapedInput
+        type="text"
+        [(ngModel)]="value"
+        (ngModelChange)="applyFilter(value)" />
+      @if (value) {
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+    <!-- table -->
+    <div class="table-container">
+      <table
+        #roomTable
+        matSort
+        (matSortChange)="sortData($event)"
+        mat-table
+        [dataSource]="tableDataSource"
+        class="list-entries"
+        aria-describedby="roomTable"
+        aria-label="This table shows all available rooms.">
+        <!-- number -->
+        <ng-container
+          matColumnDef="questionNumber"
+          aria-hidden="true">
+          <th
+            mat-header-cell
+            mat-sort-header
+            sortActionDescription="Sort by questionNumber"
+            *matHeaderCellDef>
+            {{ i18n().questionNumber }}
+          </th>
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let bonusToken"
+            (click)="navToComment(bonusToken.commentId)">
+            {{ bonusToken.questionNumber }}
+          </td>
+        </ng-container>
 
-    <div *ngIf="bonusTokens.length >= 1">
-      <div *ngIf="tableDataSource.data.length > 0">
-        <!--token input field-->
-        <div class="input">
-          <mat-form-field>
-            <input
-              appAccessibilityEscapedInput
-              (keyup)="inputChanged($event)"
-              (input)="inputChanged($event)"
-              [placeholder]="'token-validator.hint' | translate"
-              matInput
-              class="input-block"
-              type="text"
-              maxlength="20"
-              name="roomName"
-              aria-labelledby="room-name-input" />
-            <mat-hint
-              align="end"
-              class="count">
-              <span aria-hidden="true">{{ value.length }} / 8</span>
-            </mat-hint>
-          </mat-form-field>
-        </div>
+        <!-- token -->
+        <ng-container
+          matColumnDef="token"
+          aria-hidden="true">
+          <th
+            mat-header-cell
+            mat-sort-header
+            sortActionDescription="Sort by token"
+            *matHeaderCellDef>
+            {{ i18n().token }}
+          </th>
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let bonusToken"
+            (click)="navToComment(bonusToken.commentId)"
+            [ngClass]="{
+              selected: selection.isSelected(bonusToken.token)
+            }">
+            {{ bonusToken.token }}
+          </td>
+        </ng-container>
 
-        <!-- table -->
-        <div class="table-container">
-          <table
-            #roomTable
-            matSort
-            (matSortChange)="sortData($event)"
-            mat-table
-            [dataSource]="tableDataSource"
-            class="list-entries"
-            aria-describedby="roomTable"
-            aria-label="This table shows all available rooms.">
-            <!-- number -->
-            <ng-container
-              matColumnDef="questionNumber"
-              aria-hidden="true">
-              <th
-                mat-header-cell
-                mat-sort-header
-                sortActionDescription="Sort by questionNumber"
-                *matHeaderCellDef
-                scope="col"
-                style="width: 30%">
-                {{ "token-validator.questionNumber" | translate }}
-              </th>
-              <td
-                mat-cell
-                class="clickable"
-                *matCellDef="let bonusToken"
+        <!-- Date -->
+        <ng-container
+          matColumnDef="date"
+          aria-hidden="true">
+          <th
+            mat-header-cell
+            mat-sort-header
+            sortActionDescription="Sort by date"
+            *matHeaderCellDef>
+            {{ i18n().date }}
+          </th>
+          <td
+            mat-cell
+            class="clickable"
+            *matCellDef="let bonusToken"
+            (click)="navToComment(bonusToken.commentId)">
+            {{ getFormattedDate(bonusToken.createdAt) }}
+          </td>
+        </ng-container>
+
+        <!-- Join button column -->
+        <ng-container matColumnDef="button">
+          <th
+            mat-header-cell
+            *matHeaderCellDef>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="moreActions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu
+              #moreActions="matMenu"
+              xPosition="before">
+              <button
+                mat-menu-item
+                (click)="export()">
+                <mat-icon class="export material-icons-outlined">
+                  file_download
+                </mat-icon>
+                <span class="delete-text">
+                  {{ i18n().exportBonusArchive }}
+                </span>
+              </button>
+              <button
+                mat-menu-item
+                (click)="openDeleteAllBonusDialog()">
+                <mat-icon class="delete material-icons-outlined">
+                  delete
+                </mat-icon>
+                <span class="delete-text">
+                  {{ i18n().deleteAllTokens }}
+                </span>
+              </button>
+            </mat-menu>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let bonusToken"
+            aria-labelledby="empty">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="moreActions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu
+              #moreActions="matMenu"
+              xPosition="before">
+              <button
+                mat-menu-item
                 (click)="navToComment(bonusToken.commentId)">
-                {{ bonusToken.questionNumber }}
-              </td>
-            </ng-container>
-
-            <!-- token -->
-            <ng-container
-              matColumnDef="token"
-              aria-hidden="true">
-              <th
-                mat-header-cell
-                mat-sort-header
-                sortActionDescription="Sort by token"
-                *matHeaderCellDef
-                scope="col"
-                style="width: 35%">
-                {{ "token-validator.token" | translate }}
-              </th>
-              <td
-                mat-cell
-                class="clickable"
-                *matCellDef="let bonusToken"
-                (click)="navToComment(bonusToken.commentId)"
-                [ngClass]="{
-                  selected: selection.isSelected(bonusToken.token)
-                }">
-                {{ bonusToken.token }}
-              </td>
-            </ng-container>
-
-            <!-- Date -->
-            <ng-container
-              matColumnDef="date"
-              aria-hidden="true">
-              <th
-                mat-header-cell
-                mat-sort-header
-                sortActionDescription="Sort by date"
-                *matHeaderCellDef
-                scope="col"
-                style="width: 34%">
-                {{ "token-validator.date" | translate }}
-              </th>
-              <td
-                mat-cell
-                class="clickable"
-                *matCellDef="let bonusToken"
-                (click)="navToComment(bonusToken.commentId)">
-                {{ getFormattedDate(bonusToken.createdAt) }}
-              </td>
-            </ng-container>
-
-            <!-- Join button column -->
-            <ng-container matColumnDef="button">
-              <th
-                mat-header-cell
-                scope="col"
-                *matHeaderCellDef
-                style="width: 1%">
-                <button
-                  mat-icon-button
-                  [matMenuTriggerFor]="moreActions">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu
-                  #moreActions="matMenu"
-                  xPosition="before">
-                  <button
-                    mat-menu-item
-                    (click)="export()">
-                    <mat-icon class="export material-icons-outlined">
-                      file_download
-                    </mat-icon>
-                    <span class="delete-text">
-                      {{ "token-validator.export-bonus-archive" | translate }}
-                    </span>
-                  </button>
-                  <button
-                    mat-menu-item
-                    (click)="openDeleteAllBonusDialog()">
-                    <mat-icon class="delete material-icons-outlined">
-                      delete
-                    </mat-icon>
-                    <span class="delete-text">
-                      {{ "token-validator.delete-all-tokens" | translate }}
-                    </span>
-                  </button>
-                </mat-menu>
-              </th>
-              <td
-                mat-cell
-                *matCellDef="let bonusToken"
-                aria-labelledby="empty">
-                <button
-                  mat-icon-button
-                  [matMenuTriggerFor]="moreActions">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu
-                  #moreActions="matMenu"
-                  xPosition="before">
-                  <button
-                    mat-menu-item
-                    (click)="navToComment(bonusToken.commentId)">
-                    <mat-icon class="export material-icons-outlined">
-                      article
-                    </mat-icon>
-                    <span class="delete-text">
-                      {{ "token-validator.go-to" | translate }}
-                    </span>
-                  </button>
-                  <button
-                    mat-menu-item
-                    (click)="openDeleteSingleBonusDialog(bonusToken)">
-                    <mat-icon class="delete material-icons-outlined">
-                      delete
-                    </mat-icon>
-                    <span class="delete-text">
-                      {{ "token-validator.delete-token" | translate }}
-                    </span>
-                  </button>
-                </mat-menu>
-              </td>
-            </ng-container>
-            <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr
-              mat-row
-              *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-        </div>
-      </div>
+                <mat-icon class="export material-icons-outlined">
+                  article
+                </mat-icon>
+                <span class="delete-text">
+                  {{ i18n().goTo }}
+                </span>
+              </button>
+              <button
+                mat-menu-item
+                (click)="openDeleteSingleBonusDialog(bonusToken)">
+                <mat-icon class="delete material-icons-outlined">
+                  delete
+                </mat-icon>
+                <span class="delete-text">
+                  {{ i18n().deleteToken }}
+                </span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
     </div>
-  </div>
+  }
 </div>
 
-<div *ngIf="bonusTokens.length === 0">
-  <p>{{ "token-validator.no-bonus" | translate }}</p>
-</div>
-
-<ars-row
-  ars-flex-box
-  class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ "explanation.label" | translate }}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      buttonsLabelSection="content"
-      [spacing]="false"
-      [cancelButtonClickAction]="
-        buildDeclineActionCallback()
-      "></app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    (click)="openHelp()">
+    {{ i18n().global.explain }}
+  </button>
+</mat-dialog-actions>

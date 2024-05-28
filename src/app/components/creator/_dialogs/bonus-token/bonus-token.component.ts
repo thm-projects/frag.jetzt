@@ -30,6 +30,11 @@ import {
 } from 'app/services/state/room-state.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+
+import i18nRaw from './bonus-token.i18n.json';
+import { i18nContext } from 'app/base/i18n/i18n-context';
+const i18n = I18nLoader.load(i18nRaw);
 
 @Component({
   selector: 'app-bonus-token',
@@ -43,6 +48,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   bonusTokens: BonusToken[] = [];
   isLoading = true;
   sub: Subscription;
+  protected readonly i18n = i18n;
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
@@ -155,11 +161,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.translateService
-        .get('token-validator.cant-find-comment')
-        .subscribe((msg) => {
-          this.notificationService.show(msg);
-        });
+      this.translateService.get(i18n().cantFindComment).subscribe((msg) => {
+        this.notificationService.show(msg);
+      });
     }
   }
 
@@ -180,7 +184,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   inputToken() {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
-      this.translateService.get('token-validator.valid').subscribe((msg) => {
+      this.translateService.get(i18n().valid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -190,7 +194,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       this.valid = true;
     } else {
-      this.translateService.get('token-validator.invalid').subscribe((msg) => {
+      this.translateService.get(i18n().invalid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -286,12 +290,13 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.moderatorService,
       this.room,
     ).subscribe((text) => {
-      this.translateService
-        .get('bonus-archive-export.file-name', {
+      copyCSVString(
+        text[0],
+        i18nContext(i18n().fileName, {
           roomName: this.room.name,
           date: text[1],
-        })
-        .subscribe((trans) => copyCSVString(text[0], trans));
+        }),
+      );
     });
   }
 

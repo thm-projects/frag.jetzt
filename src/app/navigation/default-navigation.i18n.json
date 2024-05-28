@@ -39,7 +39,8 @@
       "rateApp": "App bewerten",
       "news": "Neuigkeiten",
       "dataProtection": "Datenschutz",
-      "imprint": "Impressum"
+      "imprint": "Impressum",
+      "features": "Features"
     }
   },
   "en": {
@@ -81,7 +82,8 @@
       "rateApp": "Rate app",
       "news": "News",
       "dataProtection": "Data protection",
-      "imprint": "Imprint"
+      "imprint": "Imprint",
+      "features": "Features"
     }
   },
   "fr": {
@@ -123,7 +125,8 @@
       "rateApp": "Évaluer l'application",
       "news": "Nouvelles",
       "dataProtection": "Protection des données",
-      "imprint": "Mentions légales"
+      "imprint": "Mentions légales",
+      "features": "Caractéristiques"
     }
   }
 }

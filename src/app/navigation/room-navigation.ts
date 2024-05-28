@@ -535,7 +535,7 @@ const openRoomTags = (room: Room, injector: Injector) => {
 
 const openBonusArchive = (room: Room, injector: Injector) => {
   const dialogRef = injector.get(MatDialog).open(BonusTokenComponent, {
-    width: '400px',
+    width: 'var(--mat-dialog-container-max-width, 80vw)',
   });
   dialogRef.componentInstance.room = room;
 };

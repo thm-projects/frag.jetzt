@@ -48,7 +48,6 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
-import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
 import { TopicCloudBrainstormingComponent } from '../../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { IntroductionQuestionWallDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
@@ -158,6 +157,8 @@ import { QuestionWallDisplayCommentComponent } from './questionwall/question-wal
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
+import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/question-wall-comment-focus.component';
 
 @NgModule({
   imports: [
@@ -180,6 +181,8 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
     ContextPipe,
+    QuestionWallCommentComponent,
+    QuestionWallCommentFocusComponent,
   ],
   declarations: [
     RoomJoinComponent,
@@ -222,7 +225,6 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
     WorkerConfigDialogComponent,
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     TopicCloudBrainstormingComponent,
     IntroductionQuestionWallComponent,
     IntroductionQuestionWallDEComponent,
@@ -341,7 +343,6 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
     ScrollIntoViewDirective,
     WriteCommentComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent,
     DashboardComponent,
     AppRatingComponent,
     MinuteJumpClockComponent,
