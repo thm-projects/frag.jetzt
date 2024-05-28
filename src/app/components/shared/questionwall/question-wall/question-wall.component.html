@@ -1,10 +1,100 @@
-<div class="top-bar"></div>
+<div class="top-bar row items-center content-end gap-medium">
+  <div class="row items-center gap-medium">
+    <div class="text-icon">
+      <mat-icon>people</mat-icon>
+      {{ headerService.getCurrentUserActivity() || 0 }}
+    </div>
+    <div class="text-icon">
+      <mat-icon>comment</mat-icon>
+      {{ commentsCountQuestions }}
+    </div>
+    <div class="text-icon">
+      <mat-icon>person</mat-icon>
+      {{ commentsCountUsers }}
+    </div>
+  </div>
+  <div class="row items-center">
+    <button
+      mat-button
+      [matMenuTriggerFor]="matSortMenu">
+      <mat-icon>sort</mat-icon>
+      Sort
+      <mat-menu #matSortMenu>
+        <button mat-menu-item>Newest</button>
+        <button mat-menu-item>Oldest</button>
+        <button mat-menu-item>Score</button>
+        <button mat-menu-item>Controversy</button>
+      </mat-menu>
+    </button>
+    <button
+      mat-button
+      [matMenuTriggerFor]="matTimeFilterMenu">
+      <mat-icon>schedule</mat-icon>
+      Time Period
+      <mat-menu #matTimeFilterMenu>
+        <button mat-menu-item>Display questions from now on</button>
+        <button mat-menu-item>Last hour</button>
+        <button mat-menu-item>Last 2 hours</button>
+        <button mat-menu-item>Last 24 hours</button>
+        <button mat-menu-item>Last 7 Days</button>
+        <button mat-menu-item>Last 14 Days</button>
+        <button mat-menu-item>Unlimited in time</button>
+      </mat-menu>
+    </button>
+    <button
+      mat-button
+      [matMenuTriggerFor]="matFilterMenu">
+      <mat-icon>filter</mat-icon>
+      Filter
+      <mat-menu #matFilterMenu>
+        <button mat-menu-item>
+          <mat-icon>star</mat-icon>
+          Marked for a bonus
+        </button>
+        <button mat-menu-item>
+          <mat-icon>bookmark</mat-icon>
+          Bookmarked
+        </button>
+      </mat-menu>
+    </button>
+    <button
+      mat-button
+      [matMenuTriggerFor]="matCategoryMenu">
+      <mat-icon>category</mat-icon>
+      Category
+      <mat-menu #matCategoryMenu>
+        @for (category of room.tags; track category) {
+          <button mat-menu-item>
+            {{ category }}
+          </button>
+        } @empty {
+          <span>no-categories</span>
+        }
+      </mat-menu>
+    </button>
+  </div>
+</div>
 <div class="content row grow">
-  <div class="view-comment-container grow">
-    @if (commentFocus) {
-      <app-question-wall-comment-focus
-        [comment]="commentFocus"></app-question-wall-comment-focus>
-    }
+  <div class="view-comment-container column grow">
+    <div class="view-comment grow">
+      @if (commentFocus) {
+        <app-question-wall-comment-focus
+          [comment]="commentFocus"></app-question-wall-comment-focus>
+      }
+    </div>
+    <div
+      class="view-comment-bottom-bar row items-center content-end gap-medium">
+      <div class="row content-center">
+        <button mat-button>
+          <mat-icon>chevron_left</mat-icon>
+          previous
+        </button>
+        <button mat-button>
+          <mat-icon>chevron_right</mat-icon>
+          next
+        </button>
+      </div>
+    </div>
   </div>
   <div class="side-bar-container column">
     <div class="side-bar-content grow">
@@ -20,7 +110,7 @@
     </div>
   </div>
 </div>
-<div class="bottom-bar"></div>
+
 <!--<app-mat-spinner-overlay-->
 <!--  *ngIf="isLoading"-->
 <!--  [overlay]="true"></app-mat-spinner-overlay>-->

@@ -1,13 +1,12 @@
 :host {
   height: 100%;
-  background-color: grey;
   display: flex;
   flex-direction: column;
 }
 
 .top-bar {
   height: 60px;
-  background-color: red;
+  background-color: var(--md-sys-color-surface3);
 }
 
 .side-bar-container {
@@ -15,11 +14,22 @@
 }
 
 .side-bar-footer {
-  height: 60px;
-  background-color: yellow;
 }
 
-.bottom-bar {
-  height: 60px;
-  background-color: red;
+.view-comment-bottom-bar {
+  height: 52px;
+}
+
+.side-bar-content {
+  height: 0;
+  overflow: auto;
+}
+
+/**/
+
+.text-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
