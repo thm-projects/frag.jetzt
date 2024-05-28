@@ -1,9 +1,6 @@
 const regex = /\{\{([a-zA-Z0-9]*)\}\}/gm;
 
-export const substitueVariables = (
-  str: string,
-  data: Record<string, string>,
-) => {
+export const i18nContext = (str: string, data: Record<string, string>) => {
   let newStr = '';
   let m: RegExpExecArray;
   let lastIndex = 0;
@@ -14,5 +11,6 @@ export const substitueVariables = (
       lastIndex = m.index + m[0].length;
     }
   }
+  newStr += str.slice(lastIndex);
   return newStr;
 };
