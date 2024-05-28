@@ -11,12 +11,12 @@ import {
   ViewChild,
   computed,
 } from '@angular/core';
-import { FontInfoService } from '../../../../services/util/font-info.service';
+import { FontInfoService } from '../../../services/util/font-info.service';
 import {
   CloudParameters,
   CloudTextStyle,
-} from '../../../../utils/cloud-parameters';
-import { ColorContrast } from '../../../../utils/color-contrast';
+} from '../../../utils/cloud-parameters';
+import { ColorContrast } from '../../../utils/color-contrast';
 import {
   CloudDrawFuncType,
   WordCloudDrawFunctions,

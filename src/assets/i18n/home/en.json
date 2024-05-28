@@ -109,7 +109,7 @@
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
-    "title": "Data Privacy"
+    "title": "Data protection"
   },
   "delete-account": {
     "cancel": "Cancel",
@@ -175,13 +175,13 @@
     "help": "Help",
     "imprint": "Imprint",
     "language": "Language",
-    "motd-mark-all-read": "Hide",
-    "motd-mark-read": "Seen",
-    "motd-title-main": "News from the developers",
+    "motd-mark-all-read": "All read",
+    "motd-mark-read": "Read",
+    "motd-title-main": "News",
     "motd-title-new": "Latest",
     "motd-title-old": "Archive",
-    "motd-empty-new": "No new messages",
-    "motd-empty-old": "No read messages yet",
+    "motd-empty-new": "",
+    "motd-empty-old": "",
     "open": "Open",
     "style": "Design"
   },
@@ -639,7 +639,7 @@
     "cancel-description": "Exits the app",
     "message": "As a guest, you can use »frag.jetzt« completely anonymously.",
     "title": "Think again?",
-    "understood": "I have thought it over again …",
+    "understood": "Okay",
     "understood-description": "Return to the previous dialog"
   },
   "password-reset": {

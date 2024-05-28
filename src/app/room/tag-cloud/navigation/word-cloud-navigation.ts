@@ -1,10 +1,11 @@
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import rawRadari18n from './radar.i18n.json';
+const radari18n = I18nLoader.loadModule(rawRadari18n);
+
 import {
   getRoomHeader,
   getRoomNavigation,
 } from 'app/navigation/room-navigation';
-import rawRadari18n from './radar-i18n.json';
-const radari18n = I18nLoader.loadModule(rawRadari18n);
-import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { Injector } from '@angular/core';
 import { combineLatest, filter, map } from 'rxjs';
 import { HEADER, NAVIGATION } from 'modules/navigation/m3-navigation-emitter';
@@ -16,12 +17,12 @@ import {
   getById,
 } from 'modules/navigation/m3-navigation.types';
 import { MatDialog } from '@angular/material/dialog';
-import { TopicCloudAdministrationComponent } from '../../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { TopicCloudAdministrationComponent } from '../../../components/shared/_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
-import { WorkerConfigDialogComponent } from '../../_dialogs/worker-config-dialog/worker-config-dialog.component';
+import { WorkerConfigDialogComponent } from '../../../components/shared/_dialogs/worker-config-dialog/worker-config-dialog.component';
 
 export const applyRadarNavigation = (
   injector: Injector,

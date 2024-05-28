@@ -68,7 +68,7 @@
     "navigation": {
       "title": "Navigation & Options",
       "app": "Places",
-      "home": "Home",
+      "home": "Homepage",
       "myRooms": "My rooms",
       "admin": "Administration"
     },
@@ -125,8 +125,7 @@
       "rateApp": "Évaluer l'application",
       "news": "Nouvelles",
       "dataProtection": "Protection des données",
-      "imprint": "Empreinte",
-      "features": "Features"
+      "imprint": "Mentions légales"
     }
   }
 }

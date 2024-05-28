@@ -11,21 +11,21 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   TagCloudDataService,
   TagCloudDataTagEntry,
-} from '../../../../services/util/tag-cloud-data.service';
+} from '../../../services/util/tag-cloud-data.service';
 import {
   LanguagetoolResult,
   LanguagetoolService,
-} from '../../../../services/http/languagetool.service';
+} from '../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
-import { CommentService } from '../../../../services/http/comment.service';
-import { NotificationService } from '../../../../services/util/notification.service';
-import { UserRole } from '../../../../models/user-roles.enum';
-import { SpacyKeyword } from '../../../../services/http/spacy.service';
+import { CommentService } from '../../../services/http/comment.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { UserRole } from '../../../models/user-roles.enum';
+import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { Router } from '@angular/router';
-import { Room } from '../../../../models/room';
-import { SessionService } from '../../../../services/util/session.service';
-import { BrainstormingService } from '../../../../services/http/brainstorming.service';
+import { Room } from '../../../models/room';
+import { SessionService } from '../../../services/util/session.service';
+import { BrainstormingService } from '../../../services/http/brainstorming.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';

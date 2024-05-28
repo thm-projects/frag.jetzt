@@ -87,21 +87,22 @@
     let i = $index, isLast = $last
   ) {
     <mat-list-item>
-      @if (getResponderIcon(notification); as icon) {
-        <mat-icon
-          matListItemIcon
-          [matTooltip]="icon.tooltip | translate">
-          {{ icon.icon }}
-        </mat-icon>
-      }
-      @if (getReactionIcon(notification); as icon) {
-        <mat-icon
-          matListItemIcon
-          [class]="icon.class"
-          [matTooltip]="icon.tooltip | translate">
-          {{ icon.icon }}
-        </mat-icon>
-      }
+      <ng-container matListItemIcon>
+        @if (getResponderIcon(notification); as icon) {
+          <mat-icon [matTooltip]="icon.tooltip | translate">
+            {{ icon.icon }}
+          </mat-icon>
+        }
+      </ng-container>
+      <ng-container matListItemIcon>
+        @if (getReactionIcon(notification); as icon) {
+          <mat-icon
+            [class]="icon.class"
+            [matTooltip]="icon.tooltip | translate">
+            {{ icon.icon }}
+          </mat-icon>
+        }
+      </ng-container>
       <!--Message Text-->
       <div matListItemTitle>
         {{ getNotificationMessage(notification) | async }}

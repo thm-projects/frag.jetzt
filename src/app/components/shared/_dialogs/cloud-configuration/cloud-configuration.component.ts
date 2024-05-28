@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
+import { TagCloudComponent } from '../../../../room/tag-cloud/tag-cloud.component';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 import {

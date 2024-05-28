@@ -31,13 +31,13 @@ import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-admini
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
-import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { TagCloudPopUpComponent } from '../../room/tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { JoyrideModule } from 'ngx-joyride';
-import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { TagCloudComponent } from '../../room/tag-cloud/tag-cloud.component';
 import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-template.component';
 import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
@@ -46,7 +46,7 @@ import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.direc
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
-import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
+import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
 import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';

@@ -1,6 +1,4 @@
-<h2
-  tabindex="0"
-  mat-dialog-title>
+<h2 tabindex="0" mat-dialog-title>
   {{ "footer.motd-title-main" | translate }}
 </h2>
 
@@ -14,11 +12,9 @@
         {{ "footer.motd-title-new" | translate }}
       </ng-template>
       @for (message of unreadMotds; track message) {
-        <app-motd-message
-          (clickRead)="onSwitch($event)"
-          [message]="message"></app-motd-message>
+      <app-motd-message (clickRead)="onSwitch($event)" [message]="message"></app-motd-message>
       } @empty {
-        <p class="empty">{{ "footer.motd-empty-new" | translate }}</p>
+      <p class="empty">{{ "footer.motd-empty-new" | translate }}</p>
       }
     </mat-tab>
     <!-- Read -->
@@ -29,28 +25,20 @@
         {{ "footer.motd-title-old" | translate }}
       </ng-template>
       @for (message of readMotds; track message) {
-        <app-motd-message
-          (clickRead)="onSwitch($event)"
-          [message]="message"></app-motd-message>
+      <app-motd-message (clickRead)="onSwitch($event)" [message]="message"></app-motd-message>
       } @empty {
-        <p class="empty">{{ "footer.motd-empty-old" | translate }}</p>
+      <p class="empty">{{ "footer.motd-empty-old" | translate }}</p>
       }
     </mat-tab>
   </mat-tab-group>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button
-    mat-stroked-button
-    class="secondary-button"
-    (click)="markAllAsRead()">
-    {{ "footer.motd-mark-all-read" | translate }}
+  <button mat-button mat-dialog-close>
+    {{ "imprint.cancel" | translate }}
   </button>
   <span style="flex: 1"></span>
-  <button
-    mat-button
-    class="secondary-button"
-    mat-dialog-close>
-    {{ "imprint.cancel" | translate }}
+  <button mat-button (click)="markAllAsRead()">
+    {{ "footer.motd-mark-all-read" | translate }}
   </button>
 </mat-dialog-actions>

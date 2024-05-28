@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Observable,
   Subject,
@@ -32,6 +32,7 @@ import { Language, language } from 'app/base/language/language';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { dataService } from 'app/base/db/data-service';
 import { Motd } from 'app/base/db/models/db-motd';
+import { Router } from '@angular/router';
 
 export type ThemeKey = keyof typeof themes;
 
@@ -46,6 +47,7 @@ export class AppStateService {
   readonly cookiesAccepted$: Observable<boolean>;
   private readonly updateTheme$ = new Subject<ThemeKey>();
   private readonly updateCookieAccepted$ = new Subject<boolean>();
+  private router = inject(Router);
 
   constructor(
     private onlineState: OnlineStateService,
@@ -186,7 +188,8 @@ export class AppStateService {
 
   private leaveApp(): Observable<unknown> {
     window.close();
-    location.replace('about:blank');
+    window.history.pushState(null, '', 'about:blank');
+    location.href = 'about:blank';
     return of();
   }
 

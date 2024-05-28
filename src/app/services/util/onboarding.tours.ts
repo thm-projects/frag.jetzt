@@ -86,7 +86,7 @@ export const initDefaultTour = (
     },
     voting: {
       beforeLoad: () => {
-        document.getElementById('scroll_container').scrollTop = 0;
+        document.querySelector('.m3-nav-body').scrollTop = 0;
       },
     },
   },

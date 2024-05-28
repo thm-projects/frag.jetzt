@@ -62,14 +62,15 @@
             <div class="button-container">
               @if (!isFirst || showBackOption) {
                 <button
-                  mat-stroked-button
+                  mat-button
                   matStepperPrevious>
                   {{ "multi-level-dialog.previous" | translate }}
                 </button>
-                <span style="flex: 1"></span>
               }
+              <span style="flex: 1"></span>
               <button
-                mat-stroked-button
+                mat-flat-button
+                class="secondary"
                 (click)="next(i + offsetIndex)">
                 {{ "multi-level-dialog.next" | translate }}
               </button>
@@ -119,20 +120,20 @@
         <p>{{ "multi-level-dialog.complete-text" | translate }}</p>
         <div class="button-container">
           <button
-            mat-stroked-button
+            mat-button
             matStepperPrevious>
             {{ "multi-level-dialog.previous" | translate }}
           </button>
-          <span style="flex: 1"></span>
           <button
             class="error-button"
-            mat-stroked-button
+            mat-button
             (click)="reset()">
             {{ "multi-level-dialog.complete-reset" | translate }}
           </button>
+          <span style="flex: 1"></span>
           <button
             class="primary-button"
-            mat-stroked-button
+            mat-flat-button
             (click)="submit()">
             {{ "multi-level-dialog.confirm" | translate }}
             @if (sending) {
@@ -167,20 +168,17 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  @if (currentQuestion?.stepHelp) {
-    <button
-      mat-stroked-button
-      class="secondary-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ "explanation.label" | translate }}
-    </button>
-  }
-  <span style="flex: 1"></span>
   <button
     mat-button
-    class="secondary-button"
     mat-dialog-close>
     {{ "multi-level-dialog.cancel" | translate }}
   </button>
+  <span style="flex: 1"></span>
+  @if (currentQuestion?.stepHelp) {
+    <button
+      mat-button
+      (click)="openHelp()">
+      {{ "explanation.label" | translate }}
+    </button>
+  }
 </mat-dialog-actions>

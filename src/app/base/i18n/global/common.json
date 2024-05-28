@@ -6,7 +6,10 @@
     "continue": "Weiter",
     "confirm": "Übernehmen",
     "abort": "Abbrechen",
-    "submit": "Abschicken"
+    "submit": "Abschicken",
+    "explain": "Erkläre",
+    "changeSuccessful": "Änderungen gespeichert",
+    "changesGoneWrong": "Etwas ist schief gelaufen!"
   },
   "en": {
     "close": "Close",
@@ -14,7 +17,10 @@
     "continue": "Continue",
     "confirm": "Confirm",
     "abort": "Cancel",
-    "submit": "Submit"
+    "submit": "Submit",
+    "explain": "Explain",
+    "changeSuccessful": "Successfully updated",
+    "changesGoneWrong": "Something has gone wrong!"
   },
   "fr": {
     "close": "Fermer",
@@ -22,6 +28,9 @@
     "continue": "Continuer",
     "confirm": "Appliquer",
     "abort": "Annuler",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "explain": "Expliquer",
+    "changeSuccessful": "Modifications enregistrées",
+    "changesGoneWrong": "Quelque chose a mal tourné !"
   }
 }
