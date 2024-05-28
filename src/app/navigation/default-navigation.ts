@@ -242,7 +242,7 @@ export const getDefaultNavigation = (
             options: [
               {
                 id: 'features',
-                icon: 'cake',
+                icon: 'apps',
                 title: i18n.options.features,
                 onClick: () => {
                   injector.get(HomePageService).toggleFeatureState();
