@@ -21,6 +21,25 @@
   class="flexbox-container">
   <!-- dialog capital -->
   @if (bonusTokens.length >= 1 && tableDataSource.data.length > 0) {
+    <!-- search field -->
+    <mat-form-field class="flex-item">
+      <mat-label>Code</mat-label>
+      <input
+        matInput
+        appAccessibilityEscapedInput
+        type="text"
+        [(ngModel)]="value"
+        (ngModelChange)="applyFilter(value)" />
+      @if (value) {
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
     <!-- table -->
     <div class="table-container">
       <table
@@ -40,9 +59,7 @@
             mat-header-cell
             mat-sort-header
             sortActionDescription="Sort by questionNumber"
-            *matHeaderCellDef
-            scope="col"
-            style="width: 30%">
+            *matHeaderCellDef>
             {{ i18n().questionNumber }}
           </th>
           <td
@@ -62,9 +79,7 @@
             mat-header-cell
             mat-sort-header
             sortActionDescription="Sort by token"
-            *matHeaderCellDef
-            scope="col"
-            style="width: 35%">
+            *matHeaderCellDef>
             {{ i18n().token }}
           </th>
           <td
@@ -87,9 +102,7 @@
             mat-header-cell
             mat-sort-header
             sortActionDescription="Sort by date"
-            *matHeaderCellDef
-            scope="col"
-            style="width: 34%">
+            *matHeaderCellDef>
             {{ i18n().date }}
           </th>
           <td
@@ -105,9 +118,7 @@
         <ng-container matColumnDef="button">
           <th
             mat-header-cell
-            scope="col"
-            *matHeaderCellDef
-            style="width: 1%">
+            *matHeaderCellDef>
             <button
               mat-icon-button
               [matMenuTriggerFor]="moreActions">

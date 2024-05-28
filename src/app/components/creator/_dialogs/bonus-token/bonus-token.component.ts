@@ -161,11 +161,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.translateService
-        .get('token-validator.cant-find-comment')
-        .subscribe((msg) => {
-          this.notificationService.show(msg);
-        });
+      this.translateService.get(i18n().cantFindComment).subscribe((msg) => {
+        this.notificationService.show(msg);
+      });
     }
   }
 
@@ -186,7 +184,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   inputToken() {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
-      this.translateService.get('token-validator.valid').subscribe((msg) => {
+      this.translateService.get(i18n().valid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -196,7 +194,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       this.valid = true;
     } else {
-      this.translateService.get('token-validator.invalid').subscribe((msg) => {
+      this.translateService.get(i18n().invalid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
