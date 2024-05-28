@@ -26,7 +26,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { FormControl } from '@angular/forms';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { BrainstormingService } from '../../../services/http/brainstorming.service';

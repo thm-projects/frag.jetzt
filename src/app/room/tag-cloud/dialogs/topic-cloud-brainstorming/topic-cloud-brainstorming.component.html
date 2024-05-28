@@ -1,24 +1,21 @@
-<h2 mat-dialog-title>{{ "content.brainstorm-title" | translate }}</h2>
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
 
 <mat-dialog-content>
   @if (isLoading) {
     <app-mat-spinner-overlay></app-mat-spinner-overlay>
   } @else {
     @if (userRole > 0 && !brainstormingData?.active) {
-      <mat-card appearance="outlined">
+      <mat-card appearance="raised">
         <mat-card-header>
           <mat-card-title>
-            {{
-              "content.brainstorm-new-session" + (isMobile ? "-short" : "")
-                | translate
-            }}
+            {{ isMobile ? i18n().newSessionMobile : i18n().newSession }}
           </mat-card-title>
         </mat-card-header>
 
         <mat-card-content>
           <mat-form-field appearance="fill">
             <mat-label>
-              {{ "content.brainstorming-question" | translate }}
+              {{ i18n().question }}
             </mat-label>
             <input
               matInput
@@ -39,7 +36,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>
-              {{ "content.brainstorming-word-count" | translate }}
+              {{ i18n().wordCount }}
             </mat-label>
             <input
               matInput
@@ -51,27 +48,23 @@
               [formControl]="maxWordCount" />
             <mat-hint>
               {{
-                "content.field-hint-number"
-                  | translate: { min: maxWordCountMin, max: maxWordCountMax }
+                i18n().rangeHint
+                  | context: { min: maxWordCountMin, max: maxWordCountMax }
               }}
             </mat-hint>
             <mat-error *ngIf="maxWordCount.hasError('required')">
-              {{ "content.field-required" | translate }}
+              {{ i18n().fieldRequired }}
             </mat-error>
             <mat-error *ngIf="maxWordCount.hasError('min')">
-              {{
-                "content.field-too-low" | translate: { min: maxWordCountMin }
-              }}
+              {{ i18n().fieldTooLow | context: { min: maxWordCountMin } }}
             </mat-error>
             <mat-error *ngIf="maxWordCount.hasError('max')">
-              {{
-                "content.field-too-high" | translate: { max: maxWordCountMax }
-              }}
+              {{ i18n().fieldTooHigh | context: { max: maxWordCountMax } }}
             </mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>
-              {{ "content.brainstorming-word-length" | translate }}
+              {{ i18n().wordLength | translate }}
             </mat-label>
             <input
               matInput
@@ -83,44 +76,37 @@
               [formControl]="maxWordLength" />
             <mat-hint>
               {{
-                "content.field-hint-number"
-                  | translate: { min: maxWordLengthMin, max: maxWordLengthMax }
+                i18n().rangeHint
+                  | context: { min: maxWordLengthMin, max: maxWordLengthMax }
               }}
             </mat-hint>
             <mat-error *ngIf="maxWordLength.hasError('required')">
-              {{ "content.field-required" | translate }}
+              {{ i18n().fieldRequired }}
             </mat-error>
             <mat-error *ngIf="maxWordLength.hasError('min')">
-              {{
-                "content.field-too-low" | translate: { min: maxWordLengthMin }
-              }}
+              {{ i18n().fieldTooLow | context: { min: maxWordLengthMin } }}
             </mat-error>
             <mat-error *ngIf="maxWordLength.hasError('max')">
-              {{
-                "content.field-too-high" | translate: { max: maxWordLengthMax }
-              }}
+              {{ i18n().fieldTooHigh | context: { max: maxWordLengthMax } }}
             </mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>
-              {{ "content.brainstormin-language-title" | translate }}
+              {{ i18n().lang.title }}
             </mat-label>
             <mat-select [formControl]="language">
               <mat-option
                 *ngFor="let lang of languages"
                 [value]="lang">
-                {{ "content.brainstormin-language." + lang | translate }}
+                {{ i18n().lang[lang] }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="language.hasError('required')">
-              {{ "content.field-required" | translate }}
+              {{ i18n().fieldRequired }}
             </mat-error>
           </mat-form-field>
           <mat-label>
-            {{
-              "content.brainstorming-duration"
-                | translate: { duration: getDuration() }
-            }}
+            {{ i18n().duration | context: { duration: getDuration() } }}
           </mat-label>
           <mat-slider
             [min]="5"
@@ -135,13 +121,13 @@
           </mat-slider>
           <br />
           <mat-slide-toggle [(ngModel)]="brainstormingAllowIdeas">
-            {{ "content.brainstorming-allow-ideas" | translate }}
+            {{ i18n().allowIdeas }}
           </mat-slide-toggle>
           <br />
           <mat-slide-toggle [(ngModel)]="brainstormingAllowRating">
-            {{ "content.brainstorming-allow-rating" | translate }}
+            {{ i18n().allowRating }}
           </mat-slide-toggle>
-          <p>{{ "content.note-on-changing-settings" | translate }}</p>
+          <p>{{ i18n().noteChangeSettings }}</p>
         </mat-card-content>
 
         <mat-card-actions>
@@ -149,7 +135,7 @@
             mat-stroked-button
             [disabled]="!canCreate()"
             (click)="openNew()">
-            {{ "content.brainstorm-start" | translate }}
+            {{ i18n().start }}
             <app-mat-spinner-overlay
               *ngIf="isCreating"
               [diameter]="20"
@@ -160,37 +146,29 @@
       </mat-card>
     }
     @if (brainstormingData) {
-      <mat-card appearance="outlined">
+      <mat-card appearance="raised">
         @if (!brainstormingData?.active) {
           <mat-card-header>
             <mat-card-title>
               {{
-                "content.brainstorm-old-session-title" +
-                  (isMobile ? "-short" : "") | translate
+                isMobile
+                  ? i18n().oldSession.titleMobile
+                  : i18n().oldSession.title
               }}
             </mat-card-title>
           </mat-card-header>
 
           <mat-card-content>
-            {{
-              "content.brainstorm-old-session-info"
-                | translate: brainstormingData
-            }}
+            {{ i18n().oldSession.info | context: brainstormingData }}
           </mat-card-content>
 
           <mat-card-actions>
-            <button
-              mat-stroked-button
-              class="primary-button"
-              (click)="open()">
-              {{ "content.brainstorm-old-session-show" | translate }}
-            </button>
             @if (userRole > 0) {
               <button
-                mat-stroked-button
+                mat-button
                 class="error-button"
                 (click)="deleteSession()">
-                {{ "content.brainstorm-old-session-delete" | translate }}
+                {{ i18n().oldSession.delete }}
                 <app-mat-spinner-overlay
                   *ngIf="isDeleting"
                   [diameter]="20"
@@ -198,38 +176,34 @@
                   [color]="'on-secondary'"></app-mat-spinner-overlay>
               </button>
             }
+            <button
+              mat-flat-button
+              class="secondary"
+              (click)="open()">
+              {{ i18n().oldSession.show }}
+            </button>
           </mat-card-actions>
         } @else {
           <mat-card-header>
             <mat-card-title>
               {{
-                "content.brainstorm-join-session-title" +
-                  (isMobile ? "-short" : "") | translate
+                isMobile
+                  ? i18n().joinSession.titleMobile
+                  : i18n().joinSession.title
               }}
             </mat-card-title>
           </mat-card-header>
 
           <mat-card-content>
-            {{
-              "content.brainstorm-join-session-info"
-                | translate: brainstormingData
-            }}
+            {{ i18n().joinSession.info | context: brainstormingData }}
           </mat-card-content>
 
           <mat-card-actions>
-            <button
-              mat-stroked-button
-              class="primary-button"
-              (click)="open()">
-              {{ "content.brainstorm-join-session-join" | translate }}
-            </button>
-
             @if (userRole > 0) {
               <button
-                mat-stroked-button
-                class="secondary-button"
+                mat-button
                 (click)="closeSession()">
-                {{ "content.brainstorm-join-session-close" | translate }}
+                {{ i18n().joinSession.close }}
                 <app-mat-spinner-overlay
                   *ngIf="isClosing"
                   [diameter]="20"
@@ -237,15 +211,22 @@
                   [color]="'on-secondary'"></app-mat-spinner-overlay>
               </button>
             }
+
+            <button
+              mat-flat-button
+              class="secondary"
+              (click)="open()">
+              {{ i18n().joinSession.join }}
+            </button>
           </mat-card-actions>
         }
       </mat-card>
     }
 
     @if (userRole === 0 && !this.brainstormingData) {
-      <mat-card appearance="outlined">
+      <mat-card appearance="raised">
         <mat-card-content>
-          {{ "content.brainstorm-no-session" | translate }}
+          {{ i18n().noSession }}
         </mat-card-content>
       </mat-card>
     }
@@ -254,17 +235,14 @@
 
 <mat-dialog-actions>
   <button
-    mat-stroked-button
-    class="secondary-button"
-    (click)="openHelp()">
-    <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    mat-button
+    mat-dialog-close="abort">
+    {{ i18n().global.cancel }}
   </button>
   <span style="flex: 1"></span>
   <button
     mat-button
-    class="secondary-button"
-    mat-dialog-close="abort">
-    {{ "content.cancel" | translate }}
+    (click)="openHelp()">
+    {{ i18n().global.explain }}
   </button>
 </mat-dialog-actions>

@@ -29,7 +29,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
-import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from '../../room/tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
@@ -49,7 +49,7 @@ import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/wor
 import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
 import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
-import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { IntroductionQuestionWallDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
 import { IntroductionQuestionWallENComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-en.component';
@@ -157,6 +157,7 @@ import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
 
 @NgModule({
   imports: [
@@ -178,6 +179,7 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
     QuestionWallDisplayCommentComponent,
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
+    ContextPipe,
   ],
   declarations: [
     RoomJoinComponent,

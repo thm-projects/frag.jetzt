@@ -1,0 +1,75 @@
+{
+  "key": "topic-cloud-filter",
+  "de": {
+    "title": "Welche Fragen willst du auf dem Radar haben?",
+    "filter": {
+      "all-questions-and-answers": "Alle Fragen mit Antworten",
+      "only-questions": "Nur Fragen",
+      "from-now": "Nur Fragen ab jetzt"
+    },
+    "tooltipQuestion": "Anzahl Fragen",
+    "tooltipQuestioners": "Anzahl Fragensteller*innen",
+    "tooltipKeywords": "Anzahl Stichwörter",
+    "ple": {
+      "title": "Welche Topics willst du auf dem Radar haben?",
+      "filter": {
+        "all-questions-and-answers": "Alle Topics mit Antworten",
+        "only-questions": "Nur Topics",
+        "from-now": "Nur Topics ab jetzt"
+      },
+      "tooltipQuestion": "Anzahl Topics",
+      "tooltipQuestioners": "Anzahl Topic-Ersteller*innen"
+    },
+    "thresholdActive": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
+    "infoNoKeywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
+    "start": "Starten"
+  },
+  "en": {
+    "title": "Which questions do you want on the radar?",
+    "filter": {
+      "all-questions-and-answers": "All questions with answers",
+      "only-questions": "Questions only",
+      "from-now": "Only questions from now on"
+    },
+    "tooltipQuestion": "Number of questions",
+    "tooltipQuestioners": "Number of questioners",
+    "tooltipKeywords": "Number of Keywords",
+    "ple": {
+      "title": "Which topics do you want on the radar?",
+      "filter": {
+        "all-questions-and-answers": "All topics with answers",
+        "only-questions": "Only topics",
+        "from-now": "Only topics from now on"
+      },
+      "tooltipQuestion": "Number of Topics",
+      "tooltipQuestioners": "Number of topic creators"
+    },
+    "thresholdActive": "Thresholds for displaying topics are active.",
+    "infoNoKeywords": "Our AI-based text analysis can identify keywords. Start analysis?",
+    "start": "Start"
+  },
+  "fr": {
+    "title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
+    "filter": {
+      "all-questions-and-answers": "Toutes les questions avec réponses",
+      "only-questions": "Seulement les questions",
+      "from-now": "Questions à partir de maintenant"
+    },
+    "tooltipQuestion": "Nombre de questions",
+    "tooltipQuestioners": "Nombre d'auteurs de questions",
+    "tooltipKeywords": "Nombre de mots-clés",
+    "ple": {
+      "title": "Quelles sont les sujets que tu aimerais avoir sur le radar ?",
+      "filter": {
+        "all-questions-and-answers": "Tous les sujets avec réponses",
+        "only-questions": "Seulement les sujets",
+        "from-now": "Seulement les sujets dès maintenant"
+      },
+      "tooltipQuestion": "Nombre de sujets",
+      "tooltipQuestioners": "Nombre d'auteurs de sujets"
+    },
+    "thresholdActive": "Les seuils pour l'affichage des sujets sont actifs.",
+    "infoNoKeywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
+    "start": "Démarrer"
+  }
+}

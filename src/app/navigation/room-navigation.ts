@@ -24,10 +24,10 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import { TopicCloudFilterComponent } from '../components/shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
-import { TopicCloudBrainstormingComponent } from '../components/shared/_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { User } from 'app/models/user';
 import { CommentSettingsComponent } from 'app/components/creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from 'app/models/comment-settings-dialog';

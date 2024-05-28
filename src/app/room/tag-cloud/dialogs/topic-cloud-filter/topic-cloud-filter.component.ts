@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { EventService } from '../../../../services/util/event.service';
@@ -5,11 +8,11 @@ import { Router } from '@angular/router';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData } from '../../../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
-import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
+import { WorkerDialogComponent } from '../../../../components/shared/_dialogs/worker-dialog/worker-dialog.component';
 import { Room } from '../../../../models/room';
-import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { ExplanationDialogComponent } from '../../../../components/shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { forkJoin, Observable, ReplaySubject } from 'rxjs';
@@ -92,6 +95,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     },
   };
   isMobile = false;
+  protected readonly i18n = i18n;
   private readonly _adminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
 

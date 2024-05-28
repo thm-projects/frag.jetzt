@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { FormControl, Validators } from '@angular/forms';
@@ -5,11 +8,10 @@ import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
 import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 import { Room } from '../../../../models/room';
-import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { CommentService } from '../../../../services/http/comment.service';
-import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { ExplanationDialogComponent } from '../../../../components/shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -52,6 +54,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   readonly languages = [...AVAILABLE_LANGUAGES];
   language: FormControl;
   isMobile = false;
+  protected readonly i18n = i18n;
   private _room: Room;
   private destroyer = new ReplaySubject(1);
 
@@ -61,7 +64,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private roomDataService: RoomDataService,
     private commentService: CommentService,
-    private translateService: TranslateService,
     private notificationService: NotificationService,
     private router: Router,
     private brainstormingService: BrainstormingService,
@@ -97,9 +99,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     if (!this._room.directSend) {
-      this.translateService
-        .get('content.brainstorming-direct-send-disabled')
-        .subscribe((msg) => this.notificationService.show(msg));
+      this.notificationService.show(i18n().moderationEnabled);
       return;
     }
     this.isCreating = true;
@@ -233,8 +233,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   private showSomethingWentWrong() {
-    this.translateService
-      .get('content.brainstorming-action-went-wrong')
-      .subscribe((msg) => this.notificationService.show(msg));
+    this.notificationService.show(i18n().global.changesGoneWrong);
   }
 }
