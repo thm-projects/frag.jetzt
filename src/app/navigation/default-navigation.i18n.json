@@ -2,7 +2,7 @@
   "key": "default-navigation",
   "de": {
     "header": {
-      "slogan": "Willkommen auf unserer Q&A-Plattform: Du fragst. KI antwortet.",
+      "slogan": "Willkommen auf unserer Q&A-Plattform! Du fragst. KI antwortet.",
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
       "aiConsent": "KI-Datenschutz",
@@ -45,7 +45,7 @@
   },
   "en": {
     "header": {
-      "slogan": "Welcome to our Q&A platform: You ask. AI answers.",
+      "slogan": "Welcome to our Q&A platform! You ask. AI answers.",
       "myAccount": "My account",
       "myStars": "My bonus stars",
       "aiConsent": "AI privacy",
@@ -88,7 +88,7 @@
   },
   "fr": {
     "header": {
-      "slogan": "Bienvenue sur notre plateforme de Q&R : Tu poses des questions. L'IA répond.",
+      "slogan": "Bienvenue sur notre plateforme de Q&R ! Tu poses des questions. L'IA répond.",
       "myAccount": "Mon compte",
       "myStars": "Mes étoiles bonus",
       "aiConsent": "Confidentialité de l'IA",
