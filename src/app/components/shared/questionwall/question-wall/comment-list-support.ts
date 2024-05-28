@@ -62,20 +62,20 @@ export function createCommentListSupport(
       this.isSvgIcon = false;
       this.filterTitle = 'question-wall.filter-favorite';
       this.filterDesc = '';
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.filterCompare = null;
       filter.filterType = FilterType.Favorite;
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     filterUserByNumber(user: string) {
       this.filterIcon = 'person_pin_circle';
       this.isSvgIcon = false;
       this.filterTitle = 'question-wall.filter-user';
       this.filterDesc = '';
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.filterCompare = user;
       filter.filterType = FilterType.CreatorId;
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     filterUser(comment: Comment) {
       this.filterUserByNumber(comment.creatorId);
@@ -85,35 +85,35 @@ export function createCommentListSupport(
       this.isSvgIcon = false;
       this.filterTitle = 'question-wall.filter-bookmark';
       this.filterDesc = '';
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.filterCompare = null;
       filter.filterType = FilterType.Bookmark;
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     filterTag(tag: string) {
       this.filterIcon = 'sell';
       this.isSvgIcon = false;
       this.filterTitle = '';
       this.filterDesc = tag;
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.filterCompare = tag;
       filter.filterType = FilterType.Tag;
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     deactivateFilter() {
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.filterType = null;
       filter.filterCompare = null;
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     setTimePeriod(period: PeriodKey) {
-      const filter = this._filterObj.dataFilter;
+      const filter = filteredDataAccess.dataFilter;
       filter.period = Period[period];
       filter.timeFilterStart = Date.now();
-      this._filterObj.dataFilter = filter;
+      filteredDataAccess.dataFilter = filter;
     },
     get hasFilter() {
-      return Boolean(this._filterObj.dataFilter.filterType);
+      return Boolean(filteredDataAccess.dataFilter.filterType);
     },
   };
 }
