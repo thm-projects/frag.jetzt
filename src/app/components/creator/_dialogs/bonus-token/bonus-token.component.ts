@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
@@ -15,7 +15,7 @@ import {
   exportBonusArchive,
 } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
-import { Sort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { EventService } from '../../../../services/util/event.service';
@@ -41,7 +41,7 @@ const i18n = I18nLoader.load(i18nRaw);
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss'],
 })
-export class BonusTokenComponent implements OnInit, OnDestroy {
+export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
   value: string = '';
   valid = false;
   room: Room;
@@ -52,7 +52,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
-
+  @ViewChild(MatSort) sort: MatSort;
   currentSort: Sort = {
     direction: 'asc',
     active: 'name',
@@ -88,7 +88,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         );
         this.updateTable(false);
       });
-    this.sortData({ active: 'questionNumber', direction: 'asc' });
+  }
+
+  ngAfterViewInit() {
+    this.tableDataSource.sort = this.sort;
   }
 
   getTokens(): void {

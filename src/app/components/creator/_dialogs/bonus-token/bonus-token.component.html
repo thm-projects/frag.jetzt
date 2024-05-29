@@ -43,12 +43,11 @@
     <!-- table -->
     <div class="table-container">
       <table
-        #roomTable
         matSort
         (matSortChange)="sortData($event)"
         mat-table
         [dataSource]="tableDataSource"
-        class="list-entries"
+        class="list-entries mat-elevation-z8"
         aria-describedby="roomTable"
         aria-label="This table shows all available rooms.">
         <!-- number -->
