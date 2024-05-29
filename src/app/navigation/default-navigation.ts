@@ -246,7 +246,7 @@ export const getDefaultNavigation = (
                 title: i18n.options.features,
                 onClick: () => {
                   injector.get(HomePageService).toggleFeatureState();
-                  return false;
+                  return true;
                 },
               },
               {

@@ -1,20 +1,10 @@
 .slogan {
   text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  padding-top: 25px;
-  color: var(--primary);
-}
-
-h2 {
-  font-size: 20px;
-  padding-top: 25px;
+  margin-bottom: 1em;
 }
 
 p {
   hyphens: auto;
-  padding-bottom: 10px;
-  line-height: 1.5;
 }
 
 ol {
@@ -36,9 +26,4 @@ li {
   height: auto;
   outline: none;
   border-radius: 8px;
-}
-
-a {
-  text-decoration: underline;
-  hyphens: manual;
 }

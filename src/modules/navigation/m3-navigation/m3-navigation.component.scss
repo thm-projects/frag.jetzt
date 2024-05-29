@@ -37,6 +37,9 @@ mat-toolbar {
 .m3-nav-fab {
   right: 16px;
   bottom: 16px;
+  position: sticky;
+  float: inline-end;
+  margin-inline: 1em;
 
   &.move-up {
     bottom: #{$footer-height + 16px};

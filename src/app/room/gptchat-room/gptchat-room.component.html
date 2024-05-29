@@ -1,3 +1,84 @@
+<m3-body-pane>
+  <m3-supporting-pane type="fixed">
+    <mat-action-list>
+      <button
+        mat-list-item
+        lines="3">
+        <span matListItemTitle>Wo bekomme ich mein Test?</span>
+        <span>
+          Ich habe vor zwei Wochen einen Test geschrieben und würde gerne meine
+          Ergebnisse beim Sekretariat abholen. Wo genau finde ich das
+          Sekretariat?
+        </span>
+      </button>
+      <button
+        mat-list-item
+        lines="3">
+        <span matListItemTitle>
+          Welche Inhalte werden im Test von GdI dran kommen?
+        </span>
+        Ich schreibe nächste Woche einen Test zu GdI und würde gerne wissen,
+        welche Themen dran kommen.
+      </button>
+      <div mat-subheader>Gestern am 13.4.2099</div>
+      <button
+        mat-list-item
+        lines="3">
+        <span matListItemTitle>
+          Welche Inhalte werden im Test von GdI dran kommen?
+        </span>
+        Ich schreibe nächste Woche einen Test zu GdI und würde gerne wissen,
+        welche Themen dran kommen.
+      </button>
+    </mat-action-list>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    class="chat-pane"
+    priority="secondary"
+    type="flexible">
+    <div style="flex: 1; overflow: auto">Lorem ipsum</div>
+    <div class="input-area">
+      <mat-form-field
+        class="input-field"
+        appearance="outline">
+        <mat-label>{{ i18n().input }}</mat-label>
+        <textarea
+          matInput
+          [placeholder]="i18n().placeholder"
+          #inputElem
+          (input)="updateHeight(inputElem)"></textarea>
+        <button
+          mat-icon-button
+          matPrefix>
+          <mat-icon>attach_file_add</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          matPrefix>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          matSuffix>
+          <mat-icon>send</mat-icon>
+        </button>
+        @if (files().length; as length) {
+          <mat-hint>
+            {{
+              i18n().uploadedFiles
+                | context
+                  : {
+                      count: length,
+                      files: filesString()
+                    }
+            }}
+          </mat-hint>
+        }
+      </mat-form-field>
+    </div>
+  </m3-supporting-pane>
+</m3-body-pane>
+
 <mat-card appearance="outlined">
   <div
     class="gpt-requester"

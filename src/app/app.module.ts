@@ -75,7 +75,11 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FragJetztLogoComponent } from './components/branding/frag-jetzt-logo/frag-jetzt-logo.component';
 import { M3Module } from '../modules/m3/m3.module';
@@ -179,6 +183,14 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       deps: [AppConfig], multi: true
     },*/
     {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        width: '100dvw', // will be limited by max-width
+        minHeight: '50dvh',
+        autoFocus: false,
+      },
+    },
+    {
       provide: MatDialogRef,
       useValue: {},
     },
@@ -235,6 +247,7 @@ export class AppModule {
         domSanitizer.bypassSecurityTrustResourceUrl(
           'assets/images/radar_clean.svg',
         ),
-      );
+      )
+      .setDefaultFontSetClass('material-symbols-outlined');
   }
 }

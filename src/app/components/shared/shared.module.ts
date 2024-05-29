@@ -113,7 +113,7 @@ import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
-import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { GPTChatRoomComponent } from '../../room/gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
 import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptprompt-preset.component';
@@ -159,6 +159,8 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
 import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/question-wall-comment-focus.component';
+import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
+import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 
 @NgModule({
   imports: [
@@ -183,6 +185,8 @@ import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/
     ContextPipe,
     QuestionWallCommentComponent,
     QuestionWallCommentFocusComponent,
+    M3BodyPaneComponent,
+    M3SupportingPaneComponent,
   ],
   declarations: [
     RoomJoinComponent,

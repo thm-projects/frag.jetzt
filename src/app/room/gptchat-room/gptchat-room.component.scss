@@ -1,0 +1,29 @@
+m3-body-pane {
+  height: 100%;
+}
+
+m3-supporting-pane {
+  max-height: 100%;
+}
+
+.chat-pane.m3-supporting-pane {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-area {
+  padding-top: 1em;
+
+  > .input-field {
+    width: 100%;
+    max-width: 45em;
+    margin-inline: auto;
+    display: block;
+
+    textarea {
+      max-height: 25dvh;
+      overflow-y: auto;
+      resize: none;
+    }
+  }
+}

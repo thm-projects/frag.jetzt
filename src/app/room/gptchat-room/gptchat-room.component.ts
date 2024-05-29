@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Location } from '@angular/common';
 import {
   AfterViewInit,
@@ -8,6 +11,8 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  computed,
+  signal,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
@@ -31,41 +36,41 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
-import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
+import { GptOptInPrivacyComponent } from '../../components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { IntroductionPromptGuideChatbotComponent } from '../../components/shared/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
+import { ArsComposeService } from '../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../services/util/header.service';
 import {
   PresetsDialogComponent,
   PresetsDialogType,
-} from '../_dialogs/presets-dialog/presets-dialog.component';
+} from '../../components/shared/_dialogs/presets-dialog/presets-dialog.component';
 import { GPTRoomPreset } from 'app/models/gpt-room-preset';
-import { GPTRoomPresetLength } from '../../../models/gpt-room-preset';
+import { GPTRoomPresetLength } from '../../models/gpt-room-preset';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserRole } from '../../../models/user-roles.enum';
-import { ForumComment } from '../../../utils/data-accessor';
-import { EventService } from '../../../services/util/event.service';
+import { UserRole } from '../../models/user-roles.enum';
+import { ForumComment } from '../../utils/data-accessor';
+import { EventService } from '../../services/util/event.service';
 import { filter, map, take, tap } from 'rxjs/operators';
 import {
   CommentCreateOptions,
   KeywordExtractor,
-} from '../../../utils/keyword-extractor';
-import { CommentService } from '../../../services/http/comment.service';
+} from '../../utils/keyword-extractor';
+import { CommentService } from '../../services/http/comment.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { ComponentEvent, sendAwaitingEvent } from 'app/utils/component-events';
 import { Comment } from 'app/models/comment';
-import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
-import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
-import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
+import { GPTPresetTopicsDialogComponent } from '../../components/shared/_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
+import { GptPromptExplanationComponent } from '../../components/shared/_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
+import { GPTRatingDialogComponent } from '../../components/shared/_dialogs/gptrating-dialog/gptrating-dialog.component';
 import {
   GPTConversation,
   GPTConversationEntry,
   GPTConversationService,
 } from 'app/services/http/gptconversation.service';
-import { GPTConversationOverviewComponent } from '../_dialogs/gptconversation-overview/gptconversation-overview.component';
+import { GPTConversationOverviewComponent } from '../../components/shared/_dialogs/gptconversation-overview/gptconversation-overview.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
@@ -76,7 +81,8 @@ import {
 import { MatMenu } from '@angular/material/menu';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../../../navigation/room-navigation';
+import { applyRoomNavigation } from '../../navigation/room-navigation';
+import { language } from 'app/base/language/language';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -208,6 +214,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   systemMessagesVisible = false;
   editIndex = -1;
   autoSave = false;
+  protected readonly i18n = i18n;
+  protected files = signal<unknown[]>([
+    { name: 'file1.txt' },
+    { name: 'file2.png' },
+  ]);
+  protected filesString = computed(() => {
+    return new Intl.ListFormat(language(), {
+      localeMatcher: 'best fit',
+      style: 'long',
+      type: 'conjunction',
+    }).format(this.files().map((e) => e['name'] as string));
+  });
   protected selectedPrompt: GPTPromptPreset = null;
   private activeConversation: GPTConversation;
   private destroyer = new ReplaySubject(1);
@@ -834,6 +852,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     return '';
     // TODO:
     // return QuillUtils.getMarkdownFromDelta(data);
+  }
+
+  protected updateHeight(area: HTMLTextAreaElement) {
+    area.style.height = 'auto';
+    area.style.height = area.scrollHeight + 'px';
   }
 
   private initNormal() {

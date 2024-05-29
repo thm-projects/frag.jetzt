@@ -27,7 +27,7 @@
             </span>
           }
         </div>
-        @if (!isSmall() && fab(); as fab) {
+        @if (fab(); as fab) {
           <button
             mat-fab
             (click)="fab.onClick()"

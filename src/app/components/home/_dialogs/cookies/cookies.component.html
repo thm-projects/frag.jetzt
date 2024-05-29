@@ -6,9 +6,17 @@
 </h2>
 
 <mat-dialog-content tabindex="-1">
-  <app-cookies-de *ngIf="currentLanguage === 'de'"></app-cookies-de>
-  <app-cookies-en *ngIf="currentLanguage === 'en'"></app-cookies-en>
-  <app-cookies-fr *ngIf="currentLanguage === 'fr'"></app-cookies-fr>
+  @switch (lang()) {
+    @case ("de") {
+      <app-cookies-de></app-cookies-de>
+    }
+    @case ("fr") {
+      <app-cookies-fr></app-cookies-fr>
+    }
+    @default {
+      <app-cookies-en></app-cookies-en>
+    }
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>
