@@ -1,100 +1,11 @@
 @use "sass:math";
 @use "modules/m3/style/m3-initializer" as m3-init;
 @import "style/fix-material-icons.scss";
-//@import "styles.scss";
-@import "material-icons/iconfont/material-icons.css";
 @import "style/joyride-theme.scss";
 @import "style/toast-ui-theme-m3.scss";
-/// TODO(lph) remove later
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-10..0,25..151,100..1000,-200..150,27..175,323..603,25..135,649..854,-305..-98,560..788,416..570,528..760&display=swap");
+@import "style/fonts.scss";
 
 @include m3-init.load();
-
-/* fallback */
-@font-face {
-  font-family: "Material Symbols Rounded";
-  font-style: normal;
-  font-weight: 100 700;
-  src: url(/assets/fonts/material-symbols-rounded.woff2) format("woff2");
-}
-
-.material-symbols-rounded {
-  font-family: "Material Symbols Rounded";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
-  // opsz = 20..48, wght = 100..700, FILL = 0..1, GRAD = -50..200
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
-}
-
-@font-face {
-  font-family: "Material Symbols Outlined";
-  font-style: normal;
-  font-weight: 100 700;
-  src: url(/assets/fonts/material-symbols-outlined.woff2) format("woff2");
-}
-
-.material-symbols-outlined {
-  font-family: "Material Symbols Outlined";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
-  // opsz = 20..48, wght = 100..700, FILL = 0..1, GRAD = -50..200
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 600,
-    "GRAD" 0,
-    "opsz" 48;
-}
-
-@font-face {
-  font-family: "STIX Two Math";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src:
-    local(""),
-    url("/assets/fonts/STIX/STIXTwoMath-Regular.woff2") format("woff2"),
-    url("/assets/fonts/STIX/STIXTwoMath-Regular.woff2") format("woff");
-}
-
-@font-face {
-  font-family: "Latin Modern Math";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src:
-    local(""),
-    url("/assets/fonts/Latin_Modern_Math/latinmodern-math.woff2")
-      format("woff2"),
-    url("/assets/fonts/Latin_Modern_Math/latinmodern-math.woff") format("woff");
-}
-
-math {
-  font-family: "Latin Modern Math", math;
-}
 
 html,
 body {

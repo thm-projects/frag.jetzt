@@ -54,8 +54,6 @@
     "is-docker": "^3.0.0",
     "katex": "^0.16.9",
     "keycloak-js": "^24.0.4",
-    "material-components-web": "^14.0.0",
-    "material-icons": "^1.13.12",
     "naughty-words": "^1.2.0",
     "ngx-color-picker": "^16.0.0",
     "ngx-joyride": "^2.4.0",
