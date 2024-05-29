@@ -4,7 +4,7 @@
     [date]="comment.createdAt"></ars-date-formatter>
 </div>
 <div class="content">
-  <span>{{ comment.body }}</span>
+  <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
 </div>
 <div class="footer">
   <button mat-button>

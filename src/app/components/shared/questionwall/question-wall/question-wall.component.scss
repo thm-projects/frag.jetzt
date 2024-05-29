@@ -10,7 +10,8 @@
 }
 
 .side-bar-container {
-  width: 360px;
+  width: var(--m3-comp-supporting-pane-fixed-width);
+  flex-shrink: 0;
 }
 
 .side-bar-footer {
@@ -18,6 +19,17 @@
 
 .view-comment-bottom-bar {
   height: 52px;
+  padding-left: var(--m3-sys-layout-spacing-pane);
+}
+
+.view-comment-container {
+  width: 1600px;
+  max-width: 100%;
+  display: inline-flex;
+  overflow: auto;
+}
+
+.view-comment {
 }
 
 .side-bar-content {
