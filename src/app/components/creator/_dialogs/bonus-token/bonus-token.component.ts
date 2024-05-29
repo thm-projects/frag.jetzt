@@ -305,13 +305,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   getFormattedDate(date: Date) {
-    return new Date(date).toLocaleDateString(
-      this.appState.getCurrentLanguage(),
-      {
+    const d = new Date(date);
+    return (
+      d.toLocaleDateString(this.appState.getCurrentLanguage(), {
         day: '2-digit',
         month: '2-digit',
         year: '2-digit',
-      },
+      }) +
+      ' ' +
+      d.toLocaleTimeString(this.appState.getCurrentLanguage(), {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
     );
   }
 
