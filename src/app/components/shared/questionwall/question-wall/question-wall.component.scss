@@ -1,25 +1,47 @@
 :host {
   height: 100%;
-  background-color: grey;
   display: flex;
   flex-direction: column;
 }
 
 .top-bar {
   height: 60px;
-  background-color: red;
+  background-color: var(--md-sys-color-surface3);
 }
 
 .side-bar-container {
-  width: 360px;
+  width: var(--m3-comp-supporting-pane-fixed-width);
+  flex-shrink: 0;
 }
 
 .side-bar-footer {
-  height: 60px;
-  background-color: yellow;
 }
 
-.bottom-bar {
-  height: 60px;
-  background-color: red;
+.view-comment-bottom-bar {
+  height: 52px;
+  padding-left: var(--m3-sys-layout-spacing-pane);
+}
+
+.view-comment-container {
+  width: 1600px;
+  max-width: 100%;
+  display: inline-flex;
+  overflow: auto;
+}
+
+.view-comment {
+}
+
+.side-bar-content {
+  height: 0;
+  overflow: auto;
+}
+
+/**/
+
+.text-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }

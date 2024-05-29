@@ -1,1 +1,18 @@
-<p>{{ comment.id }}</p>
+<div class="header">
+  <ars-date-formatter
+    [formatter]="dateFormatter"
+    [date]="comment.createdAt"></ars-date-formatter>
+</div>
+<div class="content">
+  <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
+</div>
+<div class="footer">
+  <button mat-button>
+    <mat-icon>thumb_up</mat-icon>
+    {{ comment.upvotes }}
+  </button>
+  <button mat-button>
+    <mat-icon>thumb_down</mat-icon>
+    {{ comment.downvotes }}
+  </button>
+</div>

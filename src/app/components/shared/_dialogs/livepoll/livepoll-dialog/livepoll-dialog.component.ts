@@ -357,27 +357,6 @@ export class LivepollDialogComponent
     }
   }
 
-  /**
-   * TODO refactor this
-   * @param index
-   */
-  public getVoteButtonClass(index: number) {
-    const collect: string[] = [];
-    if (index === this.livepollVote?.voteIndex) {
-      collect.push('voted');
-    } else {
-      collect.push('default');
-    }
-    if (this.template.translate) {
-      collect.push('translated-text');
-    } else if (!this.template.translate && this.template.isPlain) {
-      collect.push('text-as-icon');
-    } else if (this.template.symbols) {
-      collect.push('material-icons');
-    }
-    return collect.map((x) => `button-vote-${x}`).join(' ');
-  }
-
   resetResults() {
     this.createConfirmationDialog('reset').subscribe((x) => {
       if (x) {

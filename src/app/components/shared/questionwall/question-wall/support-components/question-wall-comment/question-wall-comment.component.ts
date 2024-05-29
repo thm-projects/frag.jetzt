@@ -12,6 +12,7 @@ import { ArsModule } from '../../../../../../../../projects/ars/src/lib/ars.modu
 import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
 
 @Component({
   selector: 'app-question-wall-comment',
@@ -25,6 +26,7 @@ import { MatIcon } from '@angular/material/icon';
     ArsModule,
     MatIcon,
     MatButton,
+    CustomMarkdownModule,
   ],
   templateUrl: './question-wall-comment.component.html',
   styleUrl: './question-wall-comment.component.scss',
