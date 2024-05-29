@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  effect,
 } from '@angular/core';
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
@@ -26,7 +27,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { FormControl } from '@angular/forms';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { BrainstormingService } from '../../../services/http/brainstorming.service';
@@ -73,6 +74,7 @@ import {
 } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { Navigation } from '../../navigation/common-navigation-templates';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { FAB_BUTTON } from 'modules/navigation/m3-navigation-emitter';
 
 @Component({
   selector: 'app-comment-list',
@@ -195,6 +197,24 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
       );
     this.initM3Navigation();
+
+    effect(
+      () => {
+        console.log('FAB_BUTTON');
+        FAB_BUTTON.set({
+          icon: 'add',
+          title: 'Create Question',
+          onClick: () => {
+            this.writeComment();
+            return false;
+          },
+        });
+        return () => {
+          FAB_BUTTON.set(null);
+        };
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   initM3Navigation() {

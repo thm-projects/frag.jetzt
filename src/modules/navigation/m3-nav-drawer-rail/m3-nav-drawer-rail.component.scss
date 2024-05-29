@@ -138,7 +138,7 @@ mat-drawer-container {
 }
 
 .m3-nav-fab-button {
-  margin-left: 12px;
+  margin-left: #{math.div($rail-size - 56px, 2)};
   transition:
     width 500ms var(--md-sys-motion-easing-emphasized),
     height 500ms var(--md-sys-motion-easing-emphasized);
@@ -150,14 +150,15 @@ mat-drawer-container {
   }
 
   &.mdc-fab--extended {
-    width: 336px;
+    margin-left: 12px;
+    width: calc(var(--nav-drawer-width) - 28px);
 
-    > ::ng-deep .material-icons {
+    > ::ng-deep mat-icon {
       left: 20px;
     }
   }
 
-  > ::ng-deep .material-icons {
+  > ::ng-deep mat-icon {
     transition: left 500ms var(--md-sys-motion-easing-emphasized);
     position: absolute;
     left: 16px;

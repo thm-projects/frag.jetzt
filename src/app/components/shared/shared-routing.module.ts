@@ -4,7 +4,7 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
 import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from '../../room/tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
-import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { GPTChatRoomComponent } from '../../room/gptchat-room/gptchat-room.component';
 import { ComponentTestPageComponent } from './component-test/component-test-page/component-test-page.component';
 import { ComponentLayoutTestPageComponent } from './component-test/component-layout-test-page/component-layout-test-page.component';
 

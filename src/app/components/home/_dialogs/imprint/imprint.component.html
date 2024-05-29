@@ -6,14 +6,24 @@
 </h1>
 
 <mat-dialog-content tabindex="0">
-  <app-imprint-en *ngIf="currentLanguage === 'en'"></app-imprint-en>
-  <app-imprint-de *ngIf="currentLanguage === 'de'"></app-imprint-de>
-  <app-imprint-fr *ngIf="currentLanguage === 'fr'"></app-imprint-fr>
+  @switch (lang()) {
+    @case ("de") {
+      <app-imprint-de></app-imprint-de>
+    }
+    @case ("fr") {
+      <app-imprint-fr></app-imprint-fr>
+    }
+    @default {
+      <app-imprint-en></app-imprint-en>
+    }
+  }
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  confirmButtonLabel="cancel"
-  buttonsLabelSection="imprint"
-  [confirmButtonClickAction]="
-    buildDeclineActionCallback()
-  "></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ "imprint.cancel" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

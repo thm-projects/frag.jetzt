@@ -1,0 +1,18 @@
+{
+  "key": "gptchat-room",
+  "de": {
+    "input": "Chat-Eingabe",
+    "placeholder": "Frag irgendwas…",
+    "uploadedFiles": "Dateien ({{count}}): {{files}}"
+  },
+  "en": {
+    "input": "Chat input",
+    "placeholder": "Ask anything…",
+    "uploadedFiles": "Files ({{count}}): {{files}}"
+  },
+  "fr": {
+    "input": "Saisie du message",
+    "placeholder": "Demande n'importe quoi…",
+    "uploadedFiles": "Fichiers ({{count}}): {{files}}"
+  }
+}

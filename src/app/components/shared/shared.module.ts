@@ -29,7 +29,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
-import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudFilterComponent } from '../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from '../../room/tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
@@ -48,7 +48,7 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
-import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { IntroductionQuestionWallComponent } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { IntroductionQuestionWallDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
 import { IntroductionQuestionWallENComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-en.component';
@@ -113,7 +113,7 @@ import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
-import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { GPTChatRoomComponent } from '../../room/gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
 import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptprompt-preset.component';
@@ -156,8 +156,11 @@ import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall
 import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
 import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
 import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/question-wall-comment-focus.component';
+import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
+import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 
 @NgModule({
   imports: [
@@ -179,8 +182,11 @@ import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/
     QuestionWallDisplayCommentComponent,
     QuestionWallDrawerComponent,
     CustomMarkdownModule,
+    ContextPipe,
     QuestionWallCommentComponent,
     QuestionWallCommentFocusComponent,
+    M3BodyPaneComponent,
+    M3SupportingPaneComponent,
   ],
   declarations: [
     RoomJoinComponent,

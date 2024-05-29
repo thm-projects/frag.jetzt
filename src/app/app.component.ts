@@ -402,7 +402,8 @@ export class AppComponent implements OnInit {
   private initDialogsForServices() {
     listenEvent(this.eventService, LoginDialogRequest).subscribe((request) => {
       const dialogRef = this.dialog.open(LoginComponent, {
-        width: '350px',
+        minHeight: 'unset',
+        width: '22.5rem',
       });
       dialogRef.componentInstance.redirectUrl = request.redirectUrl;
       dialogRef.afterClosed().subscribe((keycloakId: UUID) => {
@@ -518,9 +519,7 @@ export class AppComponent implements OnInit {
 
   private showCookieModal(): Observable<boolean> {
     const dialogRef = this.dialog.open(CookiesComponent, {
-      width: '80%',
-      maxWidth: '600px',
-      autoFocus: true,
+      minHeight: 'unset',
     });
     dialogRef.disableClose = true;
     return dialogRef
@@ -529,8 +528,10 @@ export class AppComponent implements OnInit {
   }
 
   private showOverlay(): Observable<boolean> {
-    const dialogRef = this.dialog.open(OverlayComponent, {});
-    dialogRef.disableClose = true;
+    const dialogRef = this.dialog.open(OverlayComponent, {
+      minHeight: 'unset',
+      disableClose: true,
+    });
     return dialogRef
       .afterClosed()
       .pipe(switchMap((d) => (d ? this.showCookieModal() : of(false))));

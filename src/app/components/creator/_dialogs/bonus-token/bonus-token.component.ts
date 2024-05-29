@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
@@ -15,7 +15,7 @@ import {
   exportBonusArchive,
 } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
-import { Sort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { EventService } from '../../../../services/util/event.service';
@@ -41,7 +41,7 @@ const i18n = I18nLoader.load(i18nRaw);
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss'],
 })
-export class BonusTokenComponent implements OnInit, OnDestroy {
+export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
   value: string = '';
   valid = false;
   room: Room;
@@ -52,7 +52,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
-
+  @ViewChild(MatSort) sort: MatSort;
   currentSort: Sort = {
     direction: 'asc',
     active: 'name',
@@ -88,7 +88,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         );
         this.updateTable(false);
       });
-    this.sortData({ active: 'questionNumber', direction: 'asc' });
+  }
+
+  ngAfterViewInit() {
+    this.tableDataSource.sort = this.sort;
   }
 
   getTokens(): void {
@@ -161,11 +164,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.translateService
-        .get('token-validator.cant-find-comment')
-        .subscribe((msg) => {
-          this.notificationService.show(msg);
-        });
+      this.translateService.get(i18n().cantFindComment).subscribe((msg) => {
+        this.notificationService.show(msg);
+      });
     }
   }
 
@@ -186,7 +187,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   inputToken() {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
-      this.translateService.get('token-validator.valid').subscribe((msg) => {
+      this.translateService.get(i18n().valid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -196,7 +197,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       this.valid = true;
     } else {
-      this.translateService.get('token-validator.invalid').subscribe((msg) => {
+      this.translateService.get(i18n().invalid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -307,13 +308,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   getFormattedDate(date: Date) {
-    return new Date(date).toLocaleDateString(
-      this.appState.getCurrentLanguage(),
-      {
+    const d = new Date(date);
+    return (
+      d.toLocaleDateString(this.appState.getCurrentLanguage(), {
         day: '2-digit',
         month: '2-digit',
         year: '2-digit',
-      },
+      }) +
+      ' ' +
+      d.toLocaleTimeString(this.appState.getCurrentLanguage(), {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
     );
   }
 

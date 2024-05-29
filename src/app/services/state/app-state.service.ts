@@ -187,10 +187,21 @@ export class AppStateService {
   }
 
   private leaveApp(): Observable<unknown> {
-    window.close();
-    window.history.pushState(null, '', 'about:blank');
-    location.href = 'about:blank';
+    close();
+    this.iterateOut(location.origin);
     return of();
+  }
+
+  private iterateOut(origin: string) {
+    if (location.origin !== origin) {
+      return;
+    }
+    if (history.length < 1) {
+      location.replace('about:blank');
+      return;
+    }
+    history.go(-1);
+    setImmediate(() => this.iterateOut(origin));
   }
 
   private startOnboarding(): Observable<unknown> {
