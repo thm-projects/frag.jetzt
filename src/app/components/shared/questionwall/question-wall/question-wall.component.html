@@ -82,19 +82,6 @@
           [comment]="commentFocus"></app-question-wall-comment-focus>
       }
     </div>
-    <div
-      class="view-comment-bottom-bar row items-center content-end gap-medium">
-      <div class="row content-center">
-        <button mat-button>
-          <mat-icon>chevron_left</mat-icon>
-          previous
-        </button>
-        <button mat-button>
-          <mat-icon>chevron_right</mat-icon>
-          next
-        </button>
-      </div>
-    </div>
   </div>
   <div class="side-bar-container column">
     <div class="side-bar-content grow">
@@ -108,6 +95,26 @@
     <div class="side-bar-footer">
       <mat-paginator></mat-paginator>
     </div>
+  </div>
+</div>
+<div
+  class="view-comment-bottom-bar row items-center content-space-between gap-medium">
+  <div class="row content-center">
+    <mat-slide-toggle>autofocus for new questions</mat-slide-toggle>
+    <button mat-button>
+      <mat-icon>qr_code</mat-icon>
+      Show QR code
+    </button>
+  </div>
+  <div class="row content-center">
+    <button mat-button>
+      <mat-icon>chevron_left</mat-icon>
+      previous
+    </button>
+    <button mat-button>
+      <mat-icon>chevron_right</mat-icon>
+      next
+    </button>
   </div>
 </div>
 

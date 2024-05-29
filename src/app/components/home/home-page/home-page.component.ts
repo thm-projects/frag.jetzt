@@ -17,7 +17,6 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { carousel } from './home-page-carousel';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
 import { language } from 'app/base/language/language';
@@ -43,10 +42,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     const state = windowWatcher.windowState();
     return state === 'compact' || state === 'medium';
   };
-  protected carousel = carousel;
   protected readonly language = language;
-  protected readonly windowClass = windowWatcher.windowState;
-
+  protected readonly Math = Math;
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
   private injector = inject(Injector);
   protected featureState: boolean = false;
@@ -152,6 +149,4 @@ export class HomePageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroyer))
       .subscribe();
   }
-
-  protected readonly Math = Math;
 }

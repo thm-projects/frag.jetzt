@@ -21,7 +21,7 @@ import {
   M3NavigationSection,
   M3NavigationTemplate,
 } from 'modules/navigation/m3-navigation.types';
-import { Observable, combineLatest, first, map, startWith } from 'rxjs';
+import { combineLatest, first, map, Observable, startWith } from 'rxjs';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
@@ -32,7 +32,8 @@ import {
 import { setTheme, theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
-import { HomePageService } from '../components/home/home-page/home-page.service';
+import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
+
 const i18n = I18nLoader.loadModule(i18nRaw);
 
 export const applyDefaultNavigation = (
@@ -245,7 +246,9 @@ export const getDefaultNavigation = (
                 icon: 'cake',
                 title: i18n.options.features,
                 onClick: () => {
-                  injector.get(HomePageService).toggleFeatureState();
+                  injector.get(MatDialog).open(FeatureGridDialogComponent, {
+                    width: '800px',
+                  });
                   return false;
                 },
               },

@@ -19,29 +19,6 @@ m3-body-pane {
   height: max-content;
 }
 
-.fit-tile {
-  height: auto;
-
-  .mdc-card__media {
-    height: 160px;
-    object-fit: contain;
-    align-self: center;
-    transform: scale(0.9);
-  }
-}
-
-.grid-tile {
-  width: 100%;
-  height: 100%;
-
-  .mdc-card__media {
-    height: 100%;
-    object-fit: contain;
-    align-self: center;
-    transform: scale(0.9);
-  }
-}
-
 .input-pane {
   overflow: auto;
   display: flex;
@@ -49,20 +26,6 @@ m3-body-pane {
   max-height: 100%;
 }
 
-// add to supporting pane
 .grid-pane {
-  overflow-y: auto;
-  overflow-x: hidden;
-  hyphens: auto;
-  gap: 16px;
-}
-
-mat-grid-tile {
-  overflow: visible;
-}
-
-mat-card {
-  /// missing implementation for mat-cards in angular-material
-  background-color: var(--md-sys-color-surface-container);
-  color: var(--md-sys-color-on-surface);
+  overflow: auto;
 }

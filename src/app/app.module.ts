@@ -87,6 +87,7 @@ import { ComponentTestButtonComponent } from './components/shared/component-test
 import { M3NavigationComponent } from 'modules/navigation/m3-navigation/m3-navigation.component';
 import { I18nLoader } from './base/i18n/i18n-loader';
 import { YtVideoWrapperComponent } from './components/home/home-page/yt-video-wrapper/yt-video-wrapper.component';
+import { FeatureGridComponent } from './components/home/home-page/feature-grid/feature-grid.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -171,6 +172,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ComponentTestCardComponent,
     ComponentTestButtonComponent,
     YtVideoWrapperComponent,
+    FeatureGridComponent,
   ],
   providers: [
     /*AppConfig,
