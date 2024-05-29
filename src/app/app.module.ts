@@ -248,6 +248,6 @@ export class AppModule {
           'assets/images/radar_clean.svg',
         ),
       )
-      .setDefaultFontSetClass('material-symbols-outlined');
+      .setDefaultFontSetClass('material-symbols-rounded');
   }
 }
