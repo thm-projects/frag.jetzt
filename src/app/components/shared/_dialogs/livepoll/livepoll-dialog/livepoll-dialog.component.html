@@ -245,8 +245,15 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    [ngClass]="getVoteButtonClass(i)"
     mat-flat-button
+    class="secondary"
+    [class.secondary]="this.livepollVote?.voteIndex !== i"
+    [class.tertiary]="this.livepollVote?.voteIndex === i"
+    [class.translated-text]="this.template.translate && !this.template.isPlain"
+    [class.button-vote-text-as-icon]="
+      this.template.translate && this.template.isPlain
+    "
+    [class.button-vote-material-icons]="this.template.symbols"
     [class.vote-text]="true"
     [disabled]="isPaused"
     [ngStyle]="{
