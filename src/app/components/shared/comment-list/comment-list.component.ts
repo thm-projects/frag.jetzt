@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  effect,
 } from '@angular/core';
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
@@ -74,7 +73,6 @@ import {
 } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { Navigation } from '../../navigation/common-navigation-templates';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { FAB_BUTTON } from 'modules/navigation/m3-navigation-emitter';
 
 @Component({
   selector: 'app-comment-list',
@@ -135,13 +133,13 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   canOpenGPT = false;
   consentGPT = false;
   isMobile = false;
+  protected writeCommentBound = this.writeComment.bind(this);
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private _cloudFilterObject: FilteredDataAccess;
   private _destroySubject = new Subject();
-  private _isStarting = true;
   private _matcher: MediaQueryList;
 
   constructor(
@@ -197,24 +195,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
       );
     this.initM3Navigation();
-
-    effect(
-      () => {
-        console.log('FAB_BUTTON');
-        FAB_BUTTON.set({
-          icon: 'add',
-          title: 'Create Question',
-          onClick: () => {
-            this.writeComment();
-            return false;
-          },
-        });
-        return () => {
-          FAB_BUTTON.set(null);
-        };
-      },
-      { allowSignalWrites: true },
-    );
   }
 
   initM3Navigation() {
@@ -344,7 +324,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([room, mods]) => {
       this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
-      setTimeout(() => (this._isStarting = false), 1_500);
       this.receiveRoom(room);
       this.moderatorAccountIds = new Set<string>(mods.map((m) => m.accountId));
       this.sessionService
@@ -408,10 +387,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentScroll = document.documentElement.scrollTop;
     this.scroll = currentScroll >= 65;
     this.scrollExtended = currentScroll >= 300;
-  }
-
-  isScrollButtonVisible(): boolean {
-    return !AppComponent.isScrolledTop() && this.comments.length > 10;
   }
 
   searchComments(): void {
@@ -633,10 +608,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
     this.applyFilterByKey('Number', value);
-  }
-
-  isStarting(): boolean {
-    return this._isStarting;
   }
 
   isCommentListEmpty(): boolean {

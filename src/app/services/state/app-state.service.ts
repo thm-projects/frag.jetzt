@@ -115,8 +115,6 @@ export class AppStateService {
           ),
         )
         .subscribe();
-      // Onboarding
-      this.startOnboarding().subscribe();
     });
   }
 

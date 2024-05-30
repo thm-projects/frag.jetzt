@@ -178,8 +178,7 @@ $scrollbar-padding: 4px;
     background-clip: padding-box;
   }
 
-  /* Handle on hover
-  ::-webkit-scrollbar-thumb:hover {
-    --scrollbar-color: var(--md-sys-color-on-surface-variant);
-  } */
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }

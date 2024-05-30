@@ -313,7 +313,7 @@ export class AppComponent implements OnInit {
   }
 
   public static scrollTop() {
-    const sc: HTMLElement = document.getElementById('scroll_container');
+    const sc: HTMLElement = document.querySelector('div.m3-nav-body');
     if (AppComponent.scrollAnimation) {
       sc.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -322,7 +322,7 @@ export class AppComponent implements OnInit {
   }
 
   public static isScrolledTop(): boolean {
-    return document.getElementById('scroll_container')?.scrollTop === 0;
+    return document.querySelector('div.m3-nav-body')?.scrollTop === 0;
   }
 
   ngOnInit(): void {
@@ -488,11 +488,10 @@ export class AppComponent implements OnInit {
     });
     listenEvent(this.eventService, OnboardingRequest).subscribe((request) => {
       const dialogRef = this.dialog.open(AskOnboardingComponent, {
-        width: '80%',
-        maxWidth: '600px',
+        minHeight: 'unset',
         autoFocus: true,
+        disableClose: true,
       });
-      dialogRef.disableClose = true;
       dialogRef.afterClosed().subscribe((data) => {
         sendEvent(this.eventService, new OnboardingResponse(request));
         if (!data) {

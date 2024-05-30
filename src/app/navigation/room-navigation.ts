@@ -199,6 +199,7 @@ export const getRoomNavigation = (
               }
               eventService.broadcast('save-comment-filter');
               const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
+                minHeight: 'unset',
                 autoFocus: false,
                 data: {
                   filterObject: RoomDataFilter.loadFilter('commentList'),

@@ -1,0 +1,36 @@
+@if (commentsEnabled() && (isCommentListEmpty() || starting())) {
+  <div
+    class="fab-container"
+    [class]="classes()"
+    (animationend)="starting.set(false)">
+    <button
+      mat-fab
+      (click)="writeComment()()"
+      [matTooltip]="room()?.mode === 'PLE' ? i18n().ple.write : i18n().write"
+      [matTooltipPosition]="'above'">
+      <button mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+    </button>
+    @if (classes() === "") {
+      <p>
+        {{
+          room()?.mode === "PLE"
+            ? i18n().ple[role()].askQuestion
+            : i18n()[role()].askQuestion
+        }}
+      </p>
+    }
+  </div>
+}
+
+@if (isScrollButtonVisible()) {
+  <button
+    mat-fab
+    [matTooltip]="i18n().scrollTop"
+    class="scroll-top"
+    [class.stacked]="classes() === 'mobile'"
+    (click)="scrollTop()">
+    <mat-icon>vertical_align_top</mat-icon>
+  </button>
+}

@@ -577,59 +577,19 @@
   </mat-menu>
 </div>
 
-<button
-  mat-fab
-  class="scrollTop"
-  [ngClass]="{ visible: isScrollButtonVisible() }"
-  (click)="AppComponent.scrollTop()">
-  <button mat-icon-button><mat-icon>vertical_align_top</mat-icon></button>
-</button>
-
 <div
   id="createCommentJoyrideWrapper"
   [joyrideStep]="'createQuestion'"
   [stepPosition]="'center'"
   appJoyrideTemplate></div>
 
-<button
-  *ngIf="commentsEnabled && room?.mode === 'ARS' && isCommentListEmpty()"
-  mat-fab
-  [ngClass]="{
-    center_screen: isCommentListEmpty() || isStarting()
-  }"
-  aria-labelledby="add"
-  class="fab_add_comment"
-  (click)="writeComment()"
-  matTooltip="{{ 'comment-list.add-comment' | translate }}"
-  [matTooltipPosition]="'above'">
-  <button mat-icon-button>
-    <mat-icon>add</mat-icon>
-  </button>
-  <p
-    class="oldtypo-p"
-    *ngIf="isCommentListEmpty()">
-    {{ "comment-list.ask-question-empty" | translate }}
-  </p>
-</button>
-
-<button
-  *ngIf="commentsEnabled && room?.mode === 'PLE' && isCommentListEmpty()"
-  mat-fab
-  [ngClass]="{
-    center_screen: isCommentListEmpty() || isStarting()
-  }"
-  aria-labelledby="add"
-  class="fab_add_comment"
-  (click)="writeComment()"
-  matTooltip="{{ 'comment-list.ple.add-comment' | translate }}"
-  [matTooltipPosition]="'above'">
-  <mat-icon>add</mat-icon>
-  <p
-    class="oldtypo-p"
-    *ngIf="isCommentListEmpty()">
-    {{ "comment-list.ple.ask-question-empty" | translate }}
-  </p>
-</button>
+<app-comment-list-fab
+  [commentsEnabled]="commentsEnabled"
+  [room]="room"
+  [isCommentListEmpty]="isCommentListEmpty()"
+  [writeComment]="writeCommentBound"
+  [commentLength]="comments?.length"
+  [userRole]="userRole"></app-comment-list-fab>
 
 <app-mat-spinner-overlay
   *ngIf="isLoading"

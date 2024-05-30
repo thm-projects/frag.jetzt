@@ -1,0 +1,60 @@
+{
+  "key": "comment-list-fab",
+  "de": {
+    "write": "Frage stellen",
+    "scrollTop": "Zum Anfang springen",
+    "creator": {
+      "askQuestion": "Motiviere dein Publikum, Fragen zu stellen!"
+    },
+    "participant": {
+      "askQuestion": "Sei der Anfang, stell die erste Frage!"
+    },
+    "ple": {
+      "write": "Thema hinzufügen",
+      "creator": {
+        "askQuestion": "Motivieren deine Autoren, Themen hinzuzufügen!"
+      },
+      "participant": {
+        "askQuestion": "Sei der Anfang, erstelle das erste Thema!"
+      }
+    }
+  },
+  "en": {
+    "write": "Ask question",
+    "scrollTop": "Scroll to top",
+    "creator": {
+      "askQuestion": "Motivate your audience to ask questions!"
+    },
+    "participant": {
+      "askQuestion": "Be the beginning, ask the first question!"
+    },
+    "ple": {
+      "write": "Add topic",
+      "creator": {
+        "askQuestion": "Motivate your authors to add topics!"
+      },
+      "participant": {
+        "askQuestion": "Be the beginning, create the first topic!"
+      }
+    }
+  },
+  "fr": {
+    "write": "Poser une question",
+    "scrollTop": "Remonter en haut",
+    "creator": {
+      "askQuestion": "Motive ton public à poser des questions !"
+    },
+    "participant": {
+      "askQuestion": "Sois le premier, pose la première question !"
+    },
+    "ple": {
+      "write": "Ajouter un sujet",
+      "creator": {
+        "askQuestion": "Motiver tes auteurs à ajouter des thèmes !"
+      },
+      "participant": {
+        "askQuestion": "Sois le premier, crée le premier sujet !"
+      }
+    }
+  }
+}

@@ -265,56 +265,6 @@ app-comment {
   color: var(--on-primary);
 }
 
-.scrollTop {
-  position: fixed;
-  left: 20px;
-  @media (min-width: 960px) {
-    left: calc(50% - 480px);
-  }
-  bottom: 65px;
-  transform: scale(0);
-  z-index: 1;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-  transition: 0.1s;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--secondary);
-    outline: var(--secondary) solid 2px;
-  }
-}
-
-.fab_add_comment {
-  position: fixed;
-  right: 20px;
-  @media (min-width: 960px) {
-    right: calc(50% - 460px);
-  }
-  bottom: 65px;
-  z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
-  transform: scale(1.4);
-  transition: all 0.5s ease-in-out;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--primary);
-    outline: var(--primary) solid 2px;
-  }
-
-  &.center_screen {
-    right: calc(50% - 20px);
-    bottom: calc(50% - 20px);
-  }
-
-  p {
-    position: absolute;
-    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
-  }
-}
-
 #createCommentJoyrideWrapper {
   position: fixed;
   width: 56px + 2 * $joyrideElementPadding;
