@@ -4,36 +4,117 @@ $_font-family: "Roboto Flex";
 $_typescale: (
   display: (
     large: (
-      font: var(--md-ref-typeface-plain),
-      weight: var(--md-ref-typeface-weight-regular),
+      font: $_font_family,
+      weight: 400,
       size: 57,
-      line-height: 64,
       tracking: -0.25,
+      line-height: 64,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 45,
+      tracking: 0,
+      line-height: 52,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 36,
+      tracking: 0,
+      line-height: 44,
+    ),
+  ),
+  headline: (
+    large: (
+      weight: 400,
+      font: $_font_family,
+      size: 32,
+      tracking: 0,
+      line-height: 40,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 28,
+      tracking: 0,
+      line-height: 36,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 24,
+      tracking: 0,
+      line-height: 32,
+    ),
+  ),
+  title: (
+    large: (
+      font: $_font_family,
+      weight: 400,
+      size: 22,
+      tracking: 0,
+      line-height: 28,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 500,
+      size: 16,
+      tracking: 0.15,
+      line-height: 24,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 500,
+      size: 14,
+      tracking: 0.1,
+      line-height: 20,
+    ),
+  ),
+  body: (
+    large: (
+      font: $_font_family,
+      weight: 400,
+      size: 16,
+      tracking: 0.5,
+      line-height: 24,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 14,
+      tracking: 0.25,
+      line-height: 20,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 12,
+      tracking: 0.4,
+      line-height: 16,
     ),
   ),
   label: (
-    small: (
-      font: var(--md-ref-typeface-plain),
-      weight: var(--md-ref-typeface-weight-medium),
-      size: 10,
-      // default: 11
-      line-height: 16,
-      tracking: 0.25,
-      // default: 0.5
+    large: (
+      font: $_font_family,
+      weight: 500,
+      size: 14,
+      tracking: 0.1,
+      line-height: 20,
     ),
     medium: (
-      font: var(--md-ref-typeface-plain),
-      weight: var(--md-ref-typeface-weight-medium),
+      font: $_font_family,
+      weight: 500,
       size: 12,
-      line-height: 16,
       tracking: 0.5,
+      line-height: 16,
     ),
-    large: (
-      font: var(--md-ref-typeface-plain),
-      weight: var(--md-ref-typeface-weight-medium),
-      size: 14,
-      line-height: 20,
-      tracking: 0.1,
+    small: (
+      font: $_font_family,
+      weight: 500,
+      size: 11,
+      tracking: 0.5,
+      line-height: 16,
     ),
   ),
 );

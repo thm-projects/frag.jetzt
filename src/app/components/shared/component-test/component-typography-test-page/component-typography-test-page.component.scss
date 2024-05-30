@@ -1,0 +1,11 @@
+table {
+  border: 1px solid var(--md-sys-color-surface5);
+  border-collapse: collapse;
+  thead {
+    background-color: var(--md-sys-color-surface3);
+  }
+  td {
+    border: 1px solid var(--md-sys-color-surface5);
+    padding: 4px;
+  }
+}

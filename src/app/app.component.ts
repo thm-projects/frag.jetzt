@@ -271,6 +271,9 @@ export class AppComponent implements OnInit {
       gotoLayoutTest: () => {
         this.router.navigate(['creator', 'component-layout-test-page']);
       },
+      gotoTypographyTest: () => {
+        this.router.navigate(['creator', 'component-typography-test-page']);
+      },
     },
     self: undefined,
   };
