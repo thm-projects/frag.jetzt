@@ -255,7 +255,7 @@ export const getDefaultNavigation = (
               {
                 id: 'demo',
                 title: i18n.options.intro,
-                icon: 'summarize',
+                icon: 'description',
                 onClick: () => {
                   showDemo(injector);
                   return false;
