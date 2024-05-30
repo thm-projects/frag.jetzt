@@ -263,7 +263,7 @@ export const getDefaultNavigation = (
               },
               {
                 id: 'tour',
-                icon: 'flag',
+                icon: 'tour',
                 title: i18n.options.tour,
                 onClick: () => {
                   startTour(injector);
