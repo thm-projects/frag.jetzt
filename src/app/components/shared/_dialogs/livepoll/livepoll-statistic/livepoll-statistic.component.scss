@@ -1,5 +1,8 @@
 @use "sass:math";
 @import "../livepoll-common";
+:host {
+  padding: 16px;
+}
 
 .result-container {
   display: flex;
@@ -102,4 +105,9 @@
       }
     }
   }
+}
+
+.option-icon,
+.option-plain {
+  color: var(--md-sys-color-on-surface);
 }
