@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "modules/m3/style/m3-initializer" as m3-init;
+@use "modules/m3/style/m3-typescale" as m3-typescale;
 @import "style/fix-material-icons.scss";
 @import "style/joyride-theme.scss";
 @import "style/toast-ui-theme-m3.scss";
@@ -93,6 +94,30 @@ body {
         inset 0 -#{$border-width}px 0 0 rgba(0, 255, 255, 0.3),
         inset 0 #{$border-width}px 0 0 rgba(0, 255, 255, 0.3);
     }
+  }
+}
+
+.default-typescale {
+  h1 {
+    @include m3-typescale.typescale(display, large);
+  }
+  h2 {
+    @include m3-typescale.typescale(display, medium);
+  }
+  h3 {
+    @include m3-typescale.typescale(display, small);
+  }
+  h4 {
+    @include m3-typescale.typescale(headline, small);
+  }
+  h5 {
+    @include m3-typescale.typescale(headline, medium);
+  }
+  h6 {
+    @include m3-typescale.typescale(headline, large);
+  }
+  p {
+    @include m3-typescale.typescale(body, large);
   }
 }
 
