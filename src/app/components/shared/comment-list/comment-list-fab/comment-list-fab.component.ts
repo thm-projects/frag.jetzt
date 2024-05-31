@@ -1,18 +1,10 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.loadModule(rawI18n);
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from 'app/app.component';
 import { Room } from 'app/models/room';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
@@ -23,7 +15,7 @@ import { UserRole } from 'app/models/user-roles.enum';
 @Component({
   selector: 'app-comment-list-fab',
   standalone: true,
-  imports: [MatTooltipModule, MatIconModule, MatButtonModule, TranslateModule],
+  imports: [MatTooltipModule, MatIconModule, MatButtonModule],
   templateUrl: './comment-list-fab.component.html',
   styleUrl: './comment-list-fab.component.scss',
 })
@@ -49,7 +41,6 @@ export class CommentListFabComponent {
   protected readonly starting = signal(true);
 
   constructor() {
-    inject(TranslateService);
     effect(
       (cleanup) => {
         if (
@@ -63,7 +54,7 @@ export class CommentListFabComponent {
           icon: 'add',
           title: this.room()?.mode === 'PLE' ? i18n().ple.write : i18n().write,
           onClick: () => {
-            this.writeComment();
+            this.writeComment()();
             return false;
           },
         });
