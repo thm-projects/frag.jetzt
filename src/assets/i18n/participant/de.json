@@ -297,23 +297,6 @@
     "read-less": "Weniger lesen",
     "read-more": "Mehr lesen"
   },
-  "dsgvo": {
-    "external-source": "Soll der externe Inhalt <br><br>{{url}}<br><br> aufgerufen werden?",
-    "external-source-button-text": "Hier öffnen …",
-    "external-source-title": "Eingebetteter externer Inhalt",
-    "external-source-untrusted": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
-    "external-source-untrusted-button-text": "In neuem Tab öffnen …",
-    "external-source-untrusted-title": "Externer Inhalt",
-    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
-    "unknown-source-button-text": "Aufrufen",
-    "unknown-source-title": "Unbekannte oder interne Quelle",
-    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "vimeo-video-button-text": "Abspielen",
-    "vimeo-video-title": "Vimeo Video",
-    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Die URL wurde an die datenschutzkonforme URL angepasst. <br><br>Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "youtube-video-button-text": "Abspielen",
-    "youtube-video-title": "Youtube Video"
-  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
     "close": "Schließen",

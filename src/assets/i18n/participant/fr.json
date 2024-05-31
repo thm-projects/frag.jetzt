@@ -296,23 +296,6 @@
     "read-less": "Lire moins",
     "read-more": "Lire plus"
   },
-  "dsgvo": {
-    "external-source": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "external-source-button-text": "Ouvrir ici …",
-    "external-source-title": "Source externe intégrée",
-    "external-source-untrusted": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché dans un nouvel onglet ?",
-    "external-source-untrusted-button-text": "Ouvrir dans un nouvel onglet …",
-    "external-source-untrusted-title": "Source externe",
-    "unknown-source": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <br><br>{{url}}<br><br> doit être consulté ?",
-    "unknown-source-button-text": "Consulter",
-    "unknown-source-title": "Source inconnue ou interne",
-    "vimeo-video": "Le contenu renvoie à une vidéo de Vimeo. La vidéo <br><br>{{url}}<br><br> doit-elle être lue ?",
-    "vimeo-video-button-text": "Lire",
-    "vimeo-video-title": "Vidéo de Vimeo",
-    "youtube-video": "Le contenu renvoie à une vidéo de YouTube. L'URL a été adapté à l'URL conforme à la protection des données. <br><br>La vidéo <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "youtube-video-button-text": "Voir la vidéo",
-    "youtube-video-title": "Vidéo de Youtube"
-  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum ! Provident similique accusantium nemo autem.",
     "close": "Fermer",

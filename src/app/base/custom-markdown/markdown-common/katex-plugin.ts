@@ -74,6 +74,7 @@ export const katexPlugin = (
           {
             type: 'openTag',
             tagName: 'div',
+            classNames: ['katex-block'],
             attributes: { 'data-katex-id': id },
             outerNewLine: true,
           },

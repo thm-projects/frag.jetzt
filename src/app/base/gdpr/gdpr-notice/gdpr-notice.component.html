@@ -1,0 +1,18 @@
+<mat-card appearance="raised">
+  <mat-card-header>
+    <h2 mat-card-title>{{ i18n()[option()].title }}</h2>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p [innerHTML]="content()"></p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button
+      mat-flat-button
+      class="secondary"
+      (click)="onSubmit.emit()">
+      {{ i18n()[option()].button }}
+    </button>
+  </mat-card-actions>
+</mat-card>

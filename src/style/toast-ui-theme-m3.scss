@@ -161,8 +161,13 @@ div.toastui-editor-fragjetzt {
     background-color: var(--mdc-outlined-card-container-color);
   }
 
+  .katex-block {
+    @extend .body-large;
+    padding-block: 0.5em;
+  }
+
   .katex {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
 
   .katex-error {

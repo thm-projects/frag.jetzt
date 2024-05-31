@@ -381,23 +381,6 @@
     "read-less": "Read less",
     "read-more": "Read more"
   },
-  "dsgvo": {
-    "external-source": "The content is an external source. <br><br>Should <br><br>{{url}}<br><br> be called?",
-    "external-source-button-text": "Open here …",
-    "external-source-title": "Embedded External source",
-    "external-source-untrusted": "The content is an external source. <br><br>Do you want <br><br>{{url}}<br><br> to open in a new tab?",
-    "external-source-untrusted-button-text": "Open in new tab …",
-    "external-source-untrusted-title": "External source",
-    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <br><br>{{url}}<br><br> be called?",
-    "unknown-source-button-text": "Call up",
-    "unknown-source-title": "Unknown or internal source",
-    "vimeo-video": "The content links to a video from Vimeo. Should the video <br><br>{{url}}<br><br> be played?",
-    "vimeo-video-button-text": "Play",
-    "vimeo-video-title": "Vimeo video",
-    "youtube-video": "The content links to a video from YouTube. The URL has been adapted to the privacy-compliant URL. <br><br>Should the video <br><br>{{url}}<br><br> be played?",
-    "youtube-video-button-text": "Play",
-    "youtube-video-title": "Youtube video"
-  },
   "explanation": {
     "add-moderators": "## Moderators \n\nGuest and permanent moderators have the same rights as the creator of the room. But they can't delete questions or the whole room. \n\nEveryone can be added as a **permanent moderator** with their **mail address** with which they registered at »frag.jetzt«. \n\nAn unregistered user can become a **guest moderator** by entering the room via **direct link** or 8-digit **access code**.",
     "bonus-archive": "## Bonus Archive \n\nAll questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the bonus code that a participant sent you by mail is valid. \n\nTo find a code quickly, there is a search field. If the code is valid, you can display the corresponding question directly via a link.",

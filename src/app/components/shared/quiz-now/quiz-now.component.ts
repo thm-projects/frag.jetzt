@@ -3,9 +3,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../services/util/session.service';
-import { DsgvoBuilder } from '../../../utils/dsgvo-builder';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, take } from 'rxjs';
+import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
 
 @Component({
   selector: 'app-quiz-now',
@@ -77,7 +77,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
-        DsgvoBuilder.trustURL(xhr.responseURL);
+        gdprWatcher.trustUrl(xhr.responseURL);
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(
           xhr.responseURL,
         );

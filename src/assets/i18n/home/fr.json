@@ -121,23 +121,6 @@
     "cancel": "Fermer",
     "cancel-description": "Ferme l'introduction"
   },
-  "dsgvo": {
-    "external-source": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "external-source-button-text": "Ouvrir ici …",
-    "external-source-title": "Source externe intégrée",
-    "external-source-untrusted": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché dans un nouvel onglet ?",
-    "external-source-untrusted-button-text": "Ouvrir dans un nouvel onglet …",
-    "external-source-untrusted-title": "Source externe",
-    "unknown-source": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <br><br>{{url}}<br><br> doit être consulté ?",
-    "unknown-source-button-text": "Consulter",
-    "unknown-source-title": "Source inconnue ou interne",
-    "vimeo-video": "Le contenu renvoie à une vidéo de Vimeo. La vidéo <br><br>{{url}}<br><br> doit-elle être lue ?",
-    "vimeo-video-button-text": "Lire",
-    "vimeo-video-title": "Vidéo de Vimeo",
-    "youtube-video": "Le contenu renvoie à une vidéo de YouTube. L'URL a été adapté à l'URL conforme à la protection des données. <br><br>La vidéo <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "youtube-video-button-text": "Voir la vidéo",
-    "youtube-video-title": "Vidéo de Youtube"
-  },
   "explanation": {
     "add-moderators": "## Modérateurs \n\nLes modérateurs invités et permanents ont les mêmes droits que le créateur de la salle. Ils ne peuvent cependant pas supprimer de questions ni la salle entière. \n\nToute personne peut être admise comme **modérateur permanent** avec l'adresse **mail** avec laquelle il s'est enregistré sur «&nbsp;frag.jetzt&nbsp;». \n\nUn utilisateur non enregistré peut devenir **modérateur invité** s'il entre dans la salle par **lien direct** ou par **code d'accès** à 8 chiffres.",
     "bonus-archive": "## Archive de bonus \n\nIci sont listées toutes les questions que tu as marquées d'une étoile dans tes salles. Grâce à cette liste, tu peux vérifier si le code bonus qu'un participant t'a envoyé par e-mail est valable. \n\nPour trouver rapidement un code, il y a un champ de recherche. Si le code est valable, tu peux afficher directement la question correspondante via un lien.",

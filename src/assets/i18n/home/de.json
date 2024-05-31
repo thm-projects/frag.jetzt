@@ -121,23 +121,6 @@
     "cancel": "Schließen",
     "cancel-description": "Schließt die Einführung"
   },
-  "dsgvo": {
-    "external-source": "Soll der externe Inhalt <br><br>{{url}}<br><br> aufgerufen werden?",
-    "external-source-button-text": "Hier öffnen …",
-    "external-source-title": "Eingebetteter externer Inhalt",
-    "external-source-untrusted": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
-    "external-source-untrusted-button-text": "In neuem Tab öffnen …",
-    "external-source-untrusted-title": "Externer Inhalt",
-    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
-    "unknown-source-button-text": "Aufrufen",
-    "unknown-source-title": "Unbekannte oder interne Quelle",
-    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "vimeo-video-button-text": "Abspielen",
-    "vimeo-video-title": "Vimeo Video",
-    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Die URL wurde an die datenschutzkonforme URL angepasst. <br><br>Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "youtube-video-button-text": "Abspielen",
-    "youtube-video-title": "Youtube Video"
-  },
   "explanation": {
     "add-moderators": "## Moderator\\*innen \n\nGast- und Dauermoderator\\*innen haben die gleichen Rechte wie der/die Ersteller\\*in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator\\*in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator\\*in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
     "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonuscode, den dir ein/e Teilnehmer\\*in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",

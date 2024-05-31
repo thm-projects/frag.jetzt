@@ -15,8 +15,8 @@ import {
 import { KeycloakProviderService } from '../http/keycloak-provider.service';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UUID } from 'app/utils/ts-utils';
-import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
 import { InitService } from './init.service';
+import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
 
 export interface TokenReturn {
   token: string;
@@ -49,7 +49,7 @@ export class KeycloakService {
       // side effects
       this.providers$.subscribe((providers) => {
         providers.forEach((provider) => {
-          DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+          gdprWatcher.trustUrl(this.adjustURL(provider.frontendUrl));
         });
       });
     });
