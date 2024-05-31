@@ -120,11 +120,9 @@ export class UserBonusTokenComponent implements OnInit {
       if (this.rooms.length === 1 && this.rooms[0]) {
         this.currentRoom = this.rooms[0];
       } else {
-        this.translationService
-          .get('user-bonus-token.please-choose')
-          .subscribe((msg) => {
-            this.notificationService.show(msg);
-          });
+        this.translationService.get(i18n().pleaseChoose).subscribe((msg) => {
+          this.notificationService.show(msg);
+        });
         return;
       }
     }
@@ -166,16 +164,16 @@ export class UserBonusTokenComponent implements OnInit {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
     const translationList = [
-      'user-bonus-token.session-name',
-      'user-bonus-token.session-id',
-      'user-bonus-token.owner-email',
-      'user-bonus-token.moderator-emails',
-      'user-bonus-token.bonus-tokens',
-      'user-bonus-token.bonus-token-body1',
-      'user-bonus-token.bonus-token-body2',
-      'user-bonus-token.email-not-set',
-      'user-bonus-token.redeem-clipboard-success',
-      'user-bonus-token.redeem-clipboard-failure',
+      i18n().sessionName,
+      i18n().sessionId,
+      i18n().ownerEmail,
+      i18n().moderatorEmails,
+      i18n().bonusTokens,
+      i18n().bonusTokenBody1,
+      i18n().bonusTokenBody2,
+      i18n().emailNotSet,
+      i18n().redeemClipboardSuccess,
+      i18n().redeemClipboardFailure,
     ];
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe((msgs) => {
@@ -221,13 +219,13 @@ export class UserBonusTokenComponent implements OnInit {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
     const translationList = [
-      'user-bonus-token.mail-subject',
-      'user-bonus-token.mail-body1',
-      'user-bonus-token.mail-body2',
-      'user-bonus-token.bonus-token-body1',
-      'user-bonus-token.bonus-token-body2',
-      'user-bonus-token.email-not-set',
-      'user-bonus-token.redeem-mail-success',
+      i18n().mailSubject,
+      i18n().mailBody1,
+      i18n().mailBody2,
+      i18n().bonusTokenBody1,
+      i18n().bonusTokenBody2,
+      i18n().emailNotSet,
+      i18n().redeemMailSuccess,
     ];
     const escapedModeratorEmails = moderatorEmails.reduce((acc, value) => {
       if (acc.length > 0) {

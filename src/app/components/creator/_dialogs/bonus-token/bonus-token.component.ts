@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
@@ -41,7 +41,7 @@ const i18n = I18nLoader.load(i18nRaw);
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss'],
 })
-export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BonusTokenComponent implements OnInit, OnDestroy {
   value: string = '';
   valid = false;
   room: Room;
@@ -80,6 +80,13 @@ export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.getTokens();
+    this.updateTable(false);
+    this.tableDataSource.filterPredicate = function (
+      data,
+      filter: string,
+    ): boolean {
+      return data.token.toLowerCase().includes(filter);
+    };
     this.sub = this.eventService
       .on<{ token: string }>('BonusTokenDeleted')
       .subscribe((payload) => {
@@ -88,10 +95,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
         );
         this.updateTable(false);
       });
-  }
-
-  ngAfterViewInit() {
-    this.tableDataSource.sort = this.sort;
   }
 
   getTokens(): void {
@@ -274,7 +277,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   applyFilter(filterValue: string): void {
-    this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.tableDataSource.filter = filterValue;
   }
 
   openHelp() {
