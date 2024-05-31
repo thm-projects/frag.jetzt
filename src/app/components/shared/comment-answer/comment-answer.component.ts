@@ -1,11 +1,13 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ComponentRef,
   Injector,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -43,6 +45,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../header/header.component';
+import { applyRoomNavigation } from 'app/navigation/room-navigation';
 
 @Component({
   selector: 'app-comment-answer',
@@ -70,6 +73,8 @@ export class CommentAnswerComponent
   commentsEnabled = false;
   roleString: string;
   viewInfo: ResponseViewInformation;
+  private injector = inject(Injector);
+  private changeDetector = inject(ChangeDetectorRef);
   private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
   private destroyer = new ReplaySubject(1);
@@ -96,6 +101,9 @@ export class CommentAnswerComponent
     private readonly m3NavigationService: M3NavigationService,
     injector: Injector,
   ) {
+    applyRoomNavigation(this.injector)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe();
     this.m3NavigationService.emit(
       M3NavigationUtility.emptyPortal(HeaderComponent),
     );
@@ -204,7 +212,6 @@ export class CommentAnswerComponent
     this.destroyer.next(true);
     this.destroyer.complete();
     sessionStorage.removeItem('conversation-fallback-url');
-    document.getElementById('header_rescale').style.display = '';
     this._list?.forEach((e) => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
@@ -362,6 +369,7 @@ export class CommentAnswerComponent
     if (!this.isStudent) {
       this.commentService.highlight(this.comment).subscribe();
     }
+    this.changeDetector.markForCheck();
   }
 
   private onNoComment() {
@@ -372,6 +380,9 @@ export class CommentAnswerComponent
   }
 
   private initNavigation() {
+    if (!this.headerService.getHost()) {
+      return;
+    }
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
