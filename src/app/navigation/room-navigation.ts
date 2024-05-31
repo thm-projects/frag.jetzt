@@ -535,7 +535,9 @@ const openRoomTags = (room: Room, injector: Injector) => {
 };
 
 const openBonusArchive = (room: Room, injector: Injector) => {
-  const dialogRef = injector.get(MatDialog).open(BonusTokenComponent);
+  const dialogRef = injector
+    .get(MatDialog)
+    .open(BonusTokenComponent, { minHeight: 'unset' });
   dialogRef.componentInstance.room = room;
 };
 

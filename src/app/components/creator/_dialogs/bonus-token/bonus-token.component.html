@@ -192,6 +192,9 @@
       </table>
     </div>
   }
+  <div *ngIf="bonusTokens.length === 0">
+    <span tabindex="0">{{ i18n().noBonus }}</span>
+  </div>
 </div>
 
 <mat-dialog-actions>

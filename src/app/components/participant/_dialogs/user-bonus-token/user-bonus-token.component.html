@@ -1,81 +1,78 @@
-<div class="flex-container">
-  <span
-    matDialogTitle
-    class="flex-item">
-    {{ i18n().header }}
-  </span>
-  <mat-dialog-content class="flex-item flex-container">
+<span
+  matDialogTitle
+  class="flex-item">
+  {{ i18n().header }}
+</span>
+<mat-dialog-content class="flex-container">
+  <div
+    *ngIf="bonusTokensMixin.length >= 1"
+    class="flex-item flex-container">
     <div
-      *ngIf="bonusTokensMixin.length >= 1"
-      class="flex-item flex-container">
-      <div
-        class="column flex-item"
-        *ngFor="let bonusToken of bonusTokensMixin; let i = index"
-        (click)="navToComment(i)">
-        <span tabindex="1">{{ bonusToken.token }}</span>
-        <span class="roomName">
-          {{ i18n().roomNamelq }}
-          {{ bonusToken.roomName }}
-          {{ i18n().roomNamerq }}
-        </span>
-      </div>
+      class="column flex-item"
+      *ngFor="let bonusToken of bonusTokensMixin; let i = index"
+      (click)="navToComment(i)">
+      <span tabindex="1">{{ bonusToken.token }}</span>
+      <span class="roomName">
+        {{ i18n().roomNamelq }}
+        {{ bonusToken.roomName }}
+        {{ i18n().roomNamerq }}
+      </span>
+    </div>
 
-      <div class="column flex-item">
-        <form class="example-form flex-container">
-          <mat-form-field
-            *ngIf="rooms.length > 1"
-            class="example-full-width">
-            <mat-label class="placeholder">
-              {{ i18n().chooseSession }}
-            </mat-label>
-            <input
-              type="text"
-              matInput
-              [matAutocomplete]="auto" />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let room of rooms"
-                [value]="room.name"
-                (onSelectionChange)="setCurrentRoom($event, room)">
-                {{ i18n().roomNamelq }}
-                {{ room.name }}
-                {{ i18n().roomNamerq }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <button
-            mat-flat-button
-            class="mailto secondary flex-item"
-            (click)="redeemStars(true)">
-            <mat-icon class="material-icons-outlined">email</mat-icon>
-            {{ i18n().redeemTokens }}
-          </button>
-          <button
-            mat-flat-button
-            class="copyClipboard secondary flex-item"
-            (click)="redeemStars(false)">
-            <mat-icon class="material-icons-outlined">copy</mat-icon>
-            {{ i18n().redeemTokensClipboard }}
-          </button>
-        </form>
-      </div>
+    <div class="column flex-item">
+      <form class="example-form flex-container">
+        <mat-form-field
+          *ngIf="rooms.length > 1"
+          class="example-full-width">
+          <mat-label class="placeholder">
+            {{ i18n().chooseSession }}
+          </mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="auto" />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let room of rooms"
+              [value]="room.name"
+              (onSelectionChange)="setCurrentRoom($event, room)">
+              {{ i18n().roomNamelq }}
+              {{ room.name }}
+              {{ i18n().roomNamerq }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button
+          mat-flat-button
+          class="mailto secondary flex-item"
+          (click)="redeemStars(true)">
+          <mat-icon class="material-icons-outlined">email</mat-icon>
+          {{ i18n().redeemTokens }}
+        </button>
+        <button
+          mat-flat-button
+          class="copyClipboard secondary flex-item"
+          (click)="redeemStars(false)">
+          <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+          {{ i18n().redeemTokensClipboard }}
+        </button>
+      </form>
     </div>
-    <div *ngIf="bonusTokens.length === 0">
-      <span tabindex="0">{{ i18n().noBonus }}</span>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions class="flex-item flex-container">
-    <button
-      mat-button
-      class="flex-item"
-      mat-dialog-close>
-      {{ i18n().global.cancel }}
-    </button>
-    <button
-      mat-button
-      class="flex-item"
-      (click)="openHelp()">
-      {{ i18n().global.explain }}
-    </button>
-  </mat-dialog-actions>
-</div>
+  </div>
+  <div *ngIf="bonusTokens.length === 0">
+    <span tabindex="0">{{ i18n().noBonus }}</span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    (click)="openHelp()">
+    {{ i18n().global.explain }}
+  </button>
+</mat-dialog-actions>

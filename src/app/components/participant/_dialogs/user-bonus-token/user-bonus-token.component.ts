@@ -18,6 +18,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
 import i18nRaw from './user-bonus-token.i18n.json';
+import { i18nContext } from 'app/base/i18n/i18n-context';
 const i18n = I18nLoader.load(i18nRaw);
 
 export class MinRoom {
@@ -64,7 +65,7 @@ export class UserBonusTokenComponent implements OnInit {
     userId: string,
   ): MatDialogRef<UserBonusTokenComponent> {
     const dialogRef = dialog.open(UserBonusTokenComponent, {
-      width: '600px',
+      minHeight: 'unset',
     });
     dialogRef.componentInstance.userId = userId;
     return dialogRef;
@@ -176,52 +177,49 @@ export class UserBonusTokenComponent implements OnInit {
       i18n().redeemClipboardFailure,
     ];
     let clipBoardText: string;
-    this.translationService.get(translationList).subscribe((msgs) => {
-      ownerEmail =
-        ownerEmail === '' ? msgs[translationList[7]] : '\n' + ownerEmail;
-      clipBoardText =
-        msgs[translationList[0]] +
-        ': ' +
-        sessionName +
-        msgs[translationList[1]] +
-        ': ' +
-        sessionId +
-        msgs[translationList[2]] +
-        ': ' +
-        ownerEmail +
-        msgs[translationList[3]] +
-        ': ' +
-        (moderatorEmails[0] === undefined
-          ? msgs[translationList[7]]
-          : moderatorEmails.map((e) => '\n' + e)) +
-        msgs[translationList[4]] +
-        ': ';
-      this.bonusTokensMixin
-        .filter((btm) => btm.roomShortId === this.currentRoom.id)
-        .filter((btm) => btm.accountId === this.userId)
-        .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
-        .forEach((btm) => {
-          const date = new Date(btm.createdAt);
-          clipBoardText +=
-            '\n' +
-            btm.token +
-            msgs[translationList[5]] +
-            date.toLocaleDateString(this.lang) +
-            msgs[translationList[6]] +
-            btm.questionNumber;
-          this.clipboard.copy(clipBoardText);
-        });
-      this.notificationService.show(msgs[translationList[8]]);
-    });
+    ownerEmail = ownerEmail === '' ? translationList[7] : '\n' + ownerEmail;
+    clipBoardText =
+      translationList[0] +
+      ': ' +
+      sessionName +
+      translationList[1] +
+      ': ' +
+      sessionId +
+      translationList[2] +
+      ': ' +
+      ownerEmail +
+      translationList[3] +
+      ': ' +
+      (moderatorEmails[0] === undefined
+        ? translationList[7]
+        : moderatorEmails.map((e) => '\n' + e)) +
+      translationList[4] +
+      ': ';
+    this.bonusTokensMixin
+      .filter((btm) => btm.roomShortId === this.currentRoom.id)
+      .filter((btm) => btm.accountId === this.userId)
+      .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
+      .forEach((btm) => {
+        const date = new Date(btm.createdAt);
+        clipBoardText +=
+          '\n' +
+          btm.token +
+          translationList[5] +
+          date.toLocaleDateString(this.lang) +
+          translationList[6] +
+          btm.questionNumber;
+        this.clipboard.copy(clipBoardText);
+      });
+    this.notificationService.show(translationList[8]);
   }
 
   private redeemEmail(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
     const translationList = [
-      i18n().mailSubject,
+      i18nContext(i18n().mailSubject, { sessionName, sessionId }),
       i18n().mailBody1,
-      i18n().mailBody2,
+      i18nContext(i18n().mailBody2, { sessionName, sessionId }),
       i18n().bonusTokenBody1,
       i18n().bonusTokenBody2,
       i18n().emailNotSet,
@@ -234,46 +232,37 @@ export class UserBonusTokenComponent implements OnInit {
         return UserBonusTokenComponent.escapeForEmail(value);
       }
     }, '');
-    let mailText: string;
-    this.translationService
-      .get(translationList, {
-        sessionName,
-        sessionId,
-        tokens: this.bonusTokens,
-      })
-      .subscribe((msgs) => {
-        ownerEmail = ownerEmail === '' ? msgs[translationList[5]] : ownerEmail;
-        mailText =
-          'mailto:' +
-          UserBonusTokenComponent.escapeForEmail(ownerEmail) +
-          '?' +
-          'subject=' +
-          UserBonusTokenComponent.escapeForEmail(msgs[translationList[0]]) +
-          '&' +
-          (escapedModeratorEmails.length > 0
-            ? 'cc=' + escapedModeratorEmails + '&'
-            : '') +
-          'body=' +
-          UserBonusTokenComponent.escapeForEmail(msgs[translationList[1]]) +
-          this.bonusTokensMixin
-            .filter((btm) => btm.roomShortId === this.currentRoom.id)
-            .filter((btm) => btm.accountId === this.userId)
-            .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
-            .map((btm) => {
-              const date = new Date(btm.createdAt);
-              return UserBonusTokenComponent.escapeForEmail(
-                '\n\n' +
-                  btm.token +
-                  msgs[translationList[3]] +
-                  date.toLocaleDateString(this.lang) +
-                  msgs[translationList[4]] +
-                  btm.questionNumber,
-              );
-            }) +
-          UserBonusTokenComponent.escapeForEmail(msgs[translationList[2]]);
-        if (window.open(mailText, '_self') === null) {
-          this.notificationService.show(msgs[translationList[6]]);
-        }
-      });
+    ownerEmail = ownerEmail === '' ? translationList[5] : ownerEmail;
+    const mailText: string =
+      'mailto:' +
+      UserBonusTokenComponent.escapeForEmail(ownerEmail) +
+      '?' +
+      'subject=' +
+      UserBonusTokenComponent.escapeForEmail(translationList[0]) +
+      '&' +
+      (escapedModeratorEmails.length > 0
+        ? 'cc=' + escapedModeratorEmails + '&'
+        : '') +
+      'body=' +
+      UserBonusTokenComponent.escapeForEmail(translationList[1]) +
+      this.bonusTokensMixin
+        .filter((btm) => btm.roomShortId === this.currentRoom.id)
+        .filter((btm) => btm.accountId === this.userId)
+        .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
+        .map((btm) => {
+          const date = new Date(btm.createdAt);
+          return UserBonusTokenComponent.escapeForEmail(
+            '\n\n' +
+              btm.token +
+              translationList[3] +
+              date.toLocaleDateString(this.lang) +
+              translationList[4] +
+              btm.questionNumber,
+          );
+        }) +
+      UserBonusTokenComponent.escapeForEmail(translationList[2]);
+    if (window.open(mailText, '_self') === null) {
+      this.notificationService.show(translationList[6]);
+    }
   }
 }
