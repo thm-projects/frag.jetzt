@@ -37,6 +37,15 @@ class GdprWatcher {
     });
   }
 
+  trustDomain(url: string) {
+    url = this.verifyURL(url);
+    if (!this.isProtocolHTTP(url)) {
+      console.error('URL for trusting is not HTTP:', url);
+      return;
+    }
+    this.trustedURLs.add(url);
+  }
+
   trustUrl(url: string) {
     this.allowedURLs.set(url, SubmitState.SUCCESS);
   }

@@ -77,7 +77,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
-        gdprWatcher.trustUrl(xhr.responseURL);
+        gdprWatcher.trustDomain(xhr.responseURL);
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(
           xhr.responseURL,
         );

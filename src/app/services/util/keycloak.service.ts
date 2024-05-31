@@ -49,7 +49,7 @@ export class KeycloakService {
       // side effects
       this.providers$.subscribe((providers) => {
         providers.forEach((provider) => {
-          gdprWatcher.trustUrl(this.adjustURL(provider.frontendUrl));
+          gdprWatcher.trustDomain(this.adjustURL(provider.frontendUrl));
         });
       });
     });
