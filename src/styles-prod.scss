@@ -103,6 +103,7 @@ body {
   }
   h2 {
     @include m3-typescale.typescale(title, medium);
+    padding-top: 1em;
   }
   h3 {
     @include m3-typescale.typescale(title, medium);
