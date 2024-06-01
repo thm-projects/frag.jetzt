@@ -99,26 +99,34 @@ body {
 
 .default-typescale {
   h1 {
-    @include m3-typescale.typescale(display, large);
+    @include m3-typescale.typescale(title, large);
   }
   h2 {
-    @include m3-typescale.typescale(display, medium);
+    @include m3-typescale.typescale(title, medium);
   }
   h3 {
-    @include m3-typescale.typescale(display, small);
+    @include m3-typescale.typescale(title, medium);
+    padding-top: 1em;
   }
   h4 {
-    @include m3-typescale.typescale(headline, small);
+    @include m3-typescale.typescale(title, small);
   }
   h5 {
-    @include m3-typescale.typescale(headline, medium);
+    @include m3-typescale.typescale(titel, small);
   }
   h6 {
-    @include m3-typescale.typescale(headline, large);
+    @include m3-typescale.typescale(titel, small);
   }
   p {
-    @include m3-typescale.typescale(body, large);
+    @include m3-typescale.typescale(body, medium);
+    hyphens: auto;
+    line-height: 1.5;
   }
+  /*
+span {
+    @include m3-typescale.typescale(body, small);
+  }
+  */
 }
 
 /* common layout */
