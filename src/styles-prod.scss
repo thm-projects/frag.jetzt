@@ -215,3 +215,8 @@ $scrollbar-padding: 4px;
     background: transparent;
   }
 }
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+  padding-bottom: 0.3em;
+}
