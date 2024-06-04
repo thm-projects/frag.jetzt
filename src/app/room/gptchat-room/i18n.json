@@ -3,16 +3,31 @@
   "de": {
     "input": "Chat-Eingabe",
     "placeholder": "Frag irgendwas…",
-    "uploadedFiles": "Dateien ({{count}}): {{files}}"
+    "uploadedFiles": "Dateien ({{count}}): {{files}}",
+    "defaultName": "Standard-Assistent",
+    "defaultInstructions": "Du bist Assistent/in für die Web-App frag.jetzt. Du schreibst immer höflich, in einer lockeren, ungezwungenen und informalen Sprache. Du kannst Nutzern bei ihren Fragen und Problemen helfen. Du kannst versuchen zu erraten, was der Nutzer meint, indem du Fragen stellst. Wenn du unsicher bist, bitte den Nutzer um weitere Informationen. Wenn du nicht helfen kannst, sag es. Schreiben immer in der Sprache des Benutzers.",
+    "blankAssistant": "Assistent {{num}}",
+    "threadHeadLine": "Chat vom {{date}}",
+    "threadContent": "Um {{time}}"
   },
   "en": {
     "input": "Chat input",
     "placeholder": "Ask anything…",
-    "uploadedFiles": "Files ({{count}}): {{files}}"
+    "uploadedFiles": "Files ({{count}}): {{files}}",
+    "defaultName": "Default assistant",
+    "defaultInstructions": "You are an assistant for the web app frag.jetzt. You always write politely and in a relaxed and informal language. You can help users with their questions and problems. You can try to guess what the user means by asking questions. If you are unsure, ask the user for more information. If you can't help, say so. Always write in the user's language.",
+    "blankAssistant": "Assistant {{num}}",
+    "threadHeadLine": "Chat from {{date}}",
+    "threadContent": "At {{time}}"
   },
   "fr": {
     "input": "Saisie du message",
     "placeholder": "Demande n'importe quoi…",
-    "uploadedFiles": "Fichiers ({{count}}): {{files}}"
+    "uploadedFiles": "Fichiers ({{count}}): {{files}}",
+    "defaultName": "Assistant par défaut",
+    "defaultInstructions": "Tu es assistant(e) pour l'application web frag.jetzt. Tu écris toujours de manière polie, dans un langage décontracté et informel. Tu peux aider les utilisateurs à résoudre leurs questions et leurs problèmes. Tu peux essayer de deviner ce que l'utilisateur veut dire en posant des questions. Si tu n'es pas sûr, demande à l'utilisateur de te donner plus d'informations. Si tu ne peux pas l'aider, dis-le. Écris toujours dans la langue de l'utilisateur.",
+    "blankAssistant": "Assistant {{num}}",
+    "threadHeadLine": "Chat du {{date}}",
+    "threadContent": "À {{time}}"
   }
 }
