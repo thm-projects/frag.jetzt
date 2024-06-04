@@ -237,22 +237,23 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    document.getElementById('header_rescale').style.display = 'none';
-    document.getElementById('footer_rescale').style.display = 'none';
-    setTimeout(() => {
-      Rescale.requestFullscreen();
-    }, 0);
-    setTimeout(() => {
-      Array.from(
-        document
-          .getElementsByClassName('questionwall-screen')[0]
-          .getElementsByTagName('button'),
-      ).forEach((e) => {
-        e.addEventListener('keydown', (e1) => {
-          e1.preventDefault();
-        });
-      });
-    }, 100);
+    console.log('ngAfterViewInit');
+    // document.getElementById('header_rescale').style.display = 'none';
+    // document.getElementById('footer_rescale').style.display = 'none';
+    // setTimeout(() => {
+    //   Rescale.requestFullscreen();
+    // }, 0);
+    // setTimeout(() => {
+    //   Array.from(
+    //     document
+    //       .getElementsByClassName('questionwall-screen')[0]
+    //       .getElementsByTagName('button'),
+    //   ).forEach((e) => {
+    //     e.addEventListener('keydown', (e1) => {
+    //       e1.preventDefault();
+    //     });
+    //   });
+    // }, 100);
   }
 
   ngOnDestroy(): void {
@@ -268,8 +269,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.commentListSupport.filteredDataAccess.detach(true);
     this.keySupport.destroy();
-    document.getElementById('header_rescale').style.display = 'block';
-    document.getElementById('footer_rescale').style.display = 'block';
+    // document.getElementById('header_rescale').style.display = 'block';
+    // document.getElementById('footer_rescale').style.display = 'block';
     Rescale.exitFullscreen();
   }
 
@@ -358,15 +359,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentListSupport.deactivateFilter();
   }
 
-  leave() {
-    this.router.navigate([
-      '/' +
-        this.resolveUserRole() +
-        '/room/' +
-        this.sessionService.currentRoom.shortId +
-        '/comments',
-    ]);
-  }
+  // leave() {
+  //   this.router.navigate([
+  //     '/' +
+  //       this.resolveUserRole() +
+  //       '/room/' +
+  //       this.sessionService.currentRoom.shortId +
+  //       '/comments',
+  //   ]);
+  // }
 
   likeComment(comment: Comment) {
     this.commentService.voteUp(comment, this.user.id).subscribe();
