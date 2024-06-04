@@ -152,9 +152,6 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
-import { QuestionWallDrawerCommentComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer-comment/question-wall-drawer-comment.component';
-import { QuestionWallDisplayCommentComponent } from './questionwall/question-wall/question-wall-display-comment/question-wall-display-comment.component';
-import { QuestionWallDrawerComponent } from './questionwall/question-wall/question-wall-drawer/question-wall-drawer.component';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { QuestionWallCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/question-wall-comment.component';
@@ -179,9 +176,6 @@ import { CommentListFabComponent } from './comment-list/comment-list-fab/comment
     MatSliderModule,
     MatSlideToggleModule,
     CdkTrapFocus,
-    QuestionWallDrawerCommentComponent,
-    QuestionWallDisplayCommentComponent,
-    QuestionWallDrawerComponent,
     CustomMarkdownModule,
     ContextPipe,
     QuestionWallCommentComponent,
