@@ -59,37 +59,20 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Pre-Prompting & Role-playing',
-        de: 'Pre-Prompting & Rollenspiel',
-        fr: 'Pré-Prompting & Jeu de rôle',
+        en: 'Teach with AI',
+        de: 'Lehre mit KI',
+        fr: "Enseigne avec l'IA",
       },
       description: {
-        en: 'You can define the role that the AI assistant should play in your room. Also the format and scope of its responses. You can use keywords to focus the chat on a specific topic. The assistant rejects inappropriate questions in a friendly manner.',
-        de: 'Du kannst die Rolle festlegen, die der KI-Assistent in deinem Raum spielen soll. Auch das Format und den Umfang seiner Antworten. Mit Schlüsselwörtern fokussierst du den Chat auf ein Thema. Unpassende Fragen weist der Assistent freundlich zurück.',
-        fr: "Tu peux définir le rôle que l'assistant IA doit jouer dans ta salle. De même que le format et la portée de ses réponses. Avec des mots-clés, tu focalises le chat sur un thème. L'assistant rejette gentiment les questions inappropriées.",
+        en: "The AI summarizes the chapters of your script, extracts learning objectives and concepts and generates a glossary of technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all your students' questions 24/7: always competently and in line with your target group.",
+        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und erstellt ein Glossar mit Fachbegriffen. Sie erstellt Übungen und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einsendungen und Antworten aus. Sie beantwortet alle Fragen deiner Schüler/innen 24/7: immer kompetent und zielgruppengerecht.',
+        fr: "L'IA résume les chapitres de ton script, extrait les objectifs et les concepts d'apprentissage et génère un glossaire de termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions de tes élèves 24 heures sur 24 et 7 jours sur 7 : toujours avec compétence et en fonction de ton groupe cible.",
       },
       image: {
-        url: '/assets/background/prompting.svg',
+        url: '/assets/background/teaching.svg',
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
   {
     content: {
@@ -99,7 +82,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'StudyBuddy IA',
       },
       description: {
-        en: "Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your feedback with us: Are AI assistants the future? Contact us via the imprint.",
+        en: 'Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your feedback with us: Are AI assistants the future? Contact us via the imprint.',
         de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil. Erhalte uneingeschränkten Zugang zu den neuesten Sprachmodellen in all deinen Räumen. Teile uns dein Feedback mit: Sind KI-Assistenten die Zukunft? Kontaktiere uns über das Impressum.',
         fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude ». Bénéficie d'un accès illimité aux derniers modèles linguistiques dans toutes tes salles. Fais-nous part de tes commentaires : Les assistants IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
       },
@@ -199,20 +182,37 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Teach with AI',
-        de: 'Lehre mit KI',
-        fr: "Enseigne avec l'IA",
+        en: 'Pre-Prompting & Role-playing',
+        de: 'Pre-Prompting & Rollenspiel',
+        fr: 'Pré-Prompting & Jeu de rôle',
       },
       description: {
-        en: "The AI summarizes the chapters of your script, extracts learning objectives and concepts and generates a glossary of technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all your students' questions 24/7: always competently and in line with your target group.",
-        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und erstellt ein Glossar mit Fachbegriffen. Sie erstellt Übungen und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einsendungen und Antworten aus. Sie beantwortet alle Fragen deiner Schüler/innen 24/7: immer kompetent und zielgruppengerecht.',
-        fr: "L'IA résume les chapitres de ton script, extrait les objectifs et les concepts d'apprentissage et génère un glossaire de termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions de tes élèves 24 heures sur 24 et 7 jours sur 7 : toujours avec compétence et en fonction de ton groupe cible.",
+        en: 'You can define the role that the AI assistant should play in your room. Also the format and scope of its responses. You can use keywords to focus the chat on a specific topic. The assistant rejects inappropriate questions in a friendly manner.',
+        de: 'Du kannst die Rolle festlegen, die der KI-Assistent in deinem Raum spielen soll. Auch das Format und den Umfang seiner Antworten. Mit Schlüsselwörtern fokussierst du den Chat auf ein Thema. Unpassende Fragen weist der Assistent freundlich zurück.',
+        fr: "Tu peux définir le rôle que l'assistant IA doit jouer dans ta salle. De même que le format et la portée de ses réponses. Avec des mots-clés, tu focalises le chat sur un thème. L'assistant rejette gentiment les questions inappropriées.",
       },
       image: {
-        url: '/assets/background/teaching.svg',
+        url: '/assets/background/prompting.svg',
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.UltraLarge]: {
+        colspan: 2,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
