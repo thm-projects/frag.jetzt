@@ -1,7 +1,7 @@
 import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
 import { Observable, of, switchMap } from 'rxjs';
 
-class ServerSentEvent {
+export class ServerSentEvent {
   constructor(
     public readonly id: string,
     public readonly event: string,

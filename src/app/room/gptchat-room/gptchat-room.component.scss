@@ -6,13 +6,58 @@ m3-supporting-pane {
   max-height: 100%;
 }
 
+.user-message {
+  margin-top: 0;
+
+  + .user-message {
+    margin-top: 0.5em;
+  }
+}
+
+.assistant-message {
+  max-width: 800px;
+  margin: 0.5em 1em;
+  width: calc(100% - 3em);
+  display: block;
+}
+
+.user-card {
+  max-width: 600px;
+  margin: 0.5em 1em 0.5em auto;
+  width: calc(100% - 3em);
+  background-color: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface-container);
+}
+
 .chat-pane.m3-supporting-pane {
   display: flex;
   flex-direction: column;
+  position: relative;
+  max-width: unset;
+}
+
+.threads-overview.m3-supporting-pane {
+  transition-duration: 0.5s;
+  transition-property: width, margin-left;
+  transition-timing-function: var(--md-sys-motion-easing-emphasized);
+  width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  position: relative;
+
+  &.open {
+    width: var(--m3-comp-supporting-pane-fixed-width);
+    margin-left: var(--m3-sys-layout-spacing-pane);
+  }
+
+  > mat-action-list {
+    width: var(--m3-comp-supporting-pane-fixed-width);
+  }
 }
 
 .input-area {
   padding-top: 1em;
+  max-width: calc(100% - var(--m3-sys-layout-spacing-pane));
 
   > .input-field {
     width: 100%;
