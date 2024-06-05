@@ -159,6 +159,7 @@ import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { CommentListFabComponent } from './comment-list/comment-list-fab/comment-list-fab.component';
+import { QwTopBarComponent } from './questionwall/question-wall/support-components/qw-top-bar/qw-top-bar.component';
 
 @NgModule({
   imports: [
@@ -183,6 +184,7 @@ import { CommentListFabComponent } from './comment-list/comment-list-fab/comment
     M3BodyPaneComponent,
     M3SupportingPaneComponent,
     CommentListFabComponent,
+    QwTopBarComponent,
   ],
   declarations: [
     RoomJoinComponent,

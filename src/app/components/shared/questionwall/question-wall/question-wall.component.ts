@@ -26,11 +26,10 @@ import {
   BrainstormingFilter,
   Period,
   PeriodKey,
-  SortType,
 } from '../../../../utils/data-filter-object.lib';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
-import { BehaviorSubject, forkJoin, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -67,52 +66,54 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   > = new BehaviorSubject(undefined);
 
   @ViewChild('outlet', { read: ViewContainerRef }) set outlet(
-    value: ViewContainerRef,
+    viewContainerRef: ViewContainerRef,
   ) {
     this.self.focus
       .pipe(takeUntil(this.destroyer))
       .subscribe((comment: ForumComment | undefined) => {
-        if (!comment) {
-          if (this._currentCommentFocusComponent.value) {
-            this._currentCommentFocusComponent
-              .pipe(takeUntil(this.destroyer))
-              .subscribe((data) => {
-                console.log(data);
-                this._currentCommentFocusComponent.next(undefined);
-              });
-            this._currentCommentFocusComponent.value.destroy();
-          }
-        }
-        if (this._currentCommentFocusComponent.value) {
-          if (
-            comment.id ===
-            this._currentCommentFocusComponent.value.instance.comment.id
-          )
-            return;
-          this._currentCommentFocusComponent.value.instance.destroyer.subscribe(
-            () => this.buildComponent(comment, value),
+        if (comment) {
+          this.destroyFocus().subscribe(() =>
+            this._currentCommentFocusComponent.next(
+              viewContainerRef.createComponent(
+                QuestionWallCommentFocusComponent,
+                {
+                  injector: Injector.create({
+                    providers: [
+                      {
+                        provide: MAT_DIALOG_DATA,
+                        useValue: { comment: comment },
+                      },
+                    ],
+                  }),
+                },
+              ),
+            ),
           );
         } else {
-          this.buildComponent(comment, value);
+          this.destroyFocus().subscribe(() =>
+            this._currentCommentFocusComponent.next(undefined),
+          );
         }
+        console.log(comment);
       });
   }
 
-  private buildComponent(comment: ForumComment, vcr: ViewContainerRef) {
-    this._currentCommentFocusComponent.next(
-      vcr.createComponent(QuestionWallCommentFocusComponent, {
-        injector: Injector.create({
-          providers: [
-            {
-              provide: MAT_DIALOG_DATA,
-              useValue: {
-                comment: comment,
-              },
-            },
-          ],
+  private destroyFocus(): Observable<void> {
+    const currentComponent = this._currentCommentFocusComponent.value;
+    if (currentComponent) {
+      return new Observable<void>((subscriber) =>
+        currentComponent.instance.destroy().subscribe(() => {
+          currentComponent.onDestroy(() => subscriber.next());
+          currentComponent.destroy();
         }),
-      }),
-    );
+      );
+    } else {
+      return of(undefined);
+    }
+  }
+
+  get hasCommentFocus() {
+    return !!this._currentCommentFocusComponent.value;
   }
 
   comments: ForumComment[] = [];
@@ -148,6 +149,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   pageSizeOptions = [25, 50, 100, 200];
   private readonly commentCache: CommentCache = {};
   private destroyer = new ReplaySubject();
+
   private injector = inject(Injector);
 
   constructor(
@@ -166,12 +168,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     self.focus.subscribe((focus) => (this.commentFocus = focus));
     this.keySupport = new QuestionWallKeyEventSupport();
-    this.commentListSupport = createCommentListSupport(
-      FilteredDataAccess.buildNormalAccess(
-        this.sessionService,
-        this.roomDataService,
-        false,
-        'presentation',
+    self.init(
+      createCommentListSupport(
+        FilteredDataAccess.buildNormalAccess(
+          this.sessionService,
+          this.roomDataService,
+          false,
+          'presentation',
+        ),
       ),
     );
     this.initNavigation();
@@ -272,7 +276,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           old: false,
         };
       });
-    this.sessionService.getRoomOnce().subscribe((room) => (this.room = room));
     this.initKeySupport();
   }
 
@@ -418,6 +421,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   //       this.sessionService.currentRoom.shortId +
   //       '/comments',
   //   ]);
+
   // }
 
   likeComment(comment: Comment) {
@@ -474,8 +478,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       };
     });
     this.refreshUserMap();
-    this.commentsCountQuestions = this.comments.length;
-    this.commentsCountUsers = tempUserSet.size;
+    this.self.commentsCountQuestions = this.comments.length;
+    this.self.commentsCountUsers = tempUserSet.size;
     this.animationTrigger = false;
     setTimeout(() => {
       this.animationTrigger = true;
@@ -577,6 +581,4 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe();
   }
-
-  protected readonly SortType = SortType;
 }

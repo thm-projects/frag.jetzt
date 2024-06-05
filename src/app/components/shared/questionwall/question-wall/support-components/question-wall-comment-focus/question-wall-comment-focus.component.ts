@@ -6,7 +6,7 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
-import { ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -51,5 +51,9 @@ export class QuestionWallCommentFocusComponent implements OnDestroy {
 
   private loadAnswers() {
     this.self.getAnswers();
+  }
+
+  destroy(): Observable<void> {
+    return of(undefined);
   }
 }

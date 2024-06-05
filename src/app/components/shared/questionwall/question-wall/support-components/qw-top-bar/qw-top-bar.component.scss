@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background-color: var(--md-sys-color-surface3);
+}
+
+.top-bar-slider-container {
+  padding-left: var(--m3-sys-layout-spacing-pane);
+}
