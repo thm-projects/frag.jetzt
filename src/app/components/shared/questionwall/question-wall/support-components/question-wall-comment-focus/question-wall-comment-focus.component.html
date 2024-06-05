@@ -5,6 +5,12 @@
 </div>
 <div class="content">
   <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
+  @if (comment.answerCounts.accumulated && expandAnswers) {
+  } @else if (!comment.answerCounts.accumulated) {
+    <div class="row items-center content-center">
+      <button (click)="expandAnswers = true">show answers</button>
+    </div>
+  }
 </div>
 <div class="footer">
   @if (self.user.value.id !== comment.creatorId) {

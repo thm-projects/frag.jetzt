@@ -17,9 +17,13 @@
 .side-bar-footer {
 }
 
-.view-comment-bottom-bar {
+.bottom-bar {
   height: 52px;
-  padding-left: var(--m3-sys-layout-spacing-pane);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: 0 var(--m3-sys-layout-spacing-pane);
 }
 
 .view-comment-container {
@@ -27,6 +31,7 @@
   max-width: 100%;
   display: inline-flex;
   overflow: auto;
+  padding: var(--m3-sys-layout-spacing-pane);
 }
 
 .view-comment {

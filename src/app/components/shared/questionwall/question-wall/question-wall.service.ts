@@ -24,4 +24,6 @@ export class QuestionWallService {
   dislike(comment: Comment) {
     this.commentService.voteDown(comment, this.user.value.id).subscribe();
   }
+
+  getAnswers() {}
 }

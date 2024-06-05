@@ -1,16 +1,17 @@
 import {
   AfterViewInit,
   Component,
+  ComponentRef,
   inject,
   Injector,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
 import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
-import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
@@ -29,20 +30,20 @@ import {
 } from '../../../../utils/data-filter-object.lib';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
-import { forkJoin, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, forkJoin, ReplaySubject } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
-import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { applyRoomNavigation } from '../../../../navigation/room-navigation';
 import { QuestionWallService } from './question-wall.service';
 import {
   CommentListSupport,
   createCommentListSupport,
 } from './comment-list-support';
+import { QuestionWallCommentFocusComponent } from './support-components/question-wall-comment-focus/question-wall-comment-focus.component';
 
 interface CommentCache {
   [commentId: string]: {
@@ -57,10 +58,62 @@ interface CommentCache {
   styleUrls: ['./question-wall.component.scss'],
 })
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(ColComponent) colComponent: ColComponent;
-  @ViewChild('header') headerComponent: RowComponent;
-  @ViewChild('footer') footerComponent: RowComponent;
-  @ViewChild('sidelist') sidelist: ColComponent;
+  // @ViewChild(ColComponent) colComponent: ColComponent;
+  // @ViewChild('header') headerComponent: RowComponent;
+  // @ViewChild('footer') footerComponent: RowComponent;
+  // @ViewChild('sidelist') sidelist: ColComponent;
+  private readonly _currentCommentFocusComponent: BehaviorSubject<
+    ComponentRef<QuestionWallCommentFocusComponent> | undefined
+  > = new BehaviorSubject(undefined);
+
+  @ViewChild('outlet', { read: ViewContainerRef }) set outlet(
+    value: ViewContainerRef,
+  ) {
+    this.self.focus
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((comment: ForumComment | undefined) => {
+        if (!comment) {
+          if (this._currentCommentFocusComponent.value) {
+            this._currentCommentFocusComponent
+              .pipe(takeUntil(this.destroyer))
+              .subscribe((data) => {
+                console.log(data);
+                this._currentCommentFocusComponent.next(undefined);
+              });
+            this._currentCommentFocusComponent.value.destroy();
+          }
+        }
+        if (this._currentCommentFocusComponent.value) {
+          if (
+            comment.id ===
+            this._currentCommentFocusComponent.value.instance.comment.id
+          )
+            return;
+          this._currentCommentFocusComponent.value.instance.destroyer.subscribe(
+            () => this.buildComponent(comment, value),
+          );
+        } else {
+          this.buildComponent(comment, value);
+        }
+      });
+  }
+
+  private buildComponent(comment: ForumComment, vcr: ViewContainerRef) {
+    this._currentCommentFocusComponent.next(
+      vcr.createComponent(QuestionWallCommentFocusComponent, {
+        injector: Injector.create({
+          providers: [
+            {
+              provide: MAT_DIALOG_DATA,
+              useValue: {
+                comment: comment,
+              },
+            },
+          ],
+        }),
+      }),
+    );
+  }
 
   comments: ForumComment[] = [];
   commentListSupport: CommentListSupport;
@@ -148,20 +201,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSideList() {
-    this.sidelistExpanded = !this.sidelistExpanded;
-    if (this.sidelistExpanded) {
-      this.sidelist.setPx(450);
-      setTimeout(() => {
-        this.headerComponent.setPx(50);
-        this.footerComponent.setPx(50);
-      }, 200);
-    } else {
-      this.sidelist.setPx(0);
-      setTimeout(() => {
-        this.headerComponent.setPx(0);
-        this.footerComponent.setPx(0);
-      }, 200);
-    }
+    // this.sidelistExpanded = !this.sidelistExpanded;
+    // if (this.sidelistExpanded) {
+    //   this.sidelist.setPx(450);
+    //   setTimeout(() => {
+    //     this.headerComponent.setPx(50);
+    //     this.footerComponent.setPx(50);
+    //   }, 200);
+    // } else {
+    //   this.sidelist.setPx(0);
+    //   setTimeout(() => {
+    //     this.headerComponent.setPx(0);
+    //     this.footerComponent.setPx(0);
+    //   }, 200);
+    // }
   }
 
   getURL() {
