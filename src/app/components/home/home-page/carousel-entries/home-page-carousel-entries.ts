@@ -64,9 +64,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Enseigne avec l'IA",
       },
       description: {
-        en: "The AI summarizes the chapters of your script, extracts learning objectives and concepts and generates a glossary of technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all your students' questions 24/7: always competently and in line with your target group.",
-        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und erstellt ein Glossar mit Fachbegriffen. Sie erstellt Übungen und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einsendungen und Antworten aus. Sie beantwortet alle Fragen deiner Schüler/innen 24/7: immer kompetent und zielgruppengerecht.',
-        fr: "L'IA résume les chapitres de ton script, extrait les objectifs et les concepts d'apprentissage et génère un glossaire de termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions de tes élèves 24 heures sur 24 et 7 jours sur 7 : toujours avec compétence et en fonction de ton groupe cible.",
+        en: 'The AI summarizes the chapters of your script, extracts learning objectives and technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all questions 24/7: always competently and in a way that is appropriate for the target group.',
+        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Fachbegriffe. Sie erstellt Übungsaufgaben und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einreichungen und Antworten aus. Sie beantwortet alle Fragen 24/7: stets kompetent und zielgruppengerecht.',
+        fr: "L'IA résume les chapitres de ton script, extrait les objectifs d'apprentissage et les termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions 24 heures sur 24 et 7 jours sur 7 : toujours de manière compétente et adaptée au groupe cible.",
       },
       image: {
         url: '/assets/background/teaching.svg',
