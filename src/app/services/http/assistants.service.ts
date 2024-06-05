@@ -50,11 +50,34 @@ export interface MessageAttachment {
   tools: { type: 'file_search' | 'code_interpreter' }[];
 }
 
+export interface CiteAnnotation {
+  type: 'file_citation';
+  text: string;
+  start_index: number;
+  end_index: number;
+  file_citation: {
+    file_id: string;
+    quote?: string;
+  };
+}
+
+export interface GeneratedAnnotation {
+  type: 'file_path';
+  text: string;
+  start_index: number;
+  end_index: number;
+  file_path: {
+    file_id: string;
+  };
+}
+
+export type Annotation = CiteAnnotation | GeneratedAnnotation;
+
 export interface ContentText {
   type: 'text';
   text: {
     value: string;
-    annotations: unknown[];
+    annotations: Annotation[];
   };
 }
 
@@ -78,7 +101,7 @@ export type Content = ContentText | ContentImageUrl | ContentImage;
 
 export interface Message {
   role: string; // "user" or "assistant"
-  content: string | Content[];
+  content: Content[];
   attachments?: MessageAttachment[];
   metadata?: Record<string, string>;
 }
@@ -125,6 +148,7 @@ export class AssistantsService extends BaseHttpService {
     runThread: '/thread-run',
     threadList: '/thread-list',
     threadMessages: '/thread-messages',
+    getFile: '/file',
   };
 
   private readonly httpOptions = {
@@ -194,5 +218,11 @@ export class AssistantsService extends BaseHttpService {
       threadId +
       (after != null ? '?after=' + after : '');
     return this.client.get<MessageList>(url, this.httpOptions);
+  }
+
+  getFile(roomId: string, fileId: string) {
+    const url =
+      this.apiUrl.base + this.apiUrl.getFile + '/' + roomId + '/' + fileId;
+    return this.client.get<FileObject>(url, this.httpOptions);
   }
 }

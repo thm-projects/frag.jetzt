@@ -1,0 +1,24 @@
+{
+  "key": "ai-chat",
+  "de": {
+    "input": "Chat-Eingabe",
+    "placeholder": "Frag irgendwas…",
+    "uploadedFiles": "Dateien ({{count}}): {{files}}",
+    "deleted": "» Gelöscht «",
+    "ref": "[{{num}}]: {{file}}"
+  },
+  "en": {
+    "input": "Chat input",
+    "placeholder": "Ask anything…",
+    "uploadedFiles": "Files ({{count}}): {{files}}",
+    "deleted": "» Deleted «",
+    "ref": "[{{num}}]: {{file}}"
+  },
+  "fr": {
+    "input": "Saisie du message",
+    "placeholder": "Demande n'importe quoi…",
+    "uploadedFiles": "Fichiers ({{count}}): {{files}}",
+    "deleted": "» Supprimé «",
+    "ref": "[{{num}}]: {{file}}"
+  }
+}

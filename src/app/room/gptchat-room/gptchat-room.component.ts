@@ -36,26 +36,17 @@ import { FormControl } from '@angular/forms';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
 
-interface File {
-  name: string;
-  ref: UploadedFile;
-}
-
 interface AssistantEntry {
   ref: AssistantReference;
   assistant: Assistant;
 }
-
-type OverriddenMessage = Omit<Message, 'content'> & {
-  content: Content[];
-};
 
 interface ThreadEntry {
   ref: ThreadReference;
   headLine: string;
   content: string;
   fetched: boolean;
-  messages: OverriddenMessage[];
+  messages: Message[];
 }
 
 interface MessageDelta {
@@ -73,23 +64,23 @@ interface MessageDelta {
 })
 export class GPTChatRoomComponent implements OnInit, OnDestroy {
   @Input() protected owningComment: ForumComment;
-  protected currentMessages = signal<OverriddenMessage[]>([]);
+  protected currentMessages = signal<Message[]>([]);
   protected selectedThread = signal<ThreadEntry | null>(null);
   protected threads = signal<ThreadEntry[]>([]);
   protected assistRefs = signal<AssistantEntry[]>([]);
-  protected state = signal<'loading' | 'ready' | 'sending'>('loading');
+  protected state = signal<'loading' | 'ready' | 'sending' | 'no_assistant'>(
+    'loading',
+  );
+  protected overrideMessage = computed(() => {
+    if (this.state() === 'no_assistant') {
+      return i18n().noAssistants;
+    }
+    return '';
+  });
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
-  protected files = signal<File[]>([]);
-  protected filesString = computed(() => {
-    return new Intl.ListFormat(language(), {
-      localeMatcher: 'best fit',
-      style: 'long',
-      type: 'conjunction',
-    }).format(this.files().map((e) => e['name'] as string));
-  });
   protected selectedAssistant = new FormControl();
-  protected inputMessage = new FormControl();
+  protected onSend = this.sendMessage.bind(this);
   private destroyer = new ReplaySubject<void>(1);
   private injector = inject(Injector);
   private location = inject(Location);
@@ -115,7 +106,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.assistants
           .getThreadMessages(thread.ref.id, null)
           .subscribe((messages) => {
-            thread.messages = messages.data.reverse() as OverriddenMessage[];
+            thread.messages = messages.data.reverse();
             thread.fetched = true;
             this.currentMessages.set([...thread.messages]);
           });
@@ -177,7 +168,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
               };
             }),
           );
-          if (++count === 2) {
+          if (++count === 2 && this.state() === 'loading') {
             this.state.set('ready');
           }
         });
@@ -193,11 +184,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             this.loadAssistant(room.id, assistant);
           }
           if (elements.length === 0) {
-            this.createDefaultAssistant(room.id);
+            this.state.update((state) => {
+              if (!this.createDefaultAssistant(room.id)) {
+                return 'no_assistant';
+              }
+              return state;
+            });
           } else {
             this.selectedAssistant.setValue(elements[0].ref.id);
           }
-          if (++count === 2) {
+          if (++count === 2 && this.state() === 'loading') {
             this.state.set('ready');
           }
         });
@@ -209,9 +205,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     this.destroyer.complete();
   }
 
-  protected sendMessage() {
+  protected sendMessage(msg: string, files: UploadedFile[]) {
+    if ((!msg || msg.trim().length === 0) && files.length === 0) {
+      return false;
+    }
     if (this.state() === 'sending') {
-      return;
+      return false;
     }
     this.state.set('sending');
     const thread = this.selectedThread();
@@ -220,21 +219,28 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     );
     if (!assistant?.ref.openaiId) {
       this.state.set('ready');
-      return;
+      return false;
     }
     const message: Message = {
       role: 'user',
-      content: this.inputMessage.value,
+      content: [
+        {
+          type: 'text',
+          text: {
+            value: msg,
+            annotations: [],
+          },
+        },
+      ],
     };
-    this.inputMessage.setValue('');
     const roomId = this.roomState.getCurrentRoom().id;
-    const files = this.files();
     let data: Observable<unknown> = of(null);
     if (files.length > 0) {
       data = forkJoin(
-        files.map((e) => this.assistants.uploadToOpenAI(roomId, e.ref.id)),
+        files.map((e) => this.assistants.uploadToOpenAI(roomId, e.id)),
       ).pipe(
         map((refs) => {
+          console.log(refs);
           message.attachments = refs.map((ref) => ({
             file_id: ref.id,
             tools: [{ type: 'file_search' }],
@@ -242,29 +248,34 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           return null;
         }),
       );
-      this.files.set([]);
     }
     if (!thread) {
       data = data.pipe(
-        switchMap(() =>
-          this.assistants.createThread(roomId, {
+        switchMap(() => {
+          const transformedMessage = { ...message };
+          transformedMessage.content =
+            transformedMessage.content[0]['text'].value;
+          return this.assistants.createThread(roomId, {
             assistant_id: assistant.ref.openaiId,
             stream: true,
             thread: {
-              messages: [message],
+              messages: [transformedMessage],
             },
-          }),
-        ),
+          });
+        }),
       );
     } else {
       data = data.pipe(
-        switchMap(() =>
-          this.assistants.continueThread(thread.ref.id, {
+        switchMap(() => {
+          const transformedMessage = { ...message };
+          transformedMessage.content =
+            transformedMessage.content[0]['text'].value;
+          return this.assistants.continueThread(thread.ref.id, {
             assistant_id: assistant.ref.openaiId,
             stream: true,
-            additional_messages: [message],
-          }),
-        ),
+            additional_messages: [transformedMessage],
+          });
+        }),
       );
     }
     let newMessage: Message = null;
@@ -279,25 +290,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             messages: [],
             fetched: true,
           };
+          thread.ref.createdAt = new Date(
+            (thread.ref.createdAt as unknown as number) * 1000,
+          );
           this.threads.update((threads) => {
             return [...threads, thread];
           });
           this.selectedThread.set(thread);
         } else if (sse.event === 'thread.run.created') {
-          message.content = [
-            {
-              type: 'text',
-              text: {
-                value: message.content as string,
-                annotations: [],
-              },
-            },
-          ];
-          this.selectedThread().messages.push(message as OverriddenMessage);
+          this.selectedThread().messages.push(message);
           this.currentMessages.set([...this.selectedThread().messages]);
         } else if (sse.event === 'thread.message.created') {
           newMessage = sse.jsonData() as Message;
-          this.selectedThread().messages.push(newMessage as OverriddenMessage);
+          this.selectedThread().messages.push(newMessage);
           this.currentMessages.set([...this.selectedThread().messages]);
         } else if (sse.event === 'thread.message.delta') {
           const delta = sse.jsonData() as MessageDelta;
@@ -313,6 +318,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
+        if (err?.status === 424 && err?.error) {
+          console.error(err.error);
+        }
         console.error(err);
         this.state.set('ready');
       },
@@ -320,28 +328,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.state.set('ready');
       },
     });
-  }
-
-  protected updateHeight(area: HTMLTextAreaElement) {
-    area.style.height = 'auto';
-    area.style.height = area.scrollHeight + 'px';
-  }
-
-  protected onFileChange(fileList: FileList) {
-    for (let i = 0; i < fileList.length; i++) {
-      this.assistants.uploadFile(fileList[i]).subscribe((ref) => {
-        this.files.update((files) => {
-          if (
-            files.findIndex(
-              (e) => e.name === fileList[i].name && e.ref.id === ref.id,
-            ) !== -1
-          ) {
-            return files;
-          }
-          return [...files, { name: fileList[i].name, ref }];
-        });
-      });
-    }
+    return true;
   }
 
   private mergeObject(data: Content[], index: number, content: Content) {
@@ -356,7 +343,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       data[index] = content;
     } else if (entry.type === 'text') {
       entry.text.value += content['text'].value;
-      entry.text.annotations.push(...content['text'].annotations);
+      if (content['text'].annotations) {
+        entry.text.annotations.push(...content['text'].annotations);
+      }
     } else if (entry.type === 'image_url') {
       entry.image_url.url = content['image_url'].url;
       entry.image_url.detail = content['image_url'].detail;
@@ -411,7 +400,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
 
   private createDefaultAssistant(roomId: string) {
     if (this.roomState.getCurrentAssignedRole() === 'Participant') {
-      return;
+      return false;
     }
     this.assistants
       .createAssistant(roomId, {
@@ -437,5 +426,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.loadAssistant(roomId, entry);
         this.selectedAssistant.setValue(ref.id);
       });
+    return true;
   }
 }

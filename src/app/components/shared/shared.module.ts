@@ -162,6 +162,7 @@ import { QuestionWallCommentFocusComponent } from './questionwall/question-wall/
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { CommentListFabComponent } from './comment-list/comment-list-fab/comment-list-fab.component';
+import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component';
 
 @NgModule({
   imports: [
@@ -189,6 +190,7 @@ import { CommentListFabComponent } from './comment-list/comment-list-fab/comment
     M3BodyPaneComponent,
     M3SupportingPaneComponent,
     CommentListFabComponent,
+    AiChatComponent,
   ],
   declarations: [
     RoomJoinComponent,
