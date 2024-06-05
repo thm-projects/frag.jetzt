@@ -17,12 +17,18 @@
   <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
 </div>
 <div class="footer">
-  <button mat-button>
-    <mat-icon>thumb_up</mat-icon>
-    {{ comment.upvotes }}
-  </button>
-  <button mat-button>
-    <mat-icon>thumb_down</mat-icon>
-    {{ comment.downvotes }}
-  </button>
+  @if (self.user.value.id !== comment.creatorId) {
+    <button
+      mat-button
+      (click)="self.like(comment)">
+      <mat-icon>thumb_up</mat-icon>
+      {{ comment.upvotes }}
+    </button>
+    <button
+      mat-button
+      (click)="self.dislike(this.comment)">
+      <mat-icon>thumb_down</mat-icon>
+      {{ comment.downvotes }}
+    </button>
+  }
 </div>

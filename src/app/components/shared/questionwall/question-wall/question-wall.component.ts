@@ -25,6 +25,7 @@ import {
   BrainstormingFilter,
   Period,
   PeriodKey,
+  SortType,
 } from '../../../../utils/data-filter-object.lib';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
@@ -171,16 +172,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${window.location.protocol}//${window.location.hostname}/participant/room/${room.shortId}`;
   }
 
-  toggleQRCode() {
-    this.qrCodeExpanded = !this.qrCodeExpanded;
-  }
-
   ngOnInit(): void {
     this.accountState.user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => {
         if (newUser) {
           this.user = newUser;
+          this.self.user.next(this.user);
         }
       });
     forkJoin([
@@ -232,7 +230,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       key.addKeyEvent('ArrowDown', () => this.nextComment());
       key.addKeyEvent('ArrowUp', () => this.prevComment());
       key.addKeyEvent('l', () => this.toggleSideList());
-      key.addKeyEvent('q', () => this.toggleQRCode());
+      key.addKeyEvent('q', () => (this.qrCodeExpanded = !this.qrCodeExpanded));
     });
   }
 
@@ -331,10 +329,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         entry.old = true;
         this.unreadComments--;
       }
-      this.getDOMCommentFocus().scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      // this.getDOMCommentFocus().scrollIntoView({
+      //   behavior: 'smooth',
+      //   block: 'center',
+      // });
     }, 1);
   }
 
@@ -526,4 +524,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe();
   }
+
+  protected readonly SortType = SortType;
 }

@@ -20,10 +20,26 @@
       <mat-icon>sort</mat-icon>
       Sort
       <mat-menu #matSortMenu>
-        <button mat-menu-item>Newest</button>
-        <button mat-menu-item>Oldest</button>
-        <button mat-menu-item>Score</button>
-        <button mat-menu-item>Controversy</button>
+        <button
+          mat-menu-item
+          (click)="commentListSupport.sort(SortType.Time, false)">
+          Newest
+        </button>
+        <button
+          mat-menu-item
+          (click)="commentListSupport.sort(SortType.Time, true)">
+          Oldest
+        </button>
+        <button
+          mat-menu-item
+          (click)="commentListSupport.sort(SortType.Score, false)">
+          Score
+        </button>
+        <button
+          mat-menu-item
+          (click)="commentListSupport.sort(SortType.Controversy, false)">
+          Controversy
+        </button>
       </mat-menu>
     </button>
     <button
@@ -75,11 +91,37 @@
   </div>
 </div>
 <div class="content row grow">
-  <div class="view-comment-container column grow">
-    <div class="view-comment">
+  <div class="view-comment-container column grow items-center content-center">
+    <div class="view-comment column">
       @if (commentFocus) {
         <app-question-wall-comment-focus
           [comment]="commentFocus"></app-question-wall-comment-focus>
+      } @else {
+        <ng-container *ngIf="!commentFocusId && firstPassIntroduction">
+          <span
+            class="questionwall-present-introduction-title display-large"
+            *ngIf="room?.mode === 'PLE'">
+            {{ "question-wall.ple.intro-title" | translate }}
+          </span>
+          <span
+            class="questionwall-present-introduction-title display-large"
+            *ngIf="room?.mode === 'ARS'">
+            {{ "question-wall.intro-title" | translate }}
+          </span>
+          <span
+            class="questionwall-present-introduction-desc body-large"
+            *ngIf="room?.mode === 'PLE'">
+            {{ "question-wall.ple.intro-desc" | translate }}
+          </span>
+          <span
+            class="questionwall-present-introduction-desc body-large"
+            *ngIf="room?.mode === 'ARS'">
+            {{ "question-wall.intro-desc" | translate }}
+          </span>
+          <span class="questionwall-present-introduction-desc body-large">
+            {{ "question-wall.intro-autofocus" | translate }}
+          </span>
+        </ng-container>
       }
     </div>
   </div>
@@ -93,29 +135,49 @@
       }
     </div>
     <div class="side-bar-footer">
-      <mat-paginator></mat-paginator>
+      <ars-mat-paginator
+        *ngIf="comments.length > 0"
+        [pageSize]="this.pageSize"
+        (page)="handlePageEvent($event)"
+        [showFirstLastButtons]="true"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="pageIndex"
+        [length]="comments.length"></ars-mat-paginator>
     </div>
   </div>
 </div>
 <div
   class="view-comment-bottom-bar row items-center content-space-between gap-medium">
-  <div class="row content-center">
-    <mat-slide-toggle>autofocus for new questions</mat-slide-toggle>
-    <button mat-button>
-      <mat-icon>qr_code</mat-icon>
-      Show QR code
-    </button>
+  <div class="row content-center gap-medium">
+    <mat-slide-toggle (click)="toggleFocusIncomingComments()">
+      autofocus for new questions
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="qrCodeExpanded">
+      Show QR Code
+    </mat-slide-toggle>
   </div>
   <div class="row content-center">
-    <button mat-button>
+    <button
+      mat-button
+      (click)="prevComment()">
       <mat-icon>chevron_left</mat-icon>
       previous
     </button>
-    <button mat-button>
+    <button
+      mat-button
+      (click)="nextComment()">
       <mat-icon>chevron_right</mat-icon>
       next
     </button>
   </div>
+</div>
+<div
+  class="qr-overlay"
+  *ngIf="qrCodeExpanded">
+  <qrcode
+    [qrdata]="getURL()"
+    [width]="200"
+    [errorCorrectionLevel]="'M'"></qrcode>
 </div>
 
 <!--<app-mat-spinner-overlay-->

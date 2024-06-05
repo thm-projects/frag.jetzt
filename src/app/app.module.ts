@@ -92,6 +92,7 @@ import { M3NavigationComponent } from 'modules/navigation/m3-navigation/m3-navig
 import { I18nLoader } from './base/i18n/i18n-loader';
 import { YtVideoWrapperComponent } from './components/home/home-page/yt-video-wrapper/yt-video-wrapper.component';
 import { FeatureGridComponent } from './components/home/home-page/feature-grid/feature-grid.component';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -177,6 +178,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ComponentTestButtonComponent,
     YtVideoWrapperComponent,
     FeatureGridComponent,
+    CdkDrag,
   ],
   providers: [
     /*AppConfig,

@@ -30,6 +30,8 @@
 }
 
 .view-comment {
+  width: 100%;
+  max-width: 1600px;
 }
 
 .side-bar-content {
@@ -44,4 +46,10 @@
   justify-content: center;
   align-items: center;
   gap: 4px;
+}
+
+.qr-overlay {
+  position: fixed;
+  bottom: 64px;
+  left: 120px;
 }
