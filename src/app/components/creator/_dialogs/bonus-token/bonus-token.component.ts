@@ -279,6 +279,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   applyFilter(filterValue: string): void {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
+    this.tableDataSource.filterPredicate = (bonusToken, filterValue) =>
+      bonusToken.token.toLowerCase().includes(filterValue);
     this.tableDataSource.filter = filterValue;
   }
 
