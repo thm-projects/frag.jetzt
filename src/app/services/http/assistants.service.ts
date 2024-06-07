@@ -21,6 +21,12 @@ export interface FileObject {
   purpose: string;
 }
 
+export interface ToolFileSearch {
+  type: 'file_search';
+}
+
+export type Tools = ToolFileSearch;
+
 export interface Assistant {
   id?: string;
   object?: string;
@@ -29,7 +35,7 @@ export interface Assistant {
   name?: string;
   description?: string;
   instructions?: string;
-  tools?: unknown[];
+  tools?: Tools[];
   tool_resources?: unknown[];
   metadata?: Record<string, string>;
   temperature?: number;
@@ -142,6 +148,8 @@ export class AssistantsService extends BaseHttpService {
     base: '/api/assistants',
     upload: '/upload',
     create: '/create-assistant',
+    delte: '/delete-assistant',
+    update: '/update-assistant',
     list: '/assistant-list',
     assistant: '/assistant',
     createThread: '/thread-create',
@@ -182,6 +190,16 @@ export class AssistantsService extends BaseHttpService {
   createAssistant(roomId: string, a: Assistant) {
     const url = this.apiUrl.base + this.apiUrl.create + '/' + roomId;
     return this.client.post<AssistantReference>(url, a, this.httpOptions);
+  }
+
+  delete(id: AssistantReference['id']) {
+    const url = this.apiUrl.base + this.apiUrl.delte + '/' + id;
+    return this.client.delete<void>(url, this.httpOptions);
+  }
+
+  update(id: AssistantReference['id'], a: Partial<Assistant>) {
+    const url = this.apiUrl.base + this.apiUrl.update + '/' + id;
+    return this.client.patch<Assistant>(url, a, this.httpOptions);
   }
 
   listAssistants(roomId: string) {

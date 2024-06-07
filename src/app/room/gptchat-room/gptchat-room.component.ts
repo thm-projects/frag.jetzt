@@ -18,7 +18,6 @@ import { EventService } from '../../services/util/event.service';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { applyRoomNavigation } from '../../navigation/room-navigation';
 import { language } from 'app/base/language/language';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { Location } from '@angular/common';
@@ -35,8 +34,10 @@ import { RoomStateService } from 'app/services/state/room-state.service';
 import { FormControl } from '@angular/forms';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
+import { AiErrorComponent } from './ai-error/ai-error.component';
+import { applyAiNavigation } from './navigation/ai-navigation';
 
-interface AssistantEntry {
+export interface AssistantEntry {
   ref: AssistantReference;
   assistant: Assistant;
 }
@@ -68,11 +69,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected selectedThread = signal<ThreadEntry | null>(null);
   protected threads = signal<ThreadEntry[]>([]);
   protected assistRefs = signal<AssistantEntry[]>([]);
-  protected state = signal<'loading' | 'ready' | 'sending' | 'no_assistant'>(
-    'loading',
-  );
+  protected state = signal<'loading' | 'ready' | 'sending'>('loading');
+  protected error = signal<string | null>(null);
   protected overrideMessage = computed(() => {
-    if (this.state() === 'no_assistant') {
+    const error = this.error();
+    if (error) {
+      return error;
+    }
+    if (this.state() === 'ready' && this.assistRefs().length === 0) {
       return i18n().noAssistants;
     }
     return '';
@@ -155,47 +159,73 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer), filter(Boolean))
       .subscribe((room) => {
         let count = 0;
-        this.assistants.listThreads(room.id).subscribe((threads) => {
-          this.threads.set(
-            threads.map((e) => {
-              e.createdAt = new Date((e.createdAt as unknown as number) * 1000);
-              return {
-                headLine: '',
-                content: '',
-                ref: e,
-                messages: [],
-                fetched: false,
-              };
-            }),
-          );
-          if (++count === 2 && this.state() === 'loading') {
-            this.state.set('ready');
-          }
+        this.assistants.listThreads(room.id).subscribe({
+          next: (threads) => {
+            this.threads.set(
+              threads
+                .map((e) => {
+                  e.createdAt = new Date(
+                    (e.createdAt as unknown as number) * 1000,
+                  );
+                  return {
+                    headLine: '',
+                    content: '',
+                    ref: e,
+                    messages: [],
+                    fetched: false,
+                  };
+                })
+                .sort(
+                  (a, b) =>
+                    a.ref.createdAt.getTime() - b.ref.createdAt.getTime(),
+                ),
+            );
+            if (++count === 2 && this.state() === 'loading') {
+              this.state.set('ready');
+            }
+          },
+          error: (err) => {
+            const error = this.error();
+            const newError = this.makeError(err);
+            this.error.set(error ? error + '\n' + newError : newError);
+            console.error(err);
+            if (++count === 2 && this.state() === 'loading') {
+              this.state.set('ready');
+            }
+          },
         });
-        this.assistants.listAssistants(room.id).subscribe((assistants) => {
-          const elements = assistants.map((e, i) => ({
-            ref: e,
-            assistant: {
-              name: i18nContext(i18n().blankAssistant, { num: String(i + 1) }),
-            } as Assistant,
-          }));
-          this.assistRefs.set(elements);
-          for (const assistant of elements) {
-            this.loadAssistant(room.id, assistant);
-          }
-          if (elements.length === 0) {
-            this.state.update((state) => {
-              if (!this.createDefaultAssistant(room.id)) {
-                return 'no_assistant';
-              }
-              return state;
-            });
-          } else {
-            this.selectedAssistant.setValue(elements[0].ref.id);
-          }
-          if (++count === 2 && this.state() === 'loading') {
-            this.state.set('ready');
-          }
+        this.assistants.listAssistants(room.id).subscribe({
+          next: (assistants) => {
+            const elements = assistants.map((e, i) => ({
+              ref: e,
+              assistant: {
+                name: i18nContext(i18n().blankAssistant, {
+                  num: String(i + 1),
+                }),
+              } as Assistant,
+            }));
+            this.assistRefs.set(elements);
+            for (const assistant of elements) {
+              this.loadAssistant(room.id, assistant);
+            }
+            if (elements.length === 0) {
+              this.createDefaultAssistant(room.id);
+            } else {
+              this.selectedAssistant.setValue(elements[0].ref.id);
+            }
+            if (++count === 2 && this.state() === 'loading') {
+              this.state.set('ready');
+            }
+          },
+          error: (err) => {
+            const error = this.error();
+            const newError = this.makeError(err);
+            this.error.set(error ? error + '\n' + newError : newError);
+            console.error(err);
+            if (++count === 2 && this.state() === 'loading') {
+              this.state.set('ready');
+            }
+          },
         });
       });
   }
@@ -240,7 +270,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         files.map((e) => this.assistants.uploadToOpenAI(roomId, e.id)),
       ).pipe(
         map((refs) => {
-          console.log(refs);
           message.attachments = refs.map((ref) => ({
             file_id: ref.id,
             tools: [{ type: 'file_search' }],
@@ -294,7 +323,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             (thread.ref.createdAt as unknown as number) * 1000,
           );
           this.threads.update((threads) => {
-            return [...threads, thread];
+            return [thread, ...threads];
           });
           this.selectedThread.set(thread);
         } else if (sse.event === 'thread.run.created') {
@@ -318,9 +347,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        if (err?.status === 424 && err?.error) {
-          console.error(err.error);
-        }
+        this.showError(this.makeError(err));
         console.error(err);
         this.state.set('ready');
       },
@@ -370,7 +397,37 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private initNav() {
-    applyRoomNavigation(this.injector)
+    applyAiNavigation(this.injector, {
+      assistants: this.assistRefs,
+      onOutput: (change) => {
+        if (change.type === 'created') {
+          this.assistRefs.update((assistants) => {
+            return [...assistants, change.assistant];
+          });
+          this.loadAssistant(
+            this.roomState.getCurrentRoom().id,
+            change.assistant,
+          );
+        } else if (change.type === 'updated') {
+          this.assistRefs.update((assistants) => {
+            const index = assistants.findIndex(
+              (e) => e.ref.id === change.assistant.ref.id,
+            );
+            if (index === -1) {
+              return assistants;
+            }
+            assistants[index] = change.assistant;
+            return assistants;
+          });
+        } else if (change.type === 'deleted') {
+          this.assistRefs.update((assistants) => {
+            return assistants.filter(
+              (e) => e.ref.id !== change.assistant.ref.id,
+            );
+          });
+        }
+      },
+    })
       .pipe(takeUntil(this.destroyer))
       .subscribe();
   }
@@ -390,6 +447,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.selectedAssistant.updateValueAndValidity();
       },
       error: (err) => {
+        this.showError(this.makeError(err));
         console.error(err);
         this.assistRefs.update((assistants) => {
           return assistants.filter((e) => e.ref !== assistant.ref);
@@ -400,7 +458,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
 
   private createDefaultAssistant(roomId: string) {
     if (this.roomState.getCurrentAssignedRole() === 'Participant') {
-      return false;
+      return;
     }
     this.assistants
       .createAssistant(roomId, {
@@ -413,19 +471,50 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           },
         ],
       })
-      .subscribe((ref) => {
-        const entry = {
-          ref,
-          assistant: {
-            name: i18n().defaultName,
-          } as Assistant,
-        };
-        this.assistRefs.update((assistants) => {
-          return [...assistants, entry];
-        });
-        this.loadAssistant(roomId, entry);
-        this.selectedAssistant.setValue(ref.id);
+      .subscribe({
+        next: (ref) => {
+          const entry = {
+            ref,
+            assistant: {
+              name: i18n().defaultName,
+            } as Assistant,
+          };
+          this.assistRefs.update((assistants) => {
+            return [...assistants, entry];
+          });
+          this.loadAssistant(roomId, entry);
+          this.selectedAssistant.setValue(ref.id);
+        },
+        error: (err) => {
+          this.error.set(this.makeError(err));
+        },
       });
-    return true;
+  }
+
+  private showError(error: string) {
+    AiErrorComponent.open(this.dialog, error);
+  }
+
+  private makeError(err: unknown): string {
+    console.log(err);
+    const externalError = err?.['status'] === 424;
+    if (err?.['error']) {
+      const error = (
+        typeof err['error'] === 'string'
+          ? JSON.parse(err['error'])
+          : err['error']
+      ) as {
+        status: number;
+        error: string;
+        message: string;
+      };
+      return i18nContext(
+        externalError ? i18n().openaiError : i18n().errorMessage,
+        {
+          message: error.status + ' ' + error.error + ': ' + error.message,
+        },
+      );
+    }
+    return JSON.stringify(err || null);
   }
 }

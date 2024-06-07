@@ -10,7 +10,9 @@
     "open": "Öffnen",
     "close": "Schließen",
     "newChat": "Neuer Chat",
-    "noThreads": "Keine Threads vorhanden"
+    "noThreads": "Keine Threads vorhanden",
+    "errorMessage": "# Ein Fehler ist aufgetreten\n\n{{message}}",
+    "openaiError": "# Ein Fehler von OpenAI wurde gemeldet\n\n{{message}}"
   },
   "en": {
     "defaultName": "Default assistant",
@@ -22,7 +24,9 @@
     "open": "Open",
     "close": "Close",
     "newChat": "New chat",
-    "noThreads": "No threads available"
+    "noThreads": "No threads available",
+    "errorMessage": "# An error occurred\n\n{{message}}",
+    "openaiError": "# An error from OpenAI was reported\n\n{{message}}"
   },
   "fr": {
     "defaultName": "Assistant par défaut",
@@ -34,6 +38,8 @@
     "open": "Ouvrir",
     "close": "Fermer",
     "newChat": "Nouveau chat",
-    "noThreads": "Aucun fil de discussion disponible"
+    "noThreads": "Aucun fil de discussion disponible",
+    "errorMessage": "# Une erreur s'est produite\n\n{{message}}",
+    "openaiError": "# Une erreur d'OpenAI a été signalée\n\n{{message}}"
   }
 }
