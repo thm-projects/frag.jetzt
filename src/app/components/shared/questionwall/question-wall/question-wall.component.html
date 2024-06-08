@@ -1,3 +1,7 @@
+@if (!session) {
+  <app-mat-spinner-overlay [overlay]="true"></app-mat-spinner-overlay>
+}
+
 <qw-top-bar></qw-top-bar>
 <div class="content row grow">
   <div class="view-comment-container column grow items-center content-center">
@@ -10,9 +14,12 @@
   </div>
   <div class="side-bar-container column">
     <div class="side-bar-content grow">
-      @for (comment of comments; track comment) {
-        <app-question-wall-comment
-          [comment]="comment"></app-question-wall-comment>
+      @for (comment of session?.comments; track comment) {
+        <qw-comment
+          [context]="{
+            session: session,
+            comment: comment
+          }"></qw-comment>
       } @empty {
         <p>no comments</p>
       }
@@ -97,9 +104,6 @@
     [errorCorrectionLevel]="'M'"></qrcode>
 </div>
 
-<!--<app-mat-spinner-overlay-->
-<!--  *ngIf="isLoading"-->
-<!--  [overlay]="true"></app-mat-spinner-overlay>-->
 <!--<app-minute-jump-clock-->
 <!--  [minWidth]="880"-->
 <!--  [offsetTop]="35"-->

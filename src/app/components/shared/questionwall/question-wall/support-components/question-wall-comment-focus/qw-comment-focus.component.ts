@@ -10,13 +10,14 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-question-wall-comment-focus',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'qw-comment-focus',
   standalone: true,
   imports: [ArsModule, MatButton, MatIcon, CustomMarkdownModule],
-  templateUrl: './question-wall-comment-focus.component.html',
-  styleUrl: './question-wall-comment-focus.component.scss',
+  templateUrl: './qw-comment-focus.component.html',
+  styleUrl: './qw-comment-focus.component.scss',
 })
-export class QuestionWallCommentFocusComponent implements OnDestroy {
+export class QwCommentFocusComponent implements OnDestroy {
   public readonly comment: ForumComment;
   destroyer: ReplaySubject<1> = new ReplaySubject<1>();
 

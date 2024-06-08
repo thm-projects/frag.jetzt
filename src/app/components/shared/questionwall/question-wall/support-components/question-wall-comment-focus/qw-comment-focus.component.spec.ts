@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuestionWallCommentFocusComponent } from './question-wall-comment-focus.component';
+import { QwCommentFocusComponent } from './qw-comment-focus.component';
 
 describe('QuestionWallCommentFocusComponent', () => {
-  let component: QuestionWallCommentFocusComponent;
-  let fixture: ComponentFixture<QuestionWallCommentFocusComponent>;
+  let component: QwCommentFocusComponent;
+  let fixture: ComponentFixture<QwCommentFocusComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuestionWallCommentFocusComponent],
+      imports: [QwCommentFocusComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(QuestionWallCommentFocusComponent);
+    fixture = TestBed.createComponent(QwCommentFocusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

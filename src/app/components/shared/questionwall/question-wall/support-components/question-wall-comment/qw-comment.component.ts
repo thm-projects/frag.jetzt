@@ -1,6 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ForumComment } from '../../../../../../utils/data-accessor';
-import { QuestionWallService } from '../../question-wall.service';
+import {
+  QuestionWallService,
+  QuestionWallSession,
+} from '../../question-wall.service';
 import {
   MatCard,
   MatCardContent,
@@ -15,7 +18,8 @@ import { MatIcon } from '@angular/material/icon';
 import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
 
 @Component({
-  selector: 'app-question-wall-comment',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'qw-comment',
   standalone: true,
   imports: [
     MatCard,
@@ -28,11 +32,14 @@ import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/cus
     MatButton,
     CustomMarkdownModule,
   ],
-  templateUrl: './question-wall-comment.component.html',
-  styleUrl: './question-wall-comment.component.scss',
+  templateUrl: './qw-comment.component.html',
+  styleUrl: './qw-comment.component.scss',
 })
-export class QuestionWallCommentComponent {
-  @Input() comment!: ForumComment;
+export class QwCommentComponent {
+  @Input() context!: {
+    session: QuestionWallSession;
+    comment: ForumComment;
+  };
 
   constructor(
     public readonly self: QuestionWallService,
@@ -40,8 +47,8 @@ export class QuestionWallCommentComponent {
   ) {}
 
   @HostListener('click') _click() {
-    if (this.self.focus.value?.id !== this.comment.id) {
-      this.self.focus.next(this.comment);
+    if (this.self.session.focus.value?.id !== this.context.comment.id) {
+      this.self.session.focus.next(this.context.comment);
     }
   }
 }

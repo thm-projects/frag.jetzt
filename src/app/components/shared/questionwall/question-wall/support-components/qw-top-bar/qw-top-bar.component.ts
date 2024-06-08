@@ -5,7 +5,10 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { SortType } from '../../../../../../utils/data-filter-object.lib';
 import { HeaderService } from '../../../../../../services/util/header.service';
-import { QuestionWallService } from '../../question-wall.service';
+import {
+  QuestionWallService,
+  QuestionWallSession,
+} from '../../question-wall.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -33,8 +36,13 @@ export class QwTopBarComponent {
   };
   protected readonly SortType = SortType;
   protected currentCommentFocusScale: number = this.commentFocusScaleBounds.min;
+  protected session: QuestionWallSession;
   constructor(
     public headerService: HeaderService,
     public readonly self: QuestionWallService,
-  ) {}
+  ) {
+    self.getSession().subscribe((session) => {
+      this.session = session;
+    });
+  }
 }

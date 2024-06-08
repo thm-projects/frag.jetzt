@@ -13,7 +13,7 @@
   }
 </div>
 <div class="footer">
-  @if (self.user.value.id !== comment.creatorId) {
+  @if (self.session.user.id !== comment.creatorId) {
     <button
       mat-button
       (click)="self.like(comment)">

@@ -22,11 +22,11 @@
   </div>
   <div class="text-icon">
     <mat-icon>comment</mat-icon>
-    {{ self.commentsCountQuestions }}
+    {{ session?.commentsCountQuestions }}
   </div>
   <div class="text-icon">
     <mat-icon>person</mat-icon>
-    {{ self.commentsCountUsers }}
+    {{ session?.commentsCountQuestions }}
   </div>
 </div>
 <div class="row items-center">
@@ -38,22 +38,22 @@
     <mat-menu #matSortMenu>
       <button
         mat-menu-item
-        (click)="self.support.sort(SortType.Time, false)">
+        (click)="session?.filter.sort(SortType.Time, false)">
         Newest
       </button>
       <button
         mat-menu-item
-        (click)="self.support.sort(SortType.Time, true)">
+        (click)="session?.filter.sort(SortType.Time, true)">
         Oldest
       </button>
       <button
         mat-menu-item
-        (click)="self.support.sort(SortType.Score, false)">
+        (click)="session?.filter.sort(SortType.Score, false)">
         Score
       </button>
       <button
         mat-menu-item
-        (click)="self.support.sort(SortType.Controversy, false)">
+        (click)="session?.filter.sort(SortType.Controversy, false)">
         Controversy
       </button>
     </mat-menu>
@@ -95,7 +95,7 @@
     <mat-icon>category</mat-icon>
     Category
     <mat-menu #matCategoryMenu>
-      @for (category of self.room.tags; track category) {
+      @for (category of session?.room.tags; track category) {
         <button mat-menu-item>
           {{ category }}
         </button>
