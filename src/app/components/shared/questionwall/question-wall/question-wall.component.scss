@@ -6,7 +6,6 @@
 
 .top-bar {
   height: 60px;
-  background-color: var(--md-sys-color-surface3);
 }
 
 .side-bar-container {
@@ -48,6 +47,9 @@
 .side-bar-content {
   height: 0;
   overflow: auto;
+}
+
+.side-bar-container {
 }
 
 /**/

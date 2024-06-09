@@ -4,11 +4,13 @@
 
 <qw-top-bar></qw-top-bar>
 <div class="clock">
-  <app-minute-jump-clock
-    [minWidth]="880"
-    [zIndex]="3"
-    [questionWallColor]="true"
-    [fixedSize]="200"></app-minute-jump-clock>
+  @if (session) {
+    <app-minute-jump-clock
+      [minWidth]="880"
+      [zIndex]="3"
+      [questionWallColor]="true"
+      [fixedSize]="200"></app-minute-jump-clock>
+  }
 </div>
 <div class="content row grow">
   <div class="view-comment-container column grow items-center content-center">
