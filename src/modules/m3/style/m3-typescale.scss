@@ -172,3 +172,6 @@ $valid-units: px, em;
     }
   }
 }
+
+// todo(lph) add modify typescale. for better readability (and performance?)
+// something like 'modify-typescale', and specifying e.g.: em/px, font-face.
