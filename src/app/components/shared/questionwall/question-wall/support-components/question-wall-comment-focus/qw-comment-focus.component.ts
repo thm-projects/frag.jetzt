@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy } from '@angular/core';
 import { ForumComment } from '../../../../../../utils/data-accessor';
 import { QuestionWallService } from '../../question-wall.service';
 import { ArsModule } from '../../../../../../../../projects/ars/src/lib/ars.module';
@@ -9,6 +9,15 @@ import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/cus
 import { ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentData } from '../../../component-builder-support';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+
+const baseAnimationDuration = 100;
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,10 +26,43 @@ import { ComponentData } from '../../../component-builder-support';
   imports: [ArsModule, MatButton, MatIcon, CustomMarkdownModule],
   templateUrl: './qw-comment-focus.component.html',
   styleUrl: './qw-comment-focus.component.scss',
+  animations: [
+    trigger('flyInOut', [
+      state('_0', style({ opacity: 0 })),
+      state('_1', style({ opacity: 1 })),
+      transition(':enter', [
+        style({
+          opacity: 0,
+        }),
+        animate(
+          `${baseAnimationDuration}ms ease-in-out`,
+          style({
+            opacity: 1,
+          }),
+        ),
+      ]),
+      transition('_1 => _0', [
+        style({
+          opacity: 1,
+        }),
+        animate(
+          `${baseAnimationDuration}ms ease-in-out`,
+          style({
+            opacity: 0,
+          }),
+        ),
+      ]),
+    ]),
+  ],
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  host: {
+    '[@flyInOut]': `baseAnimationState`,
+  },
 })
 export class QwCommentFocusComponent implements OnDestroy {
   public readonly comment: ForumComment;
   destroyer: ReplaySubject<1>;
+  public baseAnimationState: '_0' | '_1' = '_1';
 
   set expandAnswers(value: boolean) {
     this._expandAnswers = value;
@@ -38,6 +80,7 @@ export class QwCommentFocusComponent implements OnDestroy {
   constructor(
     public readonly self: QuestionWallService,
     public readonly dateFormatter: ArsDateFormatter,
+    public readonly cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     public readonly data: ComponentData<{
       comment: ForumComment;
@@ -47,7 +90,10 @@ export class QwCommentFocusComponent implements OnDestroy {
     this.destroyer = data.destroyer;
     data.prepareDestroy.subscribe(() => {
       // e.g.: on animate out, create delay here
-      data.destroyPrepared.next(1);
+      this.baseAnimationState = '_0';
+      setTimeout(() => {
+        data.destroyPrepared.next(1);
+      }, baseAnimationDuration);
     });
     console.log(data);
   }
