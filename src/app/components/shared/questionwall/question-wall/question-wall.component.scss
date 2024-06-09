@@ -10,11 +10,16 @@
 }
 
 .side-bar-container {
+  background-color: red;
   width: var(--m3-comp-supporting-pane-fixed-width);
   flex-shrink: 0;
 }
 
 .side-bar-footer {
+}
+
+.clock {
+  max-height: 0;
 }
 
 .bottom-bar {

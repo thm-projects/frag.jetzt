@@ -6,8 +6,9 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ComponentData } from '../../../component-builder-support';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,7 +20,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class QwCommentFocusComponent implements OnDestroy {
   public readonly comment: ForumComment;
-  destroyer: ReplaySubject<1> = new ReplaySubject<1>();
+  destroyer: ReplaySubject<1>;
 
   set expandAnswers(value: boolean) {
     this._expandAnswers = value;
@@ -38,11 +39,16 @@ export class QwCommentFocusComponent implements OnDestroy {
     public readonly self: QuestionWallService,
     public readonly dateFormatter: ArsDateFormatter,
     @Inject(MAT_DIALOG_DATA)
-    data: {
+    public readonly data: ComponentData<{
       comment: ForumComment;
-    },
+    }>,
   ) {
     this.comment = data.comment;
+    this.destroyer = data.destroyer;
+    data.prepareDestroy.subscribe(() => {
+      // e.g.: on animate out, create delay here
+      data.destroyPrepared.next(1);
+    });
     console.log(data);
   }
 
@@ -52,9 +58,5 @@ export class QwCommentFocusComponent implements OnDestroy {
 
   private loadAnswers() {
     this.self.getAnswers();
-  }
-
-  destroy(): Observable<void> {
-    return of(undefined);
   }
 }

@@ -13,10 +13,22 @@
     <ars-date-formatter
       [formatter]="dateFormatter"
       [date]="context.comment.createdAt"></ars-date-formatter>
+    <div class="grow"></div>
   </div>
-  <div class="content">
-    <app-markdown-viewer [data]="context.comment.body"></app-markdown-viewer>
+  <div
+    class="content"
+    #content>
+    <div
+      class="content-size"
+      #contentSize>
+      <app-markdown-viewer [data]="context.comment.body"></app-markdown-viewer>
+    </div>
   </div>
+  @if (contentSize.offsetHeight > content.offsetHeight) {
+    <div class="overflow-container">
+      <div class="overflow"></div>
+    </div>
+  }
   <div class="footer">
     @if (context.session.user.id !== context.comment.creatorId) {
       <button

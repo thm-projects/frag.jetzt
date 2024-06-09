@@ -3,6 +3,13 @@
 }
 
 <qw-top-bar></qw-top-bar>
+<div class="clock">
+  <app-minute-jump-clock
+    [minWidth]="880"
+    [zIndex]="3"
+    [questionWallColor]="true"
+    [fixedSize]="200"></app-minute-jump-clock>
+</div>
 <div class="content row grow">
   <div class="view-comment-container column grow items-center content-center">
     <div class="view-comment">
@@ -103,13 +110,6 @@
     [width]="200"
     [errorCorrectionLevel]="'M'"></qrcode>
 </div>
-
-<!--<app-minute-jump-clock-->
-<!--  [minWidth]="880"-->
-<!--  [offsetTop]="35"-->
-<!--  [zIndex]="3"-->
-<!--  [questionWallColor]="true"-->
-<!--  [fixedSize]="200"></app-minute-jump-clock>-->
 <!--<div>-->
 <!--  <mat-toolbar-->
 <!--    class="question-wall-header row gap-small content-end items-center">-->

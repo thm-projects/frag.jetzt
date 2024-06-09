@@ -57,9 +57,11 @@ export class QuestionWallService {
   }
 
   getSession(): Observable<QuestionWallSession> {
-    if (this._session.value) return of(this._session.value);
-    else
+    if (this._session.value) {
+      return of(this._session.value);
+    } else {
       return this._session.pipe(filter((session) => !!session)).pipe(take(1));
+    }
   }
 
   like(comment: Comment) {
@@ -142,7 +144,7 @@ export class QuestionWallService {
           };
         });
     });
-    return {
+    const session = {
       destroyer: destroyer,
       filter: support,
       focus: new BehaviorSubject<ForumComment | undefined>(undefined),
@@ -170,6 +172,9 @@ export class QuestionWallService {
       },
       onInit: onInit,
     };
+    this._session.next(session);
+    return session;
+
     function revalidateFilterChange() {
       comments = [...support.filteredDataAccess.getCurrentData()];
       const filter = support.filteredDataAccess.dataFilter;
