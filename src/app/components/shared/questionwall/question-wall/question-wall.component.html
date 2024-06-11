@@ -50,10 +50,9 @@
 <qw-bottom-bar
   *ngIf="session"
   [session]="session"></qw-bottom-bar>
-<div class="bottom-bar row content-center items-center"></div>
 <div
   class="qr-overlay"
-  *ngIf="qrCodeExpanded">
+  *ngIf="session?.qrcode">
   <qrcode
     [qrdata]="getURL()"
     [width]="200"
