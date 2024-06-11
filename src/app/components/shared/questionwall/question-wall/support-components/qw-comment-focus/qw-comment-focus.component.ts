@@ -16,6 +16,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer.component';
 
 const baseAnimationDuration = 100;
 
@@ -23,7 +24,13 @@ const baseAnimationDuration = 100;
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-focus',
   standalone: true,
-  imports: [ArsModule, MatButton, MatIcon, CustomMarkdownModule],
+  imports: [
+    ArsModule,
+    MatButton,
+    MatIcon,
+    CustomMarkdownModule,
+    QwCommentFooterComponent,
+  ],
   templateUrl: './qw-comment-focus.component.html',
   styleUrl: './qw-comment-focus.component.scss',
   animations: [

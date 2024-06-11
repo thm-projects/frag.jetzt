@@ -16,6 +16,7 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
+import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -31,6 +32,7 @@ import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/cus
     MatIcon,
     MatButton,
     CustomMarkdownModule,
+    QwCommentFooterComponent,
   ],
   templateUrl: './qw-comment.component.html',
   styleUrl: './qw-comment.component.scss',
