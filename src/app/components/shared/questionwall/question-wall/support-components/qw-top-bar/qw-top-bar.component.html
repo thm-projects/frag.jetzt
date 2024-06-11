@@ -1,5 +1,5 @@
 <div class="top-bar-slider-container row items-center gap-medium">
-  <div class="slider-layout">
+  <div class="row items-center">
     <mat-icon>remove</mat-icon>
     <mat-slider
       [(ngModel)]="currentCommentFocusScale"
@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="grow"></div>
-<div class="row items-center gap-medium">
+<div class="row items-center gap-large">
   <div class="text-icon">
     <mat-icon>people</mat-icon>
     {{ headerService.getCurrentUserActivity() || 0 }}

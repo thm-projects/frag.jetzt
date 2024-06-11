@@ -23,7 +23,14 @@ import {
 } from 'rxjs';
 import { Period } from '../../../../utils/data-filter-object.lib';
 
+export type AdjacentComments = [
+  ForumComment | undefined,
+  ForumComment | undefined,
+];
+
 export interface QuestionWallSession {
+  qrcode: boolean;
+  autofocus: boolean;
   user: User;
   room: Room;
   moderators: Moderator[];
@@ -36,6 +43,7 @@ export interface QuestionWallSession {
   period: Period;
   filterChangeListener: EventEmitter<void>;
   onInit: BehaviorSubject<boolean>;
+  readonly adjacentComments: AdjacentComments;
 }
 
 @Injectable({
@@ -81,18 +89,23 @@ export class QuestionWallService {
     // todo(lph) change to signals later!
     const filterChangeListener = new EventEmitter();
     const onInit = new BehaviorSubject<boolean>(false);
+    const focus = new BehaviorSubject<ForumComment | undefined>(undefined);
     let comments: ForumComment[] = [];
     let commentsCountQuestions: number = 0;
     let commentsCountUsers: number = 0;
     let user: User;
     let room: Room;
     let moderators: Moderator[];
+    const adjacentComments: AdjacentComments = [undefined, undefined];
     const commentCache: ObjectMap<{
       date: Date;
       old: boolean;
     }> = {};
     let period: Period;
     let firstPass = true;
+    focus.subscribe(() => {
+      revalidateAdjacentComments();
+    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.accountState.user$.pipe(take(1)),
@@ -147,7 +160,7 @@ export class QuestionWallService {
     const session = {
       destroyer: destroyer,
       filter: support,
-      focus: new BehaviorSubject<ForumComment | undefined>(undefined),
+      focus: focus,
       filterChangeListener: filterChangeListener,
       get commentsCountUsers() {
         return commentsCountUsers;
@@ -170,17 +183,36 @@ export class QuestionWallService {
       get moderators() {
         return moderators;
       },
+      autofocus: false,
+      qrcode: false,
+      adjacentComments: adjacentComments,
       onInit: onInit,
     };
     this._session.next(session);
     return session;
+
+    function revalidateAdjacentComments() {
+      if (!focus.value) {
+        adjacentComments[0] = undefined;
+        adjacentComments[1] = undefined;
+      }
+      for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
+        if (comment.id === focus.value.id) {
+          adjacentComments[0] = comments[i - 1];
+          adjacentComments[1] = comments[i + 1];
+          return;
+        }
+      }
+    }
 
     function revalidateFilterChange() {
       comments = [...support.filteredDataAccess.getCurrentData()];
       const filter = support.filteredDataAccess.dataFilter;
       period = filter.period;
       const tempUserSet = new Set<string>();
-      for (const comment of comments) {
+      for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
         tempUserSet.add(comment.creatorId);
         if (commentCache[comment.id]) {
           continue;
@@ -194,6 +226,7 @@ export class QuestionWallService {
       // this.refreshUserMap();
       commentsCountQuestions = comments.length;
       commentsCountUsers = tempUserSet.size;
+      revalidateAdjacentComments();
     }
   }
 }

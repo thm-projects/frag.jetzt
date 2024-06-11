@@ -20,15 +20,6 @@
   max-height: 0;
 }
 
-.bottom-bar {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  justify-content: center;
-  padding: 0 var(--m3-sys-layout-spacing-pane);
-}
-
 .view-comment-container {
   width: 1600px;
   max-width: 100%;
@@ -53,13 +44,6 @@
 }
 
 /**/
-
-.text-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-}
 
 .qr-overlay {
   position: fixed;

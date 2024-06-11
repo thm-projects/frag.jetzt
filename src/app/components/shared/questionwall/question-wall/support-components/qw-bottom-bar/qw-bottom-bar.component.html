@@ -1,0 +1,23 @@
+<div class="row gap-medium flex-100">
+  <mat-slide-toggle [(ngModel)]="session.autofocus">
+    autofocus for new questions
+  </mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="session.qrcode">Show QR Code</mat-slide-toggle>
+</div>
+<div class="row gap-medium flex-010">
+  <button
+    mat-button
+    [disabled]="!session.adjacentComments[0]"
+    (click)="session.focus.next(session.adjacentComments[0])">
+    <mat-icon>chevron_left</mat-icon>
+    previous
+  </button>
+  <button
+    mat-button
+    [disabled]="!session.adjacentComments[1]"
+    (click)="session.focus.next(session.adjacentComments[1])">
+    <mat-icon>chevron_right</mat-icon>
+    next
+  </button>
+</div>
+<div class="flex-100"></div>

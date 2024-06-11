@@ -39,7 +39,7 @@ import {
   QuestionWallService,
   QuestionWallSession,
 } from './question-wall.service';
-import { QwCommentFocusComponent } from './support-components/question-wall-comment-focus/qw-comment-focus.component';
+import { QwCommentFocusComponent } from './support-components/qw-comment-focus/qw-comment-focus.component';
 import { createCommentListSupport } from './comment-list-support';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { createComponentBuilder } from '../component-builder-support';
@@ -72,9 +72,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       session.focus.pipe(takeUntil(this.destroyer)).subscribe((comment) => {
         if (comment) {
           this.hasCommentFocus = true;
-          console.log('comment', comment);
           componentBuilder.destroyAll().subscribe(() => {
-            console.log('all destroyed');
             componentBuilder.createComponent(QwCommentFocusComponent, {
               comment,
             });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -36,13 +36,9 @@ export class QwTopBarComponent {
   };
   protected readonly SortType = SortType;
   protected currentCommentFocusScale: number = this.commentFocusScaleBounds.min;
-  protected session: QuestionWallSession;
+  @Input() session: QuestionWallSession;
   constructor(
     public headerService: HeaderService,
     public readonly self: QuestionWallService,
-  ) {
-    self.getSession().subscribe((session) => {
-      this.session = session;
-    });
-  }
+  ) {}
 }

@@ -2,7 +2,9 @@
   <app-mat-spinner-overlay [overlay]="true"></app-mat-spinner-overlay>
 }
 
-<qw-top-bar></qw-top-bar>
+<qw-top-bar
+  *ngIf="session"
+  [session]="session"></qw-top-bar>
 <div class="clock">
   @if (session) {
     <app-minute-jump-clock
@@ -45,65 +47,10 @@
     </div>
   </div>
 </div>
-<div class="bottom-bar row content-center items-center">
-  <div class="row gap-medium flex-100">
-    <mat-slide-toggle (click)="toggleFocusIncomingComments()">
-      autofocus for new questions
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="qrCodeExpanded">
-      Show QR Code
-    </mat-slide-toggle>
-  </div>
-  <div class="row gap-medium flex-010">
-    <button
-      mat-button
-      (click)="prevComment()">
-      <mat-icon>chevron_left</mat-icon>
-      previous
-    </button>
-    <button
-      mat-button
-      (click)="nextComment()">
-      <mat-icon>chevron_right</mat-icon>
-      next
-    </button>
-  </div>
-  <div class="flex-100"></div>
-  <!--  <div class="grow row gap-medium">-->
-  <!--    <div class="row content-center gap-medium">-->
-  <!--      <mat-slide-toggle (click)="toggleFocusIncomingComments()">-->
-  <!--        autofocus for new questions-->
-  <!--      </mat-slide-toggle>-->
-  <!--      <mat-slide-toggle [(ngModel)]="qrCodeExpanded">-->
-  <!--        Show QR Code-->
-  <!--      </mat-slide-toggle>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class="grow" style="-->
-  <!--    flex: 0 1 auto; /* Adjust flex-grow, flex-shrink, and flex-basis */">-->
-  <!--    <mat-slide-toggle (click)="toggleFocusIncomingComments()">-->
-  <!--      autofocus for new questions-->
-  <!--    </mat-slide-toggle>-->
-  <!--    <mat-slide-toggle [(ngModel)]="qrCodeExpanded">-->
-  <!--      Show QR Code-->
-  <!--    </mat-slide-toggle>-->
-  <!--  </div>-->
-  <!--  <div class="row content-center">-->
-  <!--    <button-->
-  <!--      mat-button-->
-  <!--      (click)="prevComment()">-->
-  <!--      <mat-icon>chevron_left</mat-icon>-->
-  <!--      previous-->
-  <!--    </button>-->
-  <!--    <button-->
-  <!--      mat-button-->
-  <!--      (click)="nextComment()">-->
-  <!--      <mat-icon>chevron_right</mat-icon>-->
-  <!--      next-->
-  <!--    </button>-->
-  <!--  </div>-->
-  <!--  <div class="grow"></div>-->
-</div>
+<qw-bottom-bar
+  *ngIf="session"
+  [session]="session"></qw-bottom-bar>
+<div class="bottom-bar row content-center items-center"></div>
 <div
   class="qr-overlay"
   *ngIf="qrCodeExpanded">

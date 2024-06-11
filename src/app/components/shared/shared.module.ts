@@ -154,12 +154,13 @@ import { MatSliderModule } from '@angular/material/slider';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
-import { QwCommentComponent } from './questionwall/question-wall/support-components/question-wall-comment/qw-comment.component';
-import { QwCommentFocusComponent } from './questionwall/question-wall/support-components/question-wall-comment-focus/qw-comment-focus.component';
+import { QwCommentComponent } from './questionwall/question-wall/support-components/qw-comment/qw-comment.component';
+import { QwCommentFocusComponent } from './questionwall/question-wall/support-components/qw-comment-focus/qw-comment-focus.component';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { CommentListFabComponent } from './comment-list/comment-list-fab/comment-list-fab.component';
 import { QwTopBarComponent } from './questionwall/question-wall/support-components/qw-top-bar/qw-top-bar.component';
+import { QwBottomBarComponent } from './questionwall/question-wall/support-components/qw-bottom-bar/qw-bottom-bar.component';
 
 @NgModule({
   imports: [
@@ -185,6 +186,7 @@ import { QwTopBarComponent } from './questionwall/question-wall/support-componen
     M3SupportingPaneComponent,
     CommentListFabComponent,
     QwTopBarComponent,
+    QwBottomBarComponent,
   ],
   declarations: [
     RoomJoinComponent,

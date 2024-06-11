@@ -67,6 +67,7 @@ import { M3NavigationService } from '../modules/m3/services/navigation/m3-naviga
 import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-navigation-types';
 import { dataService } from './base/db/data-service';
 import { windowWatcher } from '../modules/navigation/utils/window-watcher';
+import { lorem } from './utils/lorem';
 
 const PUSH_KEY = 'push-subscription';
 
@@ -190,7 +191,7 @@ export class AppComponent implements OnInit {
           roomId: this._sessionService.currentRoom.id,
           creatorId: generateConsequentlyUUID(),
           number: '1',
-          body: '',
+          body: lorem(Math.floor(Math.random() * 20)),
           ack: true,
           correct: CorrectWrong.NULL,
           favorite: false,
@@ -227,7 +228,7 @@ export class AppComponent implements OnInit {
                 roomId: this._sessionService.currentRoom.id,
                 creatorId: generateConsequentlyUUID(),
                 number: '1',
-                body: '',
+                body: lorem(Math.floor(Math.random() * 20) + 10),
                 ack: true,
                 correct: CorrectWrong.NULL,
                 favorite: false,

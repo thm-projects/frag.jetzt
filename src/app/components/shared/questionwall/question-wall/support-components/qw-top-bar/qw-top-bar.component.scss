@@ -2,8 +2,18 @@
   display: flex;
   align-items: center;
   height: 60px;
+  > * + * {
+    padding-left: var(--m3-sys-layout-spacing-pane);
+  }
 }
 
 .top-bar-slider-container {
   padding-left: var(--m3-sys-layout-spacing-pane);
+}
+
+.text-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
