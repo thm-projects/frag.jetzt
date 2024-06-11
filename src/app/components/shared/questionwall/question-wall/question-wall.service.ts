@@ -1,5 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ForumComment } from '../../../../utils/data-accessor';
+import {
+  ForumComment,
+  UpdateInformation,
+} from '../../../../utils/data-accessor';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { User } from '../../../../models/user';
@@ -86,6 +89,8 @@ export class QuestionWallService {
     support: CommentListSupport,
     destroyer: ReplaySubject<1>,
   ): QuestionWallSession {
+    const sessionService: SessionService = this.sessionService;
+    const roomDataService: RoomDataService = this.roomDataService;
     // todo(lph) change to signals later!
     const filterChangeListener = new EventEmitter();
     const onInit = new BehaviorSubject<boolean>(false);
@@ -96,6 +101,7 @@ export class QuestionWallService {
     let user: User;
     let room: Room;
     let moderators: Moderator[];
+    let autofocus = false;
     const adjacentComments: AdjacentComments = [undefined, undefined];
     const commentCache: ObjectMap<{
       date: Date;
@@ -103,60 +109,13 @@ export class QuestionWallService {
     }> = {};
     let period: Period;
     let firstPass = true;
-    focus.subscribe(() => {
-      revalidateAdjacentComments();
-    });
+    focus.subscribe(() => revalidateAdjacentComments());
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.accountState.user$.pipe(take(1)),
       this.sessionService.getModeratorsOnce(),
       this.sessionService.onReady,
-    ]).subscribe(([_room, _user, _moderators]) => {
-      room = _room;
-      user = _user;
-      moderators = _moderators;
-      support.filteredDataAccess.attach({
-        moderatorIds: new Set<string>(moderators.map((m) => m.accountId)),
-        userId: user.id,
-        threshold: room.threshold,
-        ownerId: room.ownerId,
-        roomId: room.id,
-      });
-      support.filteredDataAccess
-        .getFilteredData()
-        .pipe(takeUntil(destroyer))
-        .subscribe(() => {
-          revalidateFilterChange();
-          filterChangeListener.emit();
-          if (firstPass) {
-            firstPass = false;
-            onInit.next(true);
-          }
-        });
-      this.sessionService
-        .getRoomOnce()
-        .pipe(
-          mergeMap(() =>
-            this.roomDataService.dataAccessor.receiveUpdates([
-              { type: 'CommentCreated' },
-            ]),
-          ),
-        )
-        .subscribe((c) => {
-          if (c.finished) {
-            // if (this.focusIncomingComments) {
-            //   this.focusComment(c.comment);
-            // }
-            return;
-          }
-          // this.unreadComments++;
-          const date = new Date(c.comment.createdAt);
-          commentCache[c.comment.id] = {
-            date,
-            old: false,
-          };
-        });
-    });
+    ]).subscribe(initializeSession);
     const session = {
       destroyer: destroyer,
       filter: support,
@@ -183,13 +142,78 @@ export class QuestionWallService {
       get moderators() {
         return moderators;
       },
-      autofocus: false,
+      get autofocus() {
+        return autofocus;
+      },
+      set autofocus(value: boolean) {
+        autofocus = value;
+      },
       qrcode: false,
       adjacentComments: adjacentComments,
       onInit: onInit,
     };
     this._session.next(session);
     return session;
+
+    function initializeSession([_room, _user, _moderators]: [
+      Room,
+      User,
+      Moderator[],
+      void,
+    ]) {
+      room = _room;
+      user = _user;
+      moderators = _moderators;
+      attachToFilteredDataAccess();
+      initializeFilteredDataChange();
+      sessionService
+        .getRoomOnce()
+        .pipe(
+          mergeMap(() =>
+            roomDataService.dataAccessor.receiveUpdates([
+              { type: 'CommentCreated' },
+            ]),
+          ),
+        )
+        .subscribe((c: UpdateInformation) => {
+          if (c.finished) {
+            if (autofocus) {
+              focus.next(c.comment);
+            }
+            return;
+          }
+          // this.unreadComments++;
+          const date = new Date(c.comment.createdAt);
+          commentCache[c.comment.id] = {
+            date,
+            old: false,
+          };
+        });
+    }
+
+    function initializeFilteredDataChange() {
+      support.filteredDataAccess
+        .getFilteredData()
+        .pipe(takeUntil(destroyer))
+        .subscribe(() => {
+          revalidateFilterChange();
+          filterChangeListener.emit();
+          if (firstPass) {
+            firstPass = false;
+            onInit.next(true);
+          }
+        });
+    }
+
+    function attachToFilteredDataAccess() {
+      support.filteredDataAccess.attach({
+        moderatorIds: new Set<string>(moderators.map((m) => m.accountId)),
+        userId: user.id,
+        threshold: room.threshold,
+        ownerId: room.ownerId,
+        roomId: room.id,
+      });
+    }
 
     function revalidateAdjacentComments() {
       if (!focus.value) {
