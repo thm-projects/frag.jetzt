@@ -17,6 +17,9 @@ import {
   trigger,
 } from '@angular/animations';
 import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer.component';
+import { NgIf } from '@angular/common';
+import { CommentService } from '../../../../../../services/http/comment.service';
+import { QwCommentResponseWindowComponent } from '../qw-comment-response-window/qw-comment-response-window.component';
 
 const baseAnimationDuration = 100;
 
@@ -30,6 +33,8 @@ const baseAnimationDuration = 100;
     MatIcon,
     CustomMarkdownModule,
     QwCommentFooterComponent,
+    NgIf,
+    QwCommentResponseWindowComponent,
   ],
   templateUrl: './qw-comment-focus.component.html',
   styleUrl: './qw-comment-focus.component.scss',
@@ -71,23 +76,14 @@ export class QwCommentFocusComponent implements OnDestroy {
   destroyer: ReplaySubject<1>;
   public baseAnimationState: '_0' | '_1' = '_1';
 
-  set expandAnswers(value: boolean) {
-    this._expandAnswers = value;
-    if (value) {
-      this.loadAnswers();
-    }
-  }
-
-  get expandAnswers(): boolean {
-    return this._expandAnswers;
-  }
-
-  private _expandAnswers: boolean = false;
+  protected answersExpanded: boolean = false;
+  protected replies: ForumComment[] | undefined;
 
   constructor(
     public readonly self: QuestionWallService,
     public readonly dateFormatter: ArsDateFormatter,
     public readonly cdr: ChangeDetectorRef,
+    public readonly commentService: CommentService,
     @Inject(MAT_DIALOG_DATA)
     public readonly data: ComponentData<{
       comment: ForumComment;
@@ -103,13 +99,16 @@ export class QwCommentFocusComponent implements OnDestroy {
       }, baseAnimationDuration);
     });
     console.log(data);
+    self
+      .getSession()
+      .subscribe((session) =>
+        session
+          .generateCommentReplyStream(this.destroyer, data.comment)
+          .subscribe((replies) => (this.replies = replies)),
+      );
   }
 
   ngOnDestroy(): void {
     this.destroyer.next(1);
-  }
-
-  private loadAnswers() {
-    this.self.getAnswers();
   }
 }

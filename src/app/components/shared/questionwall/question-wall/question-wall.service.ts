@@ -47,6 +47,11 @@ export interface QuestionWallSession {
   filterChangeListener: EventEmitter<void>;
   onInit: BehaviorSubject<boolean>;
   readonly adjacentComments: AdjacentComments;
+
+  generateCommentReplyStream(
+    destroyer: ReplaySubject<1>,
+    comment: ForumComment,
+  ): BehaviorSubject<ForumComment[]>;
 }
 
 @Injectable({
@@ -93,9 +98,11 @@ export class QuestionWallService {
     const roomDataService: RoomDataService = this.roomDataService;
     // todo(lph) change to signals later!
     const filterChangeListener = new EventEmitter();
+    const onCommentAddListener = new EventEmitter<ForumComment>();
+    ///
     const onInit = new BehaviorSubject<boolean>(false);
     const focus = new BehaviorSubject<ForumComment | undefined>(undefined);
-    let comments: ForumComment[] = [];
+    let filteredComments: ForumComment[] = [];
     let commentsCountQuestions: number = 0;
     let commentsCountUsers: number = 0;
     let user: User;
@@ -128,7 +135,7 @@ export class QuestionWallService {
         return commentsCountQuestions;
       },
       get comments() {
-        return comments;
+        return filteredComments;
       },
       get period() {
         return period;
@@ -151,9 +158,25 @@ export class QuestionWallService {
       qrcode: false,
       adjacentComments: adjacentComments,
       onInit: onInit,
+      generateCommentReplyStream: generateCommentReplyStream,
     };
     this._session.next(session);
     return session;
+
+    function generateCommentReplyStream(
+      destroyer: ReplaySubject<1>,
+      comment: ForumComment,
+    ): BehaviorSubject<ForumComment[]> {
+      const stream = new BehaviorSubject([...comment.children]);
+      onCommentAddListener
+        .pipe(takeUntil(destroyer))
+        .subscribe((newComment) => {
+          if (newComment.commentReference === comment.id) {
+            stream.next([...stream.value, newComment]);
+          }
+        });
+      return stream;
+    }
 
     function initializeSession([_room, _user, _moderators]: [
       Room,
@@ -176,8 +199,9 @@ export class QuestionWallService {
           ),
         )
         .subscribe((c: UpdateInformation) => {
+          onCommentAddListener.emit(c.comment);
           if (c.finished) {
-            if (autofocus) {
+            if (autofocus && !c.comment.commentReference) {
               focus.next(c.comment);
             }
             return;
@@ -216,27 +240,29 @@ export class QuestionWallService {
     }
 
     function revalidateAdjacentComments() {
-      if (!focus.value) {
+      const currentFocus = focus.value;
+      if (!currentFocus) {
         adjacentComments[0] = undefined;
         adjacentComments[1] = undefined;
-      }
-      for (let i = 0; i < comments.length; i++) {
-        const comment = comments[i];
-        if (comment.id === focus.value.id) {
-          adjacentComments[0] = comments[i - 1];
-          adjacentComments[1] = comments[i + 1];
-          return;
+      } else {
+        for (let i = 0; i < filteredComments.length; i++) {
+          const comment = filteredComments[i];
+          if (comment.id === currentFocus.id) {
+            adjacentComments[0] = filteredComments[i - 1];
+            adjacentComments[1] = filteredComments[i + 1];
+            return;
+          }
         }
       }
     }
 
     function revalidateFilterChange() {
-      comments = [...support.filteredDataAccess.getCurrentData()];
+      filteredComments = [...support.filteredDataAccess.getCurrentData()];
       const filter = support.filteredDataAccess.dataFilter;
       period = filter.period;
       const tempUserSet = new Set<string>();
-      for (let i = 0; i < comments.length; i++) {
-        const comment = comments[i];
+      for (let i = 0; i < filteredComments.length; i++) {
+        const comment = filteredComments[i];
         tempUserSet.add(comment.creatorId);
         if (commentCache[comment.id]) {
           continue;
@@ -248,7 +274,7 @@ export class QuestionWallService {
         };
       }
       // this.refreshUserMap();
-      commentsCountQuestions = comments.length;
+      commentsCountQuestions = filteredComments.length;
       commentsCountUsers = tempUserSet.size;
       revalidateAdjacentComments();
     }

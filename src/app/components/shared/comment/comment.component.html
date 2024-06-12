@@ -383,6 +383,7 @@
 
       <button
         mat-icon-button
+        (click)="showConversation()"
         *ngIf="
           !isAnswerView &&
           !showResponses &&
@@ -394,7 +395,6 @@
           matBadge="{{ comment.totalAnswerCounts.accumulated }}"
           matBadgeColor="accent"
           matBadgeSize="small"
-          (click)="showConversation()"
           [matTooltip]="'comment-page.show-conversation-tooltip' | translate">
           comment
         </mat-icon>

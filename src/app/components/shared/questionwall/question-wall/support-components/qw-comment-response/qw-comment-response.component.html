@@ -9,14 +9,18 @@
 <qw-comment-footer [comment]="comment">
   <button
     mat-button
-    *ngIf="replies.length > 0"
+    *ngIf="comment.children.size > 0"
     (click)="answersExpanded = !answersExpanded">
     <mat-icon>
       {{ answersExpanded ? "keyboard_arrow_up" : "keyboard_arrow_down" }}
     </mat-icon>
-    {{ replies.length }} replies
+    replies
   </button>
 </qw-comment-footer>
-@if (answersExpanded && replies.length) {
-  <qw-comment-response-window [replies]="replies"></qw-comment-response-window>
+@if (answersExpanded && comment.children.size) {
+  <div class="response-window">
+    @for (answer of comment.children; track answer) {
+      <p>{{ answer.id }}</p>
+    }
+  </div>
 }
