@@ -176,8 +176,8 @@ export class AiChatComponent {
         newString += original.slice(i);
         chunks.push(newString);
       } else if (entry.type === 'image_file') {
-        // TODO: Need to download image data and display as base64
-        console.log(entry.image_file.file_id);
+        const str = this.downloadImage(ref, entry.image_file.file_id);
+        chunks.push(str);
       } else if (entry.type === 'image_url') {
         chunks.push(`![Image](${entry.image_url.url})`);
       } else {
@@ -187,43 +187,79 @@ export class AiChatComponent {
     return chunks;
   }
 
+  private downloadImage(ref: FileReference[], fileId: string) {
+    const index = ref.findIndex((e) => e.id === fileId);
+    if (index !== -1) {
+      return ref[index].file?.purpose || 'Pending...';
+    }
+    untracked(() => {
+      this.fileReference.update((files) => {
+        files.push({ id: fileId, file: null });
+        return files;
+      });
+    });
+    this.assistants
+      .getFileContent(this.roomState.getCurrentRoom().id, fileId)
+      .subscribe({
+        next: (buffer) => {
+          const base64 = btoa(
+            new Uint8Array(buffer).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              '',
+            ),
+          );
+          this.fileReference.update((files) => {
+            const index = files.findIndex((e) => e.id === fileId);
+            files[index].file = {
+              purpose: `![Image](data:image/png;base64,${base64})`,
+            } as FileObject;
+            return [...files];
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    return 'Pending...';
+  }
+
   private getFile(ref: FileReference[], fileId: string): [number, string] {
     const index = ref.findIndex((e) => e.id === fileId);
-    if (index === -1) {
-      ref.push({ id: fileId, file: null });
-      this.assistants
-        .getFile(this.roomState.getCurrentRoom().id, fileId)
-        .subscribe({
-          next: (file) => {
-            this.fileReference.update((files) => {
-              const index = files.findIndex((e) => e.id === fileId);
-              files[index].file = file;
-              return [...files];
-            });
-          },
-          error: (error) => {
-            if (error?.error.status === 424) {
-              const message = (error.error.message || '').split(
-                '\n',
-                2,
-              )[1] as string;
-              if (message.startsWith('404 ')) {
-                console.log('File not found:', fileId);
-                this.fileReference.update((files) => {
-                  const index = files.findIndex((e) => e.id === fileId);
-                  files[index].file = {
-                    filename: i18n().deleted,
-                  } as FileObject;
-                  return [...files];
-                });
-                return;
-              }
-            }
-            console.error(error);
-          },
-        });
-      return [ref.length, ''];
+    if (index !== -1) {
+      return [index + 1, ref[index].file?.filename || ''];
     }
-    return [index + 1, ref[index].file?.filename || ''];
+    ref.push({ id: fileId, file: null });
+    this.assistants
+      .getFile(this.roomState.getCurrentRoom().id, fileId)
+      .subscribe({
+        next: (file) => {
+          this.fileReference.update((files) => {
+            const index = files.findIndex((e) => e.id === fileId);
+            files[index].file = file;
+            return [...files];
+          });
+        },
+        error: (error) => {
+          if (error?.error.status === 424) {
+            const message = (error.error.message || '').split(
+              '\n',
+              2,
+            )[1] as string;
+            if (message.startsWith('404 ')) {
+              console.log('File not found:', fileId);
+              this.fileReference.update((files) => {
+                const index = files.findIndex((e) => e.id === fileId);
+                files[index].file = {
+                  filename: i18n().deleted,
+                } as FileObject;
+                return [...files];
+              });
+              return;
+            }
+          }
+          console.error(error);
+        },
+      });
+    return [ref.length, ''];
   }
 }

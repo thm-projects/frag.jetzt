@@ -23,7 +23,10 @@
             }
             @if (message.attached.length) {
               <div>
-                @for (attachment of message.attached; track attachment) {
+                @for (
+                  attachment of message.attached;
+                  track attachment[0] + attachment[1]
+                ) {
                   <span class="file-ref">
                     {{
                       i18n().ref

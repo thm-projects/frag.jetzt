@@ -3,6 +3,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 import {
   Component,
+  ElementRef,
   Injector,
   Signal,
   effect,
@@ -10,6 +11,7 @@ import {
   input,
   output,
   signal,
+  untracked,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -38,6 +40,7 @@ import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export interface CreatedAssistant {
   type: 'created';
@@ -75,6 +78,7 @@ export type Change = CreatedAssistant | UpdatedAssistant | DeletedAssistant;
     MatListModule,
     MatIconModule,
     MatTooltipModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './manage-ai.component.html',
   styleUrl: './manage-ai.component.scss',
@@ -89,6 +93,8 @@ export class ManageAiComponent {
     description: new FormControl('', [Validators.maxLength(512)]),
     model: new FormControl('gpt-3.5-turbo', [Validators.required]),
     instructions: new FormControl('', [Validators.maxLength(256000)]),
+    fileSearch: new FormControl(true),
+    codeInterpreter: new FormControl(false),
     temperature: new FormControl(1, [Validators.min(0), Validators.max(2)]),
     top_p: new FormControl(1, [Validators.min(0), Validators.max(1)]),
   });
@@ -98,6 +104,8 @@ export class ManageAiComponent {
     description: new FormControl('', [Validators.maxLength(512)]),
     model: new FormControl('', [Validators.required]),
     instructions: new FormControl('', [Validators.maxLength(256000)]),
+    fileSearch: new FormControl(false),
+    codeInterpreter: new FormControl(false),
     temperature: new FormControl(1, [Validators.min(0), Validators.max(2)]),
     top_p: new FormControl(1, [Validators.min(0), Validators.max(1)]),
   });
@@ -105,6 +113,7 @@ export class ManageAiComponent {
   private assistants = inject(AssistantsService);
   private roomId = inject(RoomStateService).getCurrentRoom().id;
   private notification = inject(NotificationService);
+  private ref = inject(ElementRef);
 
   constructor() {
     effect(() => {
@@ -114,11 +123,22 @@ export class ManageAiComponent {
         description: selected?.description,
         model: selected?.model,
         instructions: selected?.instructions,
+        fileSearch: selected?.tools.some((t) => t.type === 'file_search'),
+        codeInterpreter: selected?.tools.some(
+          (t) => t.type === 'code_interpreter',
+        ),
         temperature: selected?.temperature ?? 1,
         top_p: selected?.top_p ?? 1,
       });
       if (selected) {
         this.editGroup.enable();
+        setTimeout(() =>
+          untracked(() => {
+            this.ref.nativeElement
+              ?.querySelectorAll('textarea')
+              .forEach((area) => this.updateHeight(area));
+          }),
+        );
       } else {
         this.editGroup.disable();
       }
@@ -152,11 +172,7 @@ export class ManageAiComponent {
     const value = this.createGroup.value;
     const newAssistant = {
       model: value.model,
-      tools: [
-        {
-          type: 'file_search',
-        },
-      ],
+      tools: [],
     } as Assistant;
     if (value.name) {
       newAssistant.name = value.name;
@@ -166,6 +182,16 @@ export class ManageAiComponent {
     }
     if (value.instructions) {
       newAssistant.instructions = value.instructions;
+    }
+    if (value.fileSearch) {
+      newAssistant.tools.push({
+        type: 'file_search',
+      });
+    }
+    if (value.codeInterpreter) {
+      newAssistant.tools.push({
+        type: 'code_interpreter',
+      });
     }
     if (value.temperature !== 1) {
       newAssistant.temperature = value.temperature;
@@ -190,6 +216,8 @@ export class ManageAiComponent {
           top_p: 1,
           description: '',
           instructions: '',
+          fileSearch: true,
+          codeInterpreter: false,
           name: '',
         });
       },
@@ -220,6 +248,27 @@ export class ManageAiComponent {
     }
     if (value.instructions !== selected.instructions) {
       patch.instructions = value.instructions;
+    }
+    if (
+      value.fileSearch !== selected.tools.some((t) => t.type === 'file_search')
+    ) {
+      if (value.fileSearch) {
+        patch.tools = [...selected.tools, { type: 'file_search' }];
+      } else {
+        patch.tools = selected.tools.filter((t) => t.type !== 'file_search');
+      }
+    }
+    if (
+      value.codeInterpreter !==
+      selected.tools.some((t) => t.type === 'code_interpreter')
+    ) {
+      if (value.codeInterpreter) {
+        patch.tools = [...selected.tools, { type: 'code_interpreter' }];
+      } else {
+        patch.tools = selected.tools.filter(
+          (t) => t.type !== 'code_interpreter',
+        );
+      }
     }
     if (value.model !== selected.model) {
       patch.model = value.model;

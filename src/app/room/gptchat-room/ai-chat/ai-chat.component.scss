@@ -5,11 +5,12 @@
 }
 
 :host ::ng-deep .file-ref {
+  display: inline-block;
   background-color: var(--md-sys-color-primary-container);
   color: var(--md-sys-color-on-primary-container);
-  padding: 0.3em;
+  padding: 0.15em 0.4em;
   border-radius: 0.6em;
-  margin-inline: 0.2em;
+  margin: 0.2em;
 }
 
 .info {

@@ -25,7 +25,11 @@ export interface ToolFileSearch {
   type: 'file_search';
 }
 
-export type Tools = ToolFileSearch;
+export interface ToolCodeInterpreter {
+  type: 'code_interpreter';
+}
+
+export type Tools = ToolFileSearch | ToolCodeInterpreter;
 
 export interface Assistant {
   id?: string;
@@ -147,12 +151,14 @@ export class AssistantsService extends BaseHttpService {
   private apiUrl = {
     base: '/api/assistants',
     upload: '/upload',
+    fileContent: '/file-content',
     create: '/create-assistant',
     delte: '/delete-assistant',
     update: '/update-assistant',
     list: '/assistant-list',
     assistant: '/assistant',
     createThread: '/thread-create',
+    deleteThread: '/thread-delete',
     runThread: '/thread-run',
     threadList: '/thread-list',
     threadMessages: '/thread-messages',
@@ -185,6 +191,14 @@ export class AssistantsService extends BaseHttpService {
     const url =
       this.apiUrl.base + this.apiUrl.upload + '/' + roomId + '/' + uploadedId;
     return this.client.post<FileObject>(url, null, this.httpOptions);
+  }
+
+  getFileContent(roomId: string, fileId: string) {
+    const url =
+      this.apiUrl.base + this.apiUrl.fileContent + '/' + roomId + '/' + fileId;
+    return this.client.get(url, {
+      responseType: 'arraybuffer',
+    });
   }
 
   createAssistant(roomId: string, a: Assistant) {
@@ -236,6 +250,11 @@ export class AssistantsService extends BaseHttpService {
       threadId +
       (after != null ? '?after=' + after : '');
     return this.client.get<MessageList>(url, this.httpOptions);
+  }
+
+  deleteThread(threadId: string) {
+    const url = this.apiUrl.base + this.apiUrl.deleteThread + '/' + threadId;
+    return this.client.delete<void>(url, this.httpOptions);
   }
 
   getFile(roomId: string, fileId: string) {

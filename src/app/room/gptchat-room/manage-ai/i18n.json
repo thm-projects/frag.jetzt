@@ -14,6 +14,8 @@
     "entryDescription": "Beschreibung",
     "entryModel": "Model",
     "entryInstructions": "Anweisungen",
+    "entryFilesearch": "Dateisuche",
+    "entryCodeInterpreter": "Code-Interpreter",
     "entryTemperature": "Temperatur",
     "entryTopP": "Wahrscheinlichkeitsmasse-Schwellenwert"
   },
@@ -31,6 +33,8 @@
     "entryDescription": "Description",
     "entryModel": "Model",
     "entryInstructions": "Instructions",
+    "entryFilesearch": "File Search",
+    "entryCodeInterpreter": "Code Interpreter",
     "entryTemperature": "Temperature",
     "entryTopP": "Probability Mass Cutoff"
   },
@@ -48,6 +52,8 @@
     "entryDescription": "Description",
     "entryModel": "Modèle",
     "entryInstructions": "Instructions",
+    "entryFilesearch": "Recherche de fichiers",
+    "entryCodeInterpreter": "Interprète de code",
     "entryTemperature": "Température",
     "entryTopP": "Seuil de masse de probabilité"
   }

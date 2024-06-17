@@ -177,7 +177,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
                 })
                 .sort(
                   (a, b) =>
-                    a.ref.createdAt.getTime() - b.ref.createdAt.getTime(),
+                    b.ref.createdAt.getTime() - a.ref.createdAt.getTime(),
                 ),
             );
             if (++count === 2 && this.state() === 'loading') {
@@ -356,6 +356,24 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       },
     });
     return true;
+  }
+
+  protected deleteThread(t: ThreadEntry, e: MouseEvent) {
+    e.stopImmediatePropagation();
+    this.assistants.deleteThread(t.ref.id).subscribe({
+      next: () => {
+        this.threads.update((threads) => {
+          return threads.filter((e) => e.ref.id !== t.ref.id);
+        });
+        if (this.selectedThread() === t) {
+          this.selectedThread.set(null);
+        }
+      },
+      error: (err) => {
+        this.showError(this.makeError(err));
+        console.error(err);
+      },
+    });
   }
 
   private mergeObject(data: Content[], index: number, content: Content) {

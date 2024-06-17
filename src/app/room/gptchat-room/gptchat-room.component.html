@@ -28,6 +28,13 @@
           (click)="selectedThread.set(entry)">
           <span matListItemTitle>{{ entry.headLine }}</span>
           <span>{{ entry.content }}</span>
+          <button
+            [matTooltip]="i18n().delete"
+            (click)="deleteThread(entry, $event)"
+            mat-icon-button
+            matListItemMeta>
+            <mat-icon>delete</mat-icon>
+          </button>
         </button>
       } @empty {
         <div mat-subheader>{{ i18n().noThreads }}</div>
