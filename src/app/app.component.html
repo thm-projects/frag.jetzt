@@ -14,17 +14,83 @@
     right: 6px;
     bottom: 6px;
     z-index: 1000000;
-    padding: 12px 8px;
-    color: var(--mdc-text-button-label-text-color);
-    box-shadow: var(--mdc-elevation-box-shadow-for-gss);
-    background-color: var(--mdc-chip-elevated-selected-container-color);
-    border-radius: var(--mdc-chip-container-shape-radius);
-    border-style: solid;
-    border-width: var(--mdc-chip-outline-width);
-    border-color: var(--mdc-chip-disabled-outline-color);
+    background-color: #d6d3ce;
+    border-left: solid 3px #f4f4f3;
+    border-top: solid 3px #f4f4f3;
+    border-bottom: solid 3px #656365;
+    border-right: solid 3px #656365;
+    font-family: "Ubuntu", "Tahoma", "Geneva", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    .debugger-content {
+      padding: 4px;
+    }
+    button {
+      border-left: solid 2px #f4f4f3;
+      border-top: solid 2px #f4f4f3;
+      border-bottom: solid 2px #656365;
+      border-right: solid 2px #656365;
+      background-color: #d6d3ce;
+    }
+    button:active {
+      border-bottom: solid 2px #f4f4f3;
+      border-right: solid 2px #f4f4f3;
+      border-left: solid 2px #656365;
+      border-top: solid 2px #656365;
+    }
+    .debugger-header {
+      display: flex;
+      span {
+        font-family: "Dialog", "Tahoma", "Geneva", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .material-symbols-rounded {
+        padding: 0px;
+      }
+    }
+    .material-symbols-rounded {
+      font-size: 16px;
+      text-align: center;
+      margin: 0;
+      padding: 4px;
+    }
+    .debugger-options {
+      button {
+        font-family: "Dialog", "Tahoma", "Geneva", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+    .debugger-header-title {
+      height: 25px;
+      background: rgb(9, 9, 121);
+      background: linear-gradient(
+        90deg,
+        rgba(9, 9, 121, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      box-sizing: border-box;
+      flex-grow: 1;
+      > span {
+        color: white;
+      }
+    }
 
-    > * + * {
-      margin-top: 8px;
+    .debugger-header-options {
+      button {
+        width: 25px;
+        height: 25px;
+      }
     }
   }
 
@@ -45,39 +111,43 @@
   <mat-icon>arrow_left</mat-icon>
 </button>
 <div
+  cdkDrag
   id="debugger"
   *ngIf="__debugger.isExtended">
-  <div
-    class="row content-space-between items-center"
-    (click)="__debugger.__options['toggleExtension']()">
-    <div class="row items-center">
-      <a
-        mat-icon-button
-        href="https://i.imgur.com/u8RGnMR.gif">
-        <mat-icon>more_vert</mat-icon>
-      </a>
+  <div class="debugger-header">
+    <div class="debugger-header-title">
       <span>{{ windowClass() }}</span>
     </div>
-    <button mat-icon-button>
-      <mat-icon>arrow_right</mat-icon>
-    </button>
+    <div class="debugger-header-options">
+      <button
+        (click)="__debugger.__options['toggleExtension']()"
+        class="material-symbols-rounded">
+        close
+      </button>
+    </div>
   </div>
-  <mat-chip
-    *ngFor="let option of __debugger.self"
-    (click)="option[1]()">
-    {{ option[0] }}
-  </mat-chip>
-  <div class="row content-start gap-small">
-    <button
-      mat-icon-button
-      (click)="m3DynamicThemeService.themeType = 'light'">
-      <mat-icon>light_mode</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="m3DynamicThemeService.themeType = 'dark'">
-      <mat-icon>dark_mode</mat-icon>
-    </button>
-    <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
+  <div class="debugger-content column">
+    <div class="debugger-options column">
+      <button
+        *ngFor="let option of __debugger.self"
+        (click)="option[1]()">
+        {{ option[0] }}
+      </button>
+    </div>
+    <div class="debugger-theme-switch">
+      <button
+        (click)="m3DynamicThemeService.themeType = 'dark'"
+        class="material-symbols-rounded">
+        dark_mode
+      </button>
+      <button
+        (click)="m3DynamicThemeService.themeType = 'light'"
+        class="material-symbols-rounded">
+        light_mode
+      </button>
+    </div>
+    <div class="debugger-color-picker">
+      <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
+    </div>
   </div>
 </div>

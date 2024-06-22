@@ -1,25 +1,25 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   inject,
   Injector,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
 import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
-import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
-import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
+import { QuestionWallKeyEventSupport } from '../question-wall-key-event-support';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
-import { mergeMap, takeUntil } from 'rxjs/operators';
 import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
@@ -27,21 +27,22 @@ import {
   PeriodKey,
 } from '../../../../utils/data-filter-object.lib';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
-import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
-import { forkJoin, ReplaySubject } from 'rxjs';
+import { ReplaySubject, takeUntil } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
-import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { applyRoomNavigation } from '../../../../navigation/room-navigation';
-import { QuestionWallService } from './question-wall.service';
 import {
-  CommentListSupport,
-  createCommentListSupport,
-} from './comment-list-support';
+  QuestionWallService,
+  QuestionWallSession,
+} from './question-wall.service';
+import { QwCommentFocusComponent } from './support-components/qw-comment-focus/qw-comment-focus.component';
+import { createCommentListSupport } from './comment-list-support';
+import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
+import { createComponentBuilder } from '../component-builder-support';
 
 interface CommentCache {
   [commentId: string]: {
@@ -56,13 +57,38 @@ interface CommentCache {
   styleUrls: ['./question-wall.component.scss'],
 })
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(ColComponent) colComponent: ColComponent;
-  @ViewChild('header') headerComponent: RowComponent;
-  @ViewChild('footer') footerComponent: RowComponent;
-  @ViewChild('sidelist') sidelist: ColComponent;
+  // @ViewChild(ColComponent) colComponent: ColComponent;
+  // @ViewChild('header') headerComponent: RowComponent;
+  // @ViewChild('footer') footerComponent: RowComponent;
+  // @ViewChild('sidelist') sidelist: ColComponent;
+
+  @ViewChild('outlet', { read: ViewContainerRef, static: true }) set outlet(
+    viewContainerRef: ViewContainerRef,
+  ) {
+    const componentBuilder = createComponentBuilder({
+      viewContainerRef,
+    });
+    this.self.getSession().subscribe((session) => {
+      session.focus.pipe(takeUntil(this.destroyer)).subscribe((comment) => {
+        if (comment) {
+          this.hasCommentFocus = true;
+          componentBuilder.destroyAll().subscribe(() => {
+            componentBuilder.createComponent(QwCommentFocusComponent, {
+              comment,
+            });
+          });
+        } else {
+          componentBuilder.destroyAll().subscribe(() => {
+            this.hasCommentFocus = false;
+          });
+        }
+      });
+    });
+  }
+
+  hasCommentFocus: boolean;
 
   comments: ForumComment[] = [];
-  commentListSupport: CommentListSupport;
   // unused
   sidelistExpanded = true;
   qrCodeExpanded = false;
@@ -93,8 +119,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   pageSize = 25;
   pageSizeOptions = [25, 50, 100, 200];
   private readonly commentCache: CommentCache = {};
-  private destroyer = new ReplaySubject();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private destroyer = new ReplaySubject<any>();
+
   private injector = inject(Injector);
+  protected session: QuestionWallSession | undefined;
 
   constructor(
     public router: Router,
@@ -109,17 +138,23 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private accountState: AccountStateService,
     private roomState: RoomStateService,
     public readonly self: QuestionWallService,
+    public readonly cdr: ChangeDetectorRef,
   ) {
-    self.focus.subscribe((focus) => (this.commentFocus = focus));
     this.keySupport = new QuestionWallKeyEventSupport();
-    this.commentListSupport = createCommentListSupport(
-      FilteredDataAccess.buildNormalAccess(
-        this.sessionService,
-        this.roomDataService,
-        false,
-        'presentation',
+    this.session = self.createSession(
+      createCommentListSupport(
+        FilteredDataAccess.buildNormalAccess(
+          this.sessionService,
+          this.roomDataService,
+          false,
+          'presentation',
+        ),
       ),
+      this.destroyer,
     );
+    this.session.focus.subscribe((focus) => {
+      console.log(focus);
+    });
     this.initNavigation();
   }
 
@@ -147,20 +182,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSideList() {
-    this.sidelistExpanded = !this.sidelistExpanded;
-    if (this.sidelistExpanded) {
-      this.sidelist.setPx(450);
-      setTimeout(() => {
-        this.headerComponent.setPx(50);
-        this.footerComponent.setPx(50);
-      }, 200);
-    } else {
-      this.sidelist.setPx(0);
-      setTimeout(() => {
-        this.headerComponent.setPx(0);
-        this.footerComponent.setPx(0);
-      }, 200);
-    }
+    // this.sidelistExpanded = !this.sidelistExpanded;
+    // if (this.sidelistExpanded) {
+    //   this.sidelist.setPx(450);
+    //   setTimeout(() => {
+    //     this.headerComponent.setPx(50);
+    //     this.footerComponent.setPx(50);
+    //   }, 200);
+    // } else {
+    //   this.sidelist.setPx(0);
+    //   setTimeout(() => {
+    //     this.headerComponent.setPx(0);
+    //     this.footerComponent.setPx(0);
+    //   }, 200);
+    // }
   }
 
   getURL() {
@@ -171,58 +206,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${window.location.protocol}//${window.location.hostname}/participant/room/${room.shortId}`;
   }
 
-  toggleQRCode() {
-    this.qrCodeExpanded = !this.qrCodeExpanded;
-  }
-
   ngOnInit(): void {
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        if (newUser) {
-          this.user = newUser;
-        }
-      });
-    forkJoin([
-      this.sessionService.getRoomOnce(),
-      this.sessionService.getModeratorsOnce(),
-    ]).subscribe(([room, mods]) => {
-      this.commentListSupport.filteredDataAccess.attach({
-        moderatorIds: new Set<string>(mods.map((m) => m.accountId)),
-        userId: this.user.id,
-        threshold: room.threshold,
-        ownerId: room.ownerId,
-        roomId: room.id,
-      });
-      this.commentListSupport.filteredDataAccess
-        .getFilteredData()
-        .subscribe(() => this.onUpdateFiltering());
-    });
-    this.sessionService
-      .getRoomOnce()
-      .pipe(
-        mergeMap(() =>
-          this.roomDataService.dataAccessor.receiveUpdates([
-            { type: 'CommentCreated' },
-          ]),
-        ),
-      )
-      .subscribe((c) => {
-        if (c.finished) {
-          if (this.focusIncomingComments) {
-            this.focusComment(c.comment);
-          }
-          return;
-        }
-        this.unreadComments++;
-        const date = new Date(c.comment.createdAt);
-        this.commentCache[c.comment.id] = {
-          date,
-          old: false,
-        };
-      });
-    this.sessionService.getRoomOnce().subscribe((room) => (this.room = room));
     this.initKeySupport();
+    this.session.onInit.subscribe(() => {
+      this.cdr.detectChanges();
+    });
+    this.session.filterChangeListener.subscribe(() => {
+      console.log('change');
+      this.cdr.detectChanges();
+    });
   }
 
   initKeySupport() {
@@ -232,44 +224,51 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       key.addKeyEvent('ArrowDown', () => this.nextComment());
       key.addKeyEvent('ArrowUp', () => this.prevComment());
       key.addKeyEvent('l', () => this.toggleSideList());
-      key.addKeyEvent('q', () => this.toggleQRCode());
+      key.addKeyEvent('q', () => (this.qrCodeExpanded = !this.qrCodeExpanded));
     });
   }
 
   ngAfterViewInit(): void {
-    document.getElementById('header_rescale').style.display = 'none';
-    document.getElementById('footer_rescale').style.display = 'none';
-    setTimeout(() => {
-      Rescale.requestFullscreen();
-    }, 0);
-    setTimeout(() => {
-      Array.from(
-        document
-          .getElementsByClassName('questionwall-screen')[0]
-          .getElementsByTagName('button'),
-      ).forEach((e) => {
-        e.addEventListener('keydown', (e1) => {
-          e1.preventDefault();
-        });
-      });
-    }, 100);
+    console.log('ngAfterViewInit');
+    // document.getElementById('header_rescale').style.display = 'none';
+    // document.getElementById('footer_rescale').style.display = 'none';
+    // setTimeout(() => {
+    //   Rescale.requestFullscreen();
+    // }, 0);
+    // setTimeout(() => {
+    //   Array.from(
+    //     document
+    //       .getElementsByClassName('questionwall-screen')[0]
+    //       .getElementsByTagName('button'),
+    //   ).forEach((e) => {
+    //     e.addEventListener('keydown', (e1) => {
+    //       e1.preventDefault();
+    //     });
+    //   });
+    // }, 100);
   }
 
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-    const filter = this.commentListSupport.filteredDataAccess.dataFilter;
-    if (
-      filter.sourceFilterBrainstorming !==
-      BrainstormingFilter.ExceptBrainstorming
-    ) {
-      filter.resetToDefault();
-      this.commentListSupport.filteredDataAccess.dataFilter = filter;
+    try {
+      const filter = this.self.session.filter.filteredDataAccess.dataFilter;
+      if (
+        filter.sourceFilterBrainstorming !==
+        BrainstormingFilter.ExceptBrainstorming
+      ) {
+        filter.resetToDefault();
+        this.self.session.filter.filteredDataAccess.dataFilter = filter;
+      }
+    } catch (e) {
+      console.error(e);
     }
-    this.commentListSupport.filteredDataAccess.detach(true);
+    try {
+      this.self.session.filter.filteredDataAccess.detach(true);
+    } catch (e) {
+      console.error(e);
+    }
     this.keySupport.destroy();
-    document.getElementById('header_rescale').style.display = 'block';
-    document.getElementById('footer_rescale').style.display = 'block';
     Rescale.exitFullscreen();
   }
 
@@ -330,10 +329,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         entry.old = true;
         this.unreadComments--;
       }
-      this.getDOMCommentFocus().scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      // this.getDOMCommentFocus().scrollIntoView({
+      //   behavior: 'smooth',
+      //   block: 'center',
+      // });
     }, 1);
   }
 
@@ -343,7 +342,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   applyUserMap(user: string) {
     this.userSelection = false;
-    this.commentListSupport.filterUserByNumber(user);
+    this.self.session.filter.filterUserByNumber(user);
   }
 
   openUserMap() {
@@ -355,18 +354,19 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   cancelUserMap() {
     this.userSelection = false;
-    this.commentListSupport.deactivateFilter();
+    this.self.session.filter.deactivateFilter();
   }
 
-  leave() {
-    this.router.navigate([
-      '/' +
-        this.resolveUserRole() +
-        '/room/' +
-        this.sessionService.currentRoom.shortId +
-        '/comments',
-    ]);
-  }
+  // leave() {
+  //   this.router.navigate([
+  //     '/' +
+  //       this.resolveUserRole() +
+  //       '/room/' +
+  //       this.sessionService.currentRoom.shortId +
+  //       '/comments',
+  //   ]);
+
+  // }
 
   likeComment(comment: Comment) {
     this.commentService.voteUp(comment, this.user.id).subscribe();
@@ -403,37 +403,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onUpdateFiltering() {
-    this.comments = [
-      ...this.commentListSupport.filteredDataAccess.getCurrentData(),
-    ];
-    const filter = this.commentListSupport.filteredDataAccess.dataFilter;
-    this.period = filter.period;
-    this.isLoading = false;
-    const tempUserSet = new Set<string>();
-    this.comments.forEach((comment) => {
-      tempUserSet.add(comment.creatorId);
-      if (this.commentCache[comment.id]) {
-        return;
-      }
-      const date = new Date(comment.createdAt);
-      this.commentCache[comment.id] = {
-        date,
-        old: true,
-      };
-    });
-    this.refreshUserMap();
-    this.commentsCountQuestions = this.comments.length;
-    this.commentsCountUsers = tempUserSet.size;
     this.animationTrigger = false;
-    setTimeout(() => {
-      this.animationTrigger = true;
-      if (
-        this.comments.length < 1 ||
-        !this.comments.some((c) => c.id === this.commentFocusId)
-      ) {
-        this.commentFocusId = null;
-      }
-    });
+    // setTimeout(() => {
+    //   this.animationTrigger = true;
+    //   if (
+    //     this.comments.length < 1 ||
+    //     !this.comments.some((c) => c.id === this.commentFocusId)
+    //   ) {
+    //     this.commentFocusId = null;
+    //   }
+    // });
   }
 
   getCommentIcon(comment: Comment): string {
@@ -524,5 +503,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     applyRoomNavigation(this.injector)
       .pipe(takeUntil(this.destroyer))
       .subscribe();
+  }
+
+  debugComments() {
+    console.log(this.session, this.session?.comments);
   }
 }

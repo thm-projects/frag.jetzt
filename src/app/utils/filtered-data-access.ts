@@ -491,7 +491,7 @@ export class FilteredDataAccess {
   }
 
   getSourceData(): Readonly<ForumComment[]> {
-    return this._tempData;
+    return this._tempData || [];
   }
 
   getCurrentPeriodCount() {

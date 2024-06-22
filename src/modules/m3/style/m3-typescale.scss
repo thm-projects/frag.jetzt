@@ -1,4 +1,6 @@
 @use "sass:map";
+@use "sass:list";
+@use "sass:math";
 
 $_font-family: "Roboto Flex";
 $_typescale: (
@@ -119,18 +121,46 @@ $_typescale: (
   ),
 );
 
-@mixin typescale($type, $scale) {
+$valid-units: px, em;
+
+@function _convert-px-to-unit($value, $unit) {
+  @if $unit == px {
+    @return #{$value};
+  } @else if $unit == em {
+    @if $value == 0 {
+      @return 0;
+    } @else {
+      @return math.div($value, 16);
+    }
+  } @else {
+    @error "internal: #{$unit} not in [#{$valid-units}]";
+  }
+}
+
+@function _validate-unit($unit: px) {
+  @if not list.index($valid-units, $unit) {
+    @error "#{$unit} is not a valid unit. use #{$valid-units} instead (default: px)";
+  }
+  @return null;
+}
+
+@mixin typescale($type, $scale, $unit: px) {
+  $err-unit: _validate-unit(#{$unit});
   /// todo(lph) add validation
   font-family: #{map.get($_typescale, $type, $scale, font)};
   font-weight: #{map.get($_typescale, $type, $scale, weight)};
-  font-size: #{map.get($_typescale, $type, $scale, size)}px;
-  line-height: #{map.get($_typescale, $type, $scale, line-height)}px;
-  letter-spacing: #{map.get($_typescale, $type, $scale, tracking)}px;
+  font-size: #{map.get($_typescale, $type, $scale, size)}#{$unit};
+  line-height: #{map.get($_typescale, $type, $scale, line-height)}#{$unit};
+  letter-spacing: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, tracking),
+      $unit
+    )}#{$unit};
 }
 
 // todo(lph) this is taken from https://github.com/material-foundation/material-tokens
 // check license before production.
-@mixin all-typescale() {
+@mixin all-typescale($unit: px) {
+  $err-unit: _validate-unit($unit);
   --md-ref-typeface-weight-regular: 400;
   --md-ref-typeface-weight-medium: 500;
   --md-ref-typeface-plain: #{$_font-family};
@@ -142,3 +172,6 @@ $_typescale: (
     }
   }
 }
+
+// todo(lph) add modify typescale. for better readability (and performance?)
+// something like 'modify-typescale', and specifying e.g.: em/px, font-face.

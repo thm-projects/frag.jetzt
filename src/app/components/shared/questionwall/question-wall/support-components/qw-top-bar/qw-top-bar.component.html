@@ -1,0 +1,107 @@
+<div class="top-bar-slider-container row items-center gap-medium">
+  <div class="row items-center">
+    <mat-icon>remove</mat-icon>
+    <mat-slider
+      [(ngModel)]="currentCommentFocusScale"
+      [step]="commentFocusScaleBounds.step"
+      [min]="commentFocusScaleBounds.min"
+      [max]="commentFocusScaleBounds.max"
+      [showTickMarks]="true">
+      <input
+        matSliderThumb
+        value="1.5" />
+    </mat-slider>
+    <mat-icon>add</mat-icon>
+  </div>
+</div>
+<div class="grow"></div>
+<div class="row items-center gap-large">
+  <div class="text-icon">
+    <mat-icon>people</mat-icon>
+    {{ headerService.getCurrentUserActivity() || 0 }}
+  </div>
+  <div class="text-icon">
+    <mat-icon>comment</mat-icon>
+    {{ session?.commentsCountQuestions }}
+  </div>
+  <div class="text-icon">
+    <mat-icon>person</mat-icon>
+    {{ session?.commentsCountQuestions }}
+  </div>
+</div>
+<div class="row items-center">
+  <button
+    mat-button
+    [matMenuTriggerFor]="matSortMenu">
+    <mat-icon>sort</mat-icon>
+    Sort
+    <mat-menu #matSortMenu>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Time, false)">
+        Newest
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Time, true)">
+        Oldest
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Score, false)">
+        Score
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Controversy, false)">
+        Controversy
+      </button>
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matTimeFilterMenu">
+    <mat-icon>schedule</mat-icon>
+    Time Period
+    <mat-menu #matTimeFilterMenu>
+      <button mat-menu-item>Display questions from now on</button>
+      <button mat-menu-item>Last hour</button>
+      <button mat-menu-item>Last 2 hours</button>
+      <button mat-menu-item>Last 24 hours</button>
+      <button mat-menu-item>Last 7 Days</button>
+      <button mat-menu-item>Last 14 Days</button>
+      <button mat-menu-item>Unlimited in time</button>
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matFilterMenu">
+    <mat-icon>filter</mat-icon>
+    Filter
+    <mat-menu #matFilterMenu>
+      <button mat-menu-item>
+        <mat-icon>star</mat-icon>
+        Marked for a bonus
+      </button>
+      <button mat-menu-item>
+        <mat-icon>bookmark</mat-icon>
+        Bookmarked
+      </button>
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matCategoryMenu">
+    <mat-icon>category</mat-icon>
+    Category
+    <mat-menu #matCategoryMenu>
+      @for (category of session?.room.tags; track category) {
+        <button mat-menu-item>
+          {{ category }}
+        </button>
+      } @empty {
+        <span>no-categories</span>
+      }
+    </mat-menu>
+  </button>
+</div>

@@ -1,0 +1,33 @@
+@if (context) {
+  <div class="background-container">
+    <div class="background">
+      <span
+        class="material-symbols-outlined"
+        style="font-size: 64px">
+        co_present
+      </span>
+      <span style="font-size: 64px">Q123</span>
+    </div>
+  </div>
+  <div class="header">
+    <ars-date-formatter
+      [formatter]="dateFormatter"
+      [date]="context.comment.createdAt"></ars-date-formatter>
+    <div class="grow"></div>
+  </div>
+  <div
+    class="content"
+    #content>
+    <div
+      class="content-size"
+      #contentSize>
+      <app-markdown-viewer [data]="context.comment.body"></app-markdown-viewer>
+    </div>
+  </div>
+  @if (contentSize.offsetHeight > content.offsetHeight) {
+    <div class="overflow-container">
+      <div class="overflow"></div>
+    </div>
+  }
+  <qw-comment-footer [comment]="context.comment"></qw-comment-footer>
+}

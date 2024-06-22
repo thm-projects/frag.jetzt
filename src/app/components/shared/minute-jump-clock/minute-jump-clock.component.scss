@@ -1,6 +1,6 @@
 .clock {
-  position: fixed;
   transform: scale(0.75);
+  position: relative;
 
   &.background {
     border-radius: 100%;

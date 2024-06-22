@@ -6,7 +6,6 @@
 
 .top-bar {
   height: 60px;
-  background-color: var(--md-sys-color-surface3);
 }
 
 .side-bar-container {
@@ -17,19 +16,23 @@
 .side-bar-footer {
 }
 
-.view-comment-bottom-bar {
-  height: 52px;
-  padding-left: var(--m3-sys-layout-spacing-pane);
+.clock {
+  max-height: 0;
 }
 
 .view-comment-container {
   width: 1600px;
   max-width: 100%;
-  display: inline-flex;
+  display: flex;
   overflow: auto;
+  padding: var(--m3-sys-layout-spacing-pane);
 }
 
 .view-comment {
+  width: 100%;
+  max-width: 1600px;
+  height: 0;
+  flex-shrink: 1;
 }
 
 .side-bar-content {
@@ -37,11 +40,13 @@
   overflow: auto;
 }
 
+.side-bar-container {
+}
+
 /**/
 
-.text-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
+.qr-overlay {
+  position: fixed;
+  bottom: 64px;
+  left: 120px;
 }

@@ -75,3 +75,11 @@
 .column {
   @include _generate-flex-layout-classes(column);
 }
+
+.flex-100 {
+  flex: 1 0 0;
+}
+
+.flex-010 {
+  flex: 0 1 0;
+}

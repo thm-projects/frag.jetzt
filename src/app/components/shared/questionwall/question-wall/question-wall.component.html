@@ -1,132 +1,63 @@
-<div class="top-bar row items-center content-end gap-medium">
-  <div class="row items-center gap-medium">
-    <div class="text-icon">
-      <mat-icon>people</mat-icon>
-      {{ headerService.getCurrentUserActivity() || 0 }}
-    </div>
-    <div class="text-icon">
-      <mat-icon>comment</mat-icon>
-      {{ commentsCountQuestions }}
-    </div>
-    <div class="text-icon">
-      <mat-icon>person</mat-icon>
-      {{ commentsCountUsers }}
-    </div>
-  </div>
-  <div class="row items-center">
-    <button
-      mat-button
-      [matMenuTriggerFor]="matSortMenu">
-      <mat-icon>sort</mat-icon>
-      Sort
-      <mat-menu #matSortMenu>
-        <button mat-menu-item>Newest</button>
-        <button mat-menu-item>Oldest</button>
-        <button mat-menu-item>Score</button>
-        <button mat-menu-item>Controversy</button>
-      </mat-menu>
-    </button>
-    <button
-      mat-button
-      [matMenuTriggerFor]="matTimeFilterMenu">
-      <mat-icon>schedule</mat-icon>
-      Time Period
-      <mat-menu #matTimeFilterMenu>
-        <button mat-menu-item>Display questions from now on</button>
-        <button mat-menu-item>Last hour</button>
-        <button mat-menu-item>Last 2 hours</button>
-        <button mat-menu-item>Last 24 hours</button>
-        <button mat-menu-item>Last 7 Days</button>
-        <button mat-menu-item>Last 14 Days</button>
-        <button mat-menu-item>Unlimited in time</button>
-      </mat-menu>
-    </button>
-    <button
-      mat-button
-      [matMenuTriggerFor]="matFilterMenu">
-      <mat-icon>filter</mat-icon>
-      Filter
-      <mat-menu #matFilterMenu>
-        <button mat-menu-item>
-          <mat-icon>star</mat-icon>
-          Marked for a bonus
-        </button>
-        <button mat-menu-item>
-          <mat-icon>bookmark</mat-icon>
-          Bookmarked
-        </button>
-      </mat-menu>
-    </button>
-    <button
-      mat-button
-      [matMenuTriggerFor]="matCategoryMenu">
-      <mat-icon>category</mat-icon>
-      Category
-      <mat-menu #matCategoryMenu>
-        @for (category of room.tags; track category) {
-          <button mat-menu-item>
-            {{ category }}
-          </button>
-        } @empty {
-          <span>no-categories</span>
-        }
-      </mat-menu>
-    </button>
-  </div>
+@if (!session) {
+  <app-mat-spinner-overlay [overlay]="true"></app-mat-spinner-overlay>
+}
+
+<qw-top-bar
+  *ngIf="session"
+  [session]="session"></qw-top-bar>
+<div class="clock">
+  @if (session) {
+    <app-minute-jump-clock
+      [minWidth]="880"
+      [zIndex]="3"
+      [questionWallColor]="true"
+      [fixedSize]="200"></app-minute-jump-clock>
+  }
 </div>
 <div class="content row grow">
-  <div class="view-comment-container column grow">
+  <div class="view-comment-container column grow items-center content-center">
     <div class="view-comment">
-      @if (commentFocus) {
-        <app-question-wall-comment-focus
-          [comment]="commentFocus"></app-question-wall-comment-focus>
+      <ng-template #outlet></ng-template>
+      @if (!hasCommentFocus) {
+        <p>default</p>
       }
     </div>
   </div>
   <div class="side-bar-container column">
     <div class="side-bar-content grow">
-      @for (comment of comments; track comment) {
-        <app-question-wall-comment
-          [comment]="comment"></app-question-wall-comment>
+      @for (comment of session?.comments; track comment) {
+        <qw-comment
+          [context]="{
+            session: session,
+            comment: comment
+          }"></qw-comment>
       } @empty {
         <p>no comments</p>
       }
     </div>
     <div class="side-bar-footer">
-      <mat-paginator></mat-paginator>
+      <ars-mat-paginator
+        *ngIf="comments.length > 0"
+        [pageSize]="this.pageSize"
+        (page)="handlePageEvent($event)"
+        [showFirstLastButtons]="true"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="pageIndex"
+        [length]="comments.length"></ars-mat-paginator>
     </div>
   </div>
 </div>
+<qw-bottom-bar
+  *ngIf="session"
+  [session]="session"></qw-bottom-bar>
 <div
-  class="view-comment-bottom-bar row items-center content-space-between gap-medium">
-  <div class="row content-center">
-    <mat-slide-toggle>autofocus for new questions</mat-slide-toggle>
-    <button mat-button>
-      <mat-icon>qr_code</mat-icon>
-      Show QR code
-    </button>
-  </div>
-  <div class="row content-center">
-    <button mat-button>
-      <mat-icon>chevron_left</mat-icon>
-      previous
-    </button>
-    <button mat-button>
-      <mat-icon>chevron_right</mat-icon>
-      next
-    </button>
-  </div>
+  class="qr-overlay"
+  *ngIf="session?.qrcode">
+  <qrcode
+    [qrdata]="getURL()"
+    [width]="200"
+    [errorCorrectionLevel]="'M'"></qrcode>
 </div>
-
-<!--<app-mat-spinner-overlay-->
-<!--  *ngIf="isLoading"-->
-<!--  [overlay]="true"></app-mat-spinner-overlay>-->
-<!--<app-minute-jump-clock-->
-<!--  [minWidth]="880"-->
-<!--  [offsetTop]="35"-->
-<!--  [zIndex]="3"-->
-<!--  [questionWallColor]="true"-->
-<!--  [fixedSize]="200"></app-minute-jump-clock>-->
 <!--<div>-->
 <!--  <mat-toolbar-->
 <!--    class="question-wall-header row gap-small content-end items-center">-->
