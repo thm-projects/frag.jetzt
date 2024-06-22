@@ -1,0 +1,109 @@
+<mat-toolbar>
+  <ng-content></ng-content>
+</mat-toolbar>
+
+<div
+  #scroll
+  style="flex: 1; overflow: auto; position: relative">
+  @if (overrideMessage(); as message) {
+    <mat-card class="info">
+      <mat-card-content>
+        <app-markdown-viewer [data]="message"></app-markdown-viewer>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    @for (message of updatedMessages(); track message) {
+      @if (message.role === "user") {
+        <mat-card class="user-card">
+          <mat-card-content>
+            @for (messageContent of message.chunks; track $index) {
+              <app-markdown-viewer
+                class="user-message"
+                [data]="messageContent"></app-markdown-viewer>
+            }
+            @if (message.attached.length) {
+              <div>
+                @for (
+                  attachment of message.attached;
+                  track attachment[0] + attachment[1]
+                ) {
+                  <span class="file-ref">
+                    {{
+                      i18n().ref
+                        | context: { num: attachment[0], file: attachment[1] }
+                    }}
+                  </span>
+                }
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        @for (messageContent of message.chunks; track $index) {
+          <app-markdown-viewer
+            class="assistant-message"
+            [data]="messageContent"></app-markdown-viewer>
+        }
+      }
+    }
+  }
+</div>
+
+@if (!overrideMessage()) {
+  <div class="input-area">
+    <mat-form-field
+      class="input-field"
+      appearance="outline">
+      <mat-label>{{ i18n().input }}</mat-label>
+      <textarea
+        matInput
+        [formControl]="inputMessage"
+        [placeholder]="i18n().placeholder"
+        #inputElem
+        (input)="updateHeight(inputElem)"></textarea>
+      <button
+        mat-icon-button
+        (click)="fileInput.click()"
+        matPrefix>
+        <mat-icon>attach_file_add</mat-icon>
+        <input
+          #fileInput
+          (change)="onFileChange(fileInput.files)"
+          type="file"
+          multiple
+          accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+          style="display: none" />
+      </button>
+      <button
+        mat-icon-button
+        matPrefix>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      @if (canSend()) {
+        <button
+          (click)="sendMessage()"
+          mat-icon-button
+          matSuffix>
+          <mat-icon>send</mat-icon>
+        </button>
+      } @else {
+        <mat-spinner
+          matSuffix
+          [diameter]="24"
+          [strokeWidth]="2"></mat-spinner>
+      }
+      <mat-hint>
+        @if (files().length; as length) {
+          {{
+            i18n().uploadedFiles
+              | context
+                : {
+                    count: length,
+                    files: filesString()
+                  }
+          }}
+        }
+      </mat-hint>
+    </mat-form-field>
+  </div>
+}

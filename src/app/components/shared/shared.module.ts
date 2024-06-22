@@ -161,6 +161,7 @@ import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-suppo
 import { CommentListFabComponent } from './comment-list/comment-list-fab/comment-list-fab.component';
 import { QwTopBarComponent } from './questionwall/question-wall/support-components/qw-top-bar/qw-top-bar.component';
 import { QwBottomBarComponent } from './questionwall/question-wall/support-components/qw-bottom-bar/qw-bottom-bar.component';
+import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component';
 
 @NgModule({
   imports: [
@@ -187,6 +188,7 @@ import { QwBottomBarComponent } from './questionwall/question-wall/support-compo
     CommentListFabComponent,
     QwTopBarComponent,
     QwBottomBarComponent,
+    AiChatComponent
   ],
   declarations: [
     RoomJoinComponent,

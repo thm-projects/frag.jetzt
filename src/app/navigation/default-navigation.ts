@@ -63,8 +63,12 @@ export const getDefaultHeader = (
     toObservable(theme),
   ]).pipe(
     map(([user, i18n, theme]) => {
+      const isHome = router.url.startsWith('/home');
+      const isUser = router.url.startsWith('/user');
+      const index = router.url.indexOf('/room/');
+      const isRoom = router.url.indexOf('/', index + 6) === -1;
       return {
-        slogan: i18n.header.slogan,
+        slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
         options: [
           user
             ? {

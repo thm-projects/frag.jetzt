@@ -1,0 +1,14 @@
+mat-form-field,
+mat-slide-toggle {
+  margin-block: 0.5em;
+}
+
+.spinner {
+  --mdc-circular-progress-active-indicator-color: currentColor;
+  display: inline-block;
+  margin-inline-start: 1em;
+  width: 1.2em !important;
+  height: 1.2em !important;
+  margin-bottom: -0.2em;
+  overflow: visible;
+}

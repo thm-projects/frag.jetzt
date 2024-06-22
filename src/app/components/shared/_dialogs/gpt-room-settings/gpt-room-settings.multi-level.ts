@@ -108,7 +108,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             hidden: true,
             validators: [
               Validators.required,
-              Validators.pattern('sk-[a-zA-Z0-9]+'),
+              Validators.pattern('sk-(proj-)?[a-zA-Z0-9]+'),
             ],
             errorStates: {
               required:

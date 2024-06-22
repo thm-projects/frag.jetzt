@@ -9,21 +9,25 @@ m3-supporting-pane {
 .chat-pane.m3-supporting-pane {
   display: flex;
   flex-direction: column;
+  position: relative;
+  max-width: unset;
 }
 
-.input-area {
-  padding-top: 1em;
+.threads-overview.m3-supporting-pane {
+  transition-duration: 0.5s;
+  transition-property: width, margin-left;
+  transition-timing-function: var(--md-sys-motion-easing-emphasized);
+  width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  position: relative;
 
-  > .input-field {
-    width: 100%;
-    max-width: 45em;
-    margin-inline: auto;
-    display: block;
+  &.open {
+    width: var(--m3-comp-supporting-pane-fixed-width);
+    margin-left: var(--m3-sys-layout-spacing-pane);
+  }
 
-    textarea {
-      max-height: 25dvh;
-      overflow-y: auto;
-      resize: none;
-    }
+  > mat-action-list {
+    width: var(--m3-comp-supporting-pane-fixed-width);
   }
 }

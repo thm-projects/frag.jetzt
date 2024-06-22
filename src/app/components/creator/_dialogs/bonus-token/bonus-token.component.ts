@@ -279,6 +279,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   applyFilter(filterValue: string): void {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
+
+    this.tableDataSource.filterPredicate = (
+      bonusToken: BonusToken,
+      filter: string,
+    ) => {
+      const transformedFilter = filter.trim().toLowerCase();
+      return bonusToken.token.startsWith(transformedFilter);
+    };
+
     this.tableDataSource.filter = filterValue;
   }
 

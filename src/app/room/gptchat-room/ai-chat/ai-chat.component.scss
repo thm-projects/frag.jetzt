@@ -1,0 +1,71 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .file-ref {
+  display: inline-block;
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  padding: 0.15em 0.4em;
+  border-radius: 0.6em;
+  margin: 0.2em;
+}
+
+.info {
+  max-width: 600px;
+  width: calc(100% - 3em);
+  background-color: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface-container);
+  margin: auto;
+  display: block;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: calc(100% - 4em);
+  max-height: 600px;
+  translate: -50% -50%;
+}
+
+.user-message {
+  margin-top: 0;
+
+  + .user-message {
+    margin-top: 0.5em;
+  }
+}
+
+.assistant-message {
+  max-width: 800px;
+  margin: 0.5em 1em;
+  width: calc(100% - 3em);
+  display: block;
+}
+
+.user-card {
+  max-width: 600px;
+  margin: 0.5em 1em 0.5em auto;
+  width: calc(100% - 3em);
+  background-color: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface-container);
+}
+
+.input-area {
+  padding-top: 1em;
+  max-width: calc(100% - var(--m3-sys-layout-spacing-pane));
+
+  > .input-field {
+    width: 100%;
+    max-width: 45em;
+    margin-inline: auto;
+    display: block;
+
+    textarea {
+      max-height: 25dvh;
+      overflow-y: auto;
+      resize: none;
+    }
+  }
+}
