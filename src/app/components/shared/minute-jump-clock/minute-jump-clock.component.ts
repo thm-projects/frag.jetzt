@@ -191,7 +191,6 @@ export class MinuteJumpClockComponent
       return;
     }
     this.svgClock.nativeElement.style.display = '';
-    this.headerService.getHeaderComponent().registerClock();
     this.updatePresentationClock();
     this._timer = setInterval(this.updatePresentationClock.bind(this), 1_000);
   }
@@ -201,7 +200,6 @@ export class MinuteJumpClockComponent
       return;
     }
     this.svgClock.nativeElement.style.display = 'none';
-    this.headerService.getHeaderComponent().unregisterClock();
     clearInterval(this._timer);
     this._timer = 0;
   }

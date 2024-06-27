@@ -109,7 +109,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
-  private _clockCount = 0;
   private shrinkObserver: ShrinkObserver;
   private destroyer = new ReplaySubject(1);
 
@@ -255,18 +254,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   useLanguage(language: Language) {
     this.translationService.use(language);
     setLanguage(language);
-  }
-
-  getClockCount() {
-    return this._clockCount;
-  }
-
-  registerClock() {
-    this._clockCount++;
-  }
-
-  unregisterClock() {
-    this._clockCount--;
   }
 
   getTime(time: Date) {
