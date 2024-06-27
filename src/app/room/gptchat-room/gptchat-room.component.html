@@ -75,6 +75,11 @@
               {{ entry.assistant.name }}
             </mat-option>
           }
+          <button
+            mat-menu-item
+            (click)="onNewClick()">
+            <em>{{ i18n().createAssistant }}</em>
+          </button>
         </mat-select>
       </mat-form-field>
       <span style="flex: 1"></span>

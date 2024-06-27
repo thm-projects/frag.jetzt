@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.loadModule(rawI18n);
 import {
   Component,
   ElementRef,
@@ -56,6 +59,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   ]);
 
   matcher = new CustomErrorStateMatcher();
+  protected readonly i18n = i18n;
   private destroyer = new ReplaySubject(1);
 
   constructor(

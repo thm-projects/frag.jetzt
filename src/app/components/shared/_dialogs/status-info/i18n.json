@@ -1,0 +1,15 @@
+{
+  "key": "status-info",
+  "de": {
+    "title": "Aktuelle Kapazitätsauslastung",
+    "message": "frag.jetzt bedient {{sessionCount}} Verbindung(en) mit {{creatorCount}} Raumersteller\\*innen, {{moderatorCount}} Moderator\\*innen und {{participantCount}} Teilnehmer\\*innen.\n\nIn {{activeRoomCount}} Raum/Räumen finden Veranstaltungen statt, bei denen der\\*die Raumersteller\\*in oder ein\\*e Moderator\\*in gleichzeitig mit mehreren Teilnehmer\\*innen im Gespräch ist.\n\nDerzeit führt frag.jetzt {{activeLivepollCount}} Blitzumfrage(n) durch."
+  },
+  "en": {
+    "title": "Current capacity utilization",
+    "message": "frag.jetzt is serving {{sessionCount}} connection(s), with {{creatorCount}} room creator(s), {{moderatorCount}} moderator(s), and {{participantCount}} participant(s).\n\n{{activeRoomCount}} room(s) have ongoing events, where the room creator or a moderator is engaging with multiple participants simultaneously.\n\nCurrently, frag.jetzt is handling {{activeLivepollCount}} live poll(s)."
+  },
+  "fr": {
+    "title": "Utilisation actuelle de la capacité",
+    "message": "frag.jetzt gère {{sessionCount}} connexion(s), avec {{creatorCount}} créateur(s) de salle, {{moderatorCount}} modérateur(s) et {{participantCount}} participant(s).\n\n{{activeRoomCount}} salle(s) ont des événements en cours, où le créateur de la salle ou un modérateur interagit avec plusieurs participants simultanément.\n\nActuellement, frag.jetzt gère {{activeLivepollCount}} sondage(s) en direct."
+  }
+}

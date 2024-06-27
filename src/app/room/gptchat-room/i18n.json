@@ -13,7 +13,8 @@
     "noThreads": "Keine Threads vorhanden",
     "errorMessage": "# Ein Fehler ist aufgetreten\n\n{{message}}",
     "openaiError": "# Ein Fehler von OpenAI wurde gemeldet\n\n{{message}}",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "createAssistant": "Assistent erstellen..."
   },
   "en": {
     "defaultName": "Default assistant",
@@ -28,7 +29,8 @@
     "noThreads": "No threads available",
     "errorMessage": "# An error occurred\n\n{{message}}",
     "openaiError": "# An error from OpenAI was reported\n\n{{message}}",
-    "delete": "Delete"
+    "delete": "Delete",
+    "createAssistant": "Create assistant..."
   },
   "fr": {
     "defaultName": "Assistant par défaut",
@@ -43,6 +45,7 @@
     "noThreads": "Aucun fil de discussion disponible",
     "errorMessage": "# Une erreur s'est produite\n\n{{message}}",
     "openaiError": "# Une erreur d'OpenAI a été signalée\n\n{{message}}",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "createAssistant": "Créer un assistant..."
   }
 }

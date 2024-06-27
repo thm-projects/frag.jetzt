@@ -91,7 +91,7 @@ export class ManageAiComponent {
   protected createGroup = new FormGroup({
     name: new FormControl('', [Validators.maxLength(256)]),
     description: new FormControl('', [Validators.maxLength(512)]),
-    model: new FormControl('gpt-3.5-turbo', [Validators.required]),
+    model: new FormControl('gpt-4o', [Validators.required]),
     instructions: new FormControl('', [Validators.maxLength(256000)]),
     fileSearch: new FormControl(true),
     codeInterpreter: new FormControl(false),
@@ -211,7 +211,7 @@ export class ManageAiComponent {
         });
         this.notification.show(i18n().global.changeSuccessful);
         this.createGroup.reset({
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-4o',
           temperature: 1,
           top_p: 1,
           description: '',

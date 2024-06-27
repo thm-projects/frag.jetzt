@@ -113,10 +113,9 @@ export class AppComponent implements OnInit {
 
       function createDefault() {
         return {
-          highlight: true,
-          border: true,
-          dark: true,
-          isExtended: true,
+          highlight: false,
+          border: false,
+          isExtended: false,
         };
       }
     },

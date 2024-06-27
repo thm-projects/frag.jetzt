@@ -103,6 +103,9 @@ export class AiChatComponent {
   private scroll = viewChild('scroll', {
     read: ElementRef<HTMLElement>,
   });
+  private fileInput = viewChild('fileInput', {
+    read: ElementRef<HTMLInputElement>,
+  });
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
@@ -123,6 +126,7 @@ export class AiChatComponent {
     ) {
       this.inputMessage.setValue('');
       this.files.set([]);
+      this.fileInput().nativeElement.value = '';
     }
   }
 

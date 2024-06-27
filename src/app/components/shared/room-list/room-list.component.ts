@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.loadModule(rawI18n);
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
@@ -67,6 +70,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name',
   };
+  protected readonly i18n = i18n;
   private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
   private destroyer = new ReplaySubject(1);
 

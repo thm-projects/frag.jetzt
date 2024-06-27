@@ -13,13 +13,13 @@
           type="text"
           maxlength="30"
           [formControl]="sessionCodeFormControl"
-          [placeholder]="'home-page.session-id' | translate"
+          [placeholder]="i18n().id"
           [errorStateMatcher]="matcher"
           aria-labelledby="join-input-label" />
         <mat-error
           *ngIf="sessionCodeFormControl.hasError('required')"
           aria-hidden="true">
-          {{ "home-page.please-enter" | translate }}
+          {{ i18n().empty }}
         </mat-error>
         <button
           type="submit"
@@ -36,9 +36,9 @@
 
 <div class="visually-hidden">
   <div id="join-input-label">
-    {{ "home-page.accessibility-join-input" | translate }}
+    {{ i18n().a11yJoinInput }}
   </div>
   <div id="join-button-label">
-    {{ "home-page.accessibility-join-button" | translate }}
+    {{ i18n().a11yJoinButton }}
   </div>
 </div>

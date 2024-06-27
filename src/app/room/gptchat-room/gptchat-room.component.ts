@@ -36,6 +36,7 @@ import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
 import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
+import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -358,6 +359,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  protected onNewClick() {
+    ManageAiComponent.open(
+      this.injector,
+      this.assistRefs,
+      this.onChange.bind(this),
+    );
+  }
+
   protected deleteThread(t: ThreadEntry, e: MouseEvent) {
     e.stopImmediatePropagation();
     this.assistants.deleteThread(t.ref.id).subscribe({
@@ -417,37 +426,34 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private initNav() {
     applyAiNavigation(this.injector, {
       assistants: this.assistRefs,
-      onOutput: (change) => {
-        if (change.type === 'created') {
-          this.assistRefs.update((assistants) => {
-            return [...assistants, change.assistant];
-          });
-          this.loadAssistant(
-            this.roomState.getCurrentRoom().id,
-            change.assistant,
-          );
-        } else if (change.type === 'updated') {
-          this.assistRefs.update((assistants) => {
-            const index = assistants.findIndex(
-              (e) => e.ref.id === change.assistant.ref.id,
-            );
-            if (index === -1) {
-              return assistants;
-            }
-            assistants[index] = change.assistant;
-            return assistants;
-          });
-        } else if (change.type === 'deleted') {
-          this.assistRefs.update((assistants) => {
-            return assistants.filter(
-              (e) => e.ref.id !== change.assistant.ref.id,
-            );
-          });
-        }
-      },
+      onOutput: this.onChange.bind(this),
     })
       .pipe(takeUntil(this.destroyer))
       .subscribe();
+  }
+
+  private onChange(change: Change) {
+    if (change.type === 'created') {
+      this.assistRefs.update((assistants) => {
+        return [...assistants, change.assistant];
+      });
+      this.loadAssistant(this.roomState.getCurrentRoom().id, change.assistant);
+    } else if (change.type === 'updated') {
+      this.assistRefs.update((assistants) => {
+        const index = assistants.findIndex(
+          (e) => e.ref.id === change.assistant.ref.id,
+        );
+        if (index === -1) {
+          return assistants;
+        }
+        assistants[index] = change.assistant;
+        return assistants;
+      });
+    } else if (change.type === 'deleted') {
+      this.assistRefs.update((assistants) => {
+        return assistants.filter((e) => e.ref.id !== change.assistant.ref.id);
+      });
+    }
   }
 
   private loadAssistant(roomId: string, assistant: AssistantEntry) {
@@ -480,7 +486,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     this.assistants
       .createAssistant(roomId, {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o',
         name: i18n().defaultName,
         instructions: i18n().defaultInstructions,
         tools: [
