@@ -54,7 +54,7 @@ export const getAiNavigation = (injector: Injector, data: Data) => {
         console.error('Menu not found!');
         return template;
       }
-      entry.options = [
+      const options: typeof entry.options = [
         isMod && {
           id: 'manage-assistants',
           title: i18n.manageAssistants,
@@ -65,6 +65,8 @@ export const getAiNavigation = (injector: Injector, data: Data) => {
           },
         },
       ].filter(Boolean);
+      if (options.length < 1) return template;
+      entry.options = options;
       return template;
     }),
   );

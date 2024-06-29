@@ -1,0 +1,63 @@
+{
+  "key": "room-page",
+  "de": {
+    "name": "»{{name}}«",
+    "shortId": "Teilnehmerzugang: »{{shortId}}«",
+    "shortQuestions": "Q {{number}}",
+    "shortAnswers": "A {{number}}",
+    "ple": {
+      "join": "Zum Topic-Forum"
+    },
+    "ars": {
+      "join": "Zum Q&A-Forum"
+    },
+    "copySuccessful": "Der Link wurde kopiert",
+    "copyFailed": "Kopieren fehlgeschlagen",
+    "tooltipModerator": "Zugangscode für Gastmoderator*innen | Aufnahme von Dauermoderator*innen",
+    "tooltipCopy": "Direktlink für Teilnehmer*innen",
+    "tooltipEdit": "Titel der Veranstaltung ändern",
+    "tooltipOptions": "Weitere Optionen",
+    "editDescription": "Beschreibung bearbeiten",
+    "moderatorAccess": "Moderatoren-Zugang:"
+  },
+  "en": {
+    "name": "»{{name}}«",
+    "shortId": "Participant access: »{{shortId}}«",
+    "shortQuestions": "Q {{number}}",
+    "shortAnswers": "A {{number}}",
+    "ple": {
+      "join": "Go to the Topic Forum"
+    },
+    "ars": {
+      "join": "To the Q&A forum"
+    },
+    "copySuccessful": "The link has been copied",
+    "copyFailed": "Copying failed",
+    "tooltipModerator": "Access code for guest moderators | Admission of permanent moderators",
+    "tooltipCopy": "Direct link for participants",
+    "tooltipEdit": "Edit event title",
+    "tooltipOptions": "More options",
+    "editDescription": "Edit description",
+    "moderatorAccess": "Moderator access:"
+  },
+  "fr": {
+    "name": "« {{name}} »",
+    "shortId": "Accès participant : « {{shortId}} »",
+    "shortQuestions": "Q {{number}}",
+    "shortAnswers": "R {{number}}",
+    "ple": {
+      "join": "Vers le forum des sujets"
+    },
+    "ars": {
+      "join": "Vers le forum Q&R"
+    },
+    "copySuccessful": "Le lien a été copié",
+    "copyFailed": "Échec de la copie",
+    "tooltipModerator": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
+    "tooltipCopy": "Lien direct pour les participants",
+    "tooltipEdit": "Modifier le titre de l'événement",
+    "tooltipOptions": "Plus d'options",
+    "editDescription": "Modifier la description",
+    "moderatorAccess": "Accès modérateur :"
+  }
+}

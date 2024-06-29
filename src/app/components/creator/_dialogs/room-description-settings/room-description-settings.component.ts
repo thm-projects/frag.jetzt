@@ -1,10 +1,15 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  ViewChild,
+  signal,
+} from '@angular/core';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
-import { Comment } from '../../../../models/comment';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -15,6 +20,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
   @Input() editRoom: Readonly<Room>;
+  data = signal<string>('');
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -24,21 +30,14 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.editRoom) {
-      // TODO
-      // this.writeComment.commentData.currentData = clone(
-      //   this.editRoom.description,
-      // );
+      this.data.set(this.editRoom.description);
     }
   }
 
-  save(data: Comment): void {
-    if (!data) {
-      this.dialogRef.close();
-      return;
-    }
+  save(): void {
     this.roomService
       .patchRoom(this.editRoom.id, {
-        description: data.body,
+        description: this.data(),
       })
       .subscribe();
     this.dialogRef.close('update');

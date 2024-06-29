@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component } from '@angular/core';
 import { SessionService } from '../../../services/util/session.service';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
@@ -15,6 +18,8 @@ import { AccountStateService } from 'app/services/state/account-state.service';
   styleUrls: ['./new-landing.component.scss'],
 })
 export class NewLandingComponent {
+  protected readonly i18n = i18n;
+
   constructor(
     public dialog: MatDialog,
     public sessionService: SessionService,

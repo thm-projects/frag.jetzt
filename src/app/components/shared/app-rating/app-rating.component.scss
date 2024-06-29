@@ -1,4 +1,4 @@
-h2 {
+.center {
   text-align: center;
 }
 
@@ -7,17 +7,8 @@ h2 {
   align-items: center;
 }
 
-button {
-  font-size: 1em;
+.full-width {
   width: 100%;
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 2px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 mat-icon.interactive {
@@ -33,6 +24,7 @@ mat-icon.interactive {
 
   &.star_full {
     opacity: unset;
+    font-variation-settings: "FILL" 1;
   }
 
   &.star_half {
@@ -55,6 +47,10 @@ mat-icon.interactive {
   font-size: 1em;
   width: 100%;
   justify-content: space-between;
+
+  .star_full {
+    font-variation-settings: "FILL" 1;
+  }
 
   .star {
     font-size: 1.7em;

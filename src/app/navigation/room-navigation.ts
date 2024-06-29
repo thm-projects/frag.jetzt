@@ -67,6 +67,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 
 import rawI18n from './room-navigation.i18n.json';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -123,8 +124,9 @@ export const getRoomNavigation = (
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
     roomState.role$.pipe(filter((e) => Boolean(e))),
     toObservable(i18n),
+    toObservable(windowWatcher.isMobile),
   ]).pipe(
-    map(([template, user, room, assignedRole, currentRole, i18n]) => {
+    map(([template, user, room, assignedRole, currentRole, i18n, isMobile]) => {
       template = clone(template) as M3NavigationTemplate;
       let url = router.url;
       const hashIndex = url.indexOf('#');
@@ -177,18 +179,19 @@ export const getRoomNavigation = (
             },
             activated: url.endsWith('/gpt-chat-room/'),
           },
-          room?.focusActive && {
-            id: 'focus',
-            title: i18n.features.focus,
-            svgIcon: 'fj_beamer',
-            onClick: () => {
-              router.navigate([
-                `/${role}/room/${shortId}/comments/questionwall`,
-              ]);
-              return true;
+          room?.focusActive &&
+            !isMobile && {
+              id: 'focus',
+              title: i18n.features.focus,
+              svgIcon: 'fj_beamer',
+              onClick: () => {
+                router.navigate([
+                  `/${role}/room/${shortId}/comments/questionwall`,
+                ]);
+                return true;
+              },
+              activated: url.endsWith('/comments/questionwall/'),
             },
-            activated: url.endsWith('/comments/questionwall/'),
-          },
           room?.radarActive && {
             id: 'radar',
             title: i18n.features.radar,

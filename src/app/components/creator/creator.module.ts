@@ -34,6 +34,8 @@ import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-
 import { AppStateService } from 'app/services/state/app-state.service';
 import { SpendingWidgetComponent } from './spending-widget/spending-widget.component';
 import { M3DynamicThemePortalDirective } from '../../../modules/m3/components/dynamic-theme/m3-dynamic-theme-portal.directive';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -59,6 +61,8 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     QRCodeModule,
     SpendingWidgetComponent,
     M3DynamicThemePortalDirective,
+    CustomMarkdownModule,
+    MatDialogModule,
   ],
   declarations: [
     RoomCreatorPageComponent,

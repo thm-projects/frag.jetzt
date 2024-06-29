@@ -1,0 +1,15 @@
+{
+  "key": "new-landing",
+  "de": {
+    "createSession": "Raum erstellen",
+    "a11y": "Erstellt eine neue Sitzung."
+  },
+  "en": {
+    "createSession": "Create a room",
+    "a11y": "Create a new session."
+  },
+  "fr": {
+    "createSession": "Créer une session",
+    "a11y": "Crée une nouvelle session."
+  }
+}

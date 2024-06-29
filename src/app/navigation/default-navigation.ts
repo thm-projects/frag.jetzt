@@ -358,6 +358,7 @@ const openRateApp = (user: User, injector: Injector) => {
     .getByAccountId(user.id)
     .subscribe((r) => {
       const dialogRef = injector.get(MatDialog).open(AppRatingComponent);
+      dialogRef.componentInstance.mode.set('dialog');
       dialogRef.componentInstance.rating = r;
       dialogRef.componentInstance.onSuccess = () => {
         dialogRef.close();

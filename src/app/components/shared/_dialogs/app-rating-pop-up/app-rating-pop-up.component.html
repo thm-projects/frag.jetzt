@@ -1,26 +1,25 @@
-<h2 mat-dialog-title>{{ "app-rating.title" | translate }}</h2>
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
 
 <mat-dialog-content>
   <span class="star_container">
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined"
       [ngClass]="getIconAccumulated(index)">
       {{ getIconAccumulated(index) }}
     </mat-icon>
     &nbsp;
-    {{ "app-rating.pop-up-from-5" | translate: { rating } }}
+    {{ i18n().from5 | context: { rating: rating() } }}
   </span>
   <span class="global_people">
-    {{ "app-rating.pop-up-global-people" | translate: { people } }}
+    {{ i18n().people | context: { people: people() } }}
   </span>
   <span class="star_bars">
     <span class="star_bars_text">
-      <span>{{ "app-rating.pop-up-5-stars" | translate }}</span>
-      <span>{{ "app-rating.pop-up-4-stars" | translate }}</span>
-      <span>{{ "app-rating.pop-up-3-stars" | translate }}</span>
-      <span>{{ "app-rating.pop-up-2-stars" | translate }}</span>
-      <span>{{ "app-rating.pop-up-1-star" | translate }}</span>
+      <span>{{ i18n().stars5 }}</span>
+      <span>{{ i18n().stars4 }}</span>
+      <span>{{ i18n().stars3 }}</span>
+      <span>{{ i18n().stars2 }}</span>
+      <span>{{ i18n().star }}</span>
     </span>
     <span class="star_progress_bars">
       <mat-progress-bar
@@ -63,7 +62,7 @@
       class="primary-button"
       mat-flat-button
       cdkFocusInitial>
-      {{ "app-rating.pop-up-link" | translate }}
+      {{ i18n().link }}
     </button>
   </a>
 </mat-dialog-actions>

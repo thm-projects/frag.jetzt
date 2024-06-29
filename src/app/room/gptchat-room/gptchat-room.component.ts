@@ -3,6 +3,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 import {
   Component,
+  DestroyRef,
   Injector,
   Input,
   OnDestroy,
@@ -37,6 +38,7 @@ import { ServerSentEvent } from 'app/utils/sse-client';
 import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
 import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
+import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -82,9 +84,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     return '';
   });
+  protected readonly isMobile = windowWatcher.isMobile;
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
   protected selectedAssistant = new FormControl();
+  protected isPrivileged = signal<boolean>(false);
   protected onSend = this.sendMessage.bind(this);
   private destroyer = new ReplaySubject<void>(1);
   private injector = inject(Injector);
@@ -94,9 +98,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private accountState = inject(AccountStateService);
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
+  private destroyRef = inject(DestroyRef);
 
   constructor() {
     this.initNav();
+    const sub = this.roomState.assignedRole$.subscribe((e) =>
+      this.isPrivileged.set(e !== 'Participant'),
+    );
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
     effect(
       () => {
         const thread = this.selectedThread();
@@ -234,6 +243,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyer.next();
     this.destroyer.complete();
+  }
+
+  protected openThread(entry: ThreadEntry) {
+    this.selectedThread.set(entry);
+    if (windowWatcher.isMobile()) {
+      this.isOpen.set(false);
+    }
   }
 
   protected sendMessage(msg: string, files: UploadedFile[]) {

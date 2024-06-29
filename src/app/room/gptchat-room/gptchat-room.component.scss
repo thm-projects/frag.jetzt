@@ -21,10 +21,12 @@ m3-supporting-pane {
   margin-left: 0;
   overflow: hidden;
   position: relative;
+  flex-grow: 0;
 
   &.open {
     width: var(--m3-comp-supporting-pane-fixed-width);
     margin-left: var(--m3-sys-layout-spacing-pane);
+    flex-grow: 1;
   }
 
   > mat-action-list {

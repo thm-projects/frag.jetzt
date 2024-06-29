@@ -4,6 +4,10 @@
   font-size: 1.2em;
   margin-bottom: 0.75em;
 
+  .star_full {
+    font-variation-settings: "FILL" 1;
+  }
+
   > mat-icon {
     color: var(--custom-stars);
   }

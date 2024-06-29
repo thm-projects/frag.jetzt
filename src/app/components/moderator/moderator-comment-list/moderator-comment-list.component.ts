@@ -331,6 +331,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
+    if (!this.headerService.getHost()) {
+      return;
+    }
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
