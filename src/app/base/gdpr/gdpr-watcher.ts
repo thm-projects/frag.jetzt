@@ -1,7 +1,7 @@
-import { Injector } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { GdprBuilder } from './gdpr-builder';
 import { GdprSource } from './gdpr-types';
+import { getInjector } from '../angular-init';
 
 enum URLType {
   NORMAL,
@@ -34,6 +34,10 @@ class GdprWatcher {
       attributes: true,
       attributeFilter: ['src'],
       attributeOldValue: true,
+    });
+    getInjector().subscribe((injector) => {
+      this.builder.next(new GdprBuilder(injector));
+      this.builder.complete();
     });
   }
 
@@ -105,11 +109,6 @@ class GdprWatcher {
     } else {
       return [GdprSource.ExternalUntrusted, srcURL];
     }
-  }
-
-  init(injector: Injector) {
-    this.builder.next(new GdprBuilder(injector));
-    this.builder.complete();
   }
 
   private onMutate(mutations: MutationRecord[]) {

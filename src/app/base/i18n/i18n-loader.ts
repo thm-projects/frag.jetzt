@@ -39,6 +39,7 @@ type ValidType<T> = Language extends keyof T
 
 // Global
 import commonI18n from './global/common.json';
+import { getInjector } from '../angular-init';
 
 export const globals = [commonI18n] as const;
 
@@ -116,6 +117,10 @@ class Loader {
   private cache: LoaderCache = {};
 
   constructor() {
+    getInjector().subscribe((injector) => {
+      this.client.next(injector.get(HttpClient));
+      this.client.complete();
+    });
     // Get index file
     this.client
       .pipe(
@@ -163,11 +168,6 @@ class Loader {
 
   load<T extends I18nData>(data: T): Signal<ValidType<T> & Globals<'global'>> {
     return this.builder().append(data).build();
-  }
-
-  setClient(client: HttpClient) {
-    this.client.next(client);
-    this.client.complete();
   }
 
   register<T extends I18nData>(data: T): Signal<T> {

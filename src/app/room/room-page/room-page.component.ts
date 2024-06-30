@@ -2,6 +2,7 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 import {
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   Injector,
@@ -17,10 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
-import { Room } from 'app/models/room';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { filter, map } from 'rxjs';
+import { map } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
 import { RoomDataService } from 'app/services/util/room-data.service';
 import { CommentService } from 'app/services/http/comment.service';
@@ -32,7 +32,9 @@ import { ModeratorsComponent } from 'app/components/shared/_dialogs/moderators/m
 import { applyRoomNavigation } from 'app/navigation/room-navigation';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SessionService } from 'app/services/util/session.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { room } from '../state/room';
+import { afterUpdate } from '../state/room-updates';
 
 @Component({
   selector: 'app-room-page',
@@ -49,12 +51,13 @@ import { SessionService } from 'app/services/util/session.service';
     MatMenuModule,
     RouterModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
 })
 export class RoomPageComponent {
-  protected readonly room = signal<Room>(null);
+  protected readonly room = room;
   protected readonly mode = computed(() => {
     return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
   });
@@ -68,26 +71,28 @@ export class RoomPageComponent {
   private dialog = inject(MatDialog);
   private notificationService = inject(NotificationService);
   private roomState = inject(RoomStateService);
+  private changeDetector = inject(ChangeDetectorRef);
 
   constructor() {
+    const updates = afterUpdate.subscribe((u) => {
+      if (u.type === 'RoomPatched') {
+        this.changeDetector.detectChanges();
+      }
+    });
     const roomDataService = inject(RoomDataService);
-    const sessionService = inject(SessionService);
     const destroyRef = inject(DestroyRef);
     const injector = inject(Injector);
-    const sub4 = applyRoomNavigation(injector).subscribe();
-    destroyRef.onDestroy(() => sub4.unsubscribe());
+    const sub = applyRoomNavigation(injector).subscribe();
+    destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+      updates.unsubscribe();
+    });
     effect(
       (onCleanup) => {
-        const sub1 = this.roomState.room$
-          .pipe(filter(Boolean))
-          .subscribe((room) => {
-            this.room.set(room);
-            this.updateResponseCounter();
-          });
-        const sub2 = this.roomState.assignedRole$
+        const sub1 = this.roomState.assignedRole$
           .pipe(map((role) => role !== 'Participant'))
           .subscribe((privileged) => this.isPrivileged.set(privileged));
-        const sub3 = roomDataService.dataAccessor
+        const sub2 = roomDataService.dataAccessor
           .receiveUpdates([
             { type: 'CommentCreated', finished: true },
             { type: 'CommentDeleted', finished: true },
@@ -96,14 +101,9 @@ export class RoomPageComponent {
           .subscribe(() => {
             this.updateResponseCounter();
           });
-        const sub4 = sessionService.receiveRoomUpdates().subscribe(() => {
-          this.updateResponseCounter();
-        });
         onCleanup(() => {
           sub1.unsubscribe();
           sub2.unsubscribe();
-          sub3.unsubscribe();
-          sub4.unsubscribe();
         });
       },
       { allowSignalWrites: true },

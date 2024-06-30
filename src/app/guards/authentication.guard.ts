@@ -14,6 +14,7 @@ import { RoomStateService } from 'app/services/state/room-state.service';
 import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
 import { RoomAccess } from 'app/base/db/models/db-room-access.model';
+import { enterRoom } from 'app/room/state/room';
 
 @Injectable()
 export class AuthenticationGuard {
@@ -31,6 +32,7 @@ export class AuthenticationGuard {
   ): Observable<boolean> {
     this.accountState.forceLogin().subscribe();
     const roomShortId = route.params['shortId'];
+    enterRoom(roomShortId);
     const url = decodeURI(state.url);
     if (route.data['superAdmin']) {
       return this.accountState.user$.pipe(

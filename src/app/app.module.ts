@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { Injector, NgModule, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -89,10 +89,10 @@ import { M3SupportingPaneComponent } from '../modules/m3/components/layout/m3-su
 import { ComponentTestCardComponent } from './components/shared/component-test/component-test-page/component-test-card/component-test-card.component';
 import { ComponentTestButtonComponent } from './components/shared/component-test/component-test-page/component-test-button/component-test-button.component';
 import { M3NavigationComponent } from 'modules/navigation/m3-navigation/m3-navigation.component';
-import { I18nLoader } from './base/i18n/i18n-loader';
 import { YtVideoWrapperComponent } from './components/home/home-page/yt-video-wrapper/yt-video-wrapper.component';
 import { FeatureGridComponent } from './components/home/home-page/feature-grid/feature-grid.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { angularInjector } from './base/angular-init';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -229,9 +229,9 @@ export class AppModule {
     private translateService: TranslateService,
     iconRegistry: MatIconRegistry,
     domSanitizer: DomSanitizer,
-    http: HttpClient,
+    injector: Injector,
   ) {
-    I18nLoader.setClient(http);
+    angularInjector.next(injector);
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),
     );

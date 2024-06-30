@@ -1,3 +1,5 @@
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.builder().build();
 import { Component } from '@angular/core';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
@@ -10,6 +12,7 @@ import { language } from 'app/base/language/language';
 })
 export class DemoVideoComponent {
   protected readonly lang = language;
+  protected readonly i18n = i18n;
 
   onKeyDown(e: KeyboardEvent) {
     if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit1)) {

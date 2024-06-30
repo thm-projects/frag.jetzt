@@ -2,7 +2,7 @@
 <h1
   tabindex="0"
   mat-dialog-title>
-  {{ "imprint.title" | translate }}
+  {{ i18n().title }}
 </h1>
 
 <mat-dialog-content tabindex="0">
@@ -23,7 +23,7 @@
   <button
     mat-button
     mat-dialog-close>
-    {{ "imprint.cancel" | translate }}
+    {{ i18n().global.close }}
   </button>
   <span style="flex: 1"></span>
 </mat-dialog-actions>

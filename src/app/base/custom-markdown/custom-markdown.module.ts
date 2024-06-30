@@ -1,4 +1,4 @@
-import { Injector, NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
 import { MarkdownViewerComponent } from './markdown-viewer/markdown-viewer.component';
@@ -6,7 +6,6 @@ import '@toast-ui/editor';
 // en is default imported
 import '@toast-ui/editor/dist/i18n/de-de';
 import '@toast-ui/editor/dist/i18n/fr-fr';
-import { gdprWatcher } from '../gdpr/gdpr-watcher';
 
 @NgModule({
   declarations: [MarkdownEditorComponent, MarkdownViewerComponent],
@@ -14,7 +13,5 @@ import { gdprWatcher } from '../gdpr/gdpr-watcher';
   exports: [MarkdownEditorComponent, MarkdownViewerComponent],
 })
 export class CustomMarkdownModule {
-  constructor() {
-    gdprWatcher.init(inject(Injector));
-  }
+  constructor() {}
 }
