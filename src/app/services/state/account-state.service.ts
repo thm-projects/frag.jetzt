@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   Observable,
   Subject,
-  catchError,
-  concat,
   distinctUntilChanged,
   filter,
+  first,
   forkJoin,
-  from,
   map,
   merge,
   of,
@@ -19,9 +17,7 @@ import {
   throwError,
 } from 'rxjs';
 import { AuthenticationService } from '../http/authentication.service';
-import { ClientAuthentication } from 'app/models/client-authentication';
 import { User } from 'app/models/user';
-import { UUID } from 'app/utils/ts-utils';
 import { UserRole } from 'app/models/user-roles.enum';
 import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
@@ -39,21 +35,21 @@ import { InitService } from '../util/init.service';
 import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 import { ReadMotd } from 'app/base/db/models/db-read-motd';
 import { dataService } from 'app/base/db/data-service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { loginAsGuest, loginKeycloak, logout, user } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountStateService {
-  readonly user$: Observable<User>;
+  readonly user$ = toObservable(user);
   readonly access$: Observable<RoomAccess[]>;
   readonly readMotds$: Observable<ReadMotd[]>;
   readonly unreadMotds$: Observable<boolean>;
   readonly gptConsented$: Observable<boolean>;
-  private readonly updateUser$ = new Subject<User>();
   private readonly updateAccess$ = new Subject<boolean>();
   private readonly updateReadMotds$ = new Subject<boolean>();
   private readonly updateGptConsented$ = new Subject<boolean>();
-  private initialized = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -65,10 +61,10 @@ export class AccountStateService {
     private initService: InitService,
     private router: Router,
   ) {
-    this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
+    /*this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
       distinctUntilChanged(),
       shareReplay(1),
-    );
+    );*/
     this.access$ = merge(this.user$, this.updateAccess$).pipe(
       switchMap((value) => {
         const isUpdate = typeof value === 'boolean';
@@ -145,7 +141,7 @@ export class AccountStateService {
   }
 
   isInitialized(): boolean {
-    return this.initialized;
+    return user() !== undefined;
   }
 
   getCurrentUser(): User {
@@ -168,42 +164,30 @@ export class AccountStateService {
     if (!this.getCurrentUser()) {
       return throwError(() => 'User already logged out');
     }
-    return forkJoin([
-      dataService.config.delete('account-registered'),
-      this.setLoggedIn('false'),
-    ]).pipe(
-      switchMap(() => from(this.router.navigate(['/']))),
-      tap(() => this.updateUser$.next(null)),
-    );
+    logout().subscribe();
+    return of(true);
   }
 
   openLogin(): Observable<User> {
-    if (!this.initialized) {
-      return throwError(() => 'Not initialized');
-    }
     if (this.getCurrentUser()) {
       return throwError(() => 'User already logged in');
     }
     return this.redirectLogin().pipe(
-      tap((user) => this.updateUser$.next(user)),
+      tap((user) => {
+        if (user) {
+          this.router.navigate(['/user']);
+        }
+      }),
     );
   }
 
   openGuestSession(): Observable<User> {
-    if (!this.initialized) {
-      return throwError(() => 'Not initialized');
-    }
-    if (this.getCurrentUser()) {
-      return throwError(() => 'Guest already logged in');
-    }
-    return this.makeGuestSession(true, false).pipe(
-      tap((user) => this.updateUser$.next(user)),
-    );
+    return loginAsGuest();
   }
 
   forceLogin(): Observable<User> {
     return this.user$.pipe(
-      take(1),
+      first((u) => u !== undefined),
       switchMap((user) => {
         if (user) {
           return of(user);
@@ -366,31 +350,6 @@ export class AccountStateService {
       .subscribe();
   }
 
-  private makeGuestSession(force: boolean, navigate: boolean) {
-    return dataService.config.get('account-guest').pipe(
-      switchMap((userCfg) => {
-        if (!userCfg?.value) {
-          return of(null);
-        }
-        const user = userCfg.value as User;
-        return this.authService.refreshLoginWithToken(user.token).pipe(
-          map((auth) => this.fromAuth(auth, null)),
-          switchMap((auth) => this.setLoggedIn('guest').pipe(map(() => auth))),
-          catchError(() => of(null)),
-        );
-      }),
-      switchMap((user) => {
-        if (!user && force) {
-          return this.loginAsGuest(navigate);
-        }
-        if (navigate) {
-          this.router.navigate(['/user']);
-        }
-        return of(user);
-      }),
-    );
-  }
-
   private redirectLogin(): Observable<User> {
     return callServiceEvent(
       this.eventService,
@@ -401,142 +360,10 @@ export class AccountStateService {
           return of(null);
         }
         if (!response.keycloakId) {
-          return this.makeGuestSession(true, true);
+          return loginAsGuest();
         }
-        return this.doKeycloakLogin(response.keycloakId, true);
+        return loginKeycloak(response.keycloakId);
       }),
     );
-  }
-
-  private loadUser(): Observable<User> {
-    return dataService.config.get('logged-in').pipe(
-      map((cfg) => cfg?.value || 'false'),
-      switchMap((v) => {
-        if (v === 'false') {
-          this.initialized = true;
-          return of(null);
-        }
-        return this.loginWithSavedUser(v as UUID | 'guest');
-      }),
-    );
-  }
-
-  private loginWithSavedUser(value: 'guest' | UUID) {
-    if (value !== 'guest') {
-      this.initialized = true;
-      return this.doKeycloakLogin(value as UUID, false).pipe(
-        switchMap((data) => {
-          if (data) {
-            return of(data);
-          }
-          return this.redirectLogin();
-        }),
-      );
-    }
-    return this.makeGuestSession(false, false).pipe(
-      tap(() => (this.initialized = true)),
-    );
-  }
-
-  private doKeycloakLogin(
-    keycloakId: UUID,
-    redirectUser: boolean,
-  ): Observable<User> {
-    return forkJoin([
-      dataService.config.get('logged-in'),
-      dataService.config.get('account-registered'),
-    ]).pipe(
-      switchMap(([loggedCfg, accCfg]) => {
-        if (loggedCfg?.value !== keycloakId) {
-          return forkJoin([
-            this.setLoggedIn(keycloakId),
-            dataService.config.delete('account-registered'),
-          ]).pipe(map(() => ({ token: undefined, refreshToken: undefined })));
-        }
-        const user = accCfg?.value as User;
-        return of({
-          token: user?.keycloakToken,
-          refreshToken: user?.keycloakRefreshToken,
-        });
-      }),
-      switchMap((data) =>
-        this.keycloak.doKeycloakLogin(
-          keycloakId,
-          redirectUser,
-          this.appState.getCurrentLanguage(),
-          (newToken) => this.updateToken(newToken),
-          redirectUser ? location.origin + '/user' : location.href,
-          data?.token,
-          data?.refreshToken,
-        ),
-      ),
-      switchMap((data) => {
-        if (!data) {
-          return of(null);
-        }
-        return this.loginAsUser(data, redirectUser);
-      }),
-    );
-  }
-
-  private loginAsUser(tokenReturn: TokenReturn, navigate: boolean) {
-    return this.authService
-      .login(tokenReturn.token, tokenReturn.keycloakId)
-      .pipe(
-        map((auth) => this.fromAuth(auth, tokenReturn)),
-        switchMap((user) =>
-          forkJoin([
-            dataService.config.createOrUpdate({
-              key: 'account-registered',
-              value: user,
-            }),
-            this.setLoggedIn(tokenReturn.keycloakId),
-          ]).pipe(map(() => user)),
-        ),
-        tap((v) => {
-          this.initialized = true;
-          if (v && navigate) {
-            this.router.navigate(['/user']);
-          }
-        }),
-      );
-  }
-
-  private loginAsGuest(navigate: boolean) {
-    return this.authService.loginAsGuest().pipe(
-      map((auth) => this.fromAuth(auth, null)),
-      switchMap((user) =>
-        forkJoin([
-          dataService.config.createOrUpdate({
-            key: 'account-guest',
-            value: user,
-          }),
-          this.setLoggedIn('guest'),
-        ]).pipe(map(() => user)),
-      ),
-      tap((v) => {
-        this.initialized = true;
-        if (v && navigate) {
-          this.router.navigate(['/user']);
-        }
-      }),
-    );
-  }
-
-  private setLoggedIn(value: 'false' | 'guest' | UUID) {
-    return dataService.config.createOrUpdate({ key: 'logged-in', value });
-  }
-
-  private fromAuth(auth: ClientAuthentication, keycloakData: TokenReturn) {
-    return new User({
-      id: auth.credentials as UUID,
-      loginId: auth.name,
-      type: auth.type,
-      token: auth.details,
-      keycloakToken: keycloakData?.token,
-      keycloakRefreshToken: keycloakData?.refreshToken,
-      keycloakRoles: keycloakData?.roles,
-      isGuest: auth.type === 'guest',
-    });
   }
 }
