@@ -22,7 +22,7 @@ export const room = fetchingSignal<[string, boolean], Room>({
   initialState: null,
   fetchingState: () => null,
   fetch: ([shortId, wsReady]) => {
-    if (!wsReady) {
+    if (!wsReady || !shortId) {
       return of(null);
     }
     return getInjector().pipe(
