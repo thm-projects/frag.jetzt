@@ -152,7 +152,7 @@ const updateToken = (token: TokenReturn) => {
     .subscribe();
 };
 
-const loadKeycloakAccount = (id: UUID): Observable<User> => {
+const loadKeycloakAccount = (id: UUID, forceLogin = true): Observable<User> => {
   return forkJoin([
     dataService.config.get('account-registered'),
     getInjector(),
@@ -170,7 +170,7 @@ const loadKeycloakAccount = (id: UUID): Observable<User> => {
       return forkJoin([
         keycloak.doKeycloakLogin(
           id,
-          true,
+          forceLogin,
           language(),
           (newToken) => updateToken(newToken),
           location.href,
@@ -268,7 +268,7 @@ dataService.config
       if (v === 'guest') {
         return loadGuestAccount();
       }
-      return loadKeycloakAccount(v as UUID);
+      return loadKeycloakAccount(v as UUID, false);
     }),
   )
   .subscribe((user) => userSignal.set(user));
