@@ -8,14 +8,24 @@ import {
 
 import { UserRole } from '../models/user-roles.enum';
 import { EventService } from 'app/services/util/event.service';
-import { Observable, filter, map, of, switchMap, take, tap } from 'rxjs';
+import {
+  Observable,
+  filter,
+  first,
+  forkJoin,
+  map,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
 import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 import { enterRoom } from 'app/room/state/room';
-import { user$ } from 'app/user/state/user';
+import { forceLogin, user$ } from 'app/user/state/user';
 
 @Injectable()
 export class AuthenticationGuard {
@@ -44,15 +54,14 @@ export class AuthenticationGuard {
     }
     const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
     const wantedRole = this.parseRole(url);
-    return this.accountState.access$.pipe(
-      filter((v) => Boolean(v)),
-      switchMap(() =>
-        user$.pipe(
-          take(1),
-          map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
-        ),
+    return forkJoin([
+      forceLogin().pipe(
+        map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
       ),
-      switchMap((isAdmin) => {
+      this.accountState.access$.pipe(first(Boolean)),
+    ]).pipe(
+      switchMap(([isAdmin]) => {
+        console.log(123);
         const accessRole = isAdmin
           ? UserRole.CREATOR
           : this.parseRoomAccess(this.accountState.getAccess(roomShortId));
