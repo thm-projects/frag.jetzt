@@ -38,6 +38,7 @@ import {
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { dataService } from 'app/base/db/data-service';
+import { user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-write-comment',
@@ -151,16 +152,13 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDataCharacters = this.isModerator
       ? this.maxTextCharacters * 5
       : this.maxTextCharacters * 3;
-    this.accountState.user$.subscribe((user) => (this.user = user));
+    user$.subscribe((user) => (this.user = user));
     if (this.rewriteCommentData) {
       this.questionerNameFormControl.setValue(
         this.rewriteCommentData?.questionerName,
       );
     } else {
-      forkJoin([
-        this.sessionService.getRoomOnce(),
-        this.accountState.user$.pipe(take(1)),
-      ])
+      forkJoin([this.sessionService.getRoomOnce(), user$.pipe(take(1))])
         .pipe(
           switchMap(([room, user]) =>
             dataService.localRoomSetting.get([room.id, user.id]),

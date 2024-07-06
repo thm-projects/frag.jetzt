@@ -13,8 +13,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
-import { AppComponent } from '../../../app.component';
-import { Rescale } from '../../../models/rescale';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
@@ -64,6 +62,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
 import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 import { Language, setLanguage } from 'app/base/language/language';
+import { logout, openLogin, user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-header',
@@ -207,13 +206,11 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        this.user = newUser;
-        this.isSuperAdmin =
-          this.user?.hasRole?.(KeycloakRoles.AdminDashboard) || false;
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {
+      this.user = newUser;
+      this.isSuperAdmin =
+        this.user?.hasRole?.(KeycloakRoles.AdminDashboard) || false;
+    });
 
     let time = new Date();
     this.getTime(time);
@@ -286,7 +283,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logoutUser() {
-    this.accountState.logout().subscribe();
+    logout().subscribe();
   }
 
   startTour() {
@@ -294,7 +291,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   login() {
-    this.accountState.openLogin().subscribe({
+    openLogin().subscribe({
       error: (e) => console.error(e),
     });
   }
@@ -316,16 +313,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openUserBonusTokenDialog() {
     UserBonusTokenComponent.openDialog(this.dialog, this.user?.id);
-  }
-
-  /*Rescale*/
-
-  /**
-   * Access to static Rescale from AppComponent
-   * returns Rescale from AppComponent
-   */
-  public getRescale(): Rescale {
-    return AppComponent.rescale;
   }
 
   public navigateQuestionBoard() {
@@ -470,12 +457,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key as ThemeKey);
-    this.updateScale(theme.getScale(this.isMobile ? 'mobile' : 'desktop'));
-  }
-
-  updateScale(scale: number) {
-    AppComponent.rescale.setInitialScale(scale);
-    AppComponent.rescale.setDefaultScale(scale);
   }
 
   openLivepollDialog() {

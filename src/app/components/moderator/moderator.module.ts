@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModeratorRoutingModule } from './moderator-routing.module';
-import { RoomModeratorPageComponent } from './room-moderator-page/room-moderator-page.component';
 import { ModeratorCommentListComponent } from './moderator-comment-list/moderator-comment-list.component';
 import { ModeratorCommentPageComponent } from './moderator-comment-page/moderator-comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
@@ -38,7 +37,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ArsModule,
   ],
   declarations: [
-    RoomModeratorPageComponent,
     ModeratorCommentListComponent,
     ModeratorCommentPageComponent,
     ModeratorJoinComponent,

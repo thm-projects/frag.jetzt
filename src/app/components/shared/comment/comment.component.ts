@@ -51,6 +51,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
+import { user } from 'app/user/state/user';
 
 interface IconAction {
   name: IconActionKey;
@@ -502,7 +503,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isMock) {
       return;
     }
-    const userId = this.accountState.getCurrentUser().id;
+    const userId = user().id;
     if (this.hasVoted !== 1) {
       this.commentService
         .voteUp(comment, userId)
@@ -523,7 +524,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isMock) {
       return;
     }
-    const userId = this.accountState.getCurrentUser().id;
+    const userId = user().id;
     if (this.hasVoted !== -1) {
       this.commentService
         .voteDown(comment, userId)
@@ -858,8 +859,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       .getCategoriesOnce()
       .subscribe(
         (categories) =>
-          (this.brainstormingCategory = categories.find((c) => c.id === id)
-            ?.name),
+          (this.brainstormingCategory = categories.find(
+            (c) => c.id === id,
+          )?.name),
       );
   }
 

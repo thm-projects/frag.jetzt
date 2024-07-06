@@ -33,6 +33,7 @@ import { setTheme, theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
+import { logout, openLogin, user$ } from 'app/user/state/user';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -53,15 +54,10 @@ export const applyDefaultNavigation = (
 export const getDefaultHeader = (
   injector: Injector,
 ): Observable<M3HeaderTemplate> => {
-  const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([
-    accountState.user$,
-    toObservable(i18n),
-    toObservable(theme),
-  ]).pipe(
+  return combineLatest([user$, toObservable(i18n), toObservable(theme)]).pipe(
     map(([user, i18n, theme]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
@@ -113,14 +109,14 @@ export const getDefaultHeader = (
                   {
                     icon: 'logout',
                     title: i18n.header.logout,
-                    onClick: () => accountState.logout().subscribe(),
+                    onClick: () => logout().subscribe(),
                   },
                 ],
               }
             : {
                 icon: 'login',
                 title: i18n.header.login,
-                onClick: () => accountState.openLogin().subscribe(),
+                onClick: () => openLogin().subscribe(),
               },
           {
             icon: 'language',
@@ -168,10 +164,9 @@ export const getDefaultHeader = (
 export const getDefaultNavigation = (
   injector: Injector,
 ): Observable<M3NavigationTemplate> => {
-  const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
   return combineLatest([
-    accountState.user$,
+    user$,
     router.events.pipe(
       first((e) => e instanceof NavigationEnd),
       startWith({}),

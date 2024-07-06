@@ -4,8 +4,6 @@ import {
   Subject,
   distinctUntilChanged,
   filter,
-  first,
-  forkJoin,
   map,
   merge,
   of,
@@ -14,35 +12,26 @@ import {
   switchMap,
   take,
   tap,
-  throwError,
 } from 'rxjs';
-import { AuthenticationService } from '../http/authentication.service';
-import { User } from 'app/models/user';
 import { UserRole } from 'app/models/user-roles.enum';
 import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
 import {
-  LoginDialogRequest,
   MotdDialogRequest,
-  callServiceEvent,
   sendEvent,
 } from 'app/utils/service-component-events';
-import { KeycloakService, TokenReturn } from '../util/keycloak.service';
 import { AppStateService } from './app-state.service';
 import { EventService } from '../util/event.service';
-import { Router } from '@angular/router';
 import { InitService } from '../util/init.service';
 import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 import { ReadMotd } from 'app/base/db/models/db-read-motd';
 import { dataService } from 'app/base/db/data-service';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { loginAsGuest, loginKeycloak, logout, user } from 'app/user/state/user';
+import { user, user$ } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountStateService {
-  readonly user$ = toObservable(user);
   readonly access$: Observable<RoomAccess[]>;
   readonly readMotds$: Observable<ReadMotd[]>;
   readonly unreadMotds$: Observable<boolean>;
@@ -52,40 +41,36 @@ export class AccountStateService {
   private readonly updateGptConsented$ = new Subject<boolean>();
 
   constructor(
-    private authService: AuthenticationService,
     private gptService: GptService,
     private onlineState: OnlineStateService,
-    private keycloak: KeycloakService,
     private appState: AppStateService,
     private eventService: EventService,
     private initService: InitService,
-    private router: Router,
   ) {
-    /*this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
-      distinctUntilChanged(),
-      shareReplay(1),
-    );*/
-    this.access$ = merge(this.user$, this.updateAccess$).pipe(
+    this.access$ = merge(user$, this.updateAccess$).pipe(
       switchMap((value) => {
         const isUpdate = typeof value === 'boolean';
-        const user = this.getCurrentUser();
-        if (!user) {
+        const account = user();
+        if (!account) {
           return of(null);
         }
-        const local = dataService.roomAccess.getAllByIndex('user-id', user.id);
+        const local = dataService.roomAccess.getAllByIndex(
+          'user-id',
+          account.id,
+        );
         return isUpdate ? local : local.pipe(startWith(null));
       }),
       distinctUntilChanged(),
       shareReplay(1),
     );
-    this.readMotds$ = merge(this.user$, this.updateReadMotds$).pipe(
+    this.readMotds$ = merge(user$, this.updateReadMotds$).pipe(
       switchMap(() => {
-        const user = this.getCurrentUser();
-        if (!user) {
+        const account = user();
+        if (!account) {
           return of(null);
         }
         return dataService.readMotd
-          .getAllByIndex('user-id', user.id)
+          .getAllByIndex('user-id', account.id)
           .pipe(startWith(null));
       }),
       distinctUntilChanged(),
@@ -107,7 +92,7 @@ export class AccountStateService {
       distinctUntilChanged(),
       shareReplay(1),
     );
-    this.gptConsented$ = merge(this.user$, this.updateGptConsented$).pipe(
+    this.gptConsented$ = merge(user$, this.updateGptConsented$).pipe(
       switchMap((v) => {
         if (typeof v === 'boolean') {
           return of(v);
@@ -144,86 +129,10 @@ export class AccountStateService {
     return user() !== undefined;
   }
 
-  getCurrentUser(): User {
-    let returnUser = null;
-    this.user$
-      .subscribe((user) => {
-        returnUser = user;
-      })
-      .unsubscribe();
-    return returnUser;
-  }
-
   getCurrentReadMotds(): ReadMotd[] {
     let readMotds = null;
     this.readMotds$.subscribe((r) => (readMotds = r)).unsubscribe();
     return readMotds;
-  }
-
-  logout(): Observable<boolean> {
-    if (!this.getCurrentUser()) {
-      return throwError(() => 'User already logged out');
-    }
-    logout().subscribe();
-    return of(true);
-  }
-
-  openLogin(): Observable<User> {
-    if (this.getCurrentUser()) {
-      return throwError(() => 'User already logged in');
-    }
-    return this.redirectLogin().pipe(
-      tap((user) => {
-        if (user) {
-          this.router.navigate(['/user']);
-        }
-      }),
-    );
-  }
-
-  openGuestSession(): Observable<User> {
-    return loginAsGuest();
-  }
-
-  forceLogin(): Observable<User> {
-    return this.user$.pipe(
-      first((u) => u !== undefined),
-      switchMap((user) => {
-        if (user) {
-          return of(user);
-        }
-        return this.openGuestSession();
-      }),
-    );
-  }
-
-  updateToken(keycloakToken: TokenReturn) {
-    forkJoin([
-      dataService.config.get('logged-in'),
-      dataService.config.get('account-registered'),
-    ])
-      .pipe(
-        switchMap(([logged, userCfg]) => {
-          if (logged.value !== keycloakToken.keycloakId) {
-            return throwError(
-              () => 'updateToken: Try to update other keycloak data',
-            );
-          }
-          const user = userCfg?.value as User;
-          if (!user) {
-            // in login phase
-            return of();
-          }
-          user.keycloakToken = keycloakToken.token;
-          user.keycloakRefreshToken = keycloakToken.refreshToken;
-          user.keycloakRoles = keycloakToken.roles;
-          return dataService.config.createOrUpdate({
-            key: 'account-registered',
-            value: user,
-          });
-        }),
-      )
-      .subscribe();
   }
 
   setAccess(
@@ -231,7 +140,7 @@ export class AccountStateService {
     roomId: string,
     role: UserRole,
   ): Observable<void> {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user()?.id;
     if (!userId) {
       throw new Error('setAccess: User not logged in');
     }
@@ -257,7 +166,7 @@ export class AccountStateService {
   }
 
   updateAccess(roomShortId: string) {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user()?.id;
     if (!userId) {
       throw new Error('updateAccess: User not logged in');
     }
@@ -276,7 +185,7 @@ export class AccountStateService {
   }
 
   removeAccess(roomShortId: string) {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user().id;
     if (!userId) {
       throw new Error('removeAccess: User not logged in');
     }
@@ -286,7 +195,7 @@ export class AccountStateService {
   }
 
   getAccess(roomShortId: string) {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user()?.id;
     if (!userId) {
       throw new Error('getAccess: User not logged in');
     }
@@ -320,7 +229,7 @@ export class AccountStateService {
   }
 
   readMotds(motdIds: string[]) {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user()?.id;
     if (!userId) {
       throw new Error('readMotds: User not logged in');
     }
@@ -332,7 +241,7 @@ export class AccountStateService {
   }
 
   unreadMotd(motdId: string) {
-    const userId = this.getCurrentUser()?.id;
+    const userId = user()?.id;
     if (!userId) {
       throw new Error('unreadMotd: User not logged in');
     }
@@ -348,22 +257,5 @@ export class AccountStateService {
       .updateConsentState(consentState)
       .pipe(tap((data) => this.updateGptConsented$.next(data)))
       .subscribe();
-  }
-
-  private redirectLogin(): Observable<User> {
-    return callServiceEvent(
-      this.eventService,
-      new LoginDialogRequest(window.location.href),
-    ).pipe(
-      switchMap((response) => {
-        if (response.keycloakId === undefined) {
-          return of(null);
-        }
-        if (!response.keycloakId) {
-          return loginAsGuest();
-        }
-        return loginKeycloak(response.keycloakId);
-      }),
-    );
   }
 }

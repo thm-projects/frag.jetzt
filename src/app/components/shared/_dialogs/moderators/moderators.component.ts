@@ -2,7 +2,6 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModeratorService } from '../../../../services/http/moderator.service';
-import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { Moderator } from '../../../../models/moderator';
 import { ModeratorDeleteComponent } from '../../../creator/_dialogs/moderator-delete/moderator-delete.component';
 import { FormControl, Validators } from '@angular/forms';
@@ -36,7 +35,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   private _destroyer = new ReplaySubject(1);
 
   constructor(
-    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public dialogRef: MatDialogRef<ModeratorsComponent>,
     public dialog: MatDialog,
     public notificationService: NotificationService,
     public translationService: TranslateService,

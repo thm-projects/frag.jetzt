@@ -68,6 +68,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import rawI18n from './room-navigation.i18n.json';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
+import { user$ } from 'app/user/state/user';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -85,11 +86,10 @@ export const applyRoomNavigation = (injector: Injector): Observable<void> => {
 export const getRoomHeader = (
   injector: Injector,
 ): Observable<M3HeaderTemplate> => {
-  const accountState = injector.get(AccountStateService);
   const roomState = injector.get(RoomStateService);
   return combineLatest([
     getDefaultHeader(injector),
-    accountState.user$.pipe(first((e) => Boolean(e))),
+    user$.pipe(first((e) => Boolean(e))),
     roomState.room$.pipe(first((e) => Boolean(e))),
   ]).pipe(
     map(([template, user, room]) => {
@@ -109,7 +109,6 @@ export const getRoomHeader = (
 export const getRoomNavigation = (
   injector: Injector,
 ): Observable<M3NavigationTemplate> => {
-  const accountState = injector.get(AccountStateService);
   const roomState = injector.get(RoomStateService);
   const router = injector.get(Router);
   const eventService = injector.get(EventService);
@@ -119,7 +118,7 @@ export const getRoomNavigation = (
   // Start building
   return combineLatest([
     getDefaultNavigation(injector),
-    accountState.user$.pipe(first((e) => Boolean(e))),
+    user$.pipe(first((e) => Boolean(e))),
     roomState.room$.pipe(first((e) => Boolean(e))),
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
     roomState.role$.pipe(filter((e) => Boolean(e))),

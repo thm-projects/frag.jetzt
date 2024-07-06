@@ -28,6 +28,7 @@ import { ReplaySubject, forkJoin, takeUntil } from 'rxjs';
 import { SessionService } from '../../../services/util/session.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { forceLogin, user$ } from 'app/user/state/user';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -73,7 +74,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.accountState.user$
+    user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => (this.user = newUser));
   }
@@ -94,7 +95,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
       this.getRoom(id);
       return;
     }
-    this.accountState.forceLogin().subscribe(() => {
+    forceLogin().subscribe(() => {
       this.getRoom(id);
     });
   }
@@ -180,7 +181,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   }
 
   private guestLogin(room: Room, mods: Set<string>) {
-    this.accountState.forceLogin().subscribe((result) => {
+    forceLogin().subscribe((result) => {
       if (result !== null) {
         this.addAndNavigate(room, mods);
       }

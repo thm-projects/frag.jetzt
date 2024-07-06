@@ -36,7 +36,7 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  redirectUrl = null;
+  wasInactive = false;
   matcher = new LoginErrorStateMatcher();
   name = '';
   hide = true;
@@ -114,18 +114,5 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   buildCloseDialogActionCallback(): void {
     this.dialog.closeAll();
-  }
-
-  private checkLogin() {
-    this.translationService.get('login.guest-expired').subscribe((message) => {
-      this.notificationService.show(message);
-    });
-    this.translationService
-      .get('login.login-error-unknown', { code: '??' })
-      .subscribe((message) => {
-        this.notificationService.show(message);
-      });
-    this.dialog.closeAll();
-    this.router.navigate([this.redirectUrl ?? 'user']);
   }
 }

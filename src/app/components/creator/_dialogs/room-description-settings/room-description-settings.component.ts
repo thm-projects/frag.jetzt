@@ -5,7 +5,6 @@ import {
   ViewChild,
   signal,
 } from '@angular/core';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
@@ -23,7 +22,7 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
   data = signal<string>('');
 
   constructor(
-    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public dialogRef: MatDialogRef<RoomDescriptionSettingsComponent>,
     public translationService: TranslateService,
     protected roomService: RoomService,
   ) {}

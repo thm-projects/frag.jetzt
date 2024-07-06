@@ -20,6 +20,7 @@ import {
 import { SessionService } from './session.service';
 import { AccountStateService } from '../state/account-state.service';
 import { DeviceStateService } from '../state/device-state.service';
+import { forceLogin } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
@@ -68,11 +69,7 @@ export class OnboardingService {
 
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
-      initDefaultTour(
-        this.dataStoreService,
-        this.roomService,
-        this.accountState,
-      ),
+      initDefaultTour(this.dataStoreService, this.roomService),
       ignoreDone,
     );
   }
@@ -267,9 +264,7 @@ export class OnboardingService {
       window.removeEventListener('keyup', this._keyUpWrapper);
       this.dataStoreService.remove(redirectKey);
       if (SessionService.needsUser(redirect)) {
-        this.accountState
-          .forceLogin()
-          .subscribe(() => this.router.navigate([redirect]));
+        forceLogin().subscribe(() => this.router.navigate([redirect]));
       } else {
         this.router.navigate([redirect]);
       }

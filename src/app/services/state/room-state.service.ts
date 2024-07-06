@@ -27,6 +27,7 @@ import {
 } from 'app/base/db/models/db-room-access.model';
 import { dataService } from 'app/base/db/data-service';
 import { Moderator } from 'app/base/db/models/db-moderator';
+import { user$ } from 'app/user/state/user';
 
 export const ROOM_ROLE_MAPPER: { [Key in RoomAccessRole]: UserRole } = {
   Participant: UserRole.PARTICIPANT,
@@ -76,7 +77,7 @@ export class RoomStateService {
       startWith(null),
       switchMap((shortId) =>
         combineLatest([
-          accountState.user$.pipe(filter((v) => Boolean(v))),
+          user$.pipe(filter((v) => Boolean(v))),
           accountState.access$.pipe(filter((v) => Boolean(v))),
         ]).pipe(
           map(
@@ -91,7 +92,7 @@ export class RoomStateService {
     );
     this.room$ = combineLatest([
       this.roomShortId$,
-      accountState.user$.pipe(filter((v) => Boolean(v))),
+      user$.pipe(filter((v) => Boolean(v))),
     ]).pipe(
       startWith([null, null]),
       switchMap(([shortId]) => {

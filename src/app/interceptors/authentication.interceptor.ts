@@ -9,7 +9,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountStateService } from 'app/services/state/account-state.service';
+import { user } from 'app/user/state/user';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_SCHEME = 'Bearer';
@@ -29,18 +29,18 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     },
   ];
 
-  constructor(private accountState: AccountStateService) {}
+  constructor() {}
 
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    const user = this.accountState.getCurrentUser();
-    if (!user) {
+    const account = user();
+    if (!account) {
       return next.handle(req);
     }
 
-    const token = user.token;
+    const token = account.token;
     if (!token) {
       return next.handle(req);
     }

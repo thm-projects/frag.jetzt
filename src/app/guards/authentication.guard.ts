@@ -15,6 +15,7 @@ import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
 import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 import { enterRoom } from 'app/room/state/room';
+import { user$ } from 'app/user/state/user';
 
 @Injectable()
 export class AuthenticationGuard {
@@ -30,12 +31,11 @@ export class AuthenticationGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> {
-    this.accountState.forceLogin().subscribe();
     const roomShortId = route.params['shortId'];
     enterRoom(roomShortId);
     const url = decodeURI(state.url);
     if (route.data['superAdmin']) {
-      return this.accountState.user$.pipe(
+      return user$.pipe(
         filter((v) => Boolean(v)),
         take(1),
         map((user) => user.hasRole(KeycloakRoles.AdminDashboard)),
@@ -47,7 +47,7 @@ export class AuthenticationGuard {
     return this.accountState.access$.pipe(
       filter((v) => Boolean(v)),
       switchMap(() =>
-        this.accountState.user$.pipe(
+        user$.pipe(
           take(1),
           map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
         ),

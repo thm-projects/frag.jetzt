@@ -1,18 +1,27 @@
 import { computed, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { getInjector } from 'app/base/angular-init';
 import { dataService } from 'app/base/db/data-service';
 import { language } from 'app/base/language/language';
 import { ClientAuthentication } from 'app/models/client-authentication';
 import { User } from 'app/models/user';
 import { AuthenticationService } from 'app/services/http/authentication.service';
+import { EventService } from 'app/services/util/event.service';
 import {
   KeycloakService,
   TokenReturn,
 } from 'app/services/util/keycloak.service';
+import {
+  callServiceEvent,
+  LoginDialogRequest,
+} from 'app/utils/service-component-events';
 import { UUID } from 'app/utils/ts-utils';
 import {
   Observable,
   catchError,
+  filter,
+  first,
   forkJoin,
   map,
   of,
@@ -28,6 +37,9 @@ import {
 const userSignal = signal<User | null | undefined>(undefined);
 export const isLoggedIn = computed(() => Boolean(userSignal()));
 export const user = userSignal.asReadonly();
+export const user$ = getInjector().pipe(
+  switchMap((injector) => toObservable(userSignal, { injector })),
+);
 
 // api methods
 
@@ -69,8 +81,10 @@ const loadGuestAccount = (): Observable<User> => {
             .pipe(map(() => user)),
         ),
         catchError((e) => {
-          // TODO: Find all possible errors
           console.error(e);
+          if (e?.status !== 401) {
+            return of(null);
+          }
           return dataService.config
             .delete('account-guest')
             .pipe(map(() => null));
@@ -152,7 +166,11 @@ const updateToken = (token: TokenReturn) => {
     .subscribe();
 };
 
-const loadKeycloakAccount = (id: UUID, forceLogin = true): Observable<User> => {
+const loadKeycloakAccount = (
+  id: UUID,
+  forceLogin: boolean,
+  redirectUrl: string,
+): Observable<User> => {
   return forkJoin([
     dataService.config.get('account-registered'),
     getInjector(),
@@ -173,7 +191,7 @@ const loadKeycloakAccount = (id: UUID, forceLogin = true): Observable<User> => {
           forceLogin,
           language(),
           (newToken) => updateToken(newToken),
-          location.href,
+          redirectUrl,
           token,
           refreshToken,
         ),
@@ -224,7 +242,9 @@ export const loginKeycloak = (id: UUID): Observable<User> => {
           value: id,
         })
         .pipe(
-          switchMap(() => loadKeycloakAccount(id)),
+          switchMap(() =>
+            loadKeycloakAccount(id, true, location.origin + '/user'),
+          ),
           switchMap((user) => {
             return user
               ? of(user)
@@ -247,13 +267,59 @@ export const logout = (): Observable<void> => {
   if (userSignal() === undefined) {
     return throwError(() => 'logout: User not loaded / initialized');
   }
-  return dataService.config
-    .createOrUpdate({ key: 'logged-in', value: 'false' })
-    .pipe(
-      tap(() => userSignal.set(null)),
-      switchMap(() => of()),
-    );
+  return getInjector().pipe(
+    tap((injector) => injector.get(Router).navigate(['/'])),
+    switchMap(() =>
+      dataService.config.createOrUpdate({ key: 'logged-in', value: 'false' }),
+    ),
+    tap(() => userSignal.set(null)),
+    switchMap(() => of()),
+  );
 };
+
+// force login
+
+export const openLogin = (wasInactive = false): Observable<User> => {
+  return getInjector().pipe(
+    switchMap((injector) =>
+      callServiceEvent(
+        injector.get(EventService),
+        new LoginDialogRequest(wasInactive),
+      ),
+    ),
+    switchMap((v) => {
+      if (!v.keycloakId) {
+        return loginAsGuest();
+      }
+      return loginKeycloak(v.keycloakId);
+    }),
+  );
+};
+
+export const forceLogin = (): Observable<User> => {
+  return user$.pipe(first((v) => v !== undefined)).pipe(
+    switchMap((user) => {
+      if (user) {
+        return of(user);
+      }
+      return dataService.config.get('logged-in').pipe(
+        switchMap((cfg) => {
+          const value = cfg?.value;
+          if (!value || value === 'false') {
+            return loginAsGuest();
+          }
+          return openLogin(true);
+        }),
+      );
+    }),
+  );
+};
+
+export const ensureLoggedIn = () =>
+  user$.pipe(
+    filter((v) => v !== undefined),
+    switchMap((user) => (user ? of(user) : forceLogin())),
+  );
 
 // side effect
 
@@ -268,7 +334,7 @@ dataService.config
       if (v === 'guest') {
         return loadGuestAccount();
       }
-      return loadKeycloakAccount(v as UUID, false);
+      return loadKeycloakAccount(v as UUID, false, location.href);
     }),
   )
   .subscribe((user) => userSignal.set(user));

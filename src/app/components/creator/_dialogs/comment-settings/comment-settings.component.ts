@@ -1,5 +1,4 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
@@ -25,7 +24,7 @@ export class CommentSettingsComponent implements OnInit {
   directSend = true;
 
   constructor(
-    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public dialogRef: MatDialogRef<CommentSettingsComponent>,
     public dialog: MatDialog,
     public notificationService: NotificationService,
     public translationService: TranslateService,

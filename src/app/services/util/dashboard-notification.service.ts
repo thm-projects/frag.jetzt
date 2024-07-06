@@ -22,6 +22,7 @@ import {
   PushRoomSubscriptionCreate,
 } from '../http/change-subscription.service';
 import { UUID } from 'app/utils/ts-utils';
+import { user, user$ } from 'app/user/state/user';
 
 const loadNotifications = (): NotificationEvent[] => {
   const arr = JSON.parse(
@@ -159,16 +160,13 @@ export class DashboardNotificationService {
         'dashboard-notification-time',
         String(this._lastChanges.getTime()),
       );
-      localStorage.setItem(
-        'dashboard-notification-user',
-        this.accountService.getCurrentUser()?.id,
-      );
+      localStorage.setItem('dashboard-notification-user', user()?.id);
       localStorage.setItem(
         'dashboard-notifications',
         JSON.stringify(this._notifications),
       );
     });
-    this.accountService.user$.pipe(filter((v) => !!v)).subscribe((user) => {
+    user$.pipe(filter((v) => !!v)).subscribe((user) => {
       if (user.id === this._lastUser) {
         if (!this._initialized) {
           this.setup();
@@ -360,7 +358,7 @@ export class DashboardNotificationService {
     if (this.isNotificationBlocked) {
       return;
     }
-    const accountId = this.accountService.getCurrentUser()?.id;
+    const accountId = user()?.id;
     const notification: NotificationEvent = {
       ...commentChange,
       fromSelf: accountId === commentChange.initiatorId,

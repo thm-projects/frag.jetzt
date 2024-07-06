@@ -607,7 +607,7 @@
     [moderator]="false"
     [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
     [isFromOwner]="room.ownerId === current.creatorId"
-    [user]="user"
+    [user]="user()"
     [disabled]="!commentsEnabled"
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
     [indentationPossible]="true"

@@ -30,6 +30,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { user } from 'app/user/state/user';
 
 class CommentsCount {
   comments: number;
@@ -341,7 +342,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       filter.dataFilter = newFilter;
     }
     filter.attach({
-      userId: this.accountState.getCurrentUser()?.id,
+      userId: user()?.id,
       roomId: room.id,
       ownerId: room.ownerId,
       threshold: room.threshold,

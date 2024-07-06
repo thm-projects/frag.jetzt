@@ -6,11 +6,11 @@ import {
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, first, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { Injector } from '@angular/core';
+import { user$ } from 'app/user/state/user';
 
 export interface Data {
   roomID: string;
@@ -33,9 +33,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'gptSetup',
       title: 'ml-gpt-room-settings.gpt-setup-title',
       stepHelp: 'ml-gpt-room-settings.gpt-setup-step-help',
-      active: (_answers, injector) => {
-        return injector.get(AccountStateService).user$.pipe(
-          filter((v) => !!v),
+      active: () => {
+        return user$.pipe(
+          filter(Boolean),
           take(1),
           map((user) => user && !user.isGuest),
         );
@@ -81,7 +81,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.gpt-info-step-help',
       active: (answers, injector) => {
         return forkJoin([
-          injector.get(AccountStateService).user$.pipe(take(1)),
+          user$.pipe(take(1)),
           injector.get(RoomStateService).room$.pipe(take(1)),
         ]).pipe(
           map(([user, room]) => {

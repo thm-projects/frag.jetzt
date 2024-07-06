@@ -20,6 +20,7 @@ import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTRoomKey } from 'app/models/gpt-room-setting';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
+import { forceLogin } from 'app/user/state/user';
 
 export const generateRoom = (
   injector: Injector,
@@ -120,7 +121,7 @@ export const generateRoom = (
   const notification = injector.get(NotificationService);
   const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
-  return forkJoin([accountState.forceLogin(), before]).pipe(
+  return forkJoin([forceLogin(), before]).pipe(
     switchMap(() => {
       return injector.get(RoomService).addRoom(newRoom, () => {
         translateService

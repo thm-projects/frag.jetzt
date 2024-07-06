@@ -40,8 +40,7 @@
   <mat-drawer
     position="end"
     mode="over"
-    (closed)="cloudComponent.closePanel()"
-    (opened)="cloudComponent.openPanel()">
+    (closed)="cloudComponent.closePanel()">
     <app-cloud-configuration
       #cloudComponent
       [parent]="this"></app-cloud-configuration>

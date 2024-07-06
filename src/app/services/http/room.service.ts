@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from '../state/account-state.service';
+import { user } from 'app/user/state/user';
 
 const httpOptions = {
   headers: new HttpHeaders({}),
@@ -100,7 +101,7 @@ export class RoomService extends BaseHttpService {
   addRoom(room: Room, exc?: () => void): Observable<Room> {
     delete room.id;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
-    room.ownerId = this.accountState.getCurrentUser().id;
+    room.ownerId = user().id;
     return this.http.post<RoomAPI>(connectionUrl, room, httpOptions).pipe(
       map((r) => this.parseRoom(r)),
       tap((returnedRoom) => {
@@ -150,14 +151,14 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
-      this.accountState.getCurrentUser().id
+      user().id
     }/roomHistory`;
     this.http.post(connectionUrl, { roomId }, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<void> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
-      this.accountState.getCurrentUser().id
+      user().id
     }/roomHistory/${roomId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),

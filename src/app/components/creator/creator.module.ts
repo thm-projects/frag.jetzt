@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreatorRoutingModule } from './creator-routing.module';
-import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { ModeratorModule } from '../moderator/moderator.module';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
@@ -65,7 +64,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatDialogModule,
   ],
   declarations: [
-    RoomCreatorPageComponent,
     RoomDeleteComponent,
     ModeratorsComponent,
     BonusTokenComponent,

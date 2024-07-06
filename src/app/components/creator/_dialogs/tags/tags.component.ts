@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -19,7 +18,7 @@ export class TagsComponent {
   ]);
   private _closeSubscription: Subscription;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>) {
+  constructor(public dialogRef: MatDialogRef<TagsComponent>) {
     this._closeSubscription = this.dialogRef
       .beforeClosed()
       .subscribe(() => this.closeDialog());

@@ -7,7 +7,6 @@ import {
   CloudTextStyle,
   TEXT_STYLES,
 } from '../../../../utils/cloud-parameters';
-import { AppComponent } from '../../../../app.component';
 import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
@@ -182,17 +181,6 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.demoActive = false;
     this.parent.drawer.close();
     this.readMaxFont();
-    const defaultScale = AppComponent.rescale.getInitialScale();
-    if (defaultScale !== 1) {
-      AppComponent.rescale.setDefaultScale(defaultScale);
-      this.parent.updateTagCloud();
-    }
-  }
-
-  openPanel() {
-    if (AppComponent.rescale.getInitialScale() !== 1) {
-      AppComponent.rescale.setDefaultScale(1);
-    }
   }
 
   cancel() {

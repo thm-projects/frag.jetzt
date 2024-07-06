@@ -78,6 +78,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { applyRadarNavigation } from './navigation/word-cloud-navigation';
 import { applyBrainstormingNavigation } from './navigation/brainstorming-navigation';
+import { user$ } from 'app/user/state/user';
 
 class TagComment implements WordMeta {
   constructor(
@@ -465,13 +466,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.rebuildData();
     });
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        if (newUser) {
-          this.user = newUser;
-        }
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -550,13 +549,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.rebuildBrainstormingData();
     });
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        if (newUser) {
-          this.user = newUser;
-        }
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     this.eventService
       .on('tag-cloud.brainstorming-ideas-with-chatgpt')
       .subscribe(() => {

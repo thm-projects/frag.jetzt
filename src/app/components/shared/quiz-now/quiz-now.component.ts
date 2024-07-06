@@ -6,6 +6,7 @@ import { SessionService } from '../../../services/util/session.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, take } from 'rxjs';
 import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
+import { user } from 'app/user/state/user';
 
 @Component({
   selector: 'app-quiz-now',
@@ -28,7 +29,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     private accountState: AccountStateService,
   ) {
     this.shortId = this.sessionService.getLastShortId();
-    const id = this.accountState.getCurrentUser()?.id;
+    const id = user()?.id;
     if (!id) {
       this.roleString = 'participant';
       return;

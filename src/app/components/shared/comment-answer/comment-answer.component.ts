@@ -46,6 +46,7 @@ import { M3NavigationService } from '../../../../modules/m3/services/navigation/
 import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { HeaderComponent } from '../header/header.component';
 import { applyRoomNavigation } from 'app/navigation/room-navigation';
+import { user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-comment-answer',
@@ -128,13 +129,11 @@ export class CommentAnswerComponent
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     this.initNavigation();
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        if (newUser) {
-          this.user = newUser;
-        }
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     this.roomState.assignedRole$.subscribe((role) => {
       this.userRole = ROOM_ROLE_MAPPER[role];
       this.roleString = role?.toLocaleLowerCase?.() || 'participant';

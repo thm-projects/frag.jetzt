@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -69,7 +68,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     public dialog: MatDialog,
     protected router: Router,
-    private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    private dialogRef: MatDialogRef<BonusTokenComponent>,
     private commentService: CommentService,
     private translateService: TranslateService,
     private notificationService: NotificationService,

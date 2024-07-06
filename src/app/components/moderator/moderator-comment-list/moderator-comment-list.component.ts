@@ -47,6 +47,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { PageEvent } from '@angular/material/paginator';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
+import { user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -150,14 +151,12 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initNavigation();
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((user) => {
-        if (!user) {
-          return;
-        }
-        this.user = user;
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((user) => {
+      if (!user) {
+        return;
+      }
+      this.user = user;
+    });
     this.roomState.assignedRole$.subscribe((role) => {
       this.userRole = ROOM_ROLE_MAPPER[role] ?? null;
     });

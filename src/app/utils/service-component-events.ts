@@ -7,7 +7,10 @@ import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 let counter = 0;
 
 export class ServiceComponentEvent {
-  constructor(public readonly name: string, public readonly id: number) {}
+  constructor(
+    public readonly name: string,
+    public readonly id: number,
+  ) {}
 }
 
 export class ServiceRequest<
@@ -39,7 +42,7 @@ export class LoginDialogRequest extends ServiceRequest<
   LoginDialogRequest,
   LoginDialogResponse
 > {
-  constructor(public readonly redirectUrl: string = null) {
+  constructor(public readonly wasInactive: boolean) {
     super(LoginDialogRequest, LoginDialogResponse);
   }
 }
@@ -69,7 +72,10 @@ export class CookieDialogResponse extends ComponentResponse<
   CookieDialogResponse,
   CookieDialogRequest
 > {
-  constructor(request: CookieDialogRequest, public readonly accepted: boolean) {
+  constructor(
+    request: CookieDialogRequest,
+    public readonly accepted: boolean,
+  ) {
     super(CookieDialogResponse, request);
   }
 }

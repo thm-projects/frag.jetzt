@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
-import { AccountStateService } from 'app/services/state/account-state.service';
+import { user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-new-landing',
@@ -25,11 +25,10 @@ export class NewLandingComponent {
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
-    private accountState: AccountStateService,
   ) {}
 
   openCreateRoomDialog(): void {
-    this.accountState.user$
+    user$
       .pipe(
         take(1),
         switchMap((user) => {

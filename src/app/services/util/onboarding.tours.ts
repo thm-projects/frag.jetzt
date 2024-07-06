@@ -1,7 +1,7 @@
 import { DataStoreService } from './data-store.service';
 import { RoomService } from '../http/room.service';
 import { Observable, of, Subject } from 'rxjs';
-import { AccountStateService } from '../state/account-state.service';
+import { forceLogin, logout, user } from 'app/user/state/user';
 
 export interface OnboardingTourStepInteraction {
   beforeLoad?: (isNext: boolean) => void;
@@ -44,7 +44,6 @@ const roomChecker = (
 export const initDefaultTour = (
   dataStoreService: DataStoreService,
   roomService: RoomService,
-  accountState: AccountStateService,
 ): OnboardingTour => ({
   name: 'default',
   tour: [
@@ -69,18 +68,18 @@ export const initDefaultTour = (
         if (
           isNext &&
           dataStoreService.get('onboarding-default-meta') === 'false' &&
-          !accountState.getCurrentUser()
+          !user()
         ) {
-          accountState.openGuestSession().subscribe();
+          forceLogin().subscribe();
         }
       },
       beforeUnload: (isNext: boolean) => {
         if (
           !isNext &&
           dataStoreService.get('onboarding-default-meta') === 'false' &&
-          accountState.getCurrentUser()
+          user()
         ) {
-          accountState.logout();
+          logout();
         }
       },
     },
@@ -92,15 +91,12 @@ export const initDefaultTour = (
   },
   doneAction: () => {
     if (dataStoreService.get('onboarding-default-meta') === 'false') {
-      accountState.logout();
+      logout();
     }
     dataStoreService.remove('onboarding-default-meta');
   },
   startupAction: () => {
-    dataStoreService.set(
-      'onboarding-default-meta',
-      String(Boolean(accountState.getCurrentUser())),
-    );
+    dataStoreService.set('onboarding-default-meta', String(Boolean(user())));
   },
   checkIfRouteCanBeAccessed: (route: string) => {
     if (route.endsWith('home')) {

@@ -4,7 +4,7 @@ import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
 import { BehaviorSubject, Observable, filter, switchMap, take } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
-import { AccountStateService } from '../state/account-state.service';
+import { user$ } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class WsConnectorService {
   private deactivationPromise: Promise<void>;
   private isConnecting: boolean = false;
 
-  constructor(private accountState: AccountStateService) {
+  constructor() {
     this.client = new RxStomp();
     this.client.connectionState$.subscribe(() => {
       const connected = !!this.client.stompClient.connected;
@@ -29,7 +29,7 @@ export class WsConnectorService {
         this.connected$.next(connected);
       }
     });
-    accountState.user$.subscribe((user: User) => {
+    user$.subscribe((user: User) => {
       this.onUserUpdate(user);
     });
   }

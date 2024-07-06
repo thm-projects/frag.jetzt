@@ -25,6 +25,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { Period } from '../../../../utils/data-filter-object.lib';
+import { user$ } from 'app/user/state/user';
 
 export type AdjacentComments = [
   ForumComment | undefined,
@@ -119,7 +120,7 @@ export class QuestionWallService {
     focus.subscribe(() => revalidateAdjacentComments());
     forkJoin([
       this.sessionService.getRoomOnce(),
-      this.accountState.user$.pipe(take(1)),
+      user$.pipe(take(1)),
       this.sessionService.getModeratorsOnce(),
       this.sessionService.onReady,
     ]).subscribe(initializeSession);

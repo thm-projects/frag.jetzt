@@ -8,7 +8,6 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
-import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { EventService } from './services/util/event.service';
@@ -77,7 +76,6 @@ const PUSH_KEY = 'push-subscription';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public static rescale: Rescale = new Rescale();
   public static instance: AppComponent;
   private static scrollAnimation = true;
   @ViewChild('headerElement')
@@ -339,10 +337,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public getRescale(): Rescale {
-    return AppComponent.rescale;
-  }
-
   onScroll() {
     const scroller = this.scrollElement.nativeElement;
     const current = scroller.scrollTop;
@@ -408,7 +402,7 @@ export class AppComponent implements OnInit {
         minHeight: 'unset',
         width: '22.5rem',
       });
-      dialogRef.componentInstance.redirectUrl = request.redirectUrl;
+      dialogRef.componentInstance.wasInactive = request.wasInactive;
       dialogRef.afterClosed().subscribe((keycloakId: UUID) => {
         sendEvent(
           this.eventService,
@@ -417,13 +411,6 @@ export class AppComponent implements OnInit {
       });
     });
     listenEvent(this.eventService, RescaleRequest).subscribe((request) => {
-      let scale;
-      if (request.scale === 'initial') {
-        scale = this.getRescale().getInitialScale();
-      } else {
-        scale = request.scale;
-      }
-      this.getRescale().setScale(scale);
       sendEvent(this.eventService, new RescaleResponse(request));
     });
     listenEvent(this.eventService, MotdDialogRequest).subscribe((req) => {

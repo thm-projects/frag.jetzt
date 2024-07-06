@@ -30,6 +30,7 @@ import { GlobalCountChanged } from 'app/models/global-count-changed';
 import { AccountStateService } from '../state/account-state.service';
 import { RoomStateService } from '../state/room-state.service';
 import { UUID } from 'app/utils/ts-utils';
+import { forceLogin, user } from 'app/user/state/user';
 
 interface Message {
   type: string;
@@ -214,13 +215,13 @@ export class SessionService {
       !this._initialized || this.accountState.hasAccess(shortId, urlRole);
     this.loadRoom(shortId);
     this.onReady.subscribe(() => {
-      const user = this.accountState.getCurrentUser();
-      if (!user) {
+      const account = user();
+      if (!account) {
         previous = false;
         onRevalidate(previous);
         return;
       }
-      this.ensureRole(user.id).subscribe((role) => {
+      this.ensureRole(account.id).subscribe((role) => {
         if (role >= urlRole) {
           previous = true;
           onRevalidate(previous);
@@ -329,8 +330,7 @@ export class SessionService {
     this.clearRoom();
     this._currentLoadingShortId = shortId;
     this._initFinished.pipe(take(1)).subscribe(() => {
-      this.accountState
-        .forceLogin()
+      forceLogin()
         .pipe(
           map((data) => {
             this.accountState.updateAccess(shortId);

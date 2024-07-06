@@ -8,6 +8,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { user } from 'app/user/state/user';
 
 enum WeekDay {
   Monday,
@@ -107,7 +108,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.accountState.getCurrentUser()?.loginId) {
+    if (!user()?.loginId) {
       return;
     }
     this.commentNotificationService

@@ -7,12 +7,12 @@ import {
 import { RoomService } from 'app/services/http/room.service';
 import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 import { HelpRoomCreateComponent } from './help-room-create/help-room-create.component';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { GPTAPIKey } from 'app/services/http/gptapisetting.service';
 import {
   GPTVoucher,
   GPTVoucherService,
 } from 'app/services/http/gptvoucher.service';
+import { forceLogin, user$ } from 'app/user/state/user';
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -59,12 +59,9 @@ export const DEFAULT_STUDENT: DefaultConfig = {
   moderation: false,
 };
 
-const buildValidator = (
-  roomService: RoomService,
-  account: AccountStateService,
-) => {
+const buildValidator = (roomService: RoomService) => {
   return (control: FormControl): Observable<{ alreadyUsed: boolean }> =>
-    account.forceLogin().pipe(
+    forceLogin().pipe(
       switchMap(() =>
         roomService.getErrorHandledRoomByShortId(control.value, () => ''),
       ),
@@ -78,12 +75,9 @@ const buildValidator = (
     );
 };
 
-const buildVoucherValidator = (
-  voucherService: GPTVoucherService,
-  account: AccountStateService,
-) => {
+const buildVoucherValidator = (voucherService: GPTVoucherService) => {
   return (control: FormControl): Observable<{ voucherUsed: boolean }> =>
-    account.forceLogin().pipe(
+    forceLogin().pipe(
       switchMap(() => voucherService.isClaimable(control.value)),
       map((voucher) => {
         if (voucher) {
@@ -107,8 +101,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
       tag: 'gptInfo',
       title: 'ml-room-create.q-p1-header',
       stepHelp: 'ml-room-create.help.no-chatgpt-for-user',
-      active: (_answers, injector) =>
-        injector.get(AccountStateService).user$.pipe(
+      active: () =>
+        user$.pipe(
           take(1),
           map((user) => !user || user.isGuest),
         ),
@@ -123,8 +117,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
       tag: 'gptSetup',
       title: 'ml-room-create.q-p2-header',
       stepHelp: 'ml-room-create.help.select-openai-setup',
-      active: (_answers, injector) =>
-        injector.get(AccountStateService).user$.pipe(
+      active: () =>
+        user$.pipe(
           take(1),
           map((user) => user && !user.isGuest),
         ),
@@ -225,10 +219,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               previousState?.get('voucher')?.value ?? data.vouchers[0]?.code,
             validators: [Validators.required],
             asyncValidators: [
-              buildVoucherValidator(
-                injector.get(GPTVoucherService),
-                injector.get(AccountStateService),
-              ),
+              buildVoucherValidator(injector.get(GPTVoucherService)),
             ],
             errorStates: {
               required: 'ml-room-create.e-p4-required',
@@ -401,12 +392,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               Validators.maxLength(30),
               Validators.pattern('[a-zA-Z0-9_\\-.~]+'),
             ],
-            asyncValidators: [
-              buildValidator(
-                injector.get(RoomService),
-                injector.get(AccountStateService),
-              ),
-            ],
+            asyncValidators: [buildValidator(injector.get(RoomService))],
             errorStates: {
               required: 'ml-room-create.e-2-required',
               minlength: 'ml-room-create.e-2-minlength',

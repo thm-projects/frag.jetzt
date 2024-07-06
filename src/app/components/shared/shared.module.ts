@@ -5,7 +5,6 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RoomListComponent } from './room-list/room-list.component';
-import { RoomPageComponent } from './room-page/room-page.component';
 import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
@@ -188,12 +187,11 @@ import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component
     CommentListFabComponent,
     QwTopBarComponent,
     QwBottomBarComponent,
-    AiChatComponent
+    AiChatComponent,
   ],
   declarations: [
     RoomJoinComponent,
     PageNotFoundComponent,
-    RoomPageComponent,
     RoomListComponent,
     HeaderComponent,
     FooterComponent,
@@ -330,7 +328,6 @@ import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component
   exports: [
     RoomJoinComponent,
     PageNotFoundComponent,
-    RoomPageComponent,
     RoomListComponent,
     HeaderComponent,
     FooterComponent,

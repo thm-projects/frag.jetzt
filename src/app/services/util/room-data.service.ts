@@ -27,6 +27,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from '../state/room-state.service';
+import { user$ } from 'app/user/state/user';
 
 export interface BookmarkAccess {
   [commentId: string]: Bookmark;
@@ -62,7 +63,7 @@ export class RoomDataService {
       lastRoom = room;
       this.onRoomUpdate(room);
     });
-    this.accountState.user$.subscribe(() => this.onRoomUpdate(lastRoom));
+    user$.subscribe(() => this.onRoomUpdate(lastRoom));
     this.roomState.assignedRole$.subscribe((role) => {
       const userRole = ROOM_ROLE_MAPPER[role];
       this.dataAccessor.updateCurrentRole(userRole);

@@ -29,6 +29,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
+import { logout, user, user$ } from 'app/user/state/user';
 
 interface LocationData {
   id: string;
@@ -400,7 +401,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: (route) => USER_REGEX.test(route),
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.router.navigate(['/user']);
       },
@@ -415,16 +416,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
       outside: true,
       isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) =>
-        Boolean(this.accountState.getCurrentUser()) &&
+        Boolean(user()) &&
         (!ROOM_REGEX.test(route) ||
           ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
             UserRole.PARTICIPANT) &&
         !this.isPLE,
       navigate: () => {
-        UserBonusTokenComponent.openDialog(
-          this.dialog,
-          this.accountState.getCurrentUser()?.id,
-        );
+        UserBonusTokenComponent.openDialog(this.dialog, user()?.id);
       },
     },
     {
@@ -458,7 +456,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.router.navigate(['/participant/room/Feedback']);
       },
@@ -472,7 +470,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.appState.openMotdDialog();
       },
@@ -486,9 +484,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'btn-red',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
-        this.accountState.logout().subscribe();
+        logout().subscribe();
       },
     },
   ];
@@ -529,7 +527,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         filter((e) => e instanceof NavigationEnd),
       )
       .subscribe(observer);
-    this.accountState.user$.pipe(takeUntil(this.destroyer)).subscribe(observer);
+    user$.pipe(takeUntil(this.destroyer)).subscribe(observer);
     this.deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);

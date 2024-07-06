@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
@@ -20,7 +19,6 @@ import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { SessionService } from '../../../services/util/session.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
@@ -29,6 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+import { ensureLoggedIn } from 'app/user/state/user';
 
 @Component({
   selector: 'app-user-home-page',
@@ -38,8 +37,6 @@ import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 export class UserHomePageComponent
   implements OnInit, OnDestroy, AfterContentInit {
   user: User;
-  creatorRole: UserRole = UserRole.CREATOR;
-  participantRole: UserRole = UserRole.PARTICIPANT;
   canRate: boolean = Boolean(localStorage.getItem('comment-created'));
   loadingRatings: boolean = true;
   fetchedRating: Rating = undefined;
@@ -51,7 +48,6 @@ export class UserHomePageComponent
   constructor(
     public dialog: MatDialog,
     private translateService: TranslateService,
-    private accountState: AccountStateService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
@@ -78,27 +74,21 @@ export class UserHomePageComponent
   }
 
   ngOnInit() {
-    this.accountState
-      .forceLogin()
+    ensureLoggedIn()
       .pipe(takeUntil(this.destroyer))
-      .subscribe((newUser) => {
-        this.user = newUser;
-        if (
-          this.fetchedRating === undefined &&
-          this.user !== undefined &&
-          this.user !== null
-        ) {
-          this.fetchedRating = null;
-          this.ratingService.getByAccountId(this.user.id).subscribe((r) => {
-            if (r !== null) {
-              this.onRate(r);
-            } else if (!this.canRate) {
-              this.onRate(new Rating(this.user.id, 0));
-            } else {
-              this.loadingRatings = false;
-            }
-          });
-        }
+      .subscribe((user) => {
+        this.user = user;
+        this.fetchedRating = null;
+        this.loadingRatings = true;
+        this.ratingService.getByAccountId(this.user.id).subscribe((r) => {
+          if (r !== null) {
+            this.onRate(r);
+          } else if (!this.canRate) {
+            this.onRate(new Rating(this.user.id, 0));
+          } else {
+            this.loadingRatings = false;
+          }
+        });
       });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (

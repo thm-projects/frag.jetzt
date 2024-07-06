@@ -3,7 +3,7 @@
 
 <span matDialogTitle>{{ "login-dialog.title" | translate }}</span>
 <mat-dialog-content>
-  <span *ngIf="redirectUrl">
+  <span *ngIf="wasInactive">
     {{ "login-dialog.inactive-info" | translate }}
   </span>
 </mat-dialog-content>

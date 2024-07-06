@@ -22,6 +22,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
+import { user, user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-app-rating',
@@ -71,7 +72,7 @@ export class AppRatingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.accountState.user$
+    user$
       .pipe(
         filter((v) => Boolean(v)),
         take(1),
@@ -146,19 +147,17 @@ export class AppRatingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSaving = true;
-    this.ratingService
-      .create(this.accountState.getCurrentUser().id, this.visibleRating)
-      .subscribe({
-        next: (r: Rating) => {
-          this.notificationService.show(i18n().success);
-          this.onSuccess?.(r);
-          this.isSaving = false;
-          this.rating = r;
-        },
-        error: () => {
-          this.notificationService.show(i18n().error);
-          this.isSaving = false;
-        },
-      });
+    this.ratingService.create(user().id, this.visibleRating).subscribe({
+      next: (r: Rating) => {
+        this.notificationService.show(i18n().success);
+        this.onSuccess?.(r);
+        this.isSaving = false;
+        this.rating = r;
+      },
+      error: () => {
+        this.notificationService.show(i18n().error);
+        this.isSaving = false;
+      },
+    });
   }
 }

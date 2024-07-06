@@ -9,8 +9,6 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 import { Theme } from '../../../../theme/Theme';
-import { AppComponent } from '../../../app.component';
-import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
 import { ComponentType } from '@angular/cdk/overlay';
 import { IntroductionRoomListComponent } from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
 import { IntroductionRoomPageComponent } from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
@@ -19,18 +17,17 @@ import { IntroductionModerationComponent } from '../_dialogs/introductions/intro
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
-import { SessionService } from '../../../services/util/session.service';
 import {
   AppStateService,
   ThemeKey,
 } from 'app/services/state/app-state.service';
 import { ReplaySubject, filter, take, takeUntil } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatMenu } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DynamicThemeService } from '../../../../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 import { Language, setLanguage } from 'app/base/language/language';
+import { user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-footer',
@@ -55,16 +52,13 @@ export class FooterComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private translateService: TranslateService,
     public themeService: ThemeService,
-    private styleService: StyleService,
     public dashboard: MatBottomSheet,
     public change: DashboardNotificationService,
-    private sessionService: SessionService,
-    private appState: AppStateService,
     protected readonly m3ThemeService: M3DynamicThemeService,
     deviceState: DeviceStateService,
-    accountState: AccountStateService,
+    appState: AppStateService,
   ) {
-    accountState.user$
+    user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((user) => (this.user = user));
     appState.language$
@@ -101,11 +95,6 @@ export class FooterComponent implements OnInit, OnDestroy {
       this.open = message;
     });
     this.themes = this.themeService.getThemes();
-    this.updateScale(
-      this.themeService.currentTheme.getScale(
-        this.isMobile ? 'mobile' : 'desktop',
-      ),
-    );
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.onEnd();
@@ -153,12 +142,6 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key as ThemeKey);
-    this.updateScale(theme.getScale(this.isMobile ? 'mobile' : 'desktop'));
-  }
-
-  updateScale(scale: number) {
-    AppComponent.rescale.setInitialScale(scale);
-    AppComponent.rescale.setDefaultScale(scale);
   }
 
   openMenu() {

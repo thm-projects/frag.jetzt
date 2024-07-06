@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParticipantRoutingModule } from './participant-routing.module';
 import { EssentialsModule } from '../essentials/essentials.module';
-import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
 import { SharedModule } from '../shared/shared.module';
 import {
   TranslateLoader,
@@ -32,7 +31,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       isolate: true,
     }),
   ],
-  declarations: [RoomParticipantPageComponent],
+  declarations: [],
 })
 export class ParticipantModule {
   constructor(

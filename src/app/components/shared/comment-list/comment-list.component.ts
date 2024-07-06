@@ -10,7 +10,6 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
@@ -73,6 +72,7 @@ import {
 } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { Navigation } from '../../navigation/common-navigation-templates';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
+import { user, user$ } from 'app/user/state/user';
 
 @Component({
   selector: 'app-comment-list',
@@ -83,7 +83,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @ViewChild('qrCodeColors') qrCodeColors: ElementRef<HTMLDivElement>;
-  user: User;
   AppComponent = AppComponent;
   comments: ForumComment[] = [];
   commentsFilteredByTimeLength: number;
@@ -133,6 +132,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   canOpenGPT = false;
   consentGPT = false;
   isMobile = false;
+  protected readonly user = user;
   protected writeCommentBound = this.writeComment.bind(this);
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
@@ -296,29 +296,26 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
-    this.accountState.user$
-      .pipe(takeUntil(this._destroySubject))
-      .subscribe((newUser) => {
-        if (!newUser) {
-          return;
-        }
-        this.user = newUser;
-        if (
-          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] !==
-          UserRole.PARTICIPANT
-        ) {
-          return;
-        }
-        this.sessionService.getRoomOnce().subscribe((room) => {
-          this.voteService
-            .getByRoomIdAndUserID(room.id, this.user.id)
-            .subscribe((votes) => {
-              for (const v of votes) {
-                this.commentVoteMap[v.commentId] = v;
-              }
-            });
-        });
+    user$.pipe(takeUntil(this._destroySubject)).subscribe((newUser) => {
+      if (!newUser) {
+        return;
+      }
+      if (
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] !==
+        UserRole.PARTICIPANT
+      ) {
+        return;
+      }
+      this.sessionService.getRoomOnce().subscribe((room) => {
+        this.voteService
+          .getByRoomIdAndUserID(room.id, user().id)
+          .subscribe((votes) => {
+            for (const v of votes) {
+              this.commentVoteMap[v.commentId] = v;
+            }
+          });
       });
+    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -338,7 +335,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       this.updateKeywordMark();
       this._filterObject.attach({
-        userId: this.user.id,
+        userId: user().id,
         roomId: room.id,
         ownerId: room.ownerId,
         threshold: room.threshold,
@@ -353,7 +350,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onRefreshFiltering();
       });
       this._cloudFilterObject.attach({
-        userId: this.user.id,
+        userId: user().id,
         roomId: room.id,
         ownerId: room.ownerId,
         threshold: room.threshold,
@@ -553,7 +550,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper
-      .openCreateDialog(this.user, this.userRole)
+      .openCreateDialog(user(), this.userRole)
       .subscribe((comment) => (this.sendCommentId = comment?.id));
   }
 
@@ -708,7 +705,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private onCommentPatched(update: CommentPatchedKeyInformation) {
     if (update.subtype === 'favorite') {
       if (
-        this.user.id === update.comment.creatorId &&
+        user().id === update.comment.creatorId &&
         this.userRole === UserRole.PARTICIPANT &&
         this.room?.bonusArchiveActive
       ) {
@@ -807,7 +804,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.bonusTokenService,
             this.commentService,
             'room-export',
-            this.user,
+            user(),
             room,
             new Set<string>(this.moderatorAccountIds),
           ).subscribe((text) => {
@@ -834,7 +831,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.bonusTokenService,
             this.commentService,
             'room-export',
-            this.user,
+            user(),
             room,
             new Set<string>(this.moderatorAccountIds),
           ).subscribe((text) => {

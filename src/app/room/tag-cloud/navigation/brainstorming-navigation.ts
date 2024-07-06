@@ -47,7 +47,7 @@ import {
   exportBrainstorming,
 } from 'app/utils/ImportExportMethods';
 import { UserRole } from 'app/models/user-roles.enum';
-import { AccountStateService } from 'app/services/state/account-state.service';
+import { user$ } from 'app/user/state/user';
 
 export const applyBrainstormingNavigation = (
   injector: Injector,
@@ -402,9 +402,8 @@ const downloadBrainstormingEntries = (
   const notificationService = injector.get(NotificationService);
   const bonusTokenService = injector.get(BonusTokenService);
   const commentService = injector.get(CommentService);
-  const account = injector.get(AccountStateService);
   forkJoin([
-    account.user$.pipe(first(Boolean)),
+    user$.pipe(first(Boolean)),
     injector.get(SessionService).getModeratorsOnce(),
   ])
     .pipe(

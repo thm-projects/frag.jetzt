@@ -32,6 +32,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { user$ } from 'app/user/state/user';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -88,7 +89,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.accountState.user$
+    user$
       .pipe(
         takeUntil(this.destroyer),
         filter((user) => !!user),

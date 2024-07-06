@@ -556,17 +556,6 @@
 
   <button
     mat-menu-item
-    aria-hidden="true"
-    *ngIf="
-      !isSafari && !router.url.includes('home') && !router.url.endsWith('/quiz')
-    "
-    (click)="getRescale().toggleState()">
-    <mat-icon (click)="getRescale().toggleState()">screenshot_monitor</mat-icon>
-    <span>{{ "header.fullscreen" | translate }}</span>
-  </button>
-
-  <button
-    mat-menu-item
     *ngIf="
       user &&
       !user.isGuest &&

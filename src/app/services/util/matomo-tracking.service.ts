@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AccountStateService } from '../state/account-state.service';
 import { RoomStateService } from '../state/room-state.service';
+import { user$ } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
@@ -75,14 +75,13 @@ export class MatomoTrackingService {
 
   constructor(
     private router: Router,
-    private accountState: AccountStateService,
     private roomState: RoomStateService,
   ) {
     if (!environment.production) {
       return;
     }
     //TODO: INIT
-    this.accountState.user$.subscribe((user) => {
+    user$.subscribe((user) => {
       if (user?.id) {
         this.setUserId(user.id);
       } else {
