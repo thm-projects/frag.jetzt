@@ -4,11 +4,13 @@ import { UserRole } from '../../models/user-roles.enum';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
 import { RoomPageComponent } from 'app/room/room-page/room-page.component';
+import { AuthenticationGuard } from 'app/guards/authentication.guard';
 
 const routes: Routes = [
   {
     path: 'room/:shortId',
     component: RoomPageComponent,
+    canActivate: [AuthenticationGuard],
     data: {
       roles: [
         UserRole.PARTICIPANT,
@@ -21,6 +23,7 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
+    canActivate: [AuthenticationGuard],
     data: {
       roles: [
         UserRole.PARTICIPANT,
@@ -33,6 +36,7 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
+    canActivate: [AuthenticationGuard],
     data: {
       roles: [
         UserRole.PARTICIPANT,
@@ -45,6 +49,7 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
+    canActivate: [AuthenticationGuard],
     data: {
       roles: [
         UserRole.PARTICIPANT,
