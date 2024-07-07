@@ -18,7 +18,6 @@ import { RatingService } from '../../../services/http/rating.service';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
@@ -51,7 +50,6 @@ export class AppRatingComponent implements OnInit, OnDestroy {
 
   constructor(
     private notificationService: NotificationService,
-    private readonly accountState: AccountStateService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
   ) {}
@@ -64,7 +62,7 @@ export class AppRatingComponent implements OnInit, OnDestroy {
   }
 
   getIconAccumulated(index: number) {
-    const rating = Math.round(this.visibleRating * 2) / 2;
+    const rating = Math.round(this.ratingResults().rating * 2) / 2;
     if (rating >= index + 1) {
       return 'star_full';
     }
@@ -74,12 +72,13 @@ export class AppRatingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     user$
       .pipe(
-        filter((v) => Boolean(v)),
+        filter(Boolean),
         take(1),
         switchMap((user) => this.ratingService.getByAccountId(user.id)),
         takeUntil(this.destroyer),
       )
       .subscribe((r) => {
+        console.log(r);
         if (r !== undefined && r !== null) {
           this.visibleRating = r.rating;
           this.changedBySubscription = true;
@@ -96,6 +95,7 @@ export class AppRatingComponent implements OnInit, OnDestroy {
 
   onClick(index: number, event: MouseEvent) {
     const elem = this.children.get(index)._elementRef.nativeElement;
+    this.changedBySubscription = false;
     if (
       this.listeningToMove ||
       this.visibleRating < index ||
@@ -153,6 +153,7 @@ export class AppRatingComponent implements OnInit, OnDestroy {
         this.onSuccess?.(r);
         this.isSaving = false;
         this.rating = r;
+        this.mode.set('show');
       },
       error: () => {
         this.notificationService.show(i18n().error);
