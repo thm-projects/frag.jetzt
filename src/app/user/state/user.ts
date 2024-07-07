@@ -279,15 +279,20 @@ export const logout = (): Observable<void> => {
 
 // force login
 
-export const openLogin = (wasInactive = false): Observable<User> => {
+export const openLogin = (
+  wasInactiveAndForcesLogin = false,
+): Observable<User> => {
   return getInjector().pipe(
     switchMap((injector) =>
       callServiceEvent(
         injector.get(EventService),
-        new LoginDialogRequest(wasInactive),
+        new LoginDialogRequest(wasInactiveAndForcesLogin),
       ),
     ),
     switchMap((v) => {
+      if (!wasInactiveAndForcesLogin && v.keycloakId === undefined) {
+        return of(null);
+      }
       if (!v.keycloakId) {
         return loginAsGuest();
       }
