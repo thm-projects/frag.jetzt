@@ -60,6 +60,7 @@
         [formControl]="inputMessage"
         [placeholder]="i18n().placeholder"
         #inputElem
+        (keydown)="onKeyDown($event)"
         (input)="updateHeight(inputElem)"></textarea>
       <button
         mat-icon-button
@@ -75,9 +76,10 @@
           style="display: none" />
       </button>
       <button
+        [matMenuTriggerFor]="assistantMenu"
         mat-icon-button
         matPrefix>
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
       </button>
       @if (canSend()) {
         <button
@@ -107,3 +109,21 @@
     </mat-form-field>
   </div>
 }
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of assistRefs(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry.ref.id === selectedAssistant()"
+      (click)="selectedAssistant.set(entry.ref.id)">
+      {{ entry.assistant.name }}
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()()">
+      <em>{{ i18n().createAssistant }}</em>
+    </button>
+  }
+</mat-menu>

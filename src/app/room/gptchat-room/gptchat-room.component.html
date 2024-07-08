@@ -5,18 +5,18 @@
     [class.open]="isOpen()">
     <mat-toolbar>
       <button
-        mat-icon-button
-        [matTooltip]="i18n().close"
+        mat-button
         (click)="isOpen.set(false)">
         <mat-icon>left_panel_close</mat-icon>
+        {{ i18n().close }}
       </button>
       @if (selectedThread() !== null) {
         <button
-          mat-icon-button
-          [matTooltip]="i18n().newChat"
+          mat-button
           class="material-symbols-outlined"
           (click)="selectedThread.set(null)">
-          chat_add_on
+          <mat-icon>chat_add_on</mat-icon>
+          {{ i18n().newChat }}
         </button>
       }
     </mat-toolbar>
@@ -46,46 +46,31 @@
       class="chat-pane"
       type="flexible">
       <app-ai-chat
+        [(selectedAssistant)]="selectedAssistant"
         [messages]="currentMessages()"
         [canSend]="state() === 'ready'"
         [overrideMessage]="overrideMessage()"
+        [isPrivileged]="isPrivileged()"
+        [assistRefs]="assistRefs()"
+        [onNewClick]="onNewClick.bind(this)"
         [onSend]="onSend">
         @if (!isOpen()) {
           <button
-            mat-icon-button
-            [matTooltip]="i18n().open"
+            mat-button
             (click)="isOpen.set(true)">
             <mat-icon>left_panel_open</mat-icon>
+            {{ i18n().open }}
           </button>
         }
         @if (selectedThread() !== null && !isOpen()) {
           <button
-            mat-icon-button
-            [matTooltip]="i18n().newChat"
+            mat-button
             class="material-symbols-outlined"
             (click)="selectedThread.set(null)">
-            chat_add_on
+            <mat-icon>chat_add_on</mat-icon>
+            {{ i18n().newChat }}
           </button>
         }
-        <span style="flex: 1"></span>
-        <mat-form-field appearance="outline">
-          <mat-label>Assistent</mat-label>
-          <mat-select [formControl]="selectedAssistant">
-            @for (entry of assistRefs(); track entry) {
-              <mat-option [value]="entry.ref.id">
-                {{ entry.assistant.name }}
-              </mat-option>
-            }
-            @if (isPrivileged()) {
-              <button
-                mat-menu-item
-                (click)="onNewClick()">
-                <em>{{ i18n().createAssistant }}</em>
-              </button>
-            }
-          </mat-select>
-        </mat-form-field>
-        <span style="flex: 1"></span>
       </app-ai-chat>
     </m3-supporting-pane>
   }

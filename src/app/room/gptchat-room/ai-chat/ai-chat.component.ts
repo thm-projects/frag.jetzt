@@ -8,6 +8,7 @@ import {
   effect,
   inject,
   input,
+  model,
   signal,
   untracked,
   viewChild,
@@ -21,6 +22,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { language } from 'app/base/language/language';
 import {
+  AssistantReference,
   AssistantsService,
   FileObject,
   Message,
@@ -30,6 +32,12 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomStateService } from 'app/services/state/room-state.service';
+import { KeyboardUtils } from 'app/utils/keyboard';
+import { KeyboardKey } from 'app/utils/keyboard/keys';
+import { windowWatcher } from 'modules/navigation/utils/window-watcher';
+import { MatMenuModule } from '@angular/material/menu';
+import { AssistantEntry } from '../gptchat-room.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 interface File {
   name: string;
@@ -61,6 +69,8 @@ interface FileReference {
     ContextPipe,
     MatInputModule,
     MatButtonModule,
+    MatMenuModule,
+    MatTooltipModule,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
@@ -68,7 +78,11 @@ interface FileReference {
 export class AiChatComponent {
   messages = input.required<Message[]>();
   canSend = input.required<boolean>();
+  isPrivileged = input.required<boolean>();
+  assistRefs = input.required<AssistantEntry[]>();
   overrideMessage = input<string>();
+  selectedAssistant = model.required<AssistantReference['id']>();
+  onNewClick = input.required<() => void>();
   onSend =
     input.required<(message: string, files: UploadedFile[]) => boolean>();
   protected fileReference = signal<FileReference[]>([]);
@@ -115,6 +129,25 @@ export class AiChatComponent {
       this.scroll().nativeElement.scrollTop =
         this.scroll().nativeElement.scrollHeight;
     });
+  }
+
+  protected onKeyDown(e: KeyboardEvent) {
+    if (e.defaultPrevented) {
+      return;
+    }
+    if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Enter)) {
+      const hasModifier =
+        e.getModifierState('Meta') ||
+        e.getModifierState('Alt') ||
+        e.getModifierState('AltGraph') ||
+        e.getModifierState('Control') ||
+        e.getModifierState('Shift');
+      if (hasModifier === windowWatcher.isMobile()) {
+        e.preventDefault();
+        this.sendMessage();
+        return;
+      }
+    }
   }
 
   protected sendMessage() {

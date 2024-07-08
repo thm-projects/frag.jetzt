@@ -7,14 +7,13 @@
     "threadHeadLine": "Chat vom {{date}}",
     "threadContent": "Um {{time}}",
     "noAssistants": "# KI nicht verwendbar\n\nKeine Assistenten verfügbar. Wende dich an einen Raumverwalter, um einen Assistenten hinzuzufügen.",
-    "open": "Öffnen",
+    "open": "Chatverlauf",
     "close": "Schließen",
     "newChat": "Neuer Chat",
     "noThreads": "Keine Threads vorhanden",
     "errorMessage": "# Ein Fehler ist aufgetreten\n\n{{message}}",
     "openaiError": "# Ein Fehler von OpenAI wurde gemeldet\n\n{{message}}",
-    "delete": "Löschen",
-    "createAssistant": "Assistent erstellen..."
+    "delete": "Löschen"
   },
   "en": {
     "defaultName": "Default assistant",
@@ -23,14 +22,13 @@
     "threadHeadLine": "Chat from {{date}}",
     "threadContent": "At {{time}}",
     "noAssistants": "# AI not usable\n\nNo assistants available. Contact a room manager to add an assistant.",
-    "open": "Open",
+    "open": "Chat history",
     "close": "Close",
     "newChat": "New chat",
     "noThreads": "No threads available",
     "errorMessage": "# An error occurred\n\n{{message}}",
     "openaiError": "# An error from OpenAI was reported\n\n{{message}}",
-    "delete": "Delete",
-    "createAssistant": "Create assistant..."
+    "delete": "Delete"
   },
   "fr": {
     "defaultName": "Assistant par défaut",
@@ -39,13 +37,12 @@
     "threadHeadLine": "Chat du {{date}}",
     "threadContent": "À {{time}}",
     "noAssistants": "# IA non utilisable\n\nAucun assistant disponible. Contacte un gestionnaire de salle pour ajouter un assistant.",
-    "open": "Ouvrir",
+    "open": "Historique des chats",
     "close": "Fermer",
     "newChat": "Nouveau chat",
     "noThreads": "Aucun fil de discussion disponible",
     "errorMessage": "# Une erreur s'est produite\n\n{{message}}",
     "openaiError": "# Une erreur d'OpenAI a été signalée\n\n{{message}}",
-    "delete": "Supprimer",
-    "createAssistant": "Créer un assistant..."
+    "delete": "Supprimer"
   }
 }

@@ -11,9 +11,11 @@ m3-supporting-pane {
   flex-direction: column;
   position: relative;
   max-width: unset;
+  padding-top: 0;
 }
 
 .threads-overview.m3-supporting-pane {
+  padding-top: 0;
   transition-duration: 0.5s;
   transition-property: width, margin-left;
   transition-timing-function: var(--md-sys-motion-easing-emphasized);
@@ -31,5 +33,7 @@ m3-supporting-pane {
 
   > mat-action-list {
     width: var(--m3-comp-supporting-pane-fixed-width);
+    height: calc(100% - var(--mat-toolbar-standard-height));
+    overflow: auto;
   }
 }

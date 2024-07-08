@@ -32,7 +32,6 @@ import {
   UploadedFile,
 } from 'app/services/http/assistants.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { FormControl } from '@angular/forms';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
 import { AiErrorComponent } from './ai-error/ai-error.component';
@@ -87,7 +86,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected readonly isMobile = windowWatcher.isMobile;
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
-  protected selectedAssistant = new FormControl();
+  protected selectedAssistant = signal<AssistantReference['id'] | null>(null);
   protected isPrivileged = signal<boolean>(false);
   protected onSend = this.sendMessage.bind(this);
   private destroyer = new ReplaySubject<void>(1);
@@ -221,7 +220,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             if (elements.length === 0) {
               this.createDefaultAssistant(room.id);
             } else {
-              this.selectedAssistant.setValue(elements[0].ref.id);
+              this.selectedAssistant.set(elements[0].ref.id);
             }
             if (++count === 2 && this.state() === 'loading') {
               this.state.set('ready');
@@ -262,7 +261,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     this.state.set('sending');
     const thread = this.selectedThread();
     const assistant = this.assistRefs().find(
-      (e) => e.ref.id === this.selectedAssistant.value,
+      (e) => e.ref.id === this.selectedAssistant(),
     );
     if (!assistant?.ref.openaiId) {
       this.state.set('ready');
@@ -484,7 +483,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           assistants[index].assistant = a;
           return assistants;
         });
-        this.selectedAssistant.updateValueAndValidity();
       },
       error: (err) => {
         this.showError(this.makeError(err));
@@ -523,7 +521,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             return [...assistants, entry];
           });
           this.loadAssistant(roomId, entry);
-          this.selectedAssistant.setValue(ref.id);
+          this.selectedAssistant.set(ref.id);
         },
         error: (err) => {
           this.error.set(this.makeError(err));

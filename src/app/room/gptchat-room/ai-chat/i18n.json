@@ -5,20 +5,26 @@
     "placeholder": "Frag irgendwas…",
     "uploadedFiles": "Dateien ({{count}}): {{files}}",
     "deleted": "» Gelöscht «",
-    "ref": "[{{num}}]: {{file}}"
+    "ref": "[{{num}}]: {{file}}",
+    "createAssistant": "Assistent erstellen...",
+    "assistant": "Assistent"
   },
   "en": {
     "input": "Chat input",
     "placeholder": "Ask anything…",
     "uploadedFiles": "Files ({{count}}): {{files}}",
     "deleted": "» Deleted «",
-    "ref": "[{{num}}]: {{file}}"
+    "ref": "[{{num}}]: {{file}}",
+    "createAssistant": "Create assistant...",
+    "assistant": "Assistant"
   },
   "fr": {
     "input": "Saisie du message",
     "placeholder": "Demande n'importe quoi…",
     "uploadedFiles": "Fichiers ({{count}}): {{files}}",
     "deleted": "» Supprimé «",
-    "ref": "[{{num}}]: {{file}}"
+    "ref": "[{{num}}]: {{file}}",
+    "createAssistant": "Créer un assistant...",
+    "assistant": "Assistant"
   }
 }

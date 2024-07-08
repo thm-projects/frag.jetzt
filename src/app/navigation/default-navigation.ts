@@ -339,8 +339,6 @@ export const getDefaultNavigation = (
 const openAIConsent = (injector: Injector) => {
   const dialogRef = injector.get(MatDialog).open(GptOptInPrivacyComponent, {
     autoFocus: false,
-    width: '80%',
-    maxWidth: '600px',
   });
   dialogRef.afterClosed().subscribe((result) => {
     injector.get(AccountStateService).updateGPTConsentState(result);
