@@ -34,6 +34,7 @@ import { setTheme, theme } from 'app/base/theme/theme';
 import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
+import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -152,6 +153,11 @@ export const getDefaultHeader = (
                 disabled: theme === 'system',
                 title: i18n.header.system,
                 onClick: () => setTheme('system'),
+              },
+              {
+                icon: 'palette',
+                title: i18n.header.baseColor,
+                onClick: () => openThemeColor(injector),
               },
             ],
           },
@@ -386,4 +392,8 @@ const showDemo = (injector: Injector) => {
     width: '80%',
     maxWidth: '600px',
   });
+};
+
+const openThemeColor = (injector: Injector) => {
+  injector.get(MatDialog).open(ThemeColorComponent);
 };

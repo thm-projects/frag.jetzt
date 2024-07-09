@@ -20,7 +20,8 @@
       "theme": "Display",
       "light": "Hell",
       "dark": "Dunkel",
-      "system": "Automatisch"
+      "system": "Automatisch",
+      "baseColor": "Grundfarbe"
     },
     "navigation": {
       "title": "Navigation & Optionen",
@@ -63,7 +64,8 @@
       "theme": "Display",
       "light": "Light",
       "dark": "Dark",
-      "system": "Automatic"
+      "system": "Automatic",
+      "baseColor": "Baseline color"
     },
     "navigation": {
       "title": "Navigation & Options",
@@ -106,7 +108,8 @@
       "theme": "Display",
       "light": "Lumière",
       "dark": "Sombre",
-      "system": "Automatique"
+      "system": "Automatique",
+      "baseColor": "Couleur de base"
     },
     "navigation": {
       "title": "Navigation & options",

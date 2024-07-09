@@ -31,7 +31,8 @@ $base-theme: m3.define-theme(
 
 @mixin load() {
   @include mat.core();
-  body {
+  body,
+  .light {
     @include mat.all-component-themes(map.get($base-theme, light));
     @include m3-map.make-components-dynamic(light);
     @include m3-components.all-components();

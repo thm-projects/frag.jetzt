@@ -1,0 +1,36 @@
+{
+  "key": "theme-color",
+  "de": {
+    "title": "Grundfarbe anpassen",
+    "switchLight": "Zum hellen Thema wechseln",
+    "switchDark": "Zum dunklen Thema wechseln",
+    "example": "Beispiel:",
+    "cardTitle": "Test-Karte",
+    "cardContent": "Hier steht ein Beispieltext.",
+    "primary": "Primär",
+    "secondary": "Sekundär",
+    "tertiary": "Tertiär"
+  },
+  "en": {
+    "title": "Customize baseline color",
+    "switchLight": "Switch to light theme",
+    "switchDark": "Switch to dark theme",
+    "example": "Example:",
+    "cardTitle": "Test card",
+    "cardContent": "Here is an example text.",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "tertiary": "Tertiary"
+  },
+  "fr": {
+    "title": "Personnaliser la couleur de base",
+    "switchLight": "Passer au thème clair",
+    "switchDark": "Passer au thème sombre",
+    "example": "Exemple :",
+    "cardTitle": "Carte de test",
+    "cardContent": "Voici un exemple de texte.",
+    "primary": "Primaire",
+    "secondary": "Secondaire",
+    "tertiary": "Tertiaire"
+  }
+}
