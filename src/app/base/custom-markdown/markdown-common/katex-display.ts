@@ -25,8 +25,9 @@ const transformKatexLine = (text: string): HTMLToken[] => {
   ];
 };
 
+// TODO: Fix emph in Katex
 const transformInlineKatex = (node: MdNode) => {
-  const katexRegex = /(?:\$[^$]+\$)|(?:\([^)]+\))/gm;
+  const katexRegex = /\$[^$]+\$/gm;
   let m: RegExpExecArray;
   let lastIndex = 0;
   const returnArr: HTMLToken[] = [];

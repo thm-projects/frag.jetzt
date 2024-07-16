@@ -37,12 +37,16 @@ export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
       plugins: MD_PLUGINS,
       customHTMLRenderer: MD_CUSTOM_TEXT_RENDERER,
     });
-    effect(() => this.editor.setMarkdown(this.data()), {
+    effect(() => this.editor.setMarkdown(this.mdData()), {
       injector: this.injector,
     });
   }
 
   ngOnDestroy(): void {
     this.editor?.destroy();
+  }
+
+  private mdData() {
+    return this.data().replace(/\\(\)|\()/gm, '$');
   }
 }
