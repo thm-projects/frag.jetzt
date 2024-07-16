@@ -26,7 +26,7 @@ const transformKatexLine = (text: string): HTMLToken[] => {
 };
 
 const transformInlineKatex = (node: MdNode) => {
-  const katexRegex = /\$([^$]+)\$/gm;
+  const katexRegex = /(?:\$[^$]+\$)|(?:\([^)]+\))/gm;
   let m: RegExpExecArray;
   let lastIndex = 0;
   const returnArr: HTMLToken[] = [];
@@ -53,7 +53,7 @@ const transformInlineKatex = (node: MdNode) => {
         tagName: 'span',
       },
     );
-    toRender.push([id, m[1]]);
+    toRender.push([id, m[0].substring(1, m[0].length - 1)]);
     lastIndex = katexRegex.lastIndex;
   }
   if (lastIndex < text.length) {
