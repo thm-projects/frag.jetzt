@@ -13,14 +13,9 @@ import {
   CustomHTMLRenderer,
   EditorPlugin,
 } from '@toast-ui/editor/types/editor';
-import {
-  PluginOptions as KatexOptions,
-  generateId,
-  katexPlugin,
-  renderKatex,
-} from './katex-plugin';
+import { PluginOptions as KatexOptions, katexPlugin } from './katex-plugin';
 import { dsgvoMediaPlugin } from './dsgvo-media-plugin';
-import { HTMLToken } from '@toast-ui/editor/types/toastmark';
+import { KatexDisplay } from './katex-display';
 
 export const MD_EXAMPLE = `
 # h1
@@ -199,52 +194,16 @@ export const MD_PLUGINS: EditorPlugin[] = [
   dsgvoMediaPlugin,
 ];
 
+// Latex renderer for inline math ($ $) and block math (OpenAI Style [...])
+const displayer = new KatexDisplay();
 export const MD_CUSTOM_TEXT_RENDERER: CustomHTMLRenderer = {
   text(node) {
-    const katexRegex = /\$([^$]+)\$/gm;
-    let m: RegExpExecArray;
-    let lastIndex = 0;
-    const returnArr: HTMLToken[] = [];
-    const toRender: [string, string][] = [];
-    const text = node.literal;
-    while ((m = katexRegex.exec(text)) !== null) {
-      if (m.index > lastIndex) {
-        returnArr.push({
-          type: 'text',
-          content: text.substring(lastIndex, m.index),
-        });
-      }
-      const id = generateId();
-      returnArr.push(
-        {
-          type: 'openTag',
-          tagName: 'span',
-          attributes: {
-            'data-katex-id': id,
-          },
-        },
-        {
-          type: 'closeTag',
-          tagName: 'span',
-        },
-      );
-      toRender.push([id, m[1]]);
-      lastIndex = katexRegex.lastIndex;
-    }
-    if (lastIndex < text.length) {
-      returnArr.push({
-        type: 'text',
-        content: text.substring(lastIndex),
-      });
-    }
-    setTimeout(() => {
-      for (const [id, text] of toRender) {
-        renderKatex(id, text, {
-          displayMode: false,
-          output: 'mathml',
-        });
-      }
-    });
-    return returnArr;
+    return displayer.nextText(node);
+  },
+  softbreak(node) {
+    return displayer.nextSoftbreak(node);
+  },
+  emph(node, context) {
+    return displayer.nextEmph(node, context);
   },
 };

@@ -96,6 +96,10 @@ export class M3NavigationComponent {
     return navs;
   });
 
+  onNavigate() {
+    this.drawerRail().close();
+  }
+
   protected forward(id: string, e: M3NavigationEntry) {
     if (e.activated && e.options?.length) {
       this.drawerRail().forward(id, e as M3NavigationNestedOptionSection);

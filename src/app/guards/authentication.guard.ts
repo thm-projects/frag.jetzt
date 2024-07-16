@@ -61,7 +61,6 @@ export class AuthenticationGuard {
       this.accountState.access$.pipe(first(Boolean)),
     ]).pipe(
       switchMap(([isAdmin]) => {
-        console.log(123);
         const accessRole = isAdmin
           ? UserRole.CREATOR
           : this.parseRoomAccess(this.accountState.getAccess(roomShortId));

@@ -120,14 +120,17 @@ export class AiChatComponent {
   private fileInput = viewChild('fileInput', {
     read: ElementRef<HTMLInputElement>,
   });
+  private follow = signal(false);
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
   constructor() {
     effect(() => {
       this.messages();
-      this.scroll().nativeElement.scrollTop =
-        this.scroll().nativeElement.scrollHeight;
+      if (this.follow()) {
+        this.scroll().nativeElement.scrollTop =
+          this.scroll().nativeElement.scrollHeight;
+      }
     });
   }
 

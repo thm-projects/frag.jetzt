@@ -205,7 +205,7 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
   }
 
   close() {
-    this.openState.set('none');
+    this.openState.set(this.isSmall() ? 'none' : 'rail');
   }
 
   protected animationEnded() {
@@ -338,9 +338,6 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
             icon: 'arrow_back',
             svgIcon: '',
             onClick: () => {
-              this.location.subscribe((e) => {
-                console.log(e);
-              });
               this.location.back();
               return true;
             },

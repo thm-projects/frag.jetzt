@@ -78,7 +78,6 @@ export class AppRatingComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyer),
       )
       .subscribe((r) => {
-        console.log(r);
         if (r !== undefined && r !== null) {
           this.visibleRating = r.rating;
           this.changedBySubscription = true;
