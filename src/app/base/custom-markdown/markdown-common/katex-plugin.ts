@@ -65,7 +65,7 @@ export const katexPlugin = (
         const id = generateId();
 
         if (timer) {
-          clearTimeout(timer);
+          //clearTimeout(timer);
         }
 
         timer = setTimeout(() => renderKatex(id, node.literal, options));

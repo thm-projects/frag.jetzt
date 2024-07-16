@@ -194,16 +194,10 @@ export const MD_PLUGINS: EditorPlugin[] = [
   dsgvoMediaPlugin,
 ];
 
-// Latex renderer for inline math ($ $, and OpenAI Style (...)) and block math (OpenAI Style [...])
 const displayer = new KatexDisplay();
+// Latex renderer for inline math ($ $)
 export const MD_CUSTOM_TEXT_RENDERER: CustomHTMLRenderer = {
   text(node) {
     return displayer.nextText(node);
-  },
-  softbreak(node) {
-    return displayer.nextSoftbreak(node);
-  },
-  emph(node, context) {
-    return displayer.nextEmph(node, context);
   },
 };
