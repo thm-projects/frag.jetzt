@@ -16,15 +16,21 @@
 </div>
 <div class="grow"></div>
 <div class="row items-center gap-large">
-  <div class="text-icon">
+  <div
+    class="text-icon"
+    [matTooltip]="'question-wall.users-online' | translate">
     <mat-icon>people</mat-icon>
     {{ headerService.getCurrentUserActivity() || 0 }}
   </div>
-  <div class="text-icon">
+  <div
+    class="text-icon"
+    [matTooltip]="'question-wall.overview-question-tooltip' | translate">
     <mat-icon>comment</mat-icon>
     {{ session?.commentsCountQuestions }}
   </div>
-  <div class="text-icon">
+  <div
+    class="text-icon"
+    [matTooltip]="'question-wall.ple.overview-question-tooltip' | translate">
     <mat-icon>person</mat-icon>
     {{ session?.commentsCountQuestions }}
   </div>

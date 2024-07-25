@@ -10,6 +10,8 @@ import {
   QuestionWallSession,
 } from '../../question-wall.service';
 import { FormsModule } from '@angular/forms';
+import { MatTooltip } from '@angular/material/tooltip';
+import { EssentialsModule } from '../../../../../essentials/essentials.module';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -24,6 +26,8 @@ import { FormsModule } from '@angular/forms';
     MatSliderThumb,
     FormsModule,
     MatMenuTrigger,
+    MatTooltip,
+    EssentialsModule,
   ],
   templateUrl: './qw-top-bar.component.html',
   styleUrl: './qw-top-bar.component.scss',
