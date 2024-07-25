@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
 @import "@toast-ui/editor/dist/toastui-editor.css";
 @import "tui-color-picker/dist/tui-color-picker.css";
 @import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
@@ -1723,6 +1725,8 @@ div.toastui-editor-fragjetzt {
 
       th,
       td {
+        @include m3-typescale.typescale(label, large, em);
+
         // .mdc-data-table__content
         -moz-osx-font-smoothing: grayscale;
         -webkit-font-smoothing: antialiased;
@@ -1731,7 +1735,7 @@ div.toastui-editor-fragjetzt {
           Roboto,
           sans-serif
         );
-        font-size: var(--mat-table-row-item-label-text-size, 14px);
+        // font-size: var(--mat-table-row-item-label-text-size, 14px);
         font-weight: var(--mat-table-row-item-label-text-weight);
         // .mat-mdc-row
         height: var(--mat-table-row-item-container-height, 52px);

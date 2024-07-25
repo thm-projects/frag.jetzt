@@ -75,6 +75,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           componentBuilder.destroyAll().subscribe(() => {
             componentBuilder.createComponent(QwCommentFocusComponent, {
               comment,
+              session,
             });
           });
         } else {

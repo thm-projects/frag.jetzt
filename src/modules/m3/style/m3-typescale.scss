@@ -144,13 +144,26 @@ $valid-units: px, em;
   @return null;
 }
 
+@mixin font-size($type, $scale, $unit: px) {
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{unit};
+}
+
 @mixin typescale($type, $scale, $unit: px) {
   $err-unit: _validate-unit(#{$unit});
   /// todo(lph) add validation
   font-family: #{map.get($_typescale, $type, $scale, font)};
   font-weight: #{map.get($_typescale, $type, $scale, weight)};
-  font-size: #{map.get($_typescale, $type, $scale, size)}#{$unit};
-  line-height: #{map.get($_typescale, $type, $scale, line-height)}#{$unit};
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{$unit};
+  line-height: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, line-height),
+      $unit
+    )}#{$unit};
   letter-spacing: #{_convert-px-to-unit(
       map.get($_typescale, $type, $scale, tracking),
       $unit

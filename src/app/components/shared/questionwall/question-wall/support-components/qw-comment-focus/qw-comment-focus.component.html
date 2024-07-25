@@ -4,7 +4,9 @@
     [date]="comment.createdAt"></ars-date-formatter>
 </div>
 <div class="content">
-  <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
+  <app-markdown-viewer
+    #markdownViewerComponent
+    [data]="comment.body"></app-markdown-viewer>
 </div>
 <qw-comment-footer [comment]="comment">
   <button

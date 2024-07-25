@@ -1,18 +1,21 @@
 <div class="top-bar-slider-container row items-center gap-medium">
   <div class="row items-center">
-    <mat-icon>remove</mat-icon>
-    <mat-slider
-      [(ngModel)]="currentCommentFocusScale"
-      [step]="commentFocusScaleBounds.step"
-      [min]="commentFocusScaleBounds.min"
-      [max]="commentFocusScaleBounds.max"
-      [showTickMarks]="true">
-      <input
-        matSliderThumb
-        value="1.5" />
-    </mat-slider>
-    <mat-icon>add</mat-icon>
+    @if (session) {
+      <mat-icon>remove</mat-icon>
+      <mat-slider
+        [step]="commentFocusScaleBounds.step"
+        [min]="commentFocusScaleBounds.min"
+        [max]="commentFocusScaleBounds.max"
+        (input)="session.focusScale.next($event.target['value'])"
+        [showTickMarks]="true">
+        <input
+          matSliderThumb
+          [value]="session.focusScale.value" />
+      </mat-slider>
+      <mat-icon>add</mat-icon>
+    }
   </div>
+  <span>{{ session.focusScale.value }}</span>
 </div>
 <div class="grow"></div>
 <div class="row items-center gap-large">
@@ -101,7 +104,7 @@
     <mat-icon>category</mat-icon>
     Category
     <mat-menu #matCategoryMenu>
-      @for (category of session?.room.tags; track category) {
+      @for (category of session?.room?.tags; track category) {
         <button mat-menu-item>
           {{ category }}
         </button>
