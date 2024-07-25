@@ -1725,7 +1725,15 @@ div.toastui-editor-fragjetzt {
 
       th,
       td {
-        @include m3-typescale.typescale(label, large, em);
+        // @Bimberg
+        //
+        // @include m3-typescale.typescale(label, large, em);
+        //
+        // or
+        //
+        // @include m3-typescale.font-size(label, large, em)
+        //
+        // ;
 
         // .mdc-data-table__content
         -moz-osx-font-smoothing: grayscale;
@@ -1735,7 +1743,8 @@ div.toastui-editor-fragjetzt {
           Roboto,
           sans-serif
         );
-        // font-size: var(--mat-table-row-item-label-text-size, 14px);
+        // overwrites previous implementation
+        font-size: var(--mat-table-row-item-label-text-size, 14px);
         font-weight: var(--mat-table-row-item-label-text-weight);
         // .mat-mdc-row
         height: var(--mat-table-row-item-container-height, 52px);
@@ -1798,6 +1807,31 @@ div.toastui-editor-fragjetzt {
       &.checked::before {
         mask-image: url(/assets/editor-icons/check/check-square-s.svg);
       }
+    }
+    h1 {
+      @include m3-typescale.font-size(title, large);
+    }
+    h2 {
+      @include m3-typescale.font-size(title, medium);
+      padding-top: 1em;
+    }
+    h3 {
+      @include m3-typescale.font-size(title, medium);
+      padding-top: 1em;
+    }
+    h4 {
+      @include m3-typescale.font-size(title, small);
+    }
+    h5 {
+      @include m3-typescale.font-size(titel, small);
+    }
+    h6 {
+      @include m3-typescale.font-size(titel, small);
+    }
+    p {
+      @include m3-typescale.font-size(body, medium);
+      hyphens: auto;
+      line-height: 1.5;
     }
   }
 }
