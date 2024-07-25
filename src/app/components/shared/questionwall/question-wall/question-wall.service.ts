@@ -48,6 +48,7 @@ export interface QuestionWallSession {
   filterChangeListener: EventEmitter<void>;
   onInit: BehaviorSubject<boolean>;
   readonly adjacentComments: AdjacentComments;
+  focusScale: BehaviorSubject<number>;
 
   generateCommentReplyStream(
     destroyer: ReplaySubject<1>,
@@ -129,6 +130,7 @@ export class QuestionWallService {
       filter: support,
       focus: focus,
       filterChangeListener: filterChangeListener,
+      focusScale: new BehaviorSubject(100),
       get commentsCountUsers() {
         return commentsCountUsers;
       },

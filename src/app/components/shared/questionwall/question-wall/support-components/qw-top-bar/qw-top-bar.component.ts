@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, numberAttribute } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -10,6 +10,8 @@ import {
   QuestionWallSession,
 } from '../../question-wall.service';
 import { FormsModule } from '@angular/forms';
+import { MatTooltip } from '@angular/material/tooltip';
+import { EssentialsModule } from '../../../../../essentials/essentials.module';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -24,21 +26,26 @@ import { FormsModule } from '@angular/forms';
     MatSliderThumb,
     FormsModule,
     MatMenuTrigger,
+    MatTooltip,
+    EssentialsModule,
   ],
   templateUrl: './qw-top-bar.component.html',
   styleUrl: './qw-top-bar.component.scss',
 })
 export class QwTopBarComponent {
   readonly commentFocusScaleBounds = {
-    min: 1,
-    max: 5,
-    step: 0.1,
+    min: 50,
+    max: 400,
+    step: 25,
+    _default: 100,
   };
   protected readonly SortType = SortType;
-  protected currentCommentFocusScale: number = this.commentFocusScaleBounds.min;
   @Input() session: QuestionWallSession;
+
   constructor(
     public headerService: HeaderService,
     public readonly self: QuestionWallService,
   ) {}
+
+  protected readonly numberAttribute = numberAttribute;
 }

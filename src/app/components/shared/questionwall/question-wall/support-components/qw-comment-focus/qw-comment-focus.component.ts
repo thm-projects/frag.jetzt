@@ -1,6 +1,15 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { ForumComment } from '../../../../../../utils/data-accessor';
-import { QuestionWallService } from '../../question-wall.service';
+import {
+  QuestionWallService,
+  QuestionWallSession,
+} from '../../question-wall.service';
 import { ArsModule } from '../../../../../../../../projects/ars/src/lib/ars.module';
 import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { MatButton } from '@angular/material/button';
@@ -20,6 +29,7 @@ import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer
 import { NgIf } from '@angular/common';
 import { CommentService } from '../../../../../../services/http/comment.service';
 import { QwCommentResponseWindowComponent } from '../qw-comment-response-window/qw-comment-response-window.component';
+import { MarkdownViewerComponent } from '../../../../../../base/custom-markdown/markdown-viewer/markdown-viewer.component';
 
 const baseAnimationDuration = 100;
 
@@ -79,6 +89,23 @@ export class QwCommentFocusComponent implements OnDestroy {
   protected answersExpanded: boolean = false;
   protected replies: ForumComment[] | undefined;
 
+  @ViewChild('markdownViewerComponent') set _markdownViewerComponent(
+    component: MarkdownViewerComponent,
+  ) {
+    this.data.session.focusScale.subscribe((value) => {
+      try {
+        const element = component
+          .editorElement()
+          .nativeElement.getElementsByClassName(
+            'toastui-editor-contents',
+          )[0] as HTMLElement;
+        element.style.fontSize = value + '%';
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
+
   constructor(
     public readonly self: QuestionWallService,
     public readonly dateFormatter: ArsDateFormatter,
@@ -87,6 +114,7 @@ export class QwCommentFocusComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     public readonly data: ComponentData<{
       comment: ForumComment;
+      session: QuestionWallSession;
     }>,
   ) {
     this.comment = data.comment;

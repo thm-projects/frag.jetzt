@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
 @import "@toast-ui/editor/dist/toastui-editor.css";
 @import "tui-color-picker/dist/tui-color-picker.css";
 @import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
@@ -1794,6 +1796,28 @@ div.toastui-editor-fragjetzt {
       &.checked::before {
         mask-image: url(/assets/editor-icons/check/check-square-s.svg);
       }
+    }
+    h1 {
+      @include m3-typescale.typescale(title, large, em);
+    }
+    h2 {
+      @include m3-typescale.typescale(title, medium, em);
+    }
+    h3 {
+      @include m3-typescale.typescale(title, medium, em);
+    }
+    h4 {
+      @include m3-typescale.typescale(title, small, em);
+    }
+    h5 {
+      @include m3-typescale.typescale(title, small, em);
+    }
+    h6 {
+      @include m3-typescale.typescale(title, small, em);
+    }
+    p {
+      @include m3-typescale.typescale(body, medium, em);
+      hyphens: auto;
     }
   }
 }

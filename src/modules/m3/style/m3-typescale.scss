@@ -122,6 +122,8 @@ $_typescale: (
 );
 
 $valid-units: px, em;
+$valid-types: #{map.keys($_typescale)};
+$valid-scales: large, medium, small;
 
 @function _convert-px-to-unit($value, $unit) {
   @if $unit == px {
@@ -144,13 +146,43 @@ $valid-units: px, em;
   @return null;
 }
 
+@mixin font-size($type, $scale, $unit: px) {
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{$unit};
+}
+
+@function _validate-type($type) {
+  @if map.get($_typescale, $type) == null {
+    @error "#{$type} is not a valid type. #{$valid-types}";
+  }
+  @return null;
+}
+
+@function _validate-scale($scale) {
+  @if $scale == large or $scale == medium or $scale == small {
+    @return null;
+  } @else {
+    @error "#{$scale} is not a valid scale. use #{$valid-scales}";
+  }
+}
+
 @mixin typescale($type, $scale, $unit: px) {
   $err-unit: _validate-unit(#{$unit});
+  $err-type: _validate-type(#{$type});
+  $err-scale: _validate-scale(#{$scale});
   /// todo(lph) add validation
   font-family: #{map.get($_typescale, $type, $scale, font)};
   font-weight: #{map.get($_typescale, $type, $scale, weight)};
-  font-size: #{map.get($_typescale, $type, $scale, size)}#{$unit};
-  line-height: #{map.get($_typescale, $type, $scale, line-height)}#{$unit};
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{$unit};
+  line-height: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, line-height),
+      $unit
+    )}#{$unit};
   letter-spacing: #{_convert-px-to-unit(
       map.get($_typescale, $type, $scale, tracking),
       $unit
