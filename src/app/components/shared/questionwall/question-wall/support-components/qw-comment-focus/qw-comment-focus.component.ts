@@ -94,12 +94,15 @@ export class QwCommentFocusComponent implements OnDestroy {
   ) {
     this.data.session.focusScale.subscribe((value) => {
       try {
-        const element = component
-          .editorElement()
-          .nativeElement.getElementsByClassName(
-            'toastui-editor-contents',
-          )[0] as HTMLElement;
-        element.style.fontSize = value + '%';
+        // dirty trick
+        setTimeout(() => {
+          const element = component
+            .editorElement()
+            .nativeElement.getElementsByClassName(
+              'toastui-editor-contents',
+            )[0] as HTMLElement;
+          element.style.fontSize = value + '%';
+        });
       } catch (e) {
         console.log(e);
       }
