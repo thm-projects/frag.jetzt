@@ -1725,16 +1725,6 @@ div.toastui-editor-fragjetzt {
 
       th,
       td {
-        // @Bimberg
-        //
-        // @include m3-typescale.typescale(label, large, em);
-        //
-        // or
-        //
-        // @include m3-typescale.font-size(label, large, em)
-        //
-        // ;
-
         // .mdc-data-table__content
         -moz-osx-font-smoothing: grayscale;
         -webkit-font-smoothing: antialiased;
@@ -1743,7 +1733,6 @@ div.toastui-editor-fragjetzt {
           Roboto,
           sans-serif
         );
-        // overwrites previous implementation
         font-size: var(--mat-table-row-item-label-text-size, 14px);
         font-weight: var(--mat-table-row-item-label-text-weight);
         // .mat-mdc-row
@@ -1809,29 +1798,26 @@ div.toastui-editor-fragjetzt {
       }
     }
     h1 {
-      @include m3-typescale.font-size(title, large);
+      @include m3-typescale.typescale(title, large, em);
     }
     h2 {
-      @include m3-typescale.font-size(title, medium);
-      padding-top: 1em;
+      @include m3-typescale.typescale(title, medium, em);
     }
     h3 {
-      @include m3-typescale.font-size(title, medium);
-      padding-top: 1em;
+      @include m3-typescale.typescale(title, medium, em);
     }
     h4 {
-      @include m3-typescale.font-size(title, small);
+      @include m3-typescale.typescale(title, small, em);
     }
     h5 {
-      @include m3-typescale.font-size(title, small);
+      @include m3-typescale.typescale(title, small, em);
     }
     h6 {
-      @include m3-typescale.font-size(title, small);
+      @include m3-typescale.typescale(title, small, em);
     }
     p {
-      @include m3-typescale.font-size(body, medium);
+      @include m3-typescale.typescale(body, medium, em);
       hyphens: auto;
-      line-height: 1.5;
     }
   }
 }
