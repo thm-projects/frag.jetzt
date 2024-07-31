@@ -1,3 +1,5 @@
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
 :host {
   display: flex;
   flex-direction: row;
@@ -15,4 +17,10 @@
   align-items: center;
   margin-left: 4px;
   margin-top: 4px;
+}
+.title {
+  @include m3-typescale.typescale(display, large);
+}
+.sub-title {
+  @include m3-typescale.typescale(body, large);
 }
