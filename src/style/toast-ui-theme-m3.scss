@@ -164,12 +164,12 @@ div.toastui-editor-fragjetzt {
   }
 
   .katex-block {
-    @extend .body-large;
+    @include m3-typescale.typescale(body, large, em);
     padding-block: 0.5em;
   }
 
   .katex {
-    font-size: 1.25rem;
+    font-size: 1.25em;
   }
 
   .katex-error {
