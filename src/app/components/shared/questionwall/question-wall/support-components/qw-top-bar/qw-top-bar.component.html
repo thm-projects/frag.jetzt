@@ -42,7 +42,13 @@
     mat-button
     [matMenuTriggerFor]="matSortMenu">
     <mat-icon>sort</mat-icon>
-    Sort
+    Sort ({{
+      session?.filter.currentSortConfig.type === SortType.Time
+        ? session?.filter.currentSortConfig.isReverse
+          ? "Oldest"
+          : "Newest"
+        : SortType[session?.filter.currentSortConfig.type]
+    }})
     <mat-menu #matSortMenu>
       <button
         mat-menu-item
