@@ -165,7 +165,10 @@ div.toastui-editor-fragjetzt {
 
   .katex-block {
     @include m3-typescale.typescale(body, large, em);
-    padding-block: 0.5em;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 1em 0;
   }
 
   .katex {
