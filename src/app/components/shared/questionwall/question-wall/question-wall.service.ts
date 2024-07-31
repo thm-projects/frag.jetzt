@@ -24,7 +24,7 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import { Period } from '../../../../utils/data-filter-object.lib';
+import { Period, SortType } from '../../../../utils/data-filter-object.lib';
 import { user$ } from 'app/user/state/user';
 
 export type AdjacentComments = [
@@ -96,6 +96,8 @@ export class QuestionWallService {
     support: CommentListSupport,
     destroyer: ReplaySubject<1>,
   ): QuestionWallSession {
+    // newest comments first as default sort
+    support.sort(SortType.Time, false);
     const sessionService: SessionService = this.sessionService;
     const roomDataService: RoomDataService = this.roomDataService;
     // todo(lph) change to signals later!
