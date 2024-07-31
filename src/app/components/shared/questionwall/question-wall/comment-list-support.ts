@@ -32,6 +32,11 @@ export interface CommentListSupport {
 
   filterBookmark(): void;
 
+  readonly currentSortConfig: {
+    readonly isReverse: boolean;
+    readonly type: SortType;
+  };
+
   readonly filteredDataAccess: FilteredDataAccess;
 }
 
@@ -39,10 +44,21 @@ export function createCommentListSupport(
   filteredDataAccess: FilteredDataAccess,
 ): CommentListSupport {
   return {
+    currentSortConfig: {
+      isReverse: false,
+      type: SortType.Time,
+    },
     get filteredDataAccess() {
       return filteredDataAccess;
     },
     sort(sortType: SortType, reverse: boolean = false) {
+      if (this.currentSortConfig.isReverse !== reverse) {
+        // if due to change detection? otherwise not needed.
+        this.currentSortConfig.isReverse = reverse;
+      }
+      if (this.currentSortConfig.type !== sortType) {
+        this.currentSortConfig.type = sortType;
+      }
       const filter = filteredDataAccess.dataFilter;
       filter.sortType = sortType;
       filter.sortReverse = reverse;

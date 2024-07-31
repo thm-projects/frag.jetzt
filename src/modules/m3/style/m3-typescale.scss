@@ -172,7 +172,6 @@ $valid-scales: large, medium, small;
   $err-unit: _validate-unit(#{$unit});
   $err-type: _validate-type(#{$type});
   $err-scale: _validate-scale(#{$scale});
-  /// todo(lph) add validation
   font-family: #{map.get($_typescale, $type, $scale, font)};
   font-weight: #{map.get($_typescale, $type, $scale, weight)};
   font-size: #{_convert-px-to-unit(
@@ -189,8 +188,6 @@ $valid-scales: large, medium, small;
     )}#{$unit};
 }
 
-// todo(lph) this is taken from https://github.com/material-foundation/material-tokens
-// check license before production.
 @mixin all-typescale($unit: px) {
   $err-unit: _validate-unit($unit);
   --md-ref-typeface-weight-regular: 400;
@@ -204,6 +201,3 @@ $valid-scales: large, medium, small;
     }
   }
 }
-
-// todo(lph) add modify typescale. for better readability (and performance?)
-// something like 'modify-typescale', and specifying e.g.: em/px, font-face.
