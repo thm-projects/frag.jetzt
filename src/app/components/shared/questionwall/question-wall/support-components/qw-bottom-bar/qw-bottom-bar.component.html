@@ -1,8 +1,9 @@
-<div class="row gap-medium flex-100">
+<div class="row items-center gap-medium flex-100">
   <mat-slide-toggle [(ngModel)]="session.autofocus">
     autofocus for new questions
   </mat-slide-toggle>
   <mat-slide-toggle [(ngModel)]="session.qrcode">Show QR Code</mat-slide-toggle>
+  <qw-scale-slider></qw-scale-slider>
 </div>
 <div class="row gap-medium flex-010">
   <button

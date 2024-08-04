@@ -7,12 +7,19 @@ import {
   QuestionWallService,
   QuestionWallSession,
 } from '../../question-wall.service';
+import { QwScaleSliderComponent } from '../qw-scale-slider/qw-scale-slider.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-bottom-bar',
   standalone: true,
-  imports: [MatButton, MatIcon, MatSlideToggle, FormsModule],
+  imports: [
+    MatButton,
+    MatIcon,
+    MatSlideToggle,
+    FormsModule,
+    QwScaleSliderComponent,
+  ],
   templateUrl: './qw-bottom-bar.component.html',
   styleUrl: './qw-bottom-bar.component.scss',
 })

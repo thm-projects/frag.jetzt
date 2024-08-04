@@ -17,7 +17,8 @@
 }
 
 .clock {
-  max-height: 0;
+  max-height: 200px;
+  align-self: center;
 }
 
 .view-comment-container {
@@ -26,6 +27,7 @@
   display: flex;
   overflow: auto;
   padding: var(--m3-sys-layout-spacing-pane);
+  justify-content: flex-start;
 }
 
 .view-comment {
@@ -33,6 +35,7 @@
   max-width: 1600px;
   height: 0;
   flex-shrink: 1;
+  padding: 64px 0;
 }
 
 .side-bar-content {
