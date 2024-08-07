@@ -1,0 +1,32 @@
+{
+  "key": "qw",
+  "de": {
+    "action":{
+      "sort": {
+        "title": "Sortieren ($OPTION$)",
+        "options": {
+          "newest": "Neuste",
+          "oldest": "Älteste",
+          "score": "Bewertung",
+          "controversy": "Kontroversität"
+        }
+      },
+      "timePeriod": "Zeitraum",
+      "filter": "Filter",
+      "category": "Kategorie"
+    },
+    "info": {
+      "currentUserActivity": {
+        "tooltip": "Aktuell eingeloggte User"
+      },
+      "commentsCountQuestions": {
+        "tooltip": "Anzahl Fragen"
+      },
+      "commentsCountUsers": {
+        "tooltip": "Anzahl der Fragenstellenden"
+      }
+    }
+  },
+  "en": {},
+  "fr": {}
+}

@@ -1,21 +1,3 @@
-<div class="top-bar-slider-container row items-center gap-medium">
-  <div class="row items-center">
-    @if (session) {
-      <mat-icon>remove</mat-icon>
-      <mat-slider
-        [step]="commentFocusScaleBounds.step"
-        [min]="commentFocusScaleBounds.min"
-        [max]="commentFocusScaleBounds.max"
-        (input)="session.focusScale.next($event.target['value'])"
-        [showTickMarks]="true">
-        <input
-          matSliderThumb
-          [value]="session.focusScale.value" />
-      </mat-slider>
-      <mat-icon>add</mat-icon>
-    }
-  </div>
-</div>
 <div class="grow"></div>
 <div class="row items-center gap-large">
   <div
