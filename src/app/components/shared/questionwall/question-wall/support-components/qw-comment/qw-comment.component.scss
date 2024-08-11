@@ -4,6 +4,10 @@
   padding: 8px;
 }
 
+:host-context(.highlight) {
+  background-color: var(--mat-ripple-color);
+}
+
 .background-container {
   width: 100%;
   height: 0;
