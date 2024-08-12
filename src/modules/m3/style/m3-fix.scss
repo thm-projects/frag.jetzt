@@ -9,6 +9,10 @@
     }
   }
 
+  .mdc-label {
+    white-space: nowrap;
+  }
+
   .mat-mdc-slide-toggle {
     > .mdc-form-field--align-end {
       display: flex;

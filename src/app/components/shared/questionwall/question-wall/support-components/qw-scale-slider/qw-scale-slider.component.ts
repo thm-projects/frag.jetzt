@@ -13,9 +13,9 @@ import { QuestionWallService } from '../../question-wall.service';
 })
 export class QwScaleSliderComponent {
   readonly sliderConfig = {
-    min: 50,
-    max: 400,
-    step: 25,
+    min: 100,
+    max: 1500,
+    step: 50,
     _default: 100,
   };
   constructor(public readonly self: QuestionWallService) {}

@@ -27,12 +27,15 @@
     <div class="side-bar-content grow">
       @for (comment of session?.comments; track comment) {
         <qw-comment
+          mat-ripple
           [context]="{
             session: session,
             comment: comment
           }"></qw-comment>
       } @empty {
-        <p>no comments</p>
+        <div class="column grow items-center">
+          <p>{{ i18n().info.noComments }}</p>
+        </div>
       }
     </div>
     <div class="side-bar-footer">

@@ -1,32 +1,182 @@
 {
   "key": "qw",
-  "de": {
-    "action":{
+  "en": {
+    "action": {
       "sort": {
-        "title": "Sortieren ($OPTION$)",
+        "title": "Sort ({{currentOption}})",
         "options": {
-          "newest": "Neuste",
-          "oldest": "Älteste",
-          "score": "Bewertung",
-          "controversy": "Kontroversität"
+          "newest": "Newest",
+          "oldest": "Oldest",
+          "score": "Highest Score",
+          "controversy": "Most Controversial"
         }
       },
-      "timePeriod": "Zeitraum",
-      "filter": "Filter",
-      "category": "Kategorie"
+      "filter": {
+        "title": "Filter by",
+        "options": {
+          "bonus": "Marked for Bonus",
+          "bookmark": "Bookmarked"
+        }
+      },
+      "timeFilter": {
+        "title": "Time Range",
+        "options": {
+          "now": "Show questions from now on",
+          "hour": {
+            "single": "Last Hour",
+            "plural": "Last {{time}} Hours"
+          },
+          "day": {
+            "single": "Last Day",
+            "plural": "Last {{time}} Days"
+          },
+          "all": "No Time Limit"
+        }
+      },
+      "category": {
+        "title": "Category"
+      },
+      "autofocus": "Autofocus on new questions",
+      "qrCode": "Display QR Code",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "placeholder": {
+      "title": "Question Overview",
+      "subtitle": "Click on a question or use the arrow keys to navigate."
     },
     "info": {
+      "noCategories": "No categories available",
+      "noComments": "No comments available",
       "currentUserActivity": {
-        "tooltip": "Aktuell eingeloggte User"
+        "tooltip": "Currently logged in users"
       },
       "commentsCountQuestions": {
-        "tooltip": "Anzahl Fragen"
+        "tooltip": "Total questions"
       },
       "commentsCountUsers": {
-        "tooltip": "Anzahl der Fragenstellenden"
+        "tooltip": "Total questioners"
       }
     }
   },
-  "en": {},
-  "fr": {}
+
+  "de": {
+    "action": {
+      "sort": {
+        "title": "Sortieren ({{currentOption}})",
+        "options": {
+          "newest": "Neueste",
+          "oldest": "Älteste",
+          "score": "Höchste Punktzahl",
+          "controversy": "Umstrittenste"
+        }
+      },
+      "filter": {
+        "title": "Filtern nach",
+        "options": {
+          "bonus": "Für Bonus markiert",
+          "bookmark": "Gespeichert"
+        }
+      },
+      "timeFilter": {
+        "title": "Zeitraum",
+        "options": {
+          "now": "Fragen ab jetzt anzeigen",
+          "hour": {
+            "single": "Letzte Stunde",
+            "plural": "Letzte {{time}} Stunden"
+          },
+          "day": {
+            "single": "Letzter Tag",
+            "plural": "Letzte {{time}} Tage"
+          },
+          "all": "Ohne Zeitlimit"
+        }
+      },
+      "category": {
+        "title": "Kategorie"
+      },
+      "autofocus": "Autofokus auf neue Fragen",
+      "qrCode": "QR-Code anzeigen",
+      "previous": "Zurück",
+      "next": "Weiter"
+    },
+    "placeholder": {
+      "title": "Fragenübersicht",
+      "subtitle": "Klicken Sie auf eine Frage oder navigieren Sie mit den Pfeiltasten."
+    },
+    "info": {
+      "noCategories": "Keine Kategorien verfügbar",
+      "noComments": "Keine Kommentare verfügbar",
+      "currentUserActivity": {
+        "tooltip": "Aktuell angemeldete Benutzer"
+      },
+      "commentsCountQuestions": {
+        "tooltip": "Gesamtanzahl der Fragen"
+      },
+      "commentsCountUsers": {
+        "tooltip": "Gesamtanzahl der Fragesteller"
+      }
+    }
+  },
+  "fr": {
+    "action": {
+      "sort": {
+        "title": "Trier ({{currentOption}})",
+        "options": {
+          "newest": "Plus récent",
+          "oldest": "Plus ancien",
+          "score": "Meilleur score",
+          "controversy": "Le plus controversé"
+        }
+      },
+      "filter": {
+        "title": "Filtrer par",
+        "options": {
+          "bonus": "Marqué pour un bonus",
+          "bookmark": "Ajouté aux favoris"
+        }
+      },
+      "timeFilter": {
+        "title": "Plage temporelle",
+        "options": {
+          "now": "Afficher les questions à partir de maintenant",
+          "hour": {
+            "single": "Dernière heure",
+            "plural": "Dernières {{time}} heures"
+          },
+          "day": {
+            "single": "Dernier jour",
+            "plural": "Derniers {{time}} jours"
+          },
+          "all": "Pas de limite de temps"
+        }
+      },
+      "category": {
+        "title": "Catégorie"
+      },
+      "autofocus": "Autofocus sur les nouvelles questions",
+      "qrCode": "Afficher le code QR",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "placeholder": {
+      "title": "Aperçu des questions",
+      "subtitle": "Cliquez sur une question ou utilisez les flèches pour naviguer."
+    },
+    "info": {
+      "noCategories": "Aucune catégorie disponible",
+      "noComments": "Aucun commentaire disponible",
+      "currentUserActivity": {
+        "tooltip": "Utilisateurs actuellement connectés"
+      },
+      "commentsCountQuestions": {
+        "tooltip": "Nombre total de questions"
+      },
+      "commentsCountUsers": {
+        "tooltip": "Nombre total de questionneurs"
+      }
+    }
+  }
+
 }

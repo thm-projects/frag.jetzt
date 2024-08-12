@@ -24,33 +24,30 @@
     mat-button
     [matMenuTriggerFor]="matSortMenu">
     <mat-icon>sort</mat-icon>
-    Sort ({{
-      session?.filter.currentSortConfig.type === SortType.Time
-        ? session?.filter.currentSortConfig.isReverse
-          ? "Oldest"
-          : "Newest"
-        : SortType[session?.filter.currentSortConfig.type]
-    }})
+    {{
+      i18n().action.sort.title
+        | context: { currentOption: i18n().action.sort.options[currentOption] }
+    }}
     <mat-menu #matSortMenu>
       <button
         mat-menu-item
         (click)="session?.filter.sort(SortType.Time, false)">
-        Newest
+        {{ i18n().action.sort.options.newest }}
       </button>
       <button
         mat-menu-item
         (click)="session?.filter.sort(SortType.Time, true)">
-        Oldest
+        {{ i18n().action.sort.options.oldest }}
       </button>
       <button
         mat-menu-item
         (click)="session?.filter.sort(SortType.Score, false)">
-        Score
+        {{ i18n().action.sort.options.score }}
       </button>
       <button
         mat-menu-item
         (click)="session?.filter.sort(SortType.Controversy, false)">
-        Controversy
+        {{ i18n().action.sort.options.controversy }}
       </button>
     </mat-menu>
   </button>
@@ -58,30 +55,46 @@
     mat-button
     [matMenuTriggerFor]="matTimeFilterMenu">
     <mat-icon>schedule</mat-icon>
-    Time Period
+    {{ i18n().action.timeFilter.title }}
     <mat-menu #matTimeFilterMenu>
-      <button mat-menu-item>Display questions from now on</button>
-      <button mat-menu-item>Last hour</button>
-      <button mat-menu-item>Last 2 hours</button>
-      <button mat-menu-item>Last 24 hours</button>
-      <button mat-menu-item>Last 7 Days</button>
-      <button mat-menu-item>Last 14 Days</button>
-      <button mat-menu-item>Unlimited in time</button>
+      <button mat-menu-item>{{ i18n().action.timeFilter.options.now }}</button>
+      <button mat-menu-item>
+        {{ i18n().action.timeFilter.options.hour.single }}
+      </button>
+      <button mat-menu-item>
+        {{
+          i18n().action.timeFilter.options.hour.plural | context: { time: 2 }
+        }}
+      </button>
+      <button mat-menu-item>
+        {{
+          i18n().action.timeFilter.options.hour.plural | context: { time: 24 }
+        }}
+      </button>
+      <button mat-menu-item>
+        {{ i18n().action.timeFilter.options.day.plural | context: { time: 7 } }}
+      </button>
+      <button mat-menu-item>
+        {{
+          i18n().action.timeFilter.options.day.plural | context: { time: 14 }
+        }}
+      </button>
+      <button mat-menu-item>{{ i18n().action.timeFilter.options.all }}</button>
     </mat-menu>
   </button>
   <button
     mat-button
     [matMenuTriggerFor]="matFilterMenu">
     <mat-icon>filter</mat-icon>
-    Filter
+    {{ i18n().action.filter.title }}
     <mat-menu #matFilterMenu>
       <button mat-menu-item>
         <mat-icon>star</mat-icon>
-        Marked for a bonus
+        {{ i18n().action.filter.options.bonus }}
       </button>
       <button mat-menu-item>
         <mat-icon>bookmark</mat-icon>
-        Bookmarked
+        {{ i18n().action.filter.options.bookmark }}
       </button>
     </mat-menu>
   </button>
@@ -89,14 +102,18 @@
     mat-button
     [matMenuTriggerFor]="matCategoryMenu">
     <mat-icon>category</mat-icon>
-    Category
+    {{ i18n().action.category.title }}
     <mat-menu #matCategoryMenu>
       @for (category of session?.room?.tags; track category) {
         <button mat-menu-item>
           {{ category }}
         </button>
       } @empty {
-        <span>no-categories</span>
+        <div class="column grow items-center">
+          <span class="label-small label-text-override">
+            {{ i18n().info.noCategories }}
+          </span>
+        </div>
       }
     </mat-menu>
   </button>
