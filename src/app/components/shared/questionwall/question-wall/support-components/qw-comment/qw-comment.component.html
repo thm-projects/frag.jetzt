@@ -1,18 +1,16 @@
-@if (context) {
+@if (config) {
   <div class="background-container">
     <div class="background">
-      <span
-        class="material-symbols-outlined"
-        style="font-size: 64px">
-        co_present
-      </span>
-      <span style="font-size: 64px">Q123</span>
+      <qw-comment-questioner-background
+        [value]="
+          config.session.questionerMap[config.comment.id]
+        "></qw-comment-questioner-background>
     </div>
   </div>
   <div class="header">
     <ars-date-formatter
       [formatter]="dateFormatter"
-      [date]="context.comment.createdAt"></ars-date-formatter>
+      [date]="config.comment.createdAt"></ars-date-formatter>
     <div class="grow"></div>
   </div>
   <div
@@ -21,7 +19,7 @@
     <div
       class="content-size"
       #contentSize>
-      <app-markdown-viewer [data]="context.comment.body"></app-markdown-viewer>
+      <app-markdown-viewer [data]="config.comment.body"></app-markdown-viewer>
     </div>
   </div>
   @if (contentSize.offsetHeight > content.offsetHeight) {
@@ -29,5 +27,5 @@
       <div class="overflow"></div>
     </div>
   }
-  <qw-comment-footer [comment]="context.comment"></qw-comment-footer>
+  <qw-comment-footer [comment]="config.comment"></qw-comment-footer>
 }

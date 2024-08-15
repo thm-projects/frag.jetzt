@@ -25,6 +25,7 @@ import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/cus
 import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer.component';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { NgStyle } from '@angular/common';
+import { QwCommentQuestionerBackgroundComponent } from '../qw-comment-questioner-background/qw-comment-questioner-background.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -42,6 +43,7 @@ import { NgStyle } from '@angular/common';
     CustomMarkdownModule,
     QwCommentFooterComponent,
     NgStyle,
+    QwCommentQuestionerBackgroundComponent,
   ],
   templateUrl: './qw-comment.component.html',
   styleUrl: './qw-comment.component.scss',
@@ -51,7 +53,7 @@ import { NgStyle } from '@angular/common';
   },
 })
 export class QwCommentComponent implements OnDestroy, OnInit {
-  @Input() context!: {
+  @Input() config!: {
     session: QuestionWallSession;
     comment: ForumComment;
   };
@@ -64,10 +66,10 @@ export class QwCommentComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit() {
-    this.context.session.focus
+    this.config.session.focus
       .pipe(takeUntil(this._destroyer))
       .subscribe((focus) => {
-        if (focus && this.context.comment.id === focus.id) {
+        if (focus && this.config.comment.id === focus.id) {
           if (!this._isFocused) {
             this._isFocused = true;
           }
@@ -85,8 +87,8 @@ export class QwCommentComponent implements OnDestroy, OnInit {
   }
 
   @HostListener('click') _click() {
-    if (this.self.session.focus.value?.id !== this.context.comment.id) {
-      this.self.session.focus.next(this.context.comment);
+    if (this.self.session.focus.value?.id !== this.config.comment.id) {
+      this.self.session.focus.next(this.config.comment);
     }
   }
 }

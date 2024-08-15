@@ -30,6 +30,7 @@ import { NgIf } from '@angular/common';
 import { CommentService } from '../../../../../../services/http/comment.service';
 import { QwCommentResponseWindowComponent } from '../qw-comment-response-window/qw-comment-response-window.component';
 import { MarkdownViewerComponent } from '../../../../../../base/custom-markdown/markdown-viewer/markdown-viewer.component';
+import { QwCommentQuestionerBackgroundComponent } from '../qw-comment-questioner-background/qw-comment-questioner-background.component';
 
 const baseAnimationDuration = 100;
 
@@ -45,6 +46,7 @@ const baseAnimationDuration = 100;
     QwCommentFooterComponent,
     NgIf,
     QwCommentResponseWindowComponent,
+    QwCommentQuestionerBackgroundComponent,
   ],
   templateUrl: './qw-comment-focus.component.html',
   styleUrl: './qw-comment-focus.component.scss',
@@ -129,7 +131,6 @@ export class QwCommentFocusComponent implements OnDestroy {
         data.destroyPrepared.next(1);
       }, baseAnimationDuration);
     });
-    console.log(data);
     self
       .getSession()
       .subscribe((session) =>
@@ -142,4 +143,6 @@ export class QwCommentFocusComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroyer.next(1);
   }
+
+  protected readonly Object = Object;
 }

@@ -39,7 +39,8 @@
       "autofocus": "Autofocus on new questions",
       "qrCode": "Display QR Code",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "reset": "Reset"
     },
     "placeholder": {
       "title": "Question Overview",
@@ -99,7 +100,8 @@
       "autofocus": "Autofokus auf neue Fragen",
       "qrCode": "QR-Code anzeigen",
       "previous": "Zurück",
-      "next": "Weiter"
+      "next": "Weiter",
+      "reset": "Zurücksetzen"
     },
     "placeholder": {
       "title": "Fragenübersicht",
@@ -158,7 +160,8 @@
       "autofocus": "Autofocus sur les nouvelles questions",
       "qrCode": "Afficher le code QR",
       "previous": "Précédent",
-      "next": "Suivant"
+      "next": "Suivant",
+      "reset": "Réinitialiser"
     },
     "placeholder": {
       "title": "Aperçu des questions",
