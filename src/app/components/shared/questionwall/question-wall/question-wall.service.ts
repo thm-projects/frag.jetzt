@@ -26,6 +26,7 @@ import {
 } from 'rxjs';
 import { Period, SortType } from '../../../../utils/data-filter-object.lib';
 import { user$ } from 'app/user/state/user';
+import { DefaultSliderConfig } from './qw-config';
 
 export type AdjacentComments = [
   ForumComment | undefined,
@@ -47,8 +48,9 @@ export interface QuestionWallSession {
   period: Period;
   filterChangeListener: EventEmitter<void>;
   onInit: BehaviorSubject<boolean>;
-  readonly adjacentComments: AdjacentComments;
   focusScale: BehaviorSubject<number>;
+  readonly adjacentComments: AdjacentComments;
+  readonly questionerMap: ObjectMap<string>;
 
   generateCommentReplyStream(
     destroyer: ReplaySubject<1>,
@@ -113,6 +115,8 @@ export class QuestionWallService {
     let room: Room;
     let moderators: Moderator[];
     let autofocus = false;
+    const questionerMap: ObjectMap<string> = {};
+    const questionerSet: string[] = [];
     const adjacentComments: AdjacentComments = [undefined, undefined];
     const commentCache: ObjectMap<{
       date: Date;
@@ -132,7 +136,7 @@ export class QuestionWallService {
       filter: support,
       focus: focus,
       filterChangeListener: filterChangeListener,
-      focusScale: new BehaviorSubject(100),
+      focusScale: new BehaviorSubject(DefaultSliderConfig.min),
       get commentsCountUsers() {
         return commentsCountUsers;
       },
@@ -159,6 +163,9 @@ export class QuestionWallService {
       },
       set autofocus(value: boolean) {
         autofocus = value;
+      },
+      get questionerMap() {
+        return questionerMap;
       },
       qrcode: false,
       adjacentComments: adjacentComments,
@@ -269,6 +276,12 @@ export class QuestionWallService {
       for (let i = 0; i < filteredComments.length; i++) {
         const comment = filteredComments[i];
         tempUserSet.add(comment.creatorId);
+        let questionerSetIndex = questionerSet.indexOf(comment.creatorId);
+        if (questionerSetIndex === -1) {
+          questionerSetIndex = questionerSet.length;
+          questionerSet.push(comment.creatorId);
+        }
+        questionerMap[comment.id] = questionerSetIndex + 1 + '';
         if (commentCache[comment.id]) {
           continue;
         }
@@ -278,7 +291,6 @@ export class QuestionWallService {
           old: true,
         };
       }
-      // this.refreshUserMap();
       commentsCountQuestions = filteredComments.length;
       commentsCountUsers = tempUserSet.size;
       revalidateAdjacentComments();

@@ -28,7 +28,7 @@
       @for (comment of session?.comments; track comment) {
         <qw-comment
           mat-ripple
-          [context]="{
+          [config]="{
             session: session,
             comment: comment
           }"></qw-comment>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { QuestionWallService } from '../../question-wall.service';
+import { DefaultSliderConfig } from '../../qw-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -12,11 +13,6 @@ import { QuestionWallService } from '../../question-wall.service';
   styleUrl: './qw-scale-slider.component.scss',
 })
 export class QwScaleSliderComponent {
-  readonly sliderConfig = {
-    min: 100,
-    max: 1500,
-    step: 50,
-    _default: 100,
-  };
+  readonly sliderConfig = DefaultSliderConfig;
   constructor(public readonly self: QuestionWallService) {}
 }

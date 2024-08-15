@@ -57,29 +57,47 @@
     <mat-icon>schedule</mat-icon>
     {{ i18n().action.timeFilter.title }}
     <mat-menu #matTimeFilterMenu>
-      <button mat-menu-item>{{ i18n().action.timeFilter.options.now }}</button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('FromNow')">
+        {{ i18n().action.timeFilter.options.now }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneHour')">
         {{ i18n().action.timeFilter.options.hour.single }}
       </button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneHour')">
         {{
           i18n().action.timeFilter.options.hour.plural | context: { time: 2 }
         }}
       </button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneDay')">
         {{
           i18n().action.timeFilter.options.hour.plural | context: { time: 24 }
         }}
       </button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneWeek')">
         {{ i18n().action.timeFilter.options.day.plural | context: { time: 7 } }}
       </button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('TwoWeeks')">
         {{
           i18n().action.timeFilter.options.day.plural | context: { time: 14 }
         }}
       </button>
-      <button mat-menu-item>{{ i18n().action.timeFilter.options.all }}</button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('All')">
+        {{ i18n().action.timeFilter.options.all }}
+      </button>
     </mat-menu>
   </button>
   <button
@@ -88,14 +106,26 @@
     <mat-icon>filter</mat-icon>
     {{ i18n().action.filter.title }}
     <mat-menu #matFilterMenu>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.filterFavorites()">
         <mat-icon>star</mat-icon>
         {{ i18n().action.filter.options.bonus }}
       </button>
-      <button mat-menu-item>
+      <button
+        mat-menu-item
+        (click)="session?.filter.filterBookmark()">
         <mat-icon>bookmark</mat-icon>
         {{ i18n().action.filter.options.bookmark }}
       </button>
+      @if (session?.filter.hasFilter) {
+        <button
+          mat-menu-item
+          (click)="session?.filter.deactivateFilter()">
+          <mat-icon>undo</mat-icon>
+          {{ i18n().action.reset }}
+        </button>
+      }
     </mat-menu>
   </button>
   <button
