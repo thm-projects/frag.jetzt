@@ -12,10 +12,12 @@ export type RunningNumberMarker = 'moderator';
 })
 export class QwRunningNumberBackgroundComponent {
   @Input() userIdentifier: string | undefined;
+
   @Input() set commentIdentifier(commentIdentifier: string | undefined) {
     // todo(Bimberg) is Comment.getPrettyCommentNumber still up-to-date?
     this._commentIdentifier = commentIdentifier;
   }
+
   protected _commentIdentifier: string | undefined;
   @Input() marker: RunningNumberMarker | undefined;
 }
