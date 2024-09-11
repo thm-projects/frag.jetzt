@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   inject,
@@ -10,7 +9,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../question-wall-key-event-support';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
@@ -43,7 +41,7 @@ const i18n = I18nLoader.load(i18nRaw);
   templateUrl: './question-wall.component.html',
   styleUrls: ['./question-wall.component.scss'],
 })
-export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QuestionWallComponent implements OnInit, OnDestroy {
   protected readonly i18n = i18n;
 
   @ViewChild('outlet', { read: ViewContainerRef, static: true }) set outlet(
@@ -135,6 +133,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (document.fullscreenEnabled) {
+      document.documentElement.requestFullscreen().catch(console.error);
+    }
     this.session.onInit.subscribe(() => {
       this.cdr.detectChanges();
     });
@@ -142,10 +143,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('change');
       this.cdr.detectChanges();
     });
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
   }
 
   ngOnDestroy(): void {
@@ -169,7 +166,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error(e);
     }
     this.keySupport.destroy();
-    Rescale.exitFullscreen();
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(console.error);
+    }
   }
 
   private initNavigation() {
