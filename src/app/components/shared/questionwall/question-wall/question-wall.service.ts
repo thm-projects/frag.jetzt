@@ -27,6 +27,7 @@ import {
 import { Period, SortType } from '../../../../utils/data-filter-object.lib';
 import { user$ } from 'app/user/state/user';
 import { DefaultSliderConfig } from './qw-config';
+import { RunningNumberMarker } from './support-components/qw-running-number-background/qw-running-number-background.component';
 
 export type AdjacentComments = [
   ForumComment | undefined,
@@ -50,8 +51,17 @@ export interface QuestionWallSession {
   onInit: BehaviorSubject<boolean>;
   focusScale: BehaviorSubject<number>;
   readonly adjacentComments: AdjacentComments;
-  readonly questionerMap: ObjectMap<string>;
+  // comment.userID -> this
+  userContext: ObjectMap<{
+    marker: RunningNumberMarker | undefined;
+    userUID: string;
+  }>;
 
+  /**
+   * filter on the comment stream for given comment's replies.
+   * @param destroyer
+   * @param comment
+   */
   generateCommentReplyStream(
     destroyer: ReplaySubject<1>,
     comment: ForumComment,
@@ -92,8 +102,6 @@ export class QuestionWallService {
     this.commentService.voteDown(comment, this.session.user.id).subscribe();
   }
 
-  getAnswers() {}
-
   createSession(
     support: CommentListSupport,
     destroyer: ReplaySubject<1>,
@@ -115,8 +123,8 @@ export class QuestionWallService {
     let room: Room;
     let moderators: Moderator[];
     let autofocus = false;
-    const questionerMap: ObjectMap<string> = {};
-    const questionerSet: string[] = [];
+    const userContext: QuestionWallSession['userContext'] = {};
+    const userSet: string[] = [];
     const adjacentComments: AdjacentComments = [undefined, undefined];
     const commentCache: ObjectMap<{
       date: Date;
@@ -131,7 +139,7 @@ export class QuestionWallService {
       this.sessionService.getModeratorsOnce(),
       this.sessionService.onReady,
     ]).subscribe(initializeSession);
-    const session = {
+    const session: QuestionWallSession = {
       destroyer: destroyer,
       filter: support,
       focus: focus,
@@ -164,9 +172,7 @@ export class QuestionWallService {
       set autofocus(value: boolean) {
         autofocus = value;
       },
-      get questionerMap() {
-        return questionerMap;
-      },
+      userContext: userContext,
       qrcode: false,
       adjacentComments: adjacentComments,
       onInit: onInit,
@@ -276,12 +282,15 @@ export class QuestionWallService {
       for (let i = 0; i < filteredComments.length; i++) {
         const comment = filteredComments[i];
         tempUserSet.add(comment.creatorId);
-        let questionerSetIndex = questionerSet.indexOf(comment.creatorId);
-        if (questionerSetIndex === -1) {
-          questionerSetIndex = questionerSet.length;
-          questionerSet.push(comment.creatorId);
+        let userSetIndex = userSet.indexOf(comment.creatorId);
+        if (userSetIndex === -1) {
+          userSetIndex = userSet.length;
+          userSet.push(comment.creatorId);
         }
-        questionerMap[comment.id] = questionerSetIndex + 1 + '';
+        userContext[comment.creatorId] = {
+          marker: getRunningNumberMarker(comment),
+          userUID: userSetIndex + 1 + '',
+        };
         if (commentCache[comment.id]) {
           continue;
         }
@@ -294,6 +303,15 @@ export class QuestionWallService {
       commentsCountQuestions = filteredComments.length;
       commentsCountUsers = tempUserSet.size;
       revalidateAdjacentComments();
+    }
+
+    function getRunningNumberMarker(
+      comment: ForumComment,
+    ): RunningNumberMarker | undefined {
+      if (comment.creatorId === session.room.ownerId) {
+        return 'moderator';
+      }
+      return undefined;
     }
   }
 }

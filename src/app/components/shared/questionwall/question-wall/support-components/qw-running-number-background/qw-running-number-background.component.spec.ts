@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QwCommentQuestionerBackgroundComponent } from './qw-comment-questioner-background.component';
+import { QwRunningNumberBackgroundComponent } from './qw-running-number-background.component';
 
 describe('QwCommentQuestionerBackgroundComponent', () => {
-  let component: QwCommentQuestionerBackgroundComponent;
-  let fixture: ComponentFixture<QwCommentQuestionerBackgroundComponent>;
+  let component: QwRunningNumberBackgroundComponent;
+  let fixture: ComponentFixture<QwRunningNumberBackgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QwCommentQuestionerBackgroundComponent],
+      imports: [QwRunningNumberBackgroundComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(QwCommentQuestionerBackgroundComponent);
+    fixture = TestBed.createComponent(QwRunningNumberBackgroundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
