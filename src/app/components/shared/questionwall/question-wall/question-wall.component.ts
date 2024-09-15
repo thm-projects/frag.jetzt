@@ -43,6 +43,9 @@ import { QwCommentFocusComponent } from './support-components/qw-comment-focus/q
 import { createCommentListSupport } from './comment-list-support';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { createComponentBuilder } from '../component-builder-support';
+import i18nRaw from './translation/qw.i18n.json';
+import { I18nLoader } from '../../../../base/i18n/i18n-loader';
+const i18n = I18nLoader.load(i18nRaw);
 
 interface CommentCache {
   [commentId: string]: {
@@ -61,6 +64,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChild('header') headerComponent: RowComponent;
   // @ViewChild('footer') footerComponent: RowComponent;
   // @ViewChild('sidelist') sidelist: ColComponent;
+  protected readonly i18n = i18n;
 
   @ViewChild('outlet', { read: ViewContainerRef, static: true }) set outlet(
     viewContainerRef: ViewContainerRef,
@@ -75,6 +79,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           componentBuilder.destroyAll().subscribe(() => {
             componentBuilder.createComponent(QwCommentFocusComponent, {
               comment,
+              session,
             });
           });
         } else {

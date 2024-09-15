@@ -1,0 +1,26 @@
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 16px;
+}
+.key {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  background-color: var(--md-sys-color-surface4);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+.title {
+  @include m3-typescale.typescale(display, large);
+}
+.sub-title {
+  @include m3-typescale.typescale(body, large);
+}

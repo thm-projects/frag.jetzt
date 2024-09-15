@@ -1,12 +1,12 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
-  Injector,
-  OnDestroy,
   effect,
+  ElementRef,
   inject,
+  Injector,
   input,
+  OnDestroy,
   viewChild,
 } from '@angular/core';
 import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
@@ -22,7 +22,7 @@ import {
 })
 export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
   data = input.required<string>();
-  protected editorElement =
+  public editorElement =
     viewChild.required<ElementRef<HTMLDivElement>>('editor');
   private injector = inject(Injector);
   private editor: EditorCore | Viewer;

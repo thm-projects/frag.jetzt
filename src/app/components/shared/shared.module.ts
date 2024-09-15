@@ -161,6 +161,7 @@ import { CommentListFabComponent } from './comment-list/comment-list-fab/comment
 import { QwTopBarComponent } from './questionwall/question-wall/support-components/qw-top-bar/qw-top-bar.component';
 import { QwBottomBarComponent } from './questionwall/question-wall/support-components/qw-bottom-bar/qw-bottom-bar.component';
 import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component';
+import { QwDefaultPlaceholderComponent } from './questionwall/question-wall/support-components/qw-default-placeholder/qw-default-placeholder.component';
 
 @NgModule({
   imports: [
@@ -188,6 +189,7 @@ import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component
     QwTopBarComponent,
     QwBottomBarComponent,
     AiChatComponent,
+    QwDefaultPlaceholderComponent,
   ],
   declarations: [
     RoomJoinComponent,

@@ -1,8 +1,11 @@
-<div class="row gap-medium flex-100">
+<div class="row items-center gap-medium flex-100">
   <mat-slide-toggle [(ngModel)]="session.autofocus">
-    autofocus for new questions
+    {{ i18n().action.autofocus }}
   </mat-slide-toggle>
-  <mat-slide-toggle [(ngModel)]="session.qrcode">Show QR Code</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="session.qrcode">
+    {{ i18n().action.qrCode }}
+  </mat-slide-toggle>
+  <qw-scale-slider></qw-scale-slider>
 </div>
 <div class="row gap-medium flex-010">
   <button
@@ -10,14 +13,14 @@
     [disabled]="!session.adjacentComments[0]"
     (click)="session.focus.next(session.adjacentComments[0])">
     <mat-icon>chevron_left</mat-icon>
-    previous
+    {{ i18n().action.previous }}
   </button>
   <button
     mat-button
     [disabled]="!session.adjacentComments[1]"
     (click)="session.focus.next(session.adjacentComments[1])">
     <mat-icon>chevron_right</mat-icon>
-    next
+    {{ i18n().action.next }}
   </button>
 </div>
 <div class="flex-100"></div>

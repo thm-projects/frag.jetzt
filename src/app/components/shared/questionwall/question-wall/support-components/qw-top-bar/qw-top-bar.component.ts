@@ -10,6 +10,13 @@ import {
   QuestionWallSession,
 } from '../../question-wall.service';
 import { FormsModule } from '@angular/forms';
+import { MatTooltip } from '@angular/material/tooltip';
+import { EssentialsModule } from '../../../../../essentials/essentials.module';
+import i18nRaw from '../../translation/qw.i18n.json';
+import { I18nLoader } from '../../../../../../base/i18n/i18n-loader';
+import { ContextPipe } from '../../../../../../base/i18n/context.pipe';
+
+const i18n = I18nLoader.load(i18nRaw);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -24,21 +31,33 @@ import { FormsModule } from '@angular/forms';
     MatSliderThumb,
     FormsModule,
     MatMenuTrigger,
+    MatTooltip,
+    EssentialsModule,
+    ContextPipe,
   ],
   templateUrl: './qw-top-bar.component.html',
   styleUrl: './qw-top-bar.component.scss',
 })
 export class QwTopBarComponent {
-  readonly commentFocusScaleBounds = {
-    min: 1,
-    max: 5,
-    step: 0.1,
-  };
   protected readonly SortType = SortType;
-  protected currentCommentFocusScale: number = this.commentFocusScaleBounds.min;
   @Input() session: QuestionWallSession;
+
   constructor(
     public headerService: HeaderService,
     public readonly self: QuestionWallService,
   ) {}
+
+  protected readonly i18n = i18n;
+
+  get currentOption() {
+    return (
+      (this.session?.filter.currentSortConfig.type === SortType.Time
+        ? this.session?.filter.currentSortConfig.isReverse
+          ? 'oldest'
+          : 'newest'
+        : SortType[
+            this.session?.filter.currentSortConfig.type
+          ].toLowerCase()) || 'newest'
+    );
+  }
 }
