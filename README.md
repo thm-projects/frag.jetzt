@@ -4,7 +4,6 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
-
 ## Current Vision Statement
 
 **Dual-Mode Learning Platform: The Evolution of frag.jetzt from ARS to PLE**
@@ -14,7 +13,6 @@ With our tried-and-true open-source software frag.jetzt, we have established a r
 The core of the next release is the comprehensive refactoring of frag.jetzt from an ARS to a PLE, to cater to both educators and learners. The first encounter with the frag.jetzt platform will be a defining moment as users will have the choice to utilize the platform either as an ARS for educators or a PLE for learners. We are firmly convinced that this groundbreaking realignment, opening up frag.jetzt as a personal learning environment, will exponentially increase the number of users. A central incentive of our realignment is the integration of ChatGPT as an AI tutor in personal virtual rooms, with a dedicated room created for each subject. This innovative approach will make frag.jetzt a magnet for a broader user base, dramatically enhancing our influence and reach in the educational landscape.
 
 ---
-
 
 ## Old Vision Statement
 
@@ -80,89 +78,45 @@ See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_bonus_option
 
 See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_brainstorming.svg)
 
-## frag.jetzt development with docker
+## frag.jetzt development with dependencies
 
-frag.jetzt consists of a variety of backend services. Starting them all individually or installing them on the computer is complex, which is why there is a docker compose solution for this.
+frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
 
 ### Prerequisite
 
 The following software has to be installed on your computer:
 
 1. GNU/Linux compliant operating system, for example:
-    1. Debian based: Debian, Ubuntu, Mint, ...
-    2. Arch based: Arch, Manjaro, ...
-    3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
-    4. ...
-2. Docker
-    1. [Installation Instructions](https://docs.docker.com/engine/install/)
-    2. [Docker Reference](https://docs.docker.com/reference/)
-3. Docker Compose
-    1. [Installation Instructions](https://docs.docker.com/compose/install/)
-    2. [Docker Compose Reference](https://docs.docker.com/compose/reference/)
+   1. Debian based: Debian, Ubuntu, Mint, ...
+   2. Arch based: Arch, Manjaro, ...
+   3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
+   4. ...
+   5. WSL 2 at your own risk (sometimes e.g. file events are not supported)
+2. Node
+   - It is recommended to install a Version Manager for Node.
+   - For example: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+3. Docker (Docker Compose shipped with Docker)
+   - You can either install Docker Desktop or Docker Engine.
+   - Docker Desktop is easier for beginners.
+   - The script will warn you if you do not have installed some dependencies.
+4. For Mac users: If the script displays an error message with `ERROR: failed to solve: error getting credentials - err: exit status 1, out:`, check your Docker configuration (`cat ~/.docker/config.json`) and change your "credsStore" from "desktop" to "osxkeychain" (You could use `nano ~/.docker/config.json`).
 
-#### Prerequisite for other OS's
+### Running locally
 
-**We strongly recommend that you use a GNU/Linux compliant OS! Despite many optimizations, frag.jetzt doesn't run nearly as fast on Windows or MacOS as it does on a GNU/Linux OS!**
+If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with some options.
+Click `1` to start or fully update all dependencies. Click `2` for subsequent starts in development. Click `3` to stop all containers. Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
+Click on `5` to delete all Docker data from your system.
 
-##### Windows
+An admin account is available with email `admin@admin` and password of `admin`.
 
-Turn off the conversion of line encodings in git.
+### Running with Staging
 
-```bash
-git config --global core.autocrlf false
-```
+If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running staging version. (This version is only recommended for frontend development).
+You can do this by executing `npm run staging`.
 
-Follow the Instructions for windows described in the [Docker Orchestration repository](https://git.thm.de/arsnova/frag.jetzt-docker-orchestration).
-
-##### MacOS
-
-Install the GNU Core Utilities.
-
-### Get the code base
-
-Clone the frag-jetzt repository and the Docker Orchestration repository:
-
-- [frag.jetzt](https://git.thm.de/arsnova/frag.jetzt)
-- [Docker Orchestration](https://git.thm.de/arsnova/frag.jetzt-docker-orchestration)
-
-### Start the Backend services
-
-Follow the steps described in the [Docker Orchestration repository](https://git.thm.de/arsnova/frag.jetzt-docker-orchestration).
-
-Use the `--no-frontend` option so that the frontend does not spin up in Docker Orchestration.
-
-### Start the Frontend
-
-The frag.jetzt frontend ships with an easy setup script: `.docker/setup.sh`. To run the setup script, make sure it is executable. If it is not, make it executable:
-
-```bash
-chmod u+x .docker/setup.sh
-```
-
-Now, run the setup script:
-
-```bash
-./.docker/setup.sh
-```
-
-You may now start the frontend. Use following commands:
-
-```bash
-# Start the app in foreground (not recommended)
-docker-compose up
-
-# Start the app in background
-docker-compose up -d
-
-# Show and follow the logs
-docker-compose logs -f
-
-# Shutdown app
-docker-compose down
-
-# Shutdown app and remove volumes
-docker-compose down -v
-```
+There is no admin account available and you must log in with an guest account.
+This process runs directly on your terminal, so you do not need to explicitly view the logs or terminate the process.
+You can simply cancel the process to end it (usually with <kbd>Ctrl + C</kbd>).
 
 ## Access frag.jetzt
 
@@ -175,11 +129,11 @@ All emails from the system are intercepted and can be viewed in the Mailhog inte
 To run a local code style check with sonarqube, follow these steps:
 
 1. switch into the analysis folder  
-  `cd analysis`
+   `cd analysis`
 2. start the sonarqube server  
-  `docker-compose up -d sonarqube`
+   `docker-compose up -d sonarqube`
 3. when sonarqube has started, you may run analysis whenever you want with  
-  `docker-compose run --rm analysis`
+   `docker-compose run --rm analysis`
 
 ## Credits
 
