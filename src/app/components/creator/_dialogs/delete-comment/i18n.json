@@ -1,0 +1,15 @@
+{
+  "key": "delete-comment",
+  "de": {
+    "title": "Beitrag löschen?",
+    "reallyDelete": "Willst du den Beitrag wirklich löschen?"
+  },
+  "en": {
+    "title": "Delete contribution?",
+    "reallyDelete": "Do you really want to delete this contribution?"
+  },
+  "fr": {
+    "title": "Supprimer le post ?",
+    "reallyDelete": "Tu veux vraiment supprimer ce post ?"
+  }
+}

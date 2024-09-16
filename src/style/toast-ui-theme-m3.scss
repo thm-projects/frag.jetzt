@@ -45,6 +45,10 @@
   }
 }
 
+.toastui-editor-contents {
+  @include m3-typescale.typescale(body, large, em);
+}
+
 .toastui-editor-code-block-language
   .toastui-editor-code-block-language-input::after {
   content: "";
