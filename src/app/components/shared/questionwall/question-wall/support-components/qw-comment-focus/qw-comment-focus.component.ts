@@ -30,7 +30,7 @@ import { NgIf } from '@angular/common';
 import { CommentService } from '../../../../../../services/http/comment.service';
 import { QwCommentResponseWindowComponent } from '../qw-comment-response-window/qw-comment-response-window.component';
 import { MarkdownViewerComponent } from '../../../../../../base/custom-markdown/markdown-viewer/markdown-viewer.component';
-import { QwCommentQuestionerBackgroundComponent } from '../qw-comment-questioner-background/qw-comment-questioner-background.component';
+import { QwRunningNumberBackgroundComponent } from '../qw-running-number-background/qw-running-number-background.component';
 
 const baseAnimationDuration = 100;
 
@@ -46,7 +46,7 @@ const baseAnimationDuration = 100;
     QwCommentFooterComponent,
     NgIf,
     QwCommentResponseWindowComponent,
-    QwCommentQuestionerBackgroundComponent,
+    QwRunningNumberBackgroundComponent,
   ],
   templateUrl: './qw-comment-focus.component.html',
   styleUrl: './qw-comment-focus.component.scss',
