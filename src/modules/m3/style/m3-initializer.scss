@@ -47,14 +47,14 @@ $base-theme: m3.define-theme(
     //--custom-stars: #caca28;
     //--custom-good: rgb(37, 188, 37);
     //--custom-bad: rgb(186, 31, 31);
+  }
 
-    &.dark {
-      @include mat.all-component-colors(map.get($base-theme, dark));
-      @include m3-map.make-components-dynamic(dark);
-      //@include m3.generate-color-classes(map.get($base-theme, dark));
-      //--custom-stars: #caca28;
-      //--custom-good: rgb(37, 188, 37);
-      //--custom-bad: rgb(186, 31, 31);
-    }
+  .dark {
+    @include mat.all-component-colors(map.get($base-theme, dark));
+    @include m3-map.make-components-dynamic(dark);
+    //@include m3.generate-color-classes(map.get($base-theme, dark));
+    //--custom-stars: #caca28;
+    //--custom-good: rgb(37, 188, 37);
+    //--custom-bad: rgb(186, 31, 31);
   }
 }
