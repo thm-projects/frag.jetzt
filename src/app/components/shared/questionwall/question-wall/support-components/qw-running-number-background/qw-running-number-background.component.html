@@ -1,0 +1,12 @@
+@switch (marker) {
+  @case ("moderator") {
+    <span class="material-symbols-outlined">co_present</span>
+  }
+  <!-- add other cases e.g.: ChatGPT icon -->
+}
+@if (_commentIdentifier) {
+  <span class="comment-identifier">Q{{ _commentIdentifier }}</span>
+}
+@if (userIdentifier) {
+  <span class="user-identifier">{{ userIdentifier }}</span>
+}
