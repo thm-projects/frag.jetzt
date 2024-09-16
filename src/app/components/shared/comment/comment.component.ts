@@ -542,9 +542,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDeleteCommentDialog(): void {
-    const dialogRef = this.dialog.open(DeleteCommentComponent, {
-      width: '400px',
-    });
+    const dialogRef = this.dialog.open(DeleteCommentComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'delete') {
         this.delete();
