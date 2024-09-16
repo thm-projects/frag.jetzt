@@ -144,7 +144,7 @@ export class QuestionWallService {
       filter: support,
       focus: focus,
       filterChangeListener: filterChangeListener,
-      focusScale: new BehaviorSubject(DefaultSliderConfig.min),
+      focusScale: new BehaviorSubject(DefaultSliderConfig._default),
       get commentsCountUsers() {
         return commentsCountUsers;
       },

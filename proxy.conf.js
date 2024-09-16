@@ -26,7 +26,7 @@ const PROXY_CONFIG = {
     "logLevel": "debug"
   },
   "/antworte-jetzt": {
-    "target": "https://staging.antworte.jetzt",
+    "target": "https://arsnova.click",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -36,7 +36,7 @@ const PROXY_CONFIG = {
     "onProxyRes": function (proxyRes) {
       proxyRes.statusCode = 301;
       proxyRes.statusMessage = 'Moved Permanently';
-      proxyRes.headers['Location'] = 'https://staging.antworte.jetzt';
+      proxyRes.headers['Location'] = 'https://arsnova.click';
     }
   },
   "/deepl": {
