@@ -27,14 +27,13 @@
   <ng-container #viewContainerRef></ng-container>
 </mat-dialog-content>
 
-<mat-dialog-actions
-  [class.no-pad]="true"
-  [class.align-content-right]="true">
+<mat-dialog-actions [class.no-pad]="true">
   <button
     mat-button
     (click)="dialogRef.close()">
     <span>{{ translateKey + ".edit.cancel" | translate }}</span>
   </button>
+  <span style="flex: 1"></span>
   <button
     (click)="create()"
     mat-flat-button>
