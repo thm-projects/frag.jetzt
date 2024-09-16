@@ -133,9 +133,9 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (document.fullscreenEnabled) {
-      document.documentElement.requestFullscreen().catch(console.error);
-    }
+    //if (document.fullscreenEnabled) {
+    //  document.documentElement.requestFullscreen().catch(console.error);
+    //} 
     this.session.onInit.subscribe(() => {
       this.cdr.detectChanges();
     });
