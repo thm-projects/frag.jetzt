@@ -213,8 +213,9 @@ while (true) {
     // update & restart
     await run("git", ["pull"], execOptions);
     await run(
-      "./setup.sh",
+      "bash",
       [
+        "./setup.sh",
         "--recreate-env",
         "--recreate-config",
         "--no-frontend",
@@ -227,15 +228,16 @@ while (true) {
     await run("sudo", [...dockerCompose, "build"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.chdir(rootDir);
-    await run("./.docker/setup.sh", execOptions);
+    await run("bash", ["./.docker/setup.sh"], execOptions);
     await run("sudo", [...dockerCompose, "build"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.exit(0);
   } else if (option === "2") {
     // start
     await run(
-      "./setup.sh",
+      "bash",
       [
+        "./setup.sh",
         "--recreate-env",
         "--recreate-config",
         "--no-frontend",
@@ -246,7 +248,7 @@ while (true) {
     );
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.chdir(rootDir);
-    await run("./.docker/setup.sh", execOptions);
+    await run("bash", ["./.docker/setup.sh"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.exit(0);
   } else if (option === "3") {
