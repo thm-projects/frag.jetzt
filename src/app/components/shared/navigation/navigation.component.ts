@@ -109,6 +109,7 @@ export const navigateBrainstorming = (
 ) => {
   const confirmDialogRef = dialog.open(TopicCloudBrainstormingComponent, {
     autoFocus: false,
+    disableClose: true,
   });
   confirmDialogRef.componentInstance.target = getBrainstormingURL(
     getCurrentLocation(router),

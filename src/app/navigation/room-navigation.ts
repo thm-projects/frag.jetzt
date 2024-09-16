@@ -227,6 +227,7 @@ export const getRoomNavigation = (
                   TopicCloudBrainstormingComponent,
                   {
                     autoFocus: false,
+                    disableClose: true,
                   },
                 );
                 confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
