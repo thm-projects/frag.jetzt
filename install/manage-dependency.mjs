@@ -70,6 +70,15 @@ function prompt(message) {
   });
 }
 
+async function tryAwait(promise) {
+  try {
+    return await promise;
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
+
 async function confirm(message) {
   let key;
   while (!key || (!yesKey.includes(key) && !noKey.includes(key))) {
@@ -88,6 +97,13 @@ function run(cmd, args, options) {
         output += data.toString();
       });
     }
+    let error = "";
+    if (child.stderr) {
+      child.stderr.setEncoding("utf8");
+      child.stderr.on("data", (data) => {
+        error += data.toString();
+      });
+    }
     child.on("error", (e) => {
       reject(e);
     });
@@ -95,7 +111,7 @@ function run(cmd, args, options) {
       if (code === 0) {
         resolve(output);
       } else {
-        reject(code);
+        reject({ code, error });
       }
     });
   });
@@ -169,12 +185,14 @@ if (!existsSync(newDir + "/frag.jetzt-docker-orchestration")) {
     mkdirSync(newDir);
   }
   process.chdir(newDir);
-  await run("git", [
-    "clone",
-    "git@git.thm.de:arsnova/frag.jetzt-docker-orchestration.git",
-  ]);
+  await tryAwait(
+    run("git", [
+      "clone",
+      "git@git.thm.de:arsnova/frag.jetzt-docker-orchestration.git",
+    ]),
+  );
   process.chdir("frag.jetzt-docker-orchestration");
-  await run("chmod", ["u+x", "setup.sh"]);
+  await tryAwait(run("chmod", ["u+x", "setup.sh"]));
 }
 
 // show manage options
@@ -195,8 +213,9 @@ while (true) {
     // update & restart
     await run("git", ["pull"], execOptions);
     await run(
-      "./setup.sh",
+      "bash",
       [
+        "./setup.sh",
         "--recreate-env",
         "--recreate-config",
         "--no-frontend",
@@ -209,15 +228,16 @@ while (true) {
     await run("sudo", [...dockerCompose, "build"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.chdir(rootDir);
-    await run("./.docker/setup.sh", execOptions);
+    await run("bash", ["./.docker/setup.sh"], execOptions);
     await run("sudo", [...dockerCompose, "build"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.exit(0);
   } else if (option === "2") {
     // start
     await run(
-      "./setup.sh",
+      "bash",
       [
+        "./setup.sh",
         "--recreate-env",
         "--recreate-config",
         "--no-frontend",
@@ -228,7 +248,7 @@ while (true) {
     );
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.chdir(rootDir);
-    await run("./.docker/setup.sh", execOptions);
+    await run("bash", ["./.docker/setup.sh"], execOptions);
     await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
     process.exit(0);
   } else if (option === "3") {
