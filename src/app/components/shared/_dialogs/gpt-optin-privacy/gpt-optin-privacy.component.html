@@ -10,17 +10,14 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <!-- Deactiv the Send Button from gpt-chat component -->
   <button
     mat-button
-    class="error-button"
     [mat-dialog-close]="false">
     {{ "gpt-chat.optin-reject" | translate }}
   </button>
   <span style="flex: 1"></span>
   <button
     mat-flat-button
-    class="primary-button"
     [mat-dialog-close]="true">
     {{ "gpt-chat.optin-accept" | translate }}
   </button>
