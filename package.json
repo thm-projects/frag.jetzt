@@ -14,7 +14,7 @@
     "cypress:run": "cypress run",
     "prepare": "husky install",
     "postinstall": "node ./install/post-install.js",
-    "docker": "node ./install/manage-dependency.mjs",
+    "docker": "node --trace-uncaught ./install/manage-dependency.mjs",
     "staging": "node ./install/run-with-staging.mjs",
     "production": "node ./install/run-with-production.mjs"
   },
