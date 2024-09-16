@@ -213,8 +213,10 @@
         mat-menu-item
         (click)="setTimePeriod(periodItem)"
         class="period"
-        [ngClass]="{ selected: periodItem === period }"
         attr.aria-labelledby="{{ periodItem }}">
+        @if (periodItem === period) {
+          <mat-icon>check</mat-icon>
+        }
         <span>
           {{
             "comment-list." +
