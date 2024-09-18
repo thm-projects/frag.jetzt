@@ -1,0 +1,18 @@
+{
+  "key": "update-info",
+  "de": {
+    "title": "Neue Version installieren?",
+    "description": "Eine neue Version ist fertig.<br><br>Du kannst deine Arbeit noch beenden und den Dialog schließen. Wenn Probleme auftreten, lade die Seite neu.",
+    "install": "Installieren"
+  },
+  "en": {
+    "title": "Install new version?",
+    "description": "A new version is ready.<br><br>You can finish your work and close the dialog. If you encounter any issues, please refresh the page.",
+    "install": "Install"
+  },
+  "fr": {
+    "title": "Installer la nouvelle version?",
+    "description": "Tu peux encore terminer ton travail et fermer la boîte de dialogue. Si des problèmes surviennent, recharge la page.",
+    "install": "Installer"
+  }
+}

@@ -1,3 +1,4 @@
+@use "sass:math";
 $container-size: 2em;
 
 .container {
@@ -23,7 +24,10 @@ $border-width: 0.2em;
   height: $dot-size;
   width: $dot-size;
   left: 0;
-  top: #{$container-size / 2 - $dot-size / 2 - $border-width / 2};
+  top: #{math.div($container-size, 2) - math.div($dot-size, 2) - math.div(
+      $border-width,
+      2
+    )};
   translate: -50% 0%;
   border: $border-width solid var(--md-sys-color-outline);
   background: var(--md-sys-color-surface3);
