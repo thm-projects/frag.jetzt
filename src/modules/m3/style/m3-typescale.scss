@@ -153,6 +153,13 @@ $valid-scales: large, medium, small;
     )}#{$unit};
 }
 
+@mixin inverted-font-size($type, $scale, $unit: px) {
+  font-size: #{math.div(
+      1,
+      _convert-px-to-unit(map.get($_typescale, $type, $scale, size), $unit)
+    )}#{$unit};
+}
+
 @function _validate-type($type) {
   @if map.get($_typescale, $type) == null {
     @error "#{$type} is not a valid type. #{$valid-types}";

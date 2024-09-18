@@ -186,20 +186,10 @@ export class AppStateService {
 
   private leaveApp(): Observable<unknown> {
     close();
-    this.iterateOut(location.origin);
+    const hasValidReferrer =
+      document.referrer && !document.referrer.startsWith(location.origin);
+    location.replace(hasValidReferrer ? document.referrer : 'about:blank');
     return of();
-  }
-
-  private iterateOut(origin: string) {
-    if (location.origin !== origin) {
-      return;
-    }
-    if (history.length < 1) {
-      location.replace('about:blank');
-      return;
-    }
-    history.go(-1);
-    setImmediate(() => this.iterateOut(origin));
   }
 
   private startOnboarding(): Observable<unknown> {

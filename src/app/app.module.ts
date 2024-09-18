@@ -73,7 +73,6 @@ import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboardin
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
-import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -131,7 +130,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AskOnboardingDEComponent,
     AskOnboardingENComponent,
     AskOnboardingFRComponent,
-    UpdateInfoDialogComponent,
   ],
   imports: [
     AppRoutingModule,

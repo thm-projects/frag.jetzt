@@ -331,12 +331,6 @@
     "cancel-description": "Schließt die Hilfe",
     "title": "Hilfe"
   },
-  "update-info": {
-    "cancel": "Schließen",
-    "install": "Installieren",
-    "title": "Neue Version",
-    "description": "Eine neue Version ist fertig.<br><br>Du kannst deine Arbeit noch beenden und den Dialog schließen. Wenn Probleme auftreten, lade die Seite neu."
-  },
   "home-page": {
     "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",
