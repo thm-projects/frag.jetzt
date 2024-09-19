@@ -183,6 +183,7 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
+      // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
         kind: 'navigation',
@@ -235,6 +236,37 @@ export const getDefaultNavigation = (
           },
         });
       }
+      // app navigation
+      const isPurchse = router.url.startsWith('/purchase');
+      const isDonation = router.url.startsWith('/donation');
+      const pricingSection: M3NavigationSection = {
+        id: 'pricing',
+        kind: 'navigation',
+        title: i18n.navigation.pricing,
+        entries: [
+          {
+            id: 'donation',
+            title: i18n.navigation.donation,
+            icon: 'volunteer_activism',
+            onClick: () => {
+              // router.navigate(['/donation']);
+              return true;
+            },
+            activated: isDonation,
+          },
+          user &&
+            !user.isGuest && {
+              id: 'purchase',
+              title: i18n.navigation.purchase,
+              icon: 'payments',
+              onClick: () => {
+                // router.navigate(['/purchase']);
+                return true;
+              },
+              activated: isPurchse,
+            },
+        ].filter(Boolean),
+      };
       // OPTIONS
       const optionSection: M3NavigationOptionSection = {
         id: 'about',
@@ -336,7 +368,7 @@ export const getDefaultNavigation = (
       };
       return {
         title: i18n.navigation.title,
-        sections: [navSection, optionSection],
+        sections: [navSection, pricingSection, optionSection],
       };
     }),
   );
