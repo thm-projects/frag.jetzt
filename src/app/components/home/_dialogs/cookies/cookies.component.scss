@@ -6,12 +6,22 @@
   display: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 600px) {
   .qr-code {
     display: none;
   }
 
   .store-button {
     display: block;
+  }
+
+  .appstore {
+    width: 44%;
+    height: auto;
+  }
+
+  .googleplay {
+    width: 50%;
+    height: auto;
   }
 }
