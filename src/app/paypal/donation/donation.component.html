@@ -1,3 +1,25 @@
 <m3-body-pane>
-  <m3-supporting-pane class="content-pane"></m3-supporting-pane>
+  <m3-supporting-pane class="content-pane">
+  <mat-card class="donation-card">
+    <mat-card-header>
+      <mat-card-title>Spenden Sie für unser Projekt!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Unterstützen Sie uns mit einer Spende! Sie können entweder den Link
+        direkt verwenden oder den QR-Code scannen.
+      </p>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Spenden-Link</mat-label>
+        <p>{{ 'https://www.sandbox.paypal.com/ncp/payment/J4AV5JU5RMLU6' }}</p>
+      </mat-form-field>
+
+      <!-- QR-Code als Bild anzeigen -->
+      <div class="qr-code-container">
+        <img [src]="'../../../assets/images/spende-qrcode.png'" alt="QR Code" class="qr-code">
+      </div>
+    </mat-card-content>
+  </mat-card>
+  </m3-supporting-pane>
 </m3-body-pane>
