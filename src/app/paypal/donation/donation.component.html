@@ -1,3 +1,19 @@
 <m3-body-pane>
-  <m3-supporting-pane class="content-pane"></m3-supporting-pane>
+  <m3-supporting-pane >
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><strong>Spenden Sie für unser Projekt frag.jetzt!</strong></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Unterstützen Sie uns mit einer Spende! <br> Sie können entweder den Link
+        direkt verwenden <strong><a [href]="url" >Hier klicken</a></strong> oder den QR-Code scannen.
+      </p>
+      <div class="qr-code-container">
+        <qrcode [qrdata]="url" [width]="400" [errorCorrectionLevel]="'M'">
+        </qrcode>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  </m3-supporting-pane>
 </m3-body-pane>
