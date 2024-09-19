@@ -10,14 +10,10 @@
         direkt verwenden oder den QR-Code scannen.
       </p>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Spenden-Link</mat-label>
-        <p>{{ 'https://www.sandbox.paypal.com/ncp/payment/J4AV5JU5RMLU6' }}</p>
-      </mat-form-field>
-
-      <!-- QR-Code als Bild anzeigen -->
+        <a [href]="url" >klicken</a>
       <div class="qr-code-container">
-        <img [src]="'../../../assets/images/spende-qrcode.png'" alt="QR Code" class="qr-code">
+        <qrcode [qrdata]="url" [width]="400" [errorCorrectionLevel]="'M'">
+        </qrcode>
       </div>
     </mat-card-content>
   </mat-card>
