@@ -30,6 +30,7 @@ export class RoomNameSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.roomNameFormControl.setValue(this.editRoom.name);
+    this.dialogRef.updateSize('auto');
   }
 
   protected save(): void {
