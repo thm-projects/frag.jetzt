@@ -1,0 +1,17 @@
+.qr-code {
+  display: block;
+}
+
+.store-button {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .qr-code {
+    display: none;
+  }
+
+  .store-button {
+    display: block;
+  }
+}
