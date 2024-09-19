@@ -1,0 +1,18 @@
+{
+  "key": "remove-from-history",
+  "de": {
+    "title": "Eintrag löschen?",
+    "description": "Willst du den Eintrag für die Veranstaltung **»{{name}}«** wirklich löschen?",
+    "delete": "Ja, löschen."
+  },
+  "en": {
+    "title": "Delete entry?",
+    "description": "Do you really want to remove the session **»{{name}}«** from your room list?",
+    "delete": "Yes, delete for good."
+  },
+  "fr": {
+    "title": "Supprimer l'entrée?",
+    "description": "Tu veux supprimer l'entrée de l'événement **« {{name}} »** ?",
+    "delete": "Oui, supprimer."
+  }
+}

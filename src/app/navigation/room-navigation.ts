@@ -549,10 +549,10 @@ const openDeleteRoom = (room: Room, injector: Injector) => {
   const eventService = injector.get(EventService);
   const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
-  const dialogRef = injector.get(MatDialog).open(RoomDeleteComponent, {
-    width: '400px',
-  });
-  dialogRef.componentInstance.room = room;
+  const dialogRef = RoomDeleteComponent.open(
+    injector.get(MatDialog),
+    room.name,
+  );
   dialogRef.afterClosed().subscribe((result) => {
     if (result === 'delete') {
       roomService.deleteRoom(room.id).subscribe({

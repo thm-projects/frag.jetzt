@@ -31,8 +31,9 @@ import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overvie
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { user$ } from 'app/user/state/user';
+import { RoomDeleteComponent } from 'app/components/creator/_dialogs/room-delete/room-delete.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -188,18 +189,22 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   removeSession(room: RoomRoleMixin) {
-    const dialogRef = this.dialog.open(RemoveFromHistoryComponent, {
-      width: '400px',
-    });
-    dialogRef.componentInstance.roomName = room.name;
-    dialogRef.componentInstance.role = room.role;
+    let dialogRef: MatDialogRef<
+      RemoveFromHistoryComponent | RoomDeleteComponent
+    >;
+    if (room.role !== UserRole.CREATOR) {
+      dialogRef = RemoveFromHistoryComponent.open(this.dialog, room.name);
+    } else {
+      dialogRef = RoomDeleteComponent.open(this.dialog, room.name);
+    }
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'remove') {
-        if (room.role < 3) {
-          this.removeFromHistory(room);
-        } else {
-          this.deleteRoom(room);
-        }
+      if (result === 'delete') {
+        this.deleteRoom(room);
+        this.rooms = this.rooms.filter((r) => r.id !== room.id);
+        this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== room.id);
+        this.updateTable();
+      } else if (result === 'remove') {
+        this.removeFromHistory(room);
         this.rooms = this.rooms.filter((r) => r.id !== room.id);
         this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== room.id);
         this.updateTable();

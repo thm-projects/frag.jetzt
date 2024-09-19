@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CreatorRoutingModule } from './creator-routing.module';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { ModeratorModule } from '../moderator/moderator.module';
-import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
 import { SharedModule } from '../shared/shared.module';
 import {
   TranslateLoader,
@@ -64,7 +63,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatDialogModule,
   ],
   declarations: [
-    RoomDeleteComponent,
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,
