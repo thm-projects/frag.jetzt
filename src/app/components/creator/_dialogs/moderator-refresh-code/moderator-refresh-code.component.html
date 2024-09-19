@@ -1,10 +1,17 @@
-<span matDialogTitle>{{ "moderators-dialog.confirm-title" | translate }}</span>
+<h2 matDialogTitle>{{ "moderators-dialog.confirm-title" | translate }}</h2>
 <mat-dialog-content>
   <p>{{ "moderators-dialog.confirm-description" | translate }}</p>
 </mat-dialog-content>
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'moderators-dialog'"
-  [confirmButtonLabel]="'confirm'"
-  [cancelButtonLabel]="'abort'"
-  [cancelButtonClickAction]="abort.bind(this)"
-  [confirmButtonClickAction]="confirm.bind(this)"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    [mat-dialog-close]="false">
+    {{ "moderators-dialog.abort" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    [mat-dialog-close]="true">
+    {{ "moderators-dialog.confirm" | translate }}
+  </button>
+</mat-dialog-actions>

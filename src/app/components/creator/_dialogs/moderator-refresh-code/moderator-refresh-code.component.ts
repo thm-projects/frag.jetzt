@@ -8,12 +8,4 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ModeratorRefreshCodeComponent {
   constructor(private dialogRef: MatDialogRef<ModeratorRefreshCodeComponent>) {}
-
-  confirm() {
-    this.dialogRef.close(true);
-  }
-
-  abort() {
-    this.dialogRef.close(false);
-  }
 }
