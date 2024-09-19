@@ -188,7 +188,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {
         width: '100dvw', // will be limited by max-width
-        minHeight: '50dvh',
         autoFocus: false,
         maxHeight: 'calc(100dvh - 2em)',
       },

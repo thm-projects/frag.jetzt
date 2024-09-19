@@ -17,7 +17,6 @@ import { CreateCommentComponent } from './_dialogs/create-comment/create-comment
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
-import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
@@ -207,7 +206,6 @@ import { QwDefaultPlaceholderComponent } from './questionwall/question-wall/supp
     CreateCommentComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
-    RemoveFromHistoryComponent,
     CommentAnswerComponent,
     MotdDialogComponent,
     MotdMessageComponent,
