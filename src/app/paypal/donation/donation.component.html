@@ -2,15 +2,13 @@
   <m3-supporting-pane class="content-pane">
   <mat-card class="donation-card">
     <mat-card-header>
-      <mat-card-title>Spenden Sie für unser Projekt!</mat-card-title>
+      <mat-card-title>Spenden Sie für unser Projekt frag.jetzt!</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <p>
         Unterstützen Sie uns mit einer Spende! Sie können entweder den Link
-        direkt verwenden oder den QR-Code scannen.
+        direkt verwenden <a [href]="url" >Hier klicken</a> oder den QR-Code scannen.
       </p>
-
-        <a [href]="url" >klicken</a>
       <div class="qr-code-container">
         <qrcode [qrdata]="url" [width]="400" [errorCorrectionLevel]="'M'">
         </qrcode>
