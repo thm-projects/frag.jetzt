@@ -9,12 +9,45 @@
   @switch (lang()) {
     @case ("de") {
       <app-cookies-de></app-cookies-de>
+
+      <div
+        *ngIf="isMobile"
+        class="store-buttons">
+        <a href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
+          <img class="appstore" src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/de-de?releaseDate=1664841600" alt="Download on the App Store" />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
+          <img class="googleplay" src="assets/images/GetItOnGooglePlay_Badge_Web_color_German.png" alt="Get it on Google Play" />
+        </a>
+      </div>
     }
     @case ("fr") {
       <app-cookies-fr></app-cookies-fr>
+
+      <div
+        *ngIf="isMobile"
+        class="store-buttons">
+        <a href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
+          <img class="appstore" src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/fr-fr?releaseDate=1664841600" alt="Download on the App Store" />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
+          <img class="googleplay" src="assets/images/GetItOnGooglePlay_Badge_Web_color_French-CA.png" alt="Get it on Google Play" />
+        </a>
+      </div>
     }
     @default {
       <app-cookies-en></app-cookies-en>
+
+      <div
+        *ngIf="isMobile"
+        class="store-buttons">
+        <a href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
+          <img class="appstore" src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1664841600" alt="Download on the App Store" />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
+          <img class="googleplay" src="assets/images/GetItOnGooglePlay_Badge_Web_color_English.png" alt="Get it on Google Play" />
+        </a>
+      </div>
     }
   }
   <div
@@ -25,6 +58,9 @@
       alt="QR Code to download the app"
       class="qr-code" />
   </div>
+
+
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
