@@ -1,0 +1,19 @@
+{
+    "key": "room-name-settings",
+    "de": {
+      "title": "Titel der Veranstaltung ändern",
+      "placeholder": "Name der Veranstaltung",
+      "nameLengthError": " Der Name muss 3 bis 30 Zeichen lang sein."
+    },
+    "en": {
+      "title": "Edit event title",
+      "placeholder": "Event Name",
+      "nameLengthError": "The name must be 3 to 30 characters long."
+    },
+    "fr": {
+      "title": "Modifier le titre de l'événement",
+      "placeholder": "Nom de l'événement",
+      "nameLengthError": "Le nom doit comporter entre 3 et 30 caractères."
+    }
+  }
+  
