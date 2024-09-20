@@ -1,0 +1,36 @@
+
+.donation-card {
+  max-width: 100%;
+  padding: 16px;
+  margin-right: 16px;
+
+
+  .qr-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+
+
+    qrcode {
+      width: 100%;
+      height: 100%;
+      max-width: 400px;
+      max-height: 400px;
+
+
+      @media (max-width: 768px) {
+        max-width: 250px;
+        max-height: 250px;
+      }
+
+
+      @media (max-width: 480px) {
+        max-width: 150px;
+        max-height: 150px;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "key": "donation",
+  "de": {
+    "donationTitle": "Spenden Sie für unser Projekt frag.jetzt!",
+    "donationDescription": "Ihre Unterstützung hilft uns, weiterhin großartige Arbeit zu leisten",
+    "donationLinkPrefix": "Sie können entweder den Link direkt verwenden",
+    "donationLinkSuffix": "oder den QR-Code scannen.",
+    "donationLinkText": "Hier klicken"
+},
+  "en": {
+    "donationTitle": "Donate to our project frag.jetzt!",
+    "donationDescription": "Your support helps us continue to do great work.",
+    "donationLinkPrefix": "You can either use the direct link",
+    "donationLinkSuffix": "or scan the QR code.",
+    "donationLinkText": "Click here"
+
+ },
+  "fr": {
+    "donationTitle": "Faites un don pour notre projet « frag.jetzt !",
+    "donationDescription": "Votre soutien nous aide à continuer notre excellent travail.",
+    "donationLinkPrefix": "Vous pouvez utiliser directement le lien",
+    "donationLinkSuffix": "ou scanner le QR code.",
+    "donationLinkText": "Cliquez ici"
+  }
+}

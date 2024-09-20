@@ -1,0 +1,28 @@
+<m3-body-pane>
+  <m3-supporting-pane>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <strong>{{ i18n().donationTitle }}</strong>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ i18n().donationDescription }}
+          <br />
+          {{ i18n().donationLinkPrefix }}
+          <strong>
+            <a [href]="url">{{ i18n().donationLinkText }}</a>
+          </strong>
+          {{ i18n().donationLinkSuffix }}
+        </p>
+        <div class="qr-code-container">
+          <qrcode
+            [qrdata]="url"
+            [width]="400"
+            [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </m3-supporting-pane>
+</m3-body-pane>
