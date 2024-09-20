@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  {{ "room-page.description" | translate }}
+  {{ i18n().description }}
 </h2>
 
 <mat-dialog-content>
@@ -8,8 +8,8 @@
 
 <mat-dialog-actions>
   <button
-    mat-button
+    mat-flat-button
     (click)="save()">
-    Save
+    {{ i18n().global.confirm }}
   </button>
 </mat-dialog-actions>

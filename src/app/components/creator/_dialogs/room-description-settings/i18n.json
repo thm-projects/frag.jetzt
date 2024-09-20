@@ -1,0 +1,12 @@
+{
+    "key": "room-description",
+    "de": {
+        "description": "Begrüßungstext"
+    },
+    "en": {
+        "description": "Welcome text"
+    },
+    "fr": {
+        "description": "Texte de bienvenue"
+    }
+  }
