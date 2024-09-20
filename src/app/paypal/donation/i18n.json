@@ -1,11 +1,15 @@
 {
   "key": "donation",
   "de": {
-    "donationTitle": "Spenden Sie für unser Projekt frag.jetzt!"
+    "donationTitle": "Spenden Sie für unser Projekt frag.jetzt!",
+    "donationDescription": "Ihre Unterstützung hilft uns, weiterhin großartige Arbeit zu leisten"
   },
   "en": {
-    "donationTitle": "Donate to our project frag.jetzt!"
+    "donationTitle": "Donate to our project frag.jetzt!",
+    "donationDescription": "Your support helps us continue to do great work."
   },
   "fr": {
-    "donationTitle": "Faites un don pour notre projet « frag.jetzt !"
+    "donationTitle": "Faites un don pour notre projet « frag.jetzt !",
+    "donationDescription": "Votre soutien nous aide à continuer notre excellent travail."
   }
+}
