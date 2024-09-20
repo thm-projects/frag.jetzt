@@ -396,7 +396,6 @@ div.toastui-editor-fragjetzt {
 
     &.color::before {
       mask-image: url(/assets/editor-icons/text/style-alt-xs.svg);
-      mask-size: 57.5%;
     }
 
     &.bullet-list::before {
@@ -420,28 +419,19 @@ div.toastui-editor-fragjetzt {
     }
 
     &.heading::before {
-      mask: none;
-      background: none;
-      content: "H";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+      mask-image: url(/assets/editor-icons/text/title.svg);
     }
 
     &.bold::before {
       mask-image: url(/assets/editor-icons/text/bold.svg);
-      mask-size: 40%;
     }
 
     &.italic::before {
       mask-image: url(/assets/editor-icons/text/italic.svg);
-      mask-size: 21%;
     }
 
     &.strike::before {
       mask-image: url(/assets/editor-icons/text/strikethrough-xs.svg);
-      mask-size: 55%;
     }
 
     &.hrline::before {
@@ -469,13 +459,7 @@ div.toastui-editor-fragjetzt {
     }
 
     &.codeblock::before {
-      mask: none;
-      background: none;
-      content: "CB";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
+      mask-image: url(/assets/editor-icons/text/codeblock.svg);
     }
 
     &.more::before {
