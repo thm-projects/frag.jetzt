@@ -325,7 +325,7 @@ export const getDefaultNavigation = (
                   return true;
                 },
               },
-              {
+              user && {
                 id: 'rate-app',
                 icon: 'grade',
                 title: i18n.options.rateApp,
@@ -334,7 +334,7 @@ export const getDefaultNavigation = (
                   return false;
                 },
               },
-            ],
+            ].filter(Boolean),
           },
           user && {
             id: 'news',
