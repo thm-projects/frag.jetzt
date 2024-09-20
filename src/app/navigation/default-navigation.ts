@@ -249,7 +249,7 @@ export const getDefaultNavigation = (
             title: i18n.navigation.donation,
             icon: 'volunteer_activism',
             onClick: () => {
-              // router.navigate(['/donation']);
+              router.navigate(['/donation']);
               return true;
             },
             activated: isDonation,
@@ -260,7 +260,7 @@ export const getDefaultNavigation = (
               title: i18n.navigation.purchase,
               icon: 'payments',
               onClick: () => {
-                // router.navigate(['/purchase']);
+                router.navigate(['/purchase']);
                 return true;
               },
               activated: isPurchse,
