@@ -3,6 +3,7 @@ import { DataProtectionComponent } from '../data-protection/data-protection.comp
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { isDark } from '../../../../base/theme/theme';
 
 @Component({
   selector: 'app-cookies',
@@ -12,6 +13,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class CookiesComponent implements OnInit {
   protected readonly lang = language;
   isMobile: boolean = false;
+  isAndroid: boolean = false;
+  isIOS: boolean = false;
+  isPWA: boolean = window.matchMedia('(display-mode: standalone)').matches;
 
   constructor(
     private dialog: MatDialog,
@@ -25,6 +29,32 @@ export class CookiesComponent implements OnInit {
       .subscribe((result) => {
         this.isMobile = result.matches; // This will be true if the device is a phone
       });
+
+    this.isAndroid = /Android/i.test(navigator.userAgent);
+    this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  }
+
+  getAppStoreBadge(language: string): string {
+    if (language === 'de') {
+      if (isDark()) {
+        return 'assets/images/appstore_de_white.svg';
+      } else {
+        return 'assets/images/appstore_de_black.svg';
+      }
+    } else if (language === 'en') {
+      if (isDark()) {
+        return 'assets/images/appstore_en_white.svg';
+      } else {
+        return 'assets/images/appstore_en_black.svg';
+      }
+    } else if (language === 'fr') {
+      if (isDark()) {
+        return 'assets/images/appstore_fr_white.svg';
+      } else {
+        return 'assets/images/appstore_fr_black.svg';
+      }
+    }
+    return 'assets/images/appstore_de_black.svg';
   }
 
   acceptCookies() {
