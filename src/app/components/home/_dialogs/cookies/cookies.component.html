@@ -9,139 +9,40 @@
   @switch (lang()) {
     @case ("de") {
       <app-cookies-de></app-cookies-de>
-
-      <div
-        *ngIf="!isMobile"
-        class="store-buttons">
-        <a
-          href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-          <img
-            class="appstore"
-            src="assets/images/appstore_de_black.svg"
-            alt="Lade die App im App Store herunter" />
-        </a>
-        <a
-          href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-          <img
-            class="googleplay"
-            src="assets/images/GetItOnGooglePlay_Badge_Web_color_German.png"
-            alt="Lade die App im Play Store herunter" />
-        </a>
-      </div>
-
-      <div
-        *ngIf="isMobile && !isPWA"
-        class="store-buttons">
-        <div *ngIf="isIOS">
-          <a
-            href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-            <img
-              class="appstore"
-              src="{{ getAppStoreBadge('de') }}"
-              alt="Lade die App im App Store herunter" />
-          </a>
-        </div>
-        <div *ngIf="isAndroid">
-          <a
-            href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-            <img
-              class="googleplay"
-              src="assets/images/GetItOnGooglePlay_Badge_Web_color_German.png"
-              alt="Lade die App im Play Store herunter" />
-          </a>
-        </div>
-      </div>
     }
     @case ("fr") {
       <app-cookies-fr></app-cookies-fr>
-
-      <div
-        *ngIf="!isMobile"
-        class="store-buttons">
-        <a
-          href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-          <img
-            class="appstore"
-            src="assets/images/appstore_fr_black.svg"
-            alt="Télécharge l'application dans l'App Store" />
-        </a>
-        <a
-          href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-          <img
-            class="googleplay"
-            src="assets/images/GetItOnGooglePlay_Badge_Web_color_French-CA.png"
-            alt="Télécharge l'application dans l'Play Store" />
-        </a>
-      </div>
-
-      <div
-        *ngIf="isMobile && !isPWA"
-        class="store-buttons">
-        <div *ngIf="isIOS">
-          <a
-            href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-            <img
-              class="appstore"
-              src="{{ getAppStoreBadge('fr') }}"
-              alt="Télécharge l'application dans l'App Store" />
-          </a>
-        </div>
-        <div *ngIf="isAndroid">
-          <a
-            href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-            <img
-              class="googleplay"
-              src="assets/images/GetItOnGooglePlay_Badge_Web_color_French-CA.png"
-              alt="Télécharge l'application dans l'Play Store" />
-          </a>
-        </div>
-      </div>
     }
     @default {
       <app-cookies-en></app-cookies-en>
-
-      <div
-        *ngIf="!isMobile"
-        class="store-buttons">
-        <a
-          href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-          <img
-            class="appstore"
-            src="assets/images/appstore_en_black.svg"
-            alt="Download the app on Plaxstore" />
-        </a>
-        <a
-          href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-          <img
-            class="googleplay"
-            src="assets/images/GetItOnGooglePlay_Badge_Web_color_English.png"
-            alt="Get it on Google Play" />
-        </a>
-      </div>
-
-      <div
-        *ngIf="isMobile && !isPWA"
-        class="store-buttons">
-        <div *ngIf="isIOS">
-          <a
-            href="https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104">
-            <img
-              class="appstore"
-              src="{{ getAppStoreBadge('en') }}"
-              alt="Download on the App Store" />
-          </a>
-        </div>
-        <div *ngIf="isAndroid">
-          <a
-            href="https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de">
-            <img
-              class="googleplay"
-              src="assets/images/GetItOnGooglePlay_Badge_Web_color_English.png"
-              alt="Get it on Google Play" />
-          </a>
-        </div>
-      </div>
     }
+  }
+
+  @if (badgeType() !== "none") {
+    <div class="store-buttons">
+      @if (
+        (badgeType() === "appstore" || badgeType() === "both") &&
+          getAppStoreBadge(badgeType());
+        as badge
+      ) {
+        <a [href]="appleUrl">
+          <img
+            [src]="badge.src"
+            [alt]="badge.alt" />
+        </a>
+      }
+      @if (
+        (badgeType() === "playstore" || badgeType() === "both") &&
+          getPlayStoreBadge();
+        as badge
+      ) {
+        <a [href]="googleUrl">
+          <img
+            [src]="badge.src"
+            [alt]="badge.alt" />
+        </a>
+      }
+    </div>
   }
 </mat-dialog-content>
 
