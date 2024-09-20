@@ -985,6 +985,7 @@
     "really-delete-token": "Do you really want to delete this token?",
     "really-delete-tokens": "Do you really want to delete all tokens of this session?",
     "room-not-found": "Room not found :(",
+    "save":"Save",
     "score": "Score",
     "session-id": "Participant access",
     "session-id-copied": "Direct link for participants was copied to the clipboard.",

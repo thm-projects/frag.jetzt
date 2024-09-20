@@ -989,6 +989,7 @@
     "really-delete-token": "Willst du diesen Bonuscode wirklich löschen?",
     "really-delete-tokens": "Willst du wirklich alle Bonuscodes dieser Sitzung löschen?",
     "room-not-found": "Der Raum wurde nicht gefunden (",
+    "save":"Speichern",
     "score": "Score",
     "session-id": "Teilnehmerzugang",
     "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
