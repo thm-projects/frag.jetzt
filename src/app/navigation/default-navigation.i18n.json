@@ -2,7 +2,7 @@
   "key": "default-navigation",
   "de": {
     "header": {
-      "slogan": "Willkommen auf »frag.jetzt« ! Du fragst. KI antwortet.",
+      "slogan": "Willkommen auf »frag.jetzt« !  Du fragst. KI antwortet.",
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
       "aiConsent": "KI-Datenschutz",
@@ -29,9 +29,9 @@
       "home": "Startseite",
       "myRooms": "Meine Räume",
       "admin": "Administration",
-      "pricing": "Tarife",
-      "donation": "Spende",
-      "purchase": "KI-Kontingent"
+      "pricing": "Dankeschön & KI-Guthaben",
+      "donation": "Für die Kaffeemaschine",
+      "purchase": "KI-Guthabenpaket"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -76,9 +76,9 @@
       "home": "Homepage",
       "myRooms": "My rooms",
       "admin": "Administration",
-      "pricing": "Pricing",
-      "donation": "Donation",
-      "purchase": "AI Quota"
+      "pricing": "Thank you & AI Credit",
+      "donation": "For the coffee machine",
+      "purchase": "AI credit package"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -123,9 +123,9 @@
       "home": "Page d'accueil",
       "myRooms": "Mes salles",
       "admin": "Administration",
-      "pricing": "Tarification",
-      "donation": "Don",
-      "purchase": "Contingent d'IA"
+      "pricing": "Remerciement & Crédit IA",
+      "donation": "Pour la machine à café",
+      "purchase": "Pack de crédit IA"
     },
     "options": {
       "about": "À propos de frag.jetzt",

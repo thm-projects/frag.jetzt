@@ -247,7 +247,7 @@ export const getDefaultNavigation = (
           {
             id: 'donation',
             title: i18n.navigation.donation,
-            icon: 'volunteer_activism',
+            icon: 'coffee_maker',
             onClick: () => {
               router.navigate(['/donation']);
               return true;
@@ -258,7 +258,7 @@ export const getDefaultNavigation = (
             !user.isGuest && {
               id: 'purchase',
               title: i18n.navigation.purchase,
-              icon: 'payments',
+              icon: 'credit_card',
               onClick: () => {
                 router.navigate(['/purchase']);
                 return true;
