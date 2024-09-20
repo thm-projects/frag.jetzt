@@ -165,6 +165,25 @@ mat-dialog-actions {
   gap: 8px;
 }
 
+/* MDC Overrides */
+$min-width: 360px;
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  --toastui-dialog-min-width: min(
+    900px,
+    var(--mat-dialog-container-max-width, 80vw)
+  );
+  --mat-dialog-container-min-width: #{$min-width};
+}
+
+@media (max-width: 599px) {
+  .cdk-overlay-pane.mat-mdc-dialog-panel {
+    --mat-dialog-container-min-width: min(
+      #{$min-width},
+      var(--mat-dialog-container-small-max-width, 80vw)
+    );
+  }
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: auto;

@@ -1,11 +1,11 @@
-<span matDialogTitle>{{ "session.edit-session-name" | translate }}</span>
+<span matDialogTitle>{{ i18n().title }}</span>
 <mat-dialog-content *ngIf="editRoom">
-  <mat-form-field class="input-block">
+  <mat-form-field class="full-width">
     <input
       appAccessibilityEscapedInput
       matInput
       [formControl]="roomNameFormControl"
-      [placeholder]="'session.session-name' | translate"
+      [placeholder]="i18n().placeholder"
       name="room-name"
       [maxlength]="roomNameLengthMax"
       aria-labelledby="room-name" />
@@ -20,10 +20,7 @@
         roomNameFormControl.hasError('minlength') ||
         roomNameFormControl.hasError('maxlength')
       ">
-      {{
-        "room-page.name-length-error"
-          | translate: { min: roomNameLengthMin, max: roomNameLengthMax }
-      }}
+      {{ i18n().nameLengthError }}
     </mat-error>
   </mat-form-field>
 </mat-dialog-content>
@@ -31,15 +28,17 @@
   <button
     mat-button
     (click)="dialogRef.close()">
-    cancel
+    {{ i18n().global.cancel }}
   </button>
+  <span style="flex: 1"></span>
   <button
-    mat-button
+    mat-flat-button
+    cdk-focus-initial
     (click)="save()">
-    save
+    {{ i18n().global.confirm }}
   </button>
 </mat-dialog-actions>
 
 <div class="visually-hidden">
-  <div id="room-name">{{ "room-page.a11y-room-name" | translate }}</div>
+  <div id="room-name">{{ i18n().a11yRoomName }}</div>
 </div>
