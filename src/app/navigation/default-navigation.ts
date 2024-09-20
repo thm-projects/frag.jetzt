@@ -183,6 +183,7 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
+      // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
         kind: 'navigation',
@@ -235,6 +236,36 @@ export const getDefaultNavigation = (
           },
         });
       }
+      // app navigation
+      const isPurchse = router.url.startsWith('/purchase');
+      const isDonation = router.url.startsWith('/donation');
+      const pricingSection: M3NavigationSection = {
+        id: 'pricing',
+        kind: 'navigation',
+        title: i18n.navigation.pricing,
+        entries: [
+          {
+            id: 'donation',
+            title: i18n.navigation.donation,
+            icon: 'coffee_maker',
+            onClick: () => {
+              router.navigate(['/donation']);
+              return true;
+            },
+            activated: isDonation,
+          },
+          {
+            id: 'purchase',
+            title: i18n.navigation.purchase,
+            icon: 'credit_card',
+            onClick: () => {
+              router.navigate(['/purchase']);
+              return true;
+            },
+            activated: isPurchse,
+          },
+        ],
+      };
       // OPTIONS
       const optionSection: M3NavigationOptionSection = {
         id: 'about',
@@ -294,7 +325,7 @@ export const getDefaultNavigation = (
                   return true;
                 },
               },
-              {
+              user && {
                 id: 'rate-app',
                 icon: 'grade',
                 title: i18n.options.rateApp,
@@ -303,7 +334,7 @@ export const getDefaultNavigation = (
                   return false;
                 },
               },
-            ],
+            ].filter(Boolean),
           },
           user && {
             id: 'news',
@@ -336,7 +367,11 @@ export const getDefaultNavigation = (
       };
       return {
         title: i18n.navigation.title,
-        sections: [navSection, optionSection],
+        sections: [
+          navSection,
+          user && !user.isGuest && pricingSection,
+          optionSection,
+        ].filter(Boolean),
       };
     }),
   );
