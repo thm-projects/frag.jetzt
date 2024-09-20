@@ -1,0 +1,15 @@
+{
+  "key": "room-description-settings",
+  "de": {
+    "description":"Begrüßungstext",
+    "save":"Speichern und Schließen"
+  },
+  "en": {
+    "description":"Welcome text",
+    "save":"Save and close"
+  },
+  "fr": {
+    "description":"Texte de bienvenue",
+    "save":"Enregistrer et fermer"
+  }
+}

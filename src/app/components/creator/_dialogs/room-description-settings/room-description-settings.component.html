@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  {{ "room-page.description" | translate }}
+  {{ i18n().description }}
 </h2>
 
 <mat-dialog-content>
@@ -7,12 +7,16 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>{{ "room-page.cancel" | translate }}</button>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ "room-page.cancel" | translate }}
+  </button>
 
-  <span style="flex: 1;"></span>
+  <span style="flex: 1"></span>
   <button
     mat-flat-button
     (click)="save()">
-    {{ "room-page.save" | translate }}
+    {{ i18n().save }}
   </button>
 </mat-dialog-actions>

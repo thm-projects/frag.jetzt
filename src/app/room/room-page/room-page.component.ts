@@ -111,7 +111,9 @@ export class RoomPageComponent {
   }
 
   protected editSessionName() {
-    const dialogRef = this.dialog.open(RoomNameSettingsComponent);
+    const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
+      disableClose: true,
+    });
     dialogRef.componentInstance.editRoom = this.room();
   }
 
@@ -119,6 +121,7 @@ export class RoomPageComponent {
     const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
       minWidth: 'var(--toastui-dialog-min-width)',
       autoFocus: false,
+      disableClose: true,
     });
     dialogRef.componentInstance.editRoom = this.room();
   }
