@@ -1,0 +1,131 @@
+.pricing-plan-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.pricing-title {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pricing-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+.pricing-card {
+  width: 250px;
+  padding: 20px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+/* Featured Plan (Middle one) */
+.featured-card {
+  width: 300px;
+  /* Make it larger */
+  height: auto;
+  /* Adjust to content */
+  transform: translateY(-30px);
+  /* Raise it above the other two */
+  z-index: 2;
+  /* Ensure it's above the other two cards */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  /* Larger shadow for emphasis */
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.pricing-card mat-card-header mat-icon {
+  font-size: 40px;
+  color: #3f51b5;
+  margin-bottom: 10px;
+}
+
+.card-header mat-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.pricing-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pricing-card ul li {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Price Styling */
+.price {
+  font-size: 2rem;
+  margin-top: 10px;
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  margin-right: 5px;
+}
+
+.pricing-card mat-card-content {
+  margin-bottom: 20px;
+}
+
+.pricing-card mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.highlighted {
+  border: 2px solid #3f51b5;
+  background-color: #e8f0fe;
+}
+
+.mat-raised-button {
+  padding: 10px 30px;
+  border-radius: 50px;
+}
+
+.mat-divider {
+  margin-top: 20px;
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+  .pricing-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pricing-card {
+    width: 90%;
+  }
+
+  .featured-card {
+    width: 95%;
+    /* Make the middle one larger in mobile view too */
+    transform: translateY(0);
+    /* Remove raise effect for mobile */
+  }
+}

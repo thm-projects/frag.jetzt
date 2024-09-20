@@ -6,15 +6,13 @@
   <strong>
     <a [href]="url">{{ i18n().message.link }}</a>
   </strong>
-  {{ i18n().message.alternative }}
-  <br />
-  {{ i18n().message.thanks }}
+  {{ i18n().message.alternativeAndThanks }}
 
   <div class="qr-code-container">
     <qrcode
       [qrdata]="url"
       [errorCorrectionLevel]="'M'"
-      [width]="200"
+      [width]="qrCodeSize"
       [margin]="0"></qrcode>
   </div>
 </mat-dialog-content>

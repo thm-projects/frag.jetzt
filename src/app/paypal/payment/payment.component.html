@@ -1,71 +1,86 @@
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Dummy Pricing Plan</h2>
-  
-    <div class="row justify-content-center">
-      <!-- Free Plan -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-header text-center bg-light">
-            <h4 class="font-weight-bold">Free Plan</h4>
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title pricing-card-title">0 Tokens</h3>
-            <p class="text-muted">Per month</p>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li><strong>10</strong> Free Responses</li>
-              <li>Basic AI Assistance</li>
-              <li>Limited Token Usage</li>
-              <li>Email Support</li>
-            </ul>
-            <button class="btn btn-outline-primary btn-block" disabled>Current Plan</button>
-          </div>
-        </div>
+<div class="pricing-plan-container">
+  <h1 class="pricing-title">PRICING PLAN</h1>
+
+  <div class="pricing-cards">
+    <!-- Basic Plan -->
+    <mat-card class="pricing-card">
+      <div class="card-header">
+        <mat-icon>emoji_nature</mat-icon>
+        <mat-card-title>Basic</mat-card-title>
       </div>
-  
-      <!-- Starter Plan -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-header text-center bg-primary text-white">
-            <h4 class="font-weight-bold">Starter Plan</h4>
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title pricing-card-title">$10 <small class="text-muted">/ 100 Tokens</small></h3>
-            <p class="text-muted">One-time purchase</p>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li><strong>100</strong> AI Assistant Responses</li>
-              <li>Priority Token Usage</li>
-              <li>Email & Chat Support</li>
-              <li>Basic Integrations</li>
-            </ul>
-            <button class="btn btn-primary btn-block">Buy Now</button>
-          </div>
-        </div>
+      <mat-card-content>
+        <ul>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+        </ul>
+        <h2 class="price">
+          <span class="currency">$</span>
+          100
+        </h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary">
+          Go
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Standard Plan (Featured - Enlarged) -->
+    <mat-card class="pricing-card featured-card">
+      <div class="card-header">
+        <mat-icon>lightbulb</mat-icon>
+        <mat-card-title>Standard</mat-card-title>
       </div>
-  
-      <!-- Pro Plan -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-header text-center bg-dark text-white">
-            <h4 class="font-weight-bold">Pro Plan</h4>
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title pricing-card-title">$50 <small class="text-muted">/ 500 Tokens</small></h3>
-            <p class="text-muted">One-time purchase</p>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li><strong>500</strong> AI Assistant Responses</li>
-              <li>Full Access to All Features</li>
-              <li>Priority Support</li>
-              <li>Advanced Integrations</li>
-            </ul>
-            <button class="btn btn-dark btn-block">Buy Now</button>
-          </div>
-        </div>
+      <mat-card-content>
+        <ul>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+        </ul>
+        <h2 class="price">
+          <span class="currency">$</span>
+          120
+        </h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary">
+          Go
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Pro Plan -->
+    <mat-card class="pricing-card">
+      <div class="card-header">
+        <mat-icon>computer</mat-icon>
+        <mat-card-title>Pro</mat-card-title>
       </div>
-    </div>
-  
-    <div class="text-center mt-4">
-      <p class="lead">Not sure which plan to choose? Contact us for a customized solution!</p>
-      <a href="#" class="btn btn-secondary">Contact Sales</a>
-    </div>
+      <mat-card-content>
+        <ul>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+          <li>Lorem ipsum dolor sit</li>
+        </ul>
+        <h2 class="price">
+          <span class="currency">$</span>
+          180
+        </h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary">
+          Go
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
-  
+</div>

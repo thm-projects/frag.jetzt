@@ -59,9 +59,9 @@ const routes: Routes = [
     title: 'donation',
   },
   {
-    path: 'payment',
+    path: 'purchase',
     component: PaymentComponent,
-    title: 'payment',
+    title: 'purchase',
   },
   {
     path: 'admin',

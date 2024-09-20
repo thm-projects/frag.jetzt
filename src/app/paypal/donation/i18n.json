@@ -5,8 +5,7 @@
     "message": {
       "invite": "Unterstützen Sie uns mit einer Spende.<br> Sie können entweder auf den folgenden Link klicken: ",
       "link": "Hier klicken",
-      "alternative": ", oder ganz einfach den QR-Code scannen.",
-      "thanks": "Vielen herzlichen Dank für Ihre Unterstützung!"
+      "alternativeAndThanks": ", oder ganz einfach den QR-Code scannen.<br> Vielen herzlichen Dank für Ihre Unterstützung!"
     },
     "close": "Schließen"
   },
@@ -15,8 +14,7 @@
     "message": {
       "invite": "Support us with a donation.<br> You can either click the following link: ",
       "link": "Click here",
-      "alternative": ", or simply scan the QR code.",
-      "thanks": "Thank you very much for your support!"
+      "alternativeAndThanks": ", or simply scan the QR code.<br> Thank you very much for your support!"
     },
     "close": "Close"
   },
@@ -25,8 +23,7 @@
     "message": {
       "invite": "Soutenez-nous avec un don.<br> Vous pouvez cliquer sur le lien suivant: ",
       "link": "Cliquez ici",
-      "alternative": ", ou simplement scanner le QR code.",
-      "thanks": "Merci beaucoup pour votre soutien !"
+      "alternativeAndThanks": ", ou simplement scanner le QR code.<br> Merci beaucoup pour votre soutien !"
     },
     "close": "Fermer"
   }
