@@ -111,20 +111,13 @@ export class RoomPageComponent {
   }
 
   protected editSessionName() {
-    const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
+    const dialogRef = this.dialog.open(RoomNameSettingsComponent);
     dialogRef.componentInstance.editRoom = this.room();
   }
 
   protected editSessionDescription() {
     const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
+      minWidth: 'var(--toastui-dialog-min-width)',
       autoFocus: false,
     });
     dialogRef.componentInstance.editRoom = this.room();

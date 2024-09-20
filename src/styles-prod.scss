@@ -75,6 +75,7 @@ $deprecated-theme-override: (
 );
 
 :root {
+  --toastui-dialog-min-width: min(900px, 100vw - 32px);
   &.theme-target {
     &.debug {
       @each $key, $value in $deprecated-theme-override {
