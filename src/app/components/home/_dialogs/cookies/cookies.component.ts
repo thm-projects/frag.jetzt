@@ -1,17 +1,11 @@
-import {
-  Component,
-  computed,
-  OnDestroy,
-  OnInit,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, computed, OnInit, Signal, signal } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 import { isDark } from '../../../../base/theme/theme';
+import { from, map, Observable, of } from 'rxjs';
 
 interface BadgeData {
   alt: string;
@@ -25,7 +19,7 @@ type ShowBadgeType = 'appstore' | 'playstore' | 'both' | 'none';
   templateUrl: './cookies.component.html',
   styleUrls: ['./cookies.component.scss'],
 })
-export class CookiesComponent implements OnInit, OnDestroy {
+export class CookiesComponent implements OnInit {
   protected readonly lang = language;
   protected readonly isMobile = signal(false);
   protected readonly badgeType: Signal<ShowBadgeType> = computed(() => {
@@ -49,8 +43,6 @@ export class CookiesComponent implements OnInit, OnDestroy {
   protected readonly appleUrl =
     'https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104';
   private isPwa = signal(false);
-  private readonly pwaMatcher = window.matchMedia('(display-mode: standalone)');
-  private pwaListener = null;
 
   constructor(
     private dialog: MatDialog,
@@ -58,14 +50,7 @@ export class CookiesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isPwa.set(this.pwaMatcher.matches);
-    this.pwaListener = this.pwaMatcher.addEventListener('change', (e) => {
-      this.isPwa.set(e.matches);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.pwaMatcher.removeEventListener('change', this.pwaListener);
+    this.isInstalled().subscribe((isInstalled) => this.isPwa.set(isInstalled));
   }
 
   getAppStoreBadge(badgeType: ShowBadgeType): BadgeData {
@@ -126,5 +111,15 @@ export class CookiesComponent implements OnInit, OnDestroy {
 
   openDataProtection() {
     this.dialog.open(DataProtectionComponent);
+  }
+
+  private isInstalled(): Observable<boolean> {
+    if (navigator['standalone']) {
+      return of(true);
+    }
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      return of(true);
+    }
+    return from(navigator.serviceWorker.getRegistration()).pipe(map(Boolean));
   }
 }
