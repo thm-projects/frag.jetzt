@@ -2,7 +2,7 @@
   "key": "default-navigation",
   "de": {
     "header": {
-      "slogan": "Willkommen auf »frag.jetzt« !  Du fragst.  KI antwortet.",
+      "slogan": "Willkommen auf »frag.jetzt« !  Du fragst. KI antwortet.",
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
       "aiConsent": "KI-Datenschutz",
@@ -28,7 +28,10 @@
       "app": "Orte",
       "home": "Startseite",
       "myRooms": "Meine Räume",
-      "admin": "Administration"
+      "admin": "Administration",
+      "pricing": "Dankeschön & KI-Guthaben",
+      "donation": "Für die Kaffeemaschine",
+      "purchase": "KI-Guthabenpaket"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -46,7 +49,7 @@
   },
   "en": {
     "header": {
-      "slogan": "Welcome to »frag.jetzt« !  You ask.  AI answers.",
+      "slogan": "Welcome to »frag.jetzt« ! You ask. AI answers.",
       "myAccount": "My account",
       "myStars": "My bonus stars",
       "aiConsent": "AI privacy",
@@ -72,7 +75,10 @@
       "app": "Places",
       "home": "Homepage",
       "myRooms": "My rooms",
-      "admin": "Administration"
+      "admin": "Administration",
+      "pricing": "Thank you & AI Credit",
+      "donation": "For the coffee machine",
+      "purchase": "AI credit package"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -90,7 +96,7 @@
   },
   "fr": {
     "header": {
-      "slogan": "Bienvenue sur « frag.jetzt » !  Tu poses des questions.  L'IA répond.",
+      "slogan": "Bienvenue sur « frag.jetzt » ! Tu poses des questions. L'IA répond.",
       "myAccount": "Mon compte",
       "myStars": "Mes étoiles bonus",
       "aiConsent": "Confidentialité de l'IA",
@@ -116,7 +122,10 @@
       "app": "Lieux",
       "home": "Page d'accueil",
       "myRooms": "Mes salles",
-      "admin": "Administration"
+      "admin": "Administration",
+      "pricing": "Remerciement & Crédit IA",
+      "donation": "Pour la machine à café",
+      "purchase": "Pack de crédit IA"
     },
     "options": {
       "about": "À propos de frag.jetzt",

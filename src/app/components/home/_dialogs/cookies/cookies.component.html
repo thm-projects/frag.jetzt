@@ -17,6 +17,33 @@
       <app-cookies-en></app-cookies-en>
     }
   }
+
+  @if (badgeType() !== "none") {
+    <div class="store-buttons">
+      @if (
+        (badgeType() === "appstore" || badgeType() === "both") &&
+          getAppStoreBadge(badgeType());
+        as badge
+      ) {
+        <a [href]="appleUrl">
+          <img
+            [src]="badge.src"
+            [alt]="badge.alt" />
+        </a>
+      }
+      @if (
+        (badgeType() === "playstore" || badgeType() === "both") &&
+          getPlayStoreBadge();
+        as badge
+      ) {
+        <a [href]="googleUrl">
+          <img
+            [src]="badge.src"
+            [alt]="badge.alt" />
+        </a>
+      }
+    </div>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>

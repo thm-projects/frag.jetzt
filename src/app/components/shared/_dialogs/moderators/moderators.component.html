@@ -57,11 +57,10 @@
     <mat-list>
       <mat-list-item
         *ngFor="let moderator of moderators"
-        lines="2">
+        lines="1">
         <span matListItemTitle>
           {{ moderator.loginId || ("moderators-dialog.guest" | translate) }}
         </span>
-        <span matListItemLine>{{ moderator.roomId }}</span>
         <div matListItemMeta>
           <button
             mat-icon-button
