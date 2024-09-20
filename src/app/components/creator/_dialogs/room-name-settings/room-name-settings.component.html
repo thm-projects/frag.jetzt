@@ -1,8 +1,7 @@
 <span matDialogTitle>{{ i18n().title }}</span>
 <mat-dialog-content *ngIf="editRoom">
-  <mat-form-field class="input-block">
+  <mat-form-field class="full-width">
     <input
-      class="full-width"
       appAccessibilityEscapedInput
       matInput
       [formControl]="roomNameFormControl"
