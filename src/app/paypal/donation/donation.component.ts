@@ -1,19 +1,28 @@
 import { Component } from '@angular/core';
-import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
-import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
-import { MatCardModule} from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { FormsModule } from "@angular/forms";
-import { MatInput } from "@angular/material/input";
-import { QRCodeModule } from "angularx-qrcode";
+import { QRCodeModule } from 'angularx-qrcode';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-donation',
   standalone: true,
-  imports: [M3BodyPaneComponent, M3SupportingPaneComponent, MatCardModule, MatFormFieldModule, FormsModule, MatInput, QRCodeModule],
+  imports: [
+    QRCodeModule,
+    MatDialogModule,
+    MatButtonModule,
+    CustomMarkdownModule,
+    ContextPipe,
+  ],
   templateUrl: './donation.component.html',
   styleUrl: './donation.component.scss',
 })
 export class DonationComponent {
+  protected readonly i18n = i18n;
   url = 'https://www.sandbox.paypal.com/ncp/payment/J4AV5JU5RMLU6';
+  qrCodeSize: number = 200; // Size in pixels
 }

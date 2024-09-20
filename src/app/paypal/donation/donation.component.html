@@ -1,19 +1,29 @@
-<m3-body-pane>
-  <m3-supporting-pane >
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title><strong>Spenden Sie für unser Projekt frag.jetzt!</strong></mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        Unterstützen Sie uns mit einer Spende! <br> Sie können entweder den Link
-        direkt verwenden <strong><a [href]="url" >Hier klicken</a></strong> oder den QR-Code scannen.
-      </p>
-      <div class="qr-code-container">
-        <qrcode [qrdata]="url" [width]="400" [errorCorrectionLevel]="'M'">
-        </qrcode>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  </m3-supporting-pane>
-</m3-body-pane>
+<!--Donation Dialoge-->
+<h1 mat-dialog-title>{{ i18n().title }}</h1>
+
+<mat-dialog-content tabindex="0">
+  <span [innerHTML]="i18n().message.invite"></span>
+  <strong>
+    <a [href]="url">{{ i18n().message.link }}</a>
+  </strong>
+  {{ i18n().message.alternative }}
+  <br />
+  {{ i18n().message.thanks }}
+
+  <div class="qr-code-container">
+    <qrcode
+      [qrdata]="url"
+      [errorCorrectionLevel]="'M'"
+      [width]="200"
+      [margin]="0"></qrcode>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>
