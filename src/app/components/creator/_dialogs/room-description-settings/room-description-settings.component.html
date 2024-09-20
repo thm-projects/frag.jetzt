@@ -7,9 +7,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
+  <button mat-button mat-dialog-close>{{ "room-page.cancel" | translate }}</button>
+
+  <span style="flex: 1;"></span>
   <button
-    mat-button
+    mat-flat-button
     (click)="save()">
-    Save
+    {{ "room-page.save" | translate }}
   </button>
 </mat-dialog-actions>

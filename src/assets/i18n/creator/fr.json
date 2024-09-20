@@ -911,6 +911,7 @@
     "really-delete-token": "Veux-tu vraiment supprimer ce code bonus ?",
     "really-delete-tokens": "Veux-tu vraiment supprimer tous les codes bonus de cette session ?",
     "room-not-found": "La salle n'a pas été trouvée (",
+    "save":"Enregistrer",
     "score": "Score",
     "session-id": "Accès participant",
     "session-id-copied": "Le lien direct pour les participants a été copié dans le cache du navigateur.",
