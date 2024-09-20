@@ -254,18 +254,17 @@ export const getDefaultNavigation = (
             },
             activated: isDonation,
           },
-          user &&
-            !user.isGuest && {
-              id: 'purchase',
-              title: i18n.navigation.purchase,
-              icon: 'credit_card',
-              onClick: () => {
-                router.navigate(['/purchase']);
-                return true;
-              },
-              activated: isPurchse,
+          {
+            id: 'purchase',
+            title: i18n.navigation.purchase,
+            icon: 'credit_card',
+            onClick: () => {
+              router.navigate(['/purchase']);
+              return true;
             },
-        ].filter(Boolean),
+            activated: isPurchse,
+          },
+        ],
       };
       // OPTIONS
       const optionSection: M3NavigationOptionSection = {
@@ -368,7 +367,11 @@ export const getDefaultNavigation = (
       };
       return {
         title: i18n.navigation.title,
-        sections: [navSection, pricingSection, optionSection],
+        sections: [
+          navSection,
+          user && !user.isGuest && pricingSection,
+          optionSection,
+        ].filter(Boolean),
       };
     }),
   );
