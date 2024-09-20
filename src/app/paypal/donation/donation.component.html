@@ -1,16 +1,26 @@
 <m3-body-pane>
   <m3-supporting-pane>
-    <mat-card class="donation-card">
+    <mat-card>
       <mat-card-header>
-        <mat-card-title><strong>Spenden Sie für unser Projekt frag.jetzt!</strong></mat-card-title>
+        <mat-card-title>
+          <strong>{{ i18n().donationTitle }}</strong>
+        </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>
-          Unterstützen Sie uns mit einer Spende! <br> Sie können entweder den Link
-          direkt verwenden <strong><a [href]="url">Hier klicken</a></strong> oder den QR-Code scannen.
+          {{ i18n().donationDescription }}
+          <br />
+          {{ i18n().donationLinkPrefix }}
+          <strong>
+            <a [href]="url">{{ i18n().donationLinkText }}</a>
+          </strong>
+          {{ i18n().donationLinkSuffix }}
         </p>
         <div class="qr-code-container">
-          <qrcode [qrdata]="url" [errorCorrectionLevel]="'M'"></qrcode>
+          <qrcode
+            [qrdata]="url"
+            [width]="400"
+            [errorCorrectionLevel]="'M'"></qrcode>
         </div>
       </mat-card-content>
     </mat-card>
