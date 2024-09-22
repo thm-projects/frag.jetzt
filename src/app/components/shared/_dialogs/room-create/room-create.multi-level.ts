@@ -174,7 +174,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               previousState?.get('apiCode')?.value ?? data.apiKeys[0]?.apiKey,
             validators: [
               Validators.required,
-              Validators.pattern('sk-[a-zA-Z0-9]+'),
+              Validators.pattern('sk-[a-zA-Z0-9_-]+'),
             ],
             errorStates: {
               required: 'ml-room-create.e-p3-required',
@@ -188,7 +188,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             defaultValue:
               previousState?.get('organization')?.value ??
               data.apiKeys[0]?.apiOrganization,
-            validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
+            validators: [Validators.pattern('org-[a-zA-Z0-9_-]+')],
             errorStates: {
               pattern: 'ml-room-create.e-p3-org-pattern',
             },
