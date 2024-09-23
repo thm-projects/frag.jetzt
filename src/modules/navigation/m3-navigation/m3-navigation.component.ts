@@ -1,4 +1,12 @@
-import { Component, Signal, computed, viewChild } from '@angular/core';
+import {
+  Component,
+  Signal,
+  computed,
+  viewChild,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { M3NavDrawerRailComponent } from '../m3-nav-drawer-rail/m3-nav-drawer-rail.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FAB_BUTTON, HEADER, NAVIGATION } from '../m3-navigation-emitter';
 import { M3LabelComponent } from '../m3-label/m3-label.component';
+import { OnlineStateService } from 'app/services/state/online-state.service';
 import {
   M3NavigationEntry,
   M3NavigationNestedOptionSection,
@@ -36,7 +45,7 @@ const i18n = I18nLoader.loadModule(rawI18n);
   templateUrl: './m3-navigation.component.html',
   styleUrl: './m3-navigation.component.scss',
 })
-export class M3NavigationComponent {
+export class M3NavigationComponent implements OnInit, OnDestroy {
   protected readonly i18n = i18n;
   protected header = HEADER.asReadonly();
   protected navigation = NAVIGATION.asReadonly();
@@ -95,6 +104,26 @@ export class M3NavigationComponent {
     }
     return navs;
   });
+
+  private onlineSubscription: Subscription;
+  isOnline: boolean;
+
+  constructor(private onlineStateService: OnlineStateService) {}
+
+  ngOnInit(): void {
+    this.onlineSubscription = this.onlineStateService.online$.subscribe(
+      (online) => {
+        this.isOnline = online;
+        console.log('Online status:', online);
+      },
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.onlineSubscription) {
+      this.onlineSubscription.unsubscribe();
+    }
+  }
 
   onNavigate() {
     this.drawerRail().close();

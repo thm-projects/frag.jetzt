@@ -74,6 +74,7 @@ export const getDefaultHeader = (
       const isRoom = router.url.indexOf('/', index + 6) === -1;
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
+        offline: i18n.header.offline,
         options: [
           user
             ? {

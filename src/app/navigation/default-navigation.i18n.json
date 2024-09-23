@@ -3,6 +3,7 @@
   "de": {
     "header": {
       "slogan": "Willkommen auf »frag.jetzt« !  Du fragst. KI antwortet.",
+      "offline": "Du bist offline!",
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
       "aiConsent": "KI-Datenschutz",
@@ -50,6 +51,7 @@
   "en": {
     "header": {
       "slogan": "Welcome to »frag.jetzt« ! You ask. AI answers.",
+      "offline": "You are offline!",
       "myAccount": "My account",
       "myStars": "My bonus stars",
       "aiConsent": "AI privacy",
@@ -97,6 +99,7 @@
   "fr": {
     "header": {
       "slogan": "Bienvenue sur « frag.jetzt » ! Tu poses des questions. L'IA répond.",
+      "offline": "Tu es déconnecté",
       "myAccount": "Mon compte",
       "myStars": "Mes étoiles bonus",
       "aiConsent": "Confidentialité de l'IA",
