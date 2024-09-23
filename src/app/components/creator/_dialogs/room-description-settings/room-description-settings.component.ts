@@ -53,10 +53,8 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     this.dialogRef.close('update');
   }
   detectLinks(text: string): string {
-    // Regex für URLs, die nicht innerhalb eines <a>-Tags sind
     const urlRegex = /(?<!<a[^>]*?>)(https?:\/\/[^\s<]+)(?![^<]*?<\/a>)/g;
 
-    // Ersetze erkannte URLs durch klickbare Links
     return text.replace(urlRegex, (url: string) => {
       return `<a href="${url}" target="_blank">${url}</a>`;
     });
