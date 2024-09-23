@@ -44,11 +44,21 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
       this.notification.show(i18n().warning);
       return;
     }
+    const descriptionText = this.detectLinks(this.data());
     this.roomService
       .patchRoom(this.editRoom.id, {
-        description: this.data(),
+        description: descriptionText,
       })
       .subscribe();
     this.dialogRef.close('update');
+  }
+  detectLinks(text: string): string {
+    // Regex für URLs, die nicht innerhalb eines <a>-Tags sind
+    const urlRegex = /(?<!<a[^>]*?>)(https?:\/\/[^\s<]+)(?![^<]*?<\/a>)/g;
+
+    // Ersetze erkannte URLs durch klickbare Links
+    return text.replace(urlRegex, (url: string) => {
+      return `<a href="${url}" target="_blank">${url}</a>`;
+    });
   }
 }
