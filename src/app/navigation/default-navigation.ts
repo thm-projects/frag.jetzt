@@ -35,6 +35,7 @@ import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
+import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -164,6 +165,13 @@ export const getDefaultHeader = (
         ],
       };
     }),
+  );
+};
+
+const isStandalone = (): boolean => {
+  return (
+    navigator['standalone'] ||
+    window.matchMedia('(display-mode: standalone)').matches
   );
 };
 
@@ -363,6 +371,15 @@ export const getDefaultNavigation = (
               return false;
             },
           },
+          !isStandalone() && {
+            id: 'download',
+            icon: 'download',
+            title: i18n.options.download,
+            onClick: () => {
+              showDownload(injector);
+              return false;
+            },
+          },
         ].filter(Boolean),
       };
       return {
@@ -402,6 +419,13 @@ const openRateApp = (user: User, injector: Injector) => {
 
 const showImprint = (injector: Injector) => {
   injector.get(MatDialog).open(ImprintComponent, {
+    width: '80%',
+    maxWidth: '600px',
+  });
+};
+
+const showDownload = (injector: Injector) => {
+  injector.get(MatDialog).open(DownloadComponent, {
     width: '80%',
     maxWidth: '600px',
   });
