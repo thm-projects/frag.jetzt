@@ -467,7 +467,7 @@
     "code-recreated": "Es wurde ein neuer Zugangscode erzeugt.",
     "confirm": "Ja",
     "confirm-description": "Wenn du einen neuen Zugangscode erzeugst, werden die bisherigen Gastmoderator*innen entfernt. Code erzeugen?",
-    "confirm-title": "Zugangscode erzeugen",
+    "confirm-title": "Zugangscode generieren?",
     "delete": "Entfernen",
     "email": "Mail-Adresse …",
     "email-error": "Die eingegebene Mail-Adresse ist ungültig.",

@@ -732,7 +732,7 @@
     "code-recreated": "A new access code has been created.",
     "confirm": "Yes",
     "confirm-description": "When you create a new access code, the previous guest moderators will be removed. Generate code?",
-    "confirm-title": "Generate access code",
+    "confirm-title": "Generate access code?",
     "delete": "Remove",
     "email": "Mail address …",
     "email-error": "The entered mail address is invalid.",
