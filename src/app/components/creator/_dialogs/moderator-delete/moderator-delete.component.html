@@ -1,14 +1,19 @@
 <!--Are you sure-->
-<h2 class="oldtypo-h2">{{ 'moderators-dialog.sure' | translate }}</h2>
+<h2 mat-dialog-title>{{ 'moderators-dialog.sure' | translate }}</h2>
 <!--remove moderator-->
-<p class="oldtypo-p">{{ 'moderators-dialog.really-remove-moderator' | translate }}</p>
+<mat-dialog-content>
+<p>{{ 'moderators-dialog.really-remove-moderator' | translate }}</p>
 <!--list of moderators-->
-<p class="oldtypo-p">{{loginId}}</p>
-<app-dialog-action-buttons
-  buttonsLabelSection="moderators-dialog"
-  confirmButtonLabel="delete"
-  cancelButtonLabel="abort"
-  [confirmButtonType]=confirmButtonType
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildModeratorDeleteActionCallback()"
-></app-dialog-action-buttons>
+<p><strong>{{loginId}}</strong></p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <!-- Cancel button -->
+  <button mat-button mat-dialog-close>{{ 'moderators-dialog.abort' | translate }}</button>
+  <!-- Spacer to align buttons -->
+  <span style="flex: 1;"></span>
+ <!-- Confirm (Delete) button -->
+ <button mat-flat-button mat-dialog-close="delete">
+  {{ 'moderators-dialog.delete' | translate }}
+ </button>
+ </mat-dialog-actions>
