@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import {
   AfterViewInit,
   Component,
@@ -5,20 +8,24 @@ import {
   Injector,
   Renderer2,
   TemplateRef,
+  ViewContainerRef,
+  computed,
   effect,
   inject,
   input,
   model,
+  signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
+import Editor, { EditorType } from '@toast-ui/editor';
 import {
   MD_CUSTOM_TEXT_RENDERER,
   MD_PLUGINS,
 } from '../markdown-common/plugins';
 import { language } from 'app/base/language/language';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
+import { ToolbarItemOptions } from '@toast-ui/editor/types/ui';
 
 @Component({
   selector: 'app-markdown-editor',
@@ -29,12 +36,23 @@ export class MarkdownEditorComponent implements AfterViewInit {
   data = model<string>('');
   additionalInfo = input<TemplateRef<unknown>>();
   protected editorElement =
-    viewChild.required<ElementRef<HTMLDivElement>>('editor');
+    viewChild.required<ElementRef<HTMLDivElement>>('editorElem');
   protected additionalElement =
     viewChild.required<ElementRef<HTMLSpanElement>>('additionalContent');
-  private editor: EditorCore | Viewer;
+  private group1 = viewChild.required<TemplateRef<unknown>>('group1');
+  private group2 = viewChild.required<TemplateRef<unknown>>('group2');
+  private group3 = viewChild.required<TemplateRef<unknown>>('group3');
+  private group5 = viewChild.required<TemplateRef<unknown>>('group5');
+  protected editor: Editor;
+  protected toolbarState = signal<
+    Record<string, { active: boolean; disabled: boolean }>
+  >({});
+  protected readonly i18n = i18n;
+  private isMobile = computed(() => windowWatcher.windowState() === 'compact');
+  private editType = signal<EditorType>('wysiwyg');
   private renderer = inject(Renderer2);
   private injector = inject(Injector);
+  private viewContainerRef = inject(ViewContainerRef);
 
   ngAfterViewInit(): void {
     const container = this.editorElement().nativeElement;
@@ -42,25 +60,33 @@ export class MarkdownEditorComponent implements AfterViewInit {
     effect(
       (onCleanup) => {
         const lang = language();
-        const isMobile = windowWatcher.windowState() === 'compact';
         let initialValue: string;
+        let initialEditType: EditorType;
         untracked(() => {
           initialValue = this.data();
+          initialEditType = this.editType();
         });
         this.editor = Editor.factory({
           el: container,
-          initialEditType: 'wysiwyg',
-          previewStyle: isMobile ? 'tab' : 'vertical',
+          initialEditType,
+          previewStyle: this.isMobile() ? 'tab' : 'vertical',
           usageStatistics: false,
           language: lang,
           theme: 'fragjetzt',
           plugins: MD_PLUGINS,
           initialValue,
           customHTMLRenderer: MD_CUSTOM_TEXT_RENDERER,
-        });
+          toolbarItems: this.createToolbar(),
+        }) as Editor;
 
-        const e = this.editor as Editor;
+        const e = this.editor;
         e.on('change', () => this.data.set(e.getMarkdown()));
+        e.on('changeMode', (mode) => this.editType.set(mode));
+        e.on('changeToolbarState', ({ toolbarState }) => {
+          this.toolbarState.set(toolbarState);
+          console.log(toolbarState);
+        });
+        console.log(e);
         const observer = this.addRipples(container);
         this.addAdditionalContainer(container);
 
@@ -71,6 +97,82 @@ export class MarkdownEditorComponent implements AfterViewInit {
       },
       { injector: this.injector },
     );
+  }
+
+  private createToolbar(): (string | ToolbarItemOptions)[][] {
+    const getGroup = (ref: TemplateRef<unknown>) =>
+      this.viewContainerRef
+        .createEmbeddedView(ref)
+        .rootNodes.filter(
+          (e) => e instanceof HTMLButtonElement,
+        ) as HTMLButtonElement[];
+    const group1Buttons = getGroup(this.group1());
+    const group2Buttons = getGroup(this.group2());
+    const group3Buttons = getGroup(this.group3());
+    const group5Buttons = getGroup(this.group5());
+    return [
+      [
+        {
+          el: group1Buttons[0],
+          name: 'heading-override',
+        },
+        {
+          el: group1Buttons[1],
+          name: 'bold-override',
+        },
+        {
+          el: group1Buttons[2],
+          name: 'italic-override',
+        },
+        {
+          el: group1Buttons[3],
+          name: 'strike-override',
+        },
+      ],
+      [
+        {
+          el: group2Buttons[0],
+          name: 'hr-override',
+        },
+        {
+          el: group2Buttons[1],
+          name: 'hr-override',
+        },
+      ],
+      [
+        {
+          el: group3Buttons[0],
+          name: 'ul-override',
+        },
+        {
+          el: group3Buttons[1],
+          name: 'ol-override',
+        },
+        {
+          el: group3Buttons[2],
+          name: 'task-override',
+        },
+        {
+          el: group3Buttons[3],
+          name: 'indent-override',
+        },
+        {
+          el: group3Buttons[4],
+          name: 'outdent-override',
+        },
+      ],
+      ['table', 'image', 'link'],
+      [
+        {
+          el: group5Buttons[0],
+          name: 'code-override',
+        },
+        {
+          el: group5Buttons[1],
+          name: 'codeblock-override',
+        },
+      ],
+    ];
   }
 
   private addAdditionalContainer(container: HTMLDivElement) {
@@ -84,7 +186,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
     // add ripples
     container
       .querySelectorAll(
-        '.toastui-editor-mode-switch > .tab-item, .toastui-editor-toolbar-icons, .toastui-editor-tabs > .tab-item',
+        '.toastui-editor-mode-switch > .tab-item, .toastui-editor-tabs > .tab-item',
       )
       .forEach((e) => this.addRippleEvents(e as HTMLElement));
     const popup = container.querySelector('.toastui-editor-popup-body');

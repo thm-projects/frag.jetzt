@@ -580,15 +580,7 @@ const openDeleteComments = (room: Room, injector: Injector) => {
 };
 
 const openEditDescription = (room: Room, injector: Injector) => {
-  const dialogRef = injector
-    .get(MatDialog)
-    .open(RoomDescriptionSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-  dialogRef.componentInstance.editRoom = room;
+  RoomDescriptionSettingsComponent.open(injector.get(MatDialog), room);
 };
 
 const showModeratorsDialog = (
