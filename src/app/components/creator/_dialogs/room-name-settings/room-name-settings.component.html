@@ -12,6 +12,7 @@
     <mat-hint align="end">
       <span aria-hidden="true">
         {{ roomNameFormControl.value.length }} / {{ roomNameLengthMax }}
+        {{ i18n().chars }}
       </span>
     </mat-hint>
     <mat-error
@@ -35,7 +36,7 @@
     mat-flat-button
     cdk-focus-initial
     (click)="save()">
-    {{ i18n().global.confirm }}
+    {{ i18n().global.saveAndClose }}
   </button>
 </mat-dialog-actions>
 

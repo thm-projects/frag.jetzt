@@ -9,7 +9,8 @@
     "submit": "Abschicken",
     "explain": "Erklären",
     "changeSuccessful": "Änderungen gespeichert",
-    "changesGoneWrong": "Etwas ist schief gelaufen!"
+    "changesGoneWrong": "Etwas ist schief gelaufen!",
+    "saveAndClose": "Speichern und schließen"
   },
   "en": {
     "close": "Close",
@@ -20,7 +21,8 @@
     "submit": "Submit",
     "explain": "Explain",
     "changeSuccessful": "Successfully updated",
-    "changesGoneWrong": "Something has gone wrong!"
+    "changesGoneWrong": "Something has gone wrong!",
+    "saveAndClose": "Save and close"
   },
   "fr": {
     "close": "Fermer",
@@ -31,6 +33,7 @@
     "submit": "Envoyer",
     "explain": "Expliquer",
     "changeSuccessful": "Modifications enregistrées",
-    "changesGoneWrong": "Quelque chose a mal tourné !"
+    "changesGoneWrong": "Quelque chose a mal tourné !",
+    "saveAndClose": "Enregistrer et fermer"
   }
 }
