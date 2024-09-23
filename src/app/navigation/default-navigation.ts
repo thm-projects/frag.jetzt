@@ -71,7 +71,7 @@ export const getDefaultHeader = (
         ? 'manage_accounts'
         : isGuestUser
           ? 'person'
-          : 'face';
+          : 'shield_person';
 
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
