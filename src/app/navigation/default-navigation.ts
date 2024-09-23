@@ -69,7 +69,8 @@ export const getDefaultHeader = (
         options: [
           user
             ? {
-                icon: 'account_circle',
+                id: 'account',
+                icon: user.isGuest ? 'person' : 'face',
                 title: i18n.header.myAccount,
                 items: [
                   {
@@ -115,11 +116,13 @@ export const getDefaultHeader = (
                 ],
               }
             : {
+                id: 'login',
                 icon: 'login',
                 title: i18n.header.login,
                 onClick: () => openLogin().subscribe(),
               },
           {
+            id: 'language',
             icon: 'language',
             title: i18n.header.language,
             items: AVAILABLE_LANGUAGES.map(
@@ -133,6 +136,7 @@ export const getDefaultHeader = (
             ),
           },
           {
+            id: 'theme',
             icon: 'format_color_fill',
             title: i18n.header.theme,
             items: [
@@ -335,13 +339,12 @@ export const getDefaultNavigation = (
           user && {
             id: 'logout',
             icon: 'logout',
-            title: i18n.header.logout, 
+            title: i18n.header.logout,
             onClick: () => {
               logout().subscribe();
               return false;
             },
           },
-
         ].filter(Boolean),
       };
       return {
