@@ -1,7 +1,7 @@
 {
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
-  "description": "Digitizing how we ask questions and get answers from AI chatbots",
+  "description": "Revolutionizing the way we ask questions and receive AI-driven answers, 'frag.jetzt' is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
   "categories": [
     "ChatGPT",
     "AI Tutoring",
@@ -38,7 +38,7 @@
     {
       "name": "Feedback",
       "url": "/participant/room/Feedback",
-      "description": "Room for feature requests, bug reports, and general feedback",
+      "description": "Submit feature requests, report bugs, and give general feedback",
       "icons": [
         {
           "src": "/assets/images/frag-jetzt-icon.png",
@@ -49,7 +49,7 @@
     {
       "name": "ChatGPT",
       "url": "/participant/room/ChatGPT",
-      "description": "Room for asking ChatGPT",
+      "description": "Ask questions and receive AI-driven answers from ChatGPT",
       "icons": [
         {
           "src": "/assets/images/ChatGPT.png",
