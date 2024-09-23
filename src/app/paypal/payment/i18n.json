@@ -7,11 +7,10 @@
     "pro": "Profi",
     "currency": "€",
     "go": "Los",
-    "featureList": [
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit"
-    ]
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
+
   },
   "en": {
     "title": "PRICING PLAN",
@@ -20,11 +19,10 @@
     "pro": "Pro",
     "currency": "$",
     "go": "Go",
-    "featureList": [
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit"
-    ]
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
+
   },
   "fr": {
     "title": "PLAN TARIFAIRE",
@@ -33,10 +31,9 @@
     "pro": "Pro",
     "currency": "€",
     "go": "Aller",
-    "featureList": [
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit",
-      "Lorem ipsum dolor sit"
-    ]
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
+
   }
 }
