@@ -1,4 +1,5 @@
 import { Injector } from '@angular/core';
+import { OnlineStateService } from 'app/services/state/online-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { DataProtectionComponent } from 'app/components/home/_dialogs/data-protection/data-protection.component';
@@ -41,8 +42,9 @@ const i18n = I18nLoader.loadModule(i18nRaw);
 export const applyDefaultNavigation = (
   injector: Injector,
 ): Observable<void> => {
+  const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
-    getDefaultHeader(injector),
+    getDefaultHeader(injector, onlineStateService),
     getDefaultNavigation(injector),
   ]).pipe(
     map(([header, navigation]) => {
@@ -54,12 +56,18 @@ export const applyDefaultNavigation = (
 
 export const getDefaultHeader = (
   injector: Injector,
+  onlineStateService: OnlineStateService,
 ): Observable<M3HeaderTemplate> => {
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([user$, toObservable(i18n), toObservable(theme)]).pipe(
-    map(([user, i18n, theme]) => {
+  return combineLatest([
+    user$,
+    toObservable(i18n),
+    toObservable(theme),
+    onlineStateService.online$,
+  ]).pipe(
+    map(([user, i18n, theme, isOnline]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
@@ -69,7 +77,9 @@ export const getDefaultHeader = (
         options: [
           user
             ? {
-                icon: 'account_circle',
+                icon: isOnline
+                  ? 'account_circle'
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.myAccount,
                 items: [
                   {
