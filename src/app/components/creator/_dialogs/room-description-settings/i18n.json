@@ -2,14 +2,20 @@
   "key": "room-description-settings",
   "de": {
     "description":"Begrüßungstext",
-    "save":"Speichern und Schließen"
+    "save":"Speichern und Schließen",
+    "chars": "{{count}} / {{max}} Zeichen",
+    "warning": "Die maximale Anzahl an Zeichen wurde überschritten!"
   },
   "en": {
     "description":"Welcome text",
-    "save":"Save and close"
+    "save":"Save and close",
+    "chars": "{{count}} / {{max}} characters",
+    "warning": "The maximum number of characters has been exceeded!"
   },
   "fr": {
     "description":"Texte de bienvenue",
-    "save":"Enregistrer et fermer"
+    "save":"Enregistrer et fermer",
+    "chars": "{{count}} / {{max}} caractères",
+    "warning": "Le nombre maximal de caractères est dépassé!"
   }
 }

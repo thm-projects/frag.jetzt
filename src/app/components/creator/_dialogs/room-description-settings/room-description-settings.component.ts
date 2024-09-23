@@ -12,6 +12,7 @@ import { WriteCommentComponent } from '../../../shared/write-comment/write-comme
 import { MatDialogRef } from '@angular/material/dialog';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { NotificationService } from 'app/services/util/notification.service';
 const i18n = I18nLoader.load(rawI18n);
 @Component({
   selector: 'app-room-description-settings',
@@ -23,9 +24,11 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
   @Input() editRoom: Readonly<Room>;
   protected readonly i18n = i18n;
   data = signal<string>('');
+  readonly max = 25000;
 
   constructor(
     public dialogRef: MatDialogRef<RoomDescriptionSettingsComponent>,
+    private notification: NotificationService,
     public translationService: TranslateService,
     protected roomService: RoomService,
   ) {}
@@ -37,6 +40,10 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
   }
 
   save(): void {
+    if (this.data().length > this.max) {
+      this.notification.show(i18n().warning);
+      return;
+    }
     this.roomService
       .patchRoom(this.editRoom.id, {
         description: this.data(),

@@ -119,7 +119,6 @@ export class RoomPageComponent {
 
   protected editSessionDescription() {
     const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      minWidth: 'var(--toastui-dialog-min-width)',
       autoFocus: false,
       disableClose: true,
     });

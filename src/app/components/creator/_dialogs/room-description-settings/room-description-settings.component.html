@@ -5,12 +5,18 @@
 <mat-dialog-content>
   <app-markdown-editor [(data)]="data"></app-markdown-editor>
 </mat-dialog-content>
-
+<mat-hint
+  class="char-hint"
+  [ngClass]="{ 'hint-error': data().length > max }">
+  <span aria-hidden="true">
+    {{ i18n().chars | context: { max, count: data().length } }}
+  </span>
+</mat-hint>
 <mat-dialog-actions>
   <button
     mat-button
     mat-dialog-close>
-    {{ "room-page.cancel" | translate }}
+    {{ i18n().global.cancel }}
   </button>
 
   <span style="flex: 1"></span>
