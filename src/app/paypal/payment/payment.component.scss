@@ -1,6 +1,7 @@
 .pricing-plan-container {
   text-align: center;
   padding: 40px 0;
+  background-color: #f5f5f5;
 }
 
 .pricing-title {
@@ -15,49 +16,71 @@
   justify-content: center;
   gap: 20px;
   position: relative;
+  flex-wrap: wrap; /* Ensures responsiveness for more cards */
 }
 
 .pricing-card {
   width: 250px;
   padding: 20px;
   border-radius: 15px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
-/* Featured Plan (Middle one) */
+/* Free Plan (Featured Until Purchased) */
 .featured-card {
   width: 300px;
-  /* Make it larger */
-  height: auto;
-  /* Adjust to content */
-  transform: translateY(-30px);
-  /* Raise it above the other two */
-  z-index: 2;
-  /* Ensure it's above the other two cards */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  /* Larger shadow for emphasis */
+  transform: translateY(-30px); /* Raised effect */
+  z-index: 2; /* Emphasize above others */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Larger shadow for emphasis */
+  border: 2px solid #3f51b5;
+  background-color: #e8f0fe; /* Light blue background for the featured plan */
+}
+
+.purchased {
+  background-color: #e0e0e0; /* Grey background for purchased state */
+  border: 2px solid #b0b0b0; /* Grey border for purchased */
+  transform: none; /* Remove the raised effect */
+  box-shadow: none; /* Remove the shadow */
 }
 
 .card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Center the icon vertically */
   color: #333;
   margin-bottom: 20px;
+  padding: 10px 0; /* Add padding to ensure space for the icon */
 }
 
-.pricing-card mat-card-header mat-icon {
+/* Icon Container Styling */
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60px; /* Ensure the container is tall enough to fit the icon */
+  overflow: visible; /* Prevent cutting off the icon */
+}
+
+.pricing-card mat-icon {
   font-size: 40px;
   color: #3f51b5;
-  margin-bottom: 10px;
+  margin-bottom: 0; /* Remove margin to prevent cutting */
+  line-height: 1; /* Ensure line-height does not cause overflow */
 }
 
 .card-header mat-card-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
+  margin-top: 10px; /* Add margin to give space below the icon */
 }
 
 .pricing-card ul {
@@ -97,11 +120,6 @@
   justify-content: center;
 }
 
-.highlighted {
-  border: 2px solid #3f51b5;
-  background-color: #e8f0fe;
-}
-
 .mat-raised-button {
   padding: 10px 30px;
   border-radius: 50px;
@@ -111,7 +129,25 @@
   margin-top: 20px;
 }
 
-/* Ensure responsiveness */
+/* FAQ Section Styling */
+.faq-section {
+  margin-top: 40px;
+}
+
+.faq-text {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.faq-link {
+  color: #3f51b5;
+  text-decoration: underline;
+  &:hover {
+    color: #1e88e5;
+  }
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   .pricing-cards {
     flex-direction: column;
@@ -120,12 +156,5 @@
 
   .pricing-card {
     width: 90%;
-  }
-
-  .featured-card {
-    width: 95%;
-    /* Make the middle one larger in mobile view too */
-    transform: translateY(0);
-    /* Remove raise effect for mobile */
   }
 }
