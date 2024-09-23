@@ -1,6 +1,11 @@
 <div class="pricing-plan-container">
   <h1 class="pricing-title">PRICING PLAN</h1>
 
+  <!-- Token Balance -->
+  <div class="token-balance">
+    <h2>Your Tokens: {{ userTokens }}</h2>
+  </div>
+
   <div class="pricing-cards">
     <!-- Free Plan -->
     <mat-card class="pricing-card" [ngClass]="hasFreePlan ? 'purchased' : 'featured-card'">
@@ -23,7 +28,7 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary" [disabled]="hasFreePlan">
+        <button mat-raised-button color="primary" [disabled]="hasFreePlan" (click)="selectFreePlan()">
           {{ hasFreePlan ? 'Purchased' : 'Select Free Plan' }}
         </button>
       </mat-card-actions>

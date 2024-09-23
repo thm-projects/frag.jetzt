@@ -11,6 +11,16 @@
   color: #333;
 }
 
+/* Token Balance */
+.token-balance {
+  margin-bottom: 30px;
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #3f51b5;
+  }
+}
+
 .pricing-cards {
   display: flex;
   justify-content: center;
