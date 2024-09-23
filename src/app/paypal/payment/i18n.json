@@ -1,9 +1,42 @@
 {
   "key": "purchase",
   "de": {
+    "title": "PREISPLAN",
+    "basic": "Basis",
+    "standard": "Standard",
+    "pro": "Profi",
+    "currency": "€",
+    "go": "Los",
+    "featureList": [
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit"
+    ]
   },
   "en": {
+    "title": "PRICING PLAN",
+    "basic": "Basic",
+    "standard": "Standard",
+    "pro": "Pro",
+    "currency": "$",
+    "go": "Go",
+    "featureList": [
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit"
+    ]
   },
   "fr": {
+    "title": "PLAN TARIFAIRE",
+    "basic": "Basique",
+    "standard": "Standard",
+    "pro": "Pro",
+    "currency": "€",
+    "go": "Aller",
+    "featureList": [
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit",
+      "Lorem ipsum dolor sit"
+    ]
   }
 }
