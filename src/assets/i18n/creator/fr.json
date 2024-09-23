@@ -658,7 +658,7 @@
     "code-recreated": "Un nouveau code d'accès a été généré.",
     "confirm": "Oui",
     "confirm-description": "Si tu génères un nouveau code d'accès, les modérateurs invités précédents seront supprimés. Générer un code ?",
-    "confirm-title": "Générer un code d'accès",
+    "confirm-title": "Générer un code d'accès?",
     "delete": "Supprimer",
     "email": "Adresse mail …",
     "email-error": "L'adresse mail saisie n'est pas valide.",
