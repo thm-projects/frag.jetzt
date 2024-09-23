@@ -1,12 +1,15 @@
-<!--Donation Dialoge-->
-<h1 mat-dialog-title>{{ i18n().title }}</h1>
+<!--Donation Dialog-->
+<h1 mat-dialog-title>
+  <mat-icon>volunteer_activism</mat-icon>
+  {{ i18n().title }}
+</h1>
 
 <mat-dialog-content tabindex="0">
   <span [innerHTML]="i18n().message.invite"></span>
   <strong>
     <a [href]="url">{{ i18n().message.link }}</a>
   </strong>
-  {{ i18n().message.alternativeAndThanks }}
+  <span [innerHTML]="i18n().message.alternativeAndThanks"></span>
 
   <div class="qr-code-container">
     <qrcode
@@ -21,7 +24,7 @@
   <button
     mat-button
     mat-dialog-close>
-    {{ i18n().global.close }}
+    {{ i18n().close }}
   </button>
   <span style="flex: 1"></span>
 </mat-dialog-actions>

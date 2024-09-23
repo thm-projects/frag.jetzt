@@ -1,29 +1,29 @@
 {
   "key": "donation",
   "de": {
-    "title": "Seien Sie ein Teil unserer Reise",
+    "title": "Unterstützen Sie unser Projekt – Ihre Hilfe zählt!",
     "message": {
-      "invite": "Unterstützen Sie uns mit einer Spende.<br> Sie können entweder auf den folgenden Link klicken: ",
-      "link": "Hier klicken",
-      "alternativeAndThanks": ", oder ganz einfach den QR-Code scannen.<br> Vielen herzlichen Dank für Ihre Unterstützung!"
+      "invite": "Wir stehen kurz davor, unser wichtigstes Ziel zu erreichen – aber wir brauchen Ihre Unterstützung! Jede Spende bringt uns näher.<br> Klicken Sie auf den folgenden Link: ",
+      "link": "Jetzt Projekt unterstützen",
+      "alternativeAndThanks": ", oder scannen Sie einfach den QR-Code.<br> Gemeinsam können wir dieses Projekt realisieren – vielen Dank für Ihre wertvolle Hilfe!"
     },
     "close": "Schließen"
   },
   "en": {
-    "title": "Be a Part of Our Journey",
+    "title": "Support Our Project – Your Help Matters!",
     "message": {
-      "invite": "Support us with a donation.<br> You can either click the following link: ",
-      "link": "Click here",
-      "alternativeAndThanks": ", or simply scan the QR code.<br> Thank you very much for your support!"
+      "invite": "We are on the verge of achieving our biggest goal – but we need your support! Every donation gets us one step closer.<br> Simply click the following link: ",
+      "link": "Support the Project Now",
+      "alternativeAndThanks": ", or simply scan the QR code.<br> Together, we can make this project a reality – thank you for your valuable contribution!"
     },
     "close": "Close"
   },
   "fr": {
-    "title": "Participez à notre voyage",
+    "title": "Soutenez notre projet – Votre aide compte !",
     "message": {
-      "invite": "Soutenez-nous avec un don.<br> Vous pouvez cliquer sur le lien suivant: ",
-      "link": "Cliquez ici",
-      "alternativeAndThanks": ", ou simplement scanner le QR code.<br> Merci beaucoup pour votre soutien !"
+      "invite": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus.<br> Cliquez simplement sur le lien suivant : ",
+      "link": "Soutenir le projet maintenant",
+      "alternativeAndThanks": ", ou scannez simplement le QR code.<br> Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide !"
     },
     "close": "Fermer"
   }
