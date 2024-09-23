@@ -1,22 +1,27 @@
 <div class="pricing-plan-container">
-  <h1 class="pricing-title">PRICING PLAN</h1>
+  <h1
+    mat-card-title
+    class="pricing-title">
+    {{ i18n().title }}
+  </h1>
+  <!--<h1 mat-card-title="pricing-title" class="pricing-title">{{ i18n().title }}</h1> -->
 
   <div class="pricing-cards">
     <!-- Basic Plan -->
     <mat-card class="pricing-card">
       <div class="card-header">
         <mat-icon>emoji_nature</mat-icon>
-        <mat-card-title>Basic</mat-card-title>
+        <h2 mat-card-title>{{ i18n().basic }}</h2>
       </div>
       <mat-card-content>
         <ul>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
+          <li>{{ i18n().feature1 }}</li>
+          <li>{{ i18n().feature2 }}</li>
+          <li>{{ i18n().feature3 }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">$</span>
-          100
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().currencyRateBasic }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -24,7 +29,7 @@
         <button
           mat-raised-button
           color="primary">
-          Go
+          {{ i18n().go }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -33,17 +38,17 @@
     <mat-card class="pricing-card featured-card">
       <div class="card-header">
         <mat-icon>lightbulb</mat-icon>
-        <mat-card-title>Standard</mat-card-title>
+        <h2 mat-card-title>{{ i18n().standard }}</h2>
       </div>
       <mat-card-content>
         <ul>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
+          <li>{{ i18n().feature1 }}</li>
+          <li>{{ i18n().feature2 }}</li>
+          <li>{{ i18n().feature3 }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">$</span>
-          120
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().currencyRateStandard }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -51,7 +56,7 @@
         <button
           mat-raised-button
           color="primary">
-          Go
+          {{ i18n().go }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -60,17 +65,17 @@
     <mat-card class="pricing-card">
       <div class="card-header">
         <mat-icon>computer</mat-icon>
-        <mat-card-title>Pro</mat-card-title>
+        <h2 mat-card-title>{{ i18n().pro }}</h2>
       </div>
       <mat-card-content>
         <ul>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
-          <li>Lorem ipsum dolor sit</li>
+          <li>{{ i18n().feature1 }}</li>
+          <li>{{ i18n().feature2 }}</li>
+          <li>{{ i18n().feature3 }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">$</span>
-          180
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().currencyRatePro }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -78,7 +83,7 @@
         <button
           mat-raised-button
           color="primary">
-          Go
+          {{ i18n().go }}
         </button>
       </mat-card-actions>
     </mat-card>

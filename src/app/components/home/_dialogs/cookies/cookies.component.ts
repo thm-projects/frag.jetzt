@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  OnDestroy,
-  OnInit,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, computed, Signal, signal } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
@@ -25,7 +18,7 @@ type ShowBadgeType = 'appstore' | 'playstore' | 'both' | 'none';
   templateUrl: './cookies.component.html',
   styleUrls: ['./cookies.component.scss'],
 })
-export class CookiesComponent implements OnInit, OnDestroy {
+export class CookiesComponent {
   protected readonly lang = language;
   protected readonly isMobile = signal(false);
   protected readonly badgeType: Signal<ShowBadgeType> = computed(() => {
@@ -33,7 +26,7 @@ export class CookiesComponent implements OnInit, OnDestroy {
     if (isDesktop) {
       return 'both';
     }
-    const isInstalled = this.isPwa();
+    const isInstalled = this.isStandalone();
     if (isInstalled) {
       return 'none';
     }
@@ -48,25 +41,11 @@ export class CookiesComponent implements OnInit, OnDestroy {
     'https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de';
   protected readonly appleUrl =
     'https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104';
-  private isPwa = signal(false);
-  private readonly pwaMatcher = window.matchMedia('(display-mode: standalone)');
-  private pwaListener = null;
 
   constructor(
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<CookiesComponent>,
   ) {}
-
-  ngOnInit(): void {
-    this.isPwa.set(this.pwaMatcher.matches);
-    this.pwaListener = this.pwaMatcher.addEventListener('change', (e) => {
-      this.isPwa.set(e.matches);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.pwaMatcher.removeEventListener('change', this.pwaListener);
-  }
 
   getAppStoreBadge(badgeType: ShowBadgeType): BadgeData {
     switch (language()) {
@@ -126,5 +105,12 @@ export class CookiesComponent implements OnInit, OnDestroy {
 
   openDataProtection() {
     this.dialog.open(DataProtectionComponent);
+  }
+
+  private isStandalone(): boolean {
+    return (
+      navigator['standalone'] ||
+      window.matchMedia('(display-mode: standalone)').matches
+    );
   }
 }

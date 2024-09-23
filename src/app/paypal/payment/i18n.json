@@ -1,9 +1,45 @@
 {
   "key": "purchase",
   "de": {
+    "title": "PREISPLAN",
+    "basic": "Basis",
+    "standard": "Standard",
+    "pro": "Profi",
+    "currency": "€",
+    "currencyRateBasic": "100",
+    "currencyRateStandard": "120",
+    "currencyRatePro": "180",
+    "go": "Los",
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
   },
   "en": {
+    "title": "PRICING PLAN",
+    "basic": "Basic",
+    "standard": "Standard",
+    "pro": "Pro",
+    "currency": "$",
+    "currencyRateBasic": "90",
+    "currencyRateStandard": "110",
+    "currencyRatePro": "160",
+    "go": "Go",
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
   },
   "fr": {
+    "title": "PLAN TARIFAIRE",
+    "basic": "Basique",
+    "standard": "Standard",
+    "pro": "Pro",
+    "currency": "€",
+    "currencyRateBasic": "100",
+    "currencyRateStandard": "120",
+    "currencyRatePro": "180",
+    "go": "Aller",
+    "feature1": "Lorem ipsum dolor sit",
+    "feature2": "Lorem ipsum dolor sit",
+    "feature3": "Lorem ipsum dolor sit"
   }
 }
