@@ -64,13 +64,22 @@ export const getDefaultHeader = (
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
       const isRoom = router.url.indexOf('/', index + 6) === -1;
+
+      const isGuestUser = user?.isGuest;
+      const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
+      const account_icon = isAdmin
+        ? 'manage_accounts'
+        : isGuestUser
+          ? 'person'
+          : 'face';
+
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
         options: [
           user
             ? {
                 id: 'account',
-                icon: user.isGuest ? 'person' : 'face',
+                icon: account_icon,
                 title: i18n.header.myAccount,
                 items: [
                   {
