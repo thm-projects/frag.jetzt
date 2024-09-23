@@ -1,7 +1,5 @@
 <div class="pricing-plan-container">
-  <h1
-    mat-card-title
-    class="pricing-title">
+  <h1 class="pricing-title mat-display-large">
     {{ i18n().title }}
   </h1>
   <!--<h1 mat-card-title="pricing-title" class="pricing-title">{{ i18n().title }}</h1> -->
@@ -9,10 +7,14 @@
   <div class="pricing-cards">
     <!-- Basic Plan -->
     <mat-card class="pricing-card">
-      <div class="card-header">
-        <mat-icon>emoji_nature</mat-icon>
-        <h2 mat-card-title>{{ i18n().basic }}</h2>
-      </div>
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          <mat-icon>emoji_nature</mat-icon>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().basic }}
+        </mat-card-subtitle>
+      </mat-card-header>
       <mat-card-content>
         <ul>
           <li>{{ i18n().feature1 }}</li>
@@ -26,9 +28,7 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary">
+        <button mat-raised-button>
           {{ i18n().go }}
         </button>
       </mat-card-actions>

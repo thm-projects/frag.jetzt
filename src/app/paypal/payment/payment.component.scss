@@ -7,7 +7,6 @@
   font-size: 2.5rem;
   margin-bottom: 50px;
   font-weight: bold;
-  color: #333;
 }
 
 .pricing-cards {
@@ -23,9 +22,11 @@
   border-radius: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  background-color: var(--md-sys-color-surface-container-highest);
 }
-
+.full-width > ::ng-deep div {
+  width: 100%;
+}
 /* Featured Plan (Middle one) */
 .featured-card {
   width: 300px;
@@ -40,26 +41,6 @@
   /* Larger shadow for emphasis */
 }
 
-.card-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.pricing-card mat-card-header mat-icon {
-  font-size: 40px;
-  color: #3f51b5;
-  margin-bottom: 10px;
-}
-
-.card-header mat-card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
 .pricing-card ul {
   list-style-type: none;
   padding: 0;
@@ -68,14 +49,12 @@
 .pricing-card ul li {
   margin-bottom: 10px;
   font-size: 0.9rem;
-  color: #666;
 }
 
 /* Price Styling */
 .price {
   font-size: 2rem;
   margin-top: 10px;
-  color: #333;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -95,16 +74,6 @@
 .pricing-card mat-card-actions {
   display: flex;
   justify-content: center;
-}
-
-.highlighted {
-  border: 2px solid #3f51b5;
-  background-color: #e8f0fe;
-}
-
-.mat-raised-button {
-  padding: 10px 30px;
-  border-radius: 50px;
 }
 
 .mat-divider {
