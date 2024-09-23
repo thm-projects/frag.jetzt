@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-  {{ data.title | translate }}
+  {{ i18n().title }}
 </h1>
 
 <mat-dialog-content>
@@ -21,15 +21,12 @@
         <ng-template
           matStepLabel
           *ngIf="offsetIndex > 1; else firstStepLabel">
-          {{
-            "multi-level-dialog.range"
-              | translate: { start: 1, end: offsetIndex }
-          }}
+          {{ i18n().range | context: { start: 1, end: offsetIndex } }}
         </ng-template>
         <ng-template
           matStepLabel
           #firstStepLabel>
-          {{ "multi-level-dialog.single" | translate: { number: 1 } }}
+          {{ i18n().single | context: { number: 1 } }}
         </ng-template>
       </mat-step>
     }
@@ -64,7 +61,7 @@
                 <button
                   mat-button
                   matStepperPrevious>
-                  {{ "multi-level-dialog.previous" | translate }}
+                  {{ i18n().previous }}
                 </button>
               }
               <span style="flex: 1"></span>
@@ -72,7 +69,8 @@
                 mat-flat-button
                 class="secondary"
                 (click)="next(i + offsetIndex)">
-                {{ "multi-level-dialog.next" | translate }}
+                <mat-icon>arrow_forward_ios</mat-icon>
+                {{ i18n().next }}
               </button>
             </div>
           </form>
@@ -91,8 +89,8 @@
             else lastStepLabel
           ">
           {{
-            "multi-level-dialog.range"
-              | translate
+            i18n().range
+              | context
                 : {
                     start: offsetIndex + windowSize + 1,
                     end: dialogStepper.elements.length
@@ -103,8 +101,7 @@
           matStepLabel
           #lastStepLabel>
           {{
-            "multi-level-dialog.single"
-              | translate: { number: dialogStepper.elements.length }
+            i18n().single | context: { number: dialogStepper.elements.length }
           }}
         </ng-template>
       </mat-step>
@@ -115,27 +112,27 @@
         [editable]="false"
         [completed]="false">
         <ng-template matStepLabel>
-          {{ "multi-level-dialog.complete" | translate }}
+          {{ i18n().global.submit }}
         </ng-template>
-        <p>{{ "multi-level-dialog.complete-text" | translate }}</p>
+        <p>{{ i18n().completeText }}</p>
         <div class="button-container">
           <button
             mat-button
             matStepperPrevious>
-            {{ "multi-level-dialog.previous" | translate }}
+            {{ i18n().previous }}
           </button>
           <button
             class="error-button"
             mat-button
             (click)="reset()">
-            {{ "multi-level-dialog.complete-reset" | translate }}
+            {{ i18n().resetAll }}
           </button>
           <span style="flex: 1"></span>
           <button
             class="primary-button"
             mat-flat-button
             (click)="submit()">
-            {{ "multi-level-dialog.confirm" | translate }}
+            {{ i18n().confirm }}
             @if (sending) {
               <mat-icon>
                 <app-mat-spinner-overlay
@@ -171,14 +168,15 @@
   <button
     mat-button
     mat-dialog-close>
-    {{ "multi-level-dialog.cancel" | translate }}
+    {{ i18n().global.cancel }}
   </button>
   <span style="flex: 1"></span>
   @if (currentQuestion?.stepHelp) {
     <button
       mat-button
       (click)="openHelp()">
-      {{ "explanation.label" | translate }}
+      {{ i18n().global.explain }}
+      <mat-icon>question_mark</mat-icon>
     </button>
   }
 </mat-dialog-actions>

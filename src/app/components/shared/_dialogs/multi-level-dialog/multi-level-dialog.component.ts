@@ -22,6 +22,9 @@ import {
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 const WINDOW_SIZE = 3;
 
@@ -282,6 +285,7 @@ export class MultiLevelDialogComponent implements OnInit {
   protected defaultTouched: boolean;
   private onSubmit: MultiLevelDialogSubmit<unknown>;
   private dialogData: unknown;
+  protected readonly i18n = i18n;
 
   constructor(
     private dialogRef: MatDialogRef<MultiLevelDialogComponent>,

@@ -1,0 +1,38 @@
+{
+  "key": "multi-level-dialog",
+  "de": {
+    "title": "Raum erstellen",
+    "previous":"Zurück",
+    "next": "Weiter",
+    "confirm": "Raum erstellen",
+    "resetAll": "Alles zurücksetzen",
+    "completeText": "Klicke auf »Raum erstellen«, um die Raum-Konfiguration zu speichern.",
+    "single": "Frage {{number}}",
+    "range": "Fragen {{start}} bis {{end}}",
+    "elemTitle": "ChatGPT aktivieren"
+  },
+  "en": {
+    "title": "Create room",
+    "previous":"Previous",
+    "next": "Next",
+    "confirm": "Create room",
+    "resetAll": "Reset everything",
+    "completeText": "Click »Create room« to save the room configuration.",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} to {{end}}",
+    "elemTitle": "Activate ChatGPT"
+
+  },
+  "fr": {
+    "title": "Créer espace",
+    "previous":"Precedent",
+    "next": "Suivant",
+    "confirm": "Créer espace",
+    "resetAll": "Tout réinitialiser",
+    "completeText": "Clique sur « Créer espace » pour enregistrer la configuration de la salle.",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}",
+    "elemTitle": "Activer ChatGPT"
+     
+  }
+}
