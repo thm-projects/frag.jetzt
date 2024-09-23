@@ -13,7 +13,6 @@
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
-
   },
   "en": {
     "title": "PRICING PLAN",
@@ -21,14 +20,13 @@
     "standard": "Standard",
     "pro": "Pro",
     "currency": "$",
-    "currencyRateBasic": "100",
-    "currencyRateStandard": "120",
-    "currencyRatePro": "180",
+    "currencyRateBasic": "90",
+    "currencyRateStandard": "110",
+    "currencyRatePro": "160",
     "go": "Go",
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
-
   },
   "fr": {
     "title": "PLAN TARIFAIRE",
@@ -43,6 +41,5 @@
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
-
   }
 }
