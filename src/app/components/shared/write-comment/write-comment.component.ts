@@ -194,6 +194,10 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
+  onTextChange(text: string) {
+    this.data.set(text);
+  }
+
   checkGrammar() {
     // TODO
     // this.grammarCheck(this.commentData.currentText);

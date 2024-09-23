@@ -14,6 +14,25 @@
 button {
   min-width: 80px;
 }
+.char-counter {
+  display: flex;
+  justify-content: right;
+  width: 90%;
+  font-size: 12px;
+  color: var(--mdc-dialog-supporting-text-color);
+  margin-top: 8px;
+}
+
+.char-counter .exceeded {
+  color: var(--md-ref-palette-error40);
+  font-weight: bold;
+}
+
+.warning {
+  color: var(--md-ref-palette-error40);
+  font-size: 12px;
+  margin-top: 4px;
+}
 
 .mat-mdc-unelevated-button.mat-primary.mat-button-disabled,
 .mat-flat-button.mat-accent.mat-button-disabled,

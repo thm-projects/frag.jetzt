@@ -29,7 +29,20 @@
   </button>
 </ars-row>
 <ars-row [height]="12"></ars-row>
-<app-markdown-editor [(data)]="data"></app-markdown-editor>
+<mat-dialog-content>
+  <app-markdown-editor [(data)]="data"></app-markdown-editor>
+</mat-dialog-content>
+<div class="char-counter">
+  <span [ngClass]="{ exceeded: data.length > maxTextCharacters }">
+    {{ data().length }} / {{ maxTextCharacters }}
+  </span>
+  <div
+    *ngIf="data().length > maxTextCharacters"
+    class="warning">
+    {{ "comment-page.char-limit-exceeded" | translate }}
+  </div>
+</div>
+
 <!-- TODO -->
 <!-- <app-view-comment-data
   *ngIf="enabled"
@@ -72,35 +85,23 @@
   ars-flex-box
   *ngIf="enabled"
   class="spellcheck">
-  <ars-col>
-    <button
-      [disabled]="isSpellcheckingButtonDisabled()"
-      mat-flat-button
-      class="spell-button"
-      (click)="checkGrammar()">
-      {{ "comment-page.grammar-check" | translate }}
-      <mat-icon
-        *ngIf="isSpellchecking"
-        class="spinner-container">
-        <app-mat-spinner-overlay
-          [diameter]="20"
-          [strokeWidth]="2"
-          [color]="'on-primary'"></app-mat-spinner-overlay>
-      </mat-icon>
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      [buttonsLabelSection]="i18nSection"
-      [confirmButtonLabel]="confirmLabel"
-      [cancelButtonLabel]="cancelLabel"
-      [showLoadingCycle]="isSubmittingComment"
-      [showDivider]="false"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="
-        buildCreateCommentActionCallback()
-      "></app-dialog-action-buttons>
+  <ars-col style="flex: 1">
+    <mat-dialog-actions>
+      <button
+        mat-button
+        (click)="buildCloseDialogActionCallback()()">
+        {{ "comment-page.cancel" | translate }}
+      </button>
+
+      <span style="flex: 1"></span>
+
+      <button
+        mat-flat-button
+        [disabled]="isSubmittingComment"
+        (click)="buildCreateCommentActionCallback()()">
+        {{ "comment-page.send" | translate }}
+      </button>
+    </mat-dialog-actions>
   </ars-col>
 </ars-row>
 
