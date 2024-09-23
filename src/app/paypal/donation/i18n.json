@@ -1,0 +1,30 @@
+{
+  "key": "donation",
+  "de": {
+    "title": "Seien Sie ein Teil unserer Reise",
+    "message": {
+      "invite": "Unterstützen Sie uns mit einer Spende.<br> Sie können entweder auf den folgenden Link klicken: ",
+      "link": "Hier klicken",
+      "alternativeAndThanks": ", oder ganz einfach den QR-Code scannen.<br> Vielen herzlichen Dank für Ihre Unterstützung!"
+    },
+    "close": "Schließen"
+  },
+  "en": {
+    "title": "Be a Part of Our Journey",
+    "message": {
+      "invite": "Support us with a donation.<br> You can either click the following link: ",
+      "link": "Click here",
+      "alternativeAndThanks": ", or simply scan the QR code.<br> Thank you very much for your support!"
+    },
+    "close": "Close"
+  },
+  "fr": {
+    "title": "Participez à notre voyage",
+    "message": {
+      "invite": "Soutenez-nous avec un don.<br> Vous pouvez cliquer sur le lien suivant: ",
+      "link": "Cliquez ici",
+      "alternativeAndThanks": ", ou simplement scanner le QR code.<br> Merci beaucoup pour votre soutien !"
+    },
+    "close": "Fermer"
+  }
+}
