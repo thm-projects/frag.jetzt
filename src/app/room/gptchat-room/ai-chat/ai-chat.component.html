@@ -61,7 +61,10 @@
         [placeholder]="i18n().placeholder"
         #inputElem
         (keydown)="onKeyDown($event)"
-        (input)="updateHeight(inputElem)"></textarea>
+        (input)="updateHeight(inputElem)"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"></textarea>
       <button
         mat-icon-button
         (click)="fileInput.click()"
@@ -86,7 +89,7 @@
           (click)="sendMessage()"
           mat-icon-button
           matSuffix>
-          <mat-icon>send</mat-icon>
+          <mat-icon>arrow_upward</mat-icon>
         </button>
       } @else {
         <mat-spinner

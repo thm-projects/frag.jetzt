@@ -115,7 +115,10 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   }
 
   refreshCode() {
-    const reference = this.dialog.open(ModeratorRefreshCodeComponent);
+    const reference = this.dialog.open(ModeratorRefreshCodeComponent, {
+      minWidth: 'var(--temp-min-width)',
+      width: '400px',
+    });
     reference.afterClosed().subscribe((value) => {
       if (value === true) {
         this.moderatorService.refreshRoomCode(this.roomId).subscribe({

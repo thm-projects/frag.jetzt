@@ -14,7 +14,7 @@
       "rallye": "Quiz-Rallye",
       "moderation": "Moderation"
     },
-    "reception": "Empfang",
+    "reception": "Raum Startseite",
     "roomHome": "Aktueller Raum",
     "options": {
       "title": "Einstellungen",
@@ -59,7 +59,7 @@
       "rallye": "Quiz Rally",
       "moderation": "Moderation"
     },
-    "reception": "Reception",
+    "reception": "Room Home",
     "roomHome": "Current Room",
     "options": {
       "title": "Settings",
@@ -104,7 +104,7 @@
       "rallye": "Rallye Quiz",
       "moderation": "Modération"
     },
-    "reception": "Réception",
+    "reception": "Accueil de la salle",
     "roomHome": "Salle Actuelle",
     "options": {
       "title": "Options",

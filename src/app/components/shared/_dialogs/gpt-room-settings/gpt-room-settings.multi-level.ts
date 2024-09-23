@@ -108,7 +108,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             hidden: true,
             validators: [
               Validators.required,
-              Validators.pattern('sk-(proj-)?[a-zA-Z0-9]+'),
+              Validators.pattern('sk-[a-zA-Z0-9_-]+'),
             ],
             errorStates: {
               required:
@@ -123,7 +123,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             label: 'ml-gpt-room-settings.gpt-info-item-three-label',
             defaultValue:
               data.GPTSettings.apiKeys[0]?.apiSetting.apiOrganization,
-            validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
+            validators: [Validators.pattern('org-[a-zA-Z0-9_-]+')],
             errorStates: {
               pattern:
                 'ml-gpt-room-settings.gpt-info-item-three-error-label-pattern',

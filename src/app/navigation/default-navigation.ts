@@ -332,6 +332,16 @@ export const getDefaultNavigation = (
               return false;
             },
           },
+          user && {
+            id: 'logout',
+            icon: 'logout',
+            title: i18n.header.logout, 
+            onClick: () => {
+              logout().subscribe();
+              return false;
+            },
+          },
+
         ].filter(Boolean),
       };
       return {

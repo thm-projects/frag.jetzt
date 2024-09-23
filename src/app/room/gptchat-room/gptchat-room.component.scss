@@ -28,7 +28,7 @@ m3-supporting-pane {
   &.open {
     width: var(--m3-comp-supporting-pane-fixed-width);
     margin-left: var(--m3-sys-layout-spacing-pane);
-    flex-grow: 1;
+    flex-grow: 0;
   }
 
   > mat-action-list {

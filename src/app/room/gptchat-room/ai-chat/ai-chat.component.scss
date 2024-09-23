@@ -53,19 +53,20 @@
 }
 
 .input-area {
-  padding-top: 1em;
+  display: flex;
   max-width: calc(100% - var(--m3-sys-layout-spacing-pane));
+  width: 100%;
+  padding: 1em 0;
 
   > .input-field {
     width: 100%;
     max-width: 45em;
-    margin-inline: auto;
-    display: block;
+    margin: 0 auto;
 
     textarea {
-      max-height: 25dvh;
-      overflow-y: auto;
       resize: none;
+      overflow: hidden;
+      height: auto;
     }
   }
 }

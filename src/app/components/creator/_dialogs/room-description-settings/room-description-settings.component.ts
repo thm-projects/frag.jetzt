@@ -21,6 +21,7 @@ const i18n = I18nLoader.load(rawI18n);
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
   @Input() editRoom: Readonly<Room>;
+  protected readonly i18n = i18n;
   data = signal<string>('');
   protected readonly i18n = i18n;
 

@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { FormControl, Validators } from '@angular/forms';
@@ -11,6 +14,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class RoomNameSettingsComponent implements OnInit {
   @Input() editRoom: Readonly<Room>;
+  protected readonly i18n = i18n;
   readonly roomNameLengthMin = 3;
   readonly roomNameLengthMax = 30;
   roomNameFormControl = new FormControl('', [
