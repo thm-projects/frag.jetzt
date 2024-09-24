@@ -70,14 +70,19 @@
   "prefer_related_applications": true,
   "related_applications": [
     {
-      "platform": "play",
+      "platform": "Google play store",
       "url": "https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de",
       "id": "com.uninow.thm"
     },
     {
-      "platform": "itunes",
+      "platform": "Apple App store",
       "url": "https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104",
       "id": "1644060104"
+    },
+    {
+      "platform": "web Apps",
+      "url": "https://staging.frag.jetzt/manifest.webmanifest"
+     
     }
   ],
   "screenshots": [
