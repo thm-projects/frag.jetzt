@@ -105,7 +105,7 @@ export const getRoomHeader = (
       if (role === 'Moderator') headerOpts.icon = 'support_agent';
       if (role === 'Creator') headerOpts.icon = 'co_present';
       if (user.hasRole(KeycloakRoles.AdminDashboard))
-        headerOpts.icon = 'manage_accounts';
+        headerOpts.icon = 'shield_person';
       return template;
     }),
   );
