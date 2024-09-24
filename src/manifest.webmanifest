@@ -70,20 +70,25 @@
   "prefer_related_applications": true,
   "related_applications": [
     {
-      "platform": "Google play store",
+      "platform": "play",
       "url": "https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de",
       "id": "com.uninow.thm"
     },
     {
-      "platform": "Apple App store",
+      "platform": "itunes",
       "url": "https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104",
       "id": "1644060104"
     },
     {
-      "platform": "web Apps",
+      "platform": "webapp",
       "url": "https://staging.frag.jetzt/manifest.webmanifest"
      
     }
+  ],
+ "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "scope_extensions": [
   ],
   "screenshots": [
     {
@@ -109,6 +114,6 @@
       "sizes": "720x1280",
       "type": "image/png",
       "label": "ChatGPT Room of frag.jetzt"
-    }
-  ]
+    }
+  ]
 }
