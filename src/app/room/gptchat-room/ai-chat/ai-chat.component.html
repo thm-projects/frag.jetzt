@@ -1,4 +1,4 @@
-<mat-toolbar>
+<!--<mat-toolbar>
   <ng-content></ng-content>
 </mat-toolbar>
 
@@ -129,4 +129,40 @@
       <em>{{ i18n().createAssistant }}</em>
     </button>
   }
-</mat-menu>
+</mat-menu>-->
+
+<div class="container">
+  <h1>frag.jetzt mit ChatGPT</h1>
+  <div class="search-bar">
+    <div class="actions">
+      <button class="attachment-button">
+        <span class="material-symbols-outlined">attach_file_add</span>
+      </button>
+      <button class="assistant-button">
+        <span class="material-symbols-outlined">more_vert</span>
+      </button>
+    </div>
+    <textarea placeholder="Ask anything..."></textarea>
+    <button class="search-button">
+      <span class="material-symbols-outlined">arrow_upward</span>
+    </button>
+  </div>
+  <div class="topics">
+    <button class="topic">
+      <span class="emoji">💡</span>
+      World's greatest hikes
+    </button>
+    <button class="topic">
+      <span class="emoji">🍫</span>
+      Health benefits of dark chocolate
+    </button>
+    <button class="topic">
+      <span class="emoji">🥗</span>
+      Healthiest cooking oils
+    </button>
+    <button class="topic">
+      <span class="emoji">🗳️</span>
+      Registration deadlines for the US election
+    </button>
+  </div>
+</div>
