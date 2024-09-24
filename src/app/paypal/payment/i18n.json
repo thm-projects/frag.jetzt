@@ -1,7 +1,7 @@
 {
   "key": "purchase",
   "de": {
-    "title": "PREISPLAN",
+    "title": "Wähle deinen Preisplan",
     "basic": "Basis",
     "standard": "Standard",
     "pro": "Profi",
@@ -27,7 +27,7 @@
     "yourTokens": "Ihre Tokens:"
   },
   "en": {
-    "title": "PRICING PLAN",
+    "title": "Choose Your Plan",
     "basic": "Basic",
     "standard": "Standard",
     "pro": "Pro",
@@ -54,7 +54,7 @@
     "yourTokens": "Your Tokens:"
   },
   "fr": {
-    "title": "PLAN TARIFAIRE",
+    "title": "Choisissez Votre Forfait",
     "basic": "Basique",
     "standard": "Standard",
     "pro": "Pro",
