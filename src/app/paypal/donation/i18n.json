@@ -20,11 +20,13 @@
   },
   "fr": {
     "title": "Soutenez notre projet – Votre aide compte !",
-    "invite": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus.",
-    "follow": "Cliquez simplement sur le lien suivant : ",
-    "link": "Soutenir le projet maintenant",
-    "alternative": ", ou scannez simplement le QR code.",
-    "thanks": "Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide !",
+    "message": {
+      "invite": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus.",
+      "follow": "Cliquez simplement sur le lien suivant : ",
+      "link": "Soutenir le projet maintenant",
+      "alternative": ", ou scannez simplement le QR code.",
+      "thanks": "Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide !"
+    },
     "close": "Fermer"
   }
 }
