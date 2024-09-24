@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatCardModule } from '@angular/material/card';
@@ -68,7 +68,7 @@ declare const paypal: {
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
 })
-export class PaymentComponent implements OnInit, AfterViewInit {
+export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
   apiService: ApiService = inject(ApiService);
 
@@ -100,11 +100,6 @@ export class PaymentComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-    // Render PayPal buttons for each plan after the view initializes
-    this.plans.forEach((plan) => this.renderPayPalButtons(plan));
-  }
-
   checkUserPlan() {
     // Simulate checking the user's plan from a service or backend
     this.hasFreePlan = false; // Change this to true to simulate the acquired plan
@@ -130,42 +125,65 @@ export class PaymentComponent implements OnInit, AfterViewInit {
     return this.hasFreePlan ? 'grey' : 'blue';
   }
 
+  private isPayPalLoaded = false;
+
   loadPayPalScript(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      // Check if the PayPal script is already loaded
-      const scriptId = 'paypal-sdk'; // Unique ID for the PayPal script
+      if (this.isPayPalLoaded) {
+        resolve(); // If already loaded, resolve immediately
+        return;
+      }
+
+      const scriptId = 'paypal-sdk';
       if (document.getElementById(scriptId)) {
-        resolve(); // If the script is already loaded, resolve immediately
+        this.isPayPalLoaded = true; // Mark as loaded
+        resolve();
         return;
       }
 
       const script = document.createElement('script');
-      script.id = scriptId; // Set the unique ID
+      script.id = scriptId;
       script.src =
         'https://www.paypal.com/sdk/js?client-id=ATZFarfzWZCA0DB05S_7xGNEx7Gz_d_KAl7BkJwgaKBZgfpptY-mVw7jv0z9ctTHq92axuaQiPKg9xAu&currency=EUR';
-      script.onload = () => resolve(); // Resolve when the script loads successfully
+      script.onload = () => {
+        this.isPayPalLoaded = true; // Mark as loaded
+        resolve();
+      };
       script.onerror = (error) => {
         console.error('Error loading PayPal script:', error);
-        reject(error); // Reject if there is an error loading the script
+        reject(error);
       };
-      document.body.appendChild(script); // Append the script to the document
+      document.body.appendChild(script);
     });
-  }
-
-  renderPayPalButtons(plan: Plan): void {
-    const containerId = `paypal-button-container-${plan.price.replace('€', '').replace('.', '-')}`;
-    const container = document.getElementById(containerId);
-    if (container) {
-      container.style.display = 'block'; // Make the container visible
-      this.startPayPalPayment(
-        parseFloat(plan.price.replace('€', '').replace(',', '.')),
-        containerId,
-      );
-    }
   }
 
   startPayPalPayment(amount: number, containerId: string): void {
     const amountString = amount.toFixed(2); // Format to two decimal places
+    const container = document.getElementById(containerId);
+
+    // Check if the container exists
+    if (!container) {
+      console.error(`Container with ID ${containerId} not found.`);
+      alert('Payment option is currently unavailable. Please try again later.');
+      return; // Exit the function if the container is not found
+    }
+
+    // Check if PayPal script is loaded
+    if (typeof paypal === 'undefined') {
+      this.loadPayPalScript()
+        .then(() => {
+          this.renderPayPalButtons(amountString, containerId);
+        })
+        .catch((error) => {
+          console.error('Failed to load PayPal script:', error);
+          alert('Failed to load payment options. Please try again later.');
+        });
+    } else {
+      this.renderPayPalButtons(amountString, containerId);
+    }
+  }
+
+  renderPayPalButtons(amountString: string, containerId: string): void {
     paypal
       .Buttons({
         createOrder: (data: PayPalData, actions: PayPalActions) => {
@@ -182,7 +200,7 @@ export class PaymentComponent implements OnInit, AfterViewInit {
         onApprove: (data: PayPalData, actions: PayPalActions) => {
           return actions.order.capture().then(() => {
             alert('Payment completed successfully!');
-            this.handlePaymentSuccess(amount);
+            this.handlePaymentSuccess(parseFloat(amountString));
           });
         },
         onError: (err: unknown) => {
