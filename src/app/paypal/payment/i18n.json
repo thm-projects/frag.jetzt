@@ -10,6 +10,8 @@
     "currencyRateStandard": "120",
     "currencyRatePro": "180",
     "go": "Los",
+    "BasicToken": "50,000 Tokens",
+
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
@@ -24,6 +26,7 @@
     "currencyRateStandard": "110",
     "currencyRatePro": "160",
     "go": "Go",
+    "BasicToken": "50,000 Tokens",
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
@@ -38,6 +41,7 @@
     "currencyRateStandard": "120",
     "currencyRatePro": "180",
     "go": "Aller",
+    "BasicToken": "50,000 Tokens",
     "feature1": "Lorem ipsum dolor sit",
     "feature2": "Lorem ipsum dolor sit",
     "feature3": "Lorem ipsum dolor sit"
