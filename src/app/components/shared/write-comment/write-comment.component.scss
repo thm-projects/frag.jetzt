@@ -3,11 +3,46 @@
 
 .questioner-name-input {
   width: 100%;
+  display: flex;
   max-width: 260px;
   margin-top: -5px;
 
   @media screen and (max-width: 500px) {
     max-width: unset;
+  }
+}
+
+.tag-and-name-row {
+  display: flex; /* Align items in a row */
+  justify-content: center; /* Keeps the form field on the right and the button can be centered */
+  align-items: center; /* Vertically aligns the items */
+  margin-bottom: 20px; /* Adds space below the row */
+  margin-top: 30px; /* Adds space above the row */
+
+  .left-side {
+    flex-grow: 0; /* Don't let the button grow */
+    margin-left: 200px;
+  }
+
+  .right-side {
+    flex-grow: 0; /* Allow the form field to take up remaining space */
+
+    max-width: 200px; /* Limit the form field's width */
+  }
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column; /* Stack items vertically on small screens */
+    gap: 10px; /* Adds space between items on small screens */
+
+    .left-side,
+    .right-side {
+      width: 100%; /* Full width on small screens */
+      max-width: unset;
+    }
+
+    .right-side {
+      text-align: left; /* Aligns the form field to the left on smaller screens */
+    }
   }
 }
 
@@ -24,12 +59,12 @@ button {
 }
 
 .char-counter .exceeded {
-  color: var(--md-ref-palette-error40);
+  color: var(--mat-form-field-error-text-color);
   font-weight: bold;
 }
 
 .warning {
-  color: var(--md-ref-palette-error40);
+  color: var(--mat-form-field-error-text-color);
   font-size: 12px;
   margin-top: 4px;
 }
