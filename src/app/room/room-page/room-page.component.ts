@@ -118,11 +118,7 @@ export class RoomPageComponent {
   }
 
   protected editSessionDescription() {
-    const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      autoFocus: false,
-      disableClose: true,
-    });
-    dialogRef.componentInstance.editRoom = this.room();
+    RoomDescriptionSettingsComponent.open(this.dialog, this.room());
   }
 
   protected copyShortId(): void {

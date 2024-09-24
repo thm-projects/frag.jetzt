@@ -48,7 +48,7 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     }
     const descriptionText = this.detectLinks(this.data());
     this.roomService
-      .patchRoom(this.editRoom.id, {
+      .patchRoom(this.editRoom().id, {
         description: descriptionText,
       })
       .subscribe();
