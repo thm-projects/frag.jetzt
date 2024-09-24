@@ -9,6 +9,7 @@ import { NgClass } from '@angular/common';
 
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 const i18n = I18nLoader.load(rawI18n);
 
 @Component({

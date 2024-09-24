@@ -73,23 +73,6 @@
   *ngIf="enabled"
   class="spellcheck">
   <ars-col>
-    <button
-      [disabled]="isSpellcheckingButtonDisabled()"
-      mat-flat-button
-      class="spell-button"
-      (click)="checkGrammar()">
-      {{ "comment-page.grammar-check" | translate }}
-      <mat-icon
-        *ngIf="isSpellchecking"
-        class="spinner-container">
-        <app-mat-spinner-overlay
-          [diameter]="20"
-          [strokeWidth]="2"
-          [color]="'on-primary'"></app-mat-spinner-overlay>
-      </mat-icon>
-    </button>
-  </ars-col>
-  <ars-col>
     <app-dialog-action-buttons
       [buttonsLabelSection]="i18nSection"
       [confirmButtonLabel]="confirmLabel"

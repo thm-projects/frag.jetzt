@@ -239,7 +239,6 @@ export const getDefaultNavigation = (
       }
       // app navigation
       const isPurchse = router.url.startsWith('/purchase');
-      const isDonation = router.url.startsWith('/donation');
       const pricingSection: M3NavigationSection = {
         id: 'pricing',
         kind: 'navigation',
@@ -253,7 +252,6 @@ export const getDefaultNavigation = (
               showDonation(injector);
               return false;
             },
-            activated: isDonation,
           },
           {
             id: 'purchase',
@@ -409,10 +407,7 @@ const showImprint = (injector: Injector) => {
 };
 
 const showDonation = (injector: Injector) => {
-  injector.get(MatDialog).open(DonationComponent, {
-    width: '80%',
-    maxWidth: '600px',
-  });
+  injector.get(MatDialog).open(DonationComponent);
 };
 
 const showGDPR = (injector: Injector) => {

@@ -5,18 +5,33 @@
 </h1>
 
 <mat-dialog-content tabindex="0">
-  <span [innerHTML]="i18n().message.invite"></span>
-  <strong>
-    <a [href]="url">{{ i18n().message.link }}</a>
-  </strong>
-  <span [innerHTML]="i18n().message.alternativeAndThanks"></span>
+  <p>
+    {{ i18n().message.invite }}
+  </p>
+  <p>
+    {{ i18n().message.follow }}
+    <strong>
+      <a [href]="url">{{ i18n().message.link }}</a>
+    </strong>
+    {{ i18n().message.alternative }}
+  </p>
+  <p>
+    {{ i18n().message.thanks }}
+  </p>
 
   <div class="qr-code-container">
     <qrcode
       [qrdata]="url"
-      [errorCorrectionLevel]="'M'"
+      [errorCorrectionLevel]="'H'"
       [width]="qrCodeSize"
-      [margin]="0"></qrcode>
+      [margin]="1"></qrcode>
+
+    <div class="favicon-container">
+      <img
+        src="/assets/icons/masked_icon.svg"
+        alt="Project Icon"
+        class="favicon-icon" />
+    </div>
   </div>
 </mat-dialog-content>
 
