@@ -9,7 +9,7 @@ import { NgClass } from '@angular/common';
 
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
-import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+//import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 const i18n = I18nLoader.load(rawI18n);
 
 @Component({
@@ -22,18 +22,18 @@ const i18n = I18nLoader.load(rawI18n);
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    NgClass
+    NgClass,
   ],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
 })
-export class PaymentComponent implements OnInit{
+export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
 
   // User's token status and whether they have purchased the free plan
   userTokens = 0; // Example: Number of tokens the user has
   hasFreePlan = false; // Change this to true if the user has purchased the Free Plan
-  
+
   ngOnInit() {
     this.checkUserPlan(); // Function to check if the user has already purchased the free plan
     this.getUserTokens(); // Function to get the user's current token balance
@@ -70,7 +70,7 @@ export class PaymentComponent implements OnInit{
     { title: '€5 Plan', price: '€5', color: 'primary' },
     { title: '€10 Plan', price: '€10', color: 'primary' },
     { title: '€20 Plan', price: '€20', color: 'primary' },
-    { title: '€50 Plan', price: '€50', color: 'primary' }
+    { title: '€50 Plan', price: '€50', color: 'primary' },
   ];
 
   // Function to change the color of the Free Plan card
@@ -84,6 +84,4 @@ export class PaymentComponent implements OnInit{
     // Update Free Plan color
     this.plans[0].color = this.getFreePlanColor();
   }
-
-
 }
