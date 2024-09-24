@@ -5,17 +5,7 @@
 </h2>
 
 <mat-dialog-content tabindex="-1">
-  @switch (lang()) {
-    @case ("de") {
-      <app-download-de></app-download-de>
-    }
-    @case ("fr") {
-      <app-download-fr></app-download-fr>
-    }
-    @default {
-      <app-download-en></app-download-en>
-    }
-  }
+  <p>{{ "download.text" | translate }}</p>
   @if (badgeType() !== "none") {
     <div class="store-buttons">
       @if (
@@ -48,7 +38,7 @@
   <button
     mat-button
     mat-dialog-close>
-    {{ this.i18n().global.close }}
+    {{ i18n().global.close }}
   </button>
   <span style="flex: 1"></span>
 </mat-dialog-actions>
