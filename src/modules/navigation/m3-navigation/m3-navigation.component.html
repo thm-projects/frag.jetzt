@@ -15,7 +15,11 @@
       @if (header(); as header) {
         <span class="m3-nav-header-title title-large">
           {{ isExpanded() && isOnline ? header.slogan : "" }}
-          {{ isOnline ? "" : header.offline }}
+          <span
+            class="m3-nav-header-title title-large"
+            style="color: var(--md-sys-color-error)">
+            {{ isOnline ? "" : header.offline }}
+          </span>
         </span>
         <!-- Header Options -->
         @if (header.options.length; as length) {
