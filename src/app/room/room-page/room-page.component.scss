@@ -10,7 +10,7 @@ m3-supporting-pane.scrollable-pane {
   display: flex;
 }
 
-mat-card {
+mat-card.main-card {
   min-height: 550px;
   height: 50dvh;
   width: 800px;
@@ -18,9 +18,27 @@ mat-card {
   margin: auto;
   background-color: var(--md-sys-color-surface-container-highest);
 }
-
-mat-card-content {
-  margin-block: auto;
+mat-card.content-card {
+  max-height: 95%;
+  background-color: var(--md-sys-color-surface-container-lowest);
+  appearance: outlined;
+  box-shadow: none;
+}
+mat-card.info-card {
+  margin-left: 8px;
+  background-color: var(--md-sys-color-surface-container-lowest);
+  box-shadow: none;
+  justify-content: center;
+  flex: 1;
+  > mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+mat-card-content.scrollable-content {
+  max-height: 370px;
+  overflow-y: auto;
 }
 
 mat-card-actions {
@@ -31,6 +49,9 @@ mat-card-actions {
 }
 mat-toolbar {
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 64px;
 }
 .badge-wrapper {
   --mat-badge-background-color: var(--md-sys-color-primary-container);
@@ -53,6 +74,9 @@ mat-toolbar {
   display: flex;
   gap: 0.5em;
   scale: 0.75;
+  > button {
+    scale: 1.33;
+  }
 }
 
 .full-width-title > ::ng-deep div {
@@ -61,5 +85,32 @@ mat-toolbar {
 .centered-header {
   display: flex;
   justify-content: center;
-  font-size: max(calc(800px / 30), 3vw);
+  font-size: max(calc(800px / 30), 2.5vw);
+  font-weight: 500;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .hide-on-small {
+    display: none;
+  }
+  .show-on-small {
+    display: flex !important;
+  }
+}
+@media (max-width: 840px) {
+  .hide-on-medium {
+    display: none;
+  }
+}
+
+@media (min-width: 840px) {
+  .shrink-on-medium {
+    max-width: 61.8%;
+  }
 }

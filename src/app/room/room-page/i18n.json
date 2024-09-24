@@ -18,7 +18,8 @@
     "tooltipEdit": "Titel der Veranstaltung ändern",
     "tooltipOptions": "Weitere Optionen",
     "editDescription": "Beschreibung bearbeiten",
-    "moderatorAccess": "Moderatoren-Zugang:"
+    "moderatorAccess": "Moderatoren-Zugang:",
+    "descriptionHeader": "Raumbeschreibung"
   },
   "en": {
     "name": "»{{name}}«",
@@ -38,7 +39,8 @@
     "tooltipEdit": "Edit event title",
     "tooltipOptions": "More options",
     "editDescription": "Edit description",
-    "moderatorAccess": "Moderator access:"
+    "moderatorAccess": "Moderator access:",
+    "descriptionHeader": "Room description"
   },
   "fr": {
     "name": "« {{name}} »",
@@ -58,6 +60,7 @@
     "tooltipEdit": "Modifier le titre de l'événement",
     "tooltipOptions": "Plus d'options",
     "editDescription": "Modifier la description",
-    "moderatorAccess": "Accès modérateur :"
+    "moderatorAccess": "Accès modérateur :",
+    "descriptionHeader": "Description de la salle"
   }
 }
