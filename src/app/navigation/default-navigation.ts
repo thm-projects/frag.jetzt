@@ -68,10 +68,10 @@ export const getDefaultHeader = (
       const isGuestUser = user?.isGuest;
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
       const account_icon = isAdmin
-        ? 'manage_accounts'
+        ? 'shield_person'
         : isGuestUser
           ? 'person'
-          : 'shield_person';
+          : 'face';
 
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
