@@ -6,7 +6,8 @@
       "invite": "Wir stehen kurz davor, unser wichtigstes Ziel zu erreichen – aber wir brauchen Ihre Unterstützung! Jede Spende bringt uns näher.",
       "follow": "Klicken Sie auf den folgenden Link: ",
       "link": "Jetzt Projekt unterstützen",
-      "alternativeAndThanks": ", oder scannen Sie einfach den QR-Code.<br> Gemeinsam können wir dieses Projekt realisieren – vielen Dank für Ihre wertvolle Hilfe!"
+      "alternative": ", oder scannen Sie einfach den QR-Code.",
+      "thanks": "Gemeinsam können wir dieses Projekt realisieren – vielen Dank für Ihre wertvolle Hilfe!"
     },
     "close": "Schließen"
   },
@@ -16,7 +17,8 @@
       "invite": "We are on the verge of achieving our biggest goal – but we need your support! Every donation gets us one step closer.",
       "follow": "Simply click the following link: ",
       "link": "Support the Project Now",
-      "alternativeAndThanks": ", or simply scan the QR code.<br> Together, we can make this project a reality – thank you for your valuable contribution!"
+      "alternative": ", or simply scan the QR code.",
+      "thanks":"Together, we can make this project a reality – thank you for your valuable contribution!"
     },
     "close": "Close"
   },
@@ -26,7 +28,8 @@
       "invite": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus.",
       "follow": "Cliquez simplement sur le lien suivant : ",
       "link": "Soutenir le projet maintenant",
-      "alternativeAndThanks": ", ou scannez simplement le QR code.<br> Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide !"
+      "alternativeAndThanks": ", ou scannez simplement le QR code.",
+      "thanks": "Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide !"
     },
     "close": "Fermer"
   }

@@ -6,14 +6,17 @@
 
 <mat-dialog-content tabindex="0">
   <p>
-    <span [innerHTML]="i18n().message.invite"></span>
+    {{ i18n().message.invite }}
   </p>
   <p>
-    <span [innerHTML]="i18n().message.follow"></span>
+    {{ i18n().message.follow }}
     <strong>
       <a [href]="url">{{ i18n().message.link }}</a>
     </strong>
-    <span [innerHTML]="i18n().message.alternativeAndThanks"></span>
+    {{ i18n().message.alternative }}
+  </p>
+  <p>
+    {{ i18n().message.thanks }}
   </p>
 
   <div class="qr-code-container">

@@ -2,10 +2,8 @@
   <h1 class="pricing-title mat-display-large">
     {{ i18n().title }}
   </h1>
-  <!--<h1 mat-card-title="pricing-title" class="pricing-title">{{ i18n().title }}</h1> -->
 
   <div class="pricing-cards">
-    <!-- Basic Plan -->
     <mat-card class="pricing-card">
       <mat-card-header class="full-width">
         <mat-card-title>
@@ -34,12 +32,16 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- Standard Plan (Featured - Enlarged) -->
     <mat-card class="pricing-card featured-card">
-      <div class="card-header">
-        <mat-icon>lightbulb</mat-icon>
-        <h2 mat-card-title>{{ i18n().standard }}</h2>
-      </div>
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          <mat-icon>lightbulb</mat-icon>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().standard }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>{{ i18n().feature1 }}</li>
@@ -61,12 +63,16 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- Pro Plan -->
     <mat-card class="pricing-card">
-      <div class="card-header">
-        <mat-icon>computer</mat-icon>
-        <h2 mat-card-title>{{ i18n().pro }}</h2>
-      </div>
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          <mat-icon>computer</mat-icon>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().pro }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>{{ i18n().feature1 }}</li>
