@@ -7,11 +7,13 @@
   [session]="session"></qw-top-bar>
 <div class="content row grow">
   <div class="view-comment-container column grow items-center content-center">
+    @if (!hasCommentFocus) {
+      <div class="view-placeholder">
+        <qw-default-placeholder></qw-default-placeholder>
+      </div>
+    }
     <div class="view-comment">
       <ng-template #outlet></ng-template>
-      @if (!hasCommentFocus) {
-        <qw-default-placeholder></qw-default-placeholder>
-      }
     </div>
   </div>
   <div class="side-bar-container column">
