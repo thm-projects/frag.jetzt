@@ -114,7 +114,6 @@ export class M3NavigationComponent implements OnInit, OnDestroy {
     this.onlineSubscription = this.onlineStateService.online$.subscribe(
       (online) => {
         this.isOnline = online;
-        console.log('Online status:', online);
       },
     );
   }
