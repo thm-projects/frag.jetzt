@@ -148,7 +148,11 @@
       [matTooltip]="elem.title"
       mat-icon-button
       [matMenuTriggerFor]="temp">
-      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [className]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
     </button>
     <mat-menu #temp="matMenu">
       @for (innerElem of elem.items; track innerElem) {
@@ -156,7 +160,9 @@
           mat-menu-item
           [disabled]="innerElem.disabled"
           (click)="innerElem.onClick()">
-          <mat-icon [svgIcon]="innerElem.svgIcon">
+          <mat-icon
+            [svgIcon]="innerElem.svgIcon"
+            [className]="elem.className">
             {{ innerElem.icon }}
           </mat-icon>
           {{ innerElem.title }}

@@ -82,6 +82,7 @@ export const getDefaultHeader = (
                   ? 'account_circle'
                   : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.myAccount,
+                className: isOnline ? '' : 'error-text',
                 items: [
                   {
                     svgIcon: 'fj_robot',

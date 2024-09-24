@@ -25,6 +25,7 @@ export interface M3HeaderOption {
   title: string;
   icon?: string;
   svgIcon?: string;
+  className?: string;
   onClick: () => void;
   disabled?: boolean;
 }
@@ -33,6 +34,7 @@ export interface M3HeaderMenu {
   title: string;
   icon?: string;
   svgIcon?: string;
+  className?: string;
   items: M3HeaderOption[];
 }
 
