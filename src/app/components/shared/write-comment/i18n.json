@@ -1,0 +1,22 @@
+{
+    "key": "write-comment-editor-settings",
+    "de": {
+      "tag": "Kategorie",
+      "send":"Abschicken und Schließen",
+      "cancel":"Abbrechen"
+    },
+    "en": {
+      
+      "tag": "Category",
+      "send":"Send and close",
+      "cancel":"Cancel"
+    },
+    "fr": {
+     
+      "tag": "Catégorie",
+      "send":"Envoyer et fermer",
+      "cancel":"Annuler"
+
+    }
+  }
+  

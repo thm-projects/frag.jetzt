@@ -1,378 +1,39 @@
 @use "sass:math";
 @use "sass:list";
 
-.questioner-name-input {
-  height: 60px;
-  width: 100%;
-  display: flex;
-  max-width: 260px;
-  margin-top: 5px;
-  margin-left: 30px;
-
-  @media screen and (max-width: 500px) {
-    max-width: unset;
-  }
+:host {
+  padding: 24px;
 }
 
-button {
-  min-width: 80px;
-}
-.char-counter {
+.char-hint {
   display: flex;
   justify-content: right;
-  width: 90%;
-  font-size: 12px;
+  width: 95%;
+  margin: 14px 0;
   color: var(--mdc-dialog-supporting-text-color);
-  margin-top: 8px;
 }
 
-.char-counter .exceeded {
-  color: var(--mat-form-field-error-text-color);
-  font-weight: bold;
+.hint-error {
+  color: var(--md-ref-palette-error40);
 }
 
-.warning {
-  color: var(--mat-form-field-error-text-color);
-  font-size: 12px;
-  margin-top: 4px;
+.mat-form-field {
+  display: flex;
+  flex: 1;  
+  border-radius: 8px;
+  padding: 10px;
+  transition: box-shadow 0.3s ease;
 }
 
-.mat-mdc-unelevated-button.mat-primary.mat-button-disabled,
-.mat-flat-button.mat-accent.mat-button-disabled,
-.mat-flat-button.mat-warn.mat-button-disabled,
-.mat-flat-button.mat-button-disabled.mat-button-disabled,
-.mat-mdc-raised-button.mat-primary.mat-button-disabled,
-.mat-raised-button.mat-accent.mat-button-disabled,
-.mat-raised-button.mat-warn.mat-button-disabled,
-.mat-raised-button.mat-button-disabled.mat-button-disabled,
-.mat-mdc-fab.mat-primary.mat-button-disabled,
-.mat-fab.mat-accent.mat-button-disabled,
-.mat-fab.mat-warn.mat-button-disabled,
-.mat-fab.mat-button-disabled.mat-button-disabled,
-.mat-mdc-mini-fab.mat-primary.mat-button-disabled,
-.mat-mini-fab.mat-accent.mat-button-disabled,
-.mat-mini-fab.mat-warn.mat-button-disabled,
-.mat-mini-fab.mat-button-disabled.mat-button-disabled {
-  display: none;
-}
-
-.spell-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 2px;
-  margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
-
-  .mat-icon {
-    font-size: 18px;
-  }
-}
-
-.spellcheck {
-  @media screen and (max-width: 500px) {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column !important;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    align-content: center;
-  }
-}
-
-.spinner-container {
-  font-size: 14px;
-  margin-top: -2px;
-}
-
-#answer-input {
-  line-height: 120%;
-  color: var(--on-surface);
-  caret-color: var(--on-surface);
-  -webkit-appearance: textarea;
-  min-height: 50px;
-  cursor: text;
-  word-wrap: break-word;
-  margin-top: 15px;
-  width: 100%;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-::ng-deep {
-  /*
-TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
- */
-  .mat-form-field-label {
-    color: var(--on-surface) !important;
-  }
-
-  /*
-TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
- */
-  .mat-form-field-underline,
-  .mat-form-field-ripple {
-    background-color: var(--on-surface) !important;
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.
- */
-  .mat-tab-body-content {
-    height: auto !important;
-    overflow-x: hidden !important;
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-arrow-wrapper .mat-select-arrow {
-    color: var(--on-surface);
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-value {
-    width: auto !important;
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-value-text {
-    color: var(--on-surface);
-    caret-color: var(--on-surface);
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version.
- */
-  .mat-primary .mat-mdc-option.mat-selected:not(.mat-option-disabled) {
-    color: var(--primary);
-  }
-
-  .mat-mdc-select-panel {
-    background: var(--dialog);
-  }
-}
-
-mat-hint {
-  color: var(--on-surface) !important;
-}
-
-.placeholder {
-  color: var(--on-surface);
-  filter: opacity(0.6);
-  font-style: italic;
-}
-
-/*
-TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.
- */
-::ng-deep .placeholder .mat-radio-label-content {
+.mat-select {
   width: 100%;
 }
 
-.lang-confidence {
-  color: var(--on-cancel);
-  background-color: var(--cancel);
-  font-size: 16px;
-  padding: 5px;
-}
-
-/*
-TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
- */
-::ng-deep .mat-mdc-form-field .mat-form-field-infix {
-  max-width: 500px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.comment-write-container {
-  max-height: calc(100vh - 250px);
-}
-
-.filler-row {
-  margin-top: 8px;
-}
-
-.btn-icon {
-  margin-right: 5px;
-}
-
-/*
-Styling for tag selection
- */
-
-#tagSelect {
-  display: inline;
-}
-
-.anchor-wrp {
-  width: calc(100% - 200px);
-  display: inline-block;
-  height: 0;
-  position: relative;
-  left: 0;
-  top: 0;
-}
-
-/*
-Styling for language select
- */
-
-.select-list {
-  width: 18px;
-  margin-left: 12px;
-}
-
-/*
-Styling for tag selection and language selection
- */
-
-.mat-mdc-option {
-  color: var(--on-surface);
-}
-
-/*
-Suggestion classes from Languagetool
- */
-$borderWidth: 2px;
-$borderOffset: 2px;
-
-::ng-deep #editorErrorLayer {
-  z-index: -1;
-
-  > span {
-    display: inline-block;
-    width: var(--width);
-    margin-right: calc(-1 * var(--width));
-    height: calc(var(--height) - #{$borderWidth + $borderOffset});
-    margin-top: calc(-1 * var(--height) + #{$borderWidth + $borderOffset});
-    transform: translate(var(--left), calc(var(--top) - #{$borderOffset}));
-    border-bottom: $borderWidth solid red;
-  }
-}
-
-::ng-deep .dropdownBlock {
-  display: none;
-  width: 160px;
-  height: fit-content;
-  margin-left: -80px;
-  background-color: var(--surface);
-  border-style: solid;
-  border-color: var(--primary);
-  color: var(--on-surface);
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: fixed;
-  z-index: 1000;
-  bottom: 100%;
-
-  > .suggestions {
-    color: var(--on-surface);
-    display: block;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  > .error-message {
-    color: var(--on-surface);
-    display: block;
-    text-align: center;
-  }
-}
-
-$innerWidth: 375px;
-$innerHeight: 812px;
-$own-margin: 20px;
-$customScaleFactor: 0.8;
-
-$mockWidth: 1454px;
-$mockHeight: 2920px;
-$mockPadLeft: 89px;
-$mockPadTop: 68px;
-$mockPadRight: 96px;
-$mockPadBottom: 68px;
-$mockPixelRadius: 132px;
-
-$scale-factor: math.div($innerWidth, $mockWidth - $mockPadRight - $mockPadLeft);
-$width: math.round($mockWidth * $scale-factor);
-$height: math.round($mockHeight * $scale-factor);
-$padding: math.ceil($mockPadTop * $scale-factor)
-  math.ceil($mockPadRight * $scale-factor)
-  math.ceil($mockPadBottom * $scale-factor)
-  math.ceil($mockPadLeft * $scale-factor);
-
-$parentWidth: 900px;
-$dialog-margin: 130px;
-$parentWidthHalf: math.div($parentWidth, 2);
-
-$scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
-
-.mobile-mock-wrapper {
-  --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin -
-    $scaledWidth};
-  --start-position: #{$parentWidthHalf - $dialog-margin - $width + $scaledWidth};
-  --test: #{$scale-factor};
-  --current-position: var(--start-position);
+.mat-select-arrow {
+  right: 0;
   position: absolute;
-  padding: $padding;
-  margin-top: #{list.nth($padding, 1) * -1};
-  left: calc(50% + var(--current-position));
-  opacity: 0;
-  width: $width;
-  height: $height;
-  top: calc(50% - #{math.div($height, 2)});
-  transition:
-    left 0.5s ease,
-    opacity 0.5s ease;
-  z-index: -1;
-  overflow: hidden;
-  transform: translate(var(--additional-padding, 0px)) scale($customScaleFactor);
-
-  > div {
-    display: flex;
-    background-color: var(--background);
-    width: 100%;
-    height: 100%;
-    border-radius: #{$mockPixelRadius * $scale-factor};
-    margin-bottom: #{$height * -1};
-
-    > div {
-      display: inline-block;
-      width: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 0 5% 45px;
-    }
-  }
-
-  > img {
-    position: relative;
-    width: #{$width + list.nth($padding, 2) + list.nth($padding, 4)};
-    height: #{$height + list.nth($padding, 1) + list.nth($padding, 3)};
-    margin-top: #{list.nth($padding, 1) * -1};
-    left: #{list.nth($padding, 4) * -1};
-    pointer-events: none;
-  }
 }
 
-.preview-btn {
-  margin: 10px;
-  background-color: transparent;
-  color: var(--on-dialog);
-  outline: var(--secondary) solid 2px;
-  width: fit-content;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
+input::placeholder {
+  font-style: italic;
 }

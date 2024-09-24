@@ -1,18 +1,48 @@
-<ars-row style="margin-left: 410px; padding: 15px 20px">
-  <button
-    mat-button
+<ars-row style="display: flex; justify-content: space-between;">
+  <mat-form-field class="questioner-name-input" appearance="outline">
+     <mat-icon matPrefix>person</mat-icon>
+    <input
+      appAccessibilityEscapedInput
+      matInput
+      [formControl]="questionerNameFormControl"
+      [placeholder]="'write-comment.questioner-name' | translate"
+      name="questioner-name"
+      [maxlength]="questionerNameMax"
+      aria-labelledby="questioner-name" />
+    <mat-hint align="end" style="color: var(--mdc-dialog-supporting-text-color);">
+      <span aria-hidden="true">
+        {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
+      </span>
+    </mat-hint>
+    <mat-error
+      *ngIf="
+        questionerNameFormControl.hasError('minlength') ||
+        questionerNameFormControl.hasError('maxlength')
+      ">
+      {{
+        "write-comment.name-length-error"
+          | translate: { min: questionerNameMin, max: questionerNameMax }
+      }}
+    </mat-error>
+  </mat-form-field>
+
+   <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
     matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
-    <mat-icon class="btn-icon">sell</mat-icon>
+
+    <mat-label>
+    <mat-icon >sell</mat-icon>
+    {{ i18n().tag }}
+    </mat-label>
 
     <mat-select
-      style="justify-content: space-between"
+      
       class="select-list"
       id="tagSelect"
       #tagSelect
       [(ngModel)]="selectedTag"
-      placeholder="{{ 'comment-page.tag' | translate }}">
+      placeholder="{{ i18n().tag }}">
       <mat-option [value]="null">
         <em>{{ "comment-page.tag-reset" | translate }}</em>
       </mat-option>
@@ -23,21 +53,21 @@
         {{ tag }}
       </mat-option>
     </mat-select>
-  </button>
+   </mat-form-field>
 </ars-row>
-
+<mat-dialog-content>
 <app-markdown-editor [(data)]="data"></app-markdown-editor>
+</mat-dialog-content>
 
-<div class="char-counter">
-  <span [ngClass]="{ exceeded: data.length > maxTextCharacters }">
+
+<mat-hint
+  class="char-hint"
+  [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
+  <span aria-hidden="true">
     {{ data().length }} / {{ maxTextCharacters }}
   </span>
-  <div
-    *ngIf="data().length > maxTextCharacters"
-    class="warning">
-    {{ "comment-page.char-limit-exceeded" | translate }}
-  </div>
-</div>
+</mat-hint>
+
 
 <!-- TODO -->
 <!-- <app-view-comment-data
@@ -50,36 +80,6 @@
   [maxDataCharacters]="maxDataCharacters"
   [placeHolderText]="placeholder"></app-view-comment-data> -->
 
-<ars-row>
-  <!-- Right Side: Form Field -->
-  <div class="right-side">
-    <mat-form-field class="questioner-name-input">
-      <input
-        appAccessibilityEscapedInput
-        matInput
-        [formControl]="questionerNameFormControl"
-        [placeholder]="'write-comment.questioner-name' | translate"
-        name="questioner-name"
-        [maxlength]="questionerNameMax"
-        aria-labelledby="questioner-name" />
-      <mat-hint align="end">
-        <span aria-hidden="true">
-          {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
-        </span>
-      </mat-hint>
-      <mat-error
-        *ngIf="
-          questionerNameFormControl.hasError('minlength') ||
-          questionerNameFormControl.hasError('maxlength')
-        ">
-        {{
-          "write-comment.name-length-error"
-            | translate: { min: questionerNameMin, max: questionerNameMax }
-        }}
-      </mat-error>
-    </mat-form-field>
-  </div>
-</ars-row>
 
 <ars-row
   ars-flex-box
@@ -89,7 +89,7 @@
       <button
         mat-button
         (click)="buildCloseDialogActionCallback()()">
-        {{ "comment-page.cancel" | translate }}
+        {{ i18n().cancel }}
       </button>
 
       <span style="flex: 1"></span>
@@ -98,7 +98,7 @@
         mat-flat-button
         [disabled]="isSubmittingComment"
         (click)="buildCreateCommentActionCallback()()">
-        {{ "comment-page.send" | translate }}
+        {{ i18n().send }}
       </button>
     </mat-dialog-actions>
   </ars-col>

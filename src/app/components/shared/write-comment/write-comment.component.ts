@@ -39,6 +39,10 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { dataService } from 'app/base/db/data-service';
 import { user$ } from 'app/user/state/user';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
+
 
 @Component({
   selector: 'app-write-comment',
@@ -65,6 +69,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() commentReference: UUID = null;
   @Input() onlyText = false;
   @Input() rewriteCommentData: ForumComment = null;
+  protected readonly i18n = i18n;
   data = signal('');
   isSubmittingComment = false;
   selectedTag: string;
