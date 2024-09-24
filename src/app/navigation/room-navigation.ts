@@ -28,7 +28,7 @@ import { TopicCloudFilterComponent } from '../room/tag-cloud/dialogs/topic-cloud
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { TopicCloudBrainstormingComponent } from '../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
-import { User } from 'app/models/user';
+import { KeycloakRoles, User } from 'app/models/user';
 import { CommentSettingsComponent } from 'app/components/creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from 'app/models/comment-settings-dialog';
 import { RoomService } from 'app/services/http/room.service';
@@ -91,16 +91,21 @@ export const getRoomHeader = (
     getDefaultHeader(injector),
     user$.pipe(first((e) => Boolean(e))),
     roomState.room$.pipe(first((e) => Boolean(e))),
+    roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
   ]).pipe(
-    map(([template, user, room]) => {
+    map(([template, user, room, role]) => {
       const headerOpts = template.options.find(
-        (e) => e.icon === 'account_circle',
+        (e) => 'id' in e && e.id === 'account',
       ) as M3HeaderMenu;
       headerOpts.items.unshift({
         icon: 'badge',
         title: i18n().qaPseudonym,
         onClick: () => openQAPseudo(user, room, injector),
       });
+      if (role === 'Moderator') headerOpts.icon = 'support_agent';
+      if (role === 'Creator') headerOpts.icon = 'co_present';
+      if (user.hasRole(KeycloakRoles.AdminDashboard))
+        headerOpts.icon = 'manage_accounts';
       return template;
     }),
   );
@@ -580,15 +585,7 @@ const openDeleteComments = (room: Room, injector: Injector) => {
 };
 
 const openEditDescription = (room: Room, injector: Injector) => {
-  const dialogRef = injector
-    .get(MatDialog)
-    .open(RoomDescriptionSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-  dialogRef.componentInstance.editRoom = room;
+  RoomDescriptionSettingsComponent.open(injector.get(MatDialog), room);
 };
 
 const showModeratorsDialog = (

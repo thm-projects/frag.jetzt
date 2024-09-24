@@ -398,50 +398,6 @@ div.toastui-editor-fragjetzt {
       mask-image: url(/assets/editor-icons/text/style-alt-xs.svg);
     }
 
-    &.bullet-list::before {
-      mask-image: url(/assets/editor-icons/text/list-xs.svg);
-    }
-
-    &.ordered-list::before {
-      mask-image: url(/assets/editor-icons/text/list-numbered-xs.svg);
-    }
-
-    &.task-list::before {
-      mask-image: url(/assets/editor-icons/text/check-square.svg);
-    }
-
-    &.indent::before {
-      mask-image: url(/assets/editor-icons/text/long-arrow-right.svg);
-    }
-
-    &.outdent::before {
-      mask-image: url(/assets/editor-icons/text/long-arrow-left.svg);
-    }
-
-    &.heading::before {
-      mask-image: url(/assets/editor-icons/text/title.svg);
-    }
-
-    &.bold::before {
-      mask-image: url(/assets/editor-icons/text/bold.svg);
-    }
-
-    &.italic::before {
-      mask-image: url(/assets/editor-icons/text/italic.svg);
-    }
-
-    &.strike::before {
-      mask-image: url(/assets/editor-icons/text/strikethrough-xs.svg);
-    }
-
-    &.hrline::before {
-      mask-image: url(/assets/editor-icons/text/minus-s.svg);
-    }
-
-    &.quote::before {
-      mask-image: url(/assets/editor-icons/text/quote.svg);
-    }
-
     &.table::before {
       mask-image: url(/assets/editor-icons/text/table.svg);
     }
@@ -452,14 +408,6 @@ div.toastui-editor-fragjetzt {
 
     &.link::before {
       mask-image: url(/assets/editor-icons/text/link.svg);
-    }
-
-    &.code::before {
-      mask-image: url(/assets/editor-icons/text/code.svg);
-    }
-
-    &.codeblock::before {
-      mask-image: url(/assets/editor-icons/text/codeblock.svg);
     }
 
     &.more::before {
@@ -495,12 +443,54 @@ div.toastui-editor-fragjetzt {
     --mdc-icon-button-icon-color: var(--mat-menu-item-label-text-color);
   }
 
+  .toastui-editor-dropdown-toolbar {
+    height: 4em;
+    margin-top: 0.1em;
+    overflow-y: clip;
+  }
+
   .toastui-editor-toolbar-item-wrapper {
     display: inline-flex !important;
     align-items: center;
   }
 
   .toastui-editor-defaultUI-toolbar {
+    button {
+      border-radius: 50%;
+      width: var(--mdc-icon-button-state-layer-size, 48px);
+      height: var(--mdc-icon-button-state-layer-size, 48px);
+      padding: calc(
+        calc(
+            var(--mdc-icon-button-state-layer-size, 48px) - var(
+                --mdc-icon-button-icon-size,
+                24px
+              )
+          ) / 2
+      );
+      font-size: var(--mdc-icon-button-icon-size);
+      color: var(--mdc-icon-button-icon-color);
+      border: none;
+      margin: 0;
+
+      &:not(:disabled):hover {
+        border: none;
+        background-color: unset;
+      }
+
+      &[disabled] {
+        color: var(--mdc-icon-button-disabled-icon-color);
+      }
+
+      &.active {
+        color: var(--mdc-filled-button-label-text-color);
+        background-color: var(--mdc-filled-button-container-color) !important;
+
+        .mat-mdc-button-persistent-ripple::before {
+          background-color: var(--mat-filled-button-state-layer-color);
+        }
+      }
+    }
+
     .scroll-sync {
       color: var(--mdc-form-field-label-text-color);
       width: auto;
