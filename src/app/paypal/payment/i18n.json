@@ -6,10 +6,9 @@
     "standard": "Standard",
     "pro": "Profi",
     "currency": "€",
-    
     "BasicToken": "50.000 Tokens",
     "BasicWords": "40.000 Wörter",
-    "BasicTime": "Einmaliger Kauf nur für registrierte Benutzer",
+    "BasicTime": "Einmaliger Kauf",
     "freePlan": "Kostenlos",
     "fivePlanCurrency": "5",
     "tenPlanCurrency": "10",
@@ -36,7 +35,7 @@
 
     "BasicToken": "50,000 Tokens",
     "BasicWords": "40,000 Words",
-    "BasicTime": "1-time purchase only for registered users",
+    "BasicTime": "1-time purchase",
     "freePlan": "Free",
     "fivePlanCurrency": "5",
     "tenPlanCurrency": "9",
@@ -63,7 +62,7 @@
 
     "BasicToken": "50 000 Tokens",
     "BasicWords": "40 000 Mots",
-    "BasicTime": "Achat unique uniquement pour les utilisateurs enregistrés",
+    "BasicTime": "Achat unique",
     "freePlan": "Gratuit",
     "fivePlanCurrency": "5",
     "tenPlanCurrency": "10",
