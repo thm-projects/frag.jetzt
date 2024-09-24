@@ -1,7 +1,33 @@
-<ars-row [height]="13"></ars-row>
-<mat-dialog-content>
-  <app-markdown-editor [(data)]="data"></app-markdown-editor>
-</mat-dialog-content>
+<ars-row style="margin-left: 410px; padding: 15px 20px">
+  <button
+    mat-button
+    *ngIf="enabled && tags && tags.length"
+    (click)="tagSelect.open()"
+    matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
+    <mat-icon class="btn-icon">sell</mat-icon>
+
+    <mat-select
+      style="justify-content: space-between"
+      class="select-list"
+      id="tagSelect"
+      #tagSelect
+      [(ngModel)]="selectedTag"
+      placeholder="{{ 'comment-page.tag' | translate }}">
+      <mat-option [value]="null">
+        <em>{{ "comment-page.tag-reset" | translate }}</em>
+      </mat-option>
+
+      <mat-option
+        *ngFor="let tag of tags"
+        [value]="tag">
+        {{ tag }}
+      </mat-option>
+    </mat-select>
+  </button>
+</ars-row>
+
+<app-markdown-editor [(data)]="data"></app-markdown-editor>
+
 <div class="char-counter">
   <span [ngClass]="{ exceeded: data.length > maxTextCharacters }">
     {{ data().length }} / {{ maxTextCharacters }}
@@ -24,37 +50,7 @@
   [maxDataCharacters]="maxDataCharacters"
   [placeHolderText]="placeholder"></app-view-comment-data> -->
 
-<ars-row class="tag-and-name-row">
-  <!-- Left Side: Button -->
-  <div class="left-side">
-    <button
-      mat-button
-      *ngIf="enabled && tags && tags.length"
-      (click)="tagSelect.open()"
-      matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
-      <mat-icon class="btn-icon">sell</mat-icon>
-      <label
-        for="tagSelect"
-        *ngIf="!selectedTag">
-        <em>{{ "comment-page.tag" | translate }}</em>
-      </label>
-      <mat-select
-        class="select-list"
-        id="tagSelect"
-        #tagSelect
-        [(ngModel)]="selectedTag">
-        <mat-option [value]="null">
-          <em>{{ "comment-page.tag-reset" | translate }}</em>
-        </mat-option>
-        <mat-option
-          *ngFor="let tag of tags"
-          [value]="tag">
-          {{ tag }}
-        </mat-option>
-      </mat-select>
-    </button>
-  </div>
-
+<ars-row>
   <!-- Right Side: Form Field -->
   <div class="right-side">
     <mat-form-field class="questioner-name-input">
