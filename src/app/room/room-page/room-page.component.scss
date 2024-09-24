@@ -5,6 +5,7 @@ m3-body-pane {
 m3-supporting-pane.scrollable-pane {
   height: calc(100% - 32px);
   padding-right: var(--m3-sys-layout-spacing-pane);
+  flex-direction: column;
   overflow-y: auto;
   display: flex;
 }
@@ -28,7 +29,9 @@ mat-card-actions {
   gap: 1.25em;
   padding: 0.8em;
 }
-
+mat-toolbar {
+  flex-wrap: wrap;
+}
 .badge-wrapper {
   --mat-badge-background-color: var(--md-sys-color-primary-container);
   --mat-badge-text-color: var(--md-sys-color-primary);
@@ -46,16 +49,17 @@ mat-card-actions {
   }
 }
 
-.subtitle-wrapper {
+.tooltip-wrapper {
   display: flex;
-  align-items: center;
   gap: 0.5em;
-
-  > button {
-    scale: 1.25;
-  }
+  scale: 0.75;
 }
 
 .full-width-title > ::ng-deep div {
   width: 100%;
+}
+.centered-header {
+  display: flex;
+  justify-content: center;
+  font-size: max(calc(800px / 30), 3vw);
 }

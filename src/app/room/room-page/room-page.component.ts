@@ -11,6 +11,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -52,6 +53,7 @@ import { afterUpdate } from '../state/room-updates';
     RouterModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',

@@ -3,9 +3,33 @@
     class="scrollable-pane"
     type="flexible">
     @if (room(); as room) {
+      <mat-toolbar>
+        <span style="flex: 0.5"></span>
+        <span class="tooltip-wrapper">
+          {{ i18n().shortId | context: room }}
+          <button
+            mat-icon-button
+            [matTooltip]="i18n().tooltipCopy"
+            (click)="copyShortId()">
+            <mat-icon>share</mat-icon>
+          </button>
+        </span>
+        @if (isPrivileged()) {
+          <span class="tooltip-wrapper">
+            {{ i18n().moderatorAccess }}
+            <button
+              mat-icon-button
+              [matTooltip]="i18n().tooltipModerator"
+              (click)="showModeratorsDialog()">
+              <mat-icon>key</mat-icon>
+            </button>
+            <span style="flex: 0.5"></span>
+          </span>
+        }
+      </mat-toolbar>
       <mat-card>
         <mat-card-header class="full-width-title">
-          <mat-card-title>
+          <mat-card-title class="centered-header">
             {{ i18n().name | context: { name: room.name } }}
             @if (isPrivileged()) {
               <button
@@ -14,6 +38,7 @@
                 (click)="editSessionName()">
                 <mat-icon>edit</mat-icon>
               </button>
+              <!--
               <button
                 mat-icon-button
                 [matTooltip]="i18n().tooltipOptions"
@@ -21,30 +46,9 @@
                 style="float: inline-end">
                 <mat-icon>more_vert</mat-icon>
               </button>
+              -->
             }
           </mat-card-title>
-          <mat-card-subtitle>
-            <span class="subtitle-wrapper">
-              {{ i18n().shortId | context: room }}
-              <button
-                mat-icon-button
-                [matTooltip]="i18n().tooltipCopy"
-                (click)="copyShortId()">
-                <mat-icon>share</mat-icon>
-              </button>
-            </span>
-            @if (isPrivileged()) {
-              <span class="subtitle-wrapper">
-                {{ i18n().moderatorAccess }}
-                <button
-                  mat-icon-button
-                  [matTooltip]="i18n().tooltipModerator"
-                  (click)="showModeratorsDialog()">
-                  <mat-icon>key</mat-icon>
-                </button>
-              </span>
-            }
-          </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <app-markdown-viewer
