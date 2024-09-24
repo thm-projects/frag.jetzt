@@ -12,11 +12,41 @@
 
 /* Token Balance */
 .token-balance {
-  margin-bottom: 30px;
-  h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #3f51b5;
+  margin-bottom: 20px;
+  text-align: right;
+  position: relative;
+  background-color: #f0f4f8;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.token-balance h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #3a4a5d;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.token-balance h2 .icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+  color: #5a6e83;
+}
+
+/* Add a gentle animation when tokens are updated */
+.token-balance.updated {
+  animation: token-update 0.5s ease-out;
+}
+
+@keyframes token-update {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

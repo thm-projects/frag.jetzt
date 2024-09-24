@@ -52,7 +52,7 @@ export class PaymentComponent implements OnInit {
     // this.userTokens = this.userService.getUserTokens();
 
     // For testing purposes:
-    this.userTokens = 50000; // Example token count, replace with real value
+    this.userTokens = 0; // Example token count, replace with real value
   }
 
   selectFreePlan() {
