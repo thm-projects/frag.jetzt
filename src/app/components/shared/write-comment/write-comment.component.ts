@@ -43,6 +43,7 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 
+
 @Component({
   selector: 'app-write-comment',
   templateUrl: './write-comment.component.html',
@@ -72,7 +73,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   data = signal('');
   isSubmittingComment = false;
   selectedTag: string;
-  maxTextCharacters = 2500;
+  maxTextCharacters = 7500;
   maxDataCharacters = 7500;
   // Grammarheck
   selectedLang: Language = 'auto';
@@ -122,7 +123,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     participant: 'person',
     moderator: 'support_agent',
     creator: 'co_present',
-    admin: 'admin_panel_settings',
+    admin: 'admin_panel_settings'
   };
 
   getRoleIcon(): string {
@@ -135,9 +136,9 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.roleIconMap.moderator;
       case UserRole.CREATOR:
         return this.roleIconMap.creator;
-
+     
       default:
-        return 'manage_accounts'; // Standard-Icon, falls keine Rolle zugewiesen ist
+        return 'manage_accounts';  // Standard-Icon, falls keine Rolle zugewiesen ist
     }
   }
 
@@ -171,9 +172,9 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe((msg) => (this.brainstormingInfo = msg));
     }
     if (this.isCommentAnswer) {
-      this.maxTextCharacters = 5000;
+      this.maxTextCharacters = 7500;
     } else {
-      this.maxTextCharacters = this.isModerator ? 5000 : 2500;
+      this.maxTextCharacters = this.isModerator ? 25000 : 7500;
     }
     this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
     this.maxDataCharacters = this.isModerator
@@ -372,6 +373,11 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createComment() {
+    if (this.data().length > this.maxTextCharacters) {
+      this.notification.show(i18n().warning);
+      return;
+    }
+
     const options: CommentCreateOptions = {
       userId: this.user.id,
       brainstormingSessionId: this.brainstormingData?.id || null,

@@ -34,6 +34,7 @@ import { SpendingWidgetComponent } from './spending-widget/spending-widget.compo
 import { M3DynamicThemePortalDirective } from '../../../modules/m3/components/dynamic-theme/m3-dynamic-theme-portal.directive';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -42,6 +43,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 @NgModule({
   imports: [
     CommonModule,
+    ContextPipe,
     CreatorRoutingModule,
     EssentialsModule,
     SharedModule,

@@ -7,7 +7,7 @@
       appAccessibilityEscapedInput
       matInput
       [formControl]="questionerNameFormControl"
-      [placeholder]="'write-comment.questioner-name' | translate"
+      [placeholder]="i18n()['questioner-name']"
       name="questioner-name"
       [maxlength]="questionerNameMax"
       aria-labelledby="questioner-name" />
@@ -15,8 +15,9 @@
       align="end"
       style="color: var(--mdc-dialog-supporting-text-color)">
       <span aria-hidden="true">
-        {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
+        {{ i18n().nameChars | context: { questionerNameMax, count: questionerNameFormControl.value.length } }}
       </span>
+    
     </mat-hint>
     <mat-error
       *ngIf="
@@ -24,8 +25,7 @@
         questionerNameFormControl.hasError('maxlength')
       ">
       {{
-        "write-comment.name-length-error"
-          | translate: { min: questionerNameMin, max: questionerNameMax }
+         i18n()['name-length-error'] | context:{ min: questionerNameMin, max: questionerNameMax }
       }}
     </mat-error>
   </mat-form-field>
@@ -33,7 +33,7 @@
   <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
-    matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
+    matTooltip="{{ i18n()['tag-button-hint'] }}">
     <mat-label>
       <mat-icon>sell</mat-icon>
       {{ i18n().tag }}
@@ -46,7 +46,7 @@
       [(ngModel)]="selectedTag"
       placeholder="{{ i18n().tag }}">
       <mat-option [value]="null">
-        <em>{{ "comment-page.tag-reset" | translate }}</em>
+        <em>{{ i18n()['tag-reset']}}</em>
       </mat-option>
 
       <mat-option
@@ -64,8 +64,11 @@
 <mat-hint
   class="char-hint"
   [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
-  <span aria-hidden="true">{{ data().length }} / {{ maxTextCharacters }}</span>
+  <span aria-hidden="true">
+    {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
+  </span>
 </mat-hint>
+
 
 <!-- TODO -->
 <!-- <app-view-comment-data
