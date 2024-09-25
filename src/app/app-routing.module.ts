@@ -10,6 +10,7 @@ import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-v
 import { ChatGPTPromptPresetComponent } from './components/shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
 import { DonationComponent } from './paypal/donation/donation.component';
 import { PaymentComponent } from './paypal/payment/payment.component';
+import { MobileComponent } from './paypal/mobile/mobile.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,11 @@ const routes: Routes = [
     path: 'purchase',
     component: PaymentComponent,
     title: 'purchase',
+  },
+  {
+    path: 'mobile',
+    component: MobileComponent,
+    title: 'mobile',
   },
   {
     path: 'admin',

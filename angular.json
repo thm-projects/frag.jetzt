@@ -58,14 +58,23 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/app/paypal/payment/i18n.json",
-                  "with" : "src/app/paypal/mobile/i18n.json"
                 }
               ],
               "serviceWorker": "ngsw-config.json"
             },
+            "appDeployment": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/paypal/payment/i18n.json",
+                  "with" : "src/app/paypal/mobile/i18n.json"
+                },
+                {
+                  "replace": "src/app/paypal/donation/i18n.json",
+                  "with" : "src/app/paypal/mobiledonation/i18n.json"
+                }
+              ]
+            },
+
             "development": {
               "prerender": false,
               "ssr": false,
