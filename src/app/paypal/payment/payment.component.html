@@ -3,19 +3,17 @@
     {{ i18n().title }}
   </h1>
 
-  <!-- Token Balance -->
   <div class="token-balance">
     <h2>
-      <mat-icon class="icon">token</mat-icon>
+      <mat-icon class="token-icon-align">token</mat-icon>
       {{ i18n().yourTokens }} {{ userTokens }}
     </h2>
   </div>
 
   <div class="pricing-cards">
-    <!-- Free Plan -->
     <mat-card
       class="pricing-card"
-      [ngClass]="hasFreePlan ? 'purchased' : 'featured-card'">
+      [ngClass]="'purchased'">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>star</mat-icon>
@@ -24,23 +22,22 @@
       </div>
       <mat-card-content>
         <ul>
-          <li>{{ i18n().BasicToken }}</li>
-          <li>{{ i18n().BasicWords }}</li>
+          <li>50.000 {{ i18n().tokens }}</li>
+          <li>40.000 {{ i18n().words }}</li>
           <li>{{ i18n().BasicTime }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
+          <span class="currency">{{ i18n().currency }}</span>
           0
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button
+          disabled
           mat-raised-button
-          color="primary"
-          [disabled]="hasFreePlan"
-          (click)="selectFreePlan()">
-          {{ hasFreePlan ? i18n().purchased : i18n().selectFreePlan }}
+          color="primary">
+          {{ i18n().selectFreePlan }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -55,13 +52,13 @@
       </div>
       <mat-card-content>
         <ul>
-          <li>{{ i18n().BasicToken }}</li>
-          <li>{{ i18n().BasicWords }}</li>
+          <li>50.000 {{ i18n().tokens }}</li>
+          <li>40.000 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
           <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().fivePlanCurrency }}
+          5
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -70,7 +67,7 @@
           mat-raised-button
           color="primary"
           (click)="startPayPalPayment(5, 'paypal-button-container-5')">
-          Buy Now
+          {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -85,13 +82,13 @@
       </div>
       <mat-card-content>
         <ul>
-          <li>106,000 Tokens</li>
-          <li>~80,000 Words</li>
+          <li>106,000 {{ i18n().tokens }}</li>
+          <li>~80,000 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
           <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().tenPlanCurrency }}
+          10
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -100,7 +97,7 @@
           mat-raised-button
           color="primary"
           (click)="startPayPalPayment(10, 'paypal-button-container-10')">
-          Buy Now
+          {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -115,13 +112,13 @@
       </div>
       <mat-card-content>
         <ul>
-          <li>212,000 Tokens</li>
-          <li>~159,000 Words</li>
+          <li>212,000 {{ i18n().tokens }}</li>
+          <li>~159,000 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
           <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().twentyPlanCurrency }}
+          20
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -130,7 +127,7 @@
           mat-raised-button
           color="primary"
           (click)="startPayPalPayment(20, 'paypal-button-container-20')">
-          Buy Now
+          {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -145,13 +142,13 @@
       </div>
       <mat-card-content>
         <ul>
-          <li>530,000 Tokens</li>
-          <li>~397,500 Words</li>
+          <li>530,000 {{ i18n().tokens }}</li>
+          <li>~397,500 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
           <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().fiftyPlanCurrency }}
+          50
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -160,7 +157,7 @@
           mat-raised-button
           color="primary"
           (click)="startPayPalPayment(50, 'paypal-button-container-50')">
-          Buy Now
+          {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>

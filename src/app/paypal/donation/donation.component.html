@@ -5,19 +5,8 @@
 </h1>
 
 <mat-dialog-content tabindex="0">
-  <p>
-    {{ i18n().invite }}
-  </p>
-  <p>
-    {{ i18n().follow }}
-    <strong>
-      <a [href]="url">{{ i18n().link }}</a>
-    </strong>
-    {{ i18n().alternative }}
-  </p>
-  <p>
-    {{ i18n().thanks }}
-  </p>
+  <app-markdown-viewer
+    [data]="i18n().content | context: { url }"></app-markdown-viewer>
 
   <div class="qr-code-container">
     <qrcode
@@ -39,7 +28,7 @@
   <button
     mat-button
     mat-dialog-close>
-    <!-- {{ i18n().close }} -->
+    {{ i18n().close }}
   </button>
   <span style="flex: 1"></span>
 </mat-dialog-actions>
