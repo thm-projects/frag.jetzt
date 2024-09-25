@@ -36,6 +36,7 @@ import { FeatureGridDialogComponent } from '../components/home/home-page/feature
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
 import { DonationComponent } from 'app/paypal/donation/donation.component';
+import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -165,6 +166,13 @@ export const getDefaultHeader = (
         ],
       };
     }),
+  );
+};
+
+const isStandalone = (): boolean => {
+  return (
+    navigator['standalone'] ||
+    window.matchMedia('(display-mode: standalone)').matches
   );
 };
 
@@ -362,6 +370,15 @@ export const getDefaultNavigation = (
               return false;
             },
           },
+          !isStandalone() && {
+            id: 'download',
+            icon: 'download',
+            title: i18n.options.download,
+            onClick: () => {
+              showDownload(injector);
+              return false;
+            },
+          },
         ].filter(Boolean),
       };
       return {
@@ -404,6 +421,10 @@ const showImprint = (injector: Injector) => {
     width: '80%',
     maxWidth: '600px',
   });
+};
+
+const showDownload = (injector: Injector) => {
+  injector.get(MatDialog).open(DownloadComponent);
 };
 
 const showDonation = (injector: Injector) => {

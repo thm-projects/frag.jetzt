@@ -44,7 +44,8 @@
       "news": "Neuigkeiten",
       "dataProtection": "Datenschutz",
       "imprint": "Impressum",
-      "features": "Features"
+      "features": "Features",
+      "download": "App herunterladen"
     }
   },
   "en": {
@@ -91,7 +92,8 @@
       "news": "News",
       "dataProtection": "Data protection",
       "imprint": "Imprint",
-      "features": "Features"
+      "features": "Features",
+      "download": "Download App"
     }
   },
   "fr": {
@@ -138,7 +140,8 @@
       "news": "Nouvelles",
       "dataProtection": "Protection des données",
       "imprint": "Mentions légales",
-      "features": "Features"
+      "features": "Features",
+      "download": "Télécharger L'Application"
     }
   }
 }

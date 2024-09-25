@@ -10,7 +10,9 @@
 
   <div class="pricing-cards">
     <!-- Free Plan -->
-    <mat-card class="pricing-card" [ngClass]="hasFreePlan ? 'purchased' : 'featured-card'">
+    <mat-card
+      class="pricing-card"
+      [ngClass]="hasFreePlan ? 'purchased' : 'featured-card'">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>star</mat-icon>
@@ -30,8 +32,12 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary" [disabled]="hasFreePlan" (click)="selectFreePlan()">
-          {{ hasFreePlan ? 'Purchased' : 'Select Free Plan' }}
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="hasFreePlan"
+          (click)="selectFreePlan()">
+          {{ hasFreePlan ? "Purchased" : "Select Free Plan" }}
         </button>
       </mat-card-actions>
     </mat-card>
@@ -57,7 +63,11 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary">Buy Now</button>
+        <button
+          mat-raised-button
+          color="primary">
+          Buy Now
+        </button>
       </mat-card-actions>
     </mat-card>
 
@@ -82,7 +92,11 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary">Buy Now</button>
+        <button
+          mat-raised-button
+          color="primary">
+          Buy Now
+        </button>
       </mat-card-actions>
     </mat-card>
 
@@ -107,7 +121,11 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary">Buy Now</button>
+        <button
+          mat-raised-button
+          color="primary">
+          Buy Now
+        </button>
       </mat-card-actions>
     </mat-card>
 
@@ -132,7 +150,11 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-raised-button color="primary">Buy Now</button>
+        <button
+          mat-raised-button
+          color="primary">
+          Buy Now
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -140,8 +162,12 @@
   <!-- FAQ Section -->
   <div class="faq-section">
     <p class="faq-text">
-      Not sure how tokens work? 
-      <a href="#" class="faq-link">Learn more about tokens and pricing</a>
+      Not sure how tokens work?
+      <a
+        href="#"
+        class="faq-link">
+        Learn more about tokens and pricing
+      </a>
     </p>
   </div>
 </div>
