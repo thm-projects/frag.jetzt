@@ -13,10 +13,13 @@
 .token-balance {
   margin-bottom: 20px;
   text-align: center;
-  position: relative;
   padding: 8px 16px;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
+  margin-left: 25%;
+  margin-right: 25%;
+  width: 50%;
 }
 
 .token-icon-align {
@@ -60,15 +63,17 @@
   width: 250px;
   padding: 20px;
   border-radius: 15px;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
 }
 
-.featured-card {
-  width: 250px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+.full-width > ::ng-deep div {
+  width: 100%;
+}
+
+.pricing-card mat-icon {
+  color: #7a7803;
 }
 
 .purchased {
@@ -78,45 +83,6 @@
   /* Remove the raised effect */
   box-shadow: none;
   /* Remove the shadow */
-}
-
-.card-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* Center the icon vertically */
-  margin-bottom: 20px;
-  padding: 10px 0;
-  /* Add padding to ensure space for the icon */
-}
-
-/* Icon Container Styling */
-.icon-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  /* Ensure the container is tall enough to fit the icon */
-  overflow: visible;
-  /* Prevent cutting off the icon */
-}
-
-.pricing-card mat-icon {
-  font-size: 20px;
-  color: #ffd200;
-  margin-bottom: 0;
-  /* Remove margin to prevent cutting */
-  line-height: 1;
-  /* Ensure line-height does not cause overflow */
-}
-
-.card-header mat-card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 10px;
-  /* Add margin to give space below the icon */
 }
 
 .pricing-card ul {
@@ -170,11 +136,6 @@
 .pricing-card mat-card-actions {
   display: flex;
   justify-content: center;
-}
-
-.mat-raised-button {
-  padding: 10px 30px;
-  border-radius: 50px;
 }
 
 .mat-divider {
