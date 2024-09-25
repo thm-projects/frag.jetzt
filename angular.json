@@ -61,7 +61,7 @@
                 },
                 {
                   "replace": "src/app/paypal/payment/i18n.json",
-                  "with" : "src/app/paypal/mobilepayment/i18n.json"
+                  "with" : "src/app/paypal/mobile/i18n.json"
                 }
               ],
               "serviceWorker": "ngsw-config.json"
