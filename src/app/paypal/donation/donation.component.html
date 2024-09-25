@@ -1,0 +1,45 @@
+<!--Donation Dialog-->
+<h1 mat-dialog-title>
+  <mat-icon>volunteer_activism</mat-icon>
+  {{ i18n().title }}
+</h1>
+
+<mat-dialog-content tabindex="0">
+  <p>
+    {{ i18n().invite }}
+  </p>
+  <p>
+    {{ i18n().follow }}
+    <strong>
+      <a [href]="url">{{ i18n().link }}</a>
+    </strong>
+    {{ i18n().alternative }}
+  </p>
+  <p>
+    {{ i18n().thanks }}
+  </p>
+
+  <div class="qr-code-container">
+    <qrcode
+      [qrdata]="url"
+      [errorCorrectionLevel]="'H'"
+      [width]="qrCodeSize"
+      [margin]="1"></qrcode>
+
+    <div class="favicon-container">
+      <img
+        src="/assets/icons/masked_icon.svg"
+        alt="Project Icon"
+        class="favicon-icon" />
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

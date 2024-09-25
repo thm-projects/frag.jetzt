@@ -35,6 +35,7 @@ import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
+import { DonationComponent } from 'app/paypal/donation/donation.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -238,7 +239,6 @@ export const getDefaultNavigation = (
       }
       // app navigation
       const isPurchse = router.url.startsWith('/purchase');
-      const isDonation = router.url.startsWith('/donation');
       const pricingSection: M3NavigationSection = {
         id: 'pricing',
         kind: 'navigation',
@@ -249,10 +249,9 @@ export const getDefaultNavigation = (
             title: i18n.navigation.donation,
             icon: 'coffee_maker',
             onClick: () => {
-              router.navigate(['/donation']);
-              return true;
+              showDonation(injector);
+              return false;
             },
-            activated: isDonation,
           },
           {
             id: 'purchase',
@@ -405,6 +404,10 @@ const showImprint = (injector: Injector) => {
     width: '80%',
     maxWidth: '600px',
   });
+};
+
+const showDonation = (injector: Injector) => {
+  injector.get(MatDialog).open(DonationComponent);
 };
 
 const showGDPR = (injector: Injector) => {

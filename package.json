@@ -103,7 +103,7 @@
     "lint-staged": "^15.2.5",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
