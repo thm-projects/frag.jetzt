@@ -19,25 +19,6 @@ interface PayPalData {
   orderID: string;
 }
 
-interface PayPalActions {
-  order: {
-    create: (orderDetails: {
-      purchase_units: { amount: { value: string } }[];
-    }) => Promise<{ id: string }>;
-    capture: () => Promise<void>;
-  };
-}
-
-// Define the structure for PayPal buttons options
-interface PayPalButtons {
-  createOrder: (
-    data: PayPalData,
-    actions: PayPalActions,
-  ) => Promise<{ id: string }>;
-  onApprove: (data: PayPalData, actions: PayPalActions) => Promise<void>;
-  onError: (err: unknown) => void;
-}
-
 // Define type for pricing plans
 interface Plan {
   title: string;
@@ -45,13 +26,6 @@ interface Plan {
   tokens: number;
   color: string;
 }
-
-// Define the structure for the global paypal object
-declare const paypal: {
-  Buttons: (options: PayPalButtons) => {
-    render: (containerId: string) => void;
-  };
-};
 
 @Component({
   selector: 'app-payment',
@@ -95,19 +69,10 @@ export class PaymentComponent implements OnInit {
     applyDefaultNavigation(this.injector).subscribe();
   }
 
-  // User's token status and whether they have purchased the free plan
-  //userTokens = 0; // Example: Number of tokens the user has
-  //hasFreePlan = false; // Change this to true if the user has purchased the Free Plan
-
   ngOnInit() {
-    this.loadPayPalScript()
-      .then(() => {
-        this.checkUserPlan();
-        this.getUserTokens();
-      })
-      .catch((error) => {
-        console.error('Failed to load PayPal script:', error);
-      });
+    this.checkUserPlan();
+    this.getUserTokens();
+    this.loadPayPalScript();
   }
 
   checkUserPlan() {
@@ -135,18 +100,19 @@ export class PaymentComponent implements OnInit {
     return this.hasFreePlan ? 'grey' : 'blue';
   }
 
+  //Ab hier Paypal Intergration
   private isPayPalLoaded = false;
 
   loadPayPalScript(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (this.isPayPalLoaded) {
-        resolve(); // If already loaded, resolve immediately
+        resolve();
         return;
       }
 
       const scriptId = 'paypal-sdk';
       if (document.getElementById(scriptId)) {
-        this.isPayPalLoaded = true; // Mark as loaded
+        this.isPayPalLoaded = true;
         resolve();
         return;
       }
@@ -156,7 +122,7 @@ export class PaymentComponent implements OnInit {
       script.src =
         'https://www.paypal.com/sdk/js?client-id=ATZFarfzWZCA0DB05S_7xGNEx7Gz_d_KAl7BkJwgaKBZgfpptY-mVw7jv0z9ctTHq92axuaQiPKg9xAu&currency=EUR';
       script.onload = () => {
-        this.isPayPalLoaded = true; // Mark as loaded
+        this.isPayPalLoaded = true;
         resolve();
       };
       script.onerror = (error) => {
@@ -167,58 +133,51 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  startPayPalPayment(amount: number, containerId: string): void {
-    const amountString = amount.toFixed(2); // Format to two decimal places
-    const container = document.getElementById(containerId);
-
-    // Check if the container exists
-    if (!container) {
-      console.error(`Container with ID ${containerId} not found.`);
-      alert('Payment option is currently unavailable. Please try again later.');
-      return; // Exit the function if the container is not found
-    }
-
-    // Check if PayPal script is loaded
-    if (typeof paypal === 'undefined') {
-      this.loadPayPalScript()
-        .then(() => {
-          this.renderPayPalButtons(amountString, containerId);
-        })
-        .catch((error) => {
-          console.error('Failed to load PayPal script:', error);
-          alert('Failed to load payment options. Please try again later.');
-        });
+  startPayPalPayment(amount: number, containerId: string) {
+    if (!window['paypal']) {
+      this.loadPayPalScript().then(() => {
+        this.renderPayPalButton(amount, containerId);
+      });
     } else {
-      this.renderPayPalButtons(amountString, containerId);
+      this.renderPayPalButton(amount, containerId);
     }
   }
 
-  renderPayPalButtons(amountString: string, containerId: string): void {
-    paypal
+  renderPayPalButton(amount: number, containerId: string): void {
+    const container = document.getElementById(containerId);
+    if (!container) {
+      console.error(`Container mit ID ${containerId} nicht gefunden.`);
+      return;
+    }
+    container.style.display = 'block';
+
+    window['paypal']
       .Buttons({
-        createOrder: (data: PayPalData, actions: PayPalActions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  value: amountString, // Use the formatted string here
-                },
-              },
-            ],
-          });
+        createOrder: async () => {
+          try {
+            const response = await this.apiService
+              .createOrder(amount)
+              .toPromise();
+            return response.id; // Gib die Order-ID zurück
+          } catch (error) {
+            console.error('Fehler beim Erstellen der Bestellung:', error);
+            throw new Error('Fehler beim Erstellen der Bestellung.');
+          }
         },
-        onApprove: (data: PayPalData, actions: PayPalActions) => {
-          return actions.order.capture().then(() => {
-            alert('Payment completed successfully!');
-            this.handlePaymentSuccess(parseFloat(amountString));
-          });
+        onApprove: async (data: PayPalData) => {
+          try {
+            await this.apiService.captureOrder(data.orderID).toPromise(); // Fange die Bestellung
+            console.log('Transaction completed by');
+            this.handlePaymentSuccess(amount); // Aktualisiere die Benutzer-Tokens
+          } catch (error) {
+            console.error('Fehler beim Erfassen der Bestellung:', error);
+          }
         },
-        onError: (err: unknown) => {
-          console.error('Payment error:', err);
-          alert('Error processing payment. Please try again.');
+        onError: (err) => {
+          console.error('Fehler beim PayPal-Zahlung:', err);
         },
       })
-      .render(`#${containerId}`); // Render in the specific container
+      .render(`#${containerId}`); // Render in den Container
   }
 
   handlePaymentSuccess(amount: number): void {
@@ -226,6 +185,15 @@ export class PaymentComponent implements OnInit {
     if (plan) {
       this.userTokens += plan.tokens; // Increase the user's token count
       // Add logic here to update the user in the backend
+      this.apiService.captureOrder(plan.title).subscribe(
+        (response) => {
+          console.log('Tokens updated successfully:', response);
+          // Handle any UI updates or notifications here
+        },
+        (error) => {
+          console.error('Error updating tokens:', error);
+        },
+      );
     } else {
       console.warn('Unknown payment amount:', amount);
     }
