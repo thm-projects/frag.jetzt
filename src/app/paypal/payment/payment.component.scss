@@ -1,7 +1,6 @@
 .pricing-plan-container {
   text-align: center;
   padding: 40px 0;
-  background-color: #f5f5f5;
 }
 
 .pricing-title {
@@ -13,27 +12,24 @@
 /* Token Balance */
 .token-balance {
   margin-bottom: 20px;
-  text-align: right;
+  text-align: center;
   position: relative;
-  background-color: #f0f4f8;
   padding: 8px 16px;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.token-balance h2 {
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: #3a4a5d;
-  display: flex;
-  align-items: center;
-  margin: 0;
+.token-icon-align {
+  vertical-align: bottom;
+}
+
+.token-title-text {
+  text-align: center;
 }
 
 .token-balance h2 .icon {
   font-size: 1.4rem;
   margin-right: 8px;
-  color: #5a6e83;
 }
 
 /* Add a gentle animation when tokens are updated */
@@ -45,6 +41,7 @@
   0% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }
@@ -55,7 +52,8 @@
   justify-content: center;
   gap: 20px;
   position: relative;
-  flex-wrap: wrap; /* Ensures responsiveness for more cards */
+  flex-wrap: wrap;
+  /* Ensures responsiveness for more cards */
 }
 
 .pricing-card {
@@ -66,33 +64,31 @@
     transform 0.3s ease,
     box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  
 }
 
-/* Free Plan (Featured Until Purchased) */
 .featured-card {
   width: 250px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Larger shadow for emphasis */
-  border: 2px solid #3f51b5;
-  background-color: #e8f0fe; /* Light blue background for the featured plan */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .purchased {
-  background-color: #e0e0e0; /* Grey background for purchased state */
-  border: 2px solid #b0b0b0; /* Grey border for purchased */
-  transform: none; /* Remove the raised effect */
-  box-shadow: none; /* Remove the shadow */
+  border: 2px solid #b0b0b0;
+  /* Grey border for purchased */
+  transform: none;
+  /* Remove the raised effect */
+  box-shadow: none;
+  /* Remove the shadow */
 }
 
 .card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center the icon vertically */
-  color: #333;
+  justify-content: center;
+  /* Center the icon vertically */
   margin-bottom: 20px;
-  padding: 10px 0; /* Add padding to ensure space for the icon */
+  padding: 10px 0;
+  /* Add padding to ensure space for the icon */
 }
 
 /* Icon Container Styling */
@@ -101,22 +97,26 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 60px; /* Ensure the container is tall enough to fit the icon */
-  overflow: visible; /* Prevent cutting off the icon */
+  height: 60px;
+  /* Ensure the container is tall enough to fit the icon */
+  overflow: visible;
+  /* Prevent cutting off the icon */
 }
 
 .pricing-card mat-icon {
   font-size: 20px;
   color: #ffd200;
-  margin-bottom: 0; /* Remove margin to prevent cutting */
-  line-height: 1; /* Ensure line-height does not cause overflow */
+  margin-bottom: 0;
+  /* Remove margin to prevent cutting */
+  line-height: 1;
+  /* Ensure line-height does not cause overflow */
 }
 
 .card-header mat-card-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
-  margin-top: 10px; /* Add margin to give space below the icon */
+  margin-top: 10px;
+  /* Add margin to give space below the icon */
 }
 
 .pricing-card ul {
@@ -132,19 +132,19 @@
 /* Plan-specific colors */
 
 .fivePlan {
-  background-color: #f0e7db;
+  // background-color: #f0e7db;
 }
 
 .tenPlan {
-  background-color: #dbe7f0;
+  // background-color: #dbe7f0;
 }
 
 .twentyPlan {
-  background-color: #f0dbdb;
+  // background-color: #f0dbdb;
 }
 
 .fiftyPlan {
-  background-color: #dbf0db;
+  // background-color: #dbf0db;
 }
 
 /* Price Styling */
@@ -194,6 +194,7 @@
 .faq-link {
   color: #3f51b5;
   text-decoration: underline;
+
   &:hover {
     color: #1e88e5;
   }
