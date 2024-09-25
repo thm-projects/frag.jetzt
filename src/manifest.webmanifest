@@ -1,7 +1,7 @@
 {
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
-  "description": "Digitizing how we ask questions and get answers from AI chatbots",
+  "description": "Revolutionizing the way we ask questions and receive AI-driven answers, 'frag.jetzt' is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
   "categories": [
     "ChatGPT",
     "AI Tutoring",
@@ -38,7 +38,7 @@
     {
       "name": "Feedback",
       "url": "/participant/room/Feedback",
-      "description": "Room for feature requests, bug reports, and general feedback",
+      "description": "Submit feature requests, report bugs, and give general feedback",
       "icons": [
         {
           "src": "/assets/images/frag-jetzt-icon.png",
@@ -49,7 +49,7 @@
     {
       "name": "ChatGPT",
       "url": "/participant/room/ChatGPT",
-      "description": "Room for asking ChatGPT",
+      "description": "Ask questions and receive AI-driven answers from ChatGPT",
       "icons": [
         {
           "src": "/assets/images/ChatGPT.png",
@@ -67,7 +67,27 @@
   "display_override": ["window-controls-overlay"],
   "display": "standalone",
   "dir": "ltr",
-  "prefer_related_applications": false,
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de",
+      "id": "com.uninow.thm"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104",
+      "id": "1644060104"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://staging.frag.jetzt/manifest.webmanifest"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "scope_extensions": [],
   "screenshots": [
     {
       "src": "/assets/images/frag.jetzt_startpage.png",

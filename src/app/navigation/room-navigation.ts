@@ -18,7 +18,6 @@ import {
   Observable,
   combineLatest,
   filter,
-  first,
   forkJoin,
   map,
   of,
@@ -89,8 +88,8 @@ export const getRoomHeader = (
   const roomState = injector.get(RoomStateService);
   return combineLatest([
     getDefaultHeader(injector),
-    user$.pipe(first((e) => Boolean(e))),
-    roomState.room$.pipe(first((e) => Boolean(e))),
+    user$.pipe(filter((e) => Boolean(e))),
+    roomState.room$.pipe(filter((e) => Boolean(e))),
   ]).pipe(
     map(([template, user, room]) => {
       const headerOpts = template.options.find(
@@ -118,8 +117,8 @@ export const getRoomNavigation = (
   // Start building
   return combineLatest([
     getDefaultNavigation(injector),
-    user$.pipe(first((e) => Boolean(e))),
-    roomState.room$.pipe(first((e) => Boolean(e))),
+    user$.pipe(filter((e) => Boolean(e))),
+    roomState.room$.pipe(filter((e) => Boolean(e))),
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
     roomState.role$.pipe(filter((e) => Boolean(e))),
     toObservable(i18n),

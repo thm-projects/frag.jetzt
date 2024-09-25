@@ -1,4 +1,5 @@
 import { Injector } from '@angular/core';
+import { OnlineStateService } from 'app/services/state/online-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { DataProtectionComponent } from 'app/components/home/_dialogs/data-protection/data-protection.component';
@@ -60,19 +61,29 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([user$, toObservable(i18n), toObservable(theme)]).pipe(
-    map(([user, i18n, theme]) => {
+  const onlineStateService = injector.get(OnlineStateService);
+  return combineLatest([
+    user$,
+    toObservable(i18n),
+    toObservable(theme),
+    onlineStateService.online$,
+  ]).pipe(
+    map(([user, i18n, theme, isOnline]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
       const isRoom = router.url.indexOf('/', index + 6) === -1;
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
+        offline: i18n.header.offline,
         options: [
           user
             ? {
-                icon: 'account_circle',
+                icon: isOnline
+                  ? 'account_circle'
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.myAccount,
+                className: isOnline ? '' : 'error-text',
                 items: [
                   {
                     svgIcon: 'fj_robot',
@@ -117,8 +128,11 @@ export const getDefaultHeader = (
                 ],
               }
             : {
-                icon: 'login',
+                icon: isOnline
+                  ? 'login'
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
+                className: isOnline ? '' : 'error-text',
                 onClick: () => openLogin().subscribe(),
               },
           {
