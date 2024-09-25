@@ -82,14 +82,12 @@
     {
       "platform": "webapp",
       "url": "https://staging.frag.jetzt/manifest.webmanifest"
-     
     }
   ],
- "launch_handler": {
+  "launch_handler": {
     "client_mode": "navigate-existing"
   },
-  "scope_extensions": [
-  ],
+  "scope_extensions": [],
   "screenshots": [
     {
       "src": "/assets/images/frag.jetzt_startpage.png",
@@ -114,6 +112,6 @@
       "sizes": "720x1280",
       "type": "image/png",
       "label": "ChatGPT Room of frag.jetzt"
-    }
-  ]
+    }
+  ]
 }

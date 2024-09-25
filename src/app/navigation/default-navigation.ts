@@ -44,9 +44,8 @@ const i18n = I18nLoader.loadModule(i18nRaw);
 export const applyDefaultNavigation = (
   injector: Injector,
 ): Observable<void> => {
-  const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
-    getDefaultHeader(injector, onlineStateService),
+    getDefaultHeader(injector),
     getDefaultNavigation(injector),
   ]).pipe(
     map(([header, navigation]) => {
@@ -58,11 +57,11 @@ export const applyDefaultNavigation = (
 
 export const getDefaultHeader = (
   injector: Injector,
-  onlineStateService: OnlineStateService,
 ): Observable<M3HeaderTemplate> => {
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
+  const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
     user$,
     toObservable(i18n),

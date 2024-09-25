@@ -104,9 +104,8 @@ export class M3NavigationComponent implements OnInit, OnDestroy {
     }
     return navs;
   });
-
+  protected isOnline: boolean;
   private onlineSubscription: Subscription;
-  isOnline: boolean;
 
   constructor(private onlineStateService: OnlineStateService) {}
 
@@ -119,9 +118,7 @@ export class M3NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.onlineSubscription) {
-      this.onlineSubscription.unsubscribe();
-    }
+    this.onlineSubscription?.unsubscribe();
   }
 
   onNavigate() {
