@@ -62,12 +62,7 @@
                 {
                   "replace": "src/app/paypal/payment/i18n.json",
                   "with" : "src/app/paypal/mobilepayment/i18n.json"
-                },
-                {
-                  "replace": "src/app/paypal/donation/i18n.json",
-                  "with" : "src/app/paypal/mobiledonation/i18n.json"
                 }
-
               ],
               "serviceWorker": "ngsw-config.json"
             },
