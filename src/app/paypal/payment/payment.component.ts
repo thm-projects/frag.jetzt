@@ -132,15 +132,19 @@ export class PaymentComponent implements OnInit {
     window['paypal']
       .Buttons({
         funding: {
-          allowed: [window['paypal'].FUNDING.PAYPAL], // Specify only PayPal funding source
-          disallowed: [window['paypal'].FUNDING.CARD], // Optionally disallow others
+          allowed: [window['paypal'].FUNDING.PAYPAL],
+          disallowed: [
+            window['paypal'].FUNDING.CARD,
+            window['paypal'].FUNDING.CREDIT,
+            window['paypal'].FUNDING.SEPA,
+          ],
         },
         createOrder: async () => {
           try {
             const response = await this.apiService
               .createOrder(amount)
               .toPromise();
-            return response.id; // Return the order ID
+            return response.id;
           } catch (error) {
             console.error('Error creating order:', error);
             throw new Error('Error creating order.');
@@ -149,9 +153,9 @@ export class PaymentComponent implements OnInit {
         onApprove: async (data: PayPalData) => {
           console.log(data);
           try {
-            await this.apiService.captureOrder(data.orderID).toPromise(); // Capture the order
+            await this.apiService.captureOrder(data.orderID).toPromise(); // Die Bestellung erfassen
             console.log('Transaction completed');
-            this.handlePaymentSuccess(amount); // Update user tokens
+            this.handlePaymentSuccess(amount); // Benutzer-Tokens aktualisieren
           } catch (error) {
             console.error('Error capturing order:', error);
           }
@@ -160,7 +164,7 @@ export class PaymentComponent implements OnInit {
           console.error('Error during PayPal payment:', err);
         },
       })
-      .render(`#${containerId}`); // Render in the container
+      .render(`#${containerId}`); // Rendern im Container
   }
 
   handlePaymentSuccess(amount: number): void {
