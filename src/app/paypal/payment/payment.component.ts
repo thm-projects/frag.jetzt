@@ -165,6 +165,7 @@ export class PaymentComponent implements OnInit {
           }
         },
         onApprove: async (data: PayPalData) => {
+          console.log(data);
           try {
             await this.apiService.captureOrder(data.orderID).toPromise(); // Fange die Bestellung
             console.log('Transaction completed by');
@@ -184,16 +185,6 @@ export class PaymentComponent implements OnInit {
     const plan = this.plans.find((p) => parseFloat(p.price) === amount); // Compare price as number
     if (plan) {
       this.userTokens += plan.tokens; // Increase the user's token count
-      // Add logic here to update the user in the backend
-      this.apiService.captureOrder(plan.title).subscribe(
-        (response) => {
-          console.log('Tokens updated successfully:', response);
-          // Handle any UI updates or notifications here
-        },
-        (error) => {
-          console.error('Error updating tokens:', error);
-        },
-      );
     } else {
       console.warn('Unknown payment amount:', amount);
     }

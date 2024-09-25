@@ -56,13 +56,19 @@ export class ApiService {
           Authorization: `Bearer ${accessToken}`,
         });
 
-        const total = this.calculateTokenPrice(tokenAmount);
+        const total = tokenAmount;
         const body = {
           intent: 'CAPTURE',
           purchase_units: [
             {
               reference_id: `PU_${Date.now()}`,
               amount: {
+                breakdown: {
+                  item_total: {
+                    currency_code: 'EUR',
+                    value: total.toFixed(2),
+                  },
+                },
                 currency_code: 'EUR',
                 value: total.toFixed(2),
               },
@@ -109,21 +115,5 @@ export class ApiService {
         );
       }),
     );
-  }
-
-  // Helper function to determine price based on token amount
-  private calculateTokenPrice(tokenAmount: number): number {
-    switch (tokenAmount) {
-      case 50000:
-        return 5; // €5 Plan
-      case 106000:
-        return 10; // €10 Plan
-      case 212000:
-        return 20; // €20 Plan
-      case 530000:
-        return 50; // €50 Plan
-      default:
-        throw new Error('Invalid token amount');
-    }
   }
 }
