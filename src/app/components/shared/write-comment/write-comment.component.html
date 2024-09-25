@@ -15,9 +15,15 @@
       align="end"
       style="color: var(--mdc-dialog-supporting-text-color)">
       <span aria-hidden="true">
-        {{ i18n().nameChars | context: { questionerNameMax, count: questionerNameFormControl.value.length } }}
+        {{
+          i18n().nameChars
+            | context
+              : {
+                  questionerNameMax,
+                  count: questionerNameFormControl.value.length
+                }
+        }}
       </span>
-    
     </mat-hint>
     <mat-error
       *ngIf="
@@ -25,7 +31,8 @@
         questionerNameFormControl.hasError('maxlength')
       ">
       {{
-         i18n()['name-length-error'] | context:{ min: questionerNameMin, max: questionerNameMax }
+        i18n()["name-length-error"]
+          | context: { min: questionerNameMin, max: questionerNameMax }
       }}
     </mat-error>
   </mat-form-field>
@@ -46,7 +53,7 @@
       [(ngModel)]="selectedTag"
       placeholder="{{ i18n().tag }}">
       <mat-option [value]="null">
-        <em>{{ i18n()['tag-reset']}}</em>
+        <em>{{ i18n()["tag-reset"] }}</em>
       </mat-option>
 
       <mat-option
@@ -68,7 +75,6 @@
     {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
   </span>
 </mat-hint>
-
 
 <!-- TODO -->
 <!-- <app-view-comment-data

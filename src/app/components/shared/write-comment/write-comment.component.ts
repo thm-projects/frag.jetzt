@@ -43,7 +43,6 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 
-
 @Component({
   selector: 'app-write-comment',
   templateUrl: './write-comment.component.html',
@@ -123,7 +122,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     participant: 'person',
     moderator: 'support_agent',
     creator: 'co_present',
-    admin: 'admin_panel_settings'
+    admin: 'admin_panel_settings',
   };
 
   getRoleIcon(): string {
@@ -136,9 +135,9 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.roleIconMap.moderator;
       case UserRole.CREATOR:
         return this.roleIconMap.creator;
-     
+
       default:
-        return 'manage_accounts';  // Standard-Icon, falls keine Rolle zugewiesen ist
+        return 'manage_accounts'; // Standard-Icon, falls keine Rolle zugewiesen ist
     }
   }
 
