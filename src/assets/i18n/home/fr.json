@@ -366,6 +366,9 @@
     "frontend": "Statistiques du projet frontend :",
     "title": "Mentions légales"
   },
+  "download": {
+    "text": "Découvrez l'expérience complète avec notre application frag.jetzt! Il vous suffira de cliquer sur le bouton correspondant pour télécharger l'application directement depuis l'App Store ou le Google Play Store. Avec l'application, vous avez accès à toutes les fonctionnalités à tout moment, où que vous soyez. Téléchargez maintenant et commencez !"
+  },
   "introduction": {
     "cancel": "Fermer",
     "cancel-description": "Ferme l'introduction et retourne à l'inscription.",

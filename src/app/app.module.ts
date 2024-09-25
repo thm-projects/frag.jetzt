@@ -74,6 +74,7 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { AppStateService } from './services/state/app-state.service';
+import { DownloadComponent } from './components/home/_dialogs/download/download.component';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -130,6 +131,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AskOnboardingDEComponent,
     AskOnboardingENComponent,
     AskOnboardingFRComponent,
+    DownloadComponent,
   ],
   imports: [
     AppRoutingModule,
