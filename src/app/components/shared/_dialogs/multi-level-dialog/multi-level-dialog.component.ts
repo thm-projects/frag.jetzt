@@ -324,6 +324,17 @@ export class MultiLevelDialogComponent implements OnInit {
     );
     this.reset();
   }
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      const index =
+        this.stepper.selectedIndex +
+        this.offsetIndex -
+        Number(this.showBackOption);
+      event.preventDefault();
+      event.stopPropagation();
+      this.next(index);
+    }
+  }
 
   next(index: number) {
     if (this.dialogStepper.next(index)) {

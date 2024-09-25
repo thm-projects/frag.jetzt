@@ -135,8 +135,18 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             label: 'ml-room-create.q-p2-short',
             defaultValue: previousState?.get('setupType')?.value,
             options: [
-              { value: 'apiCode', label: 'ml-room-create.a-p2-api-code' },
-              { value: 'voucher', label: 'ml-room-create.a-p2-voucher' },
+              {
+                value: 'apiCode',
+                label: 'ml-room-create.a-p2-api-code',
+                helpText:
+                  'Ein API-Key ist eine Art Passwort, das verwendet wird, um den Zugriff auf eine API zu authentifizieren und zu steuern. Deinen API-Key findest du auf der Webseite deines API-Anbieters.',
+              },
+              {
+                value: 'voucher',
+                label: 'ml-room-create.a-p2-voucher',
+                helpText:
+                  'Ein Voucher ist ein Code, den man bei frag.jetzt anfordern und einlösen kann, um Zugriff auf eine API zu erhalten.',
+              },
               {
                 value: 'with-global',
                 label: 'ml-room-create.a-p2-with-global',
