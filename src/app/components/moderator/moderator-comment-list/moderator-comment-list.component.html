@@ -1,6 +1,9 @@
 <div
   fxLayout="row"
-  *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
+  *ngIf="
+    comments.length > 0 || filterType || period !== 'All' || search;
+    else empty
+  "
   [ngClass]="{ 'search-container': !scroll, 'search-container-fixed': scroll }"
   (window:scroll)="checkScroll()"
   fxLayoutAlign="center">
@@ -458,3 +461,5 @@
     {{ "comment-list.a11y-select-time-all" | translate }}
   </div>
 </div>
+
+<ng-template #empty>Empty</ng-template>
