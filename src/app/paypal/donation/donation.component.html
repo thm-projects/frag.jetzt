@@ -1,22 +1,22 @@
 <!--Donation Dialog-->
 <h1 mat-dialog-title>
   <mat-icon>volunteer_activism</mat-icon>
-  <!-- {{ i18n().title }} -->
+  {{ i18n().title }}
 </h1>
 
 <mat-dialog-content tabindex="0">
   <p>
-    <!-- {{ i18n().message.invite }} -->
+    {{ i18n().invite }}
   </p>
   <p>
-    <!-- {{ i18n().message.follow }} -->
+    {{ i18n().follow }}
     <strong>
       <a [href]="url">{{ i18n().link }}</a>
     </strong>
-    <!-- {{ i18n().message.alternative }} -->
+    {{ i18n().alternative }}
   </p>
   <p>
-    <!--  {{ i18n().message.thanks }} -->
+    {{ i18n().thanks }}
   </p>
 
   <div class="qr-code-container">
