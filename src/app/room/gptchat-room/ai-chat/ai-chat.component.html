@@ -1,168 +1,174 @@
-<!--<mat-toolbar>
+<mat-toolbar>
   <ng-content></ng-content>
 </mat-toolbar>
 
-<div
-  #scroll
-  style="flex: 1; overflow: auto; position: relative">
-  @if (overrideMessage(); as message) {
-    <mat-card class="info">
-      <mat-card-content>
-        <app-markdown-viewer [data]="message"></app-markdown-viewer>
-      </mat-card-content>
-    </mat-card>
-  } @else {
-    @for (message of updatedMessages(); track message) {
-      @if (message.role === "user") {
-        <mat-card class="user-card">
-          <mat-card-content>
-            @for (messageContent of message.chunks; track $index) {
-              <app-markdown-viewer
-                class="user-message"
-                [data]="messageContent"></app-markdown-viewer>
-            }
-            @if (message.attached.length) {
-              <div>
-                @for (
-                  attachment of message.attached;
-                  track attachment[0] + attachment[1]
-                ) {
-                  <span class="file-ref">
-                    {{
-                      i18n().ref
-                        | context: { num: attachment[0], file: attachment[1] }
-                    }}
-                  </span>
-                }
-              </div>
-            }
-          </mat-card-content>
-        </mat-card>
-      } @else {
-        @for (messageContent of message.chunks; track $index) {
-          <app-markdown-viewer
-            class="assistant-message"
-            [data]="messageContent"></app-markdown-viewer>
+@if (updatedMessages().length == 0 && false) {
+  <div class="container">
+    <h1>frag.jetzt mit ChatGPT</h1>
+    <div class="search-bar">
+      <div class="actions">
+        <button class="attachment-button">
+          <span class="material-symbols-outlined">attach_file_add</span>
+        </button>
+        <button class="assistant-button">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+      <textarea
+        [formControl]="inputMessage"
+        placeholder="Ask anything..."></textarea>
+      <button
+        class="search-button"
+        (click)="sendMessage()">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
+    </div>
+    <div class="topics">
+      <button class="topic">
+        <span class="emoji">💡</span>
+        World's greatest hikes
+      </button>
+      <button class="topic">
+        <span class="emoji">🍫</span>
+        Health benefits of dark chocolate
+      </button>
+      <button class="topic">
+        <span class="emoji">🥗</span>
+        Healthiest cooking oils
+      </button>
+      <button class="topic">
+        <span class="emoji">🗳️</span>
+        Registration deadlines for the US election
+      </button>
+    </div>
+  </div>
+} @else {
+  <div
+    #scroll
+    style="flex: 1; overflow: auto; position: relative">
+    @if (overrideMessage(); as message) {
+      <mat-card class="info">
+        <mat-card-content>
+          <app-markdown-viewer [data]="message"></app-markdown-viewer>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      @for (message of updatedMessages(); track message) {
+        @if (message.role === "user") {
+          <mat-card class="user-card">
+            <mat-card-content>
+              @for (messageContent of message.chunks; track $index) {
+                <app-markdown-viewer
+                  class="user-message"
+                  [data]="messageContent"></app-markdown-viewer>
+              }
+              @if (message.attached.length) {
+                <div>
+                  @for (
+                    attachment of message.attached;
+                    track attachment[0] + attachment[1]
+                  ) {
+                    <span class="file-ref">
+                      {{
+                        i18n().ref
+                          | context: { num: attachment[0], file: attachment[1] }
+                      }}
+                    </span>
+                  }
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        } @else {
+          @for (messageContent of message.chunks; track $index) {
+            <app-markdown-viewer
+              class="assistant-message"
+              [data]="messageContent"></app-markdown-viewer>
+          }
         }
       }
     }
-  }
-</div>
+  </div>
 
-@if (!overrideMessage()) {
-  <div class="input-area">
-    <mat-form-field
-      class="input-field"
-      appearance="outline">
-      <mat-label>{{ i18n().input }}</mat-label>
-      <textarea
-        matInput
-        [formControl]="inputMessage"
-        [placeholder]="i18n().placeholder"
-        #inputElem
-        (keydown)="onKeyDown($event)"
-        (input)="updateHeight(inputElem)"
-        cdkTextareaAutosize
-        cdkAutosizeMinRows="1"
-        cdkAutosizeMaxRows="5"></textarea>
-      <button
-        mat-icon-button
-        (click)="fileInput.click()"
-        matPrefix>
-        <mat-icon>attach_file_add</mat-icon>
-        <input
-          #fileInput
-          (change)="onFileChange(fileInput.files)"
-          type="file"
-          multiple
-          accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
-          style="display: none" />
-      </button>
-      <button
-        [matMenuTriggerFor]="assistantMenu"
-        mat-icon-button
-        matPrefix>
-        <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
-      </button>
-      @if (canSend()) {
+  @if (!overrideMessage()) {
+    <div class="input-area">
+      <mat-form-field
+        class="input-field"
+        appearance="outline">
+        <mat-label>{{ i18n().input }}</mat-label>
+        <textarea
+          matInput
+          [formControl]="inputMessage"
+          [placeholder]="i18n().placeholder"
+          #inputElem
+          (keydown)="onKeyDown($event)"
+          (input)="updateHeight(inputElem)"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"></textarea>
         <button
-          (click)="sendMessage()"
           mat-icon-button
-          matSuffix>
-          <mat-icon>arrow_upward</mat-icon>
+          (click)="fileInput.click()"
+          matPrefix>
+          <mat-icon>attach_file_add</mat-icon>
+          <input
+            #fileInput
+            (change)="onFileChange(fileInput.files)"
+            type="file"
+            multiple
+            accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+            style="display: none" />
         </button>
-      } @else {
-        <mat-spinner
-          matSuffix
-          [diameter]="24"
-          [strokeWidth]="2"></mat-spinner>
-      }
-      <mat-hint>
-        @if (files().length; as length) {
-          {{
-            i18n().uploadedFiles
-              | context
-                : {
-                    count: length,
-                    files: filesString()
-                  }
-          }}
+        <button
+          [matMenuTriggerFor]="assistantMenu"
+          mat-icon-button
+          matPrefix>
+          <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+        </button>
+        @if (canSend()) {
+          <button
+            (click)="sendMessage()"
+            mat-icon-button
+            matSuffix>
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+        } @else {
+          <mat-spinner
+            matSuffix
+            [diameter]="24"
+            [strokeWidth]="2"></mat-spinner>
         }
-      </mat-hint>
-    </mat-form-field>
-  </div>
-}
-
-<mat-menu #assistantMenu="matMenu">
-  @for (entry of assistRefs(); track entry) {
-    <button
-      mat-menu-item
-      [disabled]="entry.ref.id === selectedAssistant()"
-      (click)="selectedAssistant.set(entry.ref.id)">
-      {{ entry.assistant.name }}
-    </button>
-  }
-  @if (isPrivileged()) {
-    <button
-      mat-menu-item
-      (click)="onNewClick()()">
-      <em>{{ i18n().createAssistant }}</em>
-    </button>
-  }
-</mat-menu>-->
-
-<div class="container">
-  <h1>frag.jetzt mit ChatGPT</h1>
-  <div class="search-bar">
-    <div class="actions">
-      <button class="attachment-button">
-        <span class="material-symbols-outlined">attach_file_add</span>
-      </button>
-      <button class="assistant-button">
-        <span class="material-symbols-outlined">more_vert</span>
-      </button>
+        <mat-hint>
+          @if (files().length; as length) {
+            {{
+              i18n().uploadedFiles
+                | context
+                  : {
+                      count: length,
+                      files: filesString()
+                    }
+            }}
+          }
+        </mat-hint>
+      </mat-form-field>
     </div>
-    <textarea placeholder="Ask anything..."></textarea>
-    <button class="search-button">
-      <span class="material-symbols-outlined">arrow_upward</span>
-    </button>
-  </div>
-  <div class="topics">
-    <button class="topic">
-      <span class="emoji">💡</span>
-      World's greatest hikes
-    </button>
-    <button class="topic">
-      <span class="emoji">🍫</span>
-      Health benefits of dark chocolate
-    </button>
-    <button class="topic">
-      <span class="emoji">🥗</span>
-      Healthiest cooking oils
-    </button>
-    <button class="topic">
-      <span class="emoji">🗳️</span>
-      Registration deadlines for the US election
-    </button>
-  </div>
-</div>
+  }
+
+  <mat-menu #assistantMenu="matMenu">
+    @for (entry of assistRefs(); track entry) {
+      <button
+        mat-menu-item
+        [disabled]="entry.ref.id === selectedAssistant()"
+        (click)="selectedAssistant.set(entry.ref.id)">
+        {{ entry.assistant.name }}
+      </button>
+    }
+    @if (isPrivileged()) {
+      <button
+        mat-menu-item
+        (click)="onNewClick()()">
+        <em>{{ i18n().createAssistant }}</em>
+      </button>
+    }
+  </mat-menu>
+}
