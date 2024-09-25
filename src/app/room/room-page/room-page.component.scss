@@ -7,7 +7,7 @@ m3-supporting-pane.scrollable-pane {
   padding-right: var(--m3-sys-layout-spacing-pane);
   flex-direction: column;
   overflow-y: auto;
-  display: flex;
+  display: block;
 }
 
 mat-card.main-card {
@@ -15,19 +15,20 @@ mat-card.main-card {
   height: 50dvh;
   width: 800px;
   max-width: 95%;
+  overflow-y: visible;
   margin: auto;
   background-color: var(--md-sys-color-surface-container-highest);
 }
-mat-card.content-card {
+.content-card {
   max-height: 95%;
-  background-color: var(--md-sys-color-surface-container-lowest);
-  appearance: outlined;
+  min-width: 61.8%;
   box-shadow: none;
+  //background-color: var(--md-sys-color-surface-container-lowest);
+  background-color: transparent;
 }
 mat-card.info-card {
   margin-left: 8px;
   background-color: var(--md-sys-color-surface-container-lowest);
-  box-shadow: none;
   justify-content: center;
   flex: 1;
   > mat-card-content {
@@ -52,6 +53,11 @@ mat-toolbar {
   justify-content: center;
   align-items: center;
   min-height: 64px;
+}
+mat-divider {
+  min-width: 1px;
+  background-color: var(--md-sys-color-on-background);
+  margin: 0px;
 }
 .badge-wrapper {
   --mat-badge-background-color: var(--md-sys-color-primary-container);

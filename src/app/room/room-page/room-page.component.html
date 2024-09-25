@@ -38,40 +38,36 @@
                 (click)="editSessionName()">
                 <mat-icon>edit</mat-icon>
               </button>
-              <!--
-              <button
-                mat-icon-button
-                [matTooltip]="i18n().tooltipOptions"
-                [matMenuTriggerFor]="options"
-                style="float: inline-end">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              -->
             }
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div style="display: flex">
-            <mat-card class="content-card shrink-on-medium">
+            <div class="content-card shrink-on-medium">
               <mat-card-title style="text-align: center">
                 <span class="hide-on-small">
                   {{ i18n().descriptionHeader }}
                 </span>
-                <button
-                  mat-icon-button
-                  (click)="editSessionDescription()">
-                  <mat-icon>edit</mat-icon>
-                </button>
+                @if (isPrivileged()) {
+                  <button
+                    mat-icon-button
+                    (click)="editSessionDescription()">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                }
               </mat-card-title>
               <mat-card-content class="scrollable-content">
                 <app-markdown-viewer
                   [data]="room.description || ''"></app-markdown-viewer>
               </mat-card-content>
-            </mat-card>
+            </div>
+            <mat-divider [vertical]="true"></mat-divider>
             <div class="info-container column-on-small">
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().questions }}">
+                    question_mark
+                  </mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
@@ -82,7 +78,7 @@
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Fragen:
+                    {{ i18n().questions }}
                   </span>
                   <span
                     class="hide-on-small"
@@ -92,7 +88,9 @@
               </mat-card>
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().answers }}">
+                    priority_high
+                  </mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
@@ -103,7 +101,7 @@
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Antworten:
+                    {{ i18n().answers }}
                   </span>
                   <span
                     class="hide-on-small"
@@ -113,7 +111,9 @@
               </mat-card>
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().modQuestions }}">
+                    shield_question
+                  </mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
@@ -124,7 +124,7 @@
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Moderator Fragen:
+                    {{ i18n().modQuestions }}
                   </span>
                   <span
                     class="hide-on-small"
@@ -136,7 +136,9 @@
               </mat-card>
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().modAnswers }}">
+                    gpp_maybe
+                  </mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
@@ -147,7 +149,7 @@
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Moderator Antworten:
+                    {{ i18n().modAnswers }}
                   </span>
                   <span
                     class="hide-on-small"
@@ -159,103 +161,72 @@
               </mat-card>
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().moderators }}">
+                    support_agent
+                  </mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
-                    [matBadge]="1"
+                    [matBadge]="moderatorCount()"
                     matBadgeSize="large"
                     [matBadgeOverlap]="true"
                     matBadgePosition="above before"></span>
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Moderatoren:
+                    {{ i18n().moderators }}
                   </span>
                   <span
                     class="hide-on-small"
                     style="flex: 1"></span>
-                  <span class="hide-on-small">1</span>
+                  <span class="hide-on-small">{{ moderatorCount() }}</span>
                 </mat-card-content>
               </mat-card>
               <mat-card class="info-card">
                 <mat-card-content>
-                  <mat-icon>{{ "chat" }}</mat-icon>
+                  <mat-icon matTooltip="{{ i18n().users }}">person</mat-icon>
                   <span
                     class="show-on-small"
                     style="display: none"
-                    [matBadge]="999"
+                    [matBadge]="activeUsers()"
                     matBadgeSize="large"
                     [matBadgeOverlap]="true"
                     matBadgePosition="above before"></span>
                   <span
                     class="hide-on-medium"
                     style="margin-left: 16px">
-                    Ideen?:
+                    {{ i18n().users }}
                   </span>
                   <span
                     class="hide-on-small"
                     style="flex: 1"></span>
-                  <span class="hide-on-small">999</span>
+                  <span class="hide-on-small">{{ activeUsers() }}</span>
                 </mat-card-content>
               </mat-card>
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <span class="badge-wrapper">
-            <button
-              routerLink="comments"
-              mat-flat-button
-              [matBadge]="
-                i18n().shortQuestions | context: { number: commentCounter() }
-              "
-              [matBadgeHidden]="!commentCounter()"
-              matBadgeSize="large"
-              [matBadgeOverlap]="true"
-              matBadgePosition="above before">
-              <mat-icon>
-                {{ room.conversationDepth ? "forum" : "chat" }}
-              </mat-icon>
-              {{ i18n()[mode()].join }}
-            </button>
-            <span
-              class="wrapped-badge"
-              [matBadge]="
-                i18n().shortAnswers | context: { number: answerCounter() }
-              "
-              [matBadgeHidden]="!answerCounter()"
-              matBadgeSize="large"
-              [matBadgeOverlap]="true"
-              matBadgePosition="above after"></span>
-          </span>
+          <button mat-button>
+            <mat-icon>{{ "chat" }}</mat-icon>
+            <Span>Token informationen</Span>
+          </button>
+          <span style="flex: 1"></span>
+          <button
+            routerLink="comments"
+            mat-flat-button>
+            <mat-icon>
+              {{ room.conversationDepth ? "forum" : "chat" }}
+            </mat-icon>
+            {{ i18n()[mode()].join }}
+          </button>
           @if (isPrivileged() && !room.directSend) {
-            <span class="badge-wrapper secondary">
-              <button
-                routerLink="moderator/comments"
-                mat-flat-button
-                [matBadge]="
-                  i18n().shortQuestions
-                    | context: { number: moderatedCommentCounter() }
-                "
-                [matBadgeHidden]="!moderatedCommentCounter()"
-                matBadgeSize="large"
-                [matBadgeOverlap]="true"
-                matBadgePosition="above before">
-                <mat-icon>gavel</mat-icon>
-                Moderation
-              </button>
-              <span
-                class="wrapped-badge"
-                [matBadge]="
-                  i18n().shortAnswers
-                    | context: { number: moderatedAnswerCounter() }
-                "
-                [matBadgeHidden]="!moderatedAnswerCounter()"
-                matBadgeSize="large"
-                [matBadgeOverlap]="true"
-                matBadgePosition="above after"></span>
-            </span>
+            <button
+              routerLink="moderator/comments"
+              mat-flat-button>
+              <mat-icon>gavel</mat-icon>
+              Moderation
+            </button>
           }
         </mat-card-actions>
       </mat-card>

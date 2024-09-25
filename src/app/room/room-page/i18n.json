@@ -19,7 +19,13 @@
     "tooltipOptions": "Weitere Optionen",
     "editDescription": "Beschreibung bearbeiten",
     "moderatorAccess": "Moderatoren-Zugang:",
-    "descriptionHeader": "Raumbeschreibung"
+    "descriptionHeader": "Begrüßungstext",
+    "questions": "Fragen:",
+    "answers": "Antworten:",
+    "modQuestions": "Moderator-Fragen:",
+    "modAnswers": "Moderator-Antworten:",
+    "moderators": "Moderatoren:",
+    "users": "Benutzer:"
   },
   "en": {
     "name": "»{{name}}«",
@@ -40,7 +46,14 @@
     "tooltipOptions": "More options",
     "editDescription": "Edit description",
     "moderatorAccess": "Moderator access:",
-    "descriptionHeader": "Room description"
+    "descriptionHeader": "Welcome text",
+    "questions":"Questions:",
+    "answers":"Answers:",
+    "modQuestions":"Moderator Questions:",
+    "modAnswers":"Moderator Answers:",
+    "moderators": "Moderators:",
+    "users": "Users:"
+
   },
   "fr": {
     "name": "« {{name}} »",
@@ -61,6 +74,12 @@
     "tooltipOptions": "Plus d'options",
     "editDescription": "Modifier la description",
     "moderatorAccess": "Accès modérateur :",
-    "descriptionHeader": "Description de la salle"
+    "descriptionHeader": "Texte de bienvenue",
+    "questions": "Questions :",
+    "answers": "Réponses :",
+    "modQuestions": "Questions des modérateurs :",
+    "modAnswers": "Réponses des modérateurs :",
+    "moderators": "Modérateurs :",
+    "users": "Utilisateurs :"
   }
 }
