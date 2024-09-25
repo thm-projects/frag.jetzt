@@ -20,7 +20,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
-import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
+import { first, forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { FormControl } from '@angular/forms';
@@ -163,13 +163,14 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
-    ]).subscribe(([room, mods]) => {
+      user$.pipe(first(Boolean)),
+    ]).subscribe(([room, mods, user]) => {
       this.room = room;
       this.moderatorAccountIds = new Set<string>(mods.map((m) => m.accountId));
       this._filterObject.attach({
         ownerId: room.ownerId,
         roomId: room.id,
-        userId: this.user.id,
+        userId: user.id,
         threshold: room.threshold,
         moderatorIds: this.moderatorAccountIds,
       });

@@ -21,7 +21,7 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
-import { map, mergeMap, takeUntil } from 'rxjs/operators';
+import { first, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
@@ -147,7 +147,8 @@ export class CommentAnswerComponent
       forkJoin([
         this.sessionService.getRoomOnce(),
         this.sessionService.getModeratorsOnce(),
-      ]).subscribe(([room, mods]) => {
+        user$.pipe(first(Boolean)),
+      ]).subscribe(([room, mods, user]) => {
         this.room = room;
         this.commentsEnabled =
           this.userRole > UserRole.PARTICIPANT || !room.questionsBlocked;
@@ -161,10 +162,7 @@ export class CommentAnswerComponent
         this.mods = new Set<string>(mods.map((m) => m.accountId));
         this.votes = {};
         this.voteService
-          .getByRoomIdAndUserID(
-            this.sessionService.currentRoom.id,
-            this.user.id,
-          )
+          .getByRoomIdAndUserID(this.sessionService.currentRoom.id, user.id)
           .subscribe((votes) => {
             votes.forEach((v) => (this.votes[v.commentId] = v));
           });

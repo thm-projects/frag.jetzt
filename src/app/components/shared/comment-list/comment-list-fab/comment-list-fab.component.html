@@ -8,9 +8,7 @@
       (click)="writeComment()()"
       [matTooltip]="room()?.mode === 'PLE' ? i18n().ple.write : i18n().write"
       [matTooltipPosition]="'above'">
-      <button mat-icon-button>
-        <mat-icon>add</mat-icon>
-      </button>
+      <mat-icon>add</mat-icon>
     </button>
     @if (classes() === "") {
       <p>
