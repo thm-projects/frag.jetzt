@@ -11,15 +11,16 @@
   </div>
 
   <div class="pricing-cards">
-    <mat-card
-      class="pricing-card"
-      [ngClass]="'purchased'">
-      <div class="card-header">
-        <div class="icon-container">
+    <mat-card class="pricing-card purchased">
+      <mat-card-header class="full-width">
+        <mat-card-title>
           <mat-icon>star</mat-icon>
-        </div>
-        <mat-card-title>{{ i18n().freePlan }}</mat-card-title>
-      </div>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().freePlan }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>50.000 {{ i18n().tokens }}</li>
@@ -44,12 +45,15 @@
 
     <!-- €5 Plan -->
     <mat-card class="pricing-card fivePlan">
-      <div class="card-header">
-        <div class="icon-container">
+      <mat-card-header class="full-width">
+        <mat-card-title>
           <mat-icon>euro</mat-icon>
-        </div>
-        <mat-card-title>{{ i18n().fivePlan }}</mat-card-title>
-      </div>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().fivePlan }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>50.000 {{ i18n().tokens }}</li>
@@ -74,12 +78,15 @@
 
     <!-- €10 Plan -->
     <mat-card class="pricing-card tenPlan">
-      <div class="card-header">
-        <div class="icon-container">
+      <mat-card-header class="full-width">
+        <mat-card-title>
           <mat-icon>euro</mat-icon>
-        </div>
-        <mat-card-title>{{ i18n().tenPlan }}</mat-card-title>
-      </div>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().tenPlan }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>106,000 {{ i18n().tokens }}</li>
@@ -104,12 +111,15 @@
 
     <!-- €20 Plan -->
     <mat-card class="pricing-card twentyPlan">
-      <div class="card-header">
-        <div class="icon-container">
+      <mat-card-header class="full-width">
+        <mat-card-title>
           <mat-icon>euro</mat-icon>
-        </div>
-        <mat-card-title>{{ i18n().twentyPlan }}</mat-card-title>
-      </div>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().twentyPlan }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>212,000 {{ i18n().tokens }}</li>
@@ -134,12 +144,15 @@
 
     <!-- €50 Plan -->
     <mat-card class="pricing-card fiftyPlan">
-      <div class="card-header">
-        <div class="icon-container">
+      <mat-card-header class="full-width">
+        <mat-card-title>
           <mat-icon>euro</mat-icon>
-        </div>
-        <mat-card-title>{{ i18n().fiftyPlan }}</mat-card-title>
-      </div>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ i18n().fiftyPlan }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
       <mat-card-content>
         <ul>
           <li>530,000 {{ i18n().tokens }}</li>
