@@ -68,8 +68,9 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary">
-          {{ i18n().buyNow }}
+          color="primary"
+          (click)="startPayPalPayment(5, 'paypal-button-container-5')">
+          Buy Now
         </button>
       </mat-card-actions>
     </mat-card>
@@ -97,8 +98,9 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary">
-          {{ i18n().buyNow }}
+          color="primary"
+          (click)="startPayPalPayment(10, 'paypal-button-container-10')">
+          Buy Now
         </button>
       </mat-card-actions>
     </mat-card>
@@ -126,8 +128,9 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary">
-          {{ i18n().buyNow }}
+          color="primary"
+          (click)="startPayPalPayment(20, 'paypal-button-container-20')">
+          Buy Now
         </button>
       </mat-card-actions>
     </mat-card>
@@ -155,8 +158,9 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary">
-          {{ i18n().buyNow }}
+          color="primary"
+          (click)="startPayPalPayment(50, 'paypal-button-container-50')">
+          Buy Now
         </button>
       </mat-card-actions>
     </mat-card>
@@ -174,3 +178,17 @@
     </p>
   </div>
 </div>
+
+<!-- PayPal Button Containers -->
+<div
+  id="paypal-button-container-5"
+  style="display: none"></div>
+<div
+  id="paypal-button-container-10"
+  style="display: none"></div>
+<div
+  id="paypal-button-container-20"
+  style="display: none"></div>
+<div
+  id="paypal-button-container-50"
+  style="display: none"></div>
