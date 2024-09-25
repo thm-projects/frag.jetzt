@@ -48,8 +48,7 @@ export class PaymentComponent implements OnInit {
   apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
 
-  //userTokens = 0; // Current token count of the user
-  //hasFreePlan = false; // Indicates if the user has purchased the free plan
+  userTokens = 0; // Current token count of the user
 
   // Pricing plans
   plans: Plan[] = [
@@ -57,7 +56,7 @@ export class PaymentComponent implements OnInit {
       title: 'Free Plan',
       price: '0',
       tokens: 50000,
-      color: this.getFreePlanColor(),
+      color: 'grey',
     },
     { title: '€5 Plan', price: '5', tokens: 50000, color: 'primary' },
     { title: '€10 Plan', price: '10', tokens: 106000, color: 'primary' },
@@ -70,34 +69,13 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkUserPlan();
     this.getUserTokens();
     this.loadPayPalScript();
-  }
-
-  checkUserPlan() {
-    // Simulate checking the user's plan from a service or backend
-    this.hasFreePlan = false; // Change this to true to simulate the acquired plan
   }
 
   getUserTokens() {
     // Simulate retrieving the user's token count from a service or backend
     this.userTokens = 50000; // Example token count, replace with actual value
-  }
-
-  selectFreePlan() {
-    if (!this.hasFreePlan) {
-      this.hasFreePlan = true;
-      this.userTokens += 50000; // Add the free plan tokens
-
-      // Logic to update the backend about the purchase
-      // this.userService.updateUserPlan('free');
-    }
-  }
-
-  // Function to change the card color for the free plan
-  getFreePlanColor(): string {
-    return this.hasFreePlan ? 'grey' : 'blue';
   }
 
   //Ab hier Paypal Intergration
