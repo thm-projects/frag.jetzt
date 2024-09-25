@@ -88,7 +88,7 @@ export const getRoomHeader = (
 ): Observable<M3HeaderTemplate> => {
   const roomState = injector.get(RoomStateService);
   return combineLatest([
-    getDefaultHeader(injector),
+    getDefaultHeader(injector, null),
     user$.pipe(first((e) => Boolean(e))),
     roomState.room$.pipe(first((e) => Boolean(e))),
   ]).pipe(
