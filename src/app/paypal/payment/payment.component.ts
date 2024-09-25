@@ -48,8 +48,8 @@ export class PaymentComponent implements OnInit {
   apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
 
-  userTokens = 0; // Current token count of the user
-  hasFreePlan = false; // Indicates if the user has purchased the free plan
+  //userTokens = 0; // Current token count of the user
+  //hasFreePlan = false; // Indicates if the user has purchased the free plan
 
   // Pricing plans
   plans: Plan[] = [
