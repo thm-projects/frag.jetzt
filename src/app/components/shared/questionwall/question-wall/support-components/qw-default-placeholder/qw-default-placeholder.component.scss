@@ -1,4 +1,5 @@
 @use "modules/m3/style/m3-typescale" as m3-typescale;
+@use "modules/m3/style/m3-layout" as m3-layout;
 
 :host {
   display: flex;
@@ -6,6 +7,7 @@
   align-items: flex-end;
   gap: 16px;
 }
+
 .key {
   width: 32px;
   height: 32px;
@@ -18,9 +20,23 @@
   margin-left: 4px;
   margin-top: 4px;
 }
+
 .title {
   @include m3-typescale.typescale(display, large);
+  @include m3-layout.explicit-range(expanded) {
+    @include m3-typescale.typescale(display, medium);
+  }
+  @include m3-layout.explicit-range(compact, medium) {
+    @include m3-typescale.typescale(display, small);
+  }
 }
+
 .sub-title {
   @include m3-typescale.typescale(body, large);
+}
+
+.arrow-keys-placeholder {
+  @include m3-layout.explicit-range(compact, expanded) {
+    display: none;
+  }
 }
