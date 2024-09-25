@@ -1,20 +1,27 @@
 {
     "key": "write-comment-editor-settings",
     "de": {
+      "questioner-name": "Spitzname",
+      "tag-button-hint": "Wähle die treffende Kategorie für deine Frage.",
+      "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
       "tag": "Kategorie",
-      "send":"Abschicken und Schließen",
+      "send":"Senden",
       "cancel":"Abbrechen"
     },
     "en": {
-      
+      "questioner-name": "Nickname",
+      "tag-button-hint": "Select the most appropriate category for your question.",
+      "name-length-error": "The name must be {{min}} to {{max}} characters long.",
       "tag": "Category",
-      "send":"Send and close",
+      "send":"Send",
       "cancel":"Cancel"
     },
     "fr": {
-     
+      "questioner-name": "Surnom",
+      "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question",
+      "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
       "tag": "Catégorie",
-      "send":"Envoyer et fermer",
+      "send":"Envoyer",
       "cancel":"Annuler"
 
     }

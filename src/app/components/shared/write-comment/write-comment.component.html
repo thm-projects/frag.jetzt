@@ -1,6 +1,8 @@
-<ars-row style="display: flex; justify-content: space-between;">
-  <mat-form-field class="questioner-name-input" appearance="outline">
-     <mat-icon matPrefix>person</mat-icon>
+<ars-row style="display: flex; justify-content: space-between">
+  <mat-form-field
+    class="questioner-name-input"
+    appearance="outline">
+    <mat-icon matPrefix>{{ getRoleIcon() }}</mat-icon>
     <input
       appAccessibilityEscapedInput
       matInput
@@ -9,7 +11,9 @@
       name="questioner-name"
       [maxlength]="questionerNameMax"
       aria-labelledby="questioner-name" />
-    <mat-hint align="end" style="color: var(--mdc-dialog-supporting-text-color);">
+    <mat-hint
+      align="end"
+      style="color: var(--mdc-dialog-supporting-text-color)">
       <span aria-hidden="true">
         {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
       </span>
@@ -26,18 +30,16 @@
     </mat-error>
   </mat-form-field>
 
-   <mat-form-field
+  <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
     matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
-
     <mat-label>
-    <mat-icon >sell</mat-icon>
-    {{ i18n().tag }}
+      <mat-icon>sell</mat-icon>
+      {{ i18n().tag }}
     </mat-label>
 
     <mat-select
-      
       class="select-list"
       id="tagSelect"
       #tagSelect
@@ -53,21 +55,17 @@
         {{ tag }}
       </mat-option>
     </mat-select>
-   </mat-form-field>
+  </mat-form-field>
 </ars-row>
 <mat-dialog-content>
-<app-markdown-editor [(data)]="data"></app-markdown-editor>
+  <app-markdown-editor [(data)]="data"></app-markdown-editor>
 </mat-dialog-content>
-
 
 <mat-hint
   class="char-hint"
   [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
-  <span aria-hidden="true">
-    {{ data().length }} / {{ maxTextCharacters }}
-  </span>
+  <span aria-hidden="true">{{ data().length }} / {{ maxTextCharacters }}</span>
 </mat-hint>
-
 
 <!-- TODO -->
 <!-- <app-view-comment-data
@@ -79,7 +77,6 @@
   [maxTextCharacters]="maxTextCharacters"
   [maxDataCharacters]="maxDataCharacters"
   [placeHolderText]="placeholder"></app-view-comment-data> -->
-
 
 <ars-row
   ars-flex-box

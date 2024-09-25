@@ -336,7 +336,7 @@
     "save-answer": "Enregistrer",
     "search-box-input-description": "Ici, tu peux rechercher des questions.",
     "semicolon": "Format CSV (.csv)",
-    "send": "Envoyer et fermer",
+    "send": "Envoyer",
     "send-description": "Envoyer",
     "show-comment-with-filter": "Censurer les expressions vulgaires",
     "show-comment-without-filter": "Afficher les expressions vulgaires",
@@ -1410,7 +1410,7 @@
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-    "questioner-name": "Ton nom, si tu veux …"
+    "questioner-name": "Surnom"
   },
   "presets-dialog": {
     "context-title": "contexte de l'événement",

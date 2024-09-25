@@ -336,7 +336,7 @@
     "save-answer": "Save",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
-    "send": "Send and Close",
+    "send": "Send",
     "send-description": "Send question",
     "show-comment-with-filter": "Hide profane words",
     "show-comment-without-filter": "Show profane words",
@@ -1410,7 +1410,7 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …"
+    "questioner-name": "Nickname"
   },
   "presets-dialog": {
     "context-title": "Context of the event",
