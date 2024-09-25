@@ -13,9 +13,7 @@
 
   <div class="pricing-cards">
     <!-- Free Plan -->
-    <mat-card
-      class="pricing-card"
-      [ngClass]="hasFreePlan ? 'purchased' : 'featured-card'">
+    <mat-card class="pricing-card">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>star</mat-icon>
@@ -37,11 +35,7 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          [disabled]="hasFreePlan"
-          (click)="selectFreePlan()">
-          {{ hasFreePlan ? i18n().purchased : i18n().selectFreePlan }}
-        </button>
+          color="primary"></button>
       </mat-card-actions>
     </mat-card>
 
@@ -68,9 +62,8 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          (click)="startPayPalPayment(5, 'paypal-button-container-5')">
-          Buy Now
+          color="primary">
+          <!-- Buy Now -->
         </button>
       </mat-card-actions>
     </mat-card>
@@ -98,9 +91,8 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          (click)="startPayPalPayment(10, 'paypal-button-container-10')">
-          Buy Now
+          color="primary">
+          <!-- Buy Now -->
         </button>
       </mat-card-actions>
     </mat-card>
@@ -128,9 +120,8 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          (click)="startPayPalPayment(20, 'paypal-button-container-20')">
-          Buy Now
+          color="primary">
+          <!-- Buy Now -->
         </button>
       </mat-card-actions>
     </mat-card>
@@ -158,9 +149,8 @@
       <mat-card-actions>
         <button
           mat-raised-button
-          color="primary"
-          (click)="startPayPalPayment(50, 'paypal-button-container-50')">
-          Buy Now
+          color="primary">
+          <!-- Buy Now -->
         </button>
       </mat-card-actions>
     </mat-card>
@@ -169,11 +159,11 @@
   <!-- FAQ Section -->
   <div class="faq-section">
     <p class="faq-text">
-      {{ i18n().faqText }}
+      <!-- {{ i18n().faqText }} -->
       <a
         href="#"
         class="faq-link">
-        {{ i18n().faqLink }}
+        <!-- {{ i18n().faqLink }} -->
       </a>
     </p>
   </div>
