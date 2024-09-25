@@ -11,6 +11,10 @@
 
     "BasicTime": "Einmaliger Kauf",
     "freePlan": "Kostenlos",
+    "fivePlanCurrency": "5",
+    "tenPlanCurrency": "10",
+    "twentyPlanCurrency": "20",
+    "fiftyPlanCurrency": "50",
     "fivePlan": "5€ Plan",
     "tenPlan": "10€ Plan",
     "twentyPlan": "20€ Plan",
@@ -35,6 +39,10 @@
 
     "BasicTime": "1-time purchase",
     "freePlan": "Free",
+    "fivePlanCurrency": "5",
+    "tenPlanCurrency": "9",
+    "twentyPlanCurrency": "15",
+    "fiftyPlanCurrency": "40",
     "fivePlan": "$5 Plan",
     "tenPlan": "$9 Plan",
     "twentyPlan": "$15 Plan",
@@ -59,6 +67,10 @@
 
     "BasicTime": "Achat unique",
     "freePlan": "Gratuit",
+    "fivePlanCurrency": "5",
+    "tenPlanCurrency": "10",
+    "twentyPlanCurrency": "20",
+    "fiftyPlanCurrency": "50",
     "fivePlan": "Plan 5€",
     "tenPlan": "Plan 10€",
     "twentyPlan": "Plan 20€",
