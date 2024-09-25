@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit } from '@angular/core';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { NgClass, NgForOf } from '@angular/common';
 import { ApiService } from './api.service';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -71,6 +72,7 @@ declare const paypal: {
 export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
   apiService: ApiService = inject(ApiService);
+  private injector = inject(Injector);
 
   userTokens = 0; // Current token count of the user
   hasFreePlan = false; // Indicates if the user has purchased the free plan
@@ -88,6 +90,10 @@ export class PaymentComponent implements OnInit {
     { title: '€20 Plan', price: '20', tokens: 212000, color: 'primary' },
     { title: '€50 Plan', price: '50', tokens: 530000, color: 'primary' },
   ];
+
+  constructor() {
+    applyDefaultNavigation(this.injector).subscribe();
+  }
 
   ngOnInit() {
     this.loadPayPalScript()

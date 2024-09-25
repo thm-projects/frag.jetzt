@@ -38,6 +38,16 @@
   padding: 64px 0;
 }
 
+.view-placeholder {
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
+  flex-shrink: 1;
+  padding: 64px 0;
+  display: flex;
+  align-items: center;
+}
+
 .side-bar-content {
   height: 0;
   overflow: auto;
