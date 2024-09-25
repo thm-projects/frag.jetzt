@@ -124,39 +124,43 @@ export class PaymentComponent implements OnInit {
   renderPayPalButton(amount: number, containerId: string): void {
     const container = document.getElementById(containerId);
     if (!container) {
-      console.error(`Container mit ID ${containerId} nicht gefunden.`);
+      console.error(`Container with ID ${containerId} not found.`);
       return;
     }
     container.style.display = 'block';
 
     window['paypal']
       .Buttons({
+        funding: {
+          allowed: [window['paypal'].FUNDING.PAYPAL], // Specify only PayPal funding source
+          disallowed: [window['paypal'].FUNDING.CARD], // Optionally disallow others
+        },
         createOrder: async () => {
           try {
             const response = await this.apiService
               .createOrder(amount)
               .toPromise();
-            return response.id; // Gib die Order-ID zurück
+            return response.id; // Return the order ID
           } catch (error) {
-            console.error('Fehler beim Erstellen der Bestellung:', error);
-            throw new Error('Fehler beim Erstellen der Bestellung.');
+            console.error('Error creating order:', error);
+            throw new Error('Error creating order.');
           }
         },
         onApprove: async (data: PayPalData) => {
           console.log(data);
           try {
-            await this.apiService.captureOrder(data.orderID).toPromise(); // Fange die Bestellung
-            console.log('Transaction completed by');
-            this.handlePaymentSuccess(amount); // Aktualisiere die Benutzer-Tokens
+            await this.apiService.captureOrder(data.orderID).toPromise(); // Capture the order
+            console.log('Transaction completed');
+            this.handlePaymentSuccess(amount); // Update user tokens
           } catch (error) {
-            console.error('Fehler beim Erfassen der Bestellung:', error);
+            console.error('Error capturing order:', error);
           }
         },
         onError: (err) => {
-          console.error('Fehler beim PayPal-Zahlung:', err);
+          console.error('Error during PayPal payment:', err);
         },
       })
-      .render(`#${containerId}`); // Render in den Container
+      .render(`#${containerId}`); // Render in the container
   }
 
   handlePaymentSuccess(amount: number): void {
