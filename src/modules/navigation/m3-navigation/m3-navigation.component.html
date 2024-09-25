@@ -141,7 +141,11 @@
       mat-icon-button
       [disabled]="elem.disabled"
       (click)="elem.onClick()">
-      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [className]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
     </button>
   } @else {
     <button

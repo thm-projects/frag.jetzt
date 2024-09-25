@@ -127,8 +127,11 @@ export const getDefaultHeader = (
                 ],
               }
             : {
-                icon: 'login',
+                icon: isOnline
+                  ? 'login'
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
+                className: isOnline ? '' : 'error-text',
                 onClick: () => openLogin().subscribe(),
               },
           {
