@@ -5,7 +5,10 @@
 
   <!-- Token Balance -->
   <div class="token-balance">
-    <h2>Your Tokens: {{ userTokens }}</h2>
+    <h2>
+      <mat-icon class="icon">token</mat-icon>
+      {{ i18n().yourTokens }} {{ userTokens }}
+    </h2>
   </div>
 
   <div class="pricing-cards">
@@ -17,16 +20,16 @@
         <div class="icon-container">
           <mat-icon>star</mat-icon>
         </div>
-        <mat-card-title>Free</mat-card-title>
+        <mat-card-title>{{ i18n().freePlan }}</mat-card-title>
       </div>
       <mat-card-content>
         <ul>
-          <li>50,000 Tokens</li>
-          <li>~40,000 Words</li>
-          <li>1-time purchase only for registered users</li>
+          <li>{{ i18n().BasicToken }}</li>
+          <li>{{ i18n().BasicWords }}</li>
+          <li>{{ i18n().BasicTime }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
+          <span class="currency">{{ i18n().currency }}</span>
           0
         </h2>
       </mat-card-content>
@@ -37,28 +40,28 @@
           color="primary"
           [disabled]="hasFreePlan"
           (click)="selectFreePlan()">
-          {{ hasFreePlan ? "Purchased" : "Select Free Plan" }}
+          {{ hasFreePlan ? i18n().purchased : i18n().selectFreePlan }}
         </button>
       </mat-card-actions>
     </mat-card>
 
     <!-- €5 Plan -->
-    <mat-card class="pricing-card">
+    <mat-card class="pricing-card fivePlan">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>euro</mat-icon>
         </div>
-        <mat-card-title>€5 Plan</mat-card-title>
+        <mat-card-title>{{ i18n().fivePlan }}</mat-card-title>
       </div>
       <mat-card-content>
         <ul>
-          <li>50,000 Tokens</li>
-          <li>~40,000 Words</li>
-          <li>Unlimited purchase</li>
+          <li>{{ i18n().BasicToken }}</li>
+          <li>{{ i18n().BasicWords }}</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
-          5
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().fivePlanCurrency }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -73,22 +76,22 @@
     </mat-card>
 
     <!-- €10 Plan -->
-    <mat-card class="pricing-card">
+    <mat-card class="pricing-card tenPlan">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>euro</mat-icon>
         </div>
-        <mat-card-title>€10 Plan</mat-card-title>
+        <mat-card-title>{{ i18n().tenPlan }}</mat-card-title>
       </div>
       <mat-card-content>
         <ul>
           <li>106,000 Tokens</li>
           <li>~80,000 Words</li>
-          <li>Unlimited purchase</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
-          10
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().tenPlanCurrency }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -103,22 +106,22 @@
     </mat-card>
 
     <!-- €20 Plan -->
-    <mat-card class="pricing-card">
+    <mat-card class="pricing-card twentyPlan">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>euro</mat-icon>
         </div>
-        <mat-card-title>€20 Plan</mat-card-title>
+        <mat-card-title>{{ i18n().twentyPlan }}</mat-card-title>
       </div>
       <mat-card-content>
         <ul>
           <li>212,000 Tokens</li>
           <li>~159,000 Words</li>
-          <li>Unlimited purchase</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
-          20
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().twentyPlanCurrency }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -133,22 +136,22 @@
     </mat-card>
 
     <!-- €50 Plan -->
-    <mat-card class="pricing-card">
+    <mat-card class="pricing-card fiftyPlan">
       <div class="card-header">
         <div class="icon-container">
           <mat-icon>euro</mat-icon>
         </div>
-        <mat-card-title>€50 Plan</mat-card-title>
+        <mat-card-title>{{ i18n().fiftyPlan }}</mat-card-title>
       </div>
       <mat-card-content>
         <ul>
           <li>530,000 Tokens</li>
           <li>~397,500 Words</li>
-          <li>Unlimited purchase</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
         <h2 class="price">
-          <span class="currency">€</span>
-          50
+          <span class="currency">{{ i18n().currency }}</span>
+          {{ i18n().fiftyPlanCurrency }}
         </h2>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -166,11 +169,11 @@
   <!-- FAQ Section -->
   <div class="faq-section">
     <p class="faq-text">
-      Not sure how tokens work?
+      {{ i18n().faqText }}
       <a
         href="#"
         class="faq-link">
-        Learn more about tokens and pricing
+        {{ i18n().faqLink }}
       </a>
     </p>
   </div>

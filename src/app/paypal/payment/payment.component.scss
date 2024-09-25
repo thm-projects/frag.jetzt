@@ -12,11 +12,41 @@
 
 /* Token Balance */
 .token-balance {
-  margin-bottom: 30px;
-  h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #3f51b5;
+  margin-bottom: 20px;
+  text-align: right;
+  position: relative;
+  background-color: #f0f4f8;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.token-balance h2 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #3a4a5d;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.token-balance h2 .icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+  color: #5a6e83;
+}
+
+/* Add a gentle animation when tokens are updated */
+.token-balance.updated {
+  animation: token-update 0.5s ease-out;
+}
+
+@keyframes token-update {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
@@ -32,20 +62,17 @@
   width: 250px;
   padding: 20px;
   border-radius: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
+  
 }
 
 /* Free Plan (Featured Until Purchased) */
 .featured-card {
-  width: 300px;
-  transform: translateY(-30px); /* Raised effect */
-  z-index: 2; /* Emphasize above others */
+  width: 250px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Larger shadow for emphasis */
   border: 2px solid #3f51b5;
   background-color: #e8f0fe; /* Light blue background for the featured plan */
@@ -79,8 +106,8 @@
 }
 
 .pricing-card mat-icon {
-  font-size: 40px;
-  color: #3f51b5;
+  font-size: 20px;
+  color: #ffd200;
   margin-bottom: 0; /* Remove margin to prevent cutting */
   line-height: 1; /* Ensure line-height does not cause overflow */
 }
@@ -100,6 +127,24 @@
 .pricing-card ul li {
   margin-bottom: 10px;
   font-size: 0.9rem;
+}
+
+/* Plan-specific colors */
+
+.fivePlan {
+  background-color: #f0e7db;
+}
+
+.tenPlan {
+  background-color: #dbe7f0;
+}
+
+.twentyPlan {
+  background-color: #f0dbdb;
+}
+
+.fiftyPlan {
+  background-color: #dbf0db;
 }
 
 /* Price Styling */
