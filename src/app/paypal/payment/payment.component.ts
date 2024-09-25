@@ -124,7 +124,7 @@ export class PaymentComponent implements OnInit {
   renderPayPalButton(amount: number, containerId: string): void {
     const container = document.getElementById(containerId);
     if (!container) {
-      console.error(`Container with ID ${containerId} not found.`);
+      console.error(`Container mit ID ${containerId} nicht gefunden.`);
       return;
     }
     container.style.display = 'block';
@@ -132,11 +132,20 @@ export class PaymentComponent implements OnInit {
     window['paypal']
       .Buttons({
         funding: {
-          allowed: [window['paypal'].FUNDING.PAYPAL],
+          allowed: [window['paypal'].FUNDING.PAYPAL], // Nur PayPal erlauben
           disallowed: [
             window['paypal'].FUNDING.CARD,
             window['paypal'].FUNDING.CREDIT,
+            window['paypal'].FUNDING.VENMO,
             window['paypal'].FUNDING.SEPA,
+            window['paypal'].FUNDING.BANCONTACT,
+            window['paypal'].FUNDING.EPS,
+            window['paypal'].FUNDING.GIROPAY,
+            window['paypal'].FUNDING.IDEAL,
+            window['paypal'].FUNDING.MERCADOPAGO,
+            window['paypal'].FUNDING.MYBANK,
+            window['paypal'].FUNDING.P24,
+            window['paypal'].FUNDING.SOFORT,
           ],
         },
         createOrder: async () => {
@@ -151,9 +160,8 @@ export class PaymentComponent implements OnInit {
           }
         },
         onApprove: async (data: PayPalData) => {
-          console.log(data);
           try {
-            await this.apiService.captureOrder(data.orderID).toPromise(); // Die Bestellung erfassen
+            await this.apiService.captureOrder(data.orderID).toPromise(); // Bestellung erfassen
             console.log('Transaction completed');
             this.handlePaymentSuccess(amount); // Benutzer-Tokens aktualisieren
           } catch (error) {
