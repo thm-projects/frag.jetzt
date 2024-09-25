@@ -96,8 +96,8 @@ export class PaymentComponent implements OnInit {
   }
 
   // User's token status and whether they have purchased the free plan
-  userTokens = 0; // Example: Number of tokens the user has
-  hasFreePlan = false; // Change this to true if the user has purchased the Free Plan
+  //userTokens = 0; // Example: Number of tokens the user has
+  //hasFreePlan = false; // Change this to true if the user has purchased the Free Plan
 
   ngOnInit() {
     this.loadPayPalScript()
