@@ -1,28 +1,25 @@
 {
   "key": "purchase",
   "de": {
-    "title": "Wähle deinen Preisplan",
-    "basic": "Basis",
+    "title": "Wähle deinen Plan",
+
+    "free": "Kostenlos",
+    "basic": "Basic",
     "standard": "Standard",
-    "pro": "Profi",
-    "currency": "€",
+    "premium": "Premium",
+    "special": "Special",
+
+    "pay": "Wie wollen sie zahlen?",
+
+    "signup": "Noch kein konto? **[ Jetzt anmelden ]({{url}})** und erhalten Sie Ihr kostenloses Willkommensgeschenk",
+    
     "tokens": "Tokens",
     "words": "Wörter",
 
     "BasicTime": "Einmaliger Kauf",
-    "freePlan": "Kostenlos",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "10",
-    "twentyPlanCurrency": "20",
-    "fiftyPlanCurrency": "50",
-    "fivePlan": "5€ Plan",
-    "tenPlan": "10€ Plan",
-    "twentyPlan": "20€ Plan",
-    "fiftyPlan": "50€ Plan",
     "selectFreePlan": "Kostenloser Plan benutzt",
     "purchased": "Gekauft",
-    "buyNow": "Jetzt kaufen",
-    "unlimitedPurchase": "Unbegrenzter Kauf",
+    "unlimitedPurchase": "Wiederholbarer Kauf",
     "faqText": "Nicht sicher, wie Tokens funktionieren?",
     "faqLink": "Erfahren Sie mehr über Tokens und Preise",
     "yourTokens": "Ihre Tokens:",
@@ -30,27 +27,24 @@
   },
   "en": {
     "title": "Choose Your Plan",
+
+    "free": "Free",
     "basic": "Basic",
     "standard": "Standard",
-    "pro": "Pro",
-    "currency": "$",
+    "premium": "Premium",
+    "special": "Special",
+
+    "pay": "How would you like to pay?",
+
+    "signup": "No account yet? **[ Register now ]({{url}})** and receive your free welcome gift",
+
     "tokens": "Tokens",
     "words": "Words",
 
     "BasicTime": "1-time purchase",
-    "freePlan": "Free",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "9",
-    "twentyPlanCurrency": "15",
-    "fiftyPlanCurrency": "40",
-    "fivePlan": "$5 Plan",
-    "tenPlan": "$9 Plan",
-    "twentyPlan": "$15 Plan",
-    "fiftyPlan": "$40 Plan",
     "selectFreePlan": "Free Plan used",
     "purchased": "Purchased",
-    "buyNow": "Buy Now",
-    "unlimitedPurchase": "Unlimited purchase",
+    "unlimitedPurchase": "Repeatable purchase",
     "faqText": "Not sure how tokens work?",
     "faqLink": "Learn more about tokens and pricing",
     "yourTokens": "Your Tokens:",
@@ -58,30 +52,28 @@
   },
   "fr": {
     "title": "Choisissez Votre Forfait",
+
+    "free": "Gratuit",
     "basic": "Basique",
     "standard": "Standard",
-    "pro": "Pro",
-    "currency": "€",
+    "premium": "Premium",
+    "special": "spécial",
+
+    "pay": "Comment vont-ils payer ?",
+    
+    "signup": "Vous n'avez pas encore de compte ? **[ Inscrivez-vous maintenant ]({{url}})** et recevez votre cadeau de bienvenue",
+    
     "tokens": "Jetons",
     "words": "Mots",
 
     "BasicTime": "Achat unique",
-    "freePlan": "Gratuit",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "10",
-    "twentyPlanCurrency": "20",
-    "fiftyPlanCurrency": "50",
-    "fivePlan": "Plan 5€",
-    "tenPlan": "Plan 10€",
-    "twentyPlan": "Plan 20€",
-    "fiftyPlan": "Plan 50€",
     "selectFreePlan": "Plan gratuit utilisé",
     "purchased": "Acheté",
-    "buyNow": "Acheter maintenant",
-    "unlimitedPurchase": "Achat illimité",
-    "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
-    "faqLink": "En savoir plus sur les tokens et les tarifs",
+    "unlimitedPurchase": "Achat répétitif",
     "yourTokens": "Vos Tokens :",
-    "buy": "Acheter maintenant"
+    "buy": "Acheter maintenant",
+
+    "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
+    "faqLink": "En savoir plus sur les tokens et les tarifs"
   }
 }

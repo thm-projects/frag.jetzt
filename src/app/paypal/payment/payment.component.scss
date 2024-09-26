@@ -9,19 +9,6 @@
   font-weight: bold;
 }
 
-/* Token Balance */
-.token-balance {
-  margin-bottom: 20px;
-  text-align: center;
-  padding: 8px 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: var(--md-sys-color-surface-container-highest);
-  margin-left: 25%;
-  margin-right: 25%;
-  width: 50%;
-}
-
 .token-icon-align {
   vertical-align: bottom;
 }
@@ -59,6 +46,30 @@
   /* Ensures responsiveness for more cards */
 }
 
+.mat-card-hover:hover {
+  transform: scale(1.05);
+  /* Scale the card up by 5% */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  /* Increase shadow for effect */
+}
+
+.dynamic-content-card mat-list-item {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: pre-wrap;
+}
+
+.token-card {
+  display: inline-block;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
 .pricing-card {
   width: 250px;
   padding: 20px;
@@ -70,6 +81,10 @@
 
 .full-width > ::ng-deep div {
   width: 100%;
+}
+
+mat-card-subtitle {
+  font-weight: bold;
 }
 
 .pricing-card mat-icon {
@@ -95,22 +110,11 @@
   font-size: 0.9rem;
 }
 
-/* Plan-specific colors */
-
-.fivePlan {
-  // background-color: #f0e7db;
-}
-
-.tenPlan {
-  // background-color: #dbe7f0;
-}
-
-.twentyPlan {
-  // background-color: #f0dbdb;
-}
-
-.fiftyPlan {
-  // background-color: #dbf0db;
+.wrap-list-content {
+  // text-wrap: wrap;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 /* Price Styling */

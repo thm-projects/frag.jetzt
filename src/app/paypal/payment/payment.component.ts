@@ -11,6 +11,13 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { language } from 'app/base/language/language';
+import { MatListModule } from '@angular/material/list';
+import { PaypalDialogComponent } from './paypal-dialog/paypal-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { user$ } from 'app/user/state/user';
+import { User } from 'app/models/user';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -40,6 +47,9 @@ interface Plan {
     MatDividerModule,
     NgClass,
     NgForOf,
+    MatListModule,
+    ContextPipe,
+    CustomMarkdownModule,
   ],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],
@@ -48,6 +58,8 @@ export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
   apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
+  url =
+    'http://localhost:4200/auth/realms/fragjetzt/protocol/openid-connect/auth?client_id=frag.jetzt-frontend&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fuser&state=af12d4a3-3aaf-41f5-9780-85766d3d4e5e&response_mode=fragment&response_type=code&scope=openid&nonce=90f60094-5de6-492d-8efd-16abeec61421&code_challenge=deFT7lzwzDRIvKzac5xn_6w4MgiN523VKGJNE3LFVzk&code_challenge_method=S256';
 
   userTokens = 0; // Current token count of the user
 
@@ -65,13 +77,21 @@ export class PaymentComponent implements OnInit {
     { title: '€50 Plan', price: '50', tokens: 530000, color: 'primary' },
   ];
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     applyDefaultNavigation(this.injector).subscribe();
   }
 
+  openDialog(amount: number) {
+    const ref = this.dialog.open(PaypalDialogComponent);
+    ref.componentInstance.parent = this;
+    ref.componentInstance.amount = amount;
+  }
+
+  user: User;
   ngOnInit() {
     this.getUserTokens();
     this.loadPayPalScript();
+    user$.subscribe((u) => (this.user = u));
   }
 
   getUserTokens() {

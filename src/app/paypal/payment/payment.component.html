@@ -3,22 +3,22 @@
     {{ i18n().title }}
   </h1>
 
-  <div class="token-balance">
-    <h2>
-      <mat-icon class="token-icon-align">token</mat-icon>
+  <mat-card class="token-card">
+    <mat-icon class="token-icon-align">token</mat-icon>
+    @if (user) {
       {{ i18n().yourTokens }} {{ userTokens }}
-    </h2>
-  </div>
+    } @else {
+      <app-markdown-viewer
+        [data]="i18n().signup | context: { url }"></app-markdown-viewer>
+    }
+  </mat-card>
 
   <div class="pricing-cards">
     <mat-card class="pricing-card purchased">
       <mat-card-header class="full-width">
         <mat-card-title>
-          <mat-icon>star</mat-icon>
+          {{ i18n().free }}
         </mat-card-title>
-        <mat-card-subtitle>
-          {{ i18n().freePlan }}
-        </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
@@ -27,10 +27,7 @@
           <li>40.000 {{ i18n().words }}</li>
           <li>{{ i18n().BasicTime }}</li>
         </ul>
-        <h2 class="price">
-          <span class="currency">{{ i18n().currency }}</span>
-          0
-        </h2>
+        <h2 class="price">Free</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -44,14 +41,11 @@
     </mat-card>
 
     <!-- €5 Plan -->
-    <mat-card class="pricing-card fivePlan">
+    <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
-          <mat-icon>euro</mat-icon>
+          {{ i18n().basic }}
         </mat-card-title>
-        <mat-card-subtitle>
-          {{ i18n().fivePlan }}
-        </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
@@ -60,116 +54,99 @@
           <li>40.000 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">
-          <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().fivePlanCurrency }}
-        </h2>
+        <h2 class="price">5€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button
           mat-raised-button
           color="primary"
-          (click)="startPayPalPayment(5, 'paypal-button-container-5')">
+          [disabled]="!user"
+          (click)="openDialog(5)">
           {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
 
     <!-- €10 Plan -->
-    <mat-card class="pricing-card tenPlan">
+    <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
-          <mat-icon>euro</mat-icon>
+          {{ i18n().standard }}
         </mat-card-title>
-        <mat-card-subtitle>
-          {{ i18n().tenPlan }}
-        </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
         <ul>
-          <li>106,000 {{ i18n().tokens }}</li>
-          <li>~80,000 {{ i18n().words }}</li>
+          <li>106.000 {{ i18n().tokens }}</li>
+          <li>~80.000 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">
-          <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().tenPlanCurrency }}
-        </h2>
+        <h2 class="price">10€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button
           mat-raised-button
           color="primary"
-          (click)="startPayPalPayment(10, 'paypal-button-container-10')">
+          [disabled]="!user"
+          (click)="openDialog(10)">
           {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
 
     <!-- €20 Plan -->
-    <mat-card class="pricing-card twentyPlan">
+    <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
-          <mat-icon>euro</mat-icon>
+          {{ i18n().premium }}
         </mat-card-title>
-        <mat-card-subtitle>
-          {{ i18n().twentyPlan }}
-        </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
         <ul>
-          <li>212,000 {{ i18n().tokens }}</li>
-          <li>~159,000 {{ i18n().words }}</li>
+          <li>212.000 {{ i18n().tokens }}</li>
+          <li>~159.500 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">
-          <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().twentyPlanCurrency }}
-        </h2>
+        <h2 class="price">20€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button
           mat-raised-button
           color="primary"
-          (click)="startPayPalPayment(20, 'paypal-button-container-20')">
+          [disabled]="!user"
+          (click)="openDialog(20)">
           {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
 
     <!-- €50 Plan -->
-    <mat-card class="pricing-card fiftyPlan">
+    <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
-          <mat-icon>euro</mat-icon>
+          {{ i18n().special }}
         </mat-card-title>
-        <mat-card-subtitle>
-          {{ i18n().fiftyPlan }}
-        </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
         <ul>
-          <li>530,000 {{ i18n().tokens }}</li>
-          <li>~397,500 {{ i18n().words }}</li>
+          <li>530.000 {{ i18n().tokens }}</li>
+          <li>~397.500 {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">
-          <span class="currency">{{ i18n().currency }}</span>
-          {{ i18n().fiftyPlanCurrency }}
-        </h2>
+        <h2 class="price">50€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button
           mat-raised-button
           color="primary"
-          (click)="startPayPalPayment(50, 'paypal-button-container-50')">
+          [disabled]="!user"
+          (click)="openDialog(50)">
           {{ i18n().buy }}
         </button>
       </mat-card-actions>
@@ -181,24 +158,10 @@
     <p class="faq-text">
       {{ i18n().faqText }}
       <a
-        href="#"
+        href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them"
         class="faq-link">
         {{ i18n().faqLink }}
       </a>
     </p>
   </div>
 </div>
-
-<!-- PayPal Button Containers -->
-<div
-  id="paypal-button-container-5"
-  style="display: none"></div>
-<div
-  id="paypal-button-container-10"
-  style="display: none"></div>
-<div
-  id="paypal-button-container-20"
-  style="display: none"></div>
-<div
-  id="paypal-button-container-50"
-  style="display: none"></div>

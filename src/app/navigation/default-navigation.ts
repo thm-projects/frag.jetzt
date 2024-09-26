@@ -253,15 +253,6 @@ export const getDefaultNavigation = (
         title: i18n.navigation.pricing,
         entries: [
           {
-            id: 'donation',
-            title: i18n.navigation.donation,
-            icon: 'coffee_maker',
-            onClick: () => {
-              showDonation(injector);
-              return false;
-            },
-          },
-          {
             id: 'purchase',
             title: i18n.navigation.purchase,
             icon: 'credit_card',
@@ -379,15 +370,20 @@ export const getDefaultNavigation = (
               return false;
             },
           },
+          {
+            id: 'donation',
+            title: i18n.navigation.donation,
+            icon: 'coffee_maker',
+            onClick: () => {
+              showDonation(injector);
+              return false;
+            },
+          },
         ].filter(Boolean),
       };
       return {
         title: i18n.navigation.title,
-        sections: [
-          navSection,
-          user && !user.isGuest && pricingSection,
-          optionSection,
-        ].filter(Boolean),
+        sections: [navSection, pricingSection, optionSection].filter(Boolean),
       };
     }),
   );
