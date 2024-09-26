@@ -64,9 +64,9 @@ export const getDefaultHeader = (
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
       const isRoom = router.url.indexOf('/', index + 6) === -1;
-
-      const isGuestUser = user?.isGuest;
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
+      const isGuestUser = user?.isGuest;
+
       const account_icon = isAdmin
         ? 'shield_person'
         : isGuestUser
@@ -103,7 +103,7 @@ export const getDefaultHeader = (
                       openAIConsent(injector);
                     },
                   },
-                  {
+                  isAdmin && {
                     icon: 'manage_accounts',
                     title: i18n.header.manageAccount,
                     onClick: () => {
@@ -122,7 +122,7 @@ export const getDefaultHeader = (
                     title: i18n.header.logout,
                     onClick: () => logout().subscribe(),
                   },
-                ],
+                ].filter(Boolean),
               }
             : {
                 id: 'login',
