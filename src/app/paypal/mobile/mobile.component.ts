@@ -70,7 +70,3 @@ export class MobileComponent implements OnInit {
     this.userTokens = 50000; // Example token count, replace with actual value
   }
 }
-
-export class PaymentComponent {
-  //-
-}

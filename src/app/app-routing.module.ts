@@ -8,10 +8,7 @@ import { DataProtectionComponent } from './components/home/_dialogs/data-protect
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { ChatGPTPromptPresetComponent } from './components/shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
-import { DonationComponent } from './paypal/donation/donation.component';
-import { PaymentComponent } from './paypal/payment/payment.component';
-import { MobileComponent } from './paypal/mobile/mobile.component';
-
+import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 const routes: Routes = [
   {
     path: '',
@@ -55,19 +52,9 @@ const routes: Routes = [
     title: 'gpt-prompts',
   },
   {
-    path: 'donation',
-    component: DonationComponent,
-    title: 'donation',
-  },
-  {
     path: 'purchase',
-    component: PaymentComponent,
+    component: PaymentRouteComponent,
     title: 'purchase',
-  },
-  {
-    path: 'mobile',
-    component: MobileComponent,
-    title: 'mobile',
   },
   {
     path: 'admin',

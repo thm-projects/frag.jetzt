@@ -62,19 +62,6 @@
               ],
               "serviceWorker": "ngsw-config.json"
             },
-            "appDeployment": {
-              "fileReplacements": [
-                {
-                  "replace": "src/app/paypal/payment/i18n.json",
-                  "with" : "src/app/paypal/mobile/i18n.json"
-                },
-                {
-                  "replace": "src/app/paypal/payment/payment.component.ts",
-                  "with" : "src/app/paypal/mobile/mobile.component.ts"
-                }
-              ]
-            },
-
             "development": {
               "prerender": false,
               "ssr": false,

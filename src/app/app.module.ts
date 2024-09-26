@@ -93,6 +93,7 @@ import { YtVideoWrapperComponent } from './components/home/home-page/yt-video-wr
 import { FeatureGridComponent } from './components/home/home-page/feature-grid/feature-grid.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { angularInjector } from './base/angular-init';
+import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -179,6 +180,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     YtVideoWrapperComponent,
     FeatureGridComponent,
     CdkDrag,
+    PaymentRouteComponent,
   ],
   providers: [
     /*AppConfig,
