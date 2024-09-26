@@ -24,7 +24,8 @@
     "creator": "Raumersteller",
     "chatGpt": "KI-Antworten",
     "bonus": "Markiert für Bonus",
-    "moderators": "Moderatoren"
+    "moderators": "Moderatoren",
+    "roomPropertiesTitle": "Statistics"
   },
   "en": {
     "name": "»{{name}}«",
@@ -50,7 +51,8 @@
     "creator": "Room Creator",
     "chatGpt": "AI Answers",
     "bonus": "Marked for Bonus",
-    "moderators": "Moderator"
+    "moderators": "Moderator",
+    "roomPropertiesTitle": "Statistics"
   },
   "fr": {
     "name": "« {{name}} »",
@@ -76,6 +78,7 @@
     "creator": "Créateurs",
     "chatGpt": "Réponses KI",
     "bonus": "Marqué pour bonus",
-    "moderators": "Modérateurs"
+    "moderators": "Modérateurs",
+    "roomPropertiesTitle": "Statistics"
   }
 }

@@ -96,7 +96,7 @@
     [type]="'fixed'"
     [priority]="'secondary'">
     <mat-list>
-      <div mat-subheader>Statistics</div>
+      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>
       @for (entry of roomProperties; track entry) {
         <mat-list-item>
           <mat-icon
