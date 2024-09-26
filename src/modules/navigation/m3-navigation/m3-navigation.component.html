@@ -34,7 +34,7 @@
               <ng-container
                 [ngTemplateOutlet]="renderMore"
                 [ngTemplateOutletContext]="{
-                  elements: header.options.slice(2)
+                  elements: header.options.slice(2),
                 }"></ng-container>
             } @else {
               <!-- at most 3 elements -->
@@ -143,7 +143,7 @@
       (click)="elem.onClick()">
       <mat-icon
         [svgIcon]="elem.svgIcon"
-        [className]="elem.className">
+        [ngClass]="elem.className">
         {{ elem.icon }}
       </mat-icon>
     </button>
@@ -154,7 +154,7 @@
       [matMenuTriggerFor]="temp">
       <mat-icon
         [svgIcon]="elem.svgIcon"
-        [className]="elem.className">
+        [ngClass]="elem.className">
         {{ elem.icon }}
       </mat-icon>
     </button>
@@ -166,7 +166,7 @@
           (click)="innerElem.onClick()">
           <mat-icon
             [svgIcon]="innerElem.svgIcon"
-            [className]="elem.className">
+            [ngClass]="elem.className">
             {{ innerElem.icon }}
           </mat-icon>
           {{ innerElem.title }}
