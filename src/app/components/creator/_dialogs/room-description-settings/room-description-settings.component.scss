@@ -1,0 +1,9 @@
+.char-hint {
+  display: flex;
+  justify-content: right;
+  width: 95%;
+  color: var(--mdc-dialog-supporting-text-color);
+}
+.hint-error {
+  color: var(--md-ref-palette-error40);
+}
