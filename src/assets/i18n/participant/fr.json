@@ -947,7 +947,7 @@
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-    "questioner-name": "Ton nom, si tu veux …"
+    "questioner-name": "Surnom"
   },
   "gpt-user-description": {
     "save": "Enregistrer",
