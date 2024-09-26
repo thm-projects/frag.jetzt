@@ -95,77 +95,75 @@
     }
   </m3-supporting-pane>
   <m3-supporting-pane [type]="'fixed'">
-    <div class="info-container">
-      <mat-card
-        appearance="outlined"
-        class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          routerLink="comments"
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card
-        appearance="outlined"
-        class="info-card">
-        <mat-icon>co_present</mat-icon>
-        <span>{{ i18n().creator }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          routerLink="comments"
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card
-        appearance="outlined"
-        class="info-card">
-        <mat-icon svgIcon="fj_robot"></mat-icon>
-        <span>{{ i18n().chatGpt }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          routerLink="comments"
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card
-        appearance="outlined"
-        class="info-card">
-        <mat-icon>grade</mat-icon>
-        <span>{{ i18n().bonus }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          routerLink="comments"
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card
-        appearance="outlined"
-        class="info-card">
-        <mat-icon>support_agent</mat-icon>
-        <span>{{ i18n().moderators }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          routerLink="comments"
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-    </div>
+    <mat-card
+      appearance="outlined"
+      class="info-card">
+      <mat-icon>person</mat-icon>
+      <span>{{ i18n().participant }}</span>
+      <span class="">{{ commentCounter() + answerCounter() }}</span>
+      <span style="flex: 1"></span>
+      <button
+        routerLink="comments"
+        mat-icon-button
+        class="secondary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card
+      appearance="outlined"
+      class="info-card">
+      <mat-icon>co_present</mat-icon>
+      <span>{{ i18n().creator }}</span>
+      <span class="">{{ commentCounter() + answerCounter() }}</span>
+      <span style="flex: 1"></span>
+      <button
+        routerLink="comments"
+        mat-icon-button
+        class="secondary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card
+      appearance="outlined"
+      class="info-card">
+      <mat-icon svgIcon="fj_robot"></mat-icon>
+      <span>{{ i18n().chatGpt }}</span>
+      <span class="">{{ commentCounter() + answerCounter() }}</span>
+      <span style="flex: 1"></span>
+      <button
+        routerLink="comments"
+        mat-icon-button
+        class="secondary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card
+      appearance="outlined"
+      class="info-card">
+      <mat-icon>grade</mat-icon>
+      <span>{{ i18n().bonus }}</span>
+      <span class="">{{ commentCounter() + answerCounter() }}</span>
+      <span style="flex: 1"></span>
+      <button
+        routerLink="comments"
+        mat-icon-button
+        class="secondary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card
+      appearance="outlined"
+      class="info-card">
+      <mat-icon>support_agent</mat-icon>
+      <span>{{ i18n().moderators }}</span>
+      <span class="">{{ commentCounter() + answerCounter() }}</span>
+      <span style="flex: 1"></span>
+      <button
+        routerLink="comments"
+        mat-icon-button
+        class="secondary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
   </m3-supporting-pane>
 </m3-body-pane>
