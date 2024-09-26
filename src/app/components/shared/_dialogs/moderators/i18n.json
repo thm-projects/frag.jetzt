@@ -1,0 +1,16 @@
+{
+    "key": "Moderator-component",
+    "de": {
+      "guest":"Gastmoderator*in",
+      "moderator": "Dauerhafter Moderator"
+    },
+    "en": {
+      "guest":"Guest Moderator",
+      "moderator": "Permanent Moderator"
+    },
+    "fr": {
+      "guest":"Modérateur invité",
+      "moderator": "Modérateur permanent"
+    }
+  }
+ 
