@@ -20,25 +20,37 @@
         </button>
       }
     </mat-toolbar>
-    <mat-action-list>
-      @for (entry of threads(); track entry) {
-        <button
-          mat-list-item
-          [activated]="selectedThread() === entry"
-          (click)="openThread(entry)">
-          <span matListItemTitle>{{ entry.headLine }}</span>
-          <span>{{ entry.content }}</span>
-          <button
-            [matTooltip]="i18n().delete"
-            (click)="deleteThread(entry, $event)"
-            mat-icon-button
-            matListItemMeta>
-            <mat-icon>delete</mat-icon>
-          </button>
-        </button>
-      } @empty {
-        <div mat-subheader>{{ i18n().noThreads }}</div>
-      }
+    <mat-action-list style="padding: 0">
+      <div *ngFor="let group of threadGroups()">
+        <div
+          class="container"
+          *ngIf="group.threads.length > 0">
+          <div
+            mat-subheader
+            style="margin: 0"
+            class="sticky-header">
+            {{ group.label }}
+          </div>
+          <ng-container *ngIf="group.threads.length > 0">
+            <button
+              mat-list-item
+              *ngFor="let entry of group.threads"
+              [activated]="selectedThread() === entry"
+              (click)="openThread(entry)"
+              style="padding: 0 24px">
+              <span matListItemTitle>{{ entry.headLine }}</span>
+              <span>{{ entry.content }}</span>
+              <button
+                [matTooltip]="i18n().delete"
+                (click)="deleteThread(entry, $event)"
+                mat-icon-button
+                matListItemMeta>
+                <mat-icon>delete</mat-icon>
+              </button>
+            </button>
+          </ng-container>
+        </div>
+      </div>
     </mat-action-list>
   </m3-supporting-pane>
   @if (!(isOpen() && isMobile())) {

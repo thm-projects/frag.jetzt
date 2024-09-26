@@ -149,6 +149,57 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  threadGroups() {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    return [
+      {
+        label: 'Today',
+        threads: this.threads().filter((t) =>
+          this.isSameDate(t.ref.createdAt, today),
+        ),
+      },
+      {
+        label: 'Yesterday',
+        threads: this.threads().filter((t) =>
+          this.isSameDate(t.ref.createdAt, yesterday),
+        ),
+      },
+      {
+        label: 'Previous 7 Days',
+        threads: this.threads().filter((t) => {
+          const threadDate = new Date(t.ref.createdAt);
+          return (
+            threadDate < today &&
+            threadDate >= sevenDaysAgo &&
+            !this.isSameDate(threadDate, today) &&
+            !this.isSameDate(threadDate, yesterday)
+          );
+        }),
+      },
+      {
+        label: 'Older',
+        threads: this.threads().filter((t) => {
+          const threadDate = new Date(t.ref.createdAt);
+          return threadDate < sevenDaysAgo;
+        }),
+      },
+    ];
+  }
+
+  isSameDate(d1: Date, d2: Date) {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  }
+
   ngOnInit(): void {
     this.eventService
       .on<ForumComment>('gptchat-room.data')

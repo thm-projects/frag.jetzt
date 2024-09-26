@@ -20,6 +20,7 @@ m3-supporting-pane {
   transition-property: width, margin-left;
   transition-timing-function: var(--md-sys-motion-easing-emphasized);
   width: 0;
+  height: calc(100% - var(--mat-toolbar-standard-height));
   margin-left: 0;
   overflow: hidden;
   position: relative;
@@ -36,4 +37,24 @@ m3-supporting-pane {
     height: calc(100% - var(--mat-toolbar-standard-height));
     overflow: auto;
   }
+}
+
+.mdc-list-item--activated {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--md-sys-color-surface3);
+}
+
+.sticky-header {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensures it stays above other content when scrolling */
+  background-color: var(
+    --md-sys-color-background
+  ); /* Or whatever the background of your toolbar is */
+  padding: 4px 24px;
+  font-size: 16px;
+  font-weight: bold;
 }
