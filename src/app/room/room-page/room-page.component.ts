@@ -38,6 +38,7 @@ import { room } from '../state/room';
 import { afterUpdate } from '../state/room-updates';
 import { SessionService } from 'app/services/util/session.service';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatList, MatListItem } from '@angular/material/list';
 
 @Component({
   selector: 'app-room-page',
@@ -57,6 +58,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatDividerModule,
+    MatList,
+    MatListItem,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
