@@ -1,0 +1,22 @@
+{
+    "key": "moderator-delete-components",
+    "de": {
+      "sure":"Bist du sicher?",
+      "really-remove-moderator": "Willst du den Moderator oder die Moderatorin wirklich entfernen?",
+      "remove":"Entfernen",
+      "cancel":"Abbrechen"
+    },
+    "en": {
+      "sure":"Are you sure?",
+      "really-remove-moderator": "Do you really want to remove the moderator?",
+      "remove":"Remove",
+      "cancel":"Cancel"
+    },
+    "fr": {
+      "sure":"Tu en es sûr?",
+      "really-remove-moderator": "Tu veux vraiment supprimer le modérateur?",
+      "remove":"Supprimer",
+      "cancel":"Annuler"
+
+    }
+  }
