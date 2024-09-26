@@ -20,12 +20,11 @@
     "editDescription": "Beschreibung bearbeiten",
     "moderatorAccess": "Moderatoren-Zugang:",
     "descriptionHeader": "Begrüßungstext",
-    "questions": "Fragen:",
-    "answers": "Antworten:",
-    "modQuestions": "Moderator-Fragen:",
-    "modAnswers": "Moderator-Antworten:",
-    "moderators": "Moderatoren:",
-    "users": "Benutzer:"
+    "participant": "Teilnehmer:",
+    "creator": "Raumersteller:",
+    "chatGpt": "KI-Antworten:",
+    "bonus": "Markiert für Bonus:",
+    "moderators": "Moderatoren:"
   },
   "en": {
     "name": "»{{name}}«",
@@ -47,13 +46,11 @@
     "editDescription": "Edit description",
     "moderatorAccess": "Moderator access:",
     "descriptionHeader": "Welcome text",
-    "questions":"Questions:",
-    "answers":"Answers:",
-    "modQuestions":"Moderator Questions:",
-    "modAnswers":"Moderator Answers:",
-    "moderators": "Moderators:",
-    "users": "Users:"
-
+    "participant": "Participant:",
+    "creator": "Room Creator:",
+    "chatGpt": "AI Answers:",
+    "bonus": "Marked for Bonus:",
+    "moderators": "Moderator:"
   },
   "fr": {
     "name": "« {{name}} »",
@@ -75,11 +72,10 @@
     "editDescription": "Modifier la description",
     "moderatorAccess": "Accès modérateur :",
     "descriptionHeader": "Texte de bienvenue",
-    "questions": "Questions :",
-    "answers": "Réponses :",
-    "modQuestions": "Questions des modérateurs :",
-    "modAnswers": "Réponses des modérateurs :",
-    "moderators": "Modérateurs :",
-    "users": "Utilisateurs :"
+    "participant": "Participants:",
+    "creator": "Créateurs:",
+    "chatGpt": "Réponses KI:",
+    "bonus": "Marqué pour bonus:",
+    "moderators": "Modérateurs :"
   }
 }

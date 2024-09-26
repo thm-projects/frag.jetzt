@@ -41,169 +41,23 @@
             }
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content>
-          <div style="display: flex">
-            <div class="content-card shrink-on-medium">
-              <mat-card-title style="text-align: center">
-                <span class="hide-on-small">
-                  {{ i18n().descriptionHeader }}
-                </span>
-                @if (isPrivileged()) {
-                  <button
-                    mat-icon-button
-                    (click)="editSessionDescription()">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                }
-              </mat-card-title>
-              <mat-card-content class="scrollable-content">
-                <app-markdown-viewer
-                  [data]="room.description || ''"></app-markdown-viewer>
-              </mat-card-content>
-            </div>
-            <mat-divider [vertical]="true"></mat-divider>
-            <div class="info-container column-on-small">
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().questions }}">
-                    question_mark
-                  </mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="commentCounter()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().questions }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">{{ commentCounter() }}</span>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().answers }}">
-                    priority_high
-                  </mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="answerCounter()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().answers }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">{{ answerCounter() }}</span>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().modQuestions }}">
-                    shield_question
-                  </mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="moderatedCommentCounter()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().modQuestions }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">
-                    {{ moderatedCommentCounter() }}
-                  </span>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().modAnswers }}">
-                    gpp_maybe
-                  </mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="moderatedAnswerCounter()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().modAnswers }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">
-                    {{ moderatedAnswerCounter() }}
-                  </span>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().moderators }}">
-                    support_agent
-                  </mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="moderatorCount()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().moderators }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">{{ moderatorCount() }}</span>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="info-card">
-                <mat-card-content>
-                  <mat-icon matTooltip="{{ i18n().users }}">person</mat-icon>
-                  <span
-                    class="show-on-small"
-                    style="display: none"
-                    [matBadge]="activeUsers()"
-                    matBadgeSize="large"
-                    [matBadgeOverlap]="true"
-                    matBadgePosition="above before"></span>
-                  <span
-                    class="hide-on-medium"
-                    style="margin-left: 16px">
-                    {{ i18n().users }}
-                  </span>
-                  <span
-                    class="hide-on-small"
-                    style="flex: 1"></span>
-                  <span class="hide-on-small">{{ activeUsers() }}</span>
-                </mat-card-content>
-              </mat-card>
-            </div>
+        <mat-card-content class="description-container">
+          <div>
+            <span class="hide-on-small headline-small">
+              {{ i18n().descriptionHeader }}
+            </span>
+            @if (isPrivileged()) {
+              <button
+                mat-icon-button
+                (click)="editSessionDescription()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+          </div>
+
+          <div class="scrollable-content">
+            <app-markdown-viewer
+              [data]="room.description || ''"></app-markdown-viewer>
           </div>
         </mat-card-content>
         <mat-card-actions>
@@ -236,5 +90,66 @@
         style="margin: auto"
         mode="indeterminate"></mat-progress-spinner>
     }
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    [type]="'fixed'"
+    class="info-pane">
+    <div class="info-container">
+      <mat-card class="info-card">
+        <mat-icon>person</mat-icon>
+        <span>{{ i18n().participant }}</span>
+        <span class="">{{ commentCounter() + answerCounter() }}</span>
+        <span style="flex: 1"></span>
+        <button
+          mat-icon-button
+          class="secondary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+      <mat-card class="info-card">
+        <mat-icon>person</mat-icon>
+        <span>{{ i18n().participant }}</span>
+        <span class="">{{ commentCounter() + answerCounter() }}</span>
+        <span style="flex: 1"></span>
+        <button
+          mat-icon-button
+          class="secondary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+      <mat-card class="info-card">
+        <mat-icon>person</mat-icon>
+        <span>{{ i18n().participant }}</span>
+        <span class="">{{ commentCounter() + answerCounter() }}</span>
+        <span style="flex: 1"></span>
+        <button
+          mat-icon-button
+          class="secondary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+      <mat-card class="info-card">
+        <mat-icon>person</mat-icon>
+        <span>{{ i18n().participant }}</span>
+        <span class="">{{ commentCounter() + answerCounter() }}</span>
+        <span style="flex: 1"></span>
+        <button
+          mat-icon-button
+          class="secondary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+      <mat-card class="info-card">
+        <mat-icon>person</mat-icon>
+        <span>{{ i18n().participant }}</span>
+        <span class="">{{ commentCounter() + answerCounter() }}</span>
+        <span style="flex: 1"></span>
+        <button
+          mat-icon-button
+          class="secondary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+    </div>
   </m3-supporting-pane>
 </m3-body-pane>
