@@ -3,6 +3,9 @@ import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-act
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-moderator-delete',
@@ -11,6 +14,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ModeratorDeleteComponent implements OnInit {
   loginId: string;
+
+  protected readonly i18n = i18n;
 
   /**
    * The confirm button type of the dialog.
