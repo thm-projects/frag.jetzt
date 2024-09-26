@@ -102,7 +102,6 @@ export class AiChatComponent {
         this.fileReference.set([...fileReference]);
       });
     }
-    console.log(messages);
     return messages;
   });
   protected readonly i18n = i18n;
