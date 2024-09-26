@@ -13,6 +13,9 @@ import {
   GPTVoucherService,
 } from 'app/services/http/gptvoucher.service';
 import { forceLogin, user$ } from 'app/user/state/user';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -138,14 +141,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               {
                 value: 'apiCode',
                 label: 'ml-room-create.a-p2-api-code',
-                helpText:
-                  'Ein API-Key ist eine Art Passwort, das verwendet wird, um den Zugriff auf eine API zu authentifizieren und zu steuern. Deinen API-Key findest du auf der Webseite deines API-Anbieters.',
+                helpText: i18n().helpTextAPIKey,
               },
               {
                 value: 'voucher',
                 label: 'ml-room-create.a-p2-voucher',
-                helpText:
-                  'Ein Voucher ist ein Code, den man bei frag.jetzt anfordern und einlösen kann, um Zugriff auf eine API zu erhalten.',
+                helpText: i18n().helpTextVoucher,
               },
               {
                 value: 'with-global',
