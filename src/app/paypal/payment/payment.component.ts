@@ -10,6 +10,7 @@ import { ApiService } from './api.service';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+import { language } from 'app/base/language/language';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -151,7 +152,7 @@ export class PaymentComponent implements OnInit {
         createOrder: async () => {
           try {
             const response = await this.apiService
-              .createOrder(amount)
+              .createOrder(amount, 'EUR', language())
               .toPromise();
             return response.id;
           } catch (error) {

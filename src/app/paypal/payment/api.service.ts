@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { catchError, Observable, tap } from 'rxjs';
+import { Language } from 'app/base/language/language';
+import { BaseHttpService } from 'app/services/http/base-http.service';
 
 // Define an interface for the response of creating an order
 interface CreateOrderResponse {
@@ -16,104 +18,52 @@ interface CaptureOrderResponse {
   // Add any additional fields that you expect in the response
 }
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  }),
+};
+
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
-  private paypalApiUrl = 'https://api-m.sandbox.paypal.com/v2/checkout/orders';
-  private clientId =
-    'ATZFarfzWZCA0DB05S_7xGNEx7Gz_d_KAl7BkJwgaKBZgfpptY-mVw7jv0z9ctTHq92axuaQiPKg9xAu';
-  private clientSecret =
-    'ELT7A8oH6oPX1dHT5qhV11H1A-4Zl4VHX2DoROMxj77EuBY_d3smWPDUe_7cQqNw_T95jxTky7TgHlcV';
-
-  constructor(private http: HttpClient) {}
-
-  // Retrieves an OAuth 2.0 access token from PayPal.
-  private getAuthToken(): Observable<string> {
-    const tokenUrl = 'https://api-m.sandbox.paypal.com/v1/oauth2/token';
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${btoa(`${this.clientId}:${this.clientSecret}`)}`,
-    });
-    const body = 'grant_type=client_credentials';
-
-    return this.http
-      .post<{ access_token: string }>(tokenUrl, body, { headers })
-      .pipe(map((response) => response.access_token));
+export class ApiService extends BaseHttpService {
+  constructor(private http: HttpClient) {
+    super();
   }
 
-  // Creates an order for a single token purchase
-  createOrder(tokenAmount: number): Observable<CreateOrderResponse> {
-    // Ensure the token amount is valid
-    if (tokenAmount <= 0) {
-      throw new Error('Token amount must be greater than zero.');
+  createOrder(
+    price: number,
+    currency: 'EUR',
+    language: Language,
+  ): Observable<CreateOrderResponse> {
+    if (price <= 0) {
+      throw new Error('Price must be greater than zero.');
     }
-
-    return this.getAuthToken().pipe(
-      switchMap((accessToken) => {
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        });
-
-        const total = tokenAmount;
-        const body = {
-          intent: 'CAPTURE',
-          purchase_units: [
-            {
-              reference_id: `PU_${Date.now()}`,
-              amount: {
-                breakdown: {
-                  item_total: {
-                    currency_code: 'EUR',
-                    value: total.toFixed(2),
-                  },
-                },
-                currency_code: 'EUR',
-                value: total.toFixed(2),
-              },
-              items: [
-                {
-                  name: `${tokenAmount} Tokens`, // Display the number of tokens purchased
-                  unit_amount: {
-                    currency_code: 'EUR',
-                    value: total.toFixed(2),
-                  },
-                  quantity: '1', // Only 1 token per purchase
-                },
-              ],
-            },
-          ],
-          application_context: {
-            brand_name: 'Token Shop',
-            user_action: 'PAY_NOW',
-          },
-        };
-
-        return this.http.post<CreateOrderResponse>(this.paypalApiUrl, body, {
-          headers,
-        });
-      }),
-    );
+    const url = '/api/paypal/create-order/';
+    return this.http
+      .post<CreateOrderResponse>(
+        url,
+        {
+          amount: price,
+          currency,
+          language,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<CreateOrderResponse>('createOrder')),
+      );
   }
-
-  // Capture the order after approval
   captureOrder(orderId: string): Observable<CaptureOrderResponse> {
-    return this.getAuthToken().pipe(
-      switchMap((accessToken) => {
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        });
-
-        const captureUrl = `${this.paypalApiUrl}/${orderId}/capture`;
-
-        return this.http.post<CaptureOrderResponse>(
-          captureUrl,
-          {},
-          { headers },
-        );
-      }),
-    );
+    const url = `/api/paypal/capture-order/${orderId}/`;
+    return this.http
+      .post<CaptureOrderResponse>(url, undefined, httpOptions)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<CaptureOrderResponse>('captureOrder')),
+      );
   }
 }
