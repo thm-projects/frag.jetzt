@@ -11,10 +11,12 @@
 
     "pay": "Wie wollen sie zahlen?",
 
-    "signup": "Noch kein konto? **[ Jetzt anmelden ]({{url}})** und erhalten Sie Ihr kostenloses Willkommensgeschenk",
+    "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
     
     "tokens": "Tokens",
     "words": "Wörter",
+
+    "register": "Einloggen",
 
     "BasicTime": "Einmaliger Kauf",
     "selectFreePlan": "Kostenloser Plan benutzt",
@@ -36,10 +38,12 @@
 
     "pay": "How would you like to pay?",
 
-    "signup": "No account yet? **[ Register now ]({{url}})** and receive your free welcome gift",
+    "signup": "No account yet? Register now and receive your free welcome gift",
 
     "tokens": "Tokens",
     "words": "Words",
+
+    "register": "Login",
 
     "BasicTime": "1-time purchase",
     "selectFreePlan": "Free Plan used",
@@ -61,10 +65,12 @@
 
     "pay": "Comment vont-ils payer ?",
     
-    "signup": "Vous n'avez pas encore de compte ? **[ Inscrivez-vous maintenant ]({{url}})** et recevez votre cadeau de bienvenue",
+    "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
     
     "tokens": "Jetons",
     "words": "Mots",
+
+    "register": "Se connecter",
 
     "BasicTime": "Achat unique",
     "selectFreePlan": "Plan gratuit utilisé",

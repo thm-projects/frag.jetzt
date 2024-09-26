@@ -4,12 +4,16 @@
   </h1>
 
   <mat-card class="token-card">
-    <mat-icon class="token-icon-align">token</mat-icon>
     @if (user) {
+      <mat-icon class="token-icon-align">token</mat-icon>
       {{ i18n().yourTokens }} {{ userTokens }}
     } @else {
-      <app-markdown-viewer
-        [data]="i18n().signup | context: { url }"></app-markdown-viewer>
+      <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
+      <button
+        mat-flat-button
+        (click)="loginPage()">
+        {{ i18n().register }}
+      </button>
     }
   </mat-card>
 
