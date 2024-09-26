@@ -52,7 +52,7 @@
     "faqText": "Not sure how tokens work?",
     "faqLink": "Learn more about tokens and pricing",
     "yourTokens": "Your Tokens:",
-    "buy": "Buy now"
+    "buy": "Disabled"
   },
   "fr": {
     "title": "Choisissez Votre Forfait",
@@ -77,7 +77,7 @@
     "purchased": "Acheté",
     "unlimitedPurchase": "Achat répétitif",
     "yourTokens": "Vos Tokens :",
-    "buy": "Acheter maintenant",
+    "buy": "Désactivé",
 
     "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
     "faqLink": "En savoir plus sur les tokens et les tarifs"
