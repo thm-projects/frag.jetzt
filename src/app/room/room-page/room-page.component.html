@@ -101,50 +101,55 @@
         <span class="">{{ commentCounter() + answerCounter() }}</span>
         <span style="flex: 1"></span>
         <button
+          routerLink="comments"
           mat-icon-button
           class="secondary">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </mat-card>
       <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
+        <mat-icon>co_present</mat-icon>
+        <span>{{ i18n().creator }}</span>
         <span class="">{{ commentCounter() + answerCounter() }}</span>
         <span style="flex: 1"></span>
         <button
+          routerLink="comments"
           mat-icon-button
           class="secondary">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </mat-card>
       <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
+        <mat-icon svgIcon="fj_robot"></mat-icon>
+        <span>{{ i18n().chatGpt }}</span>
         <span class="">{{ commentCounter() + answerCounter() }}</span>
         <span style="flex: 1"></span>
         <button
+          routerLink="comments"
           mat-icon-button
           class="secondary">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </mat-card>
       <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
+        <mat-icon>grade</mat-icon>
+        <span>{{ i18n().bonus }}</span>
         <span class="">{{ commentCounter() + answerCounter() }}</span>
         <span style="flex: 1"></span>
         <button
+          routerLink="comments"
           mat-icon-button
           class="secondary">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </mat-card>
       <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
+        <mat-icon>support_agent</mat-icon>
+        <span>{{ i18n().moderators }}</span>
         <span class="">{{ commentCounter() + answerCounter() }}</span>
         <span style="flex: 1"></span>
         <button
+          routerLink="comments"
           mat-icon-button
           class="secondary">
           <mat-icon>arrow_forward</mat-icon>
