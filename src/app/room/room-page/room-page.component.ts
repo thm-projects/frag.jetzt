@@ -11,6 +11,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +36,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { room } from '../state/room';
 import { afterUpdate } from '../state/room-updates';
+import { SessionService } from 'app/services/util/session.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-room-page',
@@ -52,6 +55,8 @@ import { afterUpdate } from '../state/room-updates';
     RouterModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatDividerModule,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
@@ -67,6 +72,8 @@ export class RoomPageComponent {
   protected readonly answerCounter = signal<number>(0);
   protected readonly moderatedCommentCounter = signal<number>(0);
   protected readonly moderatedAnswerCounter = signal<number>(0);
+  protected readonly activeUsers = signal('?');
+  protected readonly moderatorCount = signal<number | string>('?');
   private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
   private notificationService = inject(NotificationService);
@@ -80,6 +87,7 @@ export class RoomPageComponent {
       }
     });
     const roomDataService = inject(RoomDataService);
+    const sessionService = inject(SessionService);
     const destroyRef = inject(DestroyRef);
     const injector = inject(Injector);
     const sub = applyRoomNavigation(injector).subscribe();
@@ -92,6 +100,7 @@ export class RoomPageComponent {
         const sub1 = this.roomState.assignedRole$
           .pipe(map((role) => role !== 'Participant'))
           .subscribe((privileged) => this.isPrivileged.set(privileged));
+        this.updateResponseCounter();
         const sub2 = roomDataService.dataAccessor
           .receiveUpdates([
             { type: 'CommentCreated', finished: true },
@@ -101,9 +110,19 @@ export class RoomPageComponent {
           .subscribe(() => {
             this.updateResponseCounter();
           });
+        const sub3 = roomDataService.observeUserCount().subscribe((text) => {
+          this.activeUsers.set(text);
+        });
+        const sub4 = sessionService
+          .getModeratorsOnce()
+          .subscribe((moderators) => {
+            this.moderatorCount.set(moderators.length);
+          });
         onCleanup(() => {
           sub1.unsubscribe();
           sub2.unsubscribe();
+          sub3.unsubscribe();
+          sub4.unsubscribe();
         });
       },
       { allowSignalWrites: true },
