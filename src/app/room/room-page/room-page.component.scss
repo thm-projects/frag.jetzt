@@ -1,112 +1,112 @@
-m3-body-pane {
-  height: 100%;
-}
-
-m3-supporting-pane.scrollable-pane {
-  height: calc(100% - 32px);
-  padding-right: var(--m3-sys-layout-spacing-pane);
-  flex-direction: column;
-  overflow-y: auto;
-  display: block;
-}
-
-mat-card.main-card {
-  max-width: 95%;
-  overflow-y: visible;
-  margin: auto;
-}
-.info-card {
-  margin-right: 32px;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  flex: 1;
-}
-.scrollable-content {
-  flex-grow: 1;
-  overflow-y: auto;
-}
-.description-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 50vh;
-  margin: 0 24px 24px 24px;
-}
-.invite-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  column-gap: 32px;
-}
-mat-card-actions {
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 1.25em;
-  padding: 0.8em;
-}
-mat-toolbar {
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  min-height: 64px;
-}
-mat-divider {
-  min-width: 1px;
-  background-color: var(--md-sys-color-on-background);
-  margin: 0px;
-}
-.badge-wrapper {
-  --mat-badge-background-color: var(--md-sys-color-primary-container);
-  --mat-badge-text-color: var(--md-sys-color-primary);
-  position: relative;
-
-  &.secondary {
-    --mat-badge-background-color: var(--md-sys-color-secondary-container);
-    --mat-badge-text-color: var(--md-sys-color-secondary);
-  }
-
-  > .wrapped-badge {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-  }
-}
-
-.tooltip-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em;
-}
-
-.full-width-title > ::ng-deep div {
-  width: 100%;
-}
-.centered-header {
-  display: flex;
-  justify-content: center;
-  font-size: max(calc(800px / 30), 2.5vw);
-  font-weight: 500;
-}
-@media (max-width: 600px) {
-  .hide-on-small {
-    display: none;
-  }
-  .show-on-small {
-    display: flex !important;
-  }
-}
-@media (max-width: 840px) {
-  .hide-on-medium {
-    display: none;
-  }
-}
-
-@media (min-width: 840px) {
-  .shrink-on-medium {
-    max-width: 61.8%;
-  }
-}
+//m3-body-pane {
+//  height: 100%;
+//}
+//
+//m3-supporting-pane.scrollable-pane {
+//  height: calc(100% - 32px);
+//  padding-right: var(--m3-sys-layout-spacing-pane);
+//  flex-direction: column;
+//  overflow-y: auto;
+//  display: block;
+//}
+//
+//mat-card.main-card {
+//  max-width: 95%;
+//  overflow-y: visible;
+//  margin: auto;
+//}
+//.info-card {
+//  margin-right: 32px;
+//  flex-direction: row;
+//  justify-content: center;
+//  align-items: center;
+//  gap: 16px;
+//  padding: 16px;
+//  flex: 1;
+//}
+//.scrollable-content {
+//  flex-grow: 1;
+//  overflow-y: auto;
+//}
+//.description-container {
+//  display: flex;
+//  flex-direction: column;
+//  flex-grow: 1;
+//  height: 50vh;
+//  margin: 0 24px 24px 24px;
+//}
+//.invite-links {
+//  display: flex;
+//  justify-content: center;
+//  flex-wrap: wrap;
+//  column-gap: 32px;
+//}
+//mat-card-actions {
+//  justify-content: space-around;
+//  flex-wrap: wrap;
+//  gap: 1.25em;
+//  padding: 0.8em;
+//}
+//mat-toolbar {
+//  flex-wrap: wrap;
+//  justify-content: center;
+//  align-items: center;
+//  min-height: 64px;
+//}
+//mat-divider {
+//  min-width: 1px;
+//  background-color: var(--md-sys-color-on-background);
+//  margin: 0px;
+//}
+//.badge-wrapper {
+//  --mat-badge-background-color: var(--md-sys-color-primary-container);
+//  --mat-badge-text-color: var(--md-sys-color-primary);
+//  position: relative;
+//
+//  &.secondary {
+//    --mat-badge-background-color: var(--md-sys-color-secondary-container);
+//    --mat-badge-text-color: var(--md-sys-color-secondary);
+//  }
+//
+//  > .wrapped-badge {
+//    position: absolute;
+//    top: 0;
+//    bottom: 0;
+//  }
+//}
+//
+//.tooltip-wrapper {
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  gap: 0.5em;
+//}
+//
+//.full-width-title > ::ng-deep div {
+//  width: 100%;
+//}
+//.centered-header {
+//  display: flex;
+//  justify-content: center;
+//  font-size: max(calc(800px / 30), 2.5vw);
+//  font-weight: 500;
+//}
+//@media (max-width: 600px) {
+//  .hide-on-small {
+//    display: none;
+//  }
+//  .show-on-small {
+//    display: flex !important;
+//  }
+//}
+//@media (max-width: 840px) {
+//  .hide-on-medium {
+//    display: none;
+//  }
+//}
+//
+//@media (min-width: 840px) {
+//  .shrink-on-medium {
+//    max-width: 61.8%;
+//  }
+//}

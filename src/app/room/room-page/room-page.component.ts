@@ -1,14 +1,13 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
-const i18n = I18nLoader.load(rawI18n);
 import {
   ChangeDetectorRef,
   Component,
-  DestroyRef,
-  Injector,
   computed,
+  DestroyRef,
   effect,
   inject,
+  Injector,
   signal,
 } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -38,7 +37,14 @@ import { room } from '../state/room';
 import { afterUpdate } from '../state/room-updates';
 import { SessionService } from 'app/services/util/session.service';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatList, MatListItem } from '@angular/material/list';
+import {
+  MatList,
+  MatListItem,
+  MatListSubheaderCssMatStyler,
+} from '@angular/material/list';
+import { DatePipe } from '@angular/common';
+
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-room-page',
@@ -60,6 +66,8 @@ import { MatList, MatListItem } from '@angular/material/list';
     MatDividerModule,
     MatList,
     MatListItem,
+    MatListSubheaderCssMatStyler,
+    DatePipe,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
@@ -82,6 +90,44 @@ export class RoomPageComponent {
   private notificationService = inject(NotificationService);
   private roomState = inject(RoomStateService);
   private changeDetector = inject(ChangeDetectorRef);
+  roomProperties: {
+    icon: string;
+    svgIcon?: string;
+    value: () => number;
+    translation: () => string;
+  }[] = [
+    {
+      icon: 'person',
+      value: () => 0,
+      translation: () => i18n().participant,
+    },
+    {
+      icon: 'co_present',
+      value: () => 0,
+      translation: () => i18n().creator,
+    },
+    {
+      icon: 'co_present',
+      svgIcon: 'fj_robot',
+      value: () => 0,
+      translation: () => i18n().chatGpt,
+    },
+    {
+      icon: 'co_present',
+      value: () => 0,
+      translation: () => i18n().creator,
+    },
+    {
+      icon: 'grade',
+      value: () => 0,
+      translation: () => i18n().bonus,
+    },
+    {
+      icon: 'support_agent',
+      value: () => 0,
+      translation: () => i18n().moderators,
+    },
+  ];
 
   constructor() {
     const updates = afterUpdate.subscribe((u) => {
