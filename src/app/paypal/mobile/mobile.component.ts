@@ -71,4 +71,6 @@ export class MobileComponent implements OnInit {
   }
 }
 
-export class PaymentComponent {}
+export class PaymentComponent {
+  //-
+}
