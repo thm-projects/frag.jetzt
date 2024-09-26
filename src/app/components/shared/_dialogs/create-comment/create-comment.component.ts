@@ -3,6 +3,7 @@ import { WriteCommentComponent } from '../../write-comment/write-comment.compone
 import { UserRole } from '../../../../models/user-roles.enum';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Comment } from 'app/models/comment';
 
 @Component({
   selector: 'app-submit-comment',

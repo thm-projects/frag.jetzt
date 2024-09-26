@@ -9,6 +9,7 @@ export interface M3PreferredTemplate {
 
 export interface M3HeaderTemplate {
   slogan?: string;
+  offline?: string;
   options: (M3HeaderOption | M3HeaderMenu)[];
   /**
    * https://m3.material.io/components/top-app-bar/guidelines#0e9878bc-c1e1-46a5-afa5-4b43a1949dc1
@@ -24,6 +25,7 @@ export interface M3HeaderOption {
   title: string;
   icon?: string;
   svgIcon?: string;
+  className?: string;
   onClick: () => void;
   disabled?: boolean;
 }
@@ -32,6 +34,7 @@ export interface M3HeaderMenu {
   title: string;
   icon?: string;
   svgIcon?: string;
+  className?: string;
   items: M3HeaderOption[];
 }
 

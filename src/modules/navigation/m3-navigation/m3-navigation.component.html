@@ -14,7 +14,12 @@
       <!-- Header -->
       @if (header(); as header) {
         <span class="m3-nav-header-title title-large">
-          {{ isExpanded() ? header.slogan : "" }}
+          {{ isExpanded() && isOnline ? header.slogan : "" }}
+          <span
+            class="m3-nav-header-title title-large"
+            style="color: var(--md-sys-color-error)">
+            {{ isOnline ? "" : header.offline }}
+          </span>
         </span>
         <!-- Header Options -->
         @if (header.options.length; as length) {
@@ -29,7 +34,7 @@
               <ng-container
                 [ngTemplateOutlet]="renderMore"
                 [ngTemplateOutletContext]="{
-                  elements: header.options.slice(2)
+                  elements: header.options.slice(2),
                 }"></ng-container>
             } @else {
               <!-- at most 3 elements -->
@@ -136,14 +141,22 @@
       mat-icon-button
       [disabled]="elem.disabled"
       (click)="elem.onClick()">
-      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [ngClass]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
     </button>
   } @else {
     <button
       [matTooltip]="elem.title"
       mat-icon-button
       [matMenuTriggerFor]="temp">
-      <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [ngClass]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
     </button>
     <mat-menu #temp="matMenu">
       @for (innerElem of elem.items; track innerElem) {
@@ -151,7 +164,9 @@
           mat-menu-item
           [disabled]="innerElem.disabled"
           (click)="innerElem.onClick()">
-          <mat-icon [svgIcon]="innerElem.svgIcon">
+          <mat-icon
+            [svgIcon]="innerElem.svgIcon"
+            [ngClass]="elem.className">
             {{ innerElem.icon }}
           </mat-icon>
           {{ innerElem.title }}
