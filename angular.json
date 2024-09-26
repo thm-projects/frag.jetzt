@@ -70,15 +70,7 @@
                 },
                 {
                   "replace": "src/app/paypal/payment/payment.component.ts",
-                  "with" : "src/app/paypal/mobile/payment.component.ts"
-                },
-                {
-                  "replace": "src/app/paypal/donation/i18n.json",
-                  "with" : "src/app/paypal/mobiledonation/i18n.json"
-                },
-                {
-                  "replace": "src/app/paypal/donation/donation.component.ts",
-                  "with" : "src/app/paypal/mobiledonation/donation.component.ts"
+                  "with" : "src/app/paypal/mobile/mobile.component.ts"
                 }
               ]
             },

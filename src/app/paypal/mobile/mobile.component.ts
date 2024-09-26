@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, Injector, OnInit } from '@angular/core';
 
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
@@ -9,22 +9,18 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NgClass, NgForOf } from '@angular/common';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
 
-// Define PayPal types
-/* interface PayPalData {
-  orderID: string;
-} */
-
 // Define type for pricing plans
-/* interface Plan {
+interface Plan {
   title: string;
   price: string;
   tokens: number;
   color: string;
-} */
+}
 
 @Component({
   selector: 'app-mobile',
@@ -42,12 +38,12 @@ const i18n = I18nLoader.load(rawI18n);
   templateUrl: './mobile.component.html',
   styleUrls: ['./mobile.component.scss'],
 })
-export class MobileComponent {
+export class MobileComponent implements OnInit {
   protected readonly i18n = i18n;
   userTokens = 100;
-}
+  private injector = inject(Injector);
 
-/*   // Pricing plans
+  // Pricing plans
   plans: Plan[] = [
     {
       title: 'Free Plan',
@@ -60,4 +56,19 @@ export class MobileComponent {
     { title: '€20 Plan', price: '20', tokens: 212000, color: 'primary' },
     { title: '€50 Plan', price: '50', tokens: 530000, color: 'primary' },
   ];
- */
+
+  constructor() {
+    applyDefaultNavigation(this.injector).subscribe();
+  }
+
+  ngOnInit() {
+    this.getUserTokens();
+  }
+
+  getUserTokens() {
+    // Simulate retrieving the user's token count from a service or backend
+    this.userTokens = 50000; // Example token count, replace with actual value
+  }
+}
+
+export class PaymentComponent {}
