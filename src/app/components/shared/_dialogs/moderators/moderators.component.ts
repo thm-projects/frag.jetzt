@@ -67,6 +67,19 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
     }
     return this.moderatorShortId;
   }
+  addModeratorOnEnter(loginId: string): void {
+    if (this.usernameFormControl.valid) {
+      this.addModerator(loginId);
+      // Clear the input field
+      this.usernameFormControl.reset();
+    } else {
+      this.translationService
+        .get('moderators-dialog.email-error')
+        .subscribe((msg) => {
+          this.notificationService.show(msg);
+        });
+    }
+  }
 
   ngOnInit() {
     this.moderatorService.getModeratorRoomCode(this.roomId).subscribe({

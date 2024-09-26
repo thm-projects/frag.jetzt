@@ -31,7 +31,8 @@
         aria-labelledby="moderator-email"
         [formControl]="usernameFormControl"
         [placeholder]="'moderators-dialog.email' | translate"
-        name="username" />
+        name="username"
+        (keyup.enter)="addModeratorOnEnter(loginId.value)" />
       <button
         mat-icon-button
         matIconSuffix
@@ -62,6 +63,9 @@
           {{ moderator.loginId || ("moderators-dialog.guest" | translate) }}
         </span>
         <div matListItemMeta>
+          <mat-icon matPrefix>
+            {{ moderator.loginId ? "support_agent" : "person" }}
+          </mat-icon>
           <button
             mat-icon-button
             (click)="openDeleteRoomDialog(moderator)">
@@ -75,15 +79,15 @@
 <mat-dialog-actions>
   <button
     mat-button
-    (click)="openHelp()">
-    <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    (click)="dialogRef.close(false)">
+    {{ "explanation.close" | translate }}
   </button>
   <div class="grow"></div>
   <button
     mat-button
-    (click)="dialogRef.close(false)">
-    {{ "explanation.close" | translate }}
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
   </button>
 </mat-dialog-actions>
 
