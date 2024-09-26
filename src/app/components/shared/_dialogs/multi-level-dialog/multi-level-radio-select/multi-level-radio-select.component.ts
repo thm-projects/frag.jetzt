@@ -29,4 +29,7 @@ export class MultiLevelRadioSelectComponent implements OnInit {
         this.tooltipPosition = state.matches ? 'below' : 'right';
       });
   }
+  onIconClick(event: MouseEvent): void {
+    event.preventDefault();
+  }
 }

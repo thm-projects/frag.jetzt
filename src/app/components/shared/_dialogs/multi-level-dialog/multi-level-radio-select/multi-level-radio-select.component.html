@@ -11,7 +11,8 @@
         <mat-icon
           [matTooltip]="helpText"
           [matTooltipPosition]="tooltipPosition"
-          class="hoverable-icon">
+          class="hoverable-icon"
+          (click)="onIconClick($event)">
           info
         </mat-icon>
       </ng-container>
