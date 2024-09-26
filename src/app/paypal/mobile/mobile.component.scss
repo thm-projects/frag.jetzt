@@ -1,0 +1,178 @@
+.pricing-plan-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.pricing-title {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.token-icon-align {
+  vertical-align: bottom;
+}
+
+.token-title-text {
+  text-align: center;
+}
+
+.token-balance h2 .icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+}
+
+/* Add a gentle animation when tokens are updated */
+.token-balance.updated {
+  animation: token-update 0.5s ease-out;
+}
+
+@keyframes token-update {
+  0% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pricing-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  flex-wrap: wrap;
+  /* Ensures responsiveness for more cards */
+}
+
+.mat-card-hover:hover {
+  transform: scale(1.05);
+  /* Scale the card up by 5% */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  /* Increase shadow for effect */
+}
+
+.dynamic-content-card mat-list-item {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: pre-wrap;
+}
+
+.token-card {
+  display: inline-block;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.pricing-card {
+  width: 250px;
+  padding: 20px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.full-width > ::ng-deep div {
+  width: 100%;
+}
+
+mat-card-subtitle {
+  font-weight: bold;
+}
+
+.pricing-card mat-icon {
+  color: #7a7803;
+}
+
+.purchased {
+  border: 2px solid #b0b0b0;
+  /* Grey border for purchased */
+  transform: none;
+  /* Remove the raised effect */
+  box-shadow: none;
+  /* Remove the shadow */
+}
+
+.pricing-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pricing-card ul li {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.wrap-list-content {
+  // text-wrap: wrap;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Price Styling */
+.price {
+  font-size: 2rem;
+  margin-top: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  margin-right: 5px;
+}
+
+.pricing-card mat-card-content {
+  margin-bottom: 20px;
+}
+
+.pricing-card mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-divider {
+  margin-top: 20px;
+}
+
+/* FAQ Section Styling */
+.faq-section {
+  margin-top: 40px;
+}
+
+.faq-text {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.faq-link {
+  color: #3f51b5;
+  text-decoration: underline;
+
+  &:hover {
+    color: #1e88e5;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .pricing-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pricing-card {
+    width: 90%;
+  }
+}

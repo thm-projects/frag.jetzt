@@ -1,83 +1,85 @@
 {
   "key": "purchase",
   "de": {
-    "title": "Wähle deinen Preisplan",
-    "basic": "Basis",
+    "title": "Wähle deinen Plan",
+
+    "free": "Kostenlos",
+    "basic": "Basic",
     "standard": "Standard",
-    "pro": "Profi",
-    "currency": "€",
-    "BasicToken": "50.000 Tokens",
-    "BasicWords": "40.000 Wörter",
+    "premium": "Premium",
+    "special": "Special",
+
+    "pay": "Wie wollen sie zahlen?",
+
+    "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
+    
+    "tokens": "Tokens",
+    "words": "Wörter",
+
+    "register": "Einloggen",
+
     "BasicTime": "Einmaliger Kauf",
-    "freePlan": "Kostenlos",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "10",
-    "twentyPlanCurrency": "20",
-    "fiftyPlanCurrency": "50",
-    "fivePlan": "5€ Plan",
-    "tenPlan": "10€ Plan",
-    "twentyPlan": "20€ Plan",
-    "fiftyPlan": "50€ Plan",
-    "selectFreePlan": "Kostenlosen Plan auswählen",
+    "selectFreePlan": "Kostenloser Plan benutzt",
     "purchased": "Gekauft",
-    "buyNow": "Deaktiviert",
-    "unlimitedPurchase": "Unbegrenzter Kauf",
+    "unlimitedPurchase": "Wiederholbarer Kauf",
     "faqText": "Nicht sicher, wie Tokens funktionieren?",
     "faqLink": "Erfahren Sie mehr über Tokens und Preise",
-    "yourTokens": "Ihre Tokens:"
+    "yourTokens": "Ihre Tokens:",
+    "buy": "Deaktiviert"
   },
   "en": {
     "title": "Choose Your Plan",
+
+    "free": "Free",
     "basic": "Basic",
     "standard": "Standard",
-    "pro": "Pro",
-    "currency": "$",
+    "premium": "Premium",
+    "special": "Special",
 
-    "BasicToken": "50,000 Tokens",
-    "BasicWords": "40,000 Words",
+    "pay": "How would you like to pay?",
+
+    "signup": "No account yet? Register now and receive your free welcome gift",
+
+    "tokens": "Tokens",
+    "words": "Words",
+
+    "register": "Login",
+
     "BasicTime": "1-time purchase",
-    "freePlan": "Free",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "9",
-    "twentyPlanCurrency": "15",
-    "fiftyPlanCurrency": "40",
-    "fivePlan": "$5 Plan",
-    "tenPlan": "$9 Plan",
-    "twentyPlan": "$15 Plan",
-    "fiftyPlan": "$40 Plan",
-    "selectFreePlan": "Select Free Plan",
+    "selectFreePlan": "Free Plan used",
     "purchased": "Purchased",
-    "buyNow": "Disabled",
-    "unlimitedPurchase": "Unlimited purchase",
+    "unlimitedPurchase": "Repeatable purchase",
     "faqText": "Not sure how tokens work?",
     "faqLink": "Learn more about tokens and pricing",
-    "yourTokens": "Your Tokens:"
+    "yourTokens": "Your Tokens:",
+    "buy": "Buy now"
   },
   "fr": {
     "title": "Choisissez Votre Forfait",
+
+    "free": "Gratuit",
     "basic": "Basique",
     "standard": "Standard",
-    "pro": "Pro",
-    "currency": "€",
+    "premium": "Premium",
+    "special": "spécial",
 
-    "BasicToken": "50 000 Tokens",
-    "BasicWords": "40 000 Mots",
+    "pay": "Comment vont-ils payer ?",
+    
+    "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
+    
+    "tokens": "Jetons",
+    "words": "Mots",
+
+    "register": "Se connecter",
+
     "BasicTime": "Achat unique",
-    "freePlan": "Gratuit",
-    "fivePlanCurrency": "5",
-    "tenPlanCurrency": "10",
-    "twentyPlanCurrency": "20",
-    "fiftyPlanCurrency": "50",
-    "fivePlan": "Plan 5€",
-    "tenPlan": "Plan 10€",
-    "twentyPlan": "Plan 20€",
-    "fiftyPlan": "Plan 50€",
-    "selectFreePlan": "Sélectionner le plan gratuit",
+    "selectFreePlan": "Plan gratuit utilisé",
     "purchased": "Acheté",
-    "buyNow": "désactivée",
-    "unlimitedPurchase": "Achat illimité",
+    "unlimitedPurchase": "Achat répétitif",
+    "yourTokens": "Vos Tokens :",
+    "buy": "Acheter maintenant",
+
     "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
-    "faqLink": "En savoir plus sur les tokens et les tarifs",
-    "yourTokens": "Vos Tokens :"
+    "faqLink": "En savoir plus sur les tokens et les tarifs"
   }
 }

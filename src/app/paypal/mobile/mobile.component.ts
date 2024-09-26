@@ -10,7 +10,11 @@ import { NgClass, NgForOf } from '@angular/common';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
-
+import { MatListModule } from '@angular/material/list';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
+import { User } from 'app/models/user';
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
 
@@ -34,13 +38,16 @@ interface Plan {
     MatDividerModule,
     NgClass,
     NgForOf,
+    MatListModule,
+    ContextPipe,
+    CustomMarkdownModule,
   ],
   templateUrl: './mobile.component.html',
   styleUrls: ['./mobile.component.scss'],
 })
 export class MobileComponent implements OnInit {
   protected readonly i18n = i18n;
-  userTokens = 100;
+  userTokens = 0;
   private injector = inject(Injector);
 
   // Pricing plans
@@ -60,9 +67,18 @@ export class MobileComponent implements OnInit {
   constructor() {
     applyDefaultNavigation(this.injector).subscribe();
   }
-
+  user: User;
   ngOnInit() {
     this.getUserTokens();
+    user$.subscribe((u) => (this.user = u));
+  }
+
+  loginPage() {
+    if (!user()) {
+      forceLogin().subscribe();
+    } else if (user().isGuest) {
+      openLogin().subscribe();
+    }
   }
 
   getUserTokens() {
