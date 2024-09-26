@@ -24,3 +24,10 @@ mat-error {
     height: 0;
   }
 }
+
+.hoverable-icon {
+  cursor: pointer;
+  position: relative;
+  font-size: 1em;
+  line-height: 2.5;
+}

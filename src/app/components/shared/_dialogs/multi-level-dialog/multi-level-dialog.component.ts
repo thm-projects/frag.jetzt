@@ -305,6 +305,7 @@ export class MultiLevelDialogComponent implements OnInit {
       maxWidth: '600px',
       maxHeight: '99vh',
       panelClass: 'overflow-mat-dialog',
+      disableClose: true,
     });
     const instance = dialogRef.componentInstance;
     instance.data = data;
@@ -324,6 +325,17 @@ export class MultiLevelDialogComponent implements OnInit {
     );
     this.reset();
   }
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      const index =
+        this.stepper.selectedIndex +
+        this.offsetIndex -
+        Number(this.showBackOption);
+      event.preventDefault();
+      event.stopPropagation();
+      this.next(index);
+    }
+  }
 
   next(index: number) {
     if (this.dialogStepper.next(index)) {
@@ -334,10 +346,14 @@ export class MultiLevelDialogComponent implements OnInit {
   openHelp() {
     const help = this.currentQuestion.stepHelp;
     if (typeof help === 'string') {
-      const ref = this.dialog.open(ExplanationDialogComponent);
+      const ref = this.dialog.open(ExplanationDialogComponent, {
+        disableClose: true,
+      });
       ref.componentInstance.translateKey = help;
     } else {
-      this.dialog.open(help as ComponentType<unknown>);
+      this.dialog.open(help as ComponentType<unknown>, {
+        disableClose: true,
+      });
     }
   }
 

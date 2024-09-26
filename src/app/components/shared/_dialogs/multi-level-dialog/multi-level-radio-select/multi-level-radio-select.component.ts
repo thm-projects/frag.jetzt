@@ -1,4 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { inject } from '@angular/core';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {
   BuiltAction,
   DYNAMIC_INPUT,
@@ -13,6 +16,17 @@ import {
     '../common-form-field.scss',
   ],
 })
-export class MultiLevelRadioSelectComponent {
+export class MultiLevelRadioSelectComponent implements OnInit {
   data = inject(DYNAMIC_INPUT) as BuiltAction<RadioSelectAction>;
+  tooltipPosition: TooltipPosition = 'right';
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 768px)'])
+      .subscribe((state: BreakpointState) => {
+        this.tooltipPosition = state.matches ? 'below' : 'right';
+      });
+  }
 }

@@ -13,6 +13,9 @@ import {
   GPTVoucherService,
 } from 'app/services/http/gptvoucher.service';
 import { forceLogin, user$ } from 'app/user/state/user';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -135,8 +138,16 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             label: 'ml-room-create.q-p2-short',
             defaultValue: previousState?.get('setupType')?.value,
             options: [
-              { value: 'apiCode', label: 'ml-room-create.a-p2-api-code' },
-              { value: 'voucher', label: 'ml-room-create.a-p2-voucher' },
+              {
+                value: 'apiCode',
+                label: 'ml-room-create.a-p2-api-code',
+                helpText: i18n().helpTextAPIKey,
+              },
+              {
+                value: 'voucher',
+                label: 'ml-room-create.a-p2-voucher',
+                helpText: i18n().helpTextVoucher,
+              },
               {
                 value: 'with-global',
                 label: 'ml-room-create.a-p2-with-global',

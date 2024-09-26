@@ -2,7 +2,7 @@
   {{ i18n().title }}
 </h1>
 
-<mat-dialog-content>
+<mat-dialog-content (window:keydown)="onKeyDown($event)">
   <mat-progress-bar
     mode="determinate"
     [value]="dialogStepper.progress"></mat-progress-bar>
