@@ -25,7 +25,9 @@
     "chatGpt": "KI-Antworten",
     "bonus": "Markiert für Bonus",
     "moderators": "Moderatoren",
-    "roomPropertiesTitle": "Statistics"
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Tokens kaufen",
+    "tokensLeft": "Verbleibende Tokens"
   },
   "en": {
     "name": "»{{name}}«",
@@ -52,7 +54,9 @@
     "chatGpt": "AI Answers",
     "bonus": "Marked for Bonus",
     "moderators": "Moderator",
-    "roomPropertiesTitle": "Statistics"
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Purchase Tokens",
+    "tokensLeft": "Tokens left"
   },
   "fr": {
     "name": "« {{name}} »",
@@ -79,6 +83,8 @@
     "chatGpt": "Réponses KI",
     "bonus": "Marqué pour bonus",
     "moderators": "Modérateurs",
-    "roomPropertiesTitle": "Statistics"
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Acheter des jetons",
+    "tokensLeft": "Jetons restants"
   }
 }

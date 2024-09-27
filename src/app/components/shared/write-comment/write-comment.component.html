@@ -1,6 +1,6 @@
-<mat-card-title style="text-align: center;">
+<mat-card-title style="text-align: center">
   {{ i18n().title }}
- </mat-card-title>
+</mat-card-title>
 <ars-row style="display: flex; justify-content: space-between">
   <mat-form-field
     class="questioner-name-input"
@@ -74,7 +74,9 @@
 <mat-hint
   class="char-hint"
   [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
-  <span aria-hidden="true">
+  <span
+    aria-hidden="true"
+    class="label-medium">
     {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
   </span>
 </mat-hint>

@@ -3,19 +3,19 @@
   "de": {
     "description":"Begrüßungstext",
     "save":"Speichern und Schließen",
-    "chars": "{{count}} / {{max}} Zeichen",
+    "chars": "{{count}} / {{max}}",
     "warning": "Die maximale Anzahl an Zeichen wurde überschritten!"
   },
   "en": {
     "description":"Welcome text",
     "save":"Save and close",
-    "chars": "{{count}} / {{max}} characters",
+    "chars": "{{count}} / {{max}}",
     "warning": "The maximum number of characters has been exceeded!"
   },
   "fr": {
     "description":"Texte de bienvenue",
     "save":"Enregistrer et fermer",
-    "chars": "{{count}} / {{max}} caractères",
+    "chars": "{{count}} / {{max}}",
     "warning": "Le nombre maximal de caractères est dépassé!"
   }
 }

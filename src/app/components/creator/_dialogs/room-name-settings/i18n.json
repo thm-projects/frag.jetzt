@@ -4,22 +4,19 @@
       "title": "Titel der Veranstaltung ändern",
       "placeholder": "Name der Veranstaltung",
       "nameLengthError": " Der Name muss 3 bis 30 Zeichen lang sein.",
-      "a11yRoomName": "Vergebe der Sitzung hier einen neuen Namen.",
-      "chars": "Zeichen"
+      "a11yRoomName": "Vergebe der Sitzung hier einen neuen Namen."
     },
     "en": {
       "title": "Edit event title",
       "placeholder": "Event Name",
       "nameLengthError": "The name must be 3 to 30 characters long.",
-      "a11yRoomName": "Give the session a new name here.",
-      "chars": "characters"
+      "a11yRoomName": "Give the session a new name here."
     },
     "fr": {
       "title": "Modifier le titre de l'événement",
       "placeholder": "Nom de l'événement",
       "nameLengthError": "Le nom doit comporter entre 3 et 30 caractères.",
-      "a11yRoomName": "Donne un nouveau nom à la session ici.",
-      "chars": "caractères"
+      "a11yRoomName": "Donne un nouveau nom à la session ici."
     }
   }
   

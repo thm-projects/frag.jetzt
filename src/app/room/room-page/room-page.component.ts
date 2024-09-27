@@ -79,6 +79,7 @@ export class RoomPageComponent {
     return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
   });
   protected readonly isPrivileged = signal<boolean>(false);
+  protected readonly isCreator = signal<boolean>(false);
   protected readonly i18n = i18n;
   protected readonly commentCounter = signal<number>(0);
   protected readonly answerCounter = signal<number>(0);
@@ -150,6 +151,9 @@ export class RoomPageComponent {
         const sub1 = this.roomState.assignedRole$
           .pipe(map((role) => role !== 'Participant'))
           .subscribe((privileged) => this.isPrivileged.set(privileged));
+        const sub5 = this.roomState.assignedRole$
+          .pipe(map((role) => role === 'Creator'))
+          .subscribe((creator) => this.isCreator.set(creator));
         this.updateResponseCounter();
         const sub2 = roomDataService.dataAccessor
           .receiveUpdates([
@@ -168,11 +172,13 @@ export class RoomPageComponent {
           .subscribe((moderators) => {
             this.moderatorCount.set(moderators.length);
           });
+
         onCleanup(() => {
           sub1.unsubscribe();
           sub2.unsubscribe();
           sub3.unsubscribe();
           sub4.unsubscribe();
+          sub5.unsubscribe();
         });
       },
       { allowSignalWrites: true },
