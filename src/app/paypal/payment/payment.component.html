@@ -19,8 +19,8 @@
 
   <div class="pricing-cards">
     <mat-card
-      class="pricing-card"
-      [ngClass]="{ purchased: user }">
+      class="pricing-card mat-card-hover"
+      [ngClass]="{ purchased: user, suggested: !user }">
       <mat-card-header class="full-width">
         <mat-card-title>
           {{ user ? i18n().free : i18n().suggested }}
@@ -75,7 +75,9 @@
     </mat-card>
 
     <!-- €10 Plan -->
-    <mat-card class="pricing-card mat-card-hover">
+    <mat-card
+      class="pricing-card mat-card-hover"
+      [ngClass]="{ suggested: user }">
       <mat-card-header class="full-width">
         <mat-card-title>
           {{ user ? i18n().suggested : i18n().standard }}
