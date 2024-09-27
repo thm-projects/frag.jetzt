@@ -2,17 +2,17 @@
   "key": "donation",
   "de": {
     "title": "Unterstützen Sie unser Projekt – Ihre Hilfe zählt!",
-    "content": "Wir stehen kurz davor, unser wichtigstes Ziel zu erreichen – aber wir brauchen Ihre Unterstützung! Jede Spende bringt uns näher. \n\n Klicken Sie auf den folgenden Link: **[ Jetzt Projekt unterstützen ]({{url}})**, oder scannen Sie einfach den QR-Code. \n\n Gemeinsam können wir dieses Projekt realisieren – vielen Dank für Ihre wertvolle Hilfe!",
+    "content": "Wenn Sie uns unterstützen möchten, können Sie dies tun, indem Sie unsere **[ website ]({{url}})** besuchen. Ihre Unterstützung wird äußerst geschätzt. Is there anything else you'd like assistance with?",
     "close": "Schließen"
   },
   "en": {
     "title": "Support Our Project – Your Help Matters!",
-    "content": "We are on the verge of achieving our biggest goal – but we need your support! Every donation gets us one step closer. \n\n Simply click the following link: **[ Support the Project Now ]({{url}})**, or simply scan the QR code. \n\n Together, we can make this project a reality – thank you for your valuable contribution!",
+    "content": "If you want to support us, you can do so by accessing our **[ website ]({{url}})**. Your support is immensely appreciated.\n\n Is there anything else you'd like me to help with?",
     "close": "Close"
   },
   "fr": {
     "title": "Soutenez notre projet – Votre aide compte !",
-    "content": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus. \n\n Cliquez simplement sur le lien suivant: **[ Soutenir le projet maintenant ]({{url}})**, ou scannez simplement le QR code. \n\n Together, we can make this project a reality – thank you for your valuable contribution! \n\n Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide!",
+    "content": "Si vous souhaitez nous soutenir, vous pouvez le faire en accédant à notre **[ site web ]({{url}})**. Votre soutien est immensément apprécié.",
     "close": "Fermer"
   }
 }
