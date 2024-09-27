@@ -741,7 +741,6 @@
     "join-code": "Guest code:",
     "not-found": "A user with the given mail address could not be found. Are you sure that the user registered at »frag.jetzt« with this address?",
     "not-generated": "…",
-    "really-remove-moderator": "Do you really want to remove the moderator?",
     "removed": "The moderator has been removed.",
     "session-id-copied": "The direct link for guest moderators has been copied to the clipboard.",
     "something-went-wrong": "Something went wrong.",

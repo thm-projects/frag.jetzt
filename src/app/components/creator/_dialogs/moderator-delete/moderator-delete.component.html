@@ -2,18 +2,17 @@
 <h2 mat-dialog-title>{{ i18n().sure }}</h2>
 <!--remove moderator-->
 <mat-dialog-content>
-  <p>{{ i18n()["really-remove-moderator"] }}</p>
-  <!--list of moderators-->
-  <p>
-    <strong>{{ loginId }}</strong>
-  </p>
+  <app-markdown-viewer
+    [data]="
+      i18n().reallyRemoveModerator | context: { loginId }
+    "></app-markdown-viewer>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <!-- Cancel button -->
   <button
     mat-button
-    (click)="buildCloseDialogActionCallback()()">
+    mat-dialog-close="abort">
     {{ i18n().cancel }}
   </button>
   <!-- Spacer to align buttons -->
@@ -21,7 +20,7 @@
   <!-- Confirm (Delete) button -->
   <button
     mat-flat-button
-    (click)="buildModeratorDeleteActionCallback()()">
+    mat-dialog-close="delete">
     {{ i18n().remove }}
   </button>
 </mat-dialog-actions>
