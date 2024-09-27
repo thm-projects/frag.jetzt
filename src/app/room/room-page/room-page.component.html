@@ -70,7 +70,9 @@
             </mat-list-item>
           </mat-list>
           @if (isCreator()) {
-            <button mat-button>
+            <button
+              mat-button
+              routerLink="/purchase">
               {{ i18n().purchase }}
             </button>
           }
