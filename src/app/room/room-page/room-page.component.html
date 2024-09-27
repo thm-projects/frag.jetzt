@@ -61,10 +61,19 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>
-            <mat-icon>token</mat-icon>
-            <p style="margin: 0px">Platzhalter Token informationen</p>
-          </button>
+          <mat-list>
+            <mat-list-item>
+              <span class="row items-center gap-medium">
+                <mat-icon>match_word</mat-icon>
+                <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
+              </span>
+            </mat-list-item>
+          </mat-list>
+          @if (isCreator()) {
+            <button mat-button>
+              {{ i18n().purchase }}
+            </button>
+          }
           <span style="flex: 1"></span>
           <button
             style="margin-right: 4px"
@@ -118,6 +127,7 @@
           <span class="headline-large">{{ entry.value() }}</span>
         </div>
       </mat-list-item>
+      <mat-divider></mat-divider>
     }
   </mat-list>
 </ng-template>

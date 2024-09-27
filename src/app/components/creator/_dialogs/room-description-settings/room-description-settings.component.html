@@ -8,7 +8,9 @@
 <mat-hint
   class="char-hint"
   [ngClass]="{ 'hint-error': data().length > max }">
-  <span aria-hidden="true">
+  <span
+    aria-hidden="true"
+    class="label-medium">
     {{ i18n().chars | context: { max, count: data().length } }}
   </span>
 </mat-hint>
