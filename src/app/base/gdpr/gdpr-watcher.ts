@@ -139,7 +139,7 @@ class GdprWatcher {
   }
 
   private checkIframe(iframe: HTMLIFrameElement) {
-    if (!iframe.parentNode) {
+    if (!iframe.parentNode || !iframe.src) {
       return;
     }
     let state = this.allowedURLs.get(iframe.src);
@@ -154,6 +154,7 @@ class GdprWatcher {
       return;
     }
     iframe['stop']?.();
+
     const dummy = document.createElement('span');
     iframe.parentNode.replaceChild(dummy, iframe);
     this.builder.subscribe((builder) =>

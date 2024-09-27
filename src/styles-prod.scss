@@ -185,6 +185,10 @@ $min-width: 360px;
   }
 }
 
+.error-text {
+  color: var(--md-sys-color-error);
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: auto;

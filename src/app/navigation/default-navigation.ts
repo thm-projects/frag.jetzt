@@ -1,4 +1,5 @@
 import { Injector } from '@angular/core';
+import { OnlineStateService } from 'app/services/state/online-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { DataProtectionComponent } from 'app/components/home/_dialogs/data-protection/data-protection.component';
@@ -35,6 +36,8 @@ import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
+import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
+import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -58,8 +61,14 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
-  return combineLatest([user$, toObservable(i18n), toObservable(theme)]).pipe(
-    map(([user, i18n, theme]) => {
+  const onlineStateService = injector.get(OnlineStateService);
+  return combineLatest([
+    user$,
+    toObservable(i18n),
+    toObservable(theme),
+    onlineStateService.online$,
+  ]).pipe(
+    map(([user, i18n, theme, isOnline]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
@@ -75,12 +84,15 @@ export const getDefaultHeader = (
 
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
+        offline: i18n.header.offline,
         options: [
           user
             ? {
-                id: 'account',
-                icon: account_icon,
+                icon: isOnline
+                  ? account_icon
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.myAccount,
+                className: isOnline ? '' : 'error-text',
                 items: [
                   {
                     svgIcon: 'fj_robot',
@@ -126,8 +138,11 @@ export const getDefaultHeader = (
               }
             : {
                 id: 'login',
-                icon: 'login',
+                icon: isOnline
+                  ? 'login'
+                  : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
+                className: isOnline ? '' : 'error-text',
                 onClick: () => openLogin().subscribe(),
               },
           {
@@ -180,6 +195,13 @@ export const getDefaultHeader = (
   );
 };
 
+const isStandalone = (): boolean => {
+  return (
+    navigator['standalone'] ||
+    window.matchMedia('(display-mode: standalone)').matches
+  );
+};
+
 export const getDefaultNavigation = (
   injector: Injector,
 ): Observable<M3NavigationTemplate> => {
@@ -196,6 +218,7 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
+      // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
         kind: 'navigation',
@@ -248,6 +271,25 @@ export const getDefaultNavigation = (
           },
         });
       }
+      // app navigation
+      const isPurchse = router.url.startsWith('/purchase');
+      const pricingSection: M3NavigationSection = {
+        id: 'pricing',
+        kind: 'navigation',
+        title: i18n.navigation.pricing,
+        entries: [
+          {
+            id: 'purchase',
+            title: i18n.navigation.purchase,
+            icon: 'credit_card',
+            onClick: () => {
+              router.navigate(['/purchase']);
+              return true;
+            },
+            activated: isPurchse,
+          },
+        ],
+      };
       // OPTIONS
       const optionSection: M3NavigationOptionSection = {
         id: 'about',
@@ -307,7 +349,7 @@ export const getDefaultNavigation = (
                   return true;
                 },
               },
-              {
+              user && {
                 id: 'rate-app',
                 icon: 'grade',
                 title: i18n.options.rateApp,
@@ -316,7 +358,7 @@ export const getDefaultNavigation = (
                   return false;
                 },
               },
-            ],
+            ].filter(Boolean),
           },
           user && {
             id: 'news',
@@ -345,6 +387,24 @@ export const getDefaultNavigation = (
               return false;
             },
           },
+          !isStandalone() && {
+            id: 'download',
+            icon: 'download',
+            title: i18n.options.download,
+            onClick: () => {
+              showDownload(injector);
+              return false;
+            },
+          },
+          {
+            id: 'donation',
+            title: i18n.navigation.donation,
+            icon: 'coffee_maker',
+            onClick: () => {
+              showDonation(injector);
+              return false;
+            },
+          },
           user && {
             id: 'logout',
             icon: 'logout',
@@ -358,7 +418,7 @@ export const getDefaultNavigation = (
       };
       return {
         title: i18n.navigation.title,
-        sections: [navSection, optionSection],
+        sections: [navSection, pricingSection, optionSection].filter(Boolean),
       };
     }),
   );
@@ -392,6 +452,14 @@ const showImprint = (injector: Injector) => {
     width: '80%',
     maxWidth: '600px',
   });
+};
+
+const showDownload = (injector: Injector) => {
+  injector.get(MatDialog).open(DownloadComponent);
+};
+
+const showDonation = (injector: Injector) => {
+  injector.get(MatDialog).open(DonationRouteComponent);
 };
 
 const showGDPR = (injector: Injector) => {

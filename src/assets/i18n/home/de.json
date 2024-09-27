@@ -366,6 +366,9 @@
     "frontend": "Projekt-Statistik des Frontends:",
     "title": "Impressum"
   },
+  "download": {
+    "text": "Erlebe das volle Erlebnis mit unserer frag.jetzt-App! Klicke auf den passenden Button, um die App direkt aus dem App Store oder Google Play Store herunterzuladen. Mit der App hast du jederzeit und überall Zugriff auf alle Funktionen. Jetzt herunterladen und loslegen!"
+  },
   "introduction": {
     "cancel": "Schließen",
     "cancel-description": "Schließe die Einführung und gehe zurück zur Anmeldung.",

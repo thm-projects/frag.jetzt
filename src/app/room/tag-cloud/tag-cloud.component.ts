@@ -54,6 +54,7 @@ import { maskKeyword } from '../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../utils/filtered-data-access';
 import {
   filter,
+  first,
   forkJoin,
   Subject,
   Subscription,
@@ -474,7 +475,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
-    ]).subscribe(([room, mods]) => {
+      user$.pipe(first(Boolean)),
+    ]).subscribe(([room, mods, user]) => {
       this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
       this.shortId = room.shortId;
       this.roomId = room.id;
@@ -503,7 +505,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         threshold: room.threshold,
         ownerId: room.ownerId,
         roomId: room.id,
-        userId: this.user.id,
+        userId: user.id,
       });
       this.dataManager.filterObject = filterObj;
     });
@@ -597,7 +599,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
-    ]).subscribe(([room, mods]) => {
+      user$.pipe(first(Boolean)),
+    ]).subscribe(([room, mods, user]) => {
       this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
       this.shortId = room.shortId;
       this.roomId = room.id;
@@ -625,7 +628,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         threshold: room.threshold,
         ownerId: room.ownerId,
         roomId: room.id,
-        userId: this.user.id,
+        userId: user.id,
       });
       const filter = filterObj.dataFilter;
       filter.resetToDefault();

@@ -366,6 +366,9 @@
     "frontend": "Project statistics of the frontend:",
     "title": "Imprint"
   },
+  "download": {
+    "text": "Discover the full experience with our frag.jetzt app! Simply click the corresponding button to download the app directly from the App Store or Google Play Store. With the app, you have access to all features anytime, anywhere. Download now and get started!"
+  },
   "introduction": {
     "cancel": "Close",
     "cancel-description": "Close introduction",

@@ -1,0 +1,165 @@
+<div class="pricing-plan-container">
+  <h1 class="pricing-title mat-display-large">
+    {{ i18n().title }}
+  </h1>
+
+  <mat-card class="token-card">
+    @if (user) {
+      <mat-icon class="token-icon-align">token</mat-icon>
+      {{ i18n().yourTokens }} {{ userTokens }}
+    } @else {
+      <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
+      <button mat-flat-button>
+        {{ i18n().register }}
+      </button>
+    }
+  </mat-card>
+
+  <div class="pricing-cards">
+    <mat-card class="pricing-card purchased">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{ i18n().free }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul>
+          <li>50.000 {{ i18n().tokens }}</li>
+          <li>40.000 {{ i18n().words }}</li>
+          <li>{{ i18n().BasicTime }}</li>
+        </ul>
+        <h2 class="price">Free</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          disabled
+          mat-raised-button
+          color="primary">
+          {{ i18n().selectFreePlan }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- €5 Plan -->
+    <mat-card class="pricing-card mat-card-hover">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{ i18n().basic }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul>
+          <li>50.000 {{ i18n().tokens }}</li>
+          <li>40.000 {{ i18n().words }}</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
+        </ul>
+        <h2 class="price">5€</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          disabled
+          mat-raised-button
+          color="primary">
+          {{ i18n().buy }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- €10 Plan -->
+    <mat-card class="pricing-card mat-card-hover">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{ i18n().standard }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul>
+          <li>106.000 {{ i18n().tokens }}</li>
+          <li>~80.000 {{ i18n().words }}</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
+        </ul>
+        <h2 class="price">10€</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          disabled
+          mat-raised-button
+          color="primary">
+          {{ i18n().buy }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- €20 Plan -->
+    <mat-card class="pricing-card mat-card-hover">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{ i18n().premium }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul>
+          <li>212.000 {{ i18n().tokens }}</li>
+          <li>~159.500 {{ i18n().words }}</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
+        </ul>
+        <h2 class="price">20€</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          disabled
+          mat-raised-button
+          color="primary">
+          {{ i18n().buy }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- €50 Plan -->
+    <mat-card class="pricing-card mat-card-hover">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{ i18n().special }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul>
+          <li>530.000 {{ i18n().tokens }}</li>
+          <li>~397.500 {{ i18n().words }}</li>
+          <li>{{ i18n().unlimitedPurchase }}</li>
+        </ul>
+        <h2 class="price">50€</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button
+          disabled
+          mat-raised-button
+          color="primary">
+          {{ i18n().buy }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <p class="faq-text">
+      {{ i18n().faqText }}
+      <a
+        href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them"
+        class="faq-link">
+        {{ i18n().faqLink }}
+      </a>
+    </p>
+  </div>
+</div>
