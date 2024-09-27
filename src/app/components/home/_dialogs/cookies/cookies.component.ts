@@ -43,7 +43,7 @@ export class CookiesComponent {
     'https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104';
 
   constructor(
-    private dialog: MatDialog,
+    protected dialog: MatDialog,
     private dialogRef: MatDialogRef<CookiesComponent>,
   ) {}
 
