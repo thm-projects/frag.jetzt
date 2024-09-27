@@ -23,4 +23,5 @@ const i18n = I18nLoader.load(rawI18n);
 })
 export class MobiledonationComponent {
   protected readonly i18n = i18n;
+  url = 'https://staging.frag.jetzt/home';
 }

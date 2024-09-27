@@ -4,7 +4,10 @@
   {{ i18n().title }}
 </h1>
 
-<mat-dialog-content tabindex="0"></mat-dialog-content>
+<mat-dialog-content>
+  <app-markdown-viewer
+    [data]="i18n().content | context: { url: url }"></app-markdown-viewer>
+</mat-dialog-content>
 
 <mat-dialog-actions>
   <button
