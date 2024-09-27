@@ -88,7 +88,7 @@ export const getDefaultHeader = (
         options: [
           user
             ? {
-                id: 'login',
+                id: 'account',
                 icon: isOnline
                   ? account_icon
                   : 'signal_cellular_connected_no_internet_0_bar',
