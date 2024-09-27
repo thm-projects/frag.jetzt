@@ -1,0 +1,19 @@
+<!--Donation Dialog-->
+<h1 mat-dialog-title>
+  <mat-icon>volunteer_activism</mat-icon>
+  {{ i18n().title }}
+</h1>
+
+<mat-dialog-content>
+  <app-markdown-viewer
+    [data]="i18n().content | context: { url: url }"></app-markdown-viewer>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

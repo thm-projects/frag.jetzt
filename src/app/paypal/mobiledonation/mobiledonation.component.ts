@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { QRCodeModule } from 'angularx-qrcode';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import rawI18n from './i18n.json';
@@ -10,21 +9,19 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
 const i18n = I18nLoader.load(rawI18n);
 
 @Component({
-  selector: 'app-donation',
+  selector: 'app-mobiledonation',
   standalone: true,
   imports: [
-    QRCodeModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
     CustomMarkdownModule,
     ContextPipe,
   ],
-  templateUrl: './donation.component.html',
-  styleUrl: './donation.component.scss',
+  templateUrl: './mobiledonation.component.html',
+  styleUrl: './mobiledonation.component.scss',
 })
-export class DonationComponent {
+export class MobiledonationComponent {
   protected readonly i18n = i18n;
-  url = 'https://www.sandbox.paypal.com/ncp/payment/J4AV5JU5RMLU6';
-  qrCodeSize: number = 200;
+  url = 'https://staging.frag.jetzt/home';
 }

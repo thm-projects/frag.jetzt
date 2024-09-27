@@ -5,12 +5,37 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgClass } from '@angular/common';
-
+import { NgClass, NgForOf } from '@angular/common';
+import { ApiService } from './api.service';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+import { language } from 'app/base/language/language';
+import { MatListModule } from '@angular/material/list';
+import { PaypalDialogComponent } from './paypal-dialog/paypal-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
+import { User } from 'app/models/user';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+// Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
+
+// Define PayPal types
+interface PayPalData {
+  orderID: string;
+}
+
+// Define type for pricing plans
+interface Plan {
+  title: string;
+  price: string;
+  tokens: number;
+  color: string;
+}
 
 @Component({
   selector: 'app-payment',
@@ -23,70 +48,172 @@ const i18n = I18nLoader.load(rawI18n);
     MatIconModule,
     MatDividerModule,
     NgClass,
+    NgForOf,
+    MatListModule,
+    ContextPipe,
+    CustomMarkdownModule,
+    MatTableModule,
+    MatExpansionModule,
   ],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.scss',
+  styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
-
-  // User's token status and whether they have purchased the free plan
-  userTokens = 0; // Example: Number of tokens the user has
-  hasFreePlan = false; // Change this to true if the user has purchased the Free Plan
+  apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
 
-  constructor() {
+  userTokens = 0; // Current token count of the user
+
+  // Pricing plans
+  plans: Plan[] = [
+    {
+      title: 'Free Plan',
+      price: '0',
+      tokens: 50000,
+      color: 'grey',
+    },
+    { title: '€5 Plan', price: '5', tokens: 50000, color: 'primary' },
+    { title: '€10 Plan', price: '10', tokens: 106000, color: 'primary' },
+    { title: '€20 Plan', price: '20', tokens: 212000, color: 'primary' },
+    { title: '€50 Plan', price: '50', tokens: 530000, color: 'primary' },
+  ];
+
+  constructor(private dialog: MatDialog) {
     applyDefaultNavigation(this.injector).subscribe();
   }
 
-  ngOnInit() {
-    this.checkUserPlan(); // Function to check if the user has already purchased the free plan
-    this.getUserTokens(); // Function to get the user's current token balance
+  openDialog(amount: number) {
+    const ref = this.dialog.open(PaypalDialogComponent);
+    ref.componentInstance.parent = this;
+    ref.componentInstance.amount = amount;
   }
 
-  checkUserPlan() {
-    // Simulate checking the user's plan from a service or backend
-    // this.hasFreePlan = this.userService.hasPurchasedFreePlan();
+  user: User;
+  ngOnInit() {
+    this.getUserTokens();
+    this.loadPayPalScript();
+    user$.subscribe((u) => (this.user = u));
+  }
 
-    // For testing purposes:
-    this.hasFreePlan = false; // Change this to true to simulate the plan being purchased
+  loginPage() {
+    if (!user()) {
+      forceLogin().subscribe();
+    } else if (user().isGuest) {
+      openLogin().subscribe();
+    }
   }
 
   getUserTokens() {
-    // Simulate fetching user's token count from a service or backend
-    // this.userTokens = this.userService.getUserTokens();
-
-    // For testing purposes:
-    this.userTokens = 50000; // Example token count, replace with real value
+    // Simulate retrieving the user's token count from a service or backend
+    this.userTokens = 50000; // Example token count, replace with actual value
   }
 
-  selectFreePlan() {
-    if (!this.hasFreePlan) {
-      this.hasFreePlan = true;
-      this.userTokens += 50000; // Add tokens from the free plan
+  //Ab hier Paypal Intergration
+  private isPayPalLoaded = false;
 
-      // Logic to update the backend about the purchase
-      // this.userService.updateUserPlan('free');
+  loadPayPalScript(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.isPayPalLoaded) {
+        resolve();
+        return;
+      }
+
+      const scriptId = 'paypal-sdk';
+      if (document.getElementById(scriptId)) {
+        this.isPayPalLoaded = true;
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src =
+        'https://www.paypal.com/sdk/js?client-id=ATZFarfzWZCA0DB05S_7xGNEx7Gz_d_KAl7BkJwgaKBZgfpptY-mVw7jv0z9ctTHq92axuaQiPKg9xAu&currency=EUR';
+      script.onload = () => {
+        this.isPayPalLoaded = true;
+        resolve();
+      };
+      script.onerror = (error) => {
+        console.error('Error loading PayPal script:', error);
+        reject(error);
+      };
+      document.body.appendChild(script);
+    });
+  }
+
+  startPayPalPayment(amount: number, containerId: string) {
+    if (!window['paypal']) {
+      this.loadPayPalScript().then(() => {
+        this.renderPayPalButton(amount, containerId);
+      });
+    } else {
+      this.renderPayPalButton(amount, containerId);
     }
   }
-  // Pricing plans data
-  plans = [
-    { title: 'Free Plan', price: '€0', color: this.getFreePlanColor() },
-    { title: '€5 Plan', price: '€5', color: 'primary' },
-    { title: '€10 Plan', price: '€10', color: 'primary' },
-    { title: '€20 Plan', price: '€20', color: 'primary' },
-    { title: '€50 Plan', price: '€50', color: 'primary' },
-  ];
 
-  // Function to change the color of the Free Plan card
-  getFreePlanColor(): string {
-    return this.hasFreePlan ? 'grey' : 'blue';
+  renderPayPalButton(amount: number, containerId: string): void {
+    const container = document.getElementById(containerId);
+    if (!container) {
+      console.error(`Container mit ID ${containerId} nicht gefunden.`);
+      return;
+    }
+    container.style.display = 'block';
+
+    window['paypal']
+      .Buttons({
+        funding: {
+          allowed: [window['paypal'].FUNDING.PAYPAL], // Nur PayPal erlauben
+          disallowed: [
+            window['paypal'].FUNDING.CARD,
+            window['paypal'].FUNDING.CREDIT,
+            window['paypal'].FUNDING.VENMO,
+            window['paypal'].FUNDING.SEPA,
+            window['paypal'].FUNDING.BANCONTACT,
+            window['paypal'].FUNDING.EPS,
+            window['paypal'].FUNDING.GIROPAY,
+            window['paypal'].FUNDING.IDEAL,
+            window['paypal'].FUNDING.MERCADOPAGO,
+            window['paypal'].FUNDING.MYBANK,
+            window['paypal'].FUNDING.P24,
+            window['paypal'].FUNDING.SOFORT,
+          ],
+        },
+        createOrder: async () => {
+          try {
+            const response = await this.apiService
+              .createOrder(amount, 'EUR', language())
+              .toPromise();
+            return response.id;
+          } catch (error) {
+            console.error('Error creating order:', error);
+            throw new Error('Error creating order.');
+          }
+        },
+        onApprove: async (data: PayPalData) => {
+          try {
+            await this.apiService.captureOrder(data.orderID).toPromise(); // Bestellung erfassen
+            console.log('Transaction completed');
+            this.handlePaymentSuccess(amount); // Benutzer-Tokens aktualisieren
+          } catch (error) {
+            console.error('Error capturing order:', error);
+          }
+        },
+        onError: (err) => {
+          console.error('Error during PayPal payment:', err);
+        },
+      })
+      .render(`#${containerId}`); // Rendern im Container
   }
 
-  // Function to toggle Free Plan purchase
-  purchaseFreePlan(): void {
-    this.hasFreePlan = !this.hasFreePlan;
-    // Update Free Plan color
-    this.plans[0].color = this.getFreePlanColor();
+  handlePaymentSuccess(amount: number): void {
+    const plan = this.plans.find((p) => parseFloat(p.price) === amount); // Compare price as number
+    if (plan) {
+      this.userTokens += plan.tokens; // Increase the user's token count
+    } else {
+      console.warn('Unknown payment amount:', amount);
+    }
   }
+
+  protected readonly parseFloat = parseFloat;
 }

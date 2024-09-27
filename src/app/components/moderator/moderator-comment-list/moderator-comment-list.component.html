@@ -28,7 +28,7 @@
     [ngClass]="{
       'desktop-input': !isMobile,
       'mobile-input': isMobile && !search,
-      'mobile-input-2': isMobile && search
+      'mobile-input-2': isMobile && search,
     }"
     (input)="searchComments()"
     [(ngModel)]="searchString"
