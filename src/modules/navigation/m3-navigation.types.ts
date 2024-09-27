@@ -31,6 +31,7 @@ export interface M3HeaderOption {
 }
 
 export interface M3HeaderMenu {
+  id: string;
   title: string;
   icon?: string;
   svgIcon?: string;

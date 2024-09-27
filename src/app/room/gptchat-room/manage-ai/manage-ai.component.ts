@@ -89,7 +89,11 @@ export class ManageAiComponent {
   protected readonly i18n = i18n;
   protected state = signal<'ready' | 'loading'>('ready');
   protected createGroup = new FormGroup({
-    name: new FormControl('', [Validators.maxLength(256)]),
+    name: new FormControl('', [
+      Validators.maxLength(256),
+      Validators.minLength(1),
+      Validators.required,
+    ]),
     description: new FormControl('', [Validators.maxLength(512)]),
     model: new FormControl('gpt-4o', [Validators.required]),
     instructions: new FormControl('', [Validators.maxLength(256000)]),

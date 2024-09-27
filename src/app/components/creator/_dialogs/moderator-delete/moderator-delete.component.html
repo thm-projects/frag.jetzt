@@ -1,19 +1,26 @@
 <!--Are you sure-->
-<h2 mat-dialog-title>{{ 'moderators-dialog.sure' | translate }}</h2>
+<h2 mat-dialog-title>{{ i18n().sure }}</h2>
 <!--remove moderator-->
 <mat-dialog-content>
-<p>{{ 'moderators-dialog.really-remove-moderator' | translate }}</p>
-<!--list of moderators-->
-<p><strong>{{loginId}}</strong></p>
+  <app-markdown-viewer
+    [data]="
+      i18n().reallyRemoveModerator | context: { loginId }
+    "></app-markdown-viewer>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <!-- Cancel button -->
-  <button mat-button mat-dialog-close>{{ 'moderators-dialog.abort' | translate }}</button>
+  <button
+    mat-button
+    mat-dialog-close="abort">
+    {{ i18n().cancel }}
+  </button>
   <!-- Spacer to align buttons -->
-  <span style="flex: 1;"></span>
- <!-- Confirm (Delete) button -->
- <button mat-flat-button mat-dialog-close="delete">
-  {{ 'moderators-dialog.delete' | translate }}
- </button>
- </mat-dialog-actions>
+  <span style="flex: 1"></span>
+  <!-- Confirm (Delete) button -->
+  <button
+    mat-flat-button
+    mat-dialog-close="delete">
+    {{ i18n().remove }}
+  </button>
+</mat-dialog-actions>

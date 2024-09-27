@@ -9,6 +9,7 @@ import {
   inject,
   input,
   model,
+  output,
   signal,
   untracked,
   viewChild,
@@ -29,6 +30,7 @@ import {
   UploadedFile,
 } from 'app/services/http/assistants.service';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomStateService } from 'app/services/state/room-state.service';
@@ -71,12 +73,15 @@ interface FileReference {
     MatButtonModule,
     MatMenuModule,
     MatTooltipModule,
+    MatSelectModule,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
 })
 export class AiChatComponent {
   messages = input.required<Message[]>();
+  deleteThread = output<void>();
+  selectedThread = input.required<unknown | null>();
   canSend = input.required<boolean>();
   isPrivileged = input.required<boolean>();
   assistRefs = input.required<AssistantEntry[]>();
@@ -124,6 +129,27 @@ export class AiChatComponent {
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
+  exampleTopics = [
+    {
+      emoji: '💻',
+      question:
+        'What is the most efficient coding language for web development?',
+    },
+    {
+      emoji: '🔄',
+      question: 'How can you improve sprint retrospectives in Scrum?',
+    },
+    {
+      emoji: '🚀',
+      question: 'What are the best practices for continuous deployment?',
+    },
+    {
+      emoji: '🧩',
+      question:
+        'How do you handle dependencies in a microservices architecture?',
+    },
+  ];
+
   constructor() {
     effect(() => {
       this.messages();
@@ -132,6 +158,16 @@ export class AiChatComponent {
           this.scroll().nativeElement.scrollHeight;
       }
     });
+
+    effect(
+      () => {
+        this.selectedThread();
+        this.inputMessage.setValue('');
+        this.files.set([]);
+        this.fileInput().nativeElement.value = '';
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   protected onKeyDown(e: KeyboardEvent) {
@@ -151,6 +187,11 @@ export class AiChatComponent {
         return;
       }
     }
+  }
+
+  protected sendExampleTopic(value: string) {
+    this.inputMessage.setValue(value);
+    this.sendMessage();
   }
 
   protected sendMessage() {
@@ -261,6 +302,11 @@ export class AiChatComponent {
         },
       });
     return 'Pending...';
+  }
+
+  protected delete() {
+    console.log('1');
+    this.deleteThread.emit();
   }
 
   private getFile(ref: FileReference[], fileId: string): [number, string] {

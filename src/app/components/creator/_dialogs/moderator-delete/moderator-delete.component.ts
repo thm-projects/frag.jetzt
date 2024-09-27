@@ -1,8 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Component, OnInit } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { TranslateService } from '@ngx-translate/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { MatDialog } from '@angular/material/dialog';
+import { i18nContext } from 'app/base/i18n/i18n-context';
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-moderator-delete',
@@ -11,43 +13,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ModeratorDeleteComponent implements OnInit {
   loginId: string;
+  protected readonly i18n = i18n;
 
-  /**
-   * The confirm button type of the dialog.
-   */
-  confirmButtonType: DialogConfirmActionButtonType =
-    DialogConfirmActionButtonType.Alert;
+  constructor(private liveAnnouncer: LiveAnnouncer) {}
 
-  constructor(
-    public dialogRef: MatDialogRef<ModeratorDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: object,
-    private liveAnnouncer: LiveAnnouncer,
-    private translationService: TranslateService,
-  ) {}
+  static open(dialog: MatDialog, loginId: string) {
+    const ref = dialog.open(ModeratorDeleteComponent);
+    ref.componentInstance.loginId = loginId;
+    return ref;
+  }
 
   ngOnInit() {
-    this.translationService
-      .get('moderators-dialog.really-remove-moderator')
-      .subscribe((msg) => {
-        this.liveAnnouncer.announce(msg + this.loginId);
-      });
-  }
-
-  close(type: string): void {
-    this.dialogRef.close(type);
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.close('abort');
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildModeratorDeleteActionCallback(): () => void {
-    return () => this.close('delete');
+    this.liveAnnouncer.announce(
+      i18nContext(i18n().reallyRemoveModerator, {
+        loginId: this.loginId,
+      }),
+    );
   }
 }

@@ -73,14 +73,24 @@ export const getDefaultHeader = (
       const isUser = router.url.startsWith('/user');
       const index = router.url.indexOf('/room/');
       const isRoom = router.url.indexOf('/', index + 6) === -1;
+      const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
+      const isGuestUser = user?.isGuest;
+
+      const account_icon = isAdmin
+        ? 'shield_person'
+        : isGuestUser
+          ? 'person'
+          : 'face';
+
       return {
         slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
         offline: i18n.header.offline,
         options: [
           user
             ? {
+                id: 'login',
                 icon: isOnline
-                  ? 'account_circle'
+                  ? account_icon
                   : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.myAccount,
                 className: isOnline ? '' : 'error-text',
@@ -106,7 +116,7 @@ export const getDefaultHeader = (
                       openAIConsent(injector);
                     },
                   },
-                  {
+                  isAdmin && {
                     icon: 'manage_accounts',
                     title: i18n.header.manageAccount,
                     onClick: () => {
@@ -125,9 +135,10 @@ export const getDefaultHeader = (
                     title: i18n.header.logout,
                     onClick: () => logout().subscribe(),
                   },
-                ],
+                ].filter(Boolean),
               }
             : {
+                id: 'login',
                 icon: isOnline
                   ? 'login'
                   : 'signal_cellular_connected_no_internet_0_bar',
@@ -136,6 +147,7 @@ export const getDefaultHeader = (
                 onClick: () => openLogin().subscribe(),
               },
           {
+            id: 'language',
             icon: 'language',
             title: i18n.header.language,
             items: AVAILABLE_LANGUAGES.map(
@@ -149,6 +161,7 @@ export const getDefaultHeader = (
             ),
           },
           {
+            id: 'theme',
             icon: 'format_color_fill',
             title: i18n.header.theme,
             items: [
@@ -390,6 +403,15 @@ export const getDefaultNavigation = (
             icon: 'coffee_maker',
             onClick: () => {
               showDonation(injector);
+              return false;
+            },
+          },
+          user && {
+            id: 'logout',
+            icon: 'logout',
+            title: i18n.header.logout,
+            onClick: () => {
+              logout().subscribe();
               return false;
             },
           },

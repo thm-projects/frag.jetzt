@@ -549,9 +549,20 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   writeComment() {
-    this.createCommentWrapper
-      .openCreateDialog(user(), this.userRole)
-      .subscribe((comment) => (this.sendCommentId = comment?.id));
+    const dialogRef = this.createCommentWrapper.openCreateDialog(
+      user(),
+      this.userRole,
+      undefined,
+      undefined,
+      {
+        disableClose: true,
+        width: '900px',
+        maxWidth: '100%',
+        maxHeight: 'calc(100vh - 20px)',
+        autoFocus: false,
+      }
+    );
+     dialogRef.subscribe((comment) => (this.sendCommentId = comment?.id));
   }
 
   /**

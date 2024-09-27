@@ -1,77 +1,97 @@
-<m3-body-pane>
-  <m3-supporting-pane
-    [type]="isMobile() ? 'flexible' : 'fixed'"
-    class="threads-overview"
+<div class="chat-layout">
+  <div
+    class="visible-only-if-closed"
+    *ngIf="!isOpen()">
+    <button
+      mat-button
+      (click)="isOpen.set(true)">
+      <mat-icon>left_panel_open</mat-icon>
+      {{ i18n().open }}
+    </button>
+    <button
+      mat-button
+      (click)="selectedThread.set(null)">
+      <mat-icon>edit_square</mat-icon>
+      {{ i18n().newChat }}
+    </button>
+  </div>
+  <mat-action-list
+    class="history-container"
     [class.open]="isOpen()">
-    <mat-toolbar>
+    <div class="actions">
       <button
         mat-button
         (click)="isOpen.set(false)">
-        <mat-icon>left_panel_close</mat-icon>
+        <mat-icon>left_panel_open</mat-icon>
         {{ i18n().close }}
       </button>
-      @if (selectedThread() !== null) {
-        <button
-          mat-button
-          class="material-symbols-outlined"
-          (click)="selectedThread.set(null)">
-          <mat-icon>chat_add_on</mat-icon>
-          {{ i18n().newChat }}
-        </button>
-      }
-    </mat-toolbar>
-    <mat-action-list>
-      @for (entry of threads(); track entry) {
-        <button
-          mat-list-item
-          [activated]="selectedThread() === entry"
-          (click)="openThread(entry)">
-          <span matListItemTitle>{{ entry.headLine }}</span>
-          <span>{{ entry.content }}</span>
-          <button
-            [matTooltip]="i18n().delete"
-            (click)="deleteThread(entry, $event)"
-            mat-icon-button
-            matListItemMeta>
-            <mat-icon>delete</mat-icon>
-          </button>
-        </button>
-      } @empty {
-        <div mat-subheader>{{ i18n().noThreads }}</div>
-      }
-    </mat-action-list>
-  </m3-supporting-pane>
-  @if (!(isOpen() && isMobile())) {
-    <m3-supporting-pane
-      class="chat-pane"
-      type="flexible">
-      <app-ai-chat
-        [(selectedAssistant)]="selectedAssistant"
-        [messages]="currentMessages()"
-        [canSend]="state() === 'ready'"
-        [overrideMessage]="overrideMessage()"
-        [isPrivileged]="isPrivileged()"
-        [assistRefs]="assistRefs()"
-        [onNewClick]="onNewClick.bind(this)"
-        [onSend]="onSend">
-        @if (!isOpen()) {
-          <button
-            mat-button
-            (click)="isOpen.set(true)">
-            <mat-icon>left_panel_open</mat-icon>
-            {{ i18n().open }}
-          </button>
-        }
-        @if (selectedThread() !== null && !isOpen()) {
-          <button
-            mat-button
-            class="material-symbols-outlined"
-            (click)="selectedThread.set(null)">
-            <mat-icon>chat_add_on</mat-icon>
-            {{ i18n().newChat }}
-          </button>
-        }
-      </app-ai-chat>
-    </m3-supporting-pane>
-  }
-</m3-body-pane>
+      <button
+        mat-button
+        (click)="selectedThread.set(null)">
+        <mat-icon>edit_square</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    </div>
+    <div class="history">
+      <ng-container *ngFor="let group of threadGroups()">
+        <ng-container *ngIf="group.threads.length > 0">
+          <div class="group">
+            <div class="header">
+              <span>{{ getDynamicI18n(group.label) }}</span>
+              <div class="group-number">
+                <span>{{ group.threads.length }}</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let entry of group.threads">
+              <button
+                mat-list-item
+                [activated]="selectedThread() === entry"
+                (click)="openThread(entry)"
+                style="
+                  padding: 8px;
+                  margin: 0;
+                  height: auto;
+                  border-radius: 8px;
+                ">
+                <span matListItemTitle>{{ entry.headLine }}</span>
+              </button>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </mat-action-list>
+  <hr
+    style="color: var(--md-sys-color-surface3); opacity: 0.1"
+    *ngIf="isOpen()" />
+  <app-ai-chat
+    class="chat-pane"
+    [(selectedAssistant)]="selectedAssistant"
+    [messages]="currentMessages()"
+    [canSend]="state() === 'ready'"
+    [overrideMessage]="overrideMessage()"
+    [isPrivileged]="isPrivileged()"
+    [assistRefs]="assistRefs()"
+    [onNewClick]="onNewClick.bind(this)"
+    [onSend]="onSend"
+    (deleteThread)="deleteThread()"
+    [selectedThread]="selectedThread()">
+    @if (!isOpen()) {
+      <button
+        mat-button
+        (click)="isOpen.set(true)">
+        <mat-icon>left_panel_open</mat-icon>
+        {{ i18n().open }}
+      </button>
+    }
+    @if (selectedThread() !== null && !isOpen()) {
+      <button
+        mat-button
+        class="material-symbols-outlined"
+        (click)="selectedThread.set(null)">
+        <mat-icon>chat_add_on</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    }
+  </app-ai-chat>
+</div>

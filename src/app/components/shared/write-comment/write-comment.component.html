@@ -1,35 +1,86 @@
-<ars-row>
-  <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
+<mat-card-title style="text-align: center">
+  {{ i18n().title }}
+</mat-card-title>
+<ars-row style="display: flex; justify-content: space-between">
+  <mat-form-field
+    class="questioner-name-input"
+    appearance="outline">
+    <mat-icon matPrefix>{{ getRoleIcon() }}</mat-icon>
+    <input
+      appAccessibilityEscapedInput
+      matInput
+      [formControl]="questionerNameFormControl"
+      [placeholder]="i18n()['questioner-name']"
+      name="questioner-name"
+      [maxlength]="questionerNameMax"
+      aria-labelledby="questioner-name" />
+    <mat-hint
+      align="end"
+      style="color: var(--mdc-dialog-supporting-text-color)">
+      <span aria-hidden="true">
+        {{
+          i18n().nameChars
+            | context
+              : {
+                  questionerNameMax,
+                  count: questionerNameFormControl.value.length
+                }
+        }}
+      </span>
+    </mat-hint>
+    <mat-error
+      *ngIf="
+        questionerNameFormControl.hasError('minlength') ||
+        questionerNameFormControl.hasError('maxlength')
+      ">
+      {{
+        i18n()["name-length-error"]
+          | context: { min: questionerNameMin, max: questionerNameMax }
+      }}
+    </mat-error>
+  </mat-form-field>
 
-  <button
-    mat-button
+  <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
-    matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
-    <mat-icon class="btn-icon">sell</mat-icon>
-    <label
-      for="tagSelect"
-      *ngIf="!selectedTag">
-      <em>{{ "comment-page.tag" | translate }}</em>
-    </label>
+    matTooltip="{{ i18n()['tag-button-hint'] }}">
+    <mat-label>
+      <mat-icon>sell</mat-icon>
+      {{ i18n().tag }}
+    </mat-label>
+
     <mat-select
       class="select-list"
       id="tagSelect"
       #tagSelect
-      [(ngModel)]="selectedTag">
+      [(ngModel)]="selectedTag"
+      placeholder="{{ i18n().tag }}">
       <mat-option [value]="null">
-        <em>{{ "comment-page.tag-reset" | translate }}</em>
+        <em>{{ i18n()["tag-reset"] }}</em>
       </mat-option>
+
       <mat-option
         *ngFor="let tag of tags"
         [value]="tag">
         {{ tag }}
       </mat-option>
     </mat-select>
-  </button>
+  </mat-form-field>
 </ars-row>
-<ars-row [height]="12"></ars-row>
-<app-markdown-editor [(data)]="data"></app-markdown-editor>
+<mat-dialog-content>
+  <app-markdown-editor [(data)]="data"></app-markdown-editor>
+</mat-dialog-content>
+
+<mat-hint
+  class="char-hint"
+  [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
+  <span
+    aria-hidden="true"
+    class="label-medium">
+    {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
+  </span>
+</mat-hint>
+
 <!-- TODO -->
 <!-- <app-view-comment-data
   *ngIf="enabled"
@@ -41,61 +92,29 @@
   [maxDataCharacters]="maxDataCharacters"
   [placeHolderText]="placeholder"></app-view-comment-data> -->
 
-<mat-form-field
-  class="questioner-name-input"
-  *ngIf="isQuestionerNameEnabled && enabled">
-  <input
-    appAccessibilityEscapedInput
-    matInput
-    [formControl]="questionerNameFormControl"
-    [placeholder]="'write-comment.questioner-name' | translate"
-    name="questioner-name"
-    [maxlength]="questionerNameMax"
-    aria-labelledby="questioner-name" />
-  <mat-hint align="end">
-    <span aria-hidden="true">
-      {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
-    </span>
-  </mat-hint>
-  <mat-error
-    *ngIf="
-      questionerNameFormControl.hasError('minlength') ||
-      questionerNameFormControl.hasError('maxlength')
-    ">
-    {{
-      "write-comment.name-length-error"
-        | translate: { min: questionerNameMin, max: questionerNameMax }
-    }}
-  </mat-error>
-</mat-form-field>
 <ars-row
   ars-flex-box
-  *ngIf="enabled"
   class="spellcheck">
-  <ars-col>
-    <app-dialog-action-buttons
-      [buttonsLabelSection]="i18nSection"
-      [confirmButtonLabel]="confirmLabel"
-      [cancelButtonLabel]="cancelLabel"
-      [showLoadingCycle]="isSubmittingComment"
-      [showDivider]="false"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="
-        buildCreateCommentActionCallback()
-      "></app-dialog-action-buttons>
+  <ars-col style="flex: 1">
+    <mat-dialog-actions>
+      <button
+        mat-button
+        (click)="buildCloseDialogActionCallback()()">
+        {{ i18n().cancel }}
+      </button>
+
+      <span style="flex: 1"></span>
+
+      <button
+        mat-flat-button
+        [disabled]="isSubmittingComment"
+        (click)="buildCreateCommentActionCallback()()">
+        {{ i18n().send }}
+      </button>
+    </mat-dialog-actions>
   </ars-col>
 </ars-row>
 
-<div *ngIf="!brainstormingData">
-  <button
-    mat-flat-button
-    class="preview-btn"
-    *ngIf="isMobileMockPossible"
-    (click)="setMobileMockState(!isMobileMockActive)">
-    {{ "comment-page.preview-in-mock" | translate }}
-  </button>
-</div>
 <div
   *ngIf="isMobileMockActive"
   class="mobile-mock-wrapper"

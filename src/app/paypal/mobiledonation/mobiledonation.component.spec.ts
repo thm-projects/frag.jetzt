@@ -8,9 +8,8 @@ describe('MobiledonationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MobiledonationComponent]
-    })
-    .compileComponents();
+      imports: [MobiledonationComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MobiledonationComponent);
     component = fixture.componentInstance;

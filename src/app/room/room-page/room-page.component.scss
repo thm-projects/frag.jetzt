@@ -1,61 +1,21 @@
-m3-body-pane {
-  height: 100%;
-}
+@use "modules/m3/style/m3-layout" as m3-layout;
 
-m3-supporting-pane.scrollable-pane {
-  height: calc(100% - 32px);
-  padding-right: var(--m3-sys-layout-spacing-pane);
+.scrollable-content {
+  flex-grow: 1;
+  height: 50vh;
   overflow-y: auto;
-  display: flex;
 }
 
-mat-card {
-  min-height: 550px;
-  height: 50dvh;
-  width: 800px;
-  max-width: 95%;
-  margin: auto;
-  background-color: var(--md-sys-color-surface-container-highest);
-}
-
-mat-card-content {
-  margin-block: auto;
-}
-
-mat-card-actions {
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 1.25em;
-  padding: 0.8em;
-}
-
-.badge-wrapper {
-  --mat-badge-background-color: var(--md-sys-color-primary-container);
-  --mat-badge-text-color: var(--md-sys-color-primary);
-  position: relative;
-
-  &.secondary {
-    --mat-badge-background-color: var(--md-sys-color-secondary-container);
-    --mat-badge-text-color: var(--md-sys-color-secondary);
-  }
-
-  > .wrapped-badge {
-    position: absolute;
-    top: 0;
-    bottom: 0;
+.compact {
+  display: none;
+  @include m3-layout.explicit-range(compact, medium) {
+    display: block;
   }
 }
 
-.subtitle-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-
-  > button {
-    scale: 1.25;
+.no-compact {
+  display: block;
+  @include m3-layout.explicit-range(compact, medium) {
+    display: none;
   }
-}
-
-.full-width-title > ::ng-deep div {
-  width: 100%;
 }

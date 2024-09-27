@@ -396,60 +396,6 @@ div.toastui-editor-fragjetzt {
 
     &.color::before {
       mask-image: url(/assets/editor-icons/text/style-alt-xs.svg);
-      mask-size: 57.5%;
-    }
-
-    &.bullet-list::before {
-      mask-image: url(/assets/editor-icons/text/list-xs.svg);
-    }
-
-    &.ordered-list::before {
-      mask-image: url(/assets/editor-icons/text/list-numbered-xs.svg);
-    }
-
-    &.task-list::before {
-      mask-image: url(/assets/editor-icons/text/check-square.svg);
-    }
-
-    &.indent::before {
-      mask-image: url(/assets/editor-icons/text/long-arrow-right.svg);
-    }
-
-    &.outdent::before {
-      mask-image: url(/assets/editor-icons/text/long-arrow-left.svg);
-    }
-
-    &.heading::before {
-      mask: none;
-      background: none;
-      content: "H";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-
-    &.bold::before {
-      mask-image: url(/assets/editor-icons/text/bold.svg);
-      mask-size: 40%;
-    }
-
-    &.italic::before {
-      mask-image: url(/assets/editor-icons/text/italic.svg);
-      mask-size: 21%;
-    }
-
-    &.strike::before {
-      mask-image: url(/assets/editor-icons/text/strikethrough-xs.svg);
-      mask-size: 55%;
-    }
-
-    &.hrline::before {
-      mask-image: url(/assets/editor-icons/text/minus-s.svg);
-    }
-
-    &.quote::before {
-      mask-image: url(/assets/editor-icons/text/quote.svg);
     }
 
     &.table::before {
@@ -462,20 +408,6 @@ div.toastui-editor-fragjetzt {
 
     &.link::before {
       mask-image: url(/assets/editor-icons/text/link.svg);
-    }
-
-    &.code::before {
-      mask-image: url(/assets/editor-icons/text/code.svg);
-    }
-
-    &.codeblock::before {
-      mask: none;
-      background: none;
-      content: "CB";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
     }
 
     &.more::before {
@@ -511,12 +443,54 @@ div.toastui-editor-fragjetzt {
     --mdc-icon-button-icon-color: var(--mat-menu-item-label-text-color);
   }
 
+  .toastui-editor-dropdown-toolbar {
+    height: 4em;
+    margin-top: 0.1em;
+    overflow-y: clip;
+  }
+
   .toastui-editor-toolbar-item-wrapper {
     display: inline-flex !important;
     align-items: center;
   }
 
   .toastui-editor-defaultUI-toolbar {
+    button {
+      border-radius: 50%;
+      width: var(--mdc-icon-button-state-layer-size, 48px);
+      height: var(--mdc-icon-button-state-layer-size, 48px);
+      padding: calc(
+        calc(
+            var(--mdc-icon-button-state-layer-size, 48px) - var(
+                --mdc-icon-button-icon-size,
+                24px
+              )
+          ) / 2
+      );
+      font-size: var(--mdc-icon-button-icon-size);
+      color: var(--mdc-icon-button-icon-color);
+      border: none;
+      margin: 0;
+
+      &:not(:disabled):hover {
+        border: none;
+        background-color: unset;
+      }
+
+      &[disabled] {
+        color: var(--mdc-icon-button-disabled-icon-color);
+      }
+
+      &.active {
+        color: var(--mdc-filled-button-label-text-color);
+        background-color: var(--mdc-filled-button-container-color) !important;
+
+        .mat-mdc-button-persistent-ripple::before {
+          background-color: var(--mat-filled-button-state-layer-color);
+        }
+      }
+    }
+
     .scroll-sync {
       color: var(--mdc-form-field-label-text-color);
       width: auto;

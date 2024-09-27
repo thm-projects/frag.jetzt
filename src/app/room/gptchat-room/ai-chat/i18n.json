@@ -7,7 +7,12 @@
     "deleted": "» Gelöscht «",
     "ref": "[{{num}}]: {{file}}",
     "createAssistant": "Assistent erstellen...",
-    "assistant": "Assistent"
+    "assistant": "Assistent",
+    "title": "frag.jetzt mit ChatGPT",
+    "attachment": "Anhang",
+    "more": "Weiteres",
+    "disclaimer": "ChatGPT macht Fehler. Bitte überprüfe wichtige Informationen.",
+    "delete_conversation": "Konversation löschen"
   },
   "en": {
     "input": "Chat input",
@@ -16,7 +21,12 @@
     "deleted": "» Deleted «",
     "ref": "[{{num}}]: {{file}}",
     "createAssistant": "Create assistant...",
-    "assistant": "Assistant"
+    "assistant": "Assistant",
+    "title": "frag.jetzt with ChatGPT",
+    "attachment": "Attachments",
+    "more": "More",
+    "disclaimer": "ChatGPT makes mistakes. Please double-check important information.",
+    "delete_conversation": "Delete conversation"
   },
   "fr": {
     "input": "Saisie du message",
@@ -25,6 +35,11 @@
     "deleted": "» Supprimé «",
     "ref": "[{{num}}]: {{file}}",
     "createAssistant": "Créer un assistant...",
-    "assistant": "Assistant"
+    "assistant": "Assistant",
+    "title": "frag.jetzt with ChatGPT",
+    "attachment": "Pièces jointes",
+    "more": "Plus",
+    "disclaimer": "ChatGPT fait des erreurs. Veuillez vérifier les informations importantes.",
+    "delete_conversation": "Supprimer la conversation"
   }
 }

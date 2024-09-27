@@ -1,16 +1,16 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
-const i18n = I18nLoader.load(rawI18n);
 import {
   ChangeDetectorRef,
   Component,
-  DestroyRef,
-  Injector,
   computed,
+  DestroyRef,
   effect,
   inject,
+  Injector,
   signal,
 } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +35,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { room } from '../state/room';
 import { afterUpdate } from '../state/room-updates';
+import { SessionService } from 'app/services/util/session.service';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  MatList,
+  MatListItem,
+  MatListSubheaderCssMatStyler,
+} from '@angular/material/list';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
+
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-room-page',
@@ -52,6 +62,13 @@ import { afterUpdate } from '../state/room-updates';
     RouterModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatList,
+    MatListItem,
+    MatListSubheaderCssMatStyler,
+    DatePipe,
+    NgTemplateOutlet,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
@@ -62,16 +79,52 @@ export class RoomPageComponent {
     return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
   });
   protected readonly isPrivileged = signal<boolean>(false);
+  protected readonly isCreator = signal<boolean>(false);
   protected readonly i18n = i18n;
   protected readonly commentCounter = signal<number>(0);
   protected readonly answerCounter = signal<number>(0);
   protected readonly moderatedCommentCounter = signal<number>(0);
   protected readonly moderatedAnswerCounter = signal<number>(0);
+  protected readonly activeUsers = signal('?');
+  protected readonly moderatorCount = signal<number | string>('?');
   private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
   private notificationService = inject(NotificationService);
   private roomState = inject(RoomStateService);
   private changeDetector = inject(ChangeDetectorRef);
+  roomProperties: {
+    icon: string;
+    svgIcon?: string;
+    value: () => number;
+    translation: () => string;
+  }[] = [
+    {
+      icon: 'person',
+      value: () => this.commentCounter() + this.answerCounter(),
+      translation: () => i18n().participant,
+    },
+    {
+      icon: 'co_present',
+      value: () => 0,
+      translation: () => i18n().creator,
+    },
+    {
+      icon: 'co_present',
+      svgIcon: 'fj_robot',
+      value: () => 0,
+      translation: () => i18n().chatGpt,
+    },
+    {
+      icon: 'grade',
+      value: () => 0,
+      translation: () => i18n().bonus,
+    },
+    {
+      icon: 'support_agent',
+      value: () => 0,
+      translation: () => i18n().moderators,
+    },
+  ];
 
   constructor() {
     const updates = afterUpdate.subscribe((u) => {
@@ -80,6 +133,7 @@ export class RoomPageComponent {
       }
     });
     const roomDataService = inject(RoomDataService);
+    const sessionService = inject(SessionService);
     const destroyRef = inject(DestroyRef);
     const injector = inject(Injector);
     const sub = applyRoomNavigation(injector).subscribe();
@@ -92,6 +146,10 @@ export class RoomPageComponent {
         const sub1 = this.roomState.assignedRole$
           .pipe(map((role) => role !== 'Participant'))
           .subscribe((privileged) => this.isPrivileged.set(privileged));
+        const sub5 = this.roomState.assignedRole$
+          .pipe(map((role) => role === 'Creator'))
+          .subscribe((creator) => this.isCreator.set(creator));
+        this.updateResponseCounter();
         const sub2 = roomDataService.dataAccessor
           .receiveUpdates([
             { type: 'CommentCreated', finished: true },
@@ -101,9 +159,20 @@ export class RoomPageComponent {
           .subscribe(() => {
             this.updateResponseCounter();
           });
+        const sub3 = roomDataService.observeUserCount().subscribe((text) => {
+          this.activeUsers.set(text);
+        });
+        const sub4 = sessionService
+          .getModeratorsOnce()
+          .subscribe((moderators) => {
+            this.moderatorCount.set(moderators.length);
+          });
         onCleanup(() => {
           sub1.unsubscribe();
           sub2.unsubscribe();
+          sub3.unsubscribe();
+          sub4.unsubscribe();
+          sub5.unsubscribe();
         });
       },
       { allowSignalWrites: true },
@@ -112,22 +181,13 @@ export class RoomPageComponent {
 
   protected editSessionName() {
     const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
+      disableClose: true,
     });
     dialogRef.componentInstance.editRoom = this.room();
   }
 
   protected editSessionDescription() {
-    const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-    dialogRef.componentInstance.editRoom = this.room();
+    RoomDescriptionSettingsComponent.open(this.dialog, this.room());
   }
 
   protected copyShortId(): void {

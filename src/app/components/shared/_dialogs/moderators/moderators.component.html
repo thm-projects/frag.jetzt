@@ -31,13 +31,13 @@
         aria-labelledby="moderator-email"
         [formControl]="usernameFormControl"
         [placeholder]="'moderators-dialog.email' | translate"
-        name="username" />
+        name="username"
+        (keyup.enter)="addModerator(loginId.value)" />
       <button
         mat-icon-button
         matIconSuffix
         [disabled]="!loginId.value"
-        (click)="addModerator(loginId.value); loginId.value = ''"
-        aria-labelledby="add-moderator">
+        (click)="addModerator(loginId.value)">
         <mat-icon>add</mat-icon>
       </button>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
@@ -57,10 +57,15 @@
     <mat-list>
       <mat-list-item
         *ngFor="let moderator of moderators"
-        lines="1">
+        lines="2">
         <span matListItemTitle>
-          {{ moderator.loginId || ("moderators-dialog.guest" | translate) }}
+          <mat-icon matPrefix>
+            {{ moderator.loginId ? "support_agent" : "person" }}
+          </mat-icon>
+          {{ moderator.loginId ? i18n().moderator : i18n().guest }}
         </span>
+        <span>{{ moderator.loginId ? moderator.loginId : "" }}</span>
+
         <div matListItemMeta>
           <button
             mat-icon-button
@@ -75,15 +80,15 @@
 <mat-dialog-actions>
   <button
     mat-button
-    (click)="openHelp()">
-    <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    (click)="dialogRef.close(false)">
+    {{ "explanation.close" | translate }}
   </button>
   <div class="grow"></div>
   <button
     mat-button
-    (click)="dialogRef.close(false)">
-    {{ "explanation.close" | translate }}
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
   </button>
 </mat-dialog-actions>
 

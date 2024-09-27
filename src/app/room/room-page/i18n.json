@@ -18,7 +18,16 @@
     "tooltipEdit": "Titel der Veranstaltung ändern",
     "tooltipOptions": "Weitere Optionen",
     "editDescription": "Beschreibung bearbeiten",
-    "moderatorAccess": "Moderatoren-Zugang:"
+    "moderatorAccess": "Moderatoren-Zugang",
+    "descriptionHeader": "Begrüßungstext",
+    "participant": "Teilnehmer",
+    "creator": "Raumersteller",
+    "chatGpt": "KI-Antworten",
+    "bonus": "Markiert für Bonus",
+    "moderators": "Moderatoren",
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Tokens kaufen",
+    "tokensLeft": "Verbleibende Tokens"
   },
   "en": {
     "name": "»{{name}}«",
@@ -38,7 +47,16 @@
     "tooltipEdit": "Edit event title",
     "tooltipOptions": "More options",
     "editDescription": "Edit description",
-    "moderatorAccess": "Moderator access:"
+    "moderatorAccess": "Moderator access",
+    "descriptionHeader": "Welcome text",
+    "participant": "Participant",
+    "creator": "Room Creator",
+    "chatGpt": "AI Answers",
+    "bonus": "Marked for Bonus",
+    "moderators": "Moderator",
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Purchase Tokens",
+    "tokensLeft": "Tokens left"
   },
   "fr": {
     "name": "« {{name}} »",
@@ -58,6 +76,15 @@
     "tooltipEdit": "Modifier le titre de l'événement",
     "tooltipOptions": "Plus d'options",
     "editDescription": "Modifier la description",
-    "moderatorAccess": "Accès modérateur :"
+    "moderatorAccess": "Accès modérateur",
+    "descriptionHeader": "Texte de bienvenue",
+    "participant": "Participants",
+    "creator": "Créateurs",
+    "chatGpt": "Réponses KI",
+    "bonus": "Marqué pour bonus",
+    "moderators": "Modérateurs",
+    "roomPropertiesTitle": "Statistics",
+    "purchase": "Acheter des jetons",
+    "tokensLeft": "Jetons restants"
   }
 }

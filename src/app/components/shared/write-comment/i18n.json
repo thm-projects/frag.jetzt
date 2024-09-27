@@ -1,0 +1,44 @@
+{
+    "key": "write-comment-editor-settings",
+    "de": {
+      "title": "Frage stellen",
+      "questioner-name": "Spitzname",
+      "tag-button-hint": "Wähle die treffende Kategorie für deine Frage.",
+      "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
+      "chars": "{{count}} / {{maxTextCharacters}}",
+      "nameChars": "{{count}} / {{questionerNameMax}}",
+      "warning": "Die maximale Anzahl an Zeichen wurde überschritten!",
+      "tag": "Kategorie",
+      "tag-reset": "ohne",
+      "send":"Senden",
+      "cancel":"Abbrechen"
+    },
+    "en": {
+      "title": "Ask question",
+      "questioner-name": "Nickname",
+      "tag-button-hint": "Select the most appropriate category for your question.",
+      "name-length-error": "The name must be {{min}} to {{max}} characters long.",
+      "chars": "{{count}} / {{maxTextCharacters}}",
+      "nameChars": "{{count}} / {{questionerNameMax}}",
+      "warning": "The maximum number of characters has been exceeded!",
+      "tag": "Category",
+      "tag-reset": "none",
+      "send":"Send",
+      "cancel":"Cancel"
+    },
+    "fr": {
+      "title": "Poser une question",
+      "questioner-name": "Surnom",
+      "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question",
+      "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
+      "chars": "{{count}} / {{maxTextCharacters}}",
+      "nameChars": "{{count}} / {{questionerNameMax}}",
+      "warning": "Le nombre maximal de caractères est dépassé!",
+      "tag": "Catégorie",
+      "tag-reset": "sans",
+      "send":"Envoyer",
+      "cancel":"Annuler"
+
+    }
+  }
+  

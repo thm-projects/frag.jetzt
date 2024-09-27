@@ -1,11 +1,35 @@
 <m3-body-pane>
-  <m3-supporting-pane
-    class="scrollable-pane"
-    type="flexible">
+  <m3-supporting-pane [type]="'flexible'">
     @if (room(); as room) {
-      <mat-card>
-        <mat-card-header class="full-width-title">
-          <mat-card-title>
+      <div class="row gap-large">
+        <span class="row items-center gap-small">
+          <span class="no-compact">
+            {{ i18n().shortId | context: room }}
+          </span>
+          <button
+            mat-icon-button
+            [matTooltip]="i18n().tooltipCopy"
+            (click)="copyShortId()">
+            <mat-icon>share</mat-icon>
+          </button>
+        </span>
+        @if (isPrivileged()) {
+          <span class="row items-center gap-small">
+            <span class="no-compact">{{ i18n().moderatorAccess }}</span>
+            <button
+              mat-icon-button
+              [matTooltip]="i18n().tooltipModerator"
+              (click)="showModeratorsDialog()">
+              <mat-icon>key</mat-icon>
+            </button>
+          </span>
+        }
+      </div>
+      <mat-card
+        appearance="outlined"
+        style="margin-top: 12px">
+        <mat-card-header>
+          <mat-card-title class="headline-large">
             {{ i18n().name | context: { name: room.name } }}
             @if (isPrivileged()) {
               <button
@@ -14,96 +38,60 @@
                 (click)="editSessionName()">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button
-                mat-icon-button
-                [matTooltip]="i18n().tooltipOptions"
-                [matMenuTriggerFor]="options"
-                style="float: inline-end">
-                <mat-icon>more_vert</mat-icon>
-              </button>
             }
           </mat-card-title>
-          <mat-card-subtitle>
-            <span class="subtitle-wrapper">
-              {{ i18n().shortId | context: room }}
-              <button
-                mat-icon-button
-                [matTooltip]="i18n().tooltipCopy"
-                (click)="copyShortId()">
-                <mat-icon>share</mat-icon>
-              </button>
-            </span>
-            @if (isPrivileged()) {
-              <span class="subtitle-wrapper">
-                {{ i18n().moderatorAccess }}
-                <button
-                  mat-icon-button
-                  [matTooltip]="i18n().tooltipModerator"
-                  (click)="showModeratorsDialog()">
-                  <mat-icon>key</mat-icon>
-                </button>
-              </span>
-            }
-          </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <app-markdown-viewer
-            [data]="room.description || ''"></app-markdown-viewer>
+          <div>
+            <span class="headline-small">
+              {{ i18n().descriptionHeader }}
+            </span>
+            @if (isPrivileged()) {
+              <button
+                mat-icon-button
+                (click)="editSessionDescription()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+          </div>
+          <div class="scrollable-content">
+            <app-markdown-viewer
+              [data]="room.description || ''"></app-markdown-viewer>
+          </div>
         </mat-card-content>
         <mat-card-actions>
-          <span class="badge-wrapper">
+          <mat-list>
+            <mat-list-item>
+              <span class="row items-center gap-medium">
+                <mat-icon>match_word</mat-icon>
+                <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
+              </span>
+            </mat-list-item>
+          </mat-list>
+          @if (isCreator()) {
             <button
-              routerLink="comments"
-              mat-flat-button
-              [matBadge]="
-                i18n().shortQuestions | context: { number: commentCounter() }
-              "
-              [matBadgeHidden]="!commentCounter()"
-              matBadgeSize="large"
-              [matBadgeOverlap]="true"
-              matBadgePosition="above before">
-              <mat-icon>
-                {{ room.conversationDepth ? "forum" : "chat" }}
-              </mat-icon>
-              {{ i18n()[mode()].join }}
+              mat-button
+              routerLink="/purchase">
+              {{ i18n().purchase }}
             </button>
-            <span
-              class="wrapped-badge"
-              [matBadge]="
-                i18n().shortAnswers | context: { number: answerCounter() }
-              "
-              [matBadgeHidden]="!answerCounter()"
-              matBadgeSize="large"
-              [matBadgeOverlap]="true"
-              matBadgePosition="above after"></span>
-          </span>
+          }
+          <span style="flex: 1"></span>
+          <button
+            style="margin-right: 4px"
+            routerLink="comments"
+            mat-flat-button>
+            <mat-icon>
+              {{ room.conversationDepth ? "forum" : "chat" }}
+            </mat-icon>
+            {{ i18n()[mode()].join }}
+          </button>
           @if (isPrivileged() && !room.directSend) {
-            <span class="badge-wrapper secondary">
-              <button
-                routerLink="moderator/comments"
-                mat-flat-button
-                [matBadge]="
-                  i18n().shortQuestions
-                    | context: { number: moderatedCommentCounter() }
-                "
-                [matBadgeHidden]="!moderatedCommentCounter()"
-                matBadgeSize="large"
-                [matBadgeOverlap]="true"
-                matBadgePosition="above before">
-                <mat-icon>gavel</mat-icon>
-                Moderation
-              </button>
-              <span
-                class="wrapped-badge"
-                [matBadge]="
-                  i18n().shortAnswers
-                    | context: { number: moderatedAnswerCounter() }
-                "
-                [matBadgeHidden]="!moderatedAnswerCounter()"
-                matBadgeSize="large"
-                [matBadgeOverlap]="true"
-                matBadgePosition="above after"></span>
-            </span>
+            <button
+              routerLink="moderator/comments"
+              mat-flat-button>
+              <mat-icon>gavel</mat-icon>
+              Moderation
+            </button>
           }
         </mat-card-actions>
       </mat-card>
@@ -112,14 +100,35 @@
         style="margin: auto"
         mode="indeterminate"></mat-progress-spinner>
     }
+    <div class="compact">
+      <ng-container *ngTemplateOutlet="statistics"></ng-container>
+    </div>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    [type]="'fixed'"
+    [priority]="'secondary'">
+    <ng-container *ngTemplateOutlet="statistics"></ng-container>
   </m3-supporting-pane>
 </m3-body-pane>
 
-<mat-menu #options>
-  <button
-    mat-menu-item
-    (click)="editSessionDescription()">
-    <mat-icon>edit</mat-icon>
-    <span>{{ i18n().editDescription }}</span>
-  </button>
-</mat-menu>
+<ng-template #statistics>
+  <mat-list>
+    <!--      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>-->
+    @for (entry of roomProperties; track entry) {
+      <mat-list-item>
+        <div class="row content-space-between">
+          <div class="row items-center gap-small">
+            <mat-icon [svgIcon]="entry.svgIcon">
+              {{ entry.icon }}
+            </mat-icon>
+            <span class="label-medium">
+              {{ entry.translation() }}
+            </span>
+          </div>
+          <span class="headline-large">{{ entry.value() }}</span>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    }
+  </mat-list>
+</ng-template>

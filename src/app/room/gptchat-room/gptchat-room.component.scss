@@ -1,39 +1,78 @@
-m3-body-pane {
+* {
+  box-sizing: border-box;
+}
+
+.chat-layout {
+  display: flex;
+  flex-direction: row;
   height: 100%;
 }
 
-m3-supporting-pane {
-  max-height: 100%;
+.chat-pane {
+  flex-grow: 1;
+  padding: 24px;
 }
 
-.chat-pane.m3-supporting-pane {
+.visible-only-if-closed {
   display: flex;
-  flex-direction: column;
-  position: relative;
-  max-width: unset;
-  padding-top: 0;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24px;
+  flex-shrink: 0;
 }
 
-.threads-overview.m3-supporting-pane {
-  padding-top: 0;
-  transition-duration: 0.5s;
-  transition-property: width, margin-left;
-  transition-timing-function: var(--md-sys-motion-easing-emphasized);
-  width: 0;
-  margin-left: 0;
-  overflow: hidden;
-  position: relative;
-  flex-grow: 0;
+.history-container {
+  height: calc(100% - var(--mat-toolbar-standard-height));
+  padding: 24px;
+  flex-shrink: 0;
 
+  display: none;
   &.open {
-    width: var(--m3-comp-supporting-pane-fixed-width);
-    margin-left: var(--m3-sys-layout-spacing-pane);
-    flex-grow: 1;
+    display: block;
   }
+}
 
-  > mat-action-list {
-    width: var(--m3-comp-supporting-pane-fixed-width);
-    height: calc(100% - var(--mat-toolbar-standard-height));
-    overflow: auto;
+.actions {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.history {
+  height: 100%;
+  overflow-y: scroll;
+  padding: 0 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-weight: bold;
+  font-size: 12px;
+
+  position: sticky;
+  top: 0;
+  background-color: var(--md-sys-color-background);
+  z-index: 1;
+  padding: 24px 0;
+  margin: 0;
+
+  .group-number {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      padding: 14px;
+      transform: translate(-50%, -50%);
+      background-color: var(--md-sys-color-surface3);
+      border-radius: 100%;
+      z-index: -1;
+    }
   }
 }

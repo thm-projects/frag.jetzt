@@ -71,6 +71,7 @@ export interface RadioSelectAction extends BaseAction {
   options: {
     value: unknown;
     label: string;
+    helpText?: string;
   }[];
 }
 

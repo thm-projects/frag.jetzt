@@ -732,7 +732,7 @@
     "code-recreated": "A new access code has been created.",
     "confirm": "Yes",
     "confirm-description": "When you create a new access code, the previous guest moderators will be removed. Generate code?",
-    "confirm-title": "Generate access code",
+    "confirm-title": "Generate access code?",
     "delete": "Remove",
     "email": "Mail address …",
     "email-error": "The entered mail address is invalid.",
@@ -741,7 +741,6 @@
     "join-code": "Guest code:",
     "not-found": "A user with the given mail address could not be found. Are you sure that the user registered at »frag.jetzt« with this address?",
     "not-generated": "…",
-    "really-remove-moderator": "Do you really want to remove the moderator?",
     "removed": "The moderator has been removed.",
     "session-id-copied": "The direct link for guest moderators has been copied to the clipboard.",
     "something-went-wrong": "Something went wrong.",
@@ -985,6 +984,7 @@
     "really-delete-token": "Do you really want to delete this token?",
     "really-delete-tokens": "Do you really want to delete all tokens of this session?",
     "room-not-found": "Room not found :(",
+    "save":"Save",
     "score": "Score",
     "session-id": "Participant access",
     "session-id-copied": "Direct link for participants was copied to the clipboard.",
@@ -1409,7 +1409,7 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …"
+    "questioner-name": "Nickname"
   },
   "presets-dialog": {
     "context-title": "Context of the event",

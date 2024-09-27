@@ -736,7 +736,7 @@
     "code-recreated": "Es wurde ein neuer Zugangscode erzeugt.",
     "confirm": "Ja",
     "confirm-description": "Wenn du einen neuen Zugangscode erzeugst, werden die bisherigen Gastmoderator*innen entfernt. Code erzeugen?",
-    "confirm-title": "Zugangscode erzeugen",
+    "confirm-title": "Zugangscode generieren?",
     "delete": "Entfernen",
     "email": "Mail-Adresse …",
     "email-error": "Die eingegebene Mail-Adresse ist ungültig.",
@@ -745,7 +745,6 @@
     "join-code": "Gastcode:",
     "not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "not-generated": "…",
-    "really-remove-moderator": "Willst du den Moderator oder die Moderatorin wirklich entfernen?",
     "removed": "Moderator*in wurde entfernt.",
     "session-id-copied": "Der Direktlink für Gastmoderator*innen wurde in die Zwischenablage kopiert.",
     "something-went-wrong": "Etwas ist schiefgelaufen.",
@@ -989,6 +988,7 @@
     "really-delete-token": "Willst du diesen Bonuscode wirklich löschen?",
     "really-delete-tokens": "Willst du wirklich alle Bonuscodes dieser Sitzung löschen?",
     "room-not-found": "Der Raum wurde nicht gefunden (",
+    "save":"Speichern",
     "score": "Score",
     "session-id": "Teilnehmerzugang",
     "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
@@ -1413,7 +1413,7 @@
   "write-comment": {
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
-    "questioner-name": "Dein Name, wenn du willst …"
+    "questioner-name": "Spitzname"
   },
   "presets-dialog": {
     "context-title": "Kontext der Veranstalltung",
