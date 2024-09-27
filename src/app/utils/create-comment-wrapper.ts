@@ -9,7 +9,6 @@ import { CommentService } from '../services/http/comment.service';
 import { Observable, of } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 import { UserRole } from '../models/user-roles.enum';
-import { DialogConfig } from '@angular/cdk/dialog';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BrainstormingSession } from '../models/brainstorming-session';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
@@ -35,8 +34,8 @@ export class CreateCommentWrapper {
       maxWidth: '100%',
       maxHeight: 'calc(100vh - 20px)',
       autoFocus: false,
-      disableClose: true, 
-      ...DialogConfig,
+      disableClose: true,
+      ...dialogConfig,
     };
     const dialogRef = this.dialog.open(CreateCommentComponent, config);
     dialogRef.componentInstance.userRole = userRole;
