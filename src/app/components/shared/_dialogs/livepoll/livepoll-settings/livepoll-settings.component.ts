@@ -39,6 +39,7 @@ export class LivepollSettingsComponent implements OnDestroy {
   openMarkdownEditor() {
     const dialog = this.dialog.open(MarkdownEditorDialogComponent, {
       width: '500px',
+      disableClose: true,
       data: {
         data: this.parent.livepollSession.title || '',
         useTemplate: true,
