@@ -1,11 +1,9 @@
 <m3-body-pane>
-  <m3-supporting-pane
-    class="scrollable-pane"
-    type="flexible">
+  <m3-supporting-pane [type]="'flexible'">
     @if (room(); as room) {
-      <mat-toolbar>
-        <span class="tooltip-wrapper">
-          <span class="hide-on-small">
+      <div class="row gap-large">
+        <span class="row items-center gap-small">
+          <span class="no-compact">
             {{ i18n().shortId | context: room }}
           </span>
           <button
@@ -16,8 +14,8 @@
           </button>
         </span>
         @if (isPrivileged()) {
-          <span class="tooltip-wrapper">
-            <span class="hide-on-small">{{ i18n().moderatorAccess }}</span>
+          <span class="row items-center gap-small">
+            <span class="no-compact">{{ i18n().moderatorAccess }}</span>
             <button
               mat-icon-button
               [matTooltip]="i18n().tooltipModerator"
@@ -26,10 +24,12 @@
             </button>
           </span>
         }
-      </mat-toolbar>
-      <mat-card class="main-card">
-        <mat-card-header class="full-width-title">
-          <mat-card-title class="centered-header">
+      </div>
+      <mat-card
+        appearance="outlined"
+        style="margin-top: 12px">
+        <mat-card-header>
+          <mat-card-title>
             {{ i18n().name | context: { name: room.name } }}
             @if (isPrivileged()) {
               <button
@@ -41,9 +41,9 @@
             }
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="description-container">
+        <mat-card-content>
           <div>
-            <span class="hide-on-small headline-small">
+            <span class="headline-small">
               {{ i18n().descriptionHeader }}
             </span>
             @if (isPrivileged()) {
@@ -54,9 +54,9 @@
               </button>
             }
           </div>
-
           <div class="scrollable-content">
             <app-markdown-viewer
+              class="label-medium"
               [data]="room.description || ''"></app-markdown-viewer>
           </div>
         </mat-card-content>
@@ -64,10 +64,10 @@
           <button mat-button>
             <mat-icon>token</mat-icon>
             <p style="margin: 0px">Platzhalter Token informationen</p>
-            <p style="margin: 0px">Platzhalter Token informationen</p>
           </button>
           <span style="flex: 1"></span>
           <button
+            style="margin-right: 4px"
             routerLink="comments"
             mat-flat-button>
             <mat-icon>
@@ -90,66 +90,34 @@
         style="margin: auto"
         mode="indeterminate"></mat-progress-spinner>
     }
+    <div class="compact">
+      <ng-container *ngTemplateOutlet="statistics"></ng-container>
+    </div>
   </m3-supporting-pane>
   <m3-supporting-pane
     [type]="'fixed'"
-    class="info-pane">
-    <div class="info-container">
-      <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-      <mat-card class="info-card">
-        <mat-icon>person</mat-icon>
-        <span>{{ i18n().participant }}</span>
-        <span class="">{{ commentCounter() + answerCounter() }}</span>
-        <span style="flex: 1"></span>
-        <button
-          mat-icon-button
-          class="secondary">
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card>
-    </div>
+    [priority]="'secondary'">
+    <ng-container *ngTemplateOutlet="statistics"></ng-container>
   </m3-supporting-pane>
 </m3-body-pane>
+
+<ng-template #statistics>
+  <mat-list>
+    <!--      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>-->
+    @for (entry of roomProperties; track entry) {
+      <mat-list-item>
+        <div class="row content-space-between">
+          <div class="row items-center gap-small">
+            <mat-icon [svgIcon]="entry.svgIcon">
+              {{ entry.icon }}
+            </mat-icon>
+            <span class="label-medium">
+              {{ entry.translation() }}
+            </span>
+          </div>
+          <span class="headline-large">{{ entry.value() }}</span>
+        </div>
+      </mat-list-item>
+    }
+  </mat-list>
+</ng-template>
