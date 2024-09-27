@@ -146,25 +146,6 @@ mat-card-subtitle {
   margin-top: 20px;
 }
 
-/* FAQ Section Styling */
-.faq-section {
-  margin-top: 40px;
-}
-
-.faq-text {
-  font-size: 1.2rem;
-  color: #555;
-}
-
-.faq-link {
-  color: #3f51b5;
-  text-decoration: underline;
-
-  &:hover {
-    color: #1e88e5;
-  }
-}
-
 /* Responsive Styles */
 @media (max-width: 768px) {
   .pricing-cards {
@@ -175,4 +156,67 @@ mat-card-subtitle {
   .pricing-card {
     width: 90%;
   }
+}
+.pricing-plan-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.pricing-title {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.token-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--md-sys-color-surface-container-highest);
+  text-align: left; /* Links ausgerichtet */
+}
+
+.token-card h2,
+.token-card h3,
+.token-card p,
+.token-card ul,
+.token-card table {
+  margin: 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+@media (max-width: 768px) {
+  .token-card {
+    width: 90%;
+  }
+}
+
+.mat-card-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }

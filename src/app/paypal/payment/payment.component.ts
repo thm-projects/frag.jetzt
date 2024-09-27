@@ -18,6 +18,8 @@ import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
 import { User } from 'app/models/user';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -50,6 +52,8 @@ interface Plan {
     MatListModule,
     ContextPipe,
     CustomMarkdownModule,
+    MatTableModule,
+    MatExpansionModule,
   ],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss'],

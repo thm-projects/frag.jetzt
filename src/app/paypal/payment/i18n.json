@@ -13,7 +13,7 @@
     "pay": "Wie wollen sie zahlen?",
 
     "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
-    
+
     "tokens": "Tokens",
     "words": "Wörter",
 
@@ -26,7 +26,55 @@
     "faqText": "Nicht sicher, wie Tokens funktionieren?",
     "faqLink": "Erfahren Sie mehr über Tokens und Preise",
     "yourTokens": "Ihre Tokens:",
-    "buy": "Deaktiviert"
+    "buy": "Deaktiviert",
+
+    "marketing": {
+      "title": "Upgrade deinen KI-Assistenten auf frag.jetzt",
+      "subtitle": "Erhalte die volle Power von GPT-4o, dem mächtigsten Modell, um deine Anfragen blitzschnell zu bearbeiten.",
+      "description": "Egal, ob du kleine Fragen stellst oder große Textmengen verarbeiten möchtest – wir haben den passenden Plan für dich.",
+      "freePackageTitle": "Kostenloses Startpaket – Teste jetzt!",
+      "freePackageDetails": {
+        "tokenInfo1": "200 Tsd. Eingangstokens (~150 Tsd. Wörter)",
+        "tokenInfo2": "70 Tsd. Ausgangstokens (~52 Tsd. Wörter)",
+        "text": "Das reicht, um die Fähigkeiten von GPT-4o ausgiebig zu testen. Nutze den kostenlosen Plan und überzeuge dich selbst, wie leistungsfähig dein KI-Assistent ist."
+      },
+      "flexiblePlans": "Unsere flexiblen Pläne",
+      "priceTable": {
+        "header1": "Preis (€)",
+        "header2": "Eingangstokens und Wörter",
+        "header3": "Ausgangstokens und Wörter",
+        "row1": { "price": "1", "tokens": "200 Tsd. ~150 Tsd. Wörter", "outputTokens": "70 Tsd. ~52 Tsd. Wörter" },
+        "row2": { "price": "5", "tokens": "1,0 Mio. ~750 Tsd. Wörter", "outputTokens": "350 Tsd. ~262 Tsd. Wörter" },
+        "row3": { "price": "10", "tokens": "2,0 Mio. ~1,5 Mio. Wörter", "outputTokens": "700 Tsd. ~525 Tsd. Wörter" },
+        "row4": { "price": "20", "tokens": "4,0 Mio. ~3,0 Mio. Wörter", "outputTokens": "1,4 Mio. ~1,1 Mio. Wörter" }
+      },
+      "simpleStart": "Einfacher Einstieg – keine Verpflichtungen",
+      "simpleStartText": "Starte mit unserem kostenlosen Plan, erweitere bei Bedarf auf einen größeren Plan und bezahle nur, wenn du tatsächlich zusätzliche Tokens brauchst.",
+      "whyGPT4o": "Warum GPT-4o auf frag.jetzt?",
+      "whyGPT4oList": {
+        "item1": "Schnelle und präzise Antworten",
+        "item2": "Perfekt für große Textmengen",
+        "item3": "Flexible Tokenpakete"
+      },
+      "example": "Beispiel – Der 10-Euro-Plan: Mit 2,0 Mio. Eingangstokens (~1,5 Mio. Wörter) kannst du die komplette Harry Potter-Serie verarbeiten und hast sogar noch Tokens übrig.",
+      "howItWorks": "So funktioniert’s",
+      "howItWorksSteps": {
+        "step1": "Registriere dich auf frag.jetzt.",
+        "step2": "Erhalte dein kostenloses Tokenpaket und beginne, die KI zu nutzen.",
+        "step3": "Wenn du mehr brauchst, wähle einfach einen unserer flexiblen Pläne und kaufe Tokens."
+      },
+      "faqTitle": "Häufig gestellte Fragen",
+      "faq": {
+        "question1": "Wie funktionieren Tokens?",
+        "answer1": "Tokens sind kleine Textbausteine. 1 Token entspricht ca. 4 Zeichen oder ¾ eines Wortes.",
+        "question2": "Wie lange kann ich das kostenlose Paket nutzen?",
+        "answer2": "Das kostenlose Tokenpaket ist ein einmaliges Angebot und verfällt nicht.",
+        "question3": "Kann ich meine ungenutzten Tokens behalten?",
+        "answer3": "Ja! Alle gekauften Tokens bleiben auf deinem Konto, bis sie aufgebraucht sind."
+      },
+      "cta": "Sicher dir jetzt dein kostenloses Tokenpaket!",
+      "ctaText": "Teste die volle Leistung von frag.jetzt und überzeuge dich selbst. Registriere dich kostenlos und erhalte 200 Tsd. Tokens für den Start."
+    }
   },
   "en": {
     "title": "Choose Your Plan",
@@ -54,7 +102,55 @@
     "faqText": "Not sure how tokens work?",
     "faqLink": "Learn more about tokens and pricing",
     "yourTokens": "Your Tokens:",
-    "buy": "Buy now"
+    "buy": "Buy now",
+
+    "marketing": {
+      "title": "Upgrade your AI assistant on frag.jetzt",
+      "subtitle": "Get the full power of GPT-4o, the most powerful model to process your requests lightning-fast.",
+      "description": "Whether you have small questions or need to process large volumes of text – we have the right plan for you.",
+      "freePackageTitle": "Free Starter Package – Try it now!",
+      "freePackageDetails": {
+        "tokenInfo1": "200K input tokens (~150K words)",
+        "tokenInfo2": "70K output tokens (~52K words)",
+        "text": "This is enough to extensively test the capabilities of GPT-4o. Use the free plan and see for yourself how powerful your AI assistant is."
+      },
+      "flexiblePlans": "Our Flexible Plans",
+      "priceTable": {
+        "header1": "Price (€)",
+        "header2": "Input tokens and words",
+        "header3": "Output tokens and words",
+        "row1": { "price": "1", "tokens": "200K ~150K words", "outputTokens": "70K ~52K words" },
+        "row2": { "price": "5", "tokens": "1.0M ~750K words", "outputTokens": "350K ~262K words" },
+        "row3": { "price": "10", "tokens": "2.0M ~1.5M words", "outputTokens": "700K ~525K words" },
+        "row4": { "price": "20", "tokens": "4.0M ~3.0M words", "outputTokens": "1.4M ~1.1M words" }
+      },
+      "simpleStart": "Easy Start – No Obligations",
+      "simpleStartText": "Start with our free plan, upgrade to a larger one when needed, and only pay when you actually need more tokens.",
+      "whyGPT4o": "Why GPT-4o on frag.jetzt?",
+      "whyGPT4oList": {
+        "item1": "Fast and accurate responses",
+        "item2": "Perfect for large text volumes",
+        "item3": "Flexible token packages"
+      },
+      "example": "Example – The 10-Euro Plan: With 2.0M input tokens (~1.5M words), you can process the entire Harry Potter series and still have tokens left.",
+      "howItWorks": "How it works",
+      "howItWorksSteps": {
+        "step1": "Sign up on frag.jetzt.",
+        "step2": "Get your free token package and start using the AI.",
+        "step3": "If you need more, simply choose one of our flexible plans and purchase tokens."
+      },
+      "faqTitle": "Frequently Asked Questions",
+      "faq": {
+        "question1": "How do tokens work?",
+        "answer1": "Tokens are small text blocks. 1 token is approximately 4 characters or ¾ of a word.",
+        "question2": "How long can I use the free package?",
+        "answer2": "The free token package is a one-time offer and does not expire.",
+        "question3": "Can I keep my unused tokens?",
+        "answer3": "Yes! All purchased tokens remain in your account until they are used."
+      },
+      "cta": "Get your free token package now!",
+      "ctaText": "Test the full power of frag.jetzt and see for yourself. Sign up for free and get 200K tokens to start."
+    }
   },
   "fr": {
     "title": "Choisissez Votre Forfait",
@@ -67,9 +163,9 @@
     "suggested":"Recommandé",
 
     "pay": "Comment vont-ils payer ?",
-    
+
     "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
-    
+
     "tokens": "Jetons",
     "words": "Mots",
 
@@ -83,6 +179,54 @@
     "buy": "Acheter maintenant",
 
     "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
-    "faqLink": "En savoir plus sur les tokens et les tarifs"
+    "faqLink": "En savoir plus sur les tokens et les tarifs",
+
+    "marketing": {
+      "title": "Améliorez votre assistant IA sur frag.jetzt",
+      "subtitle": "Obtenez toute la puissance de GPT-4o, le modèle le plus puissant pour traiter vos demandes à la vitesse de l'éclair.",
+      "description": "Que vous ayez de petites questions ou que vous deviez traiter de grandes quantités de texte, nous avons le plan qu'il vous faut.",
+      "freePackageTitle": "Forfait de démarrage gratuit – Essayez-le maintenant!",
+      "freePackageDetails": {
+        "tokenInfo1": "200K jetons d'entrée (~150K mots)",
+        "tokenInfo2": "70K jetons de sortie (~52K mots)",
+        "text": "C'est suffisant pour tester en profondeur les capacités de GPT-4o. Utilisez le forfait gratuit et voyez par vous-même à quel point votre assistant IA est puissant."
+      },
+      "flexiblePlans": "Nos Plans Flexibles",
+      "priceTable": {
+        "header1": "Prix (€)",
+        "header2": "Jetons et mots d'entrée",
+        "header3": "Jetons et mots de sortie",
+        "row1": { "price": "1", "tokens": "200K ~150K mots", "outputTokens": "70K ~52K mots" },
+        "row2": { "price": "5", "tokens": "1.0M ~750K mots", "outputTokens": "350K ~262K mots" },
+        "row3": { "price": "10", "tokens": "2.0M ~1.5M mots", "outputTokens": "700K ~525K mots" },
+        "row4": { "price": "20", "tokens": "4.0M ~3.0M mots", "outputTokens": "1.4M ~1.1M mots" }
+      },
+      "simpleStart": "Démarrage Facile – Aucune Obligation",
+      "simpleStartText": "Commencez avec notre plan gratuit, passez à un plus grand si nécessaire, et payez uniquement lorsque vous avez réellement besoin de plus de jetons.",
+      "whyGPT4o": "Pourquoi GPT-4o sur frag.jetzt?",
+      "whyGPT4oList": {
+        "item1": "Réponses rapides et précises",
+        "item2": "Parfait pour de grands volumes de texte",
+        "item3": "Forfaits de jetons flexibles"
+      },
+      "example": "Exemple – Le Plan à 10 euros : Avec 2,0 millions de jetons d'entrée (~1,5 million de mots), vous pouvez traiter toute la série Harry Potter et il vous restera encore des jetons.",
+      "howItWorks": "Comment ça marche",
+      "howItWorksSteps": {
+        "step1": "Inscrivez-vous sur frag.jetzt.",
+        "step2": "Recevez votre pack de jetons gratuit et commencez à utiliser l'IA.",
+        "step3": "Si vous avez besoin de plus, choisissez simplement l'un de nos plans flexibles et achetez des jetons."
+      },
+      "faqTitle": "Questions Fréquemment Posées",
+      "faq": {
+        "question1": "Comment fonctionnent les jetons ?",
+        "answer1": "Les jetons sont de petits blocs de texte. 1 jeton correspond à environ 4 caractères ou ¾ d'un mot.",
+        "question2": "Combien de temps puis-je utiliser le forfait gratuit ?",
+        "answer2": "Le pack de jetons gratuit est une offre unique et n'expire pas.",
+        "question3": "Puis-je conserver mes jetons non utilisés ?",
+        "answer3": "Oui! Tous les jetons achetés restent dans votre compte jusqu'à ce qu'ils soient utilisés."
+      },
+      "cta": "Obtenez votre pack de jetons gratuit maintenant!",
+      "ctaText": "Testez toute la puissance de frag.jetzt et voyez par vous-même. Inscrivez-vous gratuitement et recevez 200K jetons pour commencer."
+    }
   }
 }
