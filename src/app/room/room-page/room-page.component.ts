@@ -100,7 +100,7 @@ export class RoomPageComponent {
   }[] = [
     {
       icon: 'person',
-      value: () => 0,
+      value: () => this.commentCounter() + this.answerCounter(),
       translation: () => i18n().participant,
     },
     {
@@ -113,11 +113,6 @@ export class RoomPageComponent {
       svgIcon: 'fj_robot',
       value: () => 0,
       translation: () => i18n().chatGpt,
-    },
-    {
-      icon: 'co_present',
-      value: () => 0,
-      translation: () => i18n().creator,
     },
     {
       icon: 'grade',
@@ -172,7 +167,6 @@ export class RoomPageComponent {
           .subscribe((moderators) => {
             this.moderatorCount.set(moderators.length);
           });
-
         onCleanup(() => {
           sub1.unsubscribe();
           sub2.unsubscribe();

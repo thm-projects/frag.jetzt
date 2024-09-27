@@ -29,7 +29,7 @@
         appearance="outlined"
         style="margin-top: 12px">
         <mat-card-header>
-          <mat-card-title>
+          <mat-card-title class="headline-large">
             {{ i18n().name | context: { name: room.name } }}
             @if (isPrivileged()) {
               <button
@@ -56,7 +56,6 @@
           </div>
           <div class="scrollable-content">
             <app-markdown-viewer
-              class="label-medium"
               [data]="room.description || ''"></app-markdown-viewer>
           </div>
         </mat-card-content>
