@@ -1,6 +1,7 @@
 <div class="pricing-plan-container">
   <h1 class="pricing-title mat-display-large">
     {{ i18n().title }}
+    <mat-icon (click)="openExplanationDialog()">help_outline</mat-icon>
   </h1>
 
   <mat-card class="token-card">
@@ -30,9 +31,9 @@
 
       <mat-card-content>
         <ul>
-          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
+          <li>200{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
           <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().BasicTime }}</li>
         </ul>
@@ -59,13 +60,13 @@
 
       <mat-card-content>
         <ul>
-          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
+          <li>200{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
           <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">1€</h2>
+        <h2 class="price">1 €</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -91,13 +92,13 @@
 
       <mat-card-content>
         <ul>
-          <li>1,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
+          <li>1.0{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
           <li>~750{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>350{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
+          <li>350{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
           <li>~262{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">5€</h2>
+        <h2 class="price">5 €</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -121,13 +122,13 @@
 
       <mat-card-content>
         <ul>
-          <li>2,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
-          <li>~1,5{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
-          <li>700{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
+          <li>2.0{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
+          <li>~1.5{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
+          <li>700{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
           <li>~525{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">10€</h2>
+        <h2 class="price">10 €</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -151,13 +152,13 @@
 
       <mat-card-content>
         <ul>
-          <li>4,0{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
-          <li>~3,0{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
-          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
+          <li>4.0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
+          <li>~3.0{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
+          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
           <li>~1.1{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">20€</h2>
+        <h2 class="price">20 €</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -171,11 +172,4 @@
       </mat-card-actions>
     </mat-card>
   </div>
-</div>
-
-<div class="pricing-plan-container">
-  <h1>{{ i18n().marketingTitle }}</h1>
-  <mat-card class="token-card">
-    <app-markdown-viewer [data]="i18n().explanation"></app-markdown-viewer>
-  </mat-card>
 </div>

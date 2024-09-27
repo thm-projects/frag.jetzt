@@ -289,6 +289,15 @@ export const getDefaultNavigation = (
             },
             activated: isPurchse,
           },
+          {
+            id: 'donation',
+            title: i18n.navigation.donation,
+            icon: 'coffee_maker',
+            onClick: () => {
+              showDonation(injector);
+              return false;
+            },
+          },
         ],
       };
       // OPTIONS
@@ -394,15 +403,6 @@ export const getDefaultNavigation = (
             title: i18n.options.download,
             onClick: () => {
               showDownload(injector);
-              return false;
-            },
-          },
-          {
-            id: 'donation',
-            title: i18n.navigation.donation,
-            icon: 'coffee_maker',
-            onClick: () => {
-              showDonation(injector);
               return false;
             },
           },

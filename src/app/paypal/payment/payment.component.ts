@@ -20,6 +20,7 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { TokenExplanationDialogComponent } from './token-explanation-dialog/token-explanation-dialog.component';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -89,11 +90,16 @@ export class PaymentComponent implements OnInit {
     ref.componentInstance.amount = amount;
   }
 
+  openExplanationDialog() {
+    const ref = this.dialog.open(TokenExplanationDialogComponent);
+    ref.componentInstance.parent = this;
+  }
+
   user: User;
   ngOnInit() {
-    this.getUserTokens();
     this.loadPayPalScript();
     user$.subscribe((u) => (this.user = u));
+    this.userTokens = 0; //user.??
   }
 
   loginPage() {
@@ -102,11 +108,6 @@ export class PaymentComponent implements OnInit {
     } else if (user().isGuest) {
       openLogin().subscribe();
     }
-  }
-
-  getUserTokens() {
-    // Simulate retrieving the user's token count from a service or backend
-    this.userTokens = 50000; // Example token count, replace with actual value
   }
 
   //Ab hier Paypal Intergration
