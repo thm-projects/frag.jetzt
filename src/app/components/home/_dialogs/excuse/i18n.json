@@ -1,11 +1,11 @@
 {
   "key": "excuse",
   "de": {
-    "title": "Download Nicht Verfügbar",
+    "title": "Download aktuell nicht verfügbar",
     "text": "Oops! Der Download ist gerade nicht verfügbar, aber wir sind schon dran. Schau bald wieder vorbei!"
   },
   "en": {
-    "title": "Download Unavailable",
+    "title": "download unavailable",
     "text": "Oops! The download isn’t available right now, but we’re working on it. Please check back soon!"
   },
   "fr": {
