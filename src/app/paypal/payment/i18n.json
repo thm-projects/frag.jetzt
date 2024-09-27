@@ -8,6 +8,7 @@
     "standard": "Standard",
     "premium": "Premium",
     "special": "Special",
+    "suggested":"Empfohlen",
 
     "pay": "Wie wollen sie zahlen?",
 
@@ -16,7 +17,7 @@
     "tokens": "Tokens",
     "words": "Wörter",
 
-    "register": "Einloggen",
+    "register": "Registrieren",
 
     "BasicTime": "Einmaliger Kauf",
     "selectFreePlan": "Kostenloser Plan benutzt",
@@ -35,6 +36,7 @@
     "standard": "Standard",
     "premium": "Premium",
     "special": "Special",
+    "suggested":"Suggested",
 
     "pay": "How would you like to pay?",
 
@@ -43,7 +45,7 @@
     "tokens": "Tokens",
     "words": "Words",
 
-    "register": "Login",
+    "register": "Register",
 
     "BasicTime": "1-time purchase",
     "selectFreePlan": "Free Plan used",
@@ -62,6 +64,7 @@
     "standard": "Standard",
     "premium": "Premium",
     "special": "spécial",
+    "suggested":"Recommandé",
 
     "pay": "Comment vont-ils payer ?",
     
@@ -70,7 +73,7 @@
     "tokens": "Jetons",
     "words": "Mots",
 
-    "register": "Se connecter",
+    "register": "S'inscrire",
 
     "BasicTime": "Achat unique",
     "selectFreePlan": "Plan gratuit utilisé",

@@ -36,8 +36,8 @@ import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
-import { DonationComponent } from 'app/paypal/donation/donation.component';
 import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
+import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -438,7 +438,7 @@ const showDownload = (injector: Injector) => {
 };
 
 const showDonation = (injector: Injector) => {
-  injector.get(MatDialog).open(DonationComponent);
+  injector.get(MatDialog).open(DonationRouteComponent);
 };
 
 const showGDPR = (injector: Injector) => {
