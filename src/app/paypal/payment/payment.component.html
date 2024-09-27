@@ -29,7 +29,9 @@
 
       <mat-card-content>
         <ul>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
+          <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().BasicTime }}</li>
         </ul>
@@ -46,7 +48,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- €5 Plan -->
+    <!-- €1 Plan -->
     <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
@@ -56,7 +58,9 @@
 
       <mat-card-content>
         <ul>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
+          <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
@@ -74,7 +78,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- €10 Plan -->
+    <!-- €5 Plan -->
     <mat-card
       class="pricing-card mat-card-hover"
       [ngClass]="{ suggested: user }">
@@ -86,7 +90,9 @@
 
       <mat-card-content>
         <ul>
-          <li>350{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>1,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
+          <li>~750{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
+          <li>350{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~262{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
@@ -104,7 +110,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- €20 Plan -->
+    <!-- €10 Plan -->
     <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
@@ -114,7 +120,9 @@
 
       <mat-card-content>
         <ul>
-          <li>700{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>2,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
+          <li>~1,5{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
+          <li>700{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
           <li>~525{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
@@ -132,7 +140,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <!-- €50 Plan -->
+    <!-- €20 Plan -->
     <mat-card class="pricing-card mat-card-hover">
       <mat-card-header class="full-width">
         <mat-card-title>
@@ -142,7 +150,9 @@
 
       <mat-card-content>
         <ul>
-          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().tokens }}</li>
+          <li>4,0{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
+          <li>~3,0{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
+          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
           <li>~1.1{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>

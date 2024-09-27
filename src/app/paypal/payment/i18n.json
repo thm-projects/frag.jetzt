@@ -14,7 +14,8 @@
 
     "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
 
-    "tokens": "Tokens",
+    "inputTokens": "Eingangstokens",
+    "outputTokens": "Ausgangstokens",
     "words": "Wörter",
 
     "register": "Registrieren",
@@ -92,7 +93,8 @@
 
     "signup": "No account yet? Register now and receive your free welcome gift",
 
-    "tokens": "Tokens",
+    "inputTokens": "Input Tokens",
+    "outputTokens": "Output Tokens",
     "words": "Words",
 
     "register": "Register",
@@ -170,7 +172,8 @@
 
     "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
 
-    "tokens": "Jetons",
+    "inputTokens": "Jetons d’entrée",
+    "outputTokens": "Jetons de sortie",
     "words": "Mots",
 
     "register": "S'inscrire",
