@@ -26,7 +26,10 @@
     "faqText": "Nicht sicher, wie Tokens funktionieren?",
     "faqLink": "Erfahren Sie mehr über Tokens und Preise",
     "yourTokens": "Ihre Tokens:",
-    "buy": "Deaktiviert"
+    "buy": "Deaktiviert",
+
+    "abbrevThousand": " Tsd.",
+    "abbrevMillion": " Mio."
   },
   "en": {
     "title": "Choose Your Plan",
@@ -54,7 +57,10 @@
     "faqText": "Not sure how tokens work?",
     "faqLink": "Learn more about tokens and pricing",
     "yourTokens": "Your Tokens:",
-    "buy": "Buy now"
+    "buy": "Buy now",
+
+    "abbrevThousand": "K",
+    "abbrevMillion": "M"
   },
   "fr": {
     "title": "Choisissez Votre Forfait",
@@ -83,6 +89,9 @@
     "buy": "Acheter maintenant",
 
     "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
-    "faqLink": "En savoir plus sur les tokens et les tarifs"
+    "faqLink": "En savoir plus sur les tokens et les tarifs",
+
+    "abbrevThousand": "K",
+    "abbrevMillion": "M"
   }
 }
