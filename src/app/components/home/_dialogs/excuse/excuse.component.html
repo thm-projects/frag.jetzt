@@ -5,13 +5,13 @@
 </h2>
 
 <mat-dialog-content>
-  {{ i18n().text }}
+  <p>{{ i18n().text }}</p>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button
     mat-button
-    mat-dialog-close>
+    (click)="closeAllDialogs()">
     {{ i18n().global.close }}
   </button>
   <span style="flex: 1"></span>
