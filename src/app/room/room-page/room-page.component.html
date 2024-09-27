@@ -1,9 +1,9 @@
 <m3-body-pane>
   <m3-supporting-pane [type]="'flexible'">
     @if (room(); as room) {
-      <span class="invite-links">
-        <span class="tooltip-wrapper">
-          <span class="hide-on-small">
+      <div class="row gap-large">
+        <span class="row items-center gap-small">
+          <span class="no-compact">
             {{ i18n().shortId | context: room }}
           </span>
           <button
@@ -14,8 +14,8 @@
           </button>
         </span>
         @if (isPrivileged()) {
-          <span class="tooltip-wrapper">
-            <span class="hide-on-small">{{ i18n().moderatorAccess }}</span>
+          <span class="row items-center gap-small">
+            <span class="no-compact">{{ i18n().moderatorAccess }}</span>
             <button
               mat-icon-button
               [matTooltip]="i18n().tooltipModerator"
@@ -24,12 +24,12 @@
             </button>
           </span>
         }
-      </span>
+      </div>
       <mat-card
         appearance="outlined"
-        class="main-card">
-        <mat-card-header class="full-width-title">
-          <mat-card-title class="centered-header">
+        style="margin-top: 12px">
+        <mat-card-header>
+          <mat-card-title>
             {{ i18n().name | context: { name: room.name } }}
             @if (isPrivileged()) {
               <button
@@ -41,9 +41,9 @@
             }
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="description-container">
+        <mat-card-content>
           <div>
-            <span class="hide-on-small headline-small">
+            <span class="headline-small">
               {{ i18n().descriptionHeader }}
             </span>
             @if (isPrivileged()) {
@@ -54,7 +54,6 @@
               </button>
             }
           </div>
-
           <div class="scrollable-content">
             <app-markdown-viewer
               class="label-medium"
@@ -64,7 +63,6 @@
         <mat-card-actions>
           <button mat-button>
             <mat-icon>token</mat-icon>
-            <p style="margin: 0px">Platzhalter Token informationen</p>
             <p style="margin: 0px">Platzhalter Token informationen</p>
           </button>
           <span style="flex: 1"></span>
@@ -91,25 +89,34 @@
         style="margin: auto"
         mode="indeterminate"></mat-progress-spinner>
     }
+    <div class="compact">
+      <ng-container *ngTemplateOutlet="statistics"></ng-container>
+    </div>
   </m3-supporting-pane>
   <m3-supporting-pane
     [type]="'fixed'"
     [priority]="'secondary'">
-    <mat-list>
-      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>
-      @for (entry of roomProperties; track entry) {
-        <mat-list-item>
-          <mat-icon
-            matListItemIcon
-            [svgIcon]="entry.svgIcon">
-            {{ entry.icon }}
-          </mat-icon>
-          <div matListItemTitle>{{ entry.value() }}</div>
-          <div matListItemLine>
-            {{ entry.translation() }}
-          </div>
-        </mat-list-item>
-      }
-    </mat-list>
+    <ng-container *ngTemplateOutlet="statistics"></ng-container>
   </m3-supporting-pane>
 </m3-body-pane>
+
+<ng-template #statistics>
+  <mat-list>
+    <!--      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>-->
+    @for (entry of roomProperties; track entry) {
+      <mat-list-item>
+        <div class="row content-space-between">
+          <div class="row items-center gap-small">
+            <mat-icon [svgIcon]="entry.svgIcon">
+              {{ entry.icon }}
+            </mat-icon>
+            <span class="label-medium">
+              {{ entry.translation() }}
+            </span>
+          </div>
+          <span class="headline-large">{{ entry.value() }}</span>
+        </div>
+      </mat-list-item>
+    }
+  </mat-list>
+</ng-template>

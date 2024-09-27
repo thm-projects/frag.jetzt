@@ -42,7 +42,7 @@ import {
   MatListItem,
   MatListSubheaderCssMatStyler,
 } from '@angular/material/list';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -68,6 +68,7 @@ const i18n = I18nLoader.load(rawI18n);
     MatListItem,
     MatListSubheaderCssMatStyler,
     DatePipe,
+    NgTemplateOutlet,
   ],
   templateUrl: './room-page.component.html',
   styleUrl: './room-page.component.scss',
