@@ -13,7 +13,7 @@
           getAppStoreBadge(badgeType());
         as badge
       ) {
-        <a [href]="appleUrl">
+        <a (click)="showExcusePopup()">
           <img
             [src]="badge.src"
             [alt]="badge.alt" />
@@ -24,7 +24,7 @@
           getPlayStoreBadge();
         as badge
       ) {
-        <a [href]="googleUrl">
+        <a (click)="showExcusePopup()">
           <img
             [src]="badge.src"
             [alt]="badge.alt" />
