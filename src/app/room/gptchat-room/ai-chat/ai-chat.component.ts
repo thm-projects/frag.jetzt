@@ -29,6 +29,7 @@ import {
   UploadedFile,
 } from 'app/services/http/assistants.service';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomStateService } from 'app/services/state/room-state.service';
@@ -71,6 +72,7 @@ interface FileReference {
     MatButtonModule,
     MatMenuModule,
     MatTooltipModule,
+    MatSelectModule,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',

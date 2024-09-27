@@ -1,4 +1,96 @@
-<m3-body-pane>
+<div class="chat-layout">
+  <div
+    class="visible-only-if-closed"
+    *ngIf="!isOpen()">
+    <button
+      mat-button
+      (click)="isOpen.set(true)">
+      <mat-icon>left_panel_open</mat-icon>
+      {{ i18n().open }}
+    </button>
+    <button mat-button>
+      <mat-icon>edit_square</mat-icon>
+      {{ i18n().newChat }}
+    </button>
+  </div>
+  <mat-action-list
+    class="history-container"
+    [class.open]="isOpen()">
+    <div class="actions">
+      <button
+        mat-button
+        (click)="isOpen.set(false)">
+        <mat-icon>left_panel_open</mat-icon>
+        {{ i18n().close }}
+      </button>
+      <button mat-button>
+        <mat-icon>edit_square</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    </div>
+    <div class="history">
+      <ng-container *ngFor="let group of threadGroups()">
+        <ng-container *ngIf="group.threads.length > 0">
+          <div class="group">
+            <div class="header">
+              <span>{{ group.label }}</span>
+              <div class="group-number">
+                <span>{{ group.threads.length }}</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let entry of group.threads">
+              <button
+                mat-list-item
+                [activated]="selectedThread() === entry"
+                (click)="openThread(entry)"
+                style="
+                  padding: 8px;
+                  margin: 0;
+                  height: auto;
+                  border-radius: 8px;
+                ">
+                <span matListItemTitle>{{ entry.headLine }}</span>
+              </button>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </mat-action-list>
+  <hr
+    style="opacity: 0.1; margin: 0; padding: 0"
+    *ngIf="isOpen()" />
+  <app-ai-chat
+    class="chat-pane"
+    [(selectedAssistant)]="selectedAssistant"
+    [messages]="currentMessages()"
+    [canSend]="state() === 'ready'"
+    [overrideMessage]="overrideMessage()"
+    [isPrivileged]="isPrivileged()"
+    [assistRefs]="assistRefs()"
+    [onNewClick]="onNewClick.bind(this)"
+    [onSend]="onSend">
+    @if (!isOpen()) {
+      <button
+        mat-button
+        (click)="isOpen.set(true)">
+        <mat-icon>left_panel_open</mat-icon>
+        {{ i18n().open }}
+      </button>
+    }
+    @if (selectedThread() !== null && !isOpen()) {
+      <button
+        mat-button
+        class="material-symbols-outlined"
+        (click)="selectedThread.set(null)">
+        <mat-icon>chat_add_on</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    }
+  </app-ai-chat>
+</div>
+
+<!--<m3-body-pane>
   <m3-supporting-pane
     [type]="isMobile() ? 'flexible' : 'fixed'"
     class="threads-overview"
@@ -87,3 +179,4 @@
     </m3-supporting-pane>
   }
 </m3-body-pane>
+-->

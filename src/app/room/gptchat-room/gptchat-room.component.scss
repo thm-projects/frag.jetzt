@@ -1,4 +1,85 @@
-m3-body-pane {
+* {
+  box-sizing: border-box;
+}
+
+.chat-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.chat-pane {
+  flex-grow: 1;
+  padding: 24px;
+}
+
+.visible-only-if-closed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.history-container {
+  height: calc(100% - var(--mat-toolbar-standard-height));
+  padding: 24px;
+
+  display: none;
+  &.open {
+    display: block;
+  }
+}
+
+.actions {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.history {
+  height: 100%;
+  overflow-y: scroll;
+  padding: 0 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-weight: bold;
+  font-size: 12px;
+
+  position: sticky;
+  top: 0;
+  background-color: var(--md-sys-color-background);
+  z-index: 1;
+  padding: 24px 0;
+  margin: 0;
+
+  .group-number {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      padding: 14px;
+      transform: translate(-50%, -50%);
+      background-color: var(--md-sys-color-surface3);
+      border-radius: 100%;
+      z-index: -1;
+    }
+  }
+}
+
+mat-list-item {
+  border: 1px solid red;
+}
+
+/*m3-body-pane {
   height: 100%;
 }
 
@@ -47,14 +128,15 @@ m3-supporting-pane {
 }
 
 .sticky-header {
-  position: -webkit-sticky; /* For Safari */
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 1; /* Ensures it stays above other content when scrolling */
+  z-index: 1;
   background-color: var(
     --md-sys-color-background
-  ); /* Or whatever the background of your toolbar is */
+  );
   padding: 4px 24px;
   font-size: 16px;
   font-weight: bold;
 }
+*/

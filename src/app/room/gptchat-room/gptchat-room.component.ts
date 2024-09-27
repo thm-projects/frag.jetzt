@@ -159,6 +159,63 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
 
     return [
       {
+        label: 'Test 1',
+        threads: [
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+        ],
+      },
+      {
+        label: 'Test 2',
+        threads: [
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+          ...this.threads(),
+        ],
+      },
+      {
+        label: 'Test 3',
+        threads: this.threads(),
+      },
+      {
+        label: 'Test 4',
+        threads: this.threads(),
+      },
+    ];
+
+    /*return [
+      {
         label: 'Today',
         threads: this.threads().filter((t) =>
           this.isSameDate(t.ref.createdAt, today),
@@ -189,7 +246,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           return threadDate < sevenDaysAgo;
         }),
       },
-    ];
+    ];*/
   }
 
   isSameDate(d1: Date, d2: Date) {

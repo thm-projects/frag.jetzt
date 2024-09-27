@@ -1,8 +1,118 @@
-<mat-toolbar>
-  <ng-content></ng-content>
-</mat-toolbar>
-
 @if (updatedMessages().length === 0) {
+  <div class="container">
+    <div class="header">
+      <div class="options">
+        <button
+          mat-button
+          [matMenuTriggerFor]="menu">
+          <mat-icon>home</mat-icon>
+          Modellauswahl
+        </button>
+
+        <button mat-button>
+          <mat-icon>home</mat-icon>
+          Neues Modell erstellen
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            Settings
+          </button>
+          <button mat-menu-item>
+            <mat-icon>help_outline</mat-icon>
+            Help
+          </button>
+          <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            Logout
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <div class="inner-container">
+      <div class="titles">
+        <span class="title">frag.jetzt mit ChatGPT</span>
+        <span class="label">gpt4o</span>
+      </div>
+
+      <div class="outer">
+        <div class="input-container">
+          <textarea
+            matInput
+            placeholder="Ask me anything..."
+            rows="2"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="7"
+            [formControl]="inputMessage"
+            [placeholder]="i18n().placeholder"
+            #inputElem
+            (keydown)="onKeyDown($event)"
+            (input)="updateHeight(inputElem)"></textarea>
+
+          <div class="actions">
+            <div class="left-buttons">
+              <button mat-button>
+                <mat-icon>attach_file</mat-icon>
+                Anhang
+              </button>
+              <button mat-button>
+                <mat-icon>more_vert</mat-icon>
+                Weiteres
+              </button>
+            </div>
+
+            @if (canSend()) {
+              <button
+                (click)="sendMessage()"
+                mat-icon-button
+                class="send-button">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+            } @else {
+              <mat-spinner
+                matSuffix
+                [diameter]="24"
+                [strokeWidth]="2"></mat-spinner>
+            }
+          </div>
+        </div>
+
+        <div class="topics">
+          <button class="topic">
+            <span class="emoji">💡</span>
+            World's greatest hikes
+          </button>
+          <button class="topic">
+            <span class="emoji">🍫</span>
+            Health benefits of dark chocolate
+          </button>
+          <button class="topic">
+            <span class="emoji">🥗</span>
+            Healthiest cooking oils
+          </button>
+          <button class="topic">
+            <span class="emoji">🗳️</span>
+            Registration deadlines for the US election
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="center"
+      style="text-align: center; margin: 14px; opacity: 0.5">
+      <span>ChatGPT kann Fehler machen.</span>
+    </div>
+  </div>
+} @else {}
+
+<!--<mat-toolbar>
+  <ng-content></ng-content>
+</mat-toolbar>-->
+
+<!--@if (updatedMessages().length === 0) {
   <div class="container">
     <h1>frag.jetzt mit ChatGPT</h1>
     <div class="search-bar">
@@ -45,7 +155,7 @@
 } @else {
   <div
     #scroll
-    style="flex: 1; overflow: auto; position: relative">
+    class="messages-container">
     @if (overrideMessage(); as message) {
       <mat-card class="info">
         <mat-card-content>
@@ -56,7 +166,7 @@
       @for (message of updatedMessages(); track message) {
         @if (message.role === "user") {
           <mat-card class="user-card">
-            <mat-card-content>
+            <mat-card-content style="padding: 4px 24px;">
               @for (messageContent of message.chunks; track $index) {
                 <app-markdown-viewer
                   class="user-message"
@@ -81,78 +191,84 @@
           </mat-card>
         } @else {
           @for (messageContent of message.chunks; track $index) {
-            <app-markdown-viewer
+            <div class="reply-container">
+              <div class="icon">
+                <span class="material-symbols-outlined">smart_toy</span>
+              </div>
+              <app-markdown-viewer
               class="assistant-message"
               [data]="messageContent"></app-markdown-viewer>
+            </div>
           }
         }
       }
     }
-  </div>
 
-  @if (!overrideMessage()) {
-    <div class="input-area">
-      <mat-form-field
-        class="input-field"
-        appearance="outline">
-        <mat-label>{{ i18n().input }}</mat-label>
-        <textarea
-          matInput
-          [formControl]="inputMessage"
-          [placeholder]="i18n().placeholder"
-          #inputElem
-          (keydown)="onKeyDown($event)"
-          (input)="updateHeight(inputElem)"
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="5"></textarea>
-        <button
-          mat-icon-button
-          (click)="fileInput.click()"
-          matPrefix>
-          <mat-icon>attach_file_add</mat-icon>
-          <input
-            #fileInput
-            (change)="onFileChange(fileInput.files)"
-            type="file"
-            multiple
-            accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
-            style="display: none" />
-        </button>
-        <button
-          [matMenuTriggerFor]="assistantMenu"
-          mat-icon-button
-          matPrefix>
-          <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
-        </button>
-        @if (canSend()) {
+    @if (!overrideMessage()) {
+      <div class="input-area">
+        <mat-form-field
+          class="input-field"
+          appearance="outline">
+          <mat-label>{{ i18n().input }}</mat-label>
+          <textarea
+            matInput
+            [formControl]="inputMessage"
+            [placeholder]="i18n().placeholder"
+            #inputElem
+            (keydown)="onKeyDown($event)"
+            (input)="updateHeight(inputElem)"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
           <button
-            (click)="sendMessage()"
             mat-icon-button
-            matSuffix>
-            <mat-icon>arrow_upward</mat-icon>
+            (click)="fileInput.click()"
+            matPrefix>
+            <mat-icon>attach_file_add</mat-icon>
+            <input
+              #fileInput
+              (change)="onFileChange(fileInput.files)"
+              type="file"
+              multiple
+              accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+              style="display: none" />
           </button>
-        } @else {
-          <mat-spinner
-            matSuffix
-            [diameter]="24"
-            [strokeWidth]="2"></mat-spinner>
-        }
-        <mat-hint>
-          @if (files().length; as length) {
-            {{
-              i18n().uploadedFiles
-                | context
-                  : {
-                      count: length,
-                      files: filesString()
-                    }
-            }}
+          <button
+            [matMenuTriggerFor]="assistantMenu"
+            mat-icon-button
+            matPrefix>
+            <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+          </button>
+          @if (canSend()) {
+            <button
+              (click)="sendMessage()"
+              mat-icon-button
+              matSuffix>
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+          } @else {
+            <mat-spinner
+              matSuffix
+              [diameter]="24"
+              [strokeWidth]="2"></mat-spinner>
           }
-        </mat-hint>
-      </mat-form-field>
-    </div>
-  }
+          <mat-hint>
+            @if (files().length; as length) {
+              {{
+                i18n().uploadedFiles
+                  | context
+                    : {
+                        count: length,
+                        files: filesString()
+                      }
+              }}
+            }
+          </mat-hint>
+        </mat-form-field>
+        <span>ChatGPT kann Fehler machen.</span>
+      </div>
+    }
+  </div>
 
   <mat-menu #assistantMenu="matMenu">
     @for (entry of assistRefs(); track entry) {
@@ -172,3 +288,4 @@
     }
   </mat-menu>
 }
+-->
