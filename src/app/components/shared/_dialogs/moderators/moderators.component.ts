@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { Moderator } from '../../../../models/moderator';
 import { ModeratorDeleteComponent } from '../../../creator/_dialogs/moderator-delete/moderator-delete.component';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { ModeratorRefreshCodeComponent } from '../../../creator/_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -17,6 +17,21 @@ import {
 import { User } from 'app/models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
+
+function emailValidator(
+  control: AbstractControl,
+): { [key: string]: boolean } | null {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  if (control.value && !emailRegex.test(control.value)) {
+    return { invalidEmail: true };
+  }
+  return null;
+}
+
 @Component({
   selector: 'app-moderators',
   templateUrl: './moderators.component.html',
@@ -25,11 +40,16 @@ import { UserRole } from '../../../../models/user-roles.enum';
 export class ModeratorsComponent implements OnInit, OnDestroy {
   __debug = false;
   @Input() isCreator: boolean;
+  protected readonly i18n = i18n;
   roomId: string;
   moderators: Moderator[] = [];
   userIds: string[] = [];
   moderatorShortId: string;
-  usernameFormControl = new FormControl('', [Validators.email]);
+  usernameFormControl = new FormControl('', [
+    Validators.required,
+    emailValidator,
+  ]);
+
   private isLoading = true;
   private notGeneratedMessage: string;
   private _destroyer = new ReplaySubject(1);
@@ -169,6 +189,15 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   }
 
   addModerator(loginId: string) {
+    if (this.usernameFormControl.invalid) {
+      this.translationService
+        .get('moderators-dialog.email-error')
+        .subscribe((msg) => {
+          this.notificationService.show(msg);
+        });
+      return;
+    }
+
     this.moderatorService.getUserId(loginId).subscribe((list) => {
       if (list.length === 0) {
         this.translationService
@@ -178,13 +207,27 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
           });
         return;
       }
-      this.moderatorService.add(this.roomId, list[0].id).subscribe();
-      this.moderators.push(new Moderator(list[0].id, this.roomId, loginId));
-      this.translationService
-        .get('moderators-dialog.added')
-        .subscribe((msg) => {
-          this.notificationService.show(msg);
-        });
+
+      this.moderatorService.add(this.roomId, list[0].id).subscribe({
+        next: () => {
+          this.moderators.push(new Moderator(list[0].id, this.roomId, loginId));
+
+          this.translationService
+            .get('moderators-dialog.added')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
+
+          this.usernameFormControl.reset();
+        },
+        error: () => {
+          this.translationService
+            .get('moderators-dialog.something-went-wrong')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
+        },
+      });
     });
   }
 
