@@ -4,25 +4,7 @@
   {{ i18n().title }}
 </h1>
 
-<mat-dialog-content tabindex="0">
-  <app-markdown-viewer
-    [data]="i18n().content | context: { url }"></app-markdown-viewer>
-
-  <div class="qr-code-container">
-    <qrcode
-      [qrdata]="url"
-      [errorCorrectionLevel]="'H'"
-      [width]="qrCodeSize"
-      [margin]="1"></qrcode>
-
-    <div class="favicon-container">
-      <img
-        src="/assets/icons/masked_icon.svg"
-        alt="Project Icon"
-        class="favicon-icon" />
-    </div>
-  </div>
-</mat-dialog-content>
+<mat-dialog-content tabindex="0"></mat-dialog-content>
 
 <mat-dialog-actions>
   <button
