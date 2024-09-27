@@ -19,8 +19,8 @@
 
   <div class="pricing-cards">
     <mat-card
-      class="pricing-card"
-      [ngClass]="{ purchased: user }">
+      class="pricing-card mat-card-hover"
+      [ngClass]="{ purchased: user, suggested: !user }">
       <mat-card-header class="full-width">
         <mat-card-title>
           {{ user ? i18n().free : i18n().suggested }}
@@ -29,8 +29,8 @@
 
       <mat-card-content>
         <ul>
-          <li>50.000 {{ i18n().tokens }}</li>
-          <li>40.000 {{ i18n().words }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().BasicTime }}</li>
         </ul>
         <h2 class="price">Free</h2>
@@ -56,11 +56,11 @@
 
       <mat-card-content>
         <ul>
-          <li>50.000 {{ i18n().tokens }}</li>
-          <li>40.000 {{ i18n().words }}</li>
+          <li>70{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">5€</h2>
+        <h2 class="price">1€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -75,7 +75,9 @@
     </mat-card>
 
     <!-- €10 Plan -->
-    <mat-card class="pricing-card mat-card-hover">
+    <mat-card
+      class="pricing-card mat-card-hover"
+      [ngClass]="{ suggested: user }">
       <mat-card-header class="full-width">
         <mat-card-title>
           {{ user ? i18n().suggested : i18n().standard }}
@@ -84,11 +86,11 @@
 
       <mat-card-content>
         <ul>
-          <li>106.000 {{ i18n().tokens }}</li>
-          <li>~80.000 {{ i18n().words }}</li>
+          <li>350{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>~262{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">10€</h2>
+        <h2 class="price">5€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -112,11 +114,11 @@
 
       <mat-card-content>
         <ul>
-          <li>212.000 {{ i18n().tokens }}</li>
-          <li>~159.500 {{ i18n().words }}</li>
+          <li>700{{ i18n().abbrevThousand }} {{ i18n().tokens }}</li>
+          <li>~525{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">20€</h2>
+        <h2 class="price">10€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
@@ -140,11 +142,11 @@
 
       <mat-card-content>
         <ul>
-          <li>530.000 {{ i18n().tokens }}</li>
-          <li>~397.500 {{ i18n().words }}</li>
+          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().tokens }}</li>
+          <li>~1.1{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
           <li>{{ i18n().unlimitedPurchase }}</li>
         </ul>
-        <h2 class="price">50€</h2>
+        <h2 class="price">20€</h2>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
