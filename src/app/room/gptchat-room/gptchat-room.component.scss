@@ -18,11 +18,13 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 24px;
+  flex-shrink: 0;
 }
 
 .history-container {
   height: calc(100% - var(--mat-toolbar-standard-height));
   padding: 24px;
+  flex-shrink: 0;
 
   display: none;
   &.open {
@@ -73,10 +75,6 @@
       z-index: -1;
     }
   }
-}
-
-mat-list-item {
-  border: 1px solid red;
 }
 
 /*m3-body-pane {

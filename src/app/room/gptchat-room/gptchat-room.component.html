@@ -8,7 +8,9 @@
       <mat-icon>left_panel_open</mat-icon>
       {{ i18n().open }}
     </button>
-    <button mat-button>
+    <button
+      mat-button
+      (click)="selectedThread.set(null)">
       <mat-icon>edit_square</mat-icon>
       {{ i18n().newChat }}
     </button>
@@ -23,7 +25,9 @@
         <mat-icon>left_panel_open</mat-icon>
         {{ i18n().close }}
       </button>
-      <button mat-button>
+      <button
+        mat-button
+        (click)="selectedThread.set(null)">
         <mat-icon>edit_square</mat-icon>
         {{ i18n().newChat }}
       </button>
@@ -33,7 +37,7 @@
         <ng-container *ngIf="group.threads.length > 0">
           <div class="group">
             <div class="header">
-              <span>{{ group.label }}</span>
+              <span>{{ getDynamicI18n(group.label) }}</span>
               <div class="group-number">
                 <span>{{ group.threads.length }}</span>
               </div>
@@ -58,7 +62,7 @@
     </div>
   </mat-action-list>
   <hr
-    style="opacity: 0.1; margin: 0; padding: 0"
+    style="color: var(--md-sys-color-surface3); opacity: 0.1"
     *ngIf="isOpen()" />
   <app-ai-chat
     class="chat-pane"
@@ -69,7 +73,9 @@
     [isPrivileged]="isPrivileged()"
     [assistRefs]="assistRefs()"
     [onNewClick]="onNewClick.bind(this)"
-    [onSend]="onSend">
+    [onSend]="onSend"
+    (deleteThread)="deleteThread()"
+    [selectedThread]="selectedThread()">
     @if (!isOpen()) {
       <button
         mat-button
@@ -178,5 +184,4 @@
       </app-ai-chat>
     </m3-supporting-pane>
   }
-</m3-body-pane>
--->
+</m3-body-pane>-->

@@ -149,6 +149,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  getDynamicI18n(key: string): string {
+    const i18nObject = this.i18n();
+    return key.split('.').reduce((o, i) => (o ? o[i] : null), i18nObject);
+  }
+
   threadGroups() {
     const today = new Date();
     const yesterday = new Date();
@@ -157,96 +162,41 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 7);
 
-    return [
-      {
-        label: 'Test 1',
-        threads: [
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-        ],
-      },
-      {
-        label: 'Test 2',
-        threads: [
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-          ...this.threads(),
-        ],
-      },
-      {
-        label: 'Test 3',
-        threads: this.threads(),
-      },
-      {
-        label: 'Test 4',
-        threads: this.threads(),
-      },
+    const groups = [
+      { label: 'today', threads: [] },
+      { label: 'yesterday', threads: [] },
+      { label: 'previous_7_days', threads: [] },
+      { label: 'older', threads: [] },
     ];
 
-    /*return [
-      {
-        label: 'Today',
-        threads: this.threads().filter((t) =>
-          this.isSameDate(t.ref.createdAt, today),
-        ),
-      },
-      {
-        label: 'Yesterday',
-        threads: this.threads().filter((t) =>
-          this.isSameDate(t.ref.createdAt, yesterday),
-        ),
-      },
-      {
-        label: 'Previous 7 Days',
-        threads: this.threads().filter((t) => {
-          const threadDate = new Date(t.ref.createdAt);
-          return (
-            threadDate < today &&
-            threadDate >= sevenDaysAgo &&
-            !this.isSameDate(threadDate, today) &&
-            !this.isSameDate(threadDate, yesterday)
-          );
-        }),
-      },
-      {
-        label: 'Older',
-        threads: this.threads().filter((t) => {
-          const threadDate = new Date(t.ref.createdAt);
-          return threadDate < sevenDaysAgo;
-        }),
-      },
-    ];*/
+    const threads = this.threads();
+    for (let i = threads.length - 1; i >= 0; i--) {
+      const thread = threads[i];
+      const threadDate = thread.ref.createdAt;
+
+      if (this.isSameDate(threadDate, today)) {
+        groups[0].threads.push(thread);
+      } else if (this.isSameDate(threadDate, yesterday)) {
+        groups[1].threads.push(thread);
+      } else if (
+        threadDate < today &&
+        threadDate >= sevenDaysAgo &&
+        !this.isSameDate(threadDate, today) &&
+        !this.isSameDate(threadDate, yesterday)
+      ) {
+        groups[2].threads.push(thread);
+      } else if (threadDate < sevenDaysAgo) {
+        groups[3].threads.push(thread);
+      }
+    }
+
+    for (const group of groups) {
+      group.threads.sort(
+        (a, b) => b.ref.createdAt.getTime() - a.ref.createdAt.getTime(),
+      );
+    }
+
+    return groups;
   }
 
   isSameDate(d1: Date, d2: Date) {
@@ -490,8 +440,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected deleteThread(t: ThreadEntry, e: MouseEvent) {
-    e.stopImmediatePropagation();
+  protected deleteThread() {
+    console.log('2');
+    const t = this.selectedThread();
     this.assistants.deleteThread(t.ref.id).subscribe({
       next: () => {
         this.threads.update((threads) => {
