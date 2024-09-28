@@ -69,49 +69,7 @@ export class PaymentComponent implements OnInit {
   userTokens = 0; // Current token count of the user
 
   // Pricing plans
-  plans: Plan[] = [
-    // TODO maybe recive from Backend
-    {
-      isSuggested: !this.isRegisteredUser(),
-      title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
-      content: i18n().content,
-      button: i18n().selectFreePlan,
-      token: 200_000,
-      price: 0,
-    },
-    {
-      isSuggested: false,
-      title: i18n().basic,
-      token: 200_000,
-      button: i18n().buy,
-      content: i18n().content,
-      price: 1,
-    },
-    {
-      isSuggested: this.isRegisteredUser(),
-      title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
-      token: 1_000_000,
-      content: i18n().content,
-      button: i18n().buy,
-      price: 5,
-    },
-    {
-      isSuggested: false,
-      title: i18n().premium,
-      token: 2_000_000,
-      content: i18n().content,
-      button: i18n().buy,
-      price: 10,
-    },
-    {
-      isSuggested: false,
-      title: i18n().special,
-      token: 4_000_000,
-      content: i18n().content,
-      button: i18n().buy,
-      price: 20,
-    },
-  ];
+  plans: Plan[];
 
   constructor(private dialog: MatDialog) {
     applyDefaultNavigation(this.injector).subscribe();
@@ -135,7 +93,54 @@ export class PaymentComponent implements OnInit {
   user: User;
   ngOnInit() {
     this.loadPayPalScript();
-    user$.subscribe((u) => (this.user = u));
+    user$.subscribe((u) => {
+      this.user = u;
+      this.plans = [
+        // TODO maybe recive from Backend
+        {
+          isSuggested: !this.isRegisteredUser(),
+          title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
+          content: i18n().content,
+          button: i18n().selectFreePlan,
+          token: 200_000,
+          price: 0,
+        },
+        {
+          isSuggested: false,
+          title: i18n().basic,
+          token: 200_000,
+          button: i18n().buy,
+          content: i18n().content,
+          price: 1,
+        },
+        {
+          isSuggested: this.isRegisteredUser(),
+          title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
+          token: 1_000_000,
+          content: i18n().content,
+          button: i18n().buy,
+          price: 5,
+        },
+        {
+          isSuggested: false,
+          title: i18n().premium,
+          token: 2_000_000,
+          content: i18n().content,
+          button: i18n().buy,
+          price: 10,
+        },
+        {
+          isSuggested: false,
+          title: i18n().special,
+          token: 4_000_000,
+          content: i18n().content,
+          button: i18n().buy,
+          price: 20,
+        },
+      ];
+    });
+    console.log(this.plans);
+
     this.userTokens = 0; //user.??
   }
 
