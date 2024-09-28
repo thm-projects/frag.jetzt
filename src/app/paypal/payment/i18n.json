@@ -18,8 +18,11 @@
     "outputTokens": "Ausgangstokens",
     "words": "Wörter",
 
-    "register": "Registrieren",
+    "register": "Registrieren / Login",
+    "guestLogin": "Sie sind als Gast eingeloggt, um Zugang zu allen Funktionen der App zu erhalten, müssen Sie sich registrieren.",
 
+    "content": "- 200 Tsd. Eingangstokens\n- ~150 Tsd. Wörter\n- 70 Tsd. Ausgangstokens\n- ~52 Tsd. Wörter\n- Einmaliger Kauf",
+    
     "BasicTime": "Einmaliger Kauf",
     "selectFreePlan": "Kostenloser Plan benutzt",
     "purchased": "Gekauft",
@@ -47,12 +50,15 @@
     "pay": "How would you like to pay?",
 
     "signup": "No account yet? Register now and receive your free welcome gift",
+    "guestLogin": "You are logged in as a guest, to get access to all functions of the app, you must register.",
+
+    "content": "- 200 Tsd. Eingangstokens\n- ~150 Tsd. Wörter\n- 70 Tsd. Ausgangstokens\n- ~52 Tsd. Wörter\n- Einmaliger Kauf",
 
     "inputTokens": "Input Tokens",
     "outputTokens": "Output Tokens",
     "words": "Words",
 
-    "register": "Register",
+    "register": "Register / Login",
 
     "BasicTime": "1-time purchase",
     "selectFreePlan": "Free Plan used",
@@ -82,12 +88,15 @@
     "pay": "Comment vont-ils payer ?",
 
     "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
+    "guestLogin": "Vous êtes connecté en tant qu'invité, pour avoir accès à toutes les fonctionnalités de l'application, vous devez vous inscrire.",
+
+    "content": "- 200 Tsd. Eingangstokens\n- ~150 Tsd. Wörter\n- 70 Tsd. Ausgangstokens\n- ~52 Tsd. Wörter\n- Einmaliger Kauf",
 
     "inputTokens": "Jetons d’entrée",
     "outputTokens": "Jetons de sortie",
     "words": "Mots",
 
-    "register": "S'inscrire",
+    "register": "S'inscrire / Se connecter",
 
     "BasicTime": "Achat unique",
     "selectFreePlan": "Plan gratuit utilisé",

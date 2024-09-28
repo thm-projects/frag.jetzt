@@ -71,8 +71,7 @@ export const getDefaultHeader = (
     map(([user, i18n, theme, isOnline]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
-      const index = router.url.indexOf('/room/');
-      const isRoom = router.url.indexOf('/', index + 6) === -1;
+      const isRoom = router.url.includes('/room');
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
       const isGuestUser = user?.isGuest;
 
@@ -273,7 +272,7 @@ export const getDefaultNavigation = (
         });
       }
       // app navigation
-      const isPurchse = router.url.startsWith('/purchase');
+      const isPurchase = router.url.startsWith('/purchase');
       const pricingSection: M3NavigationSection = {
         id: 'pricing',
         kind: 'navigation',
@@ -287,7 +286,7 @@ export const getDefaultNavigation = (
               router.navigate(['/purchase']);
               return true;
             },
-            activated: isPurchse,
+            activated: isPurchase,
           },
           {
             id: 'donation',

@@ -32,10 +32,12 @@ interface PayPalData {
 
 // Define type for pricing plans
 interface Plan {
+  isSuggested: boolean;
   title: string;
-  price: string;
-  tokens: number;
-  color: string;
+  price: number;
+  content: string;
+  button: string;
+  token: number;
 }
 
 @Component({
@@ -68,16 +70,47 @@ export class PaymentComponent implements OnInit {
 
   // Pricing plans
   plans: Plan[] = [
+    // TODO maybe recive from Backend
     {
-      title: 'Free Plan',
-      price: '0',
-      tokens: 50000,
-      color: 'grey',
+      isSuggested: !this.isRegisteredUser(),
+      title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
+      content: i18n().content,
+      button: i18n().selectFreePlan,
+      token: 200_000,
+      price: 0,
     },
-    { title: '€5 Plan', price: '5', tokens: 50000, color: 'primary' },
-    { title: '€10 Plan', price: '10', tokens: 106000, color: 'primary' },
-    { title: '€20 Plan', price: '20', tokens: 212000, color: 'primary' },
-    { title: '€50 Plan', price: '50', tokens: 530000, color: 'primary' },
+    {
+      isSuggested: false,
+      title: i18n().basic,
+      token: 200_000,
+      button: i18n().buy,
+      content: i18n().content,
+      price: 1,
+    },
+    {
+      isSuggested: this.isRegisteredUser(),
+      title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
+      token: 1_000_000,
+      content: i18n().content,
+      button: i18n().buy,
+      price: 5,
+    },
+    {
+      isSuggested: false,
+      title: i18n().premium,
+      token: 2_000_000,
+      content: i18n().content,
+      button: i18n().buy,
+      price: 10,
+    },
+    {
+      isSuggested: false,
+      title: i18n().special,
+      token: 4_000_000,
+      content: i18n().content,
+      button: i18n().buy,
+      price: 20,
+    },
   ];
 
   constructor(private dialog: MatDialog) {
@@ -93,6 +126,10 @@ export class PaymentComponent implements OnInit {
   openExplanationDialog() {
     const ref = this.dialog.open(TokenExplanationDialogComponent);
     ref.componentInstance.parent = this;
+  }
+
+  isRegisteredUser() {
+    return this.user && !this.user.isGuest;
   }
 
   user: User;
@@ -208,9 +245,9 @@ export class PaymentComponent implements OnInit {
   }
 
   handlePaymentSuccess(amount: number): void {
-    const plan = this.plans.find((p) => parseFloat(p.price) === amount); // Compare price as number
+    const plan = this.plans.find((p) => p.price === amount); // Compare price as number
     if (plan) {
-      this.userTokens += plan.tokens; // Increase the user's token count
+      this.userTokens += plan.token; // TODO how much increase of token ?? input? output? avg?
     } else {
       console.warn('Unknown payment amount:', amount);
     }

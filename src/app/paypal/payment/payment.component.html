@@ -5,9 +5,11 @@
   </h1>
 
   <mat-card class="token-card">
-    @if (user) {
+    @if (isRegisteredUser()) {
       <mat-icon class="token-icon-align">token</mat-icon>
       {{ i18n().yourTokens }} {{ userTokens }}
+    } @else if (user && user.isGuest) {
+      {{ i18n().guestLogin }}
     } @else {
       <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
       <button
@@ -22,10 +24,13 @@
   <div class="pricing-cards">
     <mat-card
       class="pricing-card mat-card-hover"
-      [ngClass]="{ purchased: user, suggested: !user }">
+      [ngClass]="{
+        purchased: isRegisteredUser(),
+        suggested: !isRegisteredUser(),
+      }">
       <mat-card-header class="full-width">
         <mat-card-title>
-          {{ user ? i18n().free : i18n().suggested }}
+          {{ isRegisteredUser() ? i18n().free : i18n().suggested }}
         </mat-card-title>
       </mat-card-header>
 
@@ -73,7 +78,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!isRegisteredUser()"
           (click)="openDialog(5)">
           {{ i18n().buy }}
         </button>
@@ -83,10 +88,10 @@
     <!-- €5 Plan -->
     <mat-card
       class="pricing-card mat-card-hover"
-      [ngClass]="{ suggested: user }">
+      [ngClass]="{ suggested: isRegisteredUser() }">
       <mat-card-header class="full-width">
         <mat-card-title>
-          {{ user ? i18n().suggested : i18n().standard }}
+          {{ isRegisteredUser() ? i18n().suggested : i18n().standard }}
         </mat-card-title>
       </mat-card-header>
 
@@ -105,7 +110,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!isRegisteredUser()"
           (click)="openDialog(10)">
           {{ i18n().buy }}
         </button>
@@ -135,7 +140,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!isRegisteredUser()"
           (click)="openDialog(20)">
           {{ i18n().buy }}
         </button>
@@ -165,11 +170,34 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!isRegisteredUser()"
           (click)="openDialog(50)">
           {{ i18n().buy }}
         </button>
       </mat-card-actions>
     </mat-card>
+
+    <!-- TODO Fix higlighting, title and content -->
+    <!-- @for(plan of plans; track plan){
+    <mat-card class="pricing-card mat-card-hover"
+      [ngClass]="{ purchased: isRegisteredUser() && plan.price == 0, suggested: plan.isSuggested }">
+      <mat-card-header class="full-width">
+        <mat-card-title>
+          {{plan.title}}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <app-markdown-viewer [data]="plan.content"></app-markdown-viewer>
+        <h2 class="price">{{ plan.price }} €</h2>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button mat-flat-button [disabled]="!isRegisteredUser() || plan.price == 0" (click)="openDialog(plan.price)">
+          {{plan.button}}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    } -->
   </div>
 </div>
