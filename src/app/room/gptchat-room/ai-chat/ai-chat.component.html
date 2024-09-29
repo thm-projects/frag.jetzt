@@ -18,6 +18,9 @@
               [disabled]="entry.ref.id === selectedAssistant()"
               (click)="selectedAssistant.set(entry.ref.id)">
               {{ entry.assistant.name }}
+              @if (entry.ref.id === selectedAssistant()) {
+                <mat-icon>check</mat-icon>
+              }
             </button>
           }
           @if (isPrivileged()) {
@@ -150,6 +153,9 @@
               mat-menu-item
               [disabled]="entry.ref.id === selectedAssistant()"
               (click)="selectedAssistant.set(entry.ref.id)">
+              @if (entry.ref.id === selectedAssistant()) {
+                <mat-icon>check</mat-icon>
+              }
               {{ entry.assistant.name }}
             </button>
           }
