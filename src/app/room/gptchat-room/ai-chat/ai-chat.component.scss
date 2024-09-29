@@ -19,6 +19,8 @@
   overflow: auto;
   padding: 24px;
   padding-bottom: 0;
+  max-width: 60%;
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
@@ -250,7 +252,7 @@ textarea {
 }
 
 .input-container-compact {
-  width: 75%;
+  width: 60%;
   margin: 14px auto;
   margin-bottom: 0;
   padding: 8px;
