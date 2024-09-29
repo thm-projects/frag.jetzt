@@ -12,7 +12,7 @@
         </button>
 
         <mat-menu #assistantMenu="matMenu">
-          @for (entry of assistRefs(); track entry) {
+          @for (entry of sortedAssistRefs(); track entry) {
             <button
               mat-menu-item
               [disabled]="entry.ref.id === selectedAssistant()"
@@ -150,7 +150,7 @@
         </button>
 
         <mat-menu #assistantMenu="matMenu">
-          @for (entry of assistRefs(); track entry) {
+          @for (entry of sortedAssistRefs(); track entry) {
             <button
               mat-menu-item
               [disabled]="entry.ref.id === selectedAssistant()"
