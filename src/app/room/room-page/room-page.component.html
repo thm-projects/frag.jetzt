@@ -79,6 +79,8 @@
           <button
             style="margin-right: 4px"
             routerLink="comments"
+            [matBadge]="commentCounter()"
+            matBadgeSize="large"
             mat-flat-button>
             <mat-icon>
               {{ room.conversationDepth ? "forum" : "chat" }}
