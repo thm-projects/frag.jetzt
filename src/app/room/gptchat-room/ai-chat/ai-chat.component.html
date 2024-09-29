@@ -8,7 +8,7 @@
           <mat-icon [matTooltip]="i18n().assistant">
             keyboard_arrow_down
           </mat-icon>
-          {{ i18n().assistant }}
+          {{ selectedAssistantName() }}
         </button>
 
         <mat-menu #assistantMenu="matMenu">
@@ -137,7 +137,7 @@
           <mat-icon [matTooltip]="i18n().assistant">
             keyboard_arrow_down
           </mat-icon>
-          {{ i18n().assistant }}
+          {{ selectedAssistantName() }}
         </button>
 
         <button

@@ -129,6 +129,14 @@ export class AiChatComponent {
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
+  protected selectedAssistantName = computed(() => {
+    const selectedId = this.selectedAssistant();
+    const selectedEntry = this.assistRefs().find(
+      (entry) => entry.ref.id === selectedId,
+    );
+    return selectedEntry ? selectedEntry.assistant.name : this.i18n().assistant;
+  });
+
   exampleTopics = [
     {
       emoji: '💻',
