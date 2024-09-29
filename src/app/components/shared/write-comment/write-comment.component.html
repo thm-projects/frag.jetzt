@@ -1,7 +1,7 @@
-<mat-card-title style="text-align: center">
+<h2 mat-dialog-title>
   {{ i18n().title }}
-</mat-card-title>
-<ars-row style="display: flex; justify-content: space-between">
+</h2>
+<ars-row style="display: flex; justify-content: space-between; padding: 0 24px">
   <mat-form-field
     class="questioner-name-input"
     appearance="outline">
@@ -23,7 +23,7 @@
             | context
               : {
                   questionerNameMax,
-                  count: questionerNameFormControl.value.length
+                  count: questionerNameFormControl.value.length,
                 }
         }}
       </span>
