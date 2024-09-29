@@ -1,6 +1,10 @@
 @use "sass:math";
 @use "sass:list";
 
+* {
+  box-sizing: border-box;
+}
+
 :host {
   padding: 24px;
 }
@@ -17,10 +21,7 @@
 }
 
 .mat-form-field {
-  display: flex;
-  flex: 1;
   border-radius: 8px;
-  padding: 20px;
   transition: box-shadow 0.3s ease;
 }
 

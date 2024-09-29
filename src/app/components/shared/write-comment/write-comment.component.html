@@ -1,8 +1,7 @@
 <h2 mat-dialog-title>
   {{ i18n().title }}
 </h2>
-<ars-row
-  style="display: flex; justify-content: space-between; padding-left: 25px">
+<ars-row style="display: flex; justify-content: space-between; padding: 0 24px">
   <mat-form-field
     class="questioner-name-input"
     appearance="outline">
@@ -24,7 +23,7 @@
             | context
               : {
                   questionerNameMax,
-                  count: questionerNameFormControl.value.length
+                  count: questionerNameFormControl.value.length,
                 }
         }}
       </span>
@@ -44,8 +43,7 @@
   <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
-    matTooltip="{{ i18n()['tag-button-hint'] }}"
-    style="padding-right: 50px">
+    matTooltip="{{ i18n()['tag-button-hint'] }}">
     <mat-label>
       <mat-icon>sell</mat-icon>
       {{ i18n().tag }}
