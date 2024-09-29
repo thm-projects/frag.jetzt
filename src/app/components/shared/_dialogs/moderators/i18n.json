@@ -2,15 +2,18 @@
     "key": "Moderator-component",
     "de": {
       "guest":"Gastmoderator*in",
-      "moderator": "Dauerhafter Moderator"
+      "moderator": "Dauerhafter Moderator",
+      "something-went-wrong": "Der Raum gehört Ihnen, lassen Sie die Mod-Rolle weg!"
     },
     "en": {
       "guest":"Guest Moderator",
-      "moderator": "Permanent Moderator"
+      "moderator": "Permanent Moderator",
+      "something-went-wrong": "You own the room, skip the mod role!"
     },
     "fr": {
       "guest":"Modérateur invité",
-      "moderator": "Modérateur permanent"
+      "moderator": "Modérateur permanent",
+      "something-went-wrong": "Vous possédez la salle, ne jouez pas le rôle de modérateur !"
     }
   }
  

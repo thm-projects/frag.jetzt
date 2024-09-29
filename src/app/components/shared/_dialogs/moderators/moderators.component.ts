@@ -45,6 +45,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   moderators: Moderator[] = [];
   userIds: string[] = [];
   moderatorShortId: string;
+  showCode = false;
   usernameFormControl = new FormControl('', [
     Validators.required,
     emailValidator,
@@ -76,6 +77,13 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
       new Moderator('accountID', 'roomID', 'loginID', UserRole.CREATOR),
       { accountId: 'accountID', roomId: 'roomID' } as Moderator,
     ];
+  }
+  showCodeTemporarily() {
+    this.showCode = true;
+
+    setTimeout(() => {
+      this.showCode = false;
+    }, 3000);
   }
 
   get shortIdCode() {
@@ -164,7 +172,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.translationService
-              .get('moderators-dialog.something-went-wrong')
+              .get(i18n()['something-went-wrong'])
               .subscribe((msg) => this.notificationService.show(msg));
           },
         });

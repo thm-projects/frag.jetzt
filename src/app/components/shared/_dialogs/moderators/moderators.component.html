@@ -2,8 +2,21 @@
 <mat-dialog-content class="column gap-small">
   <div class="row items-center">
     <span class="grow">
-      {{ "moderators-dialog.join-code" | translate }} {{ shortIdCode }}
+      {{ "moderators-dialog.join-code" | translate }}
+      <span *ngIf="showCode">{{ shortIdCode }}</span>
+      <span *ngIf="!showCode">**********</span>
+      <!-- Placeholder for hidden code -->
     </span>
+
+    <button
+      mat-icon-button
+      *ngIf="isCreator"
+      (click)="showCodeTemporarily()"
+      [matTooltip]="'Show guest code temporarily'"
+      class="add">
+      <mat-icon>info</mat-icon>
+    </button>
+
     <button
       mat-icon-button
       *ngIf="moderatorShortId"
@@ -57,14 +70,24 @@
     <mat-list>
       <mat-list-item
         *ngFor="let moderator of moderators"
-        lines="2">
-        <span matListItemTitle>
-          <mat-icon matPrefix>
+        lines="2"
+        class="moderator-item">
+        <span
+          matListItemTitle
+          class="moderator-info"
+          [ngStyle]="{ 'align-items': moderator.loginId ? 'start' : 'center' }">
+          <mat-icon
+            matPrefix
+            class="moderator-icon">
             {{ moderator.loginId ? "support_agent" : "person" }}
           </mat-icon>
-          {{ moderator.loginId ? i18n().moderator : i18n().guest }}
+          <span>
+            {{ moderator.loginId ? i18n().moderator : i18n().guest }}
+          </span>
         </span>
-        <span>{{ moderator.loginId ? moderator.loginId : "" }}</span>
+        <span class="moderator-loginId">
+          {{ moderator.loginId ? moderator.loginId : "" }}
+        </span>
 
         <div matListItemMeta>
           <button
