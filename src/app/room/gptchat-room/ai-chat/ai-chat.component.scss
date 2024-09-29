@@ -215,7 +215,7 @@ textarea {
   border: 1px solid var(--md-sys-color-surface3);
   background-color: transparent;
   color: var(--md-sys-color-on-background);
-  padding: 14px 24px;
+  padding: 36px !important;
   margin: 4px;
   border-radius: 5px;
   cursor: pointer;
@@ -223,11 +223,20 @@ textarea {
   text-align: left;
 
   .emoji {
-    margin-right: 10px;
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 8px;
     background-color: var(--md-sys-color-surface3);
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ::ng-deep.mat-fab .mat-button-wrapper {
+    display: flex !important;
+    justify-content: center !important;
   }
 }
 

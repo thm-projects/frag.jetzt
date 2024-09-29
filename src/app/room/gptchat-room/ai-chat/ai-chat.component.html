@@ -108,9 +108,11 @@
           <div class="topics">
             @for (topic of exampleTopics; track topic) {
               <button
+                style="padding: 24px"
+                mat-button
                 class="topic"
                 (click)="sendExampleTopic(topic.question)">
-                <span class="emoji">{{ topic.emoji }}</span>
+                <mat-icon class="emoji">{{ topic.emoji }}</mat-icon>
                 {{ topic.question }}
               </button>
             }
