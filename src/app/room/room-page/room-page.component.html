@@ -1,5 +1,12 @@
 <m3-body-pane>
-  <m3-supporting-pane [type]="'flexible'">
+  <m3-supporting-pane
+    [type]="'flexible'"
+    style="
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    ">
     @if (room(); as room) {
       <div class="row gap-large">
         <span class="row items-center gap-small">
@@ -27,7 +34,7 @@
       </div>
       <mat-card
         appearance="outlined"
-        style="margin-top: 12px">
+        style="margin-top: 12px; max-width: 600px">
         <mat-card-header>
           <mat-card-title class="headline-large">
             {{ i18n().name | context: { name: room.name } }}
@@ -59,40 +66,40 @@
               [data]="room.description || ''"></app-markdown-viewer>
           </div>
         </mat-card-content>
-        <mat-card-actions>
-          <mat-list>
-            <mat-list-item>
-              <span class="row items-center gap-medium">
-                <mat-icon>match_word</mat-icon>
-                <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
-              </span>
-            </mat-list-item>
-          </mat-list>
-          @if (isCreator()) {
+        <mat-card-actions
+          style="flex-wrap: wrap; justify-content: space-between">
+          <span style="display: flex; flex-direction: row">
+            <span class="row items-center gap-medium">
+              <mat-icon>match_word</mat-icon>
+              <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
+            </span>
+            @if (isCreator()) {
+              <button
+                mat-button
+                routerLink="/purchase">
+                {{ i18n().purchase }}
+              </button>
+            }
+          </span>
+          <span>
             <button
-              mat-button
-              routerLink="/purchase">
-              {{ i18n().purchase }}
-            </button>
-          }
-          <span style="flex: 1"></span>
-          <button
-            style="margin-right: 4px"
-            routerLink="comments"
-            mat-flat-button>
-            <mat-icon>
-              {{ room.conversationDepth ? "forum" : "chat" }}
-            </mat-icon>
-            {{ i18n()[mode()].join }}
-          </button>
-          @if (isPrivileged() && !room.directSend) {
-            <button
-              routerLink="moderator/comments"
+              style="margin-right: 4px"
+              routerLink="comments"
               mat-flat-button>
-              <mat-icon>gavel</mat-icon>
-              Moderation
+              <mat-icon>
+                {{ room.conversationDepth ? "forum" : "chat" }}
+              </mat-icon>
+              {{ i18n()[mode()].join }}
             </button>
-          }
+            @if (isPrivileged() && !room.directSend) {
+              <button
+                routerLink="moderator/comments"
+                mat-flat-button>
+                <mat-icon>gavel</mat-icon>
+                Moderation
+              </button>
+            }
+          </span>
         </mat-card-actions>
       </mat-card>
     } @else {
@@ -112,7 +119,7 @@
 </m3-body-pane>
 
 <ng-template #statistics>
-  <mat-list>
+  <mat-list style="margin-right: 32px">
     <!--      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>-->
     @for (entry of roomProperties; track entry) {
       <mat-list-item>
@@ -125,7 +132,7 @@
               {{ entry.translation() }}
             </span>
           </div>
-          <span class="headline-large">{{ entry.value() }}</span>
+          <span class="label-large">{{ entry.value() }}</span>
         </div>
       </mat-list-item>
       <mat-divider></mat-divider>
