@@ -1,7 +1,8 @@
-<mat-card-title style="text-align: center">
+<h2 mat-dialog-title>
   {{ i18n().title }}
-</mat-card-title>
-<ars-row style="display: flex; justify-content: space-between">
+</h2>
+<ars-row
+  style="display: flex; justify-content: space-between; padding-left: 25px">
   <mat-form-field
     class="questioner-name-input"
     appearance="outline">
@@ -43,7 +44,8 @@
   <mat-form-field
     *ngIf="enabled && tags && tags.length"
     (click)="tagSelect.open()"
-    matTooltip="{{ i18n()['tag-button-hint'] }}">
+    matTooltip="{{ i18n()['tag-button-hint'] }}"
+    style="padding-right: 50px">
     <mat-label>
       <mat-icon>sell</mat-icon>
       {{ i18n().tag }}
