@@ -1,4 +1,12 @@
-import { Component, inject, Injector, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatCardModule } from '@angular/material/card';
@@ -14,13 +22,14 @@ import { language } from 'app/base/language/language';
 import { MatListModule } from '@angular/material/list';
 import { PaypalDialogComponent } from './paypal-dialog/paypal-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
+import { user$, user, openLogin } from 'app/user/state/user';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { first, switchMap } from 'rxjs';
 import { TokenExplanationDialogComponent } from './token-explanation-dialog/token-explanation-dialog.component';
+import { i18nContext } from 'app/base/i18n/i18n-context';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -35,9 +44,15 @@ interface Plan {
   isSuggested: boolean;
   title: string;
   price: number;
-  content: string;
-  button: string;
-  token: number;
+  content?: string;
+  priceContent?: string;
+}
+
+interface MarkdownInfo {
+  inputTokens: string;
+  inputWords: string;
+  outputTokens: string;
+  outputWords: string;
 }
 
 @Component({
@@ -67,7 +82,8 @@ export class PaymentComponent implements OnInit {
   private apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
   private isPayPalLoaded = false;
-  userTokens = signal(0);
+  private userTokens = signal(0);
+  tokens = computed(() => this.formatTokens(this.userTokens()));
 
   // Pricing plans
   plans: Plan[];
@@ -99,53 +115,50 @@ export class PaymentComponent implements OnInit {
       {
         isSuggested: !this.isRegisteredUser(),
         title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
-        content: i18n().content,
-        button: i18n().selectFreePlan,
-        token: 200_000,
         price: 0,
       },
       {
         isSuggested: false,
         title: i18n().basic,
-        token: 200_000,
-        button: i18n().buy,
-        content: i18n().content,
         price: 1,
       },
       {
         isSuggested: this.isRegisteredUser(),
         title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
-        token: 1_000_000,
-        content: i18n().content,
-        button: i18n().buy,
         price: 5,
       },
       {
         isSuggested: false,
         title: i18n().premium,
-        token: 2_000_000,
-        content: i18n().content,
-        button: i18n().buy,
         price: 10,
       },
       {
         isSuggested: false,
         title: i18n().special,
-        token: 4_000_000,
-        content: i18n().content,
-        button: i18n().buy,
         price: 20,
       },
     ];
-    console.log(this.plans);
+    effect(
+      () => {
+        this.plans.forEach((plan) => {
+          const price = plan.price === 0 ? 1 : plan.price;
+          const token = Math.floor((price * 1_000_000) / 15);
+          plan.content = i18nContext(
+            i18n().markdownInfo,
+            this.getTokenExplanation(token) as unknown as Record<
+              string,
+              string
+            >,
+          );
+          plan.priceContent = this.fromatPrice(plan.price);
+        });
+      },
+      { injector: this.injector },
+    );
   }
 
   loginPage() {
-    if (!user()) {
-      forceLogin().subscribe();
-    } else if (user().isGuest) {
-      openLogin().subscribe();
-    }
+    openLogin().subscribe();
   }
 
   loadPayPalScript(): Promise<void> {
@@ -256,5 +269,47 @@ export class PaymentComponent implements OnInit {
       .subscribe((quota) => {
         this.userTokens.set(quota.token);
       });
+  }
+
+  private getTokenExplanation(token: number): MarkdownInfo {
+    return {
+      inputTokens: this.formatNumbers(token * 3, false),
+      inputWords: this.formatNumbers(token * 2.25, true),
+      outputTokens: this.formatNumbers(token, false),
+      outputWords: this.formatNumbers(token * 0.75, true),
+    };
+  }
+
+  private formatNumbers(num: number, aboutSymbol: boolean): string {
+    const format = new Intl.NumberFormat(language(), {
+      maximumFractionDigits: 1,
+      minimumFractionDigits: 0,
+      maximumSignificantDigits: 2,
+      notation: 'compact',
+    });
+    const pre = aboutSymbol ? '~ ' : '';
+    if (num >= 1_000 && num < 1_000_000 && language() === 'de') {
+      num /= 1_000;
+      return `${pre}${format.format(num)} Tsd.`;
+    }
+    return pre + format.format(num);
+  }
+
+  private fromatPrice(amount: number): string {
+    const format = new Intl.NumberFormat(language(), {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      notation: 'compact',
+    });
+    return format.format(amount);
+  }
+
+  private formatTokens(tokens: number): string {
+    return new Intl.NumberFormat(language(), {
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    }).format(tokens);
   }
 }
