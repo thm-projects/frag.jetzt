@@ -1,14 +1,3 @@
-@use "sass:math";
-@use "sass:list";
-
-* {
-  box-sizing: border-box;
-}
-
-:host {
-  padding: 24px;
-}
-
 .char-hint {
   display: flex;
   justify-content: right;
@@ -20,34 +9,15 @@
   color: var(--mat-form-field-error-text-color);
 }
 
-.mat-form-field {
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-}
+.utility-container {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1.5em;
+  gap: 1.5em;
+  flex-wrap: wrap;
 
-.mat-select {
-  width: 100%;
-}
-
-.mat-select-arrow {
-  right: 0;
-  position: absolute;
-}
-
-input::placeholder {
-  font-style: italic;
-}
-
-@media (max-width: 600px) {
-  ars-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
-  }
-
-  .mat-form-field {
+  > mat-form-field {
     flex: 1;
-    min-width: 0;
+    min-width: max-content;
   }
 }

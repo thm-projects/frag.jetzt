@@ -1,4 +1,4 @@
-import { Component, inject, Injector, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit, signal } from '@angular/core';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatCardModule } from '@angular/material/card';
@@ -15,11 +15,11 @@ import { MatListModule } from '@angular/material/list';
 import { PaypalDialogComponent } from './paypal-dialog/paypal-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
-import { User } from 'app/models/user';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { first, switchMap } from 'rxjs';
 
 // Load the i18n data
 const i18n = I18nLoader.load(rawI18n);
@@ -60,10 +60,11 @@ interface Plan {
 })
 export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
-  apiService: ApiService = inject(ApiService);
+  protected readonly user = user;
+  private apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
-
-  userTokens = 0; // Current token count of the user
+  private isPayPalLoaded = false;
+  userTokens = signal(0);
 
   // Pricing plans
   plans: Plan[] = [
@@ -89,11 +90,9 @@ export class PaymentComponent implements OnInit {
     ref.componentInstance.amount = amount;
   }
 
-  user: User;
   ngOnInit() {
-    this.getUserTokens();
+    this.updateQuota();
     this.loadPayPalScript();
-    user$.subscribe((u) => (this.user = u));
   }
 
   loginPage() {
@@ -103,14 +102,6 @@ export class PaymentComponent implements OnInit {
       openLogin().subscribe();
     }
   }
-
-  getUserTokens() {
-    // Simulate retrieving the user's token count from a service or backend
-    this.userTokens = 50000; // Example token count, replace with actual value
-  }
-
-  //Ab hier Paypal Intergration
-  private isPayPalLoaded = false;
 
   loadPayPalScript(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -207,13 +198,18 @@ export class PaymentComponent implements OnInit {
   }
 
   handlePaymentSuccess(amount: number): void {
-    const plan = this.plans.find((p) => parseFloat(p.price) === amount); // Compare price as number
-    if (plan) {
-      this.userTokens += plan.tokens; // Increase the user's token count
-    } else {
-      console.warn('Unknown payment amount:', amount);
-    }
+    console.info('Payment successful for amount:', amount);
+    this.updateQuota();
   }
 
-  protected readonly parseFloat = parseFloat;
+  private updateQuota() {
+    user$
+      .pipe(
+        first(Boolean),
+        switchMap(() => this.apiService.getCapturedQuota()),
+      )
+      .subscribe((quota) => {
+        this.userTokens.set(quota.token);
+      });
+  }
 }

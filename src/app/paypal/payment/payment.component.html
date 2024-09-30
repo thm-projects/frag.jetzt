@@ -4,9 +4,9 @@
   </h1>
 
   <mat-card class="token-card">
-    @if (user) {
+    @if (user()) {
       <mat-icon class="token-icon-align">token</mat-icon>
-      {{ i18n().yourTokens }} {{ userTokens }}
+      {{ i18n().yourTokens }} {{ userTokens() }}
     } @else {
       <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
       <button
@@ -21,10 +21,10 @@
   <div class="pricing-cards">
     <mat-card
       class="pricing-card mat-card-hover"
-      [ngClass]="{ purchased: user, suggested: !user }">
+      [ngClass]="{ purchased: user(), suggested: !user() }">
       <mat-card-header class="full-width">
         <mat-card-title>
-          {{ user ? i18n().free : i18n().suggested }}
+          {{ user() ? i18n().free : i18n().suggested }}
         </mat-card-title>
       </mat-card-header>
 
@@ -72,7 +72,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!user()"
           (click)="openDialog(5)">
           {{ i18n().buy }}
         </button>
@@ -82,10 +82,10 @@
     <!-- €5 Plan -->
     <mat-card
       class="pricing-card mat-card-hover"
-      [ngClass]="{ suggested: user }">
+      [ngClass]="{ suggested: user() }">
       <mat-card-header class="full-width">
         <mat-card-title>
-          {{ user ? i18n().suggested : i18n().standard }}
+          {{ user() ? i18n().suggested : i18n().standard }}
         </mat-card-title>
       </mat-card-header>
 
@@ -104,7 +104,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!user()"
           (click)="openDialog(10)">
           {{ i18n().buy }}
         </button>
@@ -134,7 +134,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!user()"
           (click)="openDialog(20)">
           {{ i18n().buy }}
         </button>
@@ -164,7 +164,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="!user"
+          [disabled]="!user()"
           (click)="openDialog(50)">
           {{ i18n().buy }}
         </button>
