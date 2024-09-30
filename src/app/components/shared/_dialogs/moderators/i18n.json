@@ -1,19 +1,54 @@
 {
-    "key": "Moderator-component",
-    "de": {
-      "guest":"Gastmoderator*in",
-      "moderator": "Dauerhafter Moderator",
-      "something-went-wrong": "Der Raum gehört Ihnen, lassen Sie die Mod-Rolle weg!"
-    },
-    "en": {
-      "guest":"Guest Moderator",
-      "moderator": "Permanent Moderator",
-      "something-went-wrong": "You own the room, skip the mod role!"
-    },
-    "fr": {
-      "guest":"Modérateur invité",
-      "moderator": "Modérateur permanent",
-      "something-went-wrong": "Vous possédez la salle, ne jouez pas le rôle de modérateur !"
-    }
+  "key": "Moderator-component",
+  "de": {
+    "title": "Moderatoren",
+    "join_code": "Beitrittscode:",
+    "tooltipShowCode": "Code anzeigen, beziehungsweise verbergen",
+    "tooltipClipboard": "In die Zwischenablage kopieren",
+    "tooltipRecreate": "Code neu generieren",
+    "email": "E-Mail",
+    "email_error": "Bitte gib eine gültige E-Mail-Adresse ein",
+    "empty": "Keine Moderatoren vorhanden",
+    "close": "Schließen",
+    "explain": "Erklären",
+    "guest": "Gastmoderator*in",
+    "moderator": "Dauerhafter Moderator",
+    "ally_add": "Fügt den eingegebenen User als Moderator*in hinzu.",
+    "ally_delete": "Entfernt den Moderator oder die Moderatorin.",
+    "ally_email": "Gib die E-Mail-Adresse eines Users ein, den du als Moderator*in hinzufügen möchtest. Der Moderator oder die Moderatorin muss ein frag.jetzt Konto haben."
+  },
+  "en": {
+    "title": "Moderators",
+    "join_code": "Join code:",
+    "tooltipShowCode": "Show or hide the code",
+    "tooltipClipboard": "Copy to clipboard",
+    "tooltipRecreate": "Regenerate code",
+    "email": "Email",
+    "email_error": "Please enter a valid email address",
+    "empty": "No moderators available",
+    "close": "Close",
+    "explain": "Explain",
+    "guest": "Guest Moderator",
+    "moderator": "Permanent Moderator",
+    "ally_add": "Adds the entered user as a moderator.",
+    "ally_delete": "Removes the moderator.",
+    "ally_email": "Enter the email address of a user you'd like to add as a moderator. The moderator needs to have a frag.jetzt account."
+  },
+  "fr": {
+    "title": "Modérateurs",
+    "join_code": "Code de participation :",
+    "tooltipShowCode": "Afficher ou masquer le code",
+    "tooltipClipboard": "Copier dans le presse-papiers",
+    "tooltipRecreate": "Régénérer le code",
+    "email": "E-mail",
+    "email_error": "Veuillez entrer une adresse e-mail valide",
+    "empty": "Aucun modérateur disponible",
+    "close": "Fermer",
+    "explain": "Expliquer",
+    "guest": "Modérateur invité",
+    "moderator": "Modérateur permanent",
+    "ally_add": "Ajoute l'utilisateur saisi en tant que modérateur.",
+    "ally_delete": "Supprime le modérateur.",
+    "ally_email": "Saisis l'adresse e-mail d'un utilisateur que tu souhaites ajouter en tant que modérateur. Le modérateur doit avoir un compte frag.jetzt."
   }
- 
+}

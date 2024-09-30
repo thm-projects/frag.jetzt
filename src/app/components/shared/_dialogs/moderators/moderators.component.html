@@ -1,27 +1,22 @@
-<span matDialogTitle>{{ "moderators-dialog.title" | translate }}</span>
+<span matDialogTitle>{{ i18n().title }}</span>
 <mat-dialog-content class="column gap-small">
   <div class="row items-center">
     <span class="grow">
-      {{ "moderators-dialog.join-code" | translate }}
-      <span *ngIf="showCode">{{ shortIdCode }}</span>
-      <span *ngIf="!showCode">**********</span>
-      <!-- Placeholder for hidden code -->
+      {{ i18n().join_code }} {{ isCodeHidden ? "••••••••" : shortIdCode }}
     </span>
-
     <button
       mat-icon-button
-      *ngIf="isCreator"
-      (click)="showCodeTemporarily()"
-      [matTooltip]="'Show guest code temporarily'"
+      *ngIf="moderatorShortId"
+      (click)="isCodeHidden = !isCodeHidden"
+      [matTooltip]="i18n().tooltipShowCode"
       class="add">
-      <mat-icon>info</mat-icon>
+      <mat-icon>{{ isCodeHidden ? "visibility" : "visibility_off" }}</mat-icon>
     </button>
-
     <button
       mat-icon-button
       *ngIf="moderatorShortId"
       (click)="copyShortIdLink()"
-      [matTooltip]="'moderators-dialog.tooltip-clipboard' | translate"
+      [matTooltip]="i18n().tooltipClipboard"
       class="add">
       <mat-icon>share</mat-icon>
     </button>
@@ -29,7 +24,7 @@
       mat-icon-button
       *ngIf="isCreator"
       (click)="refreshCode()"
-      [matTooltip]="'moderators-dialog.tooltip-recreate' | translate"
+      [matTooltip]="i18n().tooltipRecreate"
       class="add">
       <mat-icon>refresh</mat-icon>
     </button>
@@ -43,7 +38,7 @@
         #loginId
         aria-labelledby="moderator-email"
         [formControl]="usernameFormControl"
-        [placeholder]="'moderators-dialog.email' | translate"
+        [placeholder]="i18n().email"
         name="username"
         (keyup.enter)="addModerator(loginId.value)" />
       <button
@@ -54,12 +49,12 @@
         <mat-icon>add</mat-icon>
       </button>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
-        {{ "moderators-dialog.email-error" | translate }}
+        {{ i18n().email_error }}
       </mat-error>
     </mat-form-field>
   </div>
   <span *ngIf="moderators.length === 0">
-    {{ "moderators-dialog.empty" | translate }}
+    {{ i18n().empty }}
   </span>
   <button
     *ngIf="__debug"
@@ -68,28 +63,21 @@
   </button>
   <ng-container *ngIf="moderators.length > 0">
     <mat-list>
-      <mat-list-item
-        *ngFor="let moderator of moderators"
-        lines="2"
-        class="moderator-item">
-        <span
-          matListItemTitle
-          class="moderator-info"
-          [ngStyle]="{ 'align-items': moderator.loginId ? 'start' : 'center' }">
-          <mat-icon
-            matPrefix
-            class="moderator-icon">
-            {{ moderator.loginId ? "support_agent" : "person" }}
-          </mat-icon>
-          <span>
-            {{ moderator.loginId ? i18n().moderator : i18n().guest }}
-          </span>
-        </span>
-        <span class="moderator-loginId">
-          {{ moderator.loginId ? moderator.loginId : "" }}
-        </span>
-
-        <div matListItemMeta>
+      <mat-list-item *ngFor="let moderator of moderators">
+        <mat-icon matListItemIcon>
+          {{ moderator.loginId ? "support_agent" : "person" }}
+        </mat-icon>
+        <div matListItemTitle>
+          {{ moderator.loginId ? i18n().moderator : i18n().guest }}
+        </div>
+        <div
+          matListItemLine
+          *ngIf="moderator.loginId">
+          {{ moderator.loginId }}
+        </div>
+        <div
+          matListItemMeta
+          style="display: flex; align-self: center">
           <button
             mat-icon-button
             (click)="openDeleteRoomDialog(moderator)">
@@ -104,23 +92,23 @@
   <button
     mat-button
     (click)="dialogRef.close(false)">
-    {{ "explanation.close" | translate }}
+    {{ i18n().close }}
   </button>
   <div class="grow"></div>
   <button
     mat-button
     (click)="openHelp()">
     <mat-icon>question_mark</mat-icon>
-    {{ "explanation.label" | translate }}
+    {{ i18n().explain }}
   </button>
 </mat-dialog-actions>
 
 <div class="visually-hidden">
   <div id="moderator-email">
-    {{ "moderators-dialog.a11y-email" | translate }}
+    {{ i18n().ally_email }}
   </div>
-  <div id="add-moderator">{{ "moderators-dialog.a11y-add" | translate }}</div>
+  <div id="add-moderator">{{ i18n().ally_add }}</div>
   <div id="delete-moderator">
-    {{ "moderators-dialog.a11y-delete" | translate }}
+    {{ i18n().ally_delete }}
   </div>
 </div>
