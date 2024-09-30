@@ -1,14 +1,18 @@
 <div class="pricing-plan-container">
   <h1 class="pricing-title mat-display-large">
     {{ i18n().title }}
-    <mat-icon (click)="openExplanationDialog()">help_outline</mat-icon>
+    <button
+      mat-icon-button
+      (click)="openExplanationDialog()">
+      <mat-icon>help_outline</mat-icon>
+    </button>
   </h1>
 
   <mat-card class="token-card">
     @if (isRegisteredUser()) {
       <mat-icon class="token-icon-align">token</mat-icon>
-      {{ i18n().yourTokens }} {{ userTokens }}
-    } @else if (user && user.isGuest) {
+      {{ i18n().yourTokens }} {{ userTokens() }}
+    } @else if (user()?.isGuest) {
       {{ i18n().guestLogin }}
     } @else {
       <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>

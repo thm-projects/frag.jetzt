@@ -45,6 +45,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   moderators: Moderator[] = [];
   userIds: string[] = [];
   moderatorShortId: string;
+  isCodeHidden: boolean = true;
   usernameFormControl = new FormControl('', [
     Validators.required,
     emailValidator,

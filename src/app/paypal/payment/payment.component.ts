@@ -1,4 +1,4 @@
-import { Component, inject, Injector, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit, signal } from '@angular/core';
 import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatCardModule } from '@angular/material/card';
@@ -15,11 +15,11 @@ import { MatListModule } from '@angular/material/list';
 import { PaypalDialogComponent } from './paypal-dialog/paypal-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { user$, forceLogin, user, openLogin } from 'app/user/state/user';
-import { User } from 'app/models/user';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { first, switchMap } from 'rxjs';
 import { TokenExplanationDialogComponent } from './token-explanation-dialog/token-explanation-dialog.component';
 
 // Load the i18n data
@@ -63,10 +63,11 @@ interface Plan {
 })
 export class PaymentComponent implements OnInit {
   protected readonly i18n = i18n;
-  apiService: ApiService = inject(ApiService);
+  protected readonly user = user;
+  private apiService: ApiService = inject(ApiService);
   private injector = inject(Injector);
-
-  userTokens = 0; // Current token count of the user
+  private isPayPalLoaded = false;
+  userTokens = signal(0);
 
   // Pricing plans
   plans: Plan[];
@@ -87,61 +88,56 @@ export class PaymentComponent implements OnInit {
   }
 
   isRegisteredUser() {
-    return this.user && !this.user.isGuest;
+    return this.user() && !this.user().isGuest;
   }
 
-  user: User;
   ngOnInit() {
+    this.updateQuota();
     this.loadPayPalScript();
-    user$.subscribe((u) => {
-      this.user = u;
-      this.plans = [
-        // TODO maybe recive from Backend
-        {
-          isSuggested: !this.isRegisteredUser(),
-          title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
-          content: i18n().content,
-          button: i18n().selectFreePlan,
-          token: 200_000,
-          price: 0,
-        },
-        {
-          isSuggested: false,
-          title: i18n().basic,
-          token: 200_000,
-          button: i18n().buy,
-          content: i18n().content,
-          price: 1,
-        },
-        {
-          isSuggested: this.isRegisteredUser(),
-          title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
-          token: 1_000_000,
-          content: i18n().content,
-          button: i18n().buy,
-          price: 5,
-        },
-        {
-          isSuggested: false,
-          title: i18n().premium,
-          token: 2_000_000,
-          content: i18n().content,
-          button: i18n().buy,
-          price: 10,
-        },
-        {
-          isSuggested: false,
-          title: i18n().special,
-          token: 4_000_000,
-          content: i18n().content,
-          button: i18n().buy,
-          price: 20,
-        },
-      ];
-    });
+    this.plans = [
+      // TODO maybe recive from Backend
+      {
+        isSuggested: !this.isRegisteredUser(),
+        title: !this.isRegisteredUser() ? i18n().suggested : i18n().free,
+        content: i18n().content,
+        button: i18n().selectFreePlan,
+        token: 200_000,
+        price: 0,
+      },
+      {
+        isSuggested: false,
+        title: i18n().basic,
+        token: 200_000,
+        button: i18n().buy,
+        content: i18n().content,
+        price: 1,
+      },
+      {
+        isSuggested: this.isRegisteredUser(),
+        title: this.isRegisteredUser() ? i18n().suggested : i18n().standard,
+        token: 1_000_000,
+        content: i18n().content,
+        button: i18n().buy,
+        price: 5,
+      },
+      {
+        isSuggested: false,
+        title: i18n().premium,
+        token: 2_000_000,
+        content: i18n().content,
+        button: i18n().buy,
+        price: 10,
+      },
+      {
+        isSuggested: false,
+        title: i18n().special,
+        token: 4_000_000,
+        content: i18n().content,
+        button: i18n().buy,
+        price: 20,
+      },
+    ];
     console.log(this.plans);
-
-    this.userTokens = 0; //user.??
   }
 
   loginPage() {
@@ -151,9 +147,6 @@ export class PaymentComponent implements OnInit {
       openLogin().subscribe();
     }
   }
-
-  //Ab hier Paypal Intergration
-  private isPayPalLoaded = false;
 
   loadPayPalScript(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -250,13 +243,18 @@ export class PaymentComponent implements OnInit {
   }
 
   handlePaymentSuccess(amount: number): void {
-    const plan = this.plans.find((p) => p.price === amount); // Compare price as number
-    if (plan) {
-      this.userTokens += plan.token; // TODO how much increase of token ?? input? output? avg?
-    } else {
-      console.warn('Unknown payment amount:', amount);
-    }
+    console.info('Payment successful for amount:', amount);
+    this.updateQuota();
   }
 
-  protected readonly parseFloat = parseFloat;
+  private updateQuota() {
+    user$
+      .pipe(
+        first(Boolean),
+        switchMap(() => this.apiService.getCapturedQuota()),
+      )
+      .subscribe((quota) => {
+        this.userTokens.set(quota.token);
+      });
+  }
 }

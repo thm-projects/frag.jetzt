@@ -129,6 +129,33 @@ export class AiChatComponent {
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
+  protected selectedAssistantName = computed(() => {
+    const selectedId = this.selectedAssistant();
+    const selectedEntry = this.assistRefs().find(
+      (entry) => entry.ref.id === selectedId,
+    );
+    return selectedEntry ? selectedEntry.assistant.name : this.i18n().assistant;
+  });
+
+  protected sortedAssistRefs = computed(() => {
+    const selectedId = this.selectedAssistant();
+    const assistRefs = this.assistRefs();
+
+    const otherAssistants = assistRefs.filter(
+      (entry) => entry.ref.id !== selectedId,
+    );
+    const sortedOtherAssistants = otherAssistants.sort((a, b) =>
+      a.assistant.name.localeCompare(b.assistant.name),
+    );
+    const selectedAssistant = assistRefs.find(
+      (entry) => entry.ref.id === selectedId,
+    );
+
+    return selectedAssistant
+      ? [selectedAssistant, ...sortedOtherAssistants]
+      : sortedOtherAssistants;
+  });
+
   exampleTopics = [
     {
       emoji: '💻',

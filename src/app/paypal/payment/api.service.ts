@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, tap } from 'rxjs';
 import { Language } from 'app/base/language/language';
 import { BaseHttpService } from 'app/services/http/base-http.service';
 
@@ -16,6 +16,10 @@ interface CaptureOrderResponse {
   id: string;
   status: string;
   // Add any additional fields that you expect in the response
+}
+
+interface CapturedQuota {
+  token: number;
 }
 
 const httpOptions = {
@@ -57,6 +61,7 @@ export class ApiService extends BaseHttpService {
         catchError(this.handleError<CreateOrderResponse>('createOrder')),
       );
   }
+
   captureOrder(orderId: string): Observable<CaptureOrderResponse> {
     const url = `/api/paypal/capture-order/${orderId}/`;
     return this.http
@@ -65,5 +70,26 @@ export class ApiService extends BaseHttpService {
         tap(() => ''),
         catchError(this.handleError<CaptureOrderResponse>('captureOrder')),
       );
+  }
+
+  getCapturedQuota(): Observable<CapturedQuota> {
+    const url = '/api/paypal/captured-quota/';
+    return this.http.get<CapturedQuota>(url, httpOptions).pipe(
+      tap(() => ''),
+      map((response) => {
+        response.token = this.parseTokens(response['amount']);
+        delete response['amount'];
+        return response;
+      }),
+      catchError(this.handleError<CapturedQuota>('getCapturedQuota')),
+    );
+  }
+
+  private parseTokens(amount: string): number {
+    const index = amount.indexOf('.');
+    amount =
+      amount.substring(0, index) + amount.substring(index + 1, index + 3);
+    const v = (BigInt(amount) * 10_000n) / 15n; // Per 1 million token, but divided by 100 for cents, 15 is the price for 1M token
+    return Number(v);
   }
 }
