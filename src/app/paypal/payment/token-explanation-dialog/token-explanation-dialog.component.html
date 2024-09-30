@@ -1,13 +1,13 @@
-<h1 mat-dialog-title>{{ i18n().pay }}</h1>
-<!-- <div mat-dialog-content>
-  <div
-    class="paypal-container"
-    [id]="data.paypalContainerId"></div>
-</div> -->
+<h2
+  mat-dialog-title
+  style="font-weight: bold">
+  {{ i18n().explanationTitle }}
+</h2>
 
 <mat-dialog-content>
-  <div id="paypal-payment"></div>
+  <app-markdown-viewer [data]="i18n().explanation"></app-markdown-viewer>
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <button
     mat-button

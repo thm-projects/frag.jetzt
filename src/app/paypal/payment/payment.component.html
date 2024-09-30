@@ -1,14 +1,23 @@
 <div class="pricing-plan-container">
   <h1 class="pricing-title mat-display-large">
     {{ i18n().title }}
+    <button
+      mat-icon-button
+      (click)="openExplanationDialog()">
+      <mat-icon>help_outline</mat-icon>
+    </button>
   </h1>
 
   <mat-card class="token-card">
-    @if (user()) {
+    @if (isRegisteredUser()) {
       <mat-icon class="token-icon-align">token</mat-icon>
-      {{ i18n().yourTokens }} {{ userTokens() }}
+      {{ i18n().yourTokens }} {{ tokens() }}
+    } @else if (user()?.isGuest) {
+      {{ i18n().guestLogin }}
     } @else {
       <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
+    }
+    @if (!isRegisteredUser()) {
       <button
         style="margin: auto; display: block"
         mat-flat-button
@@ -19,163 +28,33 @@
   </mat-card>
 
   <div class="pricing-cards">
-    <mat-card
-      class="pricing-card mat-card-hover"
-      [ngClass]="{ purchased: user(), suggested: !user() }">
-      <mat-card-header class="full-width">
-        <mat-card-title>
-          {{ user() ? i18n().free : i18n().suggested }}
-        </mat-card-title>
-      </mat-card-header>
+    @for (plan of plans; track plan) {
+      <mat-card
+        class="pricing-card mat-card-hover"
+        [ngClass]="{
+          purchased: isRegisteredUser() && plan.price === 0,
+          suggested: plan.isSuggested,
+        }">
+        <mat-card-header class="full-width">
+          <mat-card-title>
+            {{ plan.title }}
+          </mat-card-title>
+        </mat-card-header>
 
-      <mat-card-content>
-        <ul>
-          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
-          <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
-          <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>{{ i18n().BasicTime }}</li>
-        </ul>
-        <h2 class="price">Free</h2>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button
-          disabled
-          mat-raised-button
-          color="primary">
-          {{ i18n().selectFreePlan }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- €1 Plan -->
-    <mat-card class="pricing-card mat-card-hover">
-      <mat-card-header class="full-width">
-        <mat-card-title>
-          {{ i18n().basic }}
-        </mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-        <ul>
-          <li>200{{ i18n().abbrevThousand }} {{ i18n().outputTokens }}</li>
-          <li>~150{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>70{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
-          <li>~52{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>{{ i18n().unlimitedPurchase }}</li>
-        </ul>
-        <h2 class="price">1€</h2>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!user()"
-          (click)="openDialog(5)">
-          {{ i18n().buy }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- €5 Plan -->
-    <mat-card
-      class="pricing-card mat-card-hover"
-      [ngClass]="{ suggested: user() }">
-      <mat-card-header class="full-width">
-        <mat-card-title>
-          {{ user() ? i18n().suggested : i18n().standard }}
-        </mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-        <ul>
-          <li>1,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
-          <li>~750{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>350{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
-          <li>~262{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>{{ i18n().unlimitedPurchase }}</li>
-        </ul>
-        <h2 class="price">5€</h2>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!user()"
-          (click)="openDialog(10)">
-          {{ i18n().buy }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- €10 Plan -->
-    <mat-card class="pricing-card mat-card-hover">
-      <mat-card-header class="full-width">
-        <mat-card-title>
-          {{ i18n().premium }}
-        </mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-        <ul>
-          <li>2,0{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
-          <li>~1,5{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
-          <li>700{{ i18n().abbrevThousand }} {{ i18n().inputTokens }}</li>
-          <li>~525{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>{{ i18n().unlimitedPurchase }}</li>
-        </ul>
-        <h2 class="price">10€</h2>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!user()"
-          (click)="openDialog(20)">
-          {{ i18n().buy }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-
-    <!-- €20 Plan -->
-    <mat-card class="pricing-card mat-card-hover">
-      <mat-card-header class="full-width">
-        <mat-card-title>
-          {{ i18n().special }}
-        </mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content>
-        <ul>
-          <li>4,0{{ i18n().abbrevMillion }} {{ i18n().inputTokens }}</li>
-          <li>~3,0{{ i18n().abbrevMillion }} {{ i18n().words }}</li>
-          <li>1.4{{ i18n().abbrevMillion }} {{ i18n().outputTokens }}</li>
-          <li>~1.1{{ i18n().abbrevThousand }} {{ i18n().words }}</li>
-          <li>{{ i18n().unlimitedPurchase }}</li>
-        </ul>
-        <h2 class="price">20€</h2>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="!user()"
-          (click)="openDialog(50)">
-          {{ i18n().buy }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+        <mat-card-content>
+          <app-markdown-viewer [data]="plan.content"></app-markdown-viewer>
+          <h2 class="price">{{ plan.priceContent }}</h2>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button
+            mat-flat-button
+            [disabled]="!isRegisteredUser() || plan.price === 0"
+            (click)="openDialog(plan.price)">
+            {{ plan.price === 0 ? i18n().selectFreePlan : i18n().buy }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
   </div>
-</div>
-
-<div class="pricing-plan-container">
-  <h1>{{ i18n().marketingTitle }}</h1>
-  <mat-card class="token-card">
-    <app-markdown-viewer [data]="i18n().explanation"></app-markdown-viewer>
-  </mat-card>
 </div>

@@ -47,7 +47,11 @@ export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
   }
 
   private mdData() {
-    return this.data()
+    const data = this.data();
+    if (!data) {
+      return '';
+    }
+    return data
       .replace(/\\(\)|\()/gm, '$')
       .replace(/^\s*\\\[$/gm, '$$$$katex')
       .replace(/^\s*\\\]$/gm, '$$$$');
