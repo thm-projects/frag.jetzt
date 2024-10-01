@@ -1,18 +1,22 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
+  MatDialog,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import {
-  TextDialogConfig,
-  DialogButton,
-} from '../../../../services/http/text-dialog.service';
-import { Observable } from 'rxjs';
+import { from, isObservable, Observable } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import { CustomMarkdownModule } from '../../../../base/custom-markdown/custom-markdown.module';
+import { NotificationService } from 'app/services/util/notification.service';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import {
+  DialogButton,
+  DialogResult,
+  TextDialogConfig,
+} from './text-dialog.types';
+const i18n = I18nLoader.builder().build();
 
 @Component({
   selector: 'app-text-dialog',
@@ -28,31 +32,47 @@ import { CustomMarkdownModule } from '../../../../base/custom-markdown/custom-ma
   styleUrls: ['./text-dialog.component.scss'],
 })
 export class TextDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<TextDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TextDialogConfig,
-  ) {}
+  protected readonly i18n = i18n;
+  protected data = input.required<TextDialogConfig>();
+  private cachedClick: Set<DialogButton> = new Set();
+  private dialogRef = inject(MatDialogRef<TextDialogComponent>);
+  private notificaton = inject(NotificationService);
 
-  // Handle button click events
-  handleButtonClick(button: DialogButton) {
-    if (button.onClick) {
-      const result = button.onClick(this.dialogRef);
+  static open(dialog: MatDialog, config: TextDialogConfig) {
+    const ref = dialog.open(TextDialogComponent, {
+      data: config,
+      disableClose: !(config.allowClose ?? true),
+    });
+    ref.componentRef.setInput('data', config);
+    return ref;
+  }
 
-      if (result instanceof Observable) {
-        // Handle observables (e.g., show spinner while the observable is active)
-        result.subscribe({
-          next: (res) => {
-            if (res?.type === 'completed') {
-              this.dialogRef.close();
-            } else if (res?.type === 'error') {
-              // Handle error (e.g., use a notification service)
-              console.error(res.text);
-            }
-          },
-        });
-      } else if (result) {
-        this.dialogRef.close();
-      }
+  protected handleButtonClick(button: DialogButton) {
+    if (!button.onClick) {
+      return;
     }
+    if (this.cachedClick.has(button)) {
+      return;
+    }
+    const result = button.onClick(this.dialogRef);
+    this.cachedClick.add(button);
+    const observable = (
+      isObservable(result) ? result : from(Promise.resolve(result))
+    ) as Observable<DialogResult | boolean>;
+    observable.subscribe({
+      next: (value) => {
+        if (!value) {
+          return;
+        }
+        if (value === true || value.type === 'completed') {
+          this.dialogRef.close();
+          return;
+        }
+        if (value.type === 'error') {
+          this.notificaton.show(value.text);
+        }
+      },
+      complete: () => this.cachedClick.delete(button),
+    });
   }
 }

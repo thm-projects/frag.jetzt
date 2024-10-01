@@ -1,19 +1,29 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
+<h2 mat-dialog-title>{{ data().title }}</h2>
 
 <div mat-dialog-content>
-  <app-markdown-viewer [data]="data.content"></app-markdown-viewer>
+  <app-markdown-viewer [data]="data().content"></app-markdown-viewer>
 </div>
 
 <div mat-dialog-actions>
-  <ng-container *ngFor="let button of data.buttons">
+  @for (action of data().actions; track action) {
+    @switch (action.type) {
+      @case ("button") {
+        <button
+          mat-button
+          (click)="handleButtonClick(action)">
+          {{ action.text }}
+        </button>
+      }
+      @case ("spacer") {
+        <span style="flex: 1"></span>
+      }
+    }
+  } @empty {
     <button
-      *ngIf="button.type === 'button'"
       mat-button
-      (click)="handleButtonClick(button)">
-      {{ button.text }}
+      mat-dialog-close>
+      {{ i18n().global.close }}
     </button>
-    <span
-      *ngIf="button.type === 'spacer'"
-      style="flex: 1"></span>
-  </ng-container>
+    <span style="flex: 1"></span>
+  }
 </div>
