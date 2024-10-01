@@ -4,6 +4,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { dataService } from 'app/base/db/data-service';
 import { FormalityType } from 'app/services/http/deep-l.service';
 import { switchMap } from 'rxjs';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-pseudonym-editor',
@@ -17,6 +20,7 @@ export class PseudonymEditorComponent implements OnInit {
   accountId: string;
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
+  protected readonly i18n = i18n;
   questionerNameFormControl = new FormControl('', [
     Validators.minLength(this.questionerNameMin),
     Validators.maxLength(this.questionerNameMax),

@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  {{ "pseudonym-editor.title" | translate }}
+  {{ i18n().title }}
 </h2>
 
 <mat-dialog-content>
@@ -8,7 +8,7 @@
       appAccessibilityEscapedInput
       matInput
       [formControl]="questionerNameFormControl"
-      [placeholder]="'pseudonym-editor.name' | translate"
+      placeholder="{{ i18n().name }}"
       name="questioner-name"
       [maxlength]="questionerNameMax"
       aria-labelledby="questioner-name" />
@@ -23,40 +23,40 @@
         questionerNameFormControl.hasError('maxlength')
       ">
       {{
-        "write-comment.name-length-error"
-          | translate: { min: questionerNameMin, max: questionerNameMax }
+        i18n().nameLengthError
+          | context: { min: questionerNameMin, max: questionerNameMax }
       }}
     </mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>
-      {{ "pseudonym-editor.deepl" | translate }}
+      {{ i18n().deepl }}
     </mat-label>
     <mat-select [(ngModel)]="selectedFormality">
       <mat-option value="">
-        {{ "deepl-formality-select.default" | translate }}
+        {{ i18n().default }}
       </mat-option>
       <mat-option value="less">
-        {{ "deepl-formality-select.less" | translate }}
+        {{ i18n().less }}
       </mat-option>
       <mat-option value="more">
-        {{ "deepl-formality-select.more" | translate }}
+        {{ i18n().more }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions class="row content-space-between">
   <button
     mat-button
     class="secondary-button"
     mat-dialog-close>
-    {{ "pseudonym-editor.cancel" | translate }}
+    {{ i18n().global.cancel }}
   </button>
   <button
-    mat-stroked-button
+    mat-flat-button
     class="primary-button"
     (click)="accept()">
-    {{ "pseudonym-editor.update" | translate }}
+    {{ i18n().global.saveAndClose }}
   </button>
 </mat-dialog-actions>
