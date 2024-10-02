@@ -273,6 +273,7 @@ export const getDefaultNavigation = (
       }
       // app navigation
       const isPurchase = router.url.startsWith('/purchase');
+      const isTransaction = router.url.startsWith('/transactions');
       const pricingSection: M3NavigationSection = {
         id: 'pricing',
         kind: 'navigation',
@@ -296,6 +297,16 @@ export const getDefaultNavigation = (
               showDonation(injector);
               return false;
             },
+          },
+          {
+            id: 'transaction',
+            title: i18n.navigation.transaction,
+            icon: 'credit_card',
+            onClick: () => {
+              router.navigate(['/transaction']);
+              return true;
+            },
+            activated: isTransaction,
           },
         ],
       };

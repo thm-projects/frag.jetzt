@@ -32,7 +32,8 @@
       "admin": "Administration",
       "pricing": "Dankeschön & KI-Guthaben",
       "donation": "Für die Kaffeemaschine",
-      "purchase": "KI-Guthabenpaket"
+      "purchase": "KI-Guthabenpaket",
+      "transaction": "Transaktionen"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -81,7 +82,8 @@
       "admin": "Administration",
       "pricing": "Thank you & AI Credit",
       "donation": "For the coffee machine",
-      "purchase": "AI credit package"
+      "purchase": "AI credit package",
+      "transaction": "Transactions"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -130,7 +132,8 @@
       "admin": "Administration",
       "pricing": "Remerciement & Crédit IA",
       "donation": "Pour la machine à café",
-      "purchase": "Pack de crédit IA"
+      "purchase": "Pack de crédit IA",
+      "transaction": "Transactions"
     },
     "options": {
       "about": "À propos de frag.jetzt",
