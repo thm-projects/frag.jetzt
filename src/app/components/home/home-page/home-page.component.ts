@@ -21,6 +21,7 @@ import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { windowWatcher } from '../../../../modules/navigation/utils/window-watcher';
 import { language } from 'app/base/language/language';
 import { HomePageService } from './home-page.service';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface Tile {
   color: string;
@@ -57,6 +58,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private notificationService: NotificationService,
     protected self: HomePageService,
+    public dialog: MatDialog,
   ) {
     this.emitNavigation();
     inject(OnboardingService);
@@ -79,6 +81,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
         .get('login.not-authorized')
         .subscribe((msg) => this.notificationService.show(msg));
     });
+
+    const firstTime = this.self.isFirstTimeVisitor();
+    if (firstTime) {
+      this.dialog.open(HomePageComponent, {
+        width: '300px',
+        height: '800px',
+      });
+    }
   }
 
   loadListener() {
