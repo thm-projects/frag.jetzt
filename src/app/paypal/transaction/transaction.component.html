@@ -1,9 +1,10 @@
-<mat-list role="list">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Transaction list</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Transaction list</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list role="list">
+      <!-- | currency: 'CAD' -->
       @for (transaction of transactions; track transaction) {
         <mat-list-item role="listitem">
           <mat-icon matListItemIcon>
@@ -16,8 +17,7 @@
           </div>
           <div matListItemLine>{{ transaction.date }}</div>
         </mat-list-item>
-      }
-      @if (!transactions.values) {
+      } @empty {
         <mat-list-item role="listitem">
           <div matListItemTitle>No Transactions so far</div>
         </mat-list-item>
@@ -30,6 +30,6 @@
           Tokens recived: {{ totalToken() | number: "2." }} tokens
         </div>
       </mat-list-item>
-    </mat-card-content>
-  </mat-card>
-</mat-list>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

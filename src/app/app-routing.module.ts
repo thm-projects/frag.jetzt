@@ -10,6 +10,7 @@ import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-v
 import { ChatGPTPromptPresetComponent } from './components/shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { TransactionComponent } from './paypal/transaction/transaction.component';
+import { UserOverviewComponent } from './user/user-overview/user-overview.component';
 const routes: Routes = [
   {
     path: '',
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'user',
     component: UserHomePageComponent,
     title: 'user',
+  },
+  {
+    path: 'user/overview',
+    component: UserOverviewComponent,
+    title: 'user-overview',
   },
   {
     path: 'imprint',

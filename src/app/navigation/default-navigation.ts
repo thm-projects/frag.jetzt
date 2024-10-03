@@ -271,6 +271,17 @@ export const getDefaultNavigation = (
           },
         });
       }
+      if (user) {
+        navSection.entries.push({
+          id: 'overview',
+          title: i18n.navigation.user,
+          icon: 'admin_panel_settings',
+          onClick: () => {
+            router.navigate(['/user/overview']);
+            return true;
+          },
+        });
+      }
       // app navigation
       const isPurchase = router.url.startsWith('/purchase');
       const isTransaction = router.url.startsWith('/transactions');
@@ -298,17 +309,18 @@ export const getDefaultNavigation = (
               return false;
             },
           },
-          {
-            id: 'transaction',
-            title: i18n.navigation.transaction,
-            icon: 'credit_card',
-            onClick: () => {
-              router.navigate(['/transaction']);
-              return true;
+          user &&
+            !user.isGuest && {
+              id: 'transaction',
+              title: i18n.navigation.transaction,
+              icon: 'credit_card',
+              onClick: () => {
+                router.navigate(['/transaction']);
+                return true;
+              },
+              activated: isTransaction,
             },
-            activated: isTransaction,
-          },
-        ],
+        ].filter(Boolean),
       };
       // OPTIONS
       const optionSection: M3NavigationOptionSection = {

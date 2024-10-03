@@ -4,6 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import rawI18n from './i18n.json';
+const i18n = I18nLoader.load(rawI18n);
 
 class Transaction {
   id: number;
@@ -40,6 +43,7 @@ enum Currency {
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent implements OnInit {
+  protected readonly i18n = i18n;
   private injector = inject(Injector);
   transactions: Transaction[] = [];
 
@@ -83,11 +87,12 @@ export class TransactionComponent implements OnInit {
   totalPrice(): number {
     return this.transactions
       .map((x) => x.price)
-      .reduce((prev, curr) => prev + curr);
+      .reduce((prev, curr) => prev + curr, 0);
   }
+
   totalToken(): number {
     return this.transactions
       .map((x) => x.tokens)
-      .reduce((prev, curr) => prev + curr);
+      .reduce((prev, curr) => prev + curr, 0);
   }
 }
