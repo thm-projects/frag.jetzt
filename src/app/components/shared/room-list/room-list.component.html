@@ -59,21 +59,14 @@
             *matCellDef="let room"
             (click)="setCurrentRoom(room.shortId)"
             routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}">
-            <span
-              matBadge="{{
-                room.responseCount > 0 ? room.responseCount : null
-              }}"
-              matBadgeSize="small"
-              matBadgeOverlap="false"
-              matBadgeColor="accent"
-              class="responseCountBadge"></span>
-            <span
-              matBadge="{{ room.commentCount > 0 ? room.commentCount : null }}"
-              matBadgePosition="before"
-              matBadgeSize="small"
-              matBadgeOverlap="false">
-              {{ i18n().colNameFormat | context: room }}
+            <span class="badge-container">
+              <span
+                class="mat-badge mat-badge-accent"
+                [class.mat-badge-hidden]="room.commentCount === 0">
+                <span class="mat-badge-content">{{ room.commentCount }}</span>
+              </span>
             </span>
+            {{ i18n().colNameFormat | context: room }}
           </td>
         </ng-container>
 
