@@ -1,0 +1,18 @@
+<mat-dialog-content tabindex="0">
+  <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
+  <app-app-rating
+    class="flex-item"
+    *ngIf="accumulatedRatings"
+    [ratingResults]="accumulatedRatings"></app-app-rating>
+  <app-new-landing></app-new-landing>
+  <app-yt-video-wrapper class="flex-item"></app-yt-video-wrapper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

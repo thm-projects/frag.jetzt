@@ -23,6 +23,7 @@ import { language } from 'app/base/language/language';
 import { HomePageService } from './home-page.service';
 import { MatDialog } from '@angular/material/dialog';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
+import { FirstTimeUserComponent } from '../_dialogs/first-time-user/first-time-user.component';
 
 export interface Tile {
   color: string;
@@ -87,9 +88,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     const firstTime = this.self.isFirstTimeVisitor();
     const isExtraLarge = this.windowClass() === M3WindowSizeClass.ExtraLarge;
     if (firstTime && isExtraLarge) {
-      this.dialog.open(HomePageComponent, {
-        width: '300px',
-        height: '800px',
+      this.dialog.open(FirstTimeUserComponent, {
+        backdropClass: 'blur-background',
       });
     }
   }

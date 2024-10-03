@@ -95,6 +95,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { angularInjector } from './base/angular-init';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
+import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -105,6 +106,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AppComponent,
     NewLandingComponent,
     HomePageComponent,
+    FirstTimeUserComponent,
     DemoVideoComponent,
     UserHomePageComponent,
     HomeParticipantPageComponent,
