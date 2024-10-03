@@ -22,6 +22,7 @@ import { windowWatcher } from '../../../../modules/navigation/utils/window-watch
 import { language } from 'app/base/language/language';
 import { HomePageService } from './home-page.service';
 import { MatDialog } from '@angular/material/dialog';
+import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 
 export interface Tile {
   color: string;
@@ -48,6 +49,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
   private injector = inject(Injector);
   protected featureState: boolean = false;
+  protected readonly windowClass = windowWatcher.windowState;
 
   constructor(
     private translateService: TranslateService,
@@ -83,7 +85,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     });
 
     const firstTime = this.self.isFirstTimeVisitor();
-    if (firstTime) {
+    const isExtraLarge = this.windowClass() === M3WindowSizeClass.ExtraLarge;
+    if (firstTime && isExtraLarge) {
       this.dialog.open(HomePageComponent, {
         width: '300px',
         height: '800px',

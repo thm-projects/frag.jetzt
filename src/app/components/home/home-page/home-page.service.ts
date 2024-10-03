@@ -8,7 +8,7 @@ export class HomePageService {
   private readonly _featureState: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
-  private readonly _firstTimeVisitorKey = 'user-is-first-time-visitor';
+  private readonly _userHasVisitedBefore = 'userHasVisitedBefore';
 
   constructor() {}
 
@@ -21,8 +21,8 @@ export class HomePageService {
   }
 
   isFirstTimeVisitor(): boolean {
-    if (!localStorage.getItem(this._firstTimeVisitorKey)) {
-      localStorage.setItem(this._firstTimeVisitorKey, 'true');
+    if (!localStorage.getItem(this._userHasVisitedBefore)) {
+      localStorage.setItem(this._userHasVisitedBefore, 'true');
       return true;
     }
 
