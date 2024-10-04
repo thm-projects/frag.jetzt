@@ -68,17 +68,20 @@ app-comment {
   z-index: 1;
 }
 
+.icon-button {
+  --mdc-icon-button-icon-size: 3rem;
+  --mdc-icon-button-state-layer-size: 1.25em;
+
+  mat-icon {
+    font-size: var(--mdc-icon-button-icon-size);
+    width: 1em;
+    height: 1em;
+  }
+}
+
 .search-icon {
   padding: 10px 0 10px 0;
   color: var(--on-surface);
-}
-
-.searchBarButton {
-  width: 45px !important;
-  height: 45px !important;
-  text-align: center;
-  margin: 1% 2% 1% 1%;
-  color: var(--secondary);
 }
 
 .red {
@@ -96,37 +99,13 @@ app-comment {
   background-color: var(--primary);
 }
 
-.freezeButton {
-  width: 45px;
-  height: 45px;
-  background-color: var(--background);
-}
-
 .actionIcon {
   transform: scale(1.2);
   color: var(--secondary);
 }
 
-.freezeIcon {
-  transform: scale(1.7);
-  color: var(--secondary);
-}
-
-.playIcon {
-  transform: scale(1.7);
-  color: var(--red);
-}
-
 .close {
   margin: 7px 0 5px 0;
-}
-
-.searchBarIcon {
-  font-size: 45px;
-  height: 45px;
-  width: 45px;
-  line-height: 100% !important;
-  color: var(--secondary);
 }
 
 .button-bar.joyrideActive {
