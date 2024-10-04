@@ -189,6 +189,12 @@ $min-width: 360px;
   color: var(--md-sys-color-error);
 }
 
+// Make large badges bigger
+.mat-badge-large span.mat-badge-content {
+  overflow: visible;
+  width: auto;
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: auto;
