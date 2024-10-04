@@ -1,0 +1,12 @@
+{
+  "key": "comment-board",
+  "de": {
+    "empty": "Momentan sind keine Moderationsaufgaben verfügbar."
+  },
+  "en": {
+    "empty": "No moderation tasks available at the moment."
+  },
+  "fr": {
+    "empty": "Aucune tâche de modération disponible pour le moment."
+  }
+}
