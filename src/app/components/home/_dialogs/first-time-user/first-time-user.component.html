@@ -1,11 +1,19 @@
-<mat-dialog-content tabindex="0">
-  <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
+<mat-dialog-content
+  tabindex="0"
+  style="
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: min-content;
+    margin: 0 auto;
+  ">
+  <app-frag-jetzt-logo></app-frag-jetzt-logo>
   <app-app-rating
     class="flex-item"
     *ngIf="accumulatedRatings"
     [ratingResults]="accumulatedRatings"></app-app-rating>
   <app-new-landing></app-new-landing>
-  <app-yt-video-wrapper class="flex-item"></app-yt-video-wrapper>
+  <app-yt-video-wrapper></app-yt-video-wrapper>
 </mat-dialog-content>
 
 <mat-dialog-actions>

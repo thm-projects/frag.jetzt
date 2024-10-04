@@ -87,7 +87,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
     const firstTime = this.self.isFirstTimeVisitor();
     const isExtraLarge = this.windowClass() === M3WindowSizeClass.ExtraLarge;
-    if (firstTime && isExtraLarge) {
+    const isUltraLarge = this.windowClass() === M3WindowSizeClass.UltraLarge;
+    if (firstTime && (isExtraLarge || isUltraLarge)) {
       this.dialog.open(FirstTimeUserComponent, {
         backdropClass: 'blur-background',
       });
