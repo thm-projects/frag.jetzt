@@ -87,15 +87,16 @@
             <ng-container *ngFor="let action of menuActions">
               <ng-container *ngIf="action.actionObject as obj">
                 <button
-                  mat-icon-button
-                  [disabled]="obj.disabled"
+                  mat-menu-item
                   (click)="action.onClick()"
+                  [disabled]="obj.disabled"
                   tabindex="0"
+                  [matTooltip]="obj.tooltipKey | translate"
+                  [matTooltipPosition]="'right'"
                   [attr.aria-labelledby]="obj.ariaLabel">
                   <mat-icon
                     [class]="obj.class"
-                    [matTooltip]="obj.tooltipKey | translate"
-                    [matTooltipPosition]="'right'">
+                    [class.no-margin]="true">
                     {{ obj.icon }}
                   </mat-icon>
                 </button>
@@ -147,7 +148,7 @@
                       : "",
                     beamer: comment.read
                       ? ("comment-page.a11y-text_read" | translate)
-                      : ""
+                      : "",
                   }
           }}
         </span>

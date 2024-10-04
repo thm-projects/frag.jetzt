@@ -53,8 +53,8 @@ mat-card-content > :first-child {
   color: var(--red);
 }
 
-.not-marked {
-  color: dimgray;
+.no-margin {
+  margin: 0;
 }
 
 .answered-icon {
@@ -250,6 +250,7 @@ mat-card-content > :first-child {
 
 ::ng-deep .mat-mdc-menu-panel {
   min-height: 56px !important;
+  min-width: unset;
 }
 
 .keywords-list {
