@@ -33,12 +33,16 @@ export class UserOverviewComponent {
   private injector = inject(Injector);
 
   options: Option[] = [
-    { title: 'i18n().purchase.title', content: 'test', route: '/purchase' },
-    { title: 'i18n().myRooms.title', content: 'test', route: '/user' },
-    { title: 'i18n().apiKeys.title', content: 'test', route: '/' },
+    {
+      title: 'i18n().purchase.title',
+      content: 'credit_card',
+      route: '/purchase',
+    },
+    { title: 'i18n().myRooms.title', content: 'person', route: '/user' },
+    { title: 'i18n().apiKeys.title', content: 'person', route: '/' },
     {
       title: 'i18n().transaction.title',
-      content: 'test',
+      content: 'person',
       route: '/transaction',
     },
   ];
