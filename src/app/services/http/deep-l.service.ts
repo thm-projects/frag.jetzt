@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -73,8 +72,6 @@ export enum TargetLang {
   SV = 'SV',
   ZH = 'ZH',
 }
-
-/* eslint-enable @typescript-eslint/naming-convention */
 
 export enum FormalityType {
   Default = '',
@@ -154,15 +151,12 @@ export class DeepLService extends BaseHttpService {
   }
 
   private static decodeHTML(str: string): string {
-    return (
-      str
-        // eslint-disable-next-line @typescript-eslint/quotes
-        .replace(/&apos;/g, "'")
-        .replace(/&quot;/g, '"')
-        .replace(/&gt;/g, '>')
-        .replace(/&lt;/g, '<')
-        .replace(/&amp;/g, '&')
-    );
+    return str
+      .replace(/&apos;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
   }
 
   improveDelta(body: string): Observable<[string, string]> {
@@ -191,11 +185,10 @@ export class DeepLService extends BaseHttpService {
   private checkAPIStatus(): Observable<boolean> {
     const url = '/deepl/usage';
     return this.http
-      .post<{ character_count: number; character_limit: number }>(
-        url,
-        '',
-        httpOptions,
-      )
+      .post<{
+        character_count: number;
+        character_limit: number;
+      }>(url, '', httpOptions)
       .pipe(
         tap(() => ''),
         timeout(1500),

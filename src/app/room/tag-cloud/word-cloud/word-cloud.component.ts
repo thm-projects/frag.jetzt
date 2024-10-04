@@ -160,7 +160,6 @@ export class WordCloudComponent<T extends WordMeta>
   }
 
   updateStyles() {
-    /* eslint-disable @typescript-eslint/naming-convention */
     const transform = this.parameters.textTransform || CloudTextStyle.Normal;
     const sheet = this._cssStyleElement.sheet;
     const { root, weights } = this._styleIndexes;
@@ -217,7 +216,6 @@ export class WordCloudComponent<T extends WordMeta>
           (this.parameters.fontSizeMin + fontRange * i).toFixed(0) + '%',
       });
     }
-    /* eslint-enable @typescript-eslint/naming-convention */
     const parent = this.wordCloud.nativeElement;
     if (!parent) {
       return;

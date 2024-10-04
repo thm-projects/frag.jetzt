@@ -96,7 +96,6 @@ import { angularInjector } from './base/angular-init';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
