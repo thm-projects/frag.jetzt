@@ -46,16 +46,15 @@
   </mat-form-field>
 </mat-dialog-content>
 
-<mat-dialog-actions class="row content-space-between">
+<mat-dialog-actions>
   <button
     mat-button
-    class="secondary-button"
     mat-dialog-close>
     {{ i18n().global.cancel }}
   </button>
+  <span style="flex: 1"></span>
   <button
     mat-flat-button
-    class="primary-button"
     (click)="accept()">
     {{ i18n().global.saveAndClose }}
   </button>
