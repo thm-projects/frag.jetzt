@@ -61,7 +61,7 @@
     [ngClass]="{
       'desktop-input': !isMobile,
       'mobile-input': isMobile && !search,
-      'mobile-input-2': isMobile && search
+      'mobile-input-2': isMobile && search,
     }"
     (input)="searchComments()"
     [(ngModel)]="searchString"
@@ -86,37 +86,35 @@
     fxLayoutAlign="center center">
     <button
       mat-icon-button
-      class="searchBarButton"
       (click)="resetFiltering(); activateSearch()"
       *ngIf="isMobile && !search && comments && comments.length > 0">
-      <mat-icon class="searchBarIcon">search</mat-icon>
+      <mat-icon>search</mat-icon>
     </button>
 
     <button
       id="sort-button"
       mat-icon-button
-      class="searchBarButton"
+      class="icon-button"
       aria-labelledby="swap_vert"
       *ngIf="comments && comments.length > 2 && !search && room?.mode === 'ARS'"
       [matMenuTriggerFor]="sortMenu"
       matTooltip="{{ 'comment-list.sort-comments' | translate }}">
-      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
+      <mat-icon>swap_vert</mat-icon>
     </button>
     <button
       id="sort-button"
       mat-icon-button
-      class="searchBarButton"
       aria-labelledby="swap_vert"
       *ngIf="comments && comments.length > 2 && !search && room?.mode === 'PLE'"
       [matMenuTriggerFor]="sortMenu"
       matTooltip="{{ 'comment-list.ple.sort-comments' | translate }}">
-      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
+      <mat-icon>swap_vert</mat-icon>
     </button>
 
     <button
       id="filter-button"
       mat-icon-button
-      class="searchBarButton"
+      class="icon-button"
       aria-labelledby="filter_list"
       #filterMenuTrigger="matMenuTrigger"
       *ngIf="
@@ -129,12 +127,12 @@
       (menuOpened)="openFilterMenu()"
       [ngClass]="{ 'active-filter': !!filterType }"
       matTooltip="{{ 'comment-list.filter-comments' | translate }}">
-      <mat-icon class="searchBarIcon">filter_list</mat-icon>
+      <mat-icon>filter_list</mat-icon>
     </button>
     <button
       id="filter-button"
       mat-icon-button
-      class="searchBarButton"
+      class="icon-button"
       aria-labelledby="filter_list"
       #filterMenuTrigger="matMenuTrigger"
       *ngIf="
@@ -147,68 +145,52 @@
       (menuOpened)="openFilterMenu()"
       [ngClass]="{ 'active-filter': !!filterType }"
       matTooltip="{{ 'comment-list.ple.filter-comments' | translate }}">
-      <mat-icon class="searchBarIcon">filter_list</mat-icon>
+      <mat-icon>filter_list</mat-icon>
     </button>
 
     <button
       id="time-button"
       mat-icon-button
-      class="searchBarButton"
+      class="icon-button"
       aria-labelledby="time_settings"
       *ngIf="comments && (comments.length > 0 || period !== 'All') && !search"
       [matMenuTriggerFor]="timeMenu"
       [ngClass]="{ 'active-filter': period !== 'All' }"
       matTooltip="{{ 'comment-list.select-time' | translate }}">
-      <mat-icon class="searchBarIcon">history</mat-icon>
+      <mat-icon>history</mat-icon>
     </button>
 
-    <button
-      id="pause-comments"
-      mat-icon-button
-      aria-labelledby="pause"
-      class="freezeButton"
-      *ngIf="!search && !freeze && comments.length > 0 && room?.mode === 'ARS'"
-      (click)="activateCommentStream(true)"
-      matTooltip="{{ 'comment-list.pause-comments' | translate }}">
-      <mat-icon class="freezeIcon material-icons-outlined">
-        stop_circle
-      </mat-icon>
-    </button>
-
-    <button
-      id="play-comments"
-      mat-icon-button
-      aria-labelledby="play"
-      class="freezeButton"
-      *ngIf="!search && freeze && comments.length > 0 && room?.mode === 'ARS'"
-      (click)="activateCommentStream(false)"
-      matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
-    </button>
-
-    <button
-      id="pause-comments"
-      mat-icon-button
-      aria-labelledby="pause"
-      class="freezeButton"
-      *ngIf="!search && !freeze && comments.length > 0 && room?.mode === 'PLE'"
-      (click)="activateCommentStream(true)"
-      matTooltip="{{ 'comment-list.ple.pause-comments' | translate }}">
-      <mat-icon class="freezeIcon material-icons-outlined">
-        stop_circle
-      </mat-icon>
-    </button>
-
-    <button
-      id="play-comments"
-      mat-icon-button
-      aria-labelledby="play"
-      class="freezeButton"
-      *ngIf="!search && freeze && comments.length > 0 && room?.mode === 'PLE'"
-      (click)="activateCommentStream(false)"
-      matTooltip="{{ 'comment-list.ple.play-comments' | translate }}">
-      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
-    </button>
+    @if (!search && comments.length > 0) {
+      @if (!freeze) {
+        <button
+          id="pause-comments"
+          mat-icon-button
+          aria-labelledby="pause"
+          class="icon-button"
+          (click)="activateCommentStream(true)"
+          matTooltip="{{
+            'comment-list.' +
+              (room?.mode === 'PLE' ? 'ple' : '') +
+              'pause-comments' | translate
+          }}">
+          <mat-icon>stop_circle</mat-icon>
+        </button>
+      } @else {
+        <button
+          id="play-comments"
+          mat-icon-button
+          aria-labelledby="play"
+          class="icon-button"
+          (click)="activateCommentStream(false)"
+          matTooltip="{{
+            'comment-list.' +
+              (room?.mode === 'PLE' ? 'ple' : '') +
+              'play-comments' | translate
+          }}">
+          <mat-icon>play_circle</mat-icon>
+        </button>
+      }
+    }
   </div>
 
   <mat-menu
