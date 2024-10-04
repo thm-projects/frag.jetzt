@@ -213,11 +213,11 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   }
 
   protected getQuotaMax(v: GPTVoucher) {
-    return '?' || v;
+    return v['max'] || '?';
   }
 
   protected getQuotaUsed(v: GPTVoucher) {
-    return '?' || v;
+    return v['used'] || '?';
   }
 
   private reloadConfig(): void {

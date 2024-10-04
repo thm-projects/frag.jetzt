@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Inject,
   OnDestroy,
   ViewChild,
@@ -78,14 +79,11 @@ const baseAnimationDuration = 100;
       ]),
     ]),
   ],
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {
-    '[@flyInOut]': `baseAnimationState`,
-  },
 })
 export class QwCommentFocusComponent implements OnDestroy {
   public readonly comment: ForumComment;
   destroyer: ReplaySubject<1>;
+  @HostBinding('@flyInOut')
   public baseAnimationState: '_0' | '_1' = '_1';
 
   protected answersExpanded: boolean = false;

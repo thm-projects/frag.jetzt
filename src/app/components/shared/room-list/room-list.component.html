@@ -60,18 +60,10 @@
             (click)="setCurrentRoom(room.shortId)"
             routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}">
             <span
-              matBadge="{{
-                room.responseCount > 0 ? room.responseCount : null
-              }}"
-              matBadgeSize="small"
-              matBadgeOverlap="false"
-              matBadgeColor="accent"
-              class="responseCountBadge"></span>
-            <span
-              matBadge="{{ room.commentCount > 0 ? room.commentCount : null }}"
+              [matBadge]="room.commentCount"
+              matBadgeSize="large"
               matBadgePosition="before"
-              matBadgeSize="small"
-              matBadgeOverlap="false">
+              [matBadgeHidden]="!room.commentCount">
               {{ i18n().colNameFormat | context: room }}
             </span>
           </td>
