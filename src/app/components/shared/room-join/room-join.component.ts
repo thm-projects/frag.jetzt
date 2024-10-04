@@ -159,6 +159,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
         this.addAndNavigate(parent, modSet);
         return;
       }
+      this.eventService.broadcast('roomJoined');
       this.router.navigate([`/moderator/join/${room.shortId}`]);
     });
   }
@@ -191,12 +192,12 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   }
 
   private addAndNavigate(room: Room, mods: Set<string>) {
+    this.eventService.broadcast('roomJoined');
     if (this.user.id === room.ownerId) {
       this.accountState
         .setAccess(room.shortId, room.id, UserRole.CREATOR)
         .subscribe();
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
-      this.eventService.broadcast('roomJoined');
       return;
     }
     if (mods.has(this.user.id)) {
@@ -204,13 +205,11 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
         .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
         .subscribe();
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
-      this.eventService.broadcast('roomJoined');
       return;
     }
     this.accountState
       .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
       .subscribe();
     this.router.navigate([`/participant/room/${room.shortId}/comments`]);
-    this.eventService.broadcast('roomJoined');
   }
 }
