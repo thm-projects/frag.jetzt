@@ -107,7 +107,7 @@ export class LivepollService extends BaseHttpService {
         );
         passed = true;
       }
-    } catch (e) {
+    } catch {
       console.warn('rebuild livepoll-peer-instruction');
     }
     if (!passed) {

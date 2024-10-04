@@ -13,7 +13,6 @@ import {
 } from '../../utils/ImportExportMethods';
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 

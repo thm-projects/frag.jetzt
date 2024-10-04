@@ -658,7 +658,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getFilteredProfanity(): string {
     if (this.testProfanityWord) {
-      // eslint-disable-next-line max-len
       return this.profanityFilterService.filterProfanityWords(
         this.testProfanityWord,
         this.censorPartialWordsCheck,
