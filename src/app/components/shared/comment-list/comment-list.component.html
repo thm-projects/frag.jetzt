@@ -43,11 +43,11 @@
   <button
     id="filter-close-button"
     mat-icon-button
-    class="searchBarButton"
+    class="icon-button"
     *ngIf="filterType || filterBrainstorming"
     (click)="resetFiltering()"
     aria-labelledby="close_filter">
-    <mat-icon class="searchBarIcon red">close</mat-icon>
+    <mat-icon class="red">close</mat-icon>
   </button>
   <mat-label
     *ngIf="!isMobile"
@@ -70,7 +70,7 @@
   <button
     id="search_close-button"
     mat-icon-button
-    class="searchBarButton close red"
+    class="icon-button close red"
     *ngIf="searchString || search"
     (click)="abortSearch()"
     aria-labelledby="close_search">
@@ -86,79 +86,62 @@
     fxLayoutAlign="center center">
     <button
       mat-icon-button
+      class="icon-button"
       (click)="resetFiltering(); activateSearch()"
       *ngIf="isMobile && !search && comments && comments.length > 0">
       <mat-icon>search</mat-icon>
     </button>
 
-    <button
-      id="sort-button"
-      mat-icon-button
-      class="icon-button"
-      aria-labelledby="swap_vert"
-      *ngIf="comments && comments.length > 2 && !search && room?.mode === 'ARS'"
-      [matMenuTriggerFor]="sortMenu"
-      matTooltip="{{ 'comment-list.sort-comments' | translate }}">
-      <mat-icon>swap_vert</mat-icon>
-    </button>
-    <button
-      id="sort-button"
-      mat-icon-button
-      aria-labelledby="swap_vert"
-      *ngIf="comments && comments.length > 2 && !search && room?.mode === 'PLE'"
-      [matMenuTriggerFor]="sortMenu"
-      matTooltip="{{ 'comment-list.ple.sort-comments' | translate }}">
-      <mat-icon>swap_vert</mat-icon>
-    </button>
+    @if (comments && comments.length > 2 && !search) {
+      <button
+        id="sort-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="swap_vert"
+        [matMenuTriggerFor]="sortMenu"
+        [matTooltip]="
+          'comment-list.' +
+            (room?.mode === 'PLE' ? 'ple.' : '') +
+            'sort-comments' | translate
+        ">
+        <mat-icon>swap_vert</mat-icon>
+      </button>
+    }
 
-    <button
-      id="filter-button"
-      mat-icon-button
-      class="icon-button"
-      aria-labelledby="filter_list"
-      #filterMenuTrigger="matMenuTrigger"
-      *ngIf="
-        ((comments && commentsFilteredByTimeLength > 2) ||
-          filterBrainstorming) &&
-        !search &&
-        room?.mode === 'ARS'
-      "
-      [matMenuTriggerFor]="filterMenu"
-      (menuOpened)="openFilterMenu()"
-      [ngClass]="{ 'active-filter': !!filterType }"
-      matTooltip="{{ 'comment-list.filter-comments' | translate }}">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-    <button
-      id="filter-button"
-      mat-icon-button
-      class="icon-button"
-      aria-labelledby="filter_list"
-      #filterMenuTrigger="matMenuTrigger"
-      *ngIf="
-        ((comments && commentsFilteredByTimeLength > 2) ||
-          filterBrainstorming) &&
-        !search &&
-        room?.mode === 'PLE'
-      "
-      [matMenuTriggerFor]="filterMenu"
-      (menuOpened)="openFilterMenu()"
-      [ngClass]="{ 'active-filter': !!filterType }"
-      matTooltip="{{ 'comment-list.ple.filter-comments' | translate }}">
-      <mat-icon>filter_list</mat-icon>
-    </button>
+    @if (
+      !search &&
+      ((comments && commentsFilteredByTimeLength > 2) || filterBrainstorming)
+    ) {
+      <button
+        id="filter-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="filter_list"
+        #filterMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="filterMenu"
+        (menuOpened)="openFilterMenu()"
+        [ngClass]="{ 'active-filter': !!filterType }"
+        matTooltip="{{
+          'comment-list.' +
+            (room?.mode === 'PLE' ? 'ple.' : '') +
+            'filter-comments' | translate
+        }}">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    }
 
-    <button
-      id="time-button"
-      mat-icon-button
-      class="icon-button"
-      aria-labelledby="time_settings"
-      *ngIf="comments && (comments.length > 0 || period !== 'All') && !search"
-      [matMenuTriggerFor]="timeMenu"
-      [ngClass]="{ 'active-filter': period !== 'All' }"
-      matTooltip="{{ 'comment-list.select-time' | translate }}">
-      <mat-icon>history</mat-icon>
-    </button>
+    @if (!search && comments && (comments.length > 0 || period !== "All")) {
+      <button
+        id="time-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="time_settings"
+        [matMenuTriggerFor]="timeMenu"
+        [ngClass]="{ 'active-filter': period !== 'All' }"
+        [matTooltip]="'comment-list.select-time' | translate">
+        <mat-icon>history</mat-icon>
+      </button>
+    }
 
     @if (!search && comments.length > 0) {
       @if (!freeze) {
@@ -170,7 +153,7 @@
           (click)="activateCommentStream(true)"
           matTooltip="{{
             'comment-list.' +
-              (room?.mode === 'PLE' ? 'ple' : '') +
+              (room?.mode === 'PLE' ? 'ple.' : '') +
               'pause-comments' | translate
           }}">
           <mat-icon>stop_circle</mat-icon>
@@ -184,7 +167,7 @@
           (click)="activateCommentStream(false)"
           matTooltip="{{
             'comment-list.' +
-              (room?.mode === 'PLE' ? 'ple' : '') +
+              (room?.mode === 'PLE' ? 'ple.' : '') +
               'play-comments' | translate
           }}">
           <mat-icon>play_circle</mat-icon>
