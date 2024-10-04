@@ -250,6 +250,8 @@ mat-card-content > :first-child {
 
 ::ng-deep .mat-mdc-menu-panel {
   min-height: 56px !important;
+  min-width: 50px;
+  padding: 6px;
 }
 
 .keywords-list {
