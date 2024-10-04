@@ -9,6 +9,8 @@ import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.componen
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { ChatGPTPromptPresetComponent } from './components/shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
+import { TransactionComponent } from './paypal/transaction/transaction.component';
+import { UserOverviewComponent } from './user/user-overview/user-overview.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +27,11 @@ const routes: Routes = [
     path: 'user',
     component: UserHomePageComponent,
     title: 'user',
+  },
+  {
+    path: 'user/overview',
+    component: UserOverviewComponent,
+    title: 'user-overview',
   },
   {
     path: 'imprint',
@@ -55,6 +62,11 @@ const routes: Routes = [
     path: 'purchase',
     component: PaymentRouteComponent,
     title: 'purchase',
+  },
+  {
+    path: 'transaction',
+    component: TransactionComponent,
+    title: 'transaction',
   },
   {
     path: 'admin',

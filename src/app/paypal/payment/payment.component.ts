@@ -288,7 +288,7 @@ export class PaymentComponent implements OnInit {
       notation: 'compact',
     });
     const pre = aboutSymbol ? '~ ' : '';
-    if (num >= 1_000 && num < 1_000_000 && language() === 'de') {
+    if (num >= 995 && num < 995_000 && language() === 'de') {
       num /= 1_000;
       return `${pre}${format.format(num)} Tsd.`;
     }
