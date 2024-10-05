@@ -155,11 +155,15 @@
       </div>
       <ng-container *ngIf="!comment?.brainstormingWordId">
         <div
+          style="
+            display: flex;
+            gap: 1em;
+            align-items: center;
+            flex-direction: column;
+          "
           [joyrideStep]="'voting'"
           [stepPosition]="'left'"
           appJoyrideTemplate
-          fxLayout="column"
-          fxLayoutAlign="center"
           *ngIf="isStudent && usesJoyride"
           [ngClass]="
             { '1': 'voteUp', '-1': 'voteDown', '0': 'reset' }[currentVote]
@@ -167,8 +171,12 @@
           <ng-container [ngTemplateOutlet]="voting"></ng-container>
         </div>
         <div
-          fxLayout="column"
-          fxLayoutAlign="center"
+          style="
+            display: flex;
+            gap: 1em;
+            align-items: center;
+            flex-direction: column;
+          "
           *ngIf="isStudent && !usesJoyride"
           [ngClass]="
             { '1': 'voteUp', '-1': 'voteDown', '0': 'reset' }[currentVote]
@@ -177,10 +185,14 @@
         </div>
         <div
           *ngIf="!isStudent"
-          fxLayout="column"
-          fxLayoutAlign="center">
+          style="
+            display: flex;
+            gap: 1em;
+            align-items: center;
+            flex-direction: column;
+          ">
           <span
-            class="scoreCreator"
+            class="score"
             matTooltip="{{
               ('comment-page.upvote' | translate) +
                 ' ' +
@@ -493,6 +505,7 @@
 <ng-template #voting>
   <button
     mat-icon-button
+    class="icon-button"
     (click)="voteUp(comment)"
     *ngIf="!disabled && user && comment.creatorId !== user.id"
     matTooltip="{{ 'comment-page.vote-up' | translate }}"
@@ -500,11 +513,7 @@
     tabindex="0"
     [disabled]="!user || comment.creatorId === user.id"
     attr.aria-labelledby="comment_vote_up{{ comment.id }}">
-    <mat-icon
-      class="voting-icon material-icons-outlined"
-      [ngClass]="{ upVoted: hasVoted === 1 }">
-      thumb_up
-    </mat-icon>
+    <mat-icon [ngClass]="{ upVoted: hasVoted === 1 }">thumb_up</mat-icon>
   </button>
   <span
     class="score"
@@ -522,17 +531,14 @@
   </span>
   <button
     mat-icon-button
+    class="icon-button"
     (click)="voteDown(comment)"
     *ngIf="!disabled && user && comment.creatorId !== user.id"
     matTooltip="{{ 'comment-page.vote-down' | translate }}"
     [matTooltipPosition]="'right'"
     tabindex="0"
     attr.aria-labelledby="comment_vote_down{{ comment.id }}">
-    <mat-icon
-      class="voting-icon material-icons-outlined"
-      [ngClass]="{ downVoted: hasVoted === -1 }">
-      thumb_down
-    </mat-icon>
+    <mat-icon [ngClass]="{ downVoted: hasVoted === -1 }">thumb_down</mat-icon>
   </button>
 </ng-template>
 
