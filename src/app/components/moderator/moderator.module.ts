@@ -16,7 +16,6 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { ModeratorJoinComponent } from './moderator-join/moderator-join.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 

@@ -40,7 +40,7 @@ export const TEXT_STYLES = [
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
-const POSSIBLE_FONT_FAMILIES = [
+export const POSSIBLE_FONT_FAMILIES = [
   'sans-serif',
   'Abril Fatface',
   'Dancing Script',

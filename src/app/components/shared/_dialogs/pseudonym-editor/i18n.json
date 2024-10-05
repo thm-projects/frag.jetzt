@@ -1,0 +1,34 @@
+{
+  "key": "pseudeonym-editor",
+  "de": {
+    "name": "Wird beim Posten verwendet …",
+    "title": "Mein Forumsname",
+    "deepl": "Duzen oder Siezen?",
+    "default": "Voreinstellung",
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "less": "Duzen",
+    "more": "Siezen",
+    "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein."
+    
+  },
+  "en": {
+    "name": "Used when posting …",
+    "title": "My forum name",
+    "deepl": "Informal or formal?",
+    "default": "Default",
+    "error": "The text could not be updated.",
+    "less": "Informal",
+    "more": "Formal",
+    "nameLengthError": "The name must be {{min}} to {{max}} characters long."
+  },
+  "fr": {
+    "name": "Utilisé lors de la post …",
+    "title": "Mon nom de forum",
+    "deepl": "Tutoyer ou vouvoyer ?",
+    "default": "Préréglage",
+    "error": "Le texte n'a pas pu être mis à jour.",
+    "less": "Informel",
+    "more": "Formel",
+    "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères."
+  }
+}

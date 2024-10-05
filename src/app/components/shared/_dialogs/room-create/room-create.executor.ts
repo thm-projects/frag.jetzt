@@ -94,10 +94,8 @@ export const generateRoom = (
   const brainstorming =
     featureSettings?.brainstorming ?? defaults.brainstorming;
   // TODO(update room settings)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const radar = featureSettings?.radar ?? defaults.radar;
   // TODO(update room settings)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const focus = featureSettings?.focus ?? defaults.focus;
   const newRoom = new Room({
     name,

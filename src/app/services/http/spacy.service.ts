@@ -12,7 +12,6 @@ export interface SpacyKeyword {
 }
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
@@ -37,11 +36,9 @@ export class SpacyService extends BaseHttpService {
     return (
       this.checkCanSendRequest('getKeywords') ||
       this.http
-        .post<SpacyKeyword[]>(
-          url,
-          { text, model, brainstorming: String(brainstorming) },
-          httpOptions,
-        )
+        .post<
+          SpacyKeyword[]
+        >(url, { text, model, brainstorming: String(brainstorming) }, httpOptions)
         .pipe(
           tap(() => ''),
           timeout(2500),

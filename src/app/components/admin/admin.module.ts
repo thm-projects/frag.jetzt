@@ -23,7 +23,6 @@ import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/admin/', '.json');
 

@@ -6,7 +6,6 @@ import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UUID, verifyInstance } from 'app/utils/ts-utils';
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 

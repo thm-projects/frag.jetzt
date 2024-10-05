@@ -36,7 +36,6 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
 import { MatDialogModule } from '@angular/material/dialog';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 

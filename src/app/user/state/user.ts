@@ -184,7 +184,6 @@ const loadKeycloakAccount = (
         refreshToken = user.keycloakRefreshToken;
       }
       const keycloak = injector.get(KeycloakService);
-      4;
       return forkJoin([
         keycloak.doKeycloakLogin(
           id,

@@ -7,7 +7,6 @@ import { catchError, tap } from 'rxjs/operators';
 import { RatingResult } from '../../models/rating-result';
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
