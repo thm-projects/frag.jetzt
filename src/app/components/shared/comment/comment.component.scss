@@ -145,6 +145,7 @@ mat-card-content > :first-child {
 .user-icon,
 .mat-icon {
   transform: scale(1);
+  position: relative;
 }
 
 .date-container {
@@ -246,6 +247,7 @@ mat-card-content > :first-child {
   color: var(--secondary);
   margin-right: 6px;
   margin-left: 10px;
+  overflow: visible;
 }
 
 ::ng-deep .mat-mdc-menu-panel {
@@ -290,8 +292,7 @@ mat-card-content > :first-child {
 }
 
 ::ng-deep .mat-badge-content {
-  background: var(--secondary);
-  color: var(--on-secondary);
+  color: var(--on-primary);
 }
 
 .user-number {
