@@ -38,11 +38,15 @@ mat-card-content > :first-child {
   color: var(--on-surface) !important;
 }
 
-.voting-icon {
-  width: 36px;
-  height: 36px;
-  font-size: 36px;
-  color: var(--on-surface);
+.icon-button {
+  --mdc-icon-button-icon-size: 2rem;
+  --mdc-icon-button-state-layer-size: 1.25em;
+
+  mat-icon {
+    font-size: var(--mdc-icon-button-icon-size);
+    width: 1em;
+    height: 1em;
+  }
 }
 
 .upVoted {
@@ -104,25 +108,9 @@ mat-card-content > :first-child {
 }
 
 .score {
-  min-width: 40px;
+  min-width: 2em;
   text-align: center;
-  margin-top: 3px;
-  color: var(--primary);
-  font-size: 24px;
-
-  @media (max-width: 330px) {
-    margin-left: -20px !important;
-  }
-}
-
-.scoreCreator {
-  color: var(--primary);
-  margin-right: 10px;
-  font-size: 24px;
-
-  @media (max-width: 330px) {
-    margin-left: -20px !important;
-  }
+  font-size: 2rem;
 }
 
 .body {
