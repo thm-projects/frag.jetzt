@@ -95,6 +95,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { angularInjector } from './base/angular-init';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
+import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -104,6 +105,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AppComponent,
     NewLandingComponent,
     HomePageComponent,
+    FirstTimeUserComponent,
     DemoVideoComponent,
     UserHomePageComponent,
     HomeParticipantPageComponent,
