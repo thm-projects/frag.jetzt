@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import {
   MatDialog,
   MatDialogActions,
@@ -16,7 +16,17 @@ import {
   DialogResult,
   TextDialogConfig,
 } from './text-dialog.types';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 const i18n = I18nLoader.builder().build();
+
+export const CLOSE_BUTTON = computed(() => {
+  return {
+    type: 'button',
+    onClick: (ref) => ref.close(),
+    text: i18n().global.close,
+  } satisfies DialogButton;
+});
 
 @Component({
   selector: 'app-text-dialog',
@@ -27,6 +37,8 @@ const i18n = I18nLoader.builder().build();
     MatDialogContent,
     MatDialogTitle,
     MatDialogActions,
+    MatProgressSpinnerModule,
+    MatIconModule,
     CustomMarkdownModule,
   ],
   styleUrls: ['./text-dialog.component.scss'],
@@ -34,7 +46,7 @@ const i18n = I18nLoader.builder().build();
 export class TextDialogComponent {
   protected readonly i18n = i18n;
   protected data = input.required<TextDialogConfig>();
-  private cachedClick: Set<DialogButton> = new Set();
+  protected cachedClick = signal(new Set<DialogButton>());
   private dialogRef = inject(MatDialogRef<TextDialogComponent>);
   private notificaton = inject(NotificationService);
 
@@ -51,11 +63,15 @@ export class TextDialogComponent {
     if (!button.onClick) {
       return;
     }
-    if (this.cachedClick.has(button)) {
+    if (this.cachedClick().has(button)) {
       return;
     }
     const result = button.onClick(this.dialogRef);
-    this.cachedClick.add(button);
+    this.cachedClick.update((clicks) => {
+      const newObj = new Set(clicks);
+      newObj.add(button);
+      return newObj;
+    });
     const observable = (
       isObservable(result) ? result : from(Promise.resolve(result))
     ) as Observable<DialogResult | boolean>;
@@ -72,7 +88,12 @@ export class TextDialogComponent {
           this.notificaton.show(value.text);
         }
       },
-      complete: () => this.cachedClick.delete(button),
+      complete: () =>
+        this.cachedClick.update((clicks) => {
+          const newObj = new Set(clicks);
+          newObj.delete(button);
+          return newObj;
+        }),
     });
   }
 }
