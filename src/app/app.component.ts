@@ -132,7 +132,6 @@ export class AppComponent implements OnInit {
       this.isExtended = !!state['isExtended'];
       localStorage.setItem('__debug', JSON.stringify(state));
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleHighlight: function () {
       const state = this.__loadDebug();
       console.log(state);
@@ -292,7 +291,6 @@ export class AppComponent implements OnInit {
     private webPush: WebPushService,
     deviceState: DeviceStateService,
     initService: InitService,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
     protected m3NavigationService: M3NavigationService,

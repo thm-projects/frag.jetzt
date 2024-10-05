@@ -22,7 +22,6 @@ export interface GPTModel {
   encoderName: string;
 }
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',

@@ -1,0 +1,36 @@
+mat-grid-list {
+  width: 100%;
+  /* Ensure grid list takes full width */
+}
+
+mat-grid-tile {
+  display: flex;
+  /* Allows flex properties on tile */
+  justify-content: center;
+  /* Center content */
+}
+
+.responsive-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+
+.card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  /* Makes the content area flexible */
+  width: 100%;
+  /* Full width for content */
+}
+
+.large-icon {
+  transform: scale(2);
+}

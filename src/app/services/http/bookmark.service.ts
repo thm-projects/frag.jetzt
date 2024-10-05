@@ -6,7 +6,6 @@ import { catchError, tap } from 'rxjs/operators';
 import { Bookmark } from '../../models/bookmark';
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 

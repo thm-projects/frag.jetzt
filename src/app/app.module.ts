@@ -97,7 +97,6 @@ import { PaymentRouteComponent } from './paypal/payment-route/payment-route.comp
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
