@@ -1,9 +1,6 @@
 <div
   fxLayout="row"
-  *ngIf="
-    comments.length > 0 || filterType || period !== 'All' || search;
-    else empty
-  "
+  *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
   [ngClass]="{ 'search-container': !scroll, 'search-container-fixed': scroll }"
   (window:scroll)="checkScroll()"
   fxLayoutAlign="center">
@@ -462,4 +459,12 @@
   </div>
 </div>
 
-<ng-template #empty>Empty</ng-template>
+<div
+  *ngIf="comments.length === 0 && !filterType && !search"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="no-comments">
+  <p>
+    <strong>{{ i18n().empty }}</strong>
+  </p>
+</div>

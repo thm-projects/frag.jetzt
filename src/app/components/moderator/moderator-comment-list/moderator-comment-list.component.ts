@@ -49,6 +49,11 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { user$ } from 'app/user/state/user';
 
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+
+const i18n = I18nLoader.load(rawI18n);
+
 @Component({
   selector: 'app-moderator-comment-list',
   templateUrl: './moderator-comment-list.component.html',
@@ -101,6 +106,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private destroyer = new ReplaySubject(1);
+  protected readonly i18n = i18n;
 
   constructor(
     private commentService: CommentService,
@@ -379,5 +385,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         });
       },
     );
+  }
+  getEmptyMessage(): string {
+    if (this.comments.length === 0) {
+      return this.i18n().empty;
+    }
+    return '';
   }
 }
