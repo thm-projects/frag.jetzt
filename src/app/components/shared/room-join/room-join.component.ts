@@ -29,6 +29,7 @@ import { SessionService } from '../../../services/util/session.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { forceLogin, user$ } from 'app/user/state/user';
+import { EventService } from 'app/services/util/event.service';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -71,6 +72,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
     private moderatorService: ModeratorService,
     public sessionService: SessionService,
     private accountState: AccountStateService,
+    private eventService: EventService,
   ) {}
 
   ngOnInit() {
@@ -157,6 +159,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
         this.addAndNavigate(parent, modSet);
         return;
       }
+      this.eventService.broadcast('roomJoined');
       this.router.navigate([`/moderator/join/${room.shortId}`]);
     });
   }
@@ -189,6 +192,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   }
 
   private addAndNavigate(room: Room, mods: Set<string>) {
+    this.eventService.broadcast('roomJoined');
     if (this.user.id === room.ownerId) {
       this.accountState
         .setAccess(room.shortId, room.id, UserRole.CREATOR)

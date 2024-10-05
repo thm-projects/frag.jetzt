@@ -11,6 +11,7 @@ import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
 import { user$ } from 'app/user/state/user';
+import { EventService } from 'app/services/util/event.service';
 
 @Component({
   selector: 'app-new-landing',
@@ -25,6 +26,7 @@ export class NewLandingComponent {
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
+    private eventService: EventService,
   ) {}
 
   openCreateRoomDialog(): void {
@@ -39,7 +41,7 @@ export class NewLandingComponent {
         }),
       )
       .subscribe(([apiKeys, vouchers]) => {
-        MultiLevelDialogComponent.open(
+        const dialogRef = MultiLevelDialogComponent.open(
           this.dialog,
           MULTI_LEVEL_ROOM_CREATE,
           generateRoom,
@@ -48,6 +50,10 @@ export class NewLandingComponent {
             vouchers,
           },
         );
+
+        dialogRef.afterClosed().subscribe(() => {
+          this.eventService.broadcast('dialogClosed');
+        });
       });
   }
 }
