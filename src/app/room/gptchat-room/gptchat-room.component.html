@@ -1,4 +1,101 @@
-<div class="chat-layout">
+<div class="layout-container">
+  <div class="header">
+    <div class="options">
+      <button
+        mat-button
+        (click)="isOpen.set(!isOpen())">
+        <mat-icon>
+          {{ isOpen() ? "left_panel_close" : "left_panel_open" }}
+        </mat-icon>
+        {{ isOpen() ? i18n().close : i18n().open }}
+      </button>
+      <button
+        mat-button
+        (click)="selectedThread.set(null)">
+        <mat-icon>edit_square</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    </div>
+    <div
+      class="options"
+      [ngClass]="{ 'no-delete-button': selectedThread() === null }">
+      <button
+        [matMenuTriggerFor]="assistantMenu"
+        mat-button>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        {{ selectedAssistantName() }}
+      </button>
+      <button
+        *ngIf="selectedThread() !== null"
+        mat-button
+        (click)="deleteThread()">
+        <mat-icon>delete</mat-icon>
+        {{ i18n().delete }}
+      </button>
+    </div>
+  </div>
+  <div class="content">
+    <div
+      class="history"
+      *ngIf="isOpen()">
+      <ng-container *ngFor="let group of threadGroups()">
+        <ng-container *ngIf="group.threads.length > 0">
+          <div class="group">
+            <div class="header">
+              <span>{{ getDynamicI18n(group.label) }}</span>
+              <div class="group-number">
+                <span>{{ group.threads.length }}</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let entry of group.threads">
+              <button
+                mat-list-item
+                [activated]="selectedThread() === entry"
+                (click)="openThread(entry)">
+                <span matListItemTitle>{{ entry.headLine }}</span>
+              </button>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <app-ai-chat
+      class="chat"
+      [(selectedAssistant)]="selectedAssistant"
+      [messages]="currentMessages()"
+      [canSend]="state() === 'ready'"
+      [overrideMessage]="overrideMessage()"
+      [isPrivileged]="isPrivileged()"
+      [assistRefs]="assistRefs()"
+      [onNewClick]="onNewClick.bind(this)"
+      [onSend]="onSend"
+      (deleteThread)="deleteThread()"
+      [selectedThread]="selectedThread()"></app-ai-chat>
+  </div>
+</div>
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of sortedAssistRefs(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry.ref.id === selectedAssistant()"
+      (click)="selectedAssistant.set(entry.ref.id)">
+      {{ entry.assistant.name }}
+      @if (entry.ref.id === selectedAssistant()) {
+        <mat-icon>check</mat-icon>
+      }
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()">
+      <em>Create Assistant</em>
+    </button>
+  }
+</mat-menu>
+
+<!--<div class="chat-layout">
   <div
     class="visible-only-if-closed"
     *ngIf="!isOpen()">
@@ -94,4 +191,4 @@
       </button>
     }
   </app-ai-chat>
-</div>
+</div>-->

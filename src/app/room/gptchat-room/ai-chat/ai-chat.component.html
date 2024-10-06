@@ -1,38 +1,5 @@
-@if (updatedMessages().length === 0) {
+<!--@if (updatedMessages().length === 0) {
   <div class="container">
-    <div class="header">
-      <div class="options">
-        <button
-          [matMenuTriggerFor]="assistantMenu"
-          mat-button>
-          <mat-icon [matTooltip]="i18n().assistant">
-            keyboard_arrow_down
-          </mat-icon>
-          {{ selectedAssistantName() }}
-        </button>
-
-        <mat-menu #assistantMenu="matMenu">
-          @for (entry of sortedAssistRefs(); track entry) {
-            <button
-              mat-menu-item
-              [disabled]="entry.ref.id === selectedAssistant()"
-              (click)="selectedAssistant.set(entry.ref.id)">
-              {{ entry.assistant.name }}
-              @if (entry.ref.id === selectedAssistant()) {
-                <mat-icon>check</mat-icon>
-              }
-            </button>
-          }
-          @if (isPrivileged()) {
-            <button
-              mat-menu-item
-              (click)="onNewClick()()">
-              <em>{{ i18n().createAssistant }}</em>
-            </button>
-          }
-        </mat-menu>
-      </div>
-    </div>
     <div class="inner-container">
       <div class="titles">
         <span class="title">{{ i18n().title }}</span>
@@ -131,47 +98,6 @@
   </div>
 } @else {
   <div class="container chat">
-    <div class="header">
-      <div class="options">
-        <button
-          [matMenuTriggerFor]="assistantMenu"
-          mat-button>
-          <mat-icon [matTooltip]="i18n().assistant">
-            keyboard_arrow_down
-          </mat-icon>
-          {{ selectedAssistantName() }}
-        </button>
-
-        <button
-          mat-button
-          (click)="delete()">
-          <mat-icon [matTooltip]="i18n().assistant">delete</mat-icon>
-          {{ i18n().delete_conversation }}
-        </button>
-
-        <mat-menu #assistantMenu="matMenu">
-          @for (entry of sortedAssistRefs(); track entry) {
-            <button
-              mat-menu-item
-              [disabled]="entry.ref.id === selectedAssistant()"
-              (click)="selectedAssistant.set(entry.ref.id)">
-              @if (entry.ref.id === selectedAssistant()) {
-                <mat-icon>check</mat-icon>
-              }
-              {{ entry.assistant.name }}
-            </button>
-          }
-          @if (isPrivileged()) {
-            <button
-              mat-menu-item
-              (click)="onNewClick()()">
-              <em>{{ i18n().createAssistant }}</em>
-            </button>
-          }
-        </mat-menu>
-      </div>
-    </div>
-
     <div
       #scroll
       class="messages-container">
@@ -302,3 +228,24 @@
     }
   </div>
 }
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of sortedAssistRefs(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry.ref.id === selectedAssistant()"
+      (click)="selectedAssistant.set(entry.ref.id)">
+      @if (entry.ref.id === selectedAssistant()) {
+        <mat-icon>check</mat-icon>
+      }
+      {{ entry.assistant.name }}
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()()">
+      <em>{{ i18n().createAssistant }}</em>
+    </button>
+  }
+</mat-menu>-->
