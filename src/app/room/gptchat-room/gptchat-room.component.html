@@ -3,11 +3,11 @@
     <div class="options">
       <button
         mat-button
-        (click)="isOpen.set(!isOpen())">
+        (click)="drawer.toggle()">
         <mat-icon>
-          {{ isOpen() ? "left_panel_close" : "left_panel_open" }}
+          {{ isOpen ? "left_panel_close" : "left_panel_open" }}
         </mat-icon>
-        {{ isOpen() ? i18n().close : i18n().open }}
+        {{ isOpen ? i18n().close : i18n().open }}
       </button>
       <button
         mat-button
@@ -34,10 +34,11 @@
       </button>
     </div>
   </div>
-  <div class="content">
-    <div
-      class="history"
-      *ngIf="isOpen()">
+  <mat-drawer-container class="content">
+    <mat-drawer
+      #drawer
+      mode="over"
+      class="history-container">
       <ng-container *ngFor="let group of threadGroups()">
         <ng-container *ngIf="group.threads.length > 0">
           <div class="group">
@@ -58,9 +59,9 @@
           </div>
         </ng-container>
       </ng-container>
-    </div>
+    </mat-drawer>
+
     <app-ai-chat
-      class="chat"
       [(selectedAssistant)]="selectedAssistant"
       [messages]="currentMessages()"
       [canSend]="state() === 'ready'"
@@ -71,7 +72,7 @@
       [onSend]="onSend"
       (deleteThread)="deleteThread()"
       [selectedThread]="selectedThread()"></app-ai-chat>
-  </div>
+  </mat-drawer-container>
 </div>
 
 <mat-menu #assistantMenu="matMenu">
@@ -94,101 +95,3 @@
     </button>
   }
 </mat-menu>
-
-<!--<div class="chat-layout">
-  <div
-    class="visible-only-if-closed"
-    *ngIf="!isOpen()">
-    <button
-      mat-button
-      (click)="isOpen.set(true)">
-      <mat-icon>left_panel_open</mat-icon>
-      {{ i18n().open }}
-    </button>
-    <button
-      mat-button
-      (click)="selectedThread.set(null)">
-      <mat-icon>edit_square</mat-icon>
-      {{ i18n().newChat }}
-    </button>
-  </div>
-  <mat-action-list
-    class="history-container"
-    [class.open]="isOpen()">
-    <div class="actions">
-      <button
-        mat-button
-        (click)="isOpen.set(false)">
-        <mat-icon>left_panel_open</mat-icon>
-        {{ i18n().close }}
-      </button>
-      <button
-        mat-button
-        (click)="selectedThread.set(null)">
-        <mat-icon>edit_square</mat-icon>
-        {{ i18n().newChat }}
-      </button>
-    </div>
-    <div class="history">
-      <ng-container *ngFor="let group of threadGroups()">
-        <ng-container *ngIf="group.threads.length > 0">
-          <div class="group">
-            <div class="header">
-              <span>{{ getDynamicI18n(group.label) }}</span>
-              <div class="group-number">
-                <span>{{ group.threads.length }}</span>
-              </div>
-            </div>
-            <ng-container *ngFor="let entry of group.threads">
-              <button
-                mat-list-item
-                [activated]="selectedThread() === entry"
-                (click)="openThread(entry)"
-                style="
-                  padding: 8px;
-                  margin: 0;
-                  height: auto;
-                  border-radius: 8px;
-                ">
-                <span matListItemTitle>{{ entry.headLine }}</span>
-              </button>
-            </ng-container>
-          </div>
-        </ng-container>
-      </ng-container>
-    </div>
-  </mat-action-list>
-  <hr
-    style="color: var(--md-sys-color-surface3); opacity: 0.1"
-    *ngIf="isOpen()" />
-  <app-ai-chat
-    class="chat-pane"
-    [(selectedAssistant)]="selectedAssistant"
-    [messages]="currentMessages()"
-    [canSend]="state() === 'ready'"
-    [overrideMessage]="overrideMessage()"
-    [isPrivileged]="isPrivileged()"
-    [assistRefs]="assistRefs()"
-    [onNewClick]="onNewClick.bind(this)"
-    [onSend]="onSend"
-    (deleteThread)="deleteThread()"
-    [selectedThread]="selectedThread()">
-    @if (!isOpen()) {
-      <button
-        mat-button
-        (click)="isOpen.set(true)">
-        <mat-icon>left_panel_open</mat-icon>
-        {{ i18n().open }}
-      </button>
-    }
-    @if (selectedThread() !== null && !isOpen()) {
-      <button
-        mat-button
-        class="material-symbols-outlined"
-        (click)="selectedThread.set(null)">
-        <mat-icon>chat_add_on</mat-icon>
-        {{ i18n().newChat }}
-      </button>
-    }
-  </app-ai-chat>
-</div>-->

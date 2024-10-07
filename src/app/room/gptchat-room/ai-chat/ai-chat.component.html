@@ -1,3 +1,99 @@
+<div class="container">
+  @if (updatedMessages().length === 0) {
+    <div class="inner-container">
+      <div class="title">
+        <mat-icon svgIcon="fj_robot"></mat-icon>
+        <span>{{ i18n().title }}</span>
+      </div>
+
+      @if (!overrideMessage()) {
+        <div class="wrapper">
+          <div class="input-container">
+            <textarea
+              matInput
+              rows="2"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="7"
+              [formControl]="inputMessage"
+              [placeholder]="i18n().placeholder"
+              #inputElem
+              (keydown)="onKeyDown($event)"
+              (input)="updateHeight(inputElem)"></textarea>
+
+            @if (files().length; as length) {
+              <div
+                class="attachments"
+                style="max-height: 200px; overflow-y: auto">
+                @for (file of files(); track file) {
+                  <div class="file-box">
+                    <mat-icon class="file-icon">description</mat-icon>
+                    <span class="file-name">{{ file.name }}</span>
+                  </div>
+                }
+              </div>
+            }
+
+            <div class="actions">
+              <div class="left-buttons">
+                <button
+                  mat-button
+                  (click)="fileInput.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  {{ i18n().attachment }}
+                  <input
+                    #fileInput
+                    (change)="onFileChange(fileInput.files)"
+                    type="file"
+                    multiple
+                    accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+                    style="display: none" />
+                </button>
+                <button
+                  mat-button
+                  [matMenuTriggerFor]="assistantMenu">
+                  <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+                  {{ i18n().more }}
+                </button>
+              </div>
+
+              @if (canSend()) {
+                <button
+                  (click)="sendMessage()"
+                  mat-icon-button
+                  class="send-button">
+                  <mat-icon>arrow_upward</mat-icon>
+                </button>
+              } @else {
+                <mat-spinner
+                  matSuffix
+                  [diameter]="24"
+                  [strokeWidth]="2"></mat-spinner>
+              }
+            </div>
+          </div>
+
+          <div class="topics">
+            @for (topic of exampleTopics; track topic) {
+              <button
+                mat-button
+                class="topic"
+                (click)="sendExampleTopic(topic.question)">
+                <mat-icon class="emoji">{{ topic.emoji }}</mat-icon>
+                {{ topic.question }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="inner-container"></div>
+  }
+
+  <span>{{ i18n().disclaimer }}</span>
+</div>
+
 <!--@if (updatedMessages().length === 0) {
   <div class="container">
     <div class="inner-container">
@@ -228,7 +324,7 @@
     }
   </div>
 }
-
+-->
 <mat-menu #assistantMenu="matMenu">
   @for (entry of sortedAssistRefs(); track entry) {
     <button
@@ -248,4 +344,4 @@
       <em>{{ i18n().createAssistant }}</em>
     </button>
   }
-</mat-menu>-->
+</mat-menu>
