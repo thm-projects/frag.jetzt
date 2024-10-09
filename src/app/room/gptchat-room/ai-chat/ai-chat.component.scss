@@ -29,6 +29,16 @@
   flex-direction: column;
 }
 
+.ai-chat-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+}
+
 .title-container {
   display: flex;
   justify-content: center;
@@ -118,6 +128,7 @@ textarea {
   padding-bottom: 0;
   margin: 0 auto;
 
+  width: 100%;
   height: 100%;
 
   display: flex;
@@ -212,4 +223,83 @@ textarea {
 
 .textarea-wrapper {
   flex: 1;
+}
+
+.attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+
+  border-radius: 8px;
+  background-color: var(--md-sys-color-background);
+  justify-content: flex-start;
+  padding: 14px;
+  width: 100%;
+}
+
+.file-box {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid var(--md-sys-color-surface3);
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30%;
+}
+
+.file-icon {
+  margin-right: 8px;
+  color: var(--md-sys-color-primary);
+  flex-shrink: 0;
+}
+
+.file-name {
+  color: var(--md-sys-color-on-surface3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .outer-container {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .topics {
+    grid-template-columns: 1fr;
+  }
+
+  .messages-container {
+    padding: 0;
+  }
+
+  .input-container-compact {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 1fr auto;
+    padding: 14px;
+
+    .textarea-wrapper {
+      grid-column: 1 / 3;
+      grid-row: 1;
+      padding: 8px;
+    }
+
+    .left-buttons {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .right-buttons {
+      grid-column: 2;
+      grid-row: 2;
+
+      justify-self: end;
+    }
+  }
 }
