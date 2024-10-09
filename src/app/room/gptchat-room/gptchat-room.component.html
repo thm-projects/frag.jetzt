@@ -37,25 +37,26 @@
   <mat-drawer-container class="content">
     <mat-drawer
       #drawer
-      mode="over"
+      mode="side"
+      [opened]="true"
       class="history-container">
       <ng-container *ngFor="let group of threadGroups()">
         <ng-container *ngIf="group.threads.length > 0">
           <div class="group">
-            <div class="header">
+            <div class="group-header">
               <span>{{ getDynamicI18n(group.label) }}</span>
               <div class="group-number">
                 <span>{{ group.threads.length }}</span>
               </div>
             </div>
-            <ng-container *ngFor="let entry of group.threads">
+            <mat-action-list *ngFor="let entry of group.threads">
               <button
                 mat-list-item
                 [activated]="selectedThread() === entry"
                 (click)="openThread(entry)">
-                <span matListItemTitle>{{ entry.headLine }}</span>
+                {{ entry.headLine }}
               </button>
-            </ng-container>
+            </mat-action-list>
           </div>
         </ng-container>
       </ng-container>
