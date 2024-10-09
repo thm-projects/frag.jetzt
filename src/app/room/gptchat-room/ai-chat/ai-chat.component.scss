@@ -84,6 +84,7 @@ textarea {
 .left-buttons button {
   color: var(--md-sys-color-on-background);
   border: 1px solid var(--md-sys-color-surface3);
+  margin-right: 8px;
 }
 
 .send-button {
@@ -299,5 +300,11 @@ textarea {
 
       justify-self: end;
     }
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+  .outer-container {
+    width: 75%;
   }
 }

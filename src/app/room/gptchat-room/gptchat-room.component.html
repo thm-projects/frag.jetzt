@@ -37,16 +37,14 @@
   <mat-drawer-container class="content">
     <mat-drawer
       #drawer
-      [mode]="isMobile() ? 'over' : 'side'"
+      mode="over"
       class="history-container">
       <ng-container *ngFor="let group of threadGroups()">
         <ng-container *ngIf="group.threads.length > 0">
           <div class="group">
             <div class="group-header">
               <span>{{ getDynamicI18n(group.label) }}</span>
-              <div class="group-number">
-                <span>{{ group.threads.length }}</span>
-              </div>
+              <div class="group-number">{{ group.threads.length }}</div>
             </div>
             <mat-action-list *ngFor="let entry of group.threads">
               <button

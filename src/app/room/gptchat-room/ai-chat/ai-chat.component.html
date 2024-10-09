@@ -117,7 +117,9 @@
                     </span>
                   </div>
                   @if (message.attached.length) {
-                    <div class="attachments">
+                    <div
+                      class="attachments"
+                      style="padding: 8px">
                       @for (
                         attachment of message.attached;
                         track attachment[0] + attachment[1]
