@@ -199,12 +199,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     ];
 
     const threads = this.threads();
-
-    for (const group of groups) {
-      group.threads.push(...threads);
-    }
-
-    /*
     for (let i = threads.length - 1; i >= 0; i--) {
       const thread = threads[i];
       const threadDate = thread.ref.createdAt;
@@ -229,7 +223,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       group.threads.sort(
         (a, b) => b.ref.createdAt.getTime() - a.ref.createdAt.getTime(),
       );
-    }*/
+    }
 
     return groups;
   }

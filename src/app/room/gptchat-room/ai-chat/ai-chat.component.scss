@@ -229,39 +229,37 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
+  margin: 8px 0;
 
   border-radius: 8px;
   background-color: var(--md-sys-color-background);
   justify-content: flex-start;
-  padding: 14px;
   width: 100%;
 }
 
 .file-box {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto 1fr;
   padding: 8px 12px;
   border: 1px solid var(--md-sys-color-surface3);
   border-radius: 5px;
   font-size: 14px;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   max-width: 30%;
 }
 
 .file-icon {
   margin-right: 8px;
   color: var(--md-sys-color-primary);
-  flex-shrink: 0;
 }
 
 .file-name {
   color: var(--md-sys-color-on-surface3);
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-grow: 1;
+  white-space: nowrap;
+  width: 100%;
+  align-self: center;
 }
 
 @media (max-width: 768px) {
