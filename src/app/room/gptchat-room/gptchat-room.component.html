@@ -5,9 +5,9 @@
         mat-button
         (click)="drawer.toggle()">
         <mat-icon>
-          {{ isOpen ? "left_panel_close" : "left_panel_open" }}
+          {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
         </mat-icon>
-        {{ isOpen ? i18n().close : i18n().open }}
+        {{ drawer.opened ? i18n().close : i18n().open }}
       </button>
       <button
         mat-button
@@ -37,8 +37,7 @@
   <mat-drawer-container class="content">
     <mat-drawer
       #drawer
-      mode="side"
-      [opened]="true"
+      [mode]="isMobile() ? 'over' : 'side'"
       class="history-container">
       <ng-container *ngFor="let group of threadGroups()">
         <ng-container *ngIf="group.threads.length > 0">
