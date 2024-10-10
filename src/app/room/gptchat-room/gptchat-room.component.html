@@ -1,30 +1,34 @@
-<div class="chat-layout">
-  <div
-    class="visible-only-if-closed"
-    *ngIf="!isOpen()">
-    <button
-      mat-button
-      (click)="isOpen.set(true)">
-      <mat-icon>left_panel_open</mat-icon>
-      {{ i18n().open }}
-    </button>
-    <button
-      mat-button
-      (click)="selectedThread.set(null)">
-      <mat-icon>edit_square</mat-icon>
-      {{ i18n().newChat }}
-    </button>
-  </div>
-  <mat-action-list
-    class="history-container"
-    [class.open]="isOpen()">
-    <div class="actions">
-      <button
-        mat-button
-        (click)="isOpen.set(false)">
-        <mat-icon>left_panel_open</mat-icon>
-        {{ i18n().close }}
-      </button>
+<div class="layout-container">
+  <div class="header">
+    <div class="options">
+      @if (isMobile()) {
+        <button
+          mat-icon-button
+          (click)="drawer.toggle()"
+          class="primary">
+          <mat-icon
+            style="
+              font-size: 1.125rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
+          </mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-button
+          (click)="drawer.toggle()">
+          <mat-icon>
+            {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
+          </mat-icon>
+          <span *ngIf="!isMobile()">
+            {{ drawer.opened ? i18n().close : i18n().open }}
+          </span>
+        </button>
+      }
+
       <button
         mat-button
         (click)="selectedThread.set(null)">
@@ -32,66 +36,98 @@
         {{ i18n().newChat }}
       </button>
     </div>
-    <div class="history">
+    <div
+      class="options"
+      [ngClass]="{ 'no-delete-button': selectedThread() === null }">
+      <button
+        [matMenuTriggerFor]="assistantMenu"
+        mat-button>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        {{ selectedAssistantName() }}
+      </button>
+      @if (isMobile()) {
+        <button
+          *ngIf="selectedThread() !== null"
+          mat-icon-button
+          class="primary"
+          (click)="deleteThread()">
+          <mat-icon
+            style="
+              font-size: 1.125rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            delete
+          </mat-icon>
+        </button>
+      } @else {
+        <button
+          *ngIf="selectedThread() !== null"
+          mat-button
+          (click)="deleteThread()">
+          <mat-icon>delete</mat-icon>
+          {{ i18n().delete }}
+        </button>
+      }
+    </div>
+  </div>
+  <mat-drawer-container class="content">
+    <mat-drawer
+      #drawer
+      mode="over"
+      class="history-container">
       <ng-container *ngFor="let group of threadGroups()">
         <ng-container *ngIf="group.threads.length > 0">
           <div class="group">
-            <div class="header">
+            <div class="group-header">
               <span>{{ getDynamicI18n(group.label) }}</span>
-              <div class="group-number">
-                <span>{{ group.threads.length }}</span>
-              </div>
+              <div class="group-number">{{ group.threads.length }}</div>
             </div>
-            <ng-container *ngFor="let entry of group.threads">
+            <mat-action-list *ngFor="let entry of group.threads">
               <button
                 mat-list-item
                 [activated]="selectedThread() === entry"
-                (click)="openThread(entry)"
-                style="
-                  padding: 8px;
-                  margin: 0;
-                  height: auto;
-                  border-radius: 8px;
-                ">
-                <span matListItemTitle>{{ entry.headLine }}</span>
+                (click)="openThread(entry)">
+                {{ entry.headLine }}
               </button>
-            </ng-container>
+            </mat-action-list>
           </div>
         </ng-container>
       </ng-container>
-    </div>
-  </mat-action-list>
-  <hr
-    style="color: var(--md-sys-color-surface3); opacity: 0.1"
-    *ngIf="isOpen()" />
-  <app-ai-chat
-    class="chat-pane"
-    [(selectedAssistant)]="selectedAssistant"
-    [messages]="currentMessages()"
-    [canSend]="state() === 'ready'"
-    [overrideMessage]="overrideMessage()"
-    [isPrivileged]="isPrivileged()"
-    [assistRefs]="assistRefs()"
-    [onNewClick]="onNewClick.bind(this)"
-    [onSend]="onSend"
-    (deleteThread)="deleteThread()"
-    [selectedThread]="selectedThread()">
-    @if (!isOpen()) {
-      <button
-        mat-button
-        (click)="isOpen.set(true)">
-        <mat-icon>left_panel_open</mat-icon>
-        {{ i18n().open }}
-      </button>
-    }
-    @if (selectedThread() !== null && !isOpen()) {
-      <button
-        mat-button
-        class="material-symbols-outlined"
-        (click)="selectedThread.set(null)">
-        <mat-icon>chat_add_on</mat-icon>
-        {{ i18n().newChat }}
-      </button>
-    }
-  </app-ai-chat>
+    </mat-drawer>
+
+    <app-ai-chat
+      [(selectedAssistant)]="selectedAssistant"
+      [messages]="currentMessages()"
+      [canSend]="state() === 'ready'"
+      [overrideMessage]="overrideMessage()"
+      [isPrivileged]="isPrivileged()"
+      [assistRefs]="assistRefs()"
+      [onNewClick]="onNewClick.bind(this)"
+      [onSend]="onSend"
+      (deleteThread)="deleteThread()"
+      [selectedThread]="selectedThread()"></app-ai-chat>
+  </mat-drawer-container>
 </div>
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of sortedAssistRefs(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry.ref.id === selectedAssistant()"
+      (click)="selectedAssistant.set(entry.ref.id)">
+      {{ entry.assistant.name }}
+      @if (entry.ref.id === selectedAssistant()) {
+        <mat-icon>check</mat-icon>
+      }
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()">
+      <em>Create Assistant</em>
+    </button>
+  }
+</mat-menu>
