@@ -7,8 +7,8 @@
     "threadHeadLine": "Chat vom {{date}}",
     "threadContent": "Um {{time}}",
     "noAssistants": "# KI nicht verwendbar\n\nKeine Assistenten verfügbar. Wende dich an einen Raumverwalter, um einen Assistenten hinzuzufügen.",
-    "open": "Chatverlauf",
-    "close": "Schließen",
+    "open": "Chatverlauf öffnen",
+    "close": "Chatverlauf schließen",
     "newChat": "Neuer Chat",
     "noThreads": "Keine Threads vorhanden",
     "errorMessage": "# Ein Fehler ist aufgetreten\n\n{{message}}",
@@ -17,7 +17,9 @@
     "today": "Heute",
     "yesterday": "Gestern",
     "previous_7_days": "In den letzten 7 Tagen",
-    "older": "Älter"
+    "older": "Älter",
+    "createAssistant": "Assistent erstellen...",
+    "assistant": "Assistent"
   },
   "en": {
     "defaultName": "Default assistant",
@@ -26,8 +28,8 @@
     "threadHeadLine": "Chat from {{date}}",
     "threadContent": "At {{time}}",
     "noAssistants": "# AI not usable\n\nNo assistants available. Contact a room manager to add an assistant.",
-    "open": "Chat history",
-    "close": "Close",
+    "open": "Open history",
+    "close": "Close history",
     "newChat": "New chat",
     "noThreads": "No threads available",
     "errorMessage": "# An error occurred\n\n{{message}}",
@@ -36,7 +38,9 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "previous_7_days": "Previous 7 Days",
-    "older": "Older"
+    "older": "Older",
+    "createAssistant": "Assistent erstellen...",
+    "assistant": "Assistent"
   },
   "fr": {
     "defaultName": "Assistant par défaut",
@@ -55,6 +59,8 @@
     "today": "Aujourd'hui",
     "yesterday": "Hier",
     "previous_7_days": "7 derniers jours",
-    "older": "Plus ancien"
+    "older": "Plus ancien",
+    "createAssistant": "Assistent erstellen...",
+    "assistant": "Assistent"
   }
 }

@@ -38,6 +38,7 @@ import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
 import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -83,7 +84,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     return '';
   });
-  protected readonly isMobile = windowWatcher.isMobile;
+  protected isMobile = signal(false);
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
   protected selectedAssistant = signal<AssistantReference['id'] | null>(null);
@@ -99,12 +100,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private roomState = inject(RoomStateService);
   private destroyRef = inject(DestroyRef);
 
-  constructor() {
+  constructor(deviceState: DeviceStateService) {
     this.initNav();
     const sub = this.roomState.assignedRole$.subscribe((e) =>
       this.isPrivileged.set(e !== 'Participant'),
     );
     this.destroyRef.onDestroy(() => sub.unsubscribe());
+    deviceState.mobile$.subscribe((isMobile) => this.isMobile.set(isMobile));
     effect(
       () => {
         const thread = this.selectedThread();
@@ -153,6 +155,33 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const i18nObject = this.i18n();
     return key.split('.').reduce((o, i) => (o ? o[i] : null), i18nObject);
   }
+
+  protected sortedAssistRefs = computed(() => {
+    const selectedId = this.selectedAssistant();
+    const assistRefs = this.assistRefs();
+
+    const otherAssistants = assistRefs.filter(
+      (entry) => entry.ref.id !== selectedId,
+    );
+    const sortedOtherAssistants = otherAssistants.sort((a, b) =>
+      a.assistant.name.localeCompare(b.assistant.name),
+    );
+    const selectedAssistant = assistRefs.find(
+      (entry) => entry.ref.id === selectedId,
+    );
+
+    return selectedAssistant
+      ? [selectedAssistant, ...sortedOtherAssistants]
+      : sortedOtherAssistants;
+  });
+
+  protected selectedAssistantName = computed(() => {
+    const selectedId = this.selectedAssistant();
+    const selectedEntry = this.assistRefs().find(
+      (entry) => entry.ref.id === selectedId,
+    );
+    return selectedEntry ? selectedEntry.assistant.name : this.i18n().assistant;
+  });
 
   threadGroups() {
     const today = new Date();
