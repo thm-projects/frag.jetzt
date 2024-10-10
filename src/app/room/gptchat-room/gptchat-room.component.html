@@ -7,7 +7,9 @@
         <mat-icon>
           {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
         </mat-icon>
-        {{ drawer.opened ? i18n().close : i18n().open }}
+        <span *ngIf="!isMobile()">
+          {{ drawer.opened ? i18n().close : i18n().open }}
+        </span>
       </button>
       <button
         mat-button
@@ -30,7 +32,9 @@
         mat-button
         (click)="deleteThread()">
         <mat-icon>delete</mat-icon>
-        {{ i18n().delete }}
+        <span *ngIf="!isMobile()">
+          {{ i18n().delete }}
+        </span>
       </button>
     </div>
   </div>
