@@ -278,11 +278,6 @@ mat-card-content > :first-child {
   }
 }
 
-::ng-deep .mat-badge-content {
-  background: var(--secondary);
-  color: var(--on-secondary);
-}
-
 .user-number {
   cursor: pointer;
   color: var(--on-surface);
