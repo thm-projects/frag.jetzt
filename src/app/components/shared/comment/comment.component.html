@@ -256,8 +256,8 @@
           person_pin_circle
         </mat-icon>
         <span
-          matBadge="{{ commentsWrittenByUser }}"
-          matBadgeSize="small"
+          [matBadge]="commentsWrittenByUser"
+          matBadgeSize="large"
           matBadgeOverlap="false"></span>
       </ng-template>
       <div
