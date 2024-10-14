@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>{{ data().title }}</h2>
+
+<div mat-dialog-content>
+  <app-markdown-viewer [data]="data().content"></app-markdown-viewer>
+</div>
+
+<div mat-dialog-actions>
+  @for (action of data().actions; track action) {
+    @switch (action.type) {
+      @case ("button") {
+        @switch (action.emphasis) {
+          @case ("high-filled") {
+            <button
+              mat-flat-button
+              (click)="handleButtonClick(action)">
+              @if (action.icon) {
+                <mat-icon>{{ action.icon }}</mat-icon>
+              }
+              @if (action.svgIcon) {
+                <mat-icon [svgIcon]="action.svgIcon"></mat-icon>
+              }
+              {{ action.text }}
+              @if (cachedClick().has(action)) {
+                <mat-spinner class="button-spinner"></mat-spinner>
+              }
+            </button>
+          }
+          @case ("medium-tonal") {
+            <button
+              mat-flat-button
+              class="secondary"
+              (click)="handleButtonClick(action)">
+              @if (action.icon) {
+                <mat-icon>{{ action.icon }}</mat-icon>
+              }
+              @if (action.svgIcon) {
+                <mat-icon [svgIcon]="action.svgIcon"></mat-icon>
+              }
+              {{ action.text }}
+              @if (cachedClick().has(action)) {
+                <mat-spinner class="button-spinner"></mat-spinner>
+              }
+            </button>
+          }
+          @case ("medium-elevated") {
+            <button
+              mat-raised-button
+              (click)="handleButtonClick(action)">
+              @if (action.icon) {
+                <mat-icon>{{ action.icon }}</mat-icon>
+              }
+              @if (action.svgIcon) {
+                <mat-icon [svgIcon]="action.svgIcon"></mat-icon>
+              }
+              {{ action.text }}
+              @if (cachedClick().has(action)) {
+                <mat-spinner class="button-spinner"></mat-spinner>
+              }
+            </button>
+          }
+          @case ("medium-outlined") {
+            <button
+              mat-stroked-button
+              (click)="handleButtonClick(action)">
+              @if (action.icon) {
+                <mat-icon>{{ action.icon }}</mat-icon>
+              }
+              @if (action.svgIcon) {
+                <mat-icon [svgIcon]="action.svgIcon"></mat-icon>
+              }
+              {{ action.text }}
+              @if (cachedClick().has(action)) {
+                <mat-spinner class="button-spinner"></mat-spinner>
+              }
+            </button>
+          }
+          @default {
+            <button
+              mat-button
+              (click)="handleButtonClick(action)">
+              @if (action.icon) {
+                <mat-icon>{{ action.icon }}</mat-icon>
+              }
+              @if (action.svgIcon) {
+                <mat-icon [svgIcon]="action.svgIcon"></mat-icon>
+              }
+              {{ action.text }}
+              @if (cachedClick().has(action)) {
+                <mat-spinner class="button-spinner"></mat-spinner>
+              }
+            </button>
+          }
+        }
+      }
+      @case ("spacer") {
+        <span style="flex: 1"></span>
+      }
+    }
+  } @empty {
+    <button
+      mat-button
+      mat-dialog-close>
+      {{ i18n().global.close }}
+    </button>
+    <span style="flex: 1"></span>
+  }
+</div>

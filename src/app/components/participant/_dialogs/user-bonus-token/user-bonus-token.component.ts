@@ -64,9 +64,7 @@ export class UserBonusTokenComponent implements OnInit {
     dialog: MatDialog,
     userId: string,
   ): MatDialogRef<UserBonusTokenComponent> {
-    const dialogRef = dialog.open(UserBonusTokenComponent, {
-      minHeight: 'unset',
-    });
+    const dialogRef = dialog.open(UserBonusTokenComponent);
     dialogRef.componentInstance.userId = userId;
     return dialogRef;
   }
