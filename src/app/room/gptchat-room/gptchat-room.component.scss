@@ -2,33 +2,37 @@
   box-sizing: border-box;
 }
 
-.chat-layout {
-  display: flex;
-  flex-direction: row;
+.layout-container {
+  width: 100%;
   height: 100%;
-}
 
-.chat-pane {
-  flex-grow: 1;
-  padding: 24px;
-}
+  overflow: hidden;
 
-.visible-only-if-closed {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 24px;
-  flex-shrink: 0;
-}
+  flex-direction: column;
 
-.history-container {
-  height: calc(100% - var(--mat-toolbar-standard-height));
-  padding: 24px;
-  flex-shrink: 0;
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-  display: none;
-  &.open {
-    display: block;
+    .options {
+      width: min(60%, 300px);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 14px 0;
+
+      &.no-delete-button {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -39,40 +43,60 @@
   justify-content: space-between;
 }
 
-.history {
+.history-container {
   height: 100%;
+  width: min(60%, 300px);
   overflow-y: scroll;
-  padding: 0 24px;
+  border-radius: 0;
+
+  .group {
+    padding: 0 14px;
+  }
 }
 
-.header {
+.group-header {
+  font-weight: bold;
+  font-size: 12px;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
-  font-weight: bold;
-  font-size: 12px;
+  align-items: center;
 
   position: sticky;
   top: 0;
   background-color: var(--md-sys-color-background);
   z-index: 1;
-  padding: 24px 0;
   margin: 0;
 
   .group-number {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
 
     &::before {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 50%;
-      padding: 14px;
-      transform: translate(-50%, -50%);
-      background-color: var(--md-sys-color-surface3);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border-radius: 100%;
+      background-color: var(--md-sys-color-surface3);
       z-index: -1;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-container {
+    .header {
+      .options {
+        width: auto;
+      }
     }
   }
 }
