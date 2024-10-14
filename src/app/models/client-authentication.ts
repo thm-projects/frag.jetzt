@@ -1,13 +1,10 @@
 import { FieldsOf } from 'app/utils/ts-utils';
 
-/* eslint-disable @typescript-eslint/naming-convention */
 export enum RoomAccessRole {
   PARTICIPANT = 'PARTICIPANT',
   EDITING_MODERATOR = 'EDITING_MODERATOR',
   EXECUTIVE_MODERATOR = 'EXECUTIVE_MODERATOR',
 }
-
-/* eslint-enable @typescript-eslint/naming-convention */
 
 export interface RoomAccess {
   id: string;

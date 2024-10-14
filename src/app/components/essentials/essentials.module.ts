@@ -45,7 +45,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => {
   return new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 };

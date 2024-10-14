@@ -30,9 +30,11 @@
       "home": "Startseite",
       "myRooms": "Meine Räume",
       "admin": "Administration",
+      "user": "Benutzer Überblick",
       "pricing": "Dankeschön & KI-Guthaben",
       "donation": "Für die Kaffeemaschine",
-      "purchase": "KI-Guthabenpaket"
+      "purchase": "KI-Guthabenpaket",
+      "transaction": "Transaktionen"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -79,9 +81,11 @@
       "home": "Homepage",
       "myRooms": "My rooms",
       "admin": "Administration",
+      "user": "User overview",
       "pricing": "Thank you & AI Credit",
       "donation": "For the coffee machine",
-      "purchase": "AI credit package"
+      "purchase": "AI credit package",
+      "transaction": "Transactions"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -128,9 +132,11 @@
       "home": "Page d'accueil",
       "myRooms": "Mes salles",
       "admin": "Administration",
+      "user": "Présentation de l'utilisateur",
       "pricing": "Remerciement & Crédit IA",
       "donation": "Pour la machine à café",
-      "purchase": "Pack de crédit IA"
+      "purchase": "Pack de crédit IA",
+      "transaction": "Transactions"
     },
     "options": {
       "about": "À propos de frag.jetzt",

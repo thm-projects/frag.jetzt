@@ -1,0 +1,48 @@
+{
+  "key": "purchase",
+  "de": {
+    "purchase": {
+      "title": "Kaufen"
+    },
+    "myRooms": {
+      "title": "Meine Räume"
+    },
+    "apiKeys": {
+      "title": "API Schlüssel"
+    },
+    "transaction": {
+      "title": "Transaktionen"
+    },
+    "button": "Weiter zu"
+  },
+  "en": {
+    "purchase": {
+      "title": "Purchase"
+    },
+    "myRooms": {
+      "title": "My rooms"
+    },
+    "apiKeys": {
+      "title": "API Keys"
+    },
+    "transaction": {
+      "title": "Transactions"
+    },
+    "button": "Go to"
+  },
+  "fr": {
+    "purchase": {
+      "title": "Achat"
+    },
+    "myRooms": {
+      "title": "Mes salles"
+    },
+    "apiKeys": {
+      "title": "Clés API"
+    },
+    "transaction": {
+      "title": "Transactions"
+    },
+    "button": "Aller à"
+  }
+}

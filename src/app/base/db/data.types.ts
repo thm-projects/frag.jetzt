@@ -90,7 +90,6 @@ class Logger {
     if (level < this.logLevel) {
       return;
     }
-    // eslint-disable-next-line no-console
     const log = level < 2 ? console.info : console.warn;
     log(
       `[IDB Migrate] ${this.schema.name} - Mig. ${this.version} - ${message}`,

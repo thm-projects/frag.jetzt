@@ -8,6 +8,8 @@ export class HomePageService {
   private readonly _featureState: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  private readonly _userHasVisitedBefore = 'userHasVisitedBefore';
+
   constructor() {}
 
   get featureState(): Observable<boolean> {
@@ -16,5 +18,14 @@ export class HomePageService {
 
   toggleFeatureState() {
     this._featureState.next(!this._featureState.value);
+  }
+
+  isFirstTimeVisitor(): boolean {
+    if (!localStorage.getItem(this._userHasVisitedBefore)) {
+      localStorage.setItem(this._userHasVisitedBefore, 'true');
+      return true;
+    }
+
+    return false;
   }
 }

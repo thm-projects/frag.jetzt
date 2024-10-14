@@ -64,7 +64,6 @@ export class DataService {
       subscriber.complete();
     });
     db.addEventListener('versionchange', (e) => {
-      // eslint-disable-next-line no-console
       console.info('A new version published at an other tab');
       // closes automatically the database
       subscriber.complete();

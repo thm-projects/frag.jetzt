@@ -560,9 +560,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         maxWidth: '100%',
         maxHeight: 'calc(100vh - 20px)',
         autoFocus: false,
-      }
+      },
     );
-     dialogRef.subscribe((comment) => (this.sendCommentId = comment?.id));
+    dialogRef.subscribe((comment) => (this.sendCommentId = comment?.id));
   }
 
   /**
@@ -774,7 +774,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!host) {
       return;
     }
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(host, (e) => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -825,7 +824,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             );
           });
         },
-        condition: () => true && this.room?.mode === 'ARS',
+        condition: () => this.room?.mode === 'ARS',
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -852,7 +851,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             );
           });
         },
-        condition: () => true && this.room?.mode === 'PLE',
+        condition: () => this.room?.mode === 'PLE',
       });
     });
   }

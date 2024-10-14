@@ -241,7 +241,6 @@ export class MarkdownEditorComponent implements AfterViewInit {
     };
     element.addEventListener('mousedown', (e) => {
       const rect = element.getBoundingClientRect();
-      e.detail;
       const ripple = generateElement(
         e.clientX - rect.x,
         e.clientY - rect.y,

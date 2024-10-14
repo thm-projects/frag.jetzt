@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   HostListener,
   Input,
   OnDestroy,
@@ -47,10 +48,6 @@ import { QwRunningNumberBackgroundComponent } from '../qw-running-number-backgro
   ],
   templateUrl: './qw-comment.component.html',
   styleUrl: './qw-comment.component.scss',
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {
-    '[class.highlight]': `_isFocused`,
-  },
 })
 export class QwCommentComponent implements OnDestroy, OnInit {
   @Input() data!: {
@@ -58,6 +55,7 @@ export class QwCommentComponent implements OnDestroy, OnInit {
     comment: ForumComment;
   };
   _destroyer: ReplaySubject<1> = new ReplaySubject<1>();
+  @HostBinding('class.highlight')
   _isFocused = false;
 
   constructor(
