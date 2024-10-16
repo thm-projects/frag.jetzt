@@ -568,6 +568,10 @@
   *ngIf="isLoading"
   [overlay]="true"></app-mat-spinner-overlay>
 
+@if (!isLoading && getSlicedComments().length) {
+  <app-test-comment [comment]="getMaxComment()"></app-test-comment>
+}
+
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of getSlicedComments(); let i = index"

@@ -686,6 +686,18 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     ref.componentInstance.userRole = this.userRole;
   }
 
+  protected getMaxComment(): ForumComment {
+    let max = 0;
+    let comment: ForumComment;
+    for (const c of this.getSlicedComments()) {
+      if (c.body.length > max) {
+        max = c.body.length;
+        comment = c;
+      }
+    }
+    return comment;
+  }
+
   protected openFilterMenu() {
     this._filterObject.updateCount(Boolean(this.searchString));
   }

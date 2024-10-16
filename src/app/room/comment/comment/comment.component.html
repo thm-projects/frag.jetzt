@@ -1,0 +1,78 @@
+<mat-card class="comment-card">
+  <mat-card-header style="flex-wrap: wrap">
+    <mat-icon
+      mat-card-avatar
+      [matTooltip]="'Von einem Benutzer'"
+      class="avatar">
+      account_circle
+    </mat-icon>
+    <mat-card-title class="title">{{ header()[0] }}</mat-card-title>
+    <mat-card-subtitle
+      class="slim-title"
+      [matTooltip]="i18n().subTitleTooltip | context: formattedDate()">
+      {{ header()[1] }}
+    </mat-card-subtitle>
+    <span style="flex: 1"></span>
+    <app-comment-header-action
+      [comment]="comment()"></app-comment-header-action>
+  </mat-card-header>
+
+  <mat-card-content class="card-content">
+    <div class="content-vote-wrapper">
+      <div
+        class="content-wrapper"
+        #contentWrapper
+        [class.cut]="isTaller() && !isExpanded()">
+        <app-markdown-viewer [data]="comment().body"></app-markdown-viewer>
+      </div>
+      <div class="vote-wrapper">
+        <button
+          mat-icon-button
+          [disabled]="vote().state === 'pending'"
+          (click)="doVote(1)">
+          <mat-icon
+            class="fillable-icon"
+            [class.filled]="vote().value === 1">
+            thumb_up
+          </mat-icon>
+        </button>
+        <span>0</span>
+        <button
+          mat-icon-button
+          [disabled]="vote().state === 'pending'"
+          (click)="doVote(-1)">
+          <mat-icon
+            class="fillable-icon"
+            [class.filled]="vote().value === -1">
+            thumb_down
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    @if (isTaller()) {
+      <button
+        mat-button
+        (click)="expandSwitch()">
+        <mat-icon>
+          {{ isExpanded() ? "arrow_upward" : "arrow_downward" }}
+        </mat-icon>
+        {{ isExpanded() ? "Weniger anzeigen" : "Mehr anzeigen" }}
+      </button>
+    }
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button>
+      <mat-icon>reply</mat-icon>
+      Antwort schreiben
+    </button>
+    <button mat-button>
+      <mat-icon svgIcon="fj_robot"></mat-icon>
+      KI antworten lassen
+    </button>
+    <button mat-button>
+      <mat-icon>notifications_off</mat-icon>
+      Benachrichtigen
+    </button>
+  </mat-card-actions>
+</mat-card>

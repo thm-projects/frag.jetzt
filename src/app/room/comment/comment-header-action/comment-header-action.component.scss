@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  gap: 0.5em;
+  margin-inline: auto;
+}
+
+.info-icon {
+  padding: calc(
+    (
+        var(--mdc-icon-button-state-layer-size, 48px) - var(
+            --mdc-icon-button-icon-size,
+            24px
+          )
+      ) / 2
+  );
+}

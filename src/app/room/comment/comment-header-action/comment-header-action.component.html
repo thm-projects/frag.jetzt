@@ -1,0 +1,45 @@
+@for (action of plainActions(); track action.id) {
+  @switch (action.type) {
+    @case ("info") {
+      <mat-icon
+        class="fillable-icon filled info-icon"
+        [matTooltip]="action.label">
+        {{ action.icon }}
+      </mat-icon>
+    }
+    @case ("action") {
+      <button
+        mat-icon-button
+        [matTooltip]="action.description"
+        [disabled]="action.disabled"
+        (click)="action.action()"
+        [class.contained-icon]="!action.active"
+        [class.filled]="action.active">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="action.active">
+          {{ action.icon }}
+        </mat-icon>
+      </button>
+    }
+  }
+}
+@if (moreActions(); as more) {
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="moreMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #moreMenu="matMenu">
+    @for (action of more; track action.id) {
+      <button
+        mat-menu-item
+        [matTooltip]="action.description"
+        [disabled]="action.disabled"
+        (click)="action.action()">
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </button>
+    }
+  </mat-menu>
+}

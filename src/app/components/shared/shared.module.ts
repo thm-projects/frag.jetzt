@@ -161,6 +161,7 @@ import { QwTopBarComponent } from './questionwall/question-wall/support-componen
 import { QwBottomBarComponent } from './questionwall/question-wall/support-components/qw-bottom-bar/qw-bottom-bar.component';
 import { AiChatComponent } from 'app/room/gptchat-room/ai-chat/ai-chat.component';
 import { QwDefaultPlaceholderComponent } from './questionwall/question-wall/support-components/qw-default-placeholder/qw-default-placeholder.component';
+import { CommentModule } from 'app/room/comment/comment.module';
 
 @NgModule({
   imports: [
@@ -189,6 +190,7 @@ import { QwDefaultPlaceholderComponent } from './questionwall/question-wall/supp
     QwBottomBarComponent,
     AiChatComponent,
     QwDefaultPlaceholderComponent,
+    CommentModule,
   ],
   declarations: [
     RoomJoinComponent,

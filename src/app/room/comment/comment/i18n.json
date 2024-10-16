@@ -1,0 +1,48 @@
+{
+  "key": "comment",
+  "de": {
+    "headline": {
+      "question": "Frage {{number}}",
+      "questionAuthor": "Frage {{number}} von {{author}}",
+      "answer": "Antwort {{number}}",
+      "answerAuthor": "Antwort {{number}} von {{author}}",
+      "idea": "Idee {{number}}",
+      "ideaAuthor": "Idee {{number}} von {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
+    "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
+    "subTitle": "{{short}} · {{date}}",
+    "subTitleTooltip": "Am {{date}} um {{time}}"
+  },
+  "en": {
+    "headline": {
+      "question": "Question {{number}}",
+      "questionAuthor": "Question {{number}} by {{author}}",
+      "answer": "Answer {{number}}",
+      "answerAuthor": "Answer {{number}} by {{author}}",
+      "idea": "Idea {{number}}",
+      "ideaAuthor": "Idea {{number}} by {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
+    "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
+    "subTitle": "{{short}} · {{date}}",
+    "subTitleTooltip": "On {{date}} at {{time}}"
+  },
+  "fr": {
+    "headline": {
+      "question": "Question {{number}}",
+      "questionAuthor": "Question {{number}} par {{author}}",
+      "answer": "Réponse {{number}}",
+      "answerAuthor": "Réponse {{number}} par {{author}}",
+      "idea": "Idée {{number}}",
+      "ideaAuthor": "Idée {{number}} par {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} N{{level}} R{{number}}",
+    "ideaShort": "I{{topLevelNumber}} N{{level}} R{{number}}",
+    "subTitle": "{{short}} · {{date}}",
+    "subTitleTooltip": "Le {{date}} à {{time}}"
+  }
+}

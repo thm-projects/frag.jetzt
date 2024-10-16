@@ -1,0 +1,67 @@
+:host {
+  width: 100%;
+  scroll-margin-top: 1em;
+}
+
+.comment-card {
+  width: min(800px, 100%);
+}
+
+.slim-title {
+  font-weight: 300;
+}
+
+.title {
+  hyphens: auto;
+  text-wrap: wrap;
+  line-break: anywhere;
+}
+
+.avatar {
+  font-weight: normal;
+  font-size: 40px;
+}
+
+:host ::ng-deep .mat-mdc-card-header-text {
+  max-width: calc(100% - 40px);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-vote-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.content-wrapper {
+  flex: 1;
+  // Custom size
+  position: relative;
+  height: var(--height, 10.5em);
+  overflow: hidden;
+  transition: height 500ms var(--md-sys-motion-easing-emphasized);
+
+  &.cut::before {
+    $padding: 1em;
+    content: "";
+    position: absolute;
+    left: $padding;
+    bottom: 0;
+    width: calc(100% - #{$padding * 2});
+    height: 0.2em;
+    pointer-events: none;
+    border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+    box-shadow: 0 0 1em 0.05em currentColor;
+  }
+}
+
+.vote-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1em;
+}
