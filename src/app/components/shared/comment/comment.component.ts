@@ -51,7 +51,6 @@ import { AppStateService } from 'app/services/state/app-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { M3DialogBuilderService } from '../../../../modules/m3/services/dialog/m3-dialog-builder.service';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
-import { user } from 'app/user/state/user';
 
 interface IconAction {
   name: IconActionKey;
@@ -499,42 +498,28 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((ret) => this.notification.show(ret));
   }
 
-  voteUp(comment: Comment): void {
+  voteUp(): void {
     if (this.isMock) {
       return;
     }
-    const userId = user().id;
     if (this.hasVoted !== 1) {
-      this.commentService
-        .voteUp(comment, userId)
-        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
-      this.commentService
-        .resetVote(comment, userId)
-        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
     this.resetVotingAnimation();
   }
 
-  voteDown(comment: Comment): void {
+  voteDown(): void {
     if (this.isMock) {
       return;
     }
-    const userId = user().id;
     if (this.hasVoted !== -1) {
-      this.commentService
-        .voteDown(comment, userId)
-        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
-      this.commentService
-        .resetVote(comment, userId)
-        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }

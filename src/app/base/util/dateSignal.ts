@@ -54,6 +54,7 @@ const getMonthDiff = (
 };
 
 const NOW_THRESHOLD = 15_000; // 15 seconds, should be between 5 - 30 seconds
+const MAX_VALUE = Math.pow(2, 31) - 1;
 
 // must be called in effect
 export const getRelativeDate = (date: Date): Observable<string> => {
@@ -63,6 +64,9 @@ export const getRelativeDate = (date: Date): Observable<string> => {
   let id: TimeoutHelper;
   const schedule = (t: number) => {
     console.assert(t >= 0, 'DateSignal: Time should be positive');
+    if (t > MAX_VALUE) {
+      t = MAX_VALUE;
+    }
     clearTimeout(id);
     id = setTimeout(() => timeSubject.next(), t);
   };

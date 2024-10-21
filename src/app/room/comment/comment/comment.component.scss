@@ -10,15 +10,6 @@
   width: min(800px, calc(100% - 2em));
 }
 
-.filter-action-container {
-  display: flex;
-  align-items: center;
-
-  > * {
-    margin: 0.5em 1em 0.5em 0;
-  }
-}
-
 .slim-title {
   font-weight: 300;
 }
@@ -32,6 +23,7 @@
 .avatar {
   font-weight: normal;
   font-size: 40px;
+  border-radius: 0;
 }
 
 :host ::ng-deep .mat-mdc-card-header-text {
@@ -46,18 +38,6 @@
 .content-vote-wrapper {
   display: flex;
   flex: 1;
-}
-
-.wrapping-button {
-  .mat-icon {
-    min-width: 1.125rem;
-  }
-
-  ::ng-deep .mdc-button__label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 }
 
 .content-wrapper {
@@ -78,19 +58,11 @@
       left: $padding;
       bottom: 0;
       width: calc(100% - #{$padding * 2});
-      height: 0.2em;
       pointer-events: none;
       border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
       box-shadow: 0 0 1em 0.05em currentColor;
     }
   }
-}
-
-.vote-wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 1em;
 }
 
 .ai-button {

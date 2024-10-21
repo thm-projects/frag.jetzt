@@ -9,9 +9,16 @@ import { CommentHeaderActionComponent } from './comment-header-action/comment-he
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CommentVoteComponent } from './comment-vote/comment-vote.component';
+import { CommentFilterComponent } from './comment-filter/comment-filter.component';
 
 @NgModule({
-  declarations: [CommentComponent, CommentHeaderActionComponent],
+  declarations: [
+    CommentComponent,
+    CommentHeaderActionComponent,
+    CommentVoteComponent,
+    CommentFilterComponent,
+  ],
   imports: [
     MatCardModule,
     MatButtonModule,

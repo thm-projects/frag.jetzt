@@ -4,12 +4,10 @@ import {
   UpdateInformation,
 } from '../../../../utils/data-accessor';
 import { Comment } from '../../../../models/comment';
-import { CommentService } from '../../../../services/http/comment.service';
 import { User } from '../../../../models/user';
 import { CommentListSupport } from './comment-list-support';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
-import { AccountStateService } from '../../../../services/state/account-state.service';
 import { Moderator } from '../../../../models/moderator';
 import { ObjectMap } from '../../../../models/object-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
@@ -28,6 +26,7 @@ import { Period, SortType } from '../../../../utils/data-filter-object.lib';
 import { user$ } from 'app/user/state/user';
 import { DefaultSliderConfig } from './qw-config';
 import { RunningNumberMarker } from './support-components/qw-running-number-background/qw-running-number-background.component';
+import { VoteService } from 'app/services/http/vote.service';
 
 export type AdjacentComments = [
   ForumComment | undefined,
@@ -76,10 +75,9 @@ export class QuestionWallService {
     new BehaviorSubject(undefined);
 
   constructor(
-    private readonly commentService: CommentService,
     private readonly sessionService: SessionService,
-    private readonly accountState: AccountStateService,
     private readonly roomDataService: RoomDataService,
+    private readonly voteService: VoteService,
   ) {}
 
   get session(): QuestionWallSession | undefined {
@@ -95,11 +93,11 @@ export class QuestionWallService {
   }
 
   like(comment: Comment) {
-    this.commentService.voteUp(comment, this.session.user.id).subscribe();
+    this.voteService.voteUp(comment, this.session.user.id).subscribe();
   }
 
   dislike(comment: Comment) {
-    this.commentService.voteDown(comment, this.session.user.id).subscribe();
+    this.voteService.voteDown(comment, this.session.user.id).subscribe();
   }
 
   createSession(

@@ -1,0 +1,40 @@
+@if (canVote()) {
+  <button
+    mat-icon-button
+    [disabled]="vote().state === 'pending'"
+    (click)="doVote(1)">
+    <mat-icon
+      class="fillable-icon"
+      [class.filled]="vote().value === 1">
+      thumb_up
+    </mat-icon>
+  </button>
+} @else {
+  <span class="placeholder"></span>
+}
+<span
+  class="headline-medium"
+  [matTooltip]="
+    i18n().tooltip
+      | context
+        : {
+            upvotes: comment().upvotes,
+            downvotes: comment().downvotes,
+          }
+  ">
+  {{ comment().score }}
+</span>
+@if (canVote()) {
+  <button
+    mat-icon-button
+    [disabled]="vote().state === 'pending'"
+    (click)="doVote(-1)">
+    <mat-icon
+      class="fillable-icon"
+      [class.filled]="vote().value === -1">
+      thumb_down
+    </mat-icon>
+  </button>
+} @else {
+  <span class="placeholder"></span>
+}

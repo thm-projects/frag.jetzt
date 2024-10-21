@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.placeholder {
+  width: var(--mdc-icon-button-state-layer-size, 48px);
+  height: var(--mdc-icon-button-state-layer-size, 48px);
+}

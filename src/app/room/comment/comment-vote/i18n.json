@@ -1,0 +1,12 @@
+{
+  "key": "comment-vote",
+  "de": {
+    "tooltip": "Bewertungsdifferenz: 👍 {{upvotes}} - 👎 {{downvotes}}"
+  },
+  "en": {
+    "tooltip": "Rating difference: 👍 {{upvotes}} - 👎 {{downvotes}}"
+  },
+  "fr": {
+    "tooltip": "Différence d'évaluation : 👍 {{upvotes}} - 👎 {{downvotes}}"
+  }
+}

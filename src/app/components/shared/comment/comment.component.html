@@ -506,7 +506,7 @@
   <button
     mat-icon-button
     class="icon-button"
-    (click)="voteUp(comment)"
+    (click)="voteUp()"
     *ngIf="!disabled && user && comment.creatorId !== user.id"
     matTooltip="{{ 'comment-page.vote-up' | translate }}"
     [matTooltipPosition]="'right'"
@@ -532,7 +532,7 @@
   <button
     mat-icon-button
     class="icon-button"
-    (click)="voteDown(comment)"
+    (click)="voteDown()"
     *ngIf="!disabled && user && comment.creatorId !== user.id"
     matTooltip="{{ 'comment-page.vote-down' | translate }}"
     [matTooltipPosition]="'right'"

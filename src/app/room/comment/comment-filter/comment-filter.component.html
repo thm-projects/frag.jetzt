@@ -1,0 +1,43 @@
+@if (comment().tag) {
+  <button
+    mat-button
+    (click)="selectFilter({ type: 'tag', option: comment().tag })"
+    class="wrapping-button">
+    <mat-icon>sell</mat-icon>
+    {{ comment().tag }}
+  </button>
+}
+@if (userCount(); as count) {
+  <button
+    mat-icon-button
+    (click)="selectFilter({ type: 'user', option: user()?.id })"
+    [matBadge]="count"
+    matBadgeSize="large">
+    <mat-icon>person_pin_circle</mat-icon>
+  </button>
+}
+@if (comment().keywordsFromQuestioner; as keywords) {
+  @if (keywords.length) {
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="keywordList"
+      [matBadge]="keywords.length"
+      matBadgeSize="large">
+      <mat-icon>tag</mat-icon>
+    </button>
+    <mat-menu #keywordList>
+      @for (keyword of keywords; track keyword) {
+        <button
+          mat-menu-item
+          (click)="
+            selectFilter({
+              type: 'keyword',
+              option: keyword.text,
+            })
+          ">
+          {{ keyword.text }}
+        </button>
+      }
+    </mat-menu>
+  }
+}

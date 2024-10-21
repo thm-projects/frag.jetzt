@@ -1,11 +1,13 @@
 <mat-card class="comment-card">
   <mat-card-header style="flex-wrap: wrap">
-    <mat-icon
-      mat-card-avatar
-      [matTooltip]="'Von einem Benutzer'"
-      class="avatar">
-      account_circle
-    </mat-icon>
+    @if (icon(); as icon) {
+      <mat-icon
+        mat-card-avatar
+        [matTooltip]="icon[1]"
+        class="avatar">
+        {{ icon[0] }}
+      </mat-icon>
+    }
     <mat-card-title class="title">{{ header()[0] }}</mat-card-title>
     <mat-card-subtitle
       class="slim-title"
@@ -20,26 +22,9 @@
   <mat-card-content class="card-content">
     <div class="content-vote-wrapper">
       <div class="content-wrapper">
-        <span class="filter-action-container">
-          <button
-            mat-button
-            class="wrapping-button">
-            <mat-icon>sell</mat-icon>
-            DiesSindDreißigZeichenInButton
-          </button>
-          <button
-            mat-icon-button
-            [matBadge]="5"
-            matBadgeSize="large">
-            <mat-icon>person_pin_circle</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            [matBadge]="5"
-            matBadgeSize="large">
-            <mat-icon>tag</mat-icon>
-          </button>
-        </span>
+        <app-comment-filter
+          (filterSelect)="selectFilter($event)"
+          [comment]="comment()"></app-comment-filter>
         <div
           #contentWrapper
           [class.cut]="isTaller() && !isExpanded()">
@@ -57,29 +42,7 @@
           </button>
         }
       </div>
-      <div class="vote-wrapper">
-        <button
-          mat-icon-button
-          [disabled]="vote().state === 'pending'"
-          (click)="doVote(1)">
-          <mat-icon
-            class="fillable-icon"
-            [class.filled]="vote().value === 1">
-            thumb_up
-          </mat-icon>
-        </button>
-        <span>0</span>
-        <button
-          mat-icon-button
-          [disabled]="vote().state === 'pending'"
-          (click)="doVote(-1)">
-          <mat-icon
-            class="fillable-icon"
-            [class.filled]="vote().value === -1">
-            thumb_down
-          </mat-icon>
-        </button>
-      </div>
+      <app-comment-vote [comment]="comment()"></app-comment-vote>
     </div>
   </mat-card-content>
 

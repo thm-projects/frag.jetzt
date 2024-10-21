@@ -8,8 +8,8 @@ import {
   effect,
   ElementRef,
   inject,
-  Injector,
   input,
+  output,
   Signal,
   signal,
   viewChild,
@@ -22,10 +22,17 @@ import {
   getActualDate,
   getRelativeDate,
 } from 'app/base/util/dateSignal';
+import { moderators, room } from 'app/room/state/room';
+import { user } from 'app/user/state/user';
 
 export interface ValueOption<T> {
   value: T;
   state: 'valid' | 'pending';
+}
+
+export interface Filter {
+  type: 'keyword' | 'tag' | 'user';
+  option?: unknown;
 }
 
 @Component({
@@ -35,15 +42,13 @@ export interface ValueOption<T> {
 })
 export class CommentComponent implements AfterViewInit {
   comment = input.required<ForumComment>();
+  filterSelect = output<Filter>();
   protected readonly i18n = i18n;
   protected readonly header = computed(() => this.formatCommentNumber());
-  protected readonly vote = signal<ValueOption<0 | 1 | -1>>({
-    value: 0,
-    state: 'pending',
-  });
   protected readonly isTaller = signal<boolean>(false);
   protected readonly isExpanded = signal<boolean>(false);
   protected readonly relativeDate = signal<string>('');
+  protected readonly icon = computed(() => this.getIcon());
   protected formattedDate: Signal<FormattedDate> = signal({
     date: '',
     time: '',
@@ -52,13 +57,11 @@ export class CommentComponent implements AfterViewInit {
     viewChild<ElementRef<HTMLDivElement>>('contentWrapper');
   protected editor = viewChild(MarkdownViewerComponent);
   private ref = inject(ElementRef);
-  private injector = inject(Injector);
 
   constructor() {
     effect(
       (onCleanup) => {
         const c = this.comment();
-        this.vote.set({ value: 0, state: 'valid' });
         this.formattedDate = getActualDate(c.createdAt);
         const sub = getRelativeDate(c.createdAt).subscribe((v) => {
           this.relativeDate.set(v);
@@ -76,16 +79,8 @@ export class CommentComponent implements AfterViewInit {
     });
   }
 
-  protected doVote(num: 1 | -1) {
-    const v = this.vote();
-    if (v.state === 'pending') {
-      return;
-    }
-    this.vote.set({ value: v.value === num ? 0 : num, state: 'pending' });
-    setTimeout(
-      () => this.vote.update((v) => ({ ...v, state: 'valid' })),
-      Math.random() * 3000,
-    );
+  protected selectFilter(filter: Filter) {
+    this.filterSelect.emit(filter);
   }
 
   protected expandSwitch() {
@@ -102,6 +97,32 @@ export class CommentComponent implements AfterViewInit {
         inline: 'nearest',
       });
     }
+  }
+
+  private getIcon(): [string, string] {
+    const c = this.comment();
+    if (!c) return null;
+    // brainstorm, own, moderator, owner, ai
+    if ((c?.brainstormingSessionId || null) !== null) {
+      return ['tips_and_updates', i18n().isBrainstorm];
+    }
+    const u = user();
+    if (u?.id === c.creatorId) {
+      return ['assignment', i18n().fromOwn];
+    }
+    const r = room();
+    const isOwner = r?.ownerId === c.creatorId;
+    if (isOwner) {
+      return ['co_present', i18n().fromOwner];
+    }
+    const isModerator = moderators()?.findIndex((m) => m.accountId === u?.id);
+    if (isModerator) {
+      return ['support_agent', i18n().fromModerator];
+    }
+    if (c.gptWriterState !== 0) {
+      return ['robot_2', i18n().withAI];
+    }
+    return ['account_circle', i18n().fromParticipant];
   }
 
   private formatCommentNumber(): [string, string] {

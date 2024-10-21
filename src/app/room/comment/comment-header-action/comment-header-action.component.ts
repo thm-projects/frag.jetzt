@@ -22,7 +22,7 @@ import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigatio
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookmarkService } from 'app/services/http/bookmark.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 interface Common {
   id: string;
@@ -159,14 +159,26 @@ export class CommentHeaderActionComponent {
     });
     let observable: Observable<unknown>;
     if (!current.value) {
-      observable = this.bookmarkService.create({
-        roomId: room().id,
-        accountId: user().id,
-        commentId: this.comment().id,
-      });
+      observable = this.bookmarkService
+        .create({
+          roomId: room().id,
+          accountId: user().id,
+          commentId: this.comment().id,
+        })
+        .pipe(
+          map((x) => {
+            userBookmarks().set(this.comment().id, x);
+            return null;
+          }),
+        );
     } else {
       const bookmark = userBookmarks().get(this.comment().id);
-      observable = this.bookmarkService.delete(bookmark.id);
+      observable = this.bookmarkService.delete(bookmark.id).pipe(
+        map(() => {
+          userBookmarks().delete(this.comment().id);
+          return null;
+        }),
+      );
     }
     observable.subscribe({
       complete: () =>
