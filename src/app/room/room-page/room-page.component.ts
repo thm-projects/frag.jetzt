@@ -215,10 +215,12 @@ export class RoomPageComponent {
   }
 
   private updateResponseCounter(): void {
+    const room = this.room();
+    if (!room) return;
     this.commentService
       .countByRoomId([
-        { roomId: this.room().id, ack: true },
-        { roomId: this.room().id, ack: false },
+        { roomId: room.id, ack: true },
+        { roomId: room.id, ack: false },
       ])
       .subscribe((commentCounter) => {
         this.commentCounter.set(commentCounter[0].questionCount);

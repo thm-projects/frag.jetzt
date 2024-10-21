@@ -27,7 +27,12 @@ export const ARSRxStompConfig: RxStompConfig = {
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
     if (environment.stomp_debug) {
-      console.log(new Date(), 'STOMP debug: ' + msg);
+      console.debug(
+        `%c${new Date().toLocaleString()} %cSTOMP debug: %c${msg}`,
+        'color: lightblue;',
+        'color: turquoise;',
+        'color: lightgreen',
+      );
     }
   },
 };

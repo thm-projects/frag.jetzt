@@ -698,6 +698,18 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     return comment;
   }
 
+  protected getMinComment(): ForumComment {
+    let min = Number.MAX_SAFE_INTEGER;
+    let comment: ForumComment;
+    for (const c of this.getSlicedComments()) {
+      if (c.body.length > 0 && c.body.length < min) {
+        min = c.body.length;
+        comment = c;
+      }
+    }
+    return comment;
+  }
+
   protected openFilterMenu() {
     this._filterObject.updateCount(Boolean(this.searchString));
   }

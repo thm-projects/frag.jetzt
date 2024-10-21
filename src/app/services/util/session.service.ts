@@ -15,8 +15,7 @@ import { RoomService } from '../http/room.service';
 import { WsRoomService } from '../websockets/ws-room.service';
 import { ModeratorService } from '../http/moderator.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { filter, map, mergeMap, take } from 'rxjs/operators';
-import { WsConnectorService } from '../websockets/ws-connector.service';
+import { filter, map, take } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
@@ -75,7 +74,6 @@ export class SessionService {
     private roomService: RoomService,
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
-    private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
     private livepollService: LivepollService,
@@ -336,12 +334,6 @@ export class SessionService {
             this.accountState.updateAccess(shortId);
             return data;
           }),
-          mergeMap(() =>
-            this.wsConnectorService.connected$.pipe(
-              filter((v) => !!v),
-              take(1),
-            ),
-          ),
         )
         .subscribe(() => this.fetchRoom(shortId));
     });

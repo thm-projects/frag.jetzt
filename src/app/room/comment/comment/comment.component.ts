@@ -61,7 +61,6 @@ export class CommentComponent implements AfterViewInit {
         this.vote.set({ value: 0, state: 'valid' });
         this.formattedDate = getActualDate(c.createdAt);
         const sub = getRelativeDate(c.createdAt).subscribe((v) => {
-          console.log(v);
           this.relativeDate.set(v);
         });
         onCleanup(() => sub.unsubscribe());
@@ -117,7 +116,6 @@ export class CommentComponent implements AfterViewInit {
       topLevelNumber: meta[0],
       level: String(meta.length - 1),
     };
-    console.log(123);
     const obj = {
       number,
       author: c.questionerName,

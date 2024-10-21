@@ -15,7 +15,6 @@ import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
 import { VoteService } from './services/http/vote.service';
-import { WsConnectorService } from './services/websockets/ws-connector.service';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
@@ -207,7 +206,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       useClass: AuthenticationInterceptor,
       multi: true,
     },
-    WsConnectorService,
     NotificationService,
     AuthenticationService,
     AuthenticationGuard,
@@ -220,7 +218,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ModeratorService,
     BonusTokenService,
     CustomIconService,
-    WsConnectorService,
     SpacyService,
     MatBottomSheet,
     DashboardNotificationService,

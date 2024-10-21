@@ -570,6 +570,7 @@
 
 @if (!isLoading && getSlicedComments().length) {
   <app-test-comment [comment]="getMaxComment()"></app-test-comment>
+  <app-test-comment [comment]="getMinComment()"></app-test-comment>
 }
 
 <div *ngIf="!isLoading">

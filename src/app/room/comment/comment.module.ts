@@ -8,6 +8,7 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
 import { CommentHeaderActionComponent } from './comment-header-action/comment-header-action.component';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [CommentComponent, CommentHeaderActionComponent],
@@ -19,6 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CustomMarkdownModule,
     ContextPipe,
     MatMenuModule,
+    MatBadgeModule,
   ],
   exports: [CommentComponent],
 })

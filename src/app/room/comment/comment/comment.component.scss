@@ -1,10 +1,22 @@
 :host {
   width: 100%;
   scroll-margin-top: 1em;
+  margin-block: 1em;
+  display: block;
 }
 
 .comment-card {
-  width: min(800px, 100%);
+  margin-left: 1em;
+  width: min(800px, calc(100% - 2em));
+}
+
+.filter-action-container {
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin: 0.5em 1em 0.5em 0;
+  }
 }
 
 .slim-title {
@@ -36,25 +48,41 @@
   flex: 1;
 }
 
+.wrapping-button {
+  .mat-icon {
+    min-width: 1.125rem;
+  }
+
+  ::ng-deep .mdc-button__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .content-wrapper {
   flex: 1;
-  // Custom size
-  position: relative;
-  height: var(--height, 10.5em);
   overflow: hidden;
-  transition: height 500ms var(--md-sys-motion-easing-emphasized);
 
-  &.cut::before {
-    $padding: 1em;
-    content: "";
-    position: absolute;
-    left: $padding;
-    bottom: 0;
-    width: calc(100% - #{$padding * 2});
-    height: 0.2em;
-    pointer-events: none;
-    border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
-    box-shadow: 0 0 1em 0.05em currentColor;
+  > div {
+    // Custom size
+    position: relative;
+    height: var(--height, 10.5em);
+    overflow: hidden;
+    transition: height 500ms var(--md-sys-motion-easing-emphasized);
+
+    &.cut::before {
+      $padding: 1em;
+      content: "";
+      position: absolute;
+      left: $padding;
+      bottom: 0;
+      width: calc(100% - #{$padding * 2});
+      height: 0.2em;
+      pointer-events: none;
+      border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+      box-shadow: 0 0 1em 0.05em currentColor;
+    }
   }
 }
 
@@ -62,6 +90,9 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   gap: 1em;
+}
+
+.ai-button {
+  --mdc-icon-button-state-layer-size: 40px;
 }

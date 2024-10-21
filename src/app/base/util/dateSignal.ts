@@ -62,7 +62,7 @@ export const getRelativeDate = (date: Date): Observable<string> => {
   const timeSubject = new BehaviorSubject<void>(undefined);
   let id: TimeoutHelper;
   const schedule = (t: number) => {
-    console.log(t);
+    console.assert(t >= 0, 'DateSignal: Time should be positive');
     clearTimeout(id);
     id = setTimeout(() => timeSubject.next(), t);
   };
@@ -98,6 +98,9 @@ export const getRelativeDate = (date: Date): Observable<string> => {
       } else if (diff < oneDay * 2) {
         schedule(oneDay * 2 - diff);
         return text.oneDay;
+      } else if (diff < oneDay * 3) {
+        schedule(oneDay * 3 - diff);
+        return text.twoDays;
       }
       // check months
       const { monthDiff, timeDiff } = getMonthDiff(current, date);

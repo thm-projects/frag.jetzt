@@ -239,7 +239,10 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  patchComment(comment: Comment, changes: TSMap<string, unknown>) {
+  patchComment(
+    comment: Comment,
+    changes: TSMap<string, unknown> | Partial<Comment>,
+  ): Observable<Comment> {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http

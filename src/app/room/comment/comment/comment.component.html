@@ -19,11 +19,43 @@
 
   <mat-card-content class="card-content">
     <div class="content-vote-wrapper">
-      <div
-        class="content-wrapper"
-        #contentWrapper
-        [class.cut]="isTaller() && !isExpanded()">
-        <app-markdown-viewer [data]="comment().body"></app-markdown-viewer>
+      <div class="content-wrapper">
+        <span class="filter-action-container">
+          <button
+            mat-button
+            class="wrapping-button">
+            <mat-icon>sell</mat-icon>
+            DiesSindDreißigZeichenInButton
+          </button>
+          <button
+            mat-icon-button
+            [matBadge]="5"
+            matBadgeSize="large">
+            <mat-icon>person_pin_circle</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [matBadge]="5"
+            matBadgeSize="large">
+            <mat-icon>tag</mat-icon>
+          </button>
+        </span>
+        <div
+          #contentWrapper
+          [class.cut]="isTaller() && !isExpanded()">
+          <app-markdown-viewer [data]="comment().body"></app-markdown-viewer>
+        </div>
+        @if (isTaller()) {
+          <button
+            style="width: 100%"
+            mat-button
+            (click)="expandSwitch()">
+            <mat-icon>
+              {{ isExpanded() ? "arrow_upward" : "arrow_downward" }}
+            </mat-icon>
+            {{ isExpanded() ? "Weniger anzeigen" : "Mehr anzeigen" }}
+          </button>
+        }
       </div>
       <div class="vote-wrapper">
         <button
@@ -49,30 +81,36 @@
         </button>
       </div>
     </div>
-    @if (isTaller()) {
-      <button
-        mat-button
-        (click)="expandSwitch()">
-        <mat-icon>
-          {{ isExpanded() ? "arrow_upward" : "arrow_downward" }}
-        </mat-icon>
-        {{ isExpanded() ? "Weniger anzeigen" : "Mehr anzeigen" }}
-      </button>
-    }
   </mat-card-content>
 
-  <mat-card-actions>
-    <button mat-button>
+  <mat-card-actions style="gap: 0.5em; justify-content: space-between">
+    <!-- flex-wrap: wrap;  -->
+    <button
+      mat-icon-button
+      [matTooltip]="'Antwort schreiben'">
       <mat-icon>reply</mat-icon>
-      Antwort schreiben
     </button>
-    <button mat-button>
-      <mat-icon svgIcon="fj_robot"></mat-icon>
-      KI antworten lassen
+    <button
+      mat-icon-button
+      [matTooltip]="'Zur vorherigen Frage'">
+      <mat-icon>unfold_less</mat-icon>
     </button>
-    <button mat-button>
+    <!-- <button
+      mat-icon-button
+      [matTooltip]="'Antworten anzeigen'">
+      <mat-icon>comment</mat-icon>
+    </button> -->
+    <button
+      mat-icon-button
+      [matTooltip]="'Benachrichtigen'">
       <mat-icon>notifications_off</mat-icon>
-      Benachrichtigen
+    </button>
+    <button
+      style="margin-right: 0.25em"
+      mat-icon-button
+      class="contained-icon primary ai-button"
+      [matTooltip]="'KI antworten lassen'">
+      <mat-icon svgIcon="fj_robot"></mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>
