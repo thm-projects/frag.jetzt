@@ -111,7 +111,13 @@ export class CommentHeaderActionComponent {
         const isParticipant = this.assignedRole() === 'Participant';
         if (!isParticipant) return;
         const bookmarks = userBookmarks();
-        if (!bookmarks) return;
+        if (!bookmarks) {
+          this.bookmark.set({
+            value: false,
+            state: 'pending',
+          });
+          return;
+        }
         this.bookmark.set({
           value: Boolean(bookmarks.get(c.id)),
           state: 'valid',
