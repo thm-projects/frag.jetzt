@@ -40,7 +40,7 @@
     </ng-container>
   </mat-menu>
   <button
-    *ngIf="!change.isNotificationBlocked"
+    *ngIf="!change.isNotificationBlocked()"
     mat-icon-button
     class="example-icon"
     aria-label="Example icon-button with menu icon"
@@ -50,7 +50,7 @@
     </mat-icon>
   </button>
   <button
-    *ngIf="change.isNotificationBlocked"
+    *ngIf="change.isNotificationBlocked()"
     mat-icon-button
     class="example-icon"
     aria-label="Example icon-button with menu icon"
@@ -115,7 +115,7 @@
             second: "2-digit",
             minute: "2-digit",
             month: "2-digit",
-            year: "numeric"
+            year: "numeric",
           })
         }}
       </div>

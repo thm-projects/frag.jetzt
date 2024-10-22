@@ -1,13 +1,15 @@
+@use "sass:math";
+
+$comment-margin: 1em;
 :host {
   width: 100%;
   scroll-margin-top: 1em;
-  margin-block: 1em;
+  margin-block: $comment-margin;
   display: block;
 }
 
 .comment-card {
-  margin-left: 1em;
-  width: min(800px, calc(100% - 2em));
+  max-width: min(800px, 100%);
 }
 
 .slim-title {
@@ -65,6 +67,39 @@
   }
 }
 
-.ai-button {
-  --mdc-icon-button-state-layer-size: 40px;
+$ident-size: 2.5rem;
+$line-width: 0.15rem;
+$pad-plus-half-avatar-size: 36px;
+.children-container {
+  max-width: min(800px, 100%);
+
+  > * {
+    position: relative;
+    margin-left: $ident-size;
+    width: calc(100% - #{$ident-size});
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: calc(#{$pad-plus-half-avatar-size} + #{$comment-margin});
+      top: #{-$comment-margin};
+      left: #{-1 * math.div($ident-size + $line-width, 2)};
+      width: #{math.div($ident-size, 2) - $line-width};
+      border-left: $line-width solid currentColor;
+      border-bottom: $line-width solid currentColor;
+      border-bottom-left-radius: #{math.div(
+          math.div($ident-size, 2) - $line-width,
+          2
+        )};
+    }
+
+    &:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      height: calc(100% + #{$comment-margin});
+      top: #{-$comment-margin};
+      left: #{-1 * math.div($ident-size + $line-width, 2)};
+      border-left: $line-width solid currentColor;
+    }
+  }
 }

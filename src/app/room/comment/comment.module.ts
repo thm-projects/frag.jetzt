@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommentVoteComponent } from './comment-vote/comment-vote.component';
 import { CommentFilterComponent } from './comment-filter/comment-filter.component';
+import { CommentActionsComponent } from './comment-actions/comment-actions.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CommentFilterComponent } from './comment-filter/comment-filter.componen
     CommentHeaderActionComponent,
     CommentVoteComponent,
     CommentFilterComponent,
+    CommentActionsComponent,
   ],
   imports: [
     MatCardModule,

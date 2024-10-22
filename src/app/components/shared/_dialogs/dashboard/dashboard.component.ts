@@ -322,8 +322,8 @@ export class DashboardComponent implements OnDestroy {
   }
 
   toggleNotificationBlock() {
-    this.change.isNotificationBlocked = !this.change.isNotificationBlocked;
-    if (!this.change.isNotificationBlocked) {
+    this.change.isNotificationBlocked.update((v) => !v);
+    if (!this.change.isNotificationBlocked()) {
       AppComponent.instance.hasPushSubscription().subscribe((b) => {
         if (!b) {
           AppComponent.instance.registerPush();

@@ -1,13 +1,11 @@
 <mat-card class="comment-card">
   <mat-card-header style="flex-wrap: wrap">
-    @if (icon(); as icon) {
-      <mat-icon
-        mat-card-avatar
-        [matTooltip]="icon[1]"
-        class="avatar">
-        {{ icon[0] }}
-      </mat-icon>
-    }
+    <mat-icon
+      mat-card-avatar
+      [matTooltip]="icon()[1]"
+      class="avatar">
+      {{ icon()[0] }}
+    </mat-icon>
     <mat-card-title class="title">{{ header()[0] }}</mat-card-title>
     <mat-card-subtitle
       class="slim-title"
@@ -46,34 +44,18 @@
     </div>
   </mat-card-content>
 
-  <mat-card-actions style="gap: 0.5em; justify-content: space-between">
-    <!-- flex-wrap: wrap;  -->
-    <button
-      mat-icon-button
-      [matTooltip]="'Antwort schreiben'">
-      <mat-icon>reply</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [matTooltip]="'Zur vorherigen Frage'">
-      <mat-icon>unfold_less</mat-icon>
-    </button>
-    <!-- <button
-      mat-icon-button
-      [matTooltip]="'Antworten anzeigen'">
-      <mat-icon>comment</mat-icon>
-    </button> -->
-    <button
-      mat-icon-button
-      [matTooltip]="'Benachrichtigen'">
-      <mat-icon>notifications_off</mat-icon>
-    </button>
-    <button
-      style="margin-right: 0.25em"
-      mat-icon-button
-      class="contained-icon primary ai-button"
-      [matTooltip]="'KI antworten lassen'">
-      <mat-icon svgIcon="fj_robot"></mat-icon>
-    </button>
-  </mat-card-actions>
+  <app-comment-actions
+    [comment]="comment()"
+    [onlyShowUp]="onlyShowUp()"
+    [(showAnswers)]="showAnswers"></app-comment-actions>
 </mat-card>
+
+@if (comment().children.size && showAnswers()) {
+  <div class="children-container">
+    @for (child of comment().children; track child.id) {
+      <app-test-comment
+        [comment]="child"
+        (filterSelect)="selectFilter($event)"></app-test-comment>
+    }
+  </div>
+}

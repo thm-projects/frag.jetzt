@@ -9,6 +9,7 @@ import {
   ElementRef,
   inject,
   input,
+  model,
   output,
   Signal,
   signal,
@@ -43,6 +44,8 @@ export interface Filter {
 export class CommentComponent implements AfterViewInit {
   comment = input.required<ForumComment>();
   filterSelect = output<Filter>();
+  onlyShowUp = input(false);
+  showAnswers = model(false);
   protected readonly i18n = i18n;
   protected readonly header = computed(() => this.formatCommentNumber());
   protected readonly isTaller = signal<boolean>(false);
@@ -101,7 +104,7 @@ export class CommentComponent implements AfterViewInit {
 
   private getIcon(): [string, string] {
     const c = this.comment();
-    if (!c) return null;
+    if (!c) return ['', ''];
     // brainstorm, own, moderator, owner, ai
     if ((c?.brainstormingSessionId || null) !== null) {
       return ['tips_and_updates', i18n().isBrainstorm];
@@ -166,7 +169,7 @@ export class CommentComponent implements AfterViewInit {
     }
     // Answer / Response
     // TODO: check main comment for type
-    obj.short = i18nContext(i18n().questionShort, shortObj); // or ideaShort
+    obj.short = i18nContext(i18n().answerShort, shortObj); // or ideaShort
     return [
       i18nContext(
         i18n().headline[c.questionerName ? 'answerAuthor' : 'answer'],

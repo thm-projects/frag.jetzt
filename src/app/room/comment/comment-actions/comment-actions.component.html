@@ -1,0 +1,143 @@
+<mat-card-actions>
+  @if (canReply()) {
+    @if (isSmall()) {
+      <button
+        mat-icon-button
+        class="primary"
+        (click)="navigateWriteAnswer()"
+        [matTooltip]="i18n().replyDescription">
+        <mat-icon>reply</mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-button
+        (click)="navigateWriteAnswer()"
+        [matTooltip]="i18n().replyDescription">
+        <mat-icon>reply</mat-icon>
+        {{ i18n().reply }}
+      </button>
+    }
+  }
+
+  @if (canGoUp()) {
+    @if (isSmall()) {
+      <button
+        mat-icon-button
+        class="primary"
+        (click)="navigateUp()"
+        [matTooltip]="i18n().oneLevelUpDescription">
+        <mat-icon>unfold_less</mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-button
+        (click)="navigateUp()"
+        [matTooltip]="i18n().oneLevelUpDescription">
+        <mat-icon>unfold_less</mat-icon>
+        {{ i18n().oneLevelUp }}
+      </button>
+    }
+  }
+
+  @if (canToggleAnswers()) {
+    @if (isSmall()) {
+      <button
+        mat-icon-button
+        class="primary"
+        (click)="toggleShowAnswers()"
+        [matTooltip]="
+          showAnswers()
+            ? i18n().hideAnswersDescription
+            : i18n().showAnswersDescription
+        "
+        [matBadge]="comment().totalAnswerCounts.accumulated"
+        matBadgeSize="large">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="showAnswers()">
+          comment
+        </mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-button
+        (click)="toggleShowAnswers()"
+        [matTooltip]="
+          showAnswers()
+            ? i18n().hideAnswersDescription
+            : i18n().showAnswersDescription
+        "
+        [matBadge]="comment().totalAnswerCounts.accumulated"
+        matBadgeSize="large">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="showAnswers()">
+          comment
+        </mat-icon>
+        {{ showAnswers() ? i18n().hideAnswers : i18n().showAnswers }}
+      </button>
+    }
+  }
+
+  @if (canNotify()) {
+    @if (isSmall()) {
+      <button
+        mat-icon-button
+        class="primary"
+        [disabled]="hasNotification().state === 'pending'"
+        [matTooltip]="
+          hasNotification().value
+            ? i18n().notificationOffDescription
+            : i18n().notificationDescription
+        "
+        (click)="toggleNotify()">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="hasNotification().value">
+          {{
+            hasNotification().value ? "notifications_on" : "notifications_off"
+          }}
+        </mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-button
+        [disabled]="hasNotification().state === 'pending'"
+        [matTooltip]="
+          hasNotification().value
+            ? i18n().notificationOffDescription
+            : i18n().notificationDescription
+        "
+        (click)="toggleNotify()">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="hasNotification().value">
+          {{
+            hasNotification().value ? "notifications_on" : "notifications_off"
+          }}
+        </mat-icon>
+        {{
+          hasNotification().value ? i18n().notificationOff : i18n().notification
+        }}
+      </button>
+    }
+  }
+
+  @if (isSmall()) {
+    <button
+      mat-icon-button
+      (click)="chatWithAI()"
+      class="contained-icon primary"
+      [matTooltip]="i18n().aiDescription">
+      <mat-icon svgIcon="fj_robot"></mat-icon>
+    </button>
+  } @else {
+    <button
+      mat-flat-button
+      (click)="chatWithAI()"
+      [matTooltip]="i18n().aiDescription">
+      <mat-icon svgIcon="fj_robot"></mat-icon>
+      {{ i18n().ai }}
+    </button>
+  }
+</mat-card-actions>

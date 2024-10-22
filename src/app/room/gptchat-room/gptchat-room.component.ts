@@ -12,6 +12,7 @@ import {
   effect,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { Observable, ReplaySubject, forkJoin, of, takeUntil } from 'rxjs';
 import { ForumComment } from '../../utils/data-accessor';
@@ -39,6 +40,7 @@ import { applyAiNavigation } from './navigation/ai-navigation';
 import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AiChatComponent } from './ai-chat/ai-chat.component';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -99,6 +101,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
   private destroyRef = inject(DestroyRef);
+  private aiChat = viewChild(AiChatComponent);
 
   constructor(deviceState: DeviceStateService) {
     this.initNav();
@@ -242,6 +245,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer), take(1))
       .subscribe((comment) => {
         this.owningComment = comment;
+        setTimeout(() => this.aiChat().setValue(comment.body), 100);
       });
     this.eventService.broadcast('gptchat-room.init');
     this.accountState.gptConsented$

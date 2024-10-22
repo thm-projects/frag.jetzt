@@ -457,7 +457,7 @@
       </button>
       <button
         mat-icon-button
-        *ngIf="!notificationService.isNotificationBlocked"
+        *ngIf="!notificationService.isNotificationBlocked()"
         (click)="toggleNotifications()">
         <mat-icon
           class="not-marked material-icons-filled"
