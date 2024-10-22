@@ -23,6 +23,13 @@ import { RoomStateService } from 'app/services/state/room-state.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookmarkService } from 'app/services/http/bookmark.service';
 import { map, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { EditCommentTagComponent } from 'app/components/creator/_dialogs/edit-comment-tag/edit-comment-tag.component';
+import { EditQuestionComponent } from 'app/components/shared/_dialogs/edit-question/edit-question.component';
+import { SessionService } from 'app/services/util/session.service';
+import { UserRole } from 'app/models/user-roles.enum';
+import { copyText } from 'app/room/util/clipboard';
+import { DeleteCommentComponent } from 'app/components/creator/_dialogs/delete-comment/delete-comment.component';
 
 interface Common {
   id: string;
@@ -84,6 +91,8 @@ export class CommentHeaderActionComponent {
     initialValue: 'Participant',
   });
   private bookmarkService = inject(BookmarkService);
+  private dialog = inject(MatDialog);
+  private sessionService = inject(SessionService);
 
   constructor() {
     effect(
@@ -125,6 +134,53 @@ export class CommentHeaderActionComponent {
       },
       { allowSignalWrites: true },
     );
+  }
+
+  private updateCommentTag() {
+    const dialogRef = this.dialog.open(EditCommentTagComponent);
+    dialogRef.componentInstance.selectedTag = this.comment().tag;
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        this.commentService
+          .updateCommentTag(this.comment(), result)
+          .subscribe((comment) => {
+            this.comment().tag = comment.tag;
+          });
+      }
+    });
+  }
+
+  private editQuestion() {
+    let role = UserRole.PARTICIPANT;
+    const assigned = this.assignedRole();
+    if (assigned === 'Creator') {
+      role = UserRole.CREATOR;
+    } else if (assigned === 'Moderator') {
+      role = UserRole.EXECUTIVE_MODERATOR;
+    }
+    const ref = this.dialog.open(EditQuestionComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
+      autoFocus: false,
+    });
+    ref.componentInstance.comment = this.comment();
+    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
+    ref.componentInstance.userRole = role;
+  }
+
+  private copyLink() {
+    const url = `${window.location.protocol}//${window.location.host}/participant/room/${room().shortId}/comment/${this.comment().id}/conversation`;
+    copyText(url).subscribe();
+  }
+
+  private deleteComment() {
+    const dialogRef = this.dialog.open(DeleteCommentComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'delete') {
+        this.commentService.deleteComment(this.comment().id).subscribe();
+      }
+    });
   }
 
   private updateComment<T>(
@@ -390,7 +446,7 @@ export class CommentHeaderActionComponent {
           label: text.editLabel,
           description: text.edit,
           action: () => {
-            console.log('Edit');
+            this.editQuestion();
           },
         } satisfies CommentElement),
       (isOwner || isModerator) &&
@@ -401,7 +457,7 @@ export class CommentHeaderActionComponent {
           label: text.categoryLabel,
           description: text.category,
           action: () => {
-            console.log('Category');
+            this.updateCommentTag();
           },
         } satisfies CommentElement),
       {
@@ -411,7 +467,7 @@ export class CommentHeaderActionComponent {
         label: text.shareLabel,
         description: text.share,
         action: () => {
-          console.log('Share');
+          this.copyLink();
         },
       } satisfies CommentElement,
       (isOwner || isModerator) &&
@@ -422,7 +478,7 @@ export class CommentHeaderActionComponent {
           label: text.deleteLabel,
           description: text.delete,
           action: () => {
-            console.log('Delete');
+            this.deleteComment();
           },
         } satisfies CommentElement),
     ].filter(Boolean);
