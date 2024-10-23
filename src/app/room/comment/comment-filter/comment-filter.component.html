@@ -10,7 +10,7 @@
 @if (userCount(); as count) {
   <button
     mat-icon-button
-    (click)="selectFilter({ type: 'user', option: user()?.id })"
+    (click)="selectFilter({ type: 'user', option: comment().creatorId })"
     [matBadge]="count"
     matBadgeSize="large">
     <mat-icon>person_pin_circle</mat-icon>
