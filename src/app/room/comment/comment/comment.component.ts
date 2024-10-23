@@ -37,7 +37,7 @@ export interface Filter {
 }
 
 @Component({
-  selector: 'app-test-comment',
+  selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss',
 })
@@ -118,7 +118,8 @@ export class CommentComponent implements AfterViewInit {
     if (isOwner) {
       return ['co_present', i18n().fromOwner];
     }
-    const isModerator = moderators()?.findIndex((m) => m.accountId === u?.id);
+    const isModerator =
+      moderators()?.findIndex((m) => m.accountId === u?.id) >= 0;
     if (isModerator) {
       return ['support_agent', i18n().fromModerator];
     }

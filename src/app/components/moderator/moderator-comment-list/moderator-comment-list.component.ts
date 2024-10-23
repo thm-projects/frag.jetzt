@@ -51,6 +51,7 @@ import { user$ } from 'app/user/state/user';
 
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { Filter } from 'app/room/comment/comment/comment.component';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -310,6 +311,16 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
     this.applyFilterByKey('Number', +questionNumber.value);
+  }
+
+  protected selectFilter(filter: Filter) {
+    if (filter.type === 'tag') {
+      this.applyFilterByKey('Tag', filter.option);
+    } else if (filter.type === 'keyword') {
+      this.applyFilterByKey('Keyword', filter.option);
+    } else if (filter.type === 'user') {
+      this.applyFilterByKey('CreatorId', filter.option);
+    }
   }
 
   private deleteQuestions() {

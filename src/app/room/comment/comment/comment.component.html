@@ -6,9 +6,11 @@
       class="avatar">
       {{ icon()[0] }}
     </mat-icon>
-    <mat-card-title class="title">{{ header()[0] }}</mat-card-title>
+    <mat-card-title class="title title-medium">
+      {{ header()[0] }}
+    </mat-card-title>
     <mat-card-subtitle
-      class="slim-title"
+      class="slim-title label-large"
       [matTooltip]="i18n().subTitleTooltip | context: formattedDate()">
       {{ header()[1] }}
     </mat-card-subtitle>
@@ -53,9 +55,9 @@
 @if (comment().children.size && showAnswers()) {
   <div class="children-container">
     @for (child of comment().children; track child.id) {
-      <app-test-comment
+      <app-comment
         [comment]="child"
-        (filterSelect)="selectFilter($event)"></app-test-comment>
+        (filterSelect)="selectFilter($event)"></app-comment>
     }
   </div>
 }

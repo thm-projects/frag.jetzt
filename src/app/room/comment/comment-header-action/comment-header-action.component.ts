@@ -14,7 +14,7 @@ import { ValueOption } from '../comment/comment.component';
 import { ForumComment } from 'app/utils/data-accessor';
 import { CorrectWrong } from 'app/models/correct-wrong.enum';
 import { user } from 'app/user/state/user';
-import { room, userBookmarks } from 'app/room/state/room';
+import { room } from 'app/room/state/room';
 import { Comment } from 'app/models/comment';
 import { CommentService } from 'app/services/http/comment.service';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
@@ -30,6 +30,7 @@ import { SessionService } from 'app/services/util/session.service';
 import { UserRole } from 'app/models/user-roles.enum';
 import { copyText } from 'app/room/util/clipboard';
 import { DeleteCommentComponent } from 'app/components/creator/_dialogs/delete-comment/delete-comment.component';
+import { userBookmarks } from 'app/room/state/comments';
 
 interface Common {
   id: string;

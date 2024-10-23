@@ -73,6 +73,7 @@ import {
 import { Navigation } from '../../navigation/common-navigation-templates';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 import { user, user$ } from 'app/user/state/user';
+import { Filter } from 'app/room/comment/comment/comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -686,30 +687,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     ref.componentInstance.userRole = this.userRole;
   }
 
-  protected getMaxComment(): ForumComment {
-    let max = 0;
-    let comment: ForumComment;
-    for (const c of this.getSlicedComments()) {
-      if (c.body.length > max) {
-        max = c.body.length;
-        comment = c;
-      }
-    }
-    return comment;
-  }
-
-  protected getMinComment(): ForumComment {
-    let min = Number.MAX_SAFE_INTEGER;
-    let comment: ForumComment;
-    for (const c of this.getSlicedComments()) {
-      if (c.body.length > 0 && c.body.length < min) {
-        min = c.body.length;
-        comment = c;
-      }
-    }
-    return comment;
-  }
-
   protected openFilterMenu() {
     this._filterObject.updateCount(Boolean(this.searchString));
   }
@@ -771,6 +748,16 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       // TO-DO: Enable if valid
       // do: TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
+    }
+  }
+
+  protected selectFilter(filter: Filter) {
+    if (filter.type === 'tag') {
+      this.applyFilterByKey('Tag', filter.option);
+    } else if (filter.type === 'keyword') {
+      this.applyFilterByKey('Keyword', filter.option);
+    } else if (filter.type === 'user') {
+      this.applyFilterByKey('CreatorId', filter.option);
     }
   }
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ValueOption } from '../comment/comment.component';
 import { ForumComment } from 'app/utils/data-accessor';
-import { userVotes } from 'app/room/state/room';
+import { userVotes } from 'app/room/state/comments';
 import { VoteService } from 'app/services/http/vote.service';
 import { map, Observable } from 'rxjs';
 import { user } from 'app/user/state/user';

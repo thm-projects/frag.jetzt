@@ -12,7 +12,6 @@ import { RoomJoinComponent } from './room-join/room-join.component';
 import { UserBonusTokenComponent } from '../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RemindOfTokensComponent } from '../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { LoginComponent } from './login/login.component';
-import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
@@ -88,7 +87,6 @@ import { IntroductionQuestionWallFRComponent } from '../../../assets/i18n/compon
 import { IntroductionRoomListFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-list/introduction-room-list-fr.component';
 import { IntroductionRoomPageFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-fr.component';
 import { IntroductionTagCloudFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-fr.component';
-import { CommentResponseViewComponent } from './comment-response-view/comment-response-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
@@ -129,7 +127,6 @@ import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components
 import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
 import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-dialog.component';
 import { UtilityStyleTestComponent } from './utility/style/utility-style-test/utility-style-test.component';
-import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/comment-a11y-elements.component';
 import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
 import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
@@ -204,7 +201,6 @@ import { CommentModule } from 'app/room/comment/comment.module';
     RemindOfTokensComponent,
     LoginComponent,
     CloudConfigurationComponent,
-    CommentComponent,
     CreateCommentComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
@@ -269,7 +265,6 @@ import { CommentModule } from 'app/room/comment/comment.module';
     AppRatingComponent,
     AppRatingPopUpComponent,
     MinuteJumpClockComponent,
-    CommentResponseViewComponent,
     UIRegistrationComponent,
     PseudonymEditorComponent,
     BrainstormingBlacklistEditComponent,
@@ -309,7 +304,6 @@ import { CommentModule } from 'app/room/comment/comment.module';
     GptPromptExplanationFrComponent,
     GPTRatingDialogComponent,
     UtilityStyleTestComponent,
-    CommentA11yElementsComponent,
     ChatGPTBrainstormComponent,
     GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
@@ -336,7 +330,6 @@ import { CommentModule } from 'app/room/comment/comment.module';
     CommentPageComponent,
     CommentListComponent,
     CreateCommentComponent,
-    CommentComponent,
     DialogActionButtonsComponent,
     UserBonusTokenComponent,
     CloudConfigurationComponent,

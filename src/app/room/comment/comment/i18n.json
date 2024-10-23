@@ -2,17 +2,17 @@
   "key": "comment",
   "de": {
     "headline": {
-      "question": "Frage {{number}}",
-      "questionAuthor": "Frage {{number}} von {{author}}",
-      "answer": "Antwort {{number}}",
-      "answerAuthor": "Antwort {{number}} von {{author}}",
-      "idea": "Idee {{number}}",
-      "ideaAuthor": "Idee {{number}} von {{author}}"
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} von {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} von {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} von {{author}}"
     },
     "questionShort": "Q{{number}}",
     "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
     "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
-    "subTitle": "{{short}} · {{date}}",
+    "subTitle": "{{date}}",
     "subTitleTooltip": "Am {{date}} um {{time}}",
     "fromModerator": "Dieser Post stammt von einer Moderatorin oder einem Moderator.",
     "fromOwner": "Dieser Post stammt von der Raumerstellerin oder dem Raumersteller.",
@@ -23,17 +23,17 @@
   },
   "en": {
     "headline": {
-      "question": "Question {{number}}",
-      "questionAuthor": "Question {{number}} by {{author}}",
-      "answer": "Answer {{number}}",
-      "answerAuthor": "Answer {{number}} by {{author}}",
-      "idea": "Idea {{number}}",
-      "ideaAuthor": "Idea {{number}} by {{author}}"
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} by {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} by {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} by {{author}}"
     },
     "questionShort": "Q{{number}}",
     "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
     "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
-    "subTitle": "{{short}} · {{date}}",
+    "subTitle": "{{date}}",
     "subTitleTooltip": "On {{date}} at {{time}}",
     "fromModerator": "This question comes from a moderator.",
     "fromOwner": "This question comes from the room creator.",
@@ -44,17 +44,17 @@
   },
   "fr": {
     "headline": {
-      "question": "Question {{number}}",
-      "questionAuthor": "Question {{number}} par {{author}}",
-      "answer": "Réponse {{number}}",
-      "answerAuthor": "Réponse {{number}} par {{author}}",
-      "idea": "Idée {{number}}",
-      "ideaAuthor": "Idée {{number}} par {{author}}"
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} par {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} par {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} par {{author}}"
     },
     "questionShort": "Q{{number}}",
     "answerShort": "Q{{topLevelNumber}} N{{level}} R{{number}}",
     "ideaShort": "I{{topLevelNumber}} N{{level}} R{{number}}",
-    "subTitle": "{{short}} · {{date}}",
+    "subTitle": "{{date}}",
     "subTitleTooltip": "Le {{date}} à {{time}}",
     "fromModerator": "Ce message a été rédigé par un modérateur.",
     "fromOwner": "Ce message a été envoyé par le créateur de la salle.",
