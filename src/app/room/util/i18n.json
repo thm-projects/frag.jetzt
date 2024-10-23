@@ -1,0 +1,15 @@
+{
+  "key": "clipboard",
+  "de": {
+    "success": "Erfolgreich kopiert.",
+    "fail": "Etwas ist schiefgelaufen!"
+  },
+  "en": {
+    "success": "Successfully copied.",
+    "fail": "Something went wrong!"
+  },
+  "fr": {
+    "success": "Copie réussie.",
+    "fail": "Quelque chose a mal tourné!"
+  }
+}

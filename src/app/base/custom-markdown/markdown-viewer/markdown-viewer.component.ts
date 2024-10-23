@@ -7,6 +7,7 @@ import {
   Injector,
   input,
   OnDestroy,
+  untracked,
   viewChild,
 } from '@angular/core';
 import Editor, { EditorCore, Viewer } from '@toast-ui/editor';
@@ -14,6 +15,7 @@ import {
   MD_CUSTOM_TEXT_RENDERER,
   MD_PLUGINS,
 } from '../markdown-common/plugins';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-markdown-viewer',
@@ -22,6 +24,7 @@ import {
 })
 export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
   data = input.required<string>();
+  renderedPreview$ = new ReplaySubject<unknown>();
   public editorElement =
     viewChild.required<ElementRef<HTMLDivElement>>('editor');
   private injector = inject(Injector);
@@ -37,6 +40,9 @@ export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
       plugins: MD_PLUGINS,
       customHTMLRenderer: MD_CUSTOM_TEXT_RENDERER,
     });
+    this.editor.on('updatePreview', (e) =>
+      untracked(() => this.renderedPreview$.next(e)),
+    );
     effect(() => this.editor.setMarkdown(this.mdData()), {
       injector: this.injector,
     });

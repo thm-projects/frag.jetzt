@@ -571,27 +571,9 @@
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of getSlicedComments(); let i = index"
-    [isRemoved]="current?.removed"
     [appScrollIntoView]="current.id === focusCommentId"
-    [usesJoyride]="requestJoyride(current)"
     [comment]="current"
-    [parseVote]="commentVoteMap"
-    [userRole]="userRole"
-    [moderator]="false"
-    [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
-    [isFromOwner]="room.ownerId === current.creatorId"
-    [user]="user()"
-    [disabled]="!commentsEnabled"
-    [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-    [indentationPossible]="true"
-    [activeKeywordSearchString]="activeKeyword"
-    [canOpenGPT]="canOpenGPT"
-    [consentGPT]="consentGPT"
-    (editQuestionEmitter)="editQuestion(current)"
-    (clickedOnTag)="applyFilterByKey('Tag', $event)"
-    (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
-    (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"
-    (votedComment)="votedComment($event)"></app-comment>
+    (filterSelect)="selectFilter($event)"></app-comment>
   <ars-mat-paginator
     *ngIf="comments.length > 0"
     [pageSize]="this.pageSize"
@@ -640,8 +622,6 @@
     }}
   </p>
 </div>
-
-<app-comment-a11y-elements></app-comment-a11y-elements>
 
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">

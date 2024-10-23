@@ -40,18 +40,8 @@
     <app-comment
       *ngIf="comment?.body"
       [comment]="comment"
-      [user]="user"
-      [userRole]="userRole"
-      [parseVote]="votes"
-      [indentationPossible]="true"
-      [showResponses]="isConversationView"
-      [moderator]="isModerationComment"
-      [isFromModerator]="mods.has(comment.creatorId)"
-      [isFromOwner]="room.ownerId === comment.creatorId"
-      [isAnswerView]="true"
-      [canOpenGPT]="canOpenGPT"
-      [consentGPT]="consentGPT"
-      (editQuestionEmitter)="editQuestion(comment)"></app-comment>
+      [showAnswers]="isConversationView"
+      [onlyShowUp]="true"></app-comment>
   </div>
   <div
     fxLayout="row"

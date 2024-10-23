@@ -16,7 +16,7 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/custom-markdown.module';
-import { ReplaySubject } from 'rxjs';
+import { first, ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentData } from '../../../component-builder-support';
 import {
@@ -93,19 +93,14 @@ export class QwCommentFocusComponent implements OnDestroy {
     component: MarkdownViewerComponent,
   ) {
     this.data.session.focusScale.subscribe((value) => {
-      try {
-        // dirty trick
-        setTimeout(() => {
-          const element = component
-            .editorElement()
-            .nativeElement.getElementsByClassName(
-              'toastui-editor-contents',
-            )[0] as HTMLElement;
-          element.style.fontSize = value + '%';
-        });
-      } catch (e) {
-        console.log(e);
-      }
+      component.renderedPreview$.pipe(first()).subscribe(() => {
+        const element = component
+          .editorElement()
+          .nativeElement.getElementsByClassName(
+            'toastui-editor-contents',
+          )[0] as HTMLElement;
+        element.style.fontSize = value + '%';
+      });
     });
   }
 
