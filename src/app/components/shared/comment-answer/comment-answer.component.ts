@@ -32,7 +32,6 @@ import { HeaderService } from '../../../services/util/header.service';
 import { ForumComment } from '../../../utils/data-accessor';
 import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { Comment } from '../../../models/comment';
-import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
@@ -73,7 +72,6 @@ export class CommentAnswerComponent
   backUrl: string = null;
   commentsEnabled = false;
   roleString: string;
-  viewInfo: ResponseViewInformation;
   private injector = inject(Injector);
   private changeDetector = inject(ChangeDetectorRef);
   private createCommentWrapper: CreateCommentWrapper = null;
@@ -329,16 +327,6 @@ export class CommentAnswerComponent
   private onCommentReceive(c: ForumComment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
-    this.viewInfo = {
-      isModerationComment,
-      mods: this.mods,
-      roomOwner: this.room.ownerId,
-      roomThreshold: this.room.threshold,
-      roomId: this.room.id,
-      votes: this.votes,
-      userRole: this.userRole,
-      user: this.user,
-    };
     this.isLoading = false;
     const source = isModerationComment
       ? this.roomDataService.moderatorDataAccessor

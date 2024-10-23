@@ -1,9 +1,17 @@
 import { computed, signal } from '@angular/core';
 import { getInjector } from 'app/base/angular-init';
+import {
+  ConnectionService,
+  ConnectionStatus,
+  INFOS,
+} from 'app/base/connectivity/connectivity';
 import { dataService } from 'app/base/db/data-service';
+import { Moderator } from 'app/models/moderator';
 import { Room } from 'app/models/room';
+import { User } from 'app/models/user';
+import { ModeratorService } from 'app/services/http/moderator.service';
 import { RoomService } from 'app/services/http/room.service';
-import { wsReady } from 'app/user/state/websocket';
+import { user } from 'app/user/state/user';
 import { fetchingSignal } from 'app/utils/fetching-signal';
 import { of, switchMap, tap } from 'rxjs';
 
@@ -18,11 +26,11 @@ export const enterRoom = (shortId: string) => {
 
 // room - fetching
 
-export const room = fetchingSignal<[string, boolean], Room>({
+export const room = fetchingSignal<[string, boolean, User], Room>({
   initialState: null,
   fetchingState: () => null,
-  fetch: ([shortId, wsReady]) => {
-    if (!wsReady || !shortId) {
+  fetch: ([shortId, wsReady, user]) => {
+    if (!wsReady || !shortId || !user) {
       return of(null);
     }
     return getInjector().pipe(
@@ -33,5 +41,25 @@ export const room = fetchingSignal<[string, boolean], Room>({
       tap((room) => dataService.room.createOrUpdate(room).subscribe()),
     );
   },
-  provider: computed(() => [shortId(), wsReady()]),
+  provider: computed(() => [
+    shortId(),
+    INFOS[ConnectionService.WebSocket].status() === ConnectionStatus.Available,
+    user(),
+  ]),
+});
+
+// moderators - fetching
+
+export const moderators = fetchingSignal<Room, Moderator[]>({
+  initialState: null,
+  fetchingState: () => null,
+  fetch: (room) => {
+    if (!room) {
+      return of(null);
+    }
+    return getInjector().pipe(
+      switchMap((injector) => injector.get(ModeratorService).get(room.id)),
+    );
+  },
+  provider: room,
 });

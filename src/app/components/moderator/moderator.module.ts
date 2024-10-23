@@ -15,6 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { ModeratorJoinComponent } from './moderator-join/moderator-join.component';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { CommentModule } from 'app/room/comment/comment.module';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
@@ -34,6 +35,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       isolate: true,
     }),
     ArsModule,
+    CommentModule,
   ],
   declarations: [
     ModeratorCommentListComponent,

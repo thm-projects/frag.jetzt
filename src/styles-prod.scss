@@ -256,3 +256,25 @@ ol,
 ul {
   hyphens: auto;
 }
+
+.fillable-icon {
+  transition: font-variation-settings 250ms
+    var(--md-sys-motion-easing-emphasized);
+  --fill-state: 0;
+  font-variation-settings: "FILL" var(--fill-state, 0);
+}
+
+.filled {
+  --fill-state: 1;
+}
+
+.contained-icon.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--md-sys-color-secondary);
+  --mdc-icon-button-button-color: var(--md-sys-color-secondary-container);
+  background-color: var(--mdc-icon-button-button-color);
+
+  &.primary {
+    --mdc-icon-button-icon-color: var(--md-sys-color-primary);
+    --mdc-icon-button-button-color: var(--md-sys-color-primary-container);
+  }
+}

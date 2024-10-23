@@ -1,0 +1,63 @@
+<mat-card class="comment-card">
+  <mat-card-header style="flex-wrap: wrap">
+    <mat-icon
+      mat-card-avatar
+      [matTooltip]="icon()[1]"
+      class="avatar">
+      {{ icon()[0] }}
+    </mat-icon>
+    <mat-card-title class="title title-medium">
+      {{ header()[0] }}
+    </mat-card-title>
+    <mat-card-subtitle
+      class="slim-title label-large"
+      [matTooltip]="i18n().subTitleTooltip | context: formattedDate()">
+      {{ header()[1] }}
+    </mat-card-subtitle>
+    <span style="flex: 1"></span>
+    <app-comment-header-action
+      [comment]="comment()"></app-comment-header-action>
+  </mat-card-header>
+
+  <mat-card-content class="card-content">
+    <div class="content-vote-wrapper">
+      <div class="content-wrapper">
+        <app-comment-filter
+          (filterSelect)="selectFilter($event)"
+          [comment]="comment()"></app-comment-filter>
+        <div
+          #contentWrapper
+          [class.cut]="isTaller() && !isExpanded()">
+          <app-markdown-viewer [data]="comment().body"></app-markdown-viewer>
+        </div>
+        @if (isTaller()) {
+          <button
+            style="width: 100%"
+            mat-button
+            (click)="expandSwitch()">
+            <mat-icon>
+              {{ isExpanded() ? "arrow_upward" : "arrow_downward" }}
+            </mat-icon>
+            {{ isExpanded() ? "Weniger anzeigen" : "Mehr anzeigen" }}
+          </button>
+        }
+      </div>
+      <app-comment-vote [comment]="comment()"></app-comment-vote>
+    </div>
+  </mat-card-content>
+
+  <app-comment-actions
+    [comment]="comment()"
+    [onlyShowUp]="onlyShowUp()"
+    [(showAnswers)]="showAnswers"></app-comment-actions>
+</mat-card>
+
+@if (comment().children.size && showAnswers()) {
+  <div class="children-container">
+    @for (child of comment().children; track child.id) {
+      <app-comment
+        [comment]="child"
+        (filterSelect)="selectFilter($event)"></app-comment>
+    }
+  </div>
+}

@@ -197,6 +197,10 @@ export class AiChatComponent {
     );
   }
 
+  setValue(text: string) {
+    this.inputMessage.setValue(text);
+  }
+
   protected onKeyDown(e: KeyboardEvent) {
     if (e.defaultPrevented) {
       return;

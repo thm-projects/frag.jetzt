@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { NotificationEvent } from '../../models/dashboard-notification';
 import {
   CommentChange,
@@ -56,7 +56,7 @@ type DashboardFilterObject = {
   providedIn: 'root',
 })
 export class DashboardNotificationService {
-  public isNotificationBlocked: boolean = false;
+  public isNotificationBlocked = signal(false);
   private invalidator = new Subject();
   private _lastChanges = new Date(
     Number(localStorage.getItem('dashboard-notification-time')),
@@ -346,7 +346,7 @@ export class DashboardNotificationService {
   }
 
   private pushNotification(message: IMessage) {
-    if (this.isNotificationBlocked) {
+    if (this.isNotificationBlocked()) {
       return;
     }
     const commentChange = JSON.parse(message.body).payload;
@@ -355,7 +355,7 @@ export class DashboardNotificationService {
   }
 
   private pushCommentChange(commentChange: CommentChange): void {
-    if (this.isNotificationBlocked) {
+    if (this.isNotificationBlocked()) {
       return;
     }
     const accountId = user()?.id;

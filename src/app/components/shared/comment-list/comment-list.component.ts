@@ -73,6 +73,7 @@ import {
 import { Navigation } from '../../navigation/common-navigation-templates';
 import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 import { user, user$ } from 'app/user/state/user';
+import { Filter } from 'app/room/comment/comment/comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -747,6 +748,16 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       // TO-DO: Enable if valid
       // do: TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
+    }
+  }
+
+  protected selectFilter(filter: Filter) {
+    if (filter.type === 'tag') {
+      this.applyFilterByKey('Tag', filter.option);
+    } else if (filter.type === 'keyword') {
+      this.applyFilterByKey('Keyword', filter.option);
+    } else if (filter.type === 'user') {
+      this.applyFilterByKey('CreatorId', filter.option);
     }
   }
 

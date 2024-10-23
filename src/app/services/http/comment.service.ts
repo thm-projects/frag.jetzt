@@ -5,7 +5,6 @@ import { Comment } from '../../models/comment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
-import { Vote } from '../../models/vote';
 import { JSONString } from '../../utils/ts-utils';
 import {
   ImportedComment,
@@ -42,7 +41,6 @@ export class CommentService extends BaseHttpService {
     comment: '/comment',
     find: '/find',
     count: '/count',
-    vote: '/vote',
     import: '/import',
     bulkDelete: '/bulkdelete',
     byRoom: '/byRoom',
@@ -239,7 +237,10 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  patchComment(comment: Comment, changes: TSMap<string, unknown>) {
+  patchComment(
+    comment: Comment,
+    changes: TSMap<string, unknown> | Partial<Comment>,
+  ): Observable<Comment> {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http
@@ -306,33 +307,6 @@ export class CommentService extends BaseHttpService {
         tap(() => ''),
         catchError(this.handleError<RoomQuestionCounts[]>('countByRoomId', [])),
       );
-  }
-
-  voteUp(comment: Comment, userId: string): Observable<Vote> {
-    const vote = { accountId: userId, commentId: comment.id, vote: 1 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
-    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<Vote>('voteUp')),
-    );
-  }
-
-  voteDown(comment: Comment, userId: string): Observable<Vote> {
-    const vote = { accountId: userId, commentId: comment.id, vote: -1 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
-    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<Vote>('voteUp')),
-    );
-  }
-
-  resetVote(comment: Comment, userId: string): Observable<Vote> {
-    const vote = { accountId: userId, commentId: comment.id, vote: 0 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
-    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<Vote>('voteUp')),
-    );
   }
 
   parseComment(comment: CommentAPI): Comment {
