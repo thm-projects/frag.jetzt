@@ -2,7 +2,7 @@
   "key": "default-navigation",
   "de": {
     "header": {
-      "slogan": "Willkommen auf »frag.jetzt« !  Du fragst. KI antwortet.",
+      "slogan": "Willkommen! Du fragst. KI antwortet.",
       "offline": "Du bist offline!",
       "myAccount": "Mein Konto",
       "myStars": "Meine Bonus-Sterne",
@@ -33,7 +33,7 @@
       "user": "Benutzer Überblick",
       "pricing": "Dankeschön & KI-Guthaben",
       "donation": "Für die Kaffeemaschine",
-      "purchase": "KI-Guthabenpaket",
+      "purchase": "KI-Guthaben",
       "transaction": "Transaktionen"
     },
     "options": {
@@ -53,7 +53,7 @@
   },
   "en": {
     "header": {
-      "slogan": "Welcome to »frag.jetzt« ! You ask. AI answers.",
+      "slogan": "Welcome! You ask. AI answers.",
       "offline": "You are offline!",
       "myAccount": "My account",
       "myStars": "My bonus stars",
@@ -73,7 +73,7 @@
       "light": "Light",
       "dark": "Dark",
       "system": "Automatic",
-      "baseColor": "Baseline color"
+      "baseColor": "Base color"
     },
     "navigation": {
       "title": "Navigation & Options",
@@ -84,7 +84,7 @@
       "user": "User overview",
       "pricing": "Thank you & AI Credit",
       "donation": "For the coffee machine",
-      "purchase": "AI credit package",
+      "purchase": "AI credit",
       "transaction": "Transactions"
     },
     "options": {
@@ -104,7 +104,7 @@
   },
   "fr": {
     "header": {
-      "slogan": "Bienvenue sur « frag.jetzt » ! Tu poses des questions. L'IA répond.",
+      "slogan": "Bienvenue ! Tu poses des questions. L'IA répond.",
       "offline": "Tu es déconnecté",
       "myAccount": "Mon compte",
       "myStars": "Mes étoiles bonus",
@@ -150,7 +150,7 @@
       "dataProtection": "Protection des données",
       "imprint": "Mentions légales",
       "features": "Features",
-      "download": "Télécharger L'Application"
+      "download": "Télécharger l'application"
     }
   }
 }

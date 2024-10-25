@@ -2,19 +2,19 @@
   "key": "room-navigation",
   "de": {
     "mainMenu": "Hauptmenü",
-    "qaPseudonym": "Q&A Pseudonym",
+    "qaPseudonym": "Q&A-Pseudonym",
     "features": {
       "title": "Features",
       "forum": "Q&A-Forum",
       "flashpoll": "Blitzumfrage",
-      "assistant": "KI-Assistenten",
+      "assistant": "KI-Assistent",
       "focus": "Fragen-Fokus",
       "radar": "Fragen-Radar",
       "brainstorming": "Brainstorming",
       "rallye": "Quiz-Rallye",
       "moderation": "Moderation"
     },
-    "reception": "Raum Startseite",
+    "reception": "Empfang",
     "roomHome": "Aktueller Raum",
     "options": {
       "title": "Einstellungen",
@@ -38,7 +38,7 @@
         "deleteRoom": "Raum löschen"
       },
       "ai": {
-        "title": "KI-Assistenten",
+        "title": "KI-Assistent",
         "quota": "Quota-Management",
         "selection": "Modellauswahl"
       },
@@ -59,7 +59,7 @@
       "rallye": "Quiz Rally",
       "moderation": "Moderation"
     },
-    "reception": "Room Home",
+    "reception": "Reception",
     "roomHome": "Current Room",
     "options": {
       "title": "Settings",
@@ -83,7 +83,7 @@
         "deleteRoom": "Delete Room"
       },
       "ai": {
-        "title": "AI Assistants",
+        "title": "AI Assistant",
         "quota": "Quota Management",
         "selection": "Model Selection"
       },
@@ -104,7 +104,7 @@
       "rallye": "Rallye Quiz",
       "moderation": "Modération"
     },
-    "reception": "Accueil de la salle",
+    "reception": "Réception",
     "roomHome": "Salle Actuelle",
     "options": {
       "title": "Options",
