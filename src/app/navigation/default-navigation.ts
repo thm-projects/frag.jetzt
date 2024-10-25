@@ -293,7 +293,7 @@ export const getDefaultNavigation = (
           {
             id: 'purchase',
             title: i18n.navigation.purchase,
-            icon: 'credit_card',
+            icon: 'payments',
             onClick: () => {
               router.navigate(['/purchase']);
               return true;
@@ -313,7 +313,7 @@ export const getDefaultNavigation = (
             !user.isGuest && {
               id: 'transaction',
               title: i18n.navigation.transaction,
-              icon: 'credit_card',
+              icon: 'payments',
               onClick: () => {
                 router.navigate(['/transaction']);
                 return true;

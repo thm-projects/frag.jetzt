@@ -189,7 +189,9 @@
               <button
                 mat-button
                 [matMenuTriggerFor]="assistantMenu">
-                <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+                <mat-icon
+                  svgIcon="fj_robot"
+                  [matTooltip]="i18n().assistant"></mat-icon>
                 {{ i18n().more }}
               </button>
             </div>
