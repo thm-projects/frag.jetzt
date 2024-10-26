@@ -10,7 +10,7 @@
     "assistant": "Assistent",
     "title": "Hallo, was kann ich für dich tun?",
     "attachment": "Anhang",
-    "more": "Assistent",
+    "more": "Auswahl",
     "disclaimer": "ChatGPT macht Fehler. Überprüfe wichtige Informationen.",
     "delete_conversation": "Konversation löschen"
   },
@@ -24,7 +24,7 @@
     "assistant": "Assistant",
     "title": "Hello, how can I help you?",
     "attachment": "Attachment",
-    "more": "Assistant",
+    "more": "Selection",
     "disclaimer": "ChatGPT may make mistakes. Check important information.",
     "delete_conversation": "Delete conversation"
   },
@@ -38,7 +38,7 @@
     "assistant": "Assistant",
     "title": "Salut, que puis-je faire pour toi ?",
     "attachment": "Pièce jointe",
-    "more": "Assistant",
+    "more": "Sélection",
     "disclaimer": "ChatGPT peut faire des erreurs. Vérifie les informations importantes.",
     "delete_conversation": "Supprimer la conversation"
   }

@@ -241,7 +241,7 @@ export const getDefaultNavigation = (
         navSection.entries.unshift({
           id: 'home',
           title: i18n.navigation.home,
-          icon: 'home',
+          icon: 'home_pin',
           onClick: () => {
             router.navigate(['/home']);
             return true;
@@ -252,7 +252,7 @@ export const getDefaultNavigation = (
         navSection.entries.push({
           id: 'home',
           title: i18n.navigation.home,
-          icon: 'home',
+          icon: 'home_pin',
           onClick: () => {
             router.navigate(['/home']);
             return true;
@@ -293,7 +293,7 @@ export const getDefaultNavigation = (
           {
             id: 'purchase',
             title: i18n.navigation.purchase,
-            icon: 'payments',
+            svgIcon: 'fj_robot',
             onClick: () => {
               router.navigate(['/purchase']);
               return true;
@@ -303,7 +303,7 @@ export const getDefaultNavigation = (
           {
             id: 'donation',
             title: i18n.navigation.donation,
-            icon: 'coffee_maker',
+            icon: 'volunteer_activism',
             onClick: () => {
               showDonation(injector);
               return false;
@@ -313,7 +313,7 @@ export const getDefaultNavigation = (
             !user.isGuest && {
               id: 'transaction',
               title: i18n.navigation.transaction,
-              icon: 'payments',
+              svgIcon: 'fj_robot',
               onClick: () => {
                 router.navigate(['/transaction']);
                 return true;

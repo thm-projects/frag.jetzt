@@ -27,13 +27,13 @@
     "navigation": {
       "title": "Navigation & Optionen",
       "app": "Orte",
-      "home": "Startseite",
+      "home": "Start",
       "myRooms": "Meine Räume",
       "admin": "Administration",
       "user": "Benutzer Überblick",
       "pricing": "Dankeschön & KI-Guthaben",
-      "donation": "Für die Kaffeemaschine",
-      "purchase": "KI-Guthaben",
+      "donation": "Wie du helfen kannst",
+      "purchase": "Guthaben",
       "transaction": "Transaktionen"
     },
     "options": {
@@ -78,13 +78,13 @@
     "navigation": {
       "title": "Navigation & Options",
       "app": "Places",
-      "home": "Homepage",
+      "home": "Start",
       "myRooms": "My rooms",
       "admin": "Administration",
       "user": "User overview",
       "pricing": "Thank you & AI Credit",
-      "donation": "For the coffee machine",
-      "purchase": "AI credit",
+      "donation": "How you can help",
+      "purchase": "Credit",
       "transaction": "Transactions"
     },
     "options": {
@@ -129,13 +129,13 @@
     "navigation": {
       "title": "Navigation & options",
       "app": "Lieux",
-      "home": "Page d'accueil",
+      "home": "Lancement",
       "myRooms": "Mes salles",
       "admin": "Administration",
       "user": "Présentation de l'utilisateur",
       "pricing": "Remerciement & Crédit IA",
-      "donation": "Pour la machine à café",
-      "purchase": "Pack de crédit IA",
+      "donation": "Comment tu peux aider",
+      "purchase": "Crédit",
       "transaction": "Transactions"
     },
     "options": {

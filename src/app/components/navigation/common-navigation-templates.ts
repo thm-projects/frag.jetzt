@@ -49,7 +49,7 @@ export const Navigation = {
       route: {
         commands: [':role', 'room', ':shortId'],
       },
-      icon: 'room',
+      icon: 'door_front',
       text: 'Room',
     } as M3LabelTemplate,
     Comments: {
