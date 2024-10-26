@@ -229,7 +229,7 @@ export const getDefaultNavigation = (
         navSection.entries.push({
           id: 'my-rooms',
           title: i18n.navigation.myRooms,
-          icon: 'person',
+          icon: 'meeting_room',
           onClick: () => {
             router.navigate(['/user']);
             return true;
@@ -271,7 +271,7 @@ export const getDefaultNavigation = (
           },
         });
       }
-      if (user) {
+      if (user?.hasRole(KeycloakRoles.AdminDashboard)) {
         navSection.entries.push({
           id: 'overview',
           title: i18n.navigation.user,
