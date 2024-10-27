@@ -1,18 +1,18 @@
 {
   "key": "donation",
   "de": {
-    "title": "Unterstützen Sie unser Projekt – Ihre Hilfe zählt!",
-    "content": "Wir stehen kurz davor, unser wichtigstes Ziel zu erreichen – aber wir brauchen Ihre Unterstützung! Jede Spende bringt uns näher. \n\n Klicken Sie auf den folgenden Link: **[ Jetzt Projekt unterstützen ]({{url}})**, oder scannen Sie einfach den QR-Code. \n\n Gemeinsam können wir dieses Projekt realisieren – vielen Dank für Ihre wertvolle Hilfe!",
+    "title": "Mach mit!",
+    "content": "Damit frag.jetzt für alle kostenlos bleibt, brauchen wir deine Unterstützung bei den Serverkosten.\n\nJeder Euro hilft.\n\n\n\n**[frag.jetzt unterstützen via PayPal]({{url}})**",
     "close": "Schließen"
   },
   "en": {
-    "title": "Support Our Project – Your Help Matters!",
-    "content": "We are on the verge of achieving our biggest goal – but we need your support! Every donation gets us one step closer. \n\n Simply click the following link: **[ Support the Project Now ]({{url}})**, or simply scan the QR code. \n\n Together, we can make this project a reality – thank you for your valuable contribution!",
+    "title": "Join us!",
+    "content": "To keep frag.jetzt free for everyone, we need your support with server costs.\n\nEvery euro helps.\n\n\n\n**[Support frag.jetzt via PayPal]({{url}})**",
     "close": "Close"
   },
   "fr": {
-    "title": "Soutenez notre projet – Votre aide compte !",
-    "content": "Nous sommes sur le point d'atteindre notre objectif principal – mais nous avons besoin de votre soutien ! Chaque don nous rapproche un peu plus. \n\n Cliquez simplement sur le lien suivant: **[ Soutenir le projet maintenant ]({{url}})**, ou scannez simplement le QR code. \n\n Together, we can make this project a reality – thank you for your valuable contribution! \n\n Ensemble, nous pouvons concrétiser ce projet – merci pour votre précieuse aide!",
+    "title": "Participe avec nous !",
+    "content": "Pour que frag.jetzt reste gratuit pour tous, nous avons besoin de ton aide pour les frais de serveur.\n\nChaque euro compte.\n\n\n\n**[Soutenir frag.jetzt via PayPal]({{url}})**",
     "close": "Fermer"
   }
 }
