@@ -1,8 +1,10 @@
 import {
   ApplicationRef,
   Component,
+  computed,
   ElementRef,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -67,6 +69,8 @@ import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-nav
 import { dataService } from './base/db/data-service';
 import { windowWatcher } from '../modules/navigation/utils/window-watcher';
 import { lorem } from './utils/lorem';
+import { user } from './user/state/user';
+import { KeycloakRoles } from './models/user';
 
 const PUSH_KEY = 'push-subscription';
 
@@ -89,6 +93,10 @@ export class AppComponent implements OnInit {
   isMobile = false;
   private _lastScrollTop = 0;
   private _lastClass: string;
+  private usingDebugger = signal(true);
+  protected readonly canUseDebugger = computed(
+    () => this.usingDebugger() && user()?.hasRole(KeycloakRoles.AdminDashboard),
+  );
   __debugger = {
     isExtended: false,
     __loadDebug: function () {
@@ -163,6 +171,9 @@ export class AppComponent implements OnInit {
           state.isExtended = !this.__debugger.isExtended;
           this.__debugger.__revalidateState(state);
         }
+      },
+      disableExtension: () => {
+        this.usingDebugger.set(false);
       },
       generateRandomRoom: () => {
         this._roomService

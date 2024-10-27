@@ -34,7 +34,7 @@ mat-drawer-container {
       --md-sys-color-surface3
     ); // non compliant, but works better
     height: 100%;
-    --nav-margin: 24px;
+    --nav-margin: 4px;
     --nav-grid-rows: auto 48px 0fr auto 1fr;
 
     &.mat-drawer-side {

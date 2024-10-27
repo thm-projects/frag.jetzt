@@ -103,51 +103,58 @@
     background-color: var(--md-sys-color-surface4);
   }
 </style>
-<button
-  mat-icon-button
-  id="debugger-state-button"
-  *ngIf="!__debugger.isExtended"
-  (click)="__debugger.__options.toggleExtension()">
-  <mat-icon>arrow_left</mat-icon>
-</button>
-<div
-  cdkDrag
-  id="debugger"
-  *ngIf="__debugger.isExtended">
-  <div class="debugger-header">
-    <div class="debugger-header-title">
-      <span>{{ windowClass() }}</span>
+@if (canUseDebugger()) {
+  <button
+    mat-icon-button
+    id="debugger-state-button"
+    *ngIf="!__debugger.isExtended"
+    (click)="__debugger.__options.toggleExtension()">
+    <mat-icon>arrow_left</mat-icon>
+  </button>
+  <div
+    cdkDrag
+    id="debugger"
+    *ngIf="__debugger.isExtended">
+    <div class="debugger-header">
+      <div class="debugger-header-title">
+        <span>{{ windowClass() }}</span>
+      </div>
+      <div class="debugger-header-options">
+        <button
+          (click)="__debugger.__options['disableExtension']()"
+          class="material-symbols-rounded">
+          delete
+        </button>
+        <button
+          (click)="__debugger.__options['toggleExtension']()"
+          class="material-symbols-rounded">
+          close
+        </button>
+      </div>
     </div>
-    <div class="debugger-header-options">
-      <button
-        (click)="__debugger.__options['toggleExtension']()"
-        class="material-symbols-rounded">
-        close
-      </button>
+    <div class="debugger-content column">
+      <div class="debugger-options column">
+        <button
+          *ngFor="let option of __debugger.self"
+          (click)="option[1]()">
+          {{ option[0] }}
+        </button>
+      </div>
+      <div class="debugger-theme-switch">
+        <button
+          (click)="m3DynamicThemeService.themeType = 'dark'"
+          class="material-symbols-rounded">
+          dark_mode
+        </button>
+        <button
+          (click)="m3DynamicThemeService.themeType = 'light'"
+          class="material-symbols-rounded">
+          light_mode
+        </button>
+      </div>
+      <div class="debugger-color-picker">
+        <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
+      </div>
     </div>
   </div>
-  <div class="debugger-content column">
-    <div class="debugger-options column">
-      <button
-        *ngFor="let option of __debugger.self"
-        (click)="option[1]()">
-        {{ option[0] }}
-      </button>
-    </div>
-    <div class="debugger-theme-switch">
-      <button
-        (click)="m3DynamicThemeService.themeType = 'dark'"
-        class="material-symbols-rounded">
-        dark_mode
-      </button>
-      <button
-        (click)="m3DynamicThemeService.themeType = 'light'"
-        class="material-symbols-rounded">
-        light_mode
-      </button>
-    </div>
-    <div class="debugger-color-picker">
-      <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
-    </div>
-  </div>
-</div>
+}

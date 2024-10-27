@@ -290,7 +290,7 @@ export const getDefaultNavigation = (
         kind: 'navigation',
         title: i18n.navigation.pricing,
         entries: [
-          {
+          user && {
             id: 'purchase',
             title: i18n.navigation.purchase,
             svgIcon: 'fj_robot',
@@ -300,7 +300,7 @@ export const getDefaultNavigation = (
             },
             activated: isPurchase,
           },
-          {
+          user && {
             id: 'donation',
             title: i18n.navigation.donation,
             icon: 'volunteer_activism',
@@ -439,9 +439,17 @@ export const getDefaultNavigation = (
           },
         ].filter(Boolean),
       };
+      const sections = [navSection] as (
+        | M3NavigationSection
+        | M3NavigationOptionSection
+      )[];
+      if (pricingSection.entries.length > 0) {
+        sections.push(pricingSection);
+      }
+      sections.push(optionSection);
       return {
         title: i18n.navigation.title,
-        sections: [navSection, pricingSection, optionSection].filter(Boolean),
+        sections: sections,
       };
     }),
   );
