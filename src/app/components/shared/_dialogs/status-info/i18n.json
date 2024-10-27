@@ -1,15 +1,15 @@
 {
   "key": "status-info",
   "de": {
-    "title": "Aktuelle Kapazitätsauslastung",
-    "message": "frag.jetzt bedient {{sessionCount}} Verbindung(en) mit {{creatorCount}} Raumersteller\\*innen, {{moderatorCount}} Moderator\\*innen und {{participantCount}} Teilnehmer\\*innen.\n\nIn {{activeRoomCount}} Raum/Räumen finden Veranstaltungen statt, bei denen der\\*die Raumersteller\\*in oder ein\\*e Moderator\\*in gleichzeitig mit mehreren Teilnehmer\\*innen im Gespräch ist.\n\nDerzeit führt frag.jetzt {{activeLivepollCount}} Blitzumfrage(n) durch."
+    "title": "Online-Status der Q&A-Plattform",
+    "message": "Aktive Verbindungen: {{sessionCount}}\nRaumersteller\\*innen: {{creatorCount}}\nModerator\\*innen: {{moderatorCount}}\nTeilnehmer\\*innen: {{participantCount}}\nRäume mit aktiver Veranstaltung: {{activeRoomCount}}\nLaufende Blitzumfragen: {{activeLivepollCount}}\n\nDie Ampel-Farben des Icons zeigen die Auslastung an: Grün bedeutet, dass die Auslastung niedrig ist, Gelb zeigt eine moderate Auslastung, und Rot signalisiert eine hohe Auslastung. \n\nDoe Plattform ist für ca. 2.000 gleichzeitig aktive Verbindungen ausgelegt."
   },
   "en": {
-    "title": "Current capacity utilization",
-    "message": "frag.jetzt is serving {{sessionCount}} connection(s), with {{creatorCount}} room creator(s), {{moderatorCount}} moderator(s), and {{participantCount}} participant(s).\n\n{{activeRoomCount}} room(s) have ongoing events, where the room creator or a moderator is engaging with multiple participants simultaneously.\n\nCurrently, frag.jetzt is handling {{activeLivepollCount}} live poll(s)."
+    "title": "Online Status of the Q&A Platform",
+    "message": "Active connections: {{sessionCount}}\nRoom creators: {{creatorCount}}\nModerators: {{moderatorCount}}\nParticipants: {{participantCount}}\nRooms with active sessions: {{activeRoomCount}}\nOngoing live polls: {{activeLivepollCount}}\n\nThe traffic light colors of the icon indicate the current load: Green means low load, Yellow indicates moderate load, and Red signals high load.\n\nThe platform is designed for approximately 2,000 simultaneous active connections."
   },
   "fr": {
-    "title": "Utilisation actuelle de la capacité",
-    "message": "frag.jetzt gère {{sessionCount}} connexion(s), avec {{creatorCount}} créateur(s) de salle, {{moderatorCount}} modérateur(s) et {{participantCount}} participant(s).\n\n{{activeRoomCount}} salle(s) ont des événements en cours, où le créateur de la salle ou un modérateur interagit avec plusieurs participants simultanément.\n\nActuellement, frag.jetzt gère {{activeLivepollCount}} sondage(s) en direct."
+    "title": "Statut en ligne de la plateforme Q&R",
+    "message": "Connexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLes couleurs de l'icône de signalisation indiquent la charge actuelle : Vert signifie une faible charge, Jaune indique une charge modérée et Rouge signale une charge élevée.\n\nLa plateforme est conçue pour environ 2 000 connexions simultanées actives."
   }
 }

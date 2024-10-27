@@ -268,7 +268,7 @@ export const getRoomNavigation = (
         {
           id: isMod ? 'room-home' : 'reception',
           title: isMod ? i18n.reception : i18n.reception,
-          icon: isMod ? 'room' : 'room',
+          icon: isMod ? 'door_front' : 'door_front',
           onClick: () => {
             router.navigate([`/${role}/room/${shortId}/`]);
             return true;

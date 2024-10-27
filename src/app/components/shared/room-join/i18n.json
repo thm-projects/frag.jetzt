@@ -1,7 +1,7 @@
 {
   "key": "room-join",
   "de": {
-    "id": "Raum code …",
+    "id": "Raum-Code …",
     "empty": "Welcher Raum?",
     "a11yJoinInput": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "a11yJoinButton": "Betritt die Sitzung, deren Code du eingegeben hast."

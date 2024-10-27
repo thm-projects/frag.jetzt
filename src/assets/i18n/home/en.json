@@ -102,7 +102,7 @@
     "cancel-description": "Reject usage of a web storage and exit the app.",
     "data-protection": "Privacy policy",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
-    "title": "Welcome to »frag.jetzt«!"
+    "title": "Welcome!"
   },
   "data-protection": {
     "cancel": "Reject",
@@ -190,7 +190,7 @@
     "active-email-notification": "Email notification is enabled.",
     "back": "Back",
     "back-to-questionboard": "Q&A forum",
-    "back-to-room": "Reception",
+    "back-to-room": "Entrance",
     "back-to-room-creator": "Room management",
     "back-to-room-moderator": "Room management",
     "block": "Block new questions",

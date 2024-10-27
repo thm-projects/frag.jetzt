@@ -102,7 +102,7 @@
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
     "data-protection": "Protection des données",
     "info-label": "Ouvre une boîte de dialogue avec la protection des données de frag.jetzt",
-    "title": "Bienvenue sur « frag.jetzt » !"
+    "title": "Bienvenue !"
   },
   "data-protection": {
     "cancel": "Refuser",
@@ -190,7 +190,7 @@
     "active-email-notification": "La notification par e-mail est activée.",
     "back": "Retourner à",
     "back-to-questionboard": "Forum Q&R",
-    "back-to-room": "Réception",
+    "back-to-room": "Entrée",
     "back-to-room-creator": "Gestion de la salle",
     "back-to-room-moderator": "Gestion de la salle",
     "block": "Bloquer des questions",

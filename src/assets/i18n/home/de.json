@@ -102,7 +102,7 @@
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
     "data-protection": "Datenschutz",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
-    "title": "Willkommen auf »frag.jetzt«!"
+    "title": "Willkommen!"
   },
   "data-protection": {
     "cancel": "Ablehnen",
@@ -190,7 +190,7 @@
     "active-email-notification": "Die Mail-Benachrichtigung ist aktiviert.",
     "back": "Zurück",
     "back-to-questionboard": "Q&A-Forum",
-    "back-to-room": "Empfang",
+    "back-to-room": "Eingang",
     "back-to-room-creator": "Raumverwaltung",
     "back-to-room-moderator": "Raumverwaltung",
     "block": "Fragenstellen sperren",

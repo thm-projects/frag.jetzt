@@ -229,7 +229,7 @@ export const getDefaultNavigation = (
         navSection.entries.push({
           id: 'my-rooms',
           title: i18n.navigation.myRooms,
-          icon: 'person',
+          icon: 'meeting_room',
           onClick: () => {
             router.navigate(['/user']);
             return true;
@@ -241,7 +241,7 @@ export const getDefaultNavigation = (
         navSection.entries.unshift({
           id: 'home',
           title: i18n.navigation.home,
-          icon: 'home',
+          icon: 'home_pin',
           onClick: () => {
             router.navigate(['/home']);
             return true;
@@ -252,7 +252,7 @@ export const getDefaultNavigation = (
         navSection.entries.push({
           id: 'home',
           title: i18n.navigation.home,
-          icon: 'home',
+          icon: 'home_pin',
           onClick: () => {
             router.navigate(['/home']);
             return true;
@@ -271,7 +271,7 @@ export const getDefaultNavigation = (
           },
         });
       }
-      if (user) {
+      if (user?.hasRole(KeycloakRoles.AdminDashboard)) {
         navSection.entries.push({
           id: 'overview',
           title: i18n.navigation.user,
@@ -293,7 +293,7 @@ export const getDefaultNavigation = (
           {
             id: 'purchase',
             title: i18n.navigation.purchase,
-            icon: 'credit_card',
+            svgIcon: 'fj_robot',
             onClick: () => {
               router.navigate(['/purchase']);
               return true;
@@ -303,7 +303,7 @@ export const getDefaultNavigation = (
           {
             id: 'donation',
             title: i18n.navigation.donation,
-            icon: 'coffee_maker',
+            icon: 'volunteer_activism',
             onClick: () => {
               showDonation(injector);
               return false;
@@ -313,7 +313,7 @@ export const getDefaultNavigation = (
             !user.isGuest && {
               id: 'transaction',
               title: i18n.navigation.transaction,
-              icon: 'credit_card',
+              svgIcon: 'fj_robot',
               onClick: () => {
                 router.navigate(['/transaction']);
                 return true;

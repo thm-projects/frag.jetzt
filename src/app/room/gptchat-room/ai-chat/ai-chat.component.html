@@ -54,7 +54,9 @@
                 <button
                   mat-button
                   [matMenuTriggerFor]="assistantMenu">
-                  <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+                  <mat-icon
+                    svgIcon="fj_robot"
+                    [matTooltip]="i18n().assistant"></mat-icon>
                   {{ i18n().more }}
                 </button>
               </div>
@@ -189,7 +191,9 @@
               <button
                 mat-button
                 [matMenuTriggerFor]="assistantMenu">
-                <mat-icon [matTooltip]="i18n().assistant">more_vert</mat-icon>
+                <mat-icon
+                  svgIcon="fj_robot"
+                  [matTooltip]="i18n().assistant"></mat-icon>
                 {{ i18n().more }}
               </button>
             </div>
@@ -226,7 +230,9 @@
     </div>
   }
 
-  <span style="padding: 14px; text-align: center">{{ i18n().disclaimer }}</span>
+  <span style="padding: 14px; text-align: center; font-size: 10pt">
+    {{ i18n().disclaimer }}
+  </span>
 </div>
 
 <mat-menu #assistantMenu="matMenu">

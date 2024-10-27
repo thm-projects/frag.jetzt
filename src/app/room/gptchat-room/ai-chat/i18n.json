@@ -6,12 +6,12 @@
     "uploadedFiles": "Dateien ({{count}}): {{files}}",
     "deleted": "» Gelöscht «",
     "ref": "[{{num}}]: {{file}}",
-    "createAssistant": "Assistent erstellen...",
+    "createAssistant": "Assistenten erstellen...",
     "assistant": "Assistent",
-    "title": "frag.jetzt mit ChatGPT",
+    "title": "Hallo, was kann ich für dich tun?",
     "attachment": "Anhang",
-    "more": "Weiteres",
-    "disclaimer": "ChatGPT macht Fehler. Bitte überprüfe wichtige Informationen.",
+    "more": "Auswahl",
+    "disclaimer": "KI-Antworten können falsch oder veraltet sein.",
     "delete_conversation": "Konversation löschen"
   },
   "en": {
@@ -22,10 +22,10 @@
     "ref": "[{{num}}]: {{file}}",
     "createAssistant": "Create assistant...",
     "assistant": "Assistant",
-    "title": "frag.jetzt with ChatGPT",
-    "attachment": "Attachments",
-    "more": "More",
-    "disclaimer": "ChatGPT makes mistakes. Please double-check important information.",
+    "title": "Hello, how can I help you?",
+    "attachment": "Attachment",
+    "more": "Selection",
+    "disclaimer": "AI responses may be inaccurate or outdated.",
     "delete_conversation": "Delete conversation"
   },
   "fr": {
@@ -36,10 +36,10 @@
     "ref": "[{{num}}]: {{file}}",
     "createAssistant": "Créer un assistant...",
     "assistant": "Assistant",
-    "title": "frag.jetzt with ChatGPT",
-    "attachment": "Pièces jointes",
-    "more": "Plus",
-    "disclaimer": "ChatGPT fait des erreurs. Veuillez vérifier les informations importantes.",
+    "title": "Salut, que puis-je faire pour toi ?",
+    "attachment": "Pièce jointe",
+    "more": "Sélection",
+    "disclaimer": "Les réponses de l'IA peuvent être inexactes ou obsolètes.",
     "delete_conversation": "Supprimer la conversation"
   }
 }
