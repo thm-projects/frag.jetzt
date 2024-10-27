@@ -11,7 +11,7 @@
     "title": "Hallo, was kann ich für dich tun?",
     "attachment": "Anhang",
     "more": "Auswahl",
-    "disclaimer": "ChatGPT macht Fehler. Überprüfe wichtige Informationen.",
+    "disclaimer": "KI-Antworten können falsch oder veraltet sein. Prüfe wichtige Details.",
     "delete_conversation": "Konversation löschen"
   },
   "en": {
@@ -25,7 +25,7 @@
     "title": "Hello, how can I help you?",
     "attachment": "Attachment",
     "more": "Selection",
-    "disclaimer": "ChatGPT may make mistakes. Check important information.",
+    "disclaimer": "AI responses may be inaccurate or outdated. Verify important details.",
     "delete_conversation": "Delete conversation"
   },
   "fr": {
@@ -39,7 +39,7 @@
     "title": "Salut, que puis-je faire pour toi ?",
     "attachment": "Pièce jointe",
     "more": "Sélection",
-    "disclaimer": "ChatGPT peut faire des erreurs. Vérifie les informations importantes.",
+    "disclaimer": "Les réponses de l'IA peuvent être inexactes ou obsolètes. Vérifie les informations importantes.",
     "delete_conversation": "Supprimer la conversation"
   }
 }
