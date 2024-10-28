@@ -2,14 +2,14 @@
   "key": "status-info",
   "de": {
     "title": "Online-Status der Q&A-Plattform",
-    "message": "Aktive Verbindungen: {{sessionCount}}\nRaumersteller\\*innen: {{creatorCount}}\nModerator\\*innen: {{moderatorCount}}\nTeilnehmer\\*innen: {{participantCount}}\nRäume mit aktiver Veranstaltung: {{activeRoomCount}}\nLaufende Blitzumfragen: {{activeLivepollCount}}\n\nDie Ampel-Farben des Icons zeigen die Auslastung an: Grün bedeutet, dass die Auslastung niedrig ist, Gelb zeigt eine moderate Auslastung, und Rot signalisiert eine hohe Auslastung. \n\nDoe Plattform ist für ca. 2.000 gleichzeitig aktive Verbindungen ausgelegt."
+    "message": "Die Farben des Icons zeigen die Auslastung an: Grün bedeutet eine niedrige, Gelb eine moderate und Rot eine hohe Auslastung.\n\nAktive Verbindungen: {{sessionCount}}\nRaumersteller\\*innen: {{creatorCount}}\nModerator\\*innen: {{moderatorCount}}\nTeilnehmer\\*innen: {{participantCount}}\nRäume mit aktiver Veranstaltung: {{activeRoomCount}}\nLaufende Blitzumfragen: {{activeLivepollCount}}\n\nDie Plattform ist für ca. 1.000 gleichzeitig aktive Verbindungen ausgelegt."
   },
   "en": {
     "title": "Online Status of the Q&A Platform",
-    "message": "Active connections: {{sessionCount}}\nRoom creators: {{creatorCount}}\nModerators: {{moderatorCount}}\nParticipants: {{participantCount}}\nRooms with active sessions: {{activeRoomCount}}\nOngoing live polls: {{activeLivepollCount}}\n\nThe traffic light colors of the icon indicate the current load: Green means low load, Yellow indicates moderate load, and Red signals high load.\n\nThe platform is designed for approximately 2,000 simultaneous active connections."
-  },
+    "message": "The icon colors indicate the load: Green means low, Yellow moderate, and Red high load.\n\nActive connections: {{sessionCount}}\nRoom creators: {{creatorCount}}\nModerators: {{moderatorCount}}\nParticipants: {{participantCount}}\nRooms with active sessions: {{activeRoomCount}}\nOngoing live polls: {{activeLivepollCount}}\n\nThe platform is designed for approximately 1,000 simultaneous active connections."
+  },  
   "fr": {
     "title": "Statut en ligne de la plateforme Q&R",
-    "message": "Connexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLes couleurs de l'icône de signalisation indiquent la charge actuelle : Vert signifie une faible charge, Jaune indique une charge modérée et Rouge signale une charge élevée.\n\nLa plateforme est conçue pour environ 2 000 connexions simultanées actives."
+    "message": "Les couleurs de l'icône indiquent le niveau de charge : Vert signifie faible, Jaune modérée et Rouge élevée.\n\nConnexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLa plateforme est conçue pour environ 1 000 connexions actives simultanées."
   }
 }

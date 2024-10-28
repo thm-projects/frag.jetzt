@@ -9,7 +9,7 @@
       "join": "Zum Topic-Forum"
     },
     "ars": {
-      "join": "Zum Q&A-Forum"
+      "join": "Q&A-Forum"
     },
     "copySuccessful": "Der Link wurde kopiert",
     "copyFailed": "Kopieren fehlgeschlagen",
@@ -38,7 +38,7 @@
       "join": "Go to the Topic Forum"
     },
     "ars": {
-      "join": "To the Q&A forum"
+      "join": "Q&A forum"
     },
     "copySuccessful": "The link has been copied",
     "copyFailed": "Copying failed",
