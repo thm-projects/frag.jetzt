@@ -10,7 +10,7 @@
 
   <mat-card class="token-card">
     @if (isRegisteredUser()) {
-      <mat-icon class="token-icon-align">token</mat-icon>
+      <mat-icon class="token-icon-align">shopping_cart</mat-icon>
       {{ i18n().yourTokens }} {{ tokens() }}
     } @else if (user()?.isGuest) {
       {{ i18n().guestLogin }}
@@ -19,7 +19,7 @@
     }
     @if (!isRegisteredUser()) {
       <button
-        style="margin: auto; display: block"
+        style="margin: auto; display: block; margin-top: 20px"
         mat-flat-button
         (click)="loginPage()">
         {{ i18n().register }}

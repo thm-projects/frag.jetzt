@@ -1,7 +1,7 @@
 {
   "key": "comment-header-action",
   "de": {
-    "moderationLabel": "Zur Moderation",
+    "moderationLabel": "Moderation",
     "moderation": "In die Moderation verschieben",
     "revertModerationLabel": "Zum Forum",
     "revertModeration": "Setzt die Frage zurück in das Forum",
