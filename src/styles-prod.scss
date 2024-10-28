@@ -201,8 +201,7 @@ $min-width: 360px;
   scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-surface3);
 }
 
-$scrollbar-width: 6px;
-$scrollbar-padding: 4px;
+$scrollbar-width: 8px;
 @supports selector(::-webkit-scrollbar) {
   @property --scrollbar-color {
     syntax: "<color>";
@@ -225,8 +224,8 @@ $scrollbar-padding: 4px;
 
   /* width */
   ::-webkit-scrollbar {
-    width: #{$scrollbar-width + 2 * $scrollbar-padding};
-    height: #{$scrollbar-width + 2 * $scrollbar-padding};
+    width: #{$scrollbar-width};
+    height: #{$scrollbar-width};
   }
 
   /* Track */
@@ -237,8 +236,7 @@ $scrollbar-padding: 4px;
   /* Handle */
   ::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 0 #{math.div($scrollbar-width, 2) + 1px} var(--scrollbar-color);
-    border-radius: #{$scrollbar-padding + math.div($scrollbar-width, 2)};
-    border: #{$scrollbar-padding} solid transparent;
+    border-radius: #{math.div($scrollbar-width, 2)};
     background-clip: padding-box;
   }
 

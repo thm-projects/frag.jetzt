@@ -184,6 +184,8 @@ export class AssistantsService extends BaseHttpService {
       headers: new HttpHeaders({
         Accept: 'application/json',
       }),
+      reportProgress: true,
+      observe: 'events',
     });
   }
 

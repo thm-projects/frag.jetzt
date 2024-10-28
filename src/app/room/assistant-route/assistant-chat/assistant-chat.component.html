@@ -1,0 +1,41 @@
+<div class="actions">
+  <button
+    mat-icon-button
+    (click)="fileInput.click()">
+    <mat-icon>attach_file</mat-icon>
+  </button>
+  <input
+    (change)="onFileChange(fileInput.files)"
+    #fileInput
+    type="file"
+    multiple
+    accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+    style="display: none" />
+</div>
+<div class="text-files-wrapper">
+  @if (uploadedFiles().length) {
+    <div class="files-wrapper">
+      @for (file of uploadedFiles(); track $index) {
+        <app-assistant-upload
+          [name]="file.name"
+          [state]="file.status()"
+          [progress]="file.progress()"
+          (remove)="removeFile(file)"></app-assistant-upload>
+      }
+    </div>
+  }
+  <textarea
+    matInput
+    [(ngModel)]="text"
+    class="text-input"
+    placeholder="Follow up questions..."
+    cdkTextareaAutosize
+    (keydown)="onKeyDown($event)"></textarea>
+</div>
+<div class="actions">
+  <button
+    mat-icon-button
+    (click)="send()">
+    <mat-icon>send</mat-icon>
+  </button>
+</div>

@@ -211,15 +211,7 @@ textarea {
 
 .input-container-compact {
   width: 100%;
-
-  margin: 14px auto;
-  margin-bottom: 0;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  border-radius: 24px;
-
-  border: 1px solid var(--md-sys-color-surface3);
+  display: grid;
 }
 
 .textarea-wrapper {

@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  width: max-content;
+  padding: 0.25em;
+  border-radius: 0.5em;
+
+  &.failed {
+    background: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+  }
+}
+
+mat-progress-spinner {
+  max-height: 24px;
+  max-width: 24px;
+}
+
+span {
+  margin-left: 0.5em;
+}

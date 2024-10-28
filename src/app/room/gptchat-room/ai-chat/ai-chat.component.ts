@@ -40,11 +40,12 @@ import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { MatMenuModule } from '@angular/material/menu';
 import { AssistantEntry } from '../gptchat-room.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-interface File {
-  name: string;
-  ref: UploadedFile;
-}
+import {
+  AssistantChatComponent,
+  SubmitEvent,
+  AssistantFile,
+} from '../../assistant-route/assistant-chat/assistant-chat.component';
+import { HttpEventType } from '@angular/common/http';
 
 interface OverriddenMessage extends Message {
   chunks: string[];
@@ -74,6 +75,7 @@ interface FileReference {
     MatMenuModule,
     MatTooltipModule,
     MatSelectModule,
+    AssistantChatComponent,
   ],
   templateUrl: './ai-chat.component.html',
   styleUrl: './ai-chat.component.scss',
@@ -110,7 +112,7 @@ export class AiChatComponent {
     return messages;
   });
   protected readonly i18n = i18n;
-  protected files = signal<File[]>([]);
+  protected files = signal<AssistantFile[]>([]);
   protected filesString = computed(() => {
     return new Intl.ListFormat(language(), {
       localeMatcher: 'best fit',
@@ -214,7 +216,7 @@ export class AiChatComponent {
         e.getModifierState('Shift');
       if (hasModifier === windowWatcher.isMobile()) {
         e.preventDefault();
-        this.sendMessage();
+        this.buildSendMessage();
         return;
       }
     }
@@ -222,16 +224,28 @@ export class AiChatComponent {
 
   protected sendExampleTopic(value: string) {
     this.inputMessage.setValue(value);
-    this.sendMessage();
+    this.buildSendMessage();
   }
 
-  protected sendMessage() {
+  protected buildSendMessage() {
+    this.sendMessage({
+      text: this.inputMessage.value,
+      files: this.files(),
+      reset: () => {},
+    });
+  }
+
+  protected sendMessage(e: SubmitEvent) {
+    if (!this.canSend()) {
+      return;
+    }
     if (
       this.onSend()(
-        this.inputMessage.value,
-        this.files().map((e) => e.ref),
+        e.text,
+        e.files.map((e) => e.ref),
       )
     ) {
+      e.reset();
       this.inputMessage.setValue('');
       this.files.set([]);
       this.fileInput().nativeElement.value = '';
@@ -245,17 +259,20 @@ export class AiChatComponent {
 
   protected onFileChange(fileList: FileList) {
     for (let i = 0; i < fileList.length; i++) {
-      this.assistants.uploadFile(fileList[i]).subscribe((ref) => {
-        this.files.update((files) => {
-          if (
-            files.findIndex(
-              (e) => e.name === fileList[i].name && e.ref.id === ref.id,
-            ) !== -1
-          ) {
-            return files;
-          }
-          return [...files, { name: fileList[i].name, ref }];
-        });
+      this.assistants.uploadFile(fileList[i]).subscribe((event) => {
+        if (event.type === HttpEventType.Response) {
+          const ref = event.body;
+          this.files.update((files) => {
+            if (
+              files.findIndex(
+                (e) => e.name === fileList[i].name && e.ref.id === ref.id,
+              ) !== -1
+            ) {
+              return files;
+            }
+            return [...files, { name: fileList[i].name, ref }];
+          });
+        }
       });
     }
   }

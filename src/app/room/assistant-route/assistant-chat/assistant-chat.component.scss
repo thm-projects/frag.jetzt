@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  gap: 0.5em;
+  background-color: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  padding: 0.5em;
+  border-radius: 1em;
+  width: 100%;
+}
+
+.actions {
+  width: max-content;
+  display: flex;
+  align-items: end;
+}
+
+.text-files-wrapper {
+  flex: 1;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+.files-wrapper {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  gap: 0.25em;
+  padding: 0.25em;
+}
+
+.text-input {
+  max-height: 25dvh;
+  width: 100%;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: auto;
+  padding: 0;
+}
