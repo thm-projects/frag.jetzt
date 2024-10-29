@@ -2,11 +2,11 @@
   "key": "gptchat-room",
   "de": {
     "defaultName": "Standard-Assistent",
-    "defaultInstructions": "Du bist Assistent/in für die Web-App frag.jetzt. Du schreibst immer höflich, in einer lockeren, ungezwungenen und informalen Sprache. Du kannst Nutzern bei ihren Fragen und Problemen helfen. Du kannst versuchen zu erraten, was der Nutzer meint, indem du Fragen stellst. Wenn du unsicher bist, bitte den Nutzer um weitere Informationen. Wenn du nicht helfen kannst, sag es. Schreiben immer in der Sprache des Benutzers.",
-    "blankAssistant": "Assistent {{num}}",
+    "defaultInstructions": "Du bist ein Assistent auf der Q&A-Plattform frag.jetzt. Du schreibst immer höflich, in einer lockeren, ungezwungenen und informalen Sprache. Du kannst Nutzern bei ihren Fragen und Problemen helfen. Du kannst versuchen zu erraten, was der Nutzer meint, indem du Fragen stellst. Wenn du unsicher bist, bitte den Nutzer um weitere Informationen. Wenn du nicht helfen kannst, sag es. Schreiben immer in der Sprache des Nutzers.",
+    "blankAssistant": "Standard-Assistent",
     "threadHeadLine": "Chat vom {{date}}",
     "threadContent": "Um {{time}}",
-    "noAssistants": "# KI nicht verwendbar\n\nKeine Assistenten verfügbar. Wende dich an einen Raumverwalter, um einen Assistenten hinzuzufügen.",
+    "noAssistants": "# KI nicht aktiviert\n\nKeine Assistenten verfügbar. Wende dich an einen Raumverwalter, um einen KI-Assistenten hinzuzufügen.",
     "open": "Chatverlauf öffnen",
     "close": "Chatverlauf schließen",
     "newChat": "Neuer Chat",
@@ -18,16 +18,16 @@
     "yesterday": "Gestern",
     "previous_7_days": "In den letzten 7 Tagen",
     "older": "Älter",
-    "createAssistant": "Assistent erstellen...",
+    "createAssistant": "Assistenten erstellen...",
     "assistant": "Assistent"
   },
   "en": {
     "defaultName": "Default assistant",
-    "defaultInstructions": "You are an assistant for the web app frag.jetzt. You always write politely and in a relaxed and informal language. You can help users with their questions and problems. You can try to guess what the user means by asking questions. If you are unsure, ask the user for more information. If you can't help, say so. Always write in the user's language.",
-    "blankAssistant": "Assistant {{num}}",
+    "defaultInstructions": "You are an assistant on the Q&A platform frag.jetzt. You always write politely and in a relaxed and informal language. You can help users with their questions and problems. You can try to guess what the user means by asking questions. If you are unsure, ask the user for more information. If you can't help, say so. Always write in the user's language.",
+    "blankAssistant": "Assistant",
     "threadHeadLine": "Chat from {{date}}",
     "threadContent": "At {{time}}",
-    "noAssistants": "# AI not usable\n\nNo assistants available. Contact a room manager to add an assistant.",
+    "noAssistants": "# AI not enabled\n\nNo assistants available. Contact a room manager to add an assistant.",
     "open": "Open history",
     "close": "Close history",
     "newChat": "New chat",
@@ -39,13 +39,13 @@
     "yesterday": "Yesterday",
     "previous_7_days": "Previous 7 Days",
     "older": "Older",
-    "createAssistant": "Assistent erstellen...",
-    "assistant": "Assistent"
+    "createAssistant": "Create an assistant...",
+    "assistant": "Assistant"
   },
   "fr": {
     "defaultName": "Assistant par défaut",
-    "defaultInstructions": "Tu es assistant(e) pour l'application web frag.jetzt. Tu écris toujours de manière polie, dans un langage décontracté et informel. Tu peux aider les utilisateurs à résoudre leurs questions et leurs problèmes. Tu peux essayer de deviner ce que l'utilisateur veut dire en posant des questions. Si tu n'es pas sûr, demande à l'utilisateur de te donner plus d'informations. Si tu ne peux pas l'aider, dis-le. Écris toujours dans la langue de l'utilisateur.",
-    "blankAssistant": "Assistant {{num}}",
+    "defaultInstructions": "Tu es un assistant sur la plateforme de questions-réponses frag.jetzt. Tu écris toujours de manière polie, dans un langage décontracté et informel. Tu peux aider les utilisateurs à résoudre leurs questions et leurs problèmes. Tu peux essayer de deviner ce que l'utilisateur veut dire en posant des questions. Si tu n'es pas sûr, demande à l'utilisateur de te donner plus d'informations. Si tu ne peux pas l'aider, dis-le. Écris toujours dans la langue de l'utilisateur.",
+    "blankAssistant": "Assistant",
     "threadHeadLine": "Chat du {{date}}",
     "threadContent": "À {{time}}",
     "noAssistants": "# IA non utilisable\n\nAucun assistant disponible. Contacte un gestionnaire de salle pour ajouter un assistant.",
@@ -60,7 +60,7 @@
     "yesterday": "Hier",
     "previous_7_days": "7 derniers jours",
     "older": "Plus ancien",
-    "createAssistant": "Assistent erstellen...",
-    "assistant": "Assistent"
+    "createAssistant": "Créer un assistant...",
+    "assistant": "Assistant"
   }
 }
