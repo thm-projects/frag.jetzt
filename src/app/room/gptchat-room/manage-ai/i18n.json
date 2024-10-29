@@ -1,8 +1,8 @@
 {
   "key": "manage-ai",
   "de":{
-    "title": "KI-Assistenten verwalten",
-    "description": "Du kannst hier einen KI-Assistenten erstellen, der Dir und Deinen Raumnutzern als Experte für ein bestimmtes Thema dient. So erhältst Du bessere Antworten, die auf Deine Dateien und Anweisungen passen.",
+    "title": "KI-Assistenten erstellen",
+    "description": "Du kannst hier einen KI-Assistenten erstellen, der dir und deinen Raumnutzern als Experte für ein bestimmtes Thema dient. So erhältst du bessere Antworten, die auf Deine Dateien und Anweisungen passen.",
     "create": "Erstellen",
     "edit": "Bearbeiten",
     "delete": "Löschen",
