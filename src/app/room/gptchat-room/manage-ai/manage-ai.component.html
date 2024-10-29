@@ -8,7 +8,7 @@
       <ng-container
         [ngTemplateOutlet]="form"
         [ngTemplateOutletContext]="{
-          group: createGroup
+          group: createGroup,
         }"></ng-container>
       <button
         (click)="create()"
@@ -42,7 +42,7 @@
       <ng-container
         [ngTemplateOutlet]="form"
         [ngTemplateOutletContext]="{
-          group: editGroup
+          group: editGroup,
         }"></ng-container>
       <button
         (click)="update()"
@@ -91,7 +91,7 @@
   <button
     mat-dialog-close
     mat-button>
-    {{ i18n().global.cancel }}
+    {{ i18n().global.close }}
   </button>
   <span style="flex: 1"></span>
 </mat-dialog-actions>
@@ -130,7 +130,7 @@
             | context
               : {
                   current: createGroup.get("description").value.length,
-                  max: 512
+                  max: 512,
                 }
         }}
       </mat-hint>
@@ -161,7 +161,7 @@
             | context
               : {
                   current: createGroup.get("instructions").value.length,
-                  max: 256000
+                  max: 256000,
                 }
         }}
       </mat-hint>
@@ -180,7 +180,7 @@
       <input
         type="number"
         min="0"
-        max="2"
+        max="1"
         formControlName="temperature"
         inputmode="numeric"
         matInput />
