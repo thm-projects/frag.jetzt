@@ -39,8 +39,9 @@ export interface HomePageCarouselEntry {
       [A in LanguageKey]: string;
     };
     image: {
-      url: string;
+      url?: string;
       alt?: string;
+      svgIcon?: string;
     };
   };
 }

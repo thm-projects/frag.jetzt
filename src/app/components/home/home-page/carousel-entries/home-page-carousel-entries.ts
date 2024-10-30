@@ -34,7 +34,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Laisse les assistants IA répondre à tes questions de connaissances. Tes prompts, avec lesquels tu définis le sujet d'une salle et tes objectifs d'apprentissage, garantissent des réponses précises et individuelles. Une vérification rapide des faits, et tu t'es épargné des heures de travail. Découvre comment l'IA te rend plus efficace !",
       },
       image: {
-        url: '/assets/background/chat_bot_green.svg',
+        svgIcon: 'fj_robot',
       },
     },
     window: {

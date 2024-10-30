@@ -61,10 +61,17 @@
         display: flex;
         flex-direction: column;
       ">
-      <img
-        mat-card-image
-        src="{{ tile.content.image.url }}"
-        alt="{{ tile.content.image.alt }}" />
+      @if (tile.content.image.url) {
+        <img
+          mat-card-image
+          src="{{ tile.content.image.url }}"
+          alt="{{ tile.content.image.alt }}" />
+      } @else {
+        <mat-icon
+          class="image-icon"
+          mat-card-image
+          [svgIcon]="tile.content.image.svgIcon"></mat-icon>
+      }
     </div>
     <mat-card-header>
       <mat-card-title>

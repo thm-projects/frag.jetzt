@@ -36,3 +36,9 @@
 mat-grid-tile {
   overflow: visible;
 }
+
+.image-icon {
+  aspect-ratio: 1 / 1;
+  width: auto;
+  color: var(--sys-primary);
+}
