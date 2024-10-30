@@ -34,9 +34,8 @@
   height: 100%;
   overflow: hidden;
 
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .title-container {
@@ -51,14 +50,14 @@
   }
 
   .title-icon {
-    color: var(--md-sys-color-primary);
+    color: var(--sys-primary);
   }
 }
 
 textarea {
   width: 100%;
   background-color: transparent;
-  color: var(--md-sys-color-on-background);
+  color: var(--sys-on-background);
 
   border: none;
   outline: none;
@@ -71,7 +70,7 @@ textarea {
   width: 100%;
 
   background-color: transparent;
-  border: 1px solid var(--md-sys-color-surface3);
+  border: 1px solid var(--sys-surface);
   border-radius: 8px;
   padding: 24px;
 
@@ -82,14 +81,14 @@ textarea {
 }
 
 .left-buttons button {
-  color: var(--md-sys-color-on-background);
-  border: 1px solid var(--md-sys-color-surface3);
+  color: var(--sys-on-background);
+  border: 1px solid var(--sys-surface);
   margin-right: 8px;
 }
 
 .send-button {
-  color: var(--md-sys-color-on-primary);
-  background-color: var(--md-sys-color-primary);
+  color: var(--sys-on-primary);
+  background-color: var(--sys-primary);
 }
 
 .topics {
@@ -103,7 +102,7 @@ textarea {
     display: grid;
     grid-template-columns: auto 1fr;
 
-    border: 1px solid var(--md-sys-color-surface3);
+    border: 1px solid var(--sys-surface);
     border-radius: 8px;
     height: auto;
     padding: 8px;
@@ -113,7 +112,7 @@ textarea {
       height: auto;
 
       padding: 8px;
-      background-color: var(--md-sys-color-surface3);
+      background-color: var(--sys-surface);
       border-radius: 8px;
     }
 
@@ -142,13 +141,13 @@ textarea {
 
     padding: 10px;
     border-radius: 8px;
-    max-width: 60%;
+    max-width: max(60%, 320px);
 
     &.user-message {
       flex-direction: column;
       align-items: flex-end;
-      background-color: var(--md-sys-color-surface3);
-      color: var(--md-sys-color-on-surface3);
+      background-color: var(--sys-surface);
+      color: var(--sys-on-surface);
       margin-left: auto;
     }
 
@@ -163,9 +162,12 @@ textarea {
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
+    width: 100%;
+    overflow-x: scroll;
   }
 
   .text-content {
+    width: calc(100% - 70px);
     margin: 0 10px;
   }
 
@@ -177,13 +179,13 @@ textarea {
     position: relative;
     z-index: 10;
     padding: 8px;
-    color: var(--md-sys-color-primary);
+    color: var(--sys-primary);
 
     &::before {
       content: "";
       display: block;
-      background-color: var(--md-sys-color-surface3);
-      border: 1px solid var(--md-sys-color-primary);
+      background-color: var(--sys-surface);
+      border: 1px solid var(--sys-primary);
       border-radius: 100%;
       width: 100%;
       height: 100%;
@@ -196,7 +198,7 @@ textarea {
 
     &.user-icon::before {
       border: none;
-      background-color: var(--md-sys-color-background);
+      background-color: var(--sys-background);
     }
   }
 
@@ -211,7 +213,7 @@ textarea {
 
 .input-container-compact {
   width: 100%;
-  display: grid;
+  display: flex;
 }
 
 .textarea-wrapper {
@@ -225,7 +227,7 @@ textarea {
   margin: 8px 0;
 
   border-radius: 8px;
-  background-color: var(--md-sys-color-background);
+  background-color: var(--sys-background);
   justify-content: flex-start;
   width: 100%;
 }
@@ -234,7 +236,7 @@ textarea {
   display: grid;
   grid-template-columns: auto 1fr;
   padding: 8px 12px;
-  border: 1px solid var(--md-sys-color-surface3);
+  border: 1px solid var(--sys-surface);
   border-radius: 5px;
   font-size: 14px;
   overflow: hidden;
@@ -243,11 +245,11 @@ textarea {
 
 .file-icon {
   margin-right: 8px;
-  color: var(--md-sys-color-primary);
+  color: var(--sys-primary);
 }
 
 .file-name {
-  color: var(--md-sys-color-on-surface3);
+  color: var(--sys-on-surface);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -258,7 +260,7 @@ textarea {
 @media (max-width: 768px) {
   .outer-container {
     width: 100%;
-    padding: 8px;
+    padding: 8px 8px 0 8px;
   }
 
   .topics {
@@ -267,31 +269,6 @@ textarea {
 
   .messages-container {
     padding: 0;
-  }
-
-  .input-container-compact {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 1fr auto;
-    padding: 14px;
-
-    .textarea-wrapper {
-      grid-column: 1 / 3;
-      grid-row: 1;
-      padding: 8px;
-    }
-
-    .left-buttons {
-      grid-column: 1;
-      grid-row: 2;
-    }
-
-    .right-buttons {
-      grid-column: 2;
-      grid-row: 2;
-
-      justify-self: end;
-    }
   }
 }
 

@@ -20,7 +20,6 @@ import { DashboardNotificationService } from 'app/services/util/dashboard-notifi
 import { ValueOption } from '../comment/comment.component';
 import { Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { EventService } from 'app/services/util/event.service';
 import { SessionService } from 'app/services/util/session.service';
 
@@ -71,7 +70,6 @@ export class CommentActionsComponent {
   );
   private canOpenGPT = signal(false);
   private router = inject(Router);
-  private dialog = inject(MatDialog);
   private eventService = inject(EventService);
 
   constructor(sessionService: SessionService) {

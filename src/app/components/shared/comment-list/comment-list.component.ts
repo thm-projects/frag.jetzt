@@ -27,7 +27,6 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { FormControl } from '@angular/forms';
-import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { BrainstormingService } from '../../../services/http/brainstorming.service';
 import { SessionService } from '../../../services/util/session.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
@@ -65,13 +64,6 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  M3State,
-  M3TemplateKind,
-  M3WindowSizeClass,
-} from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { Navigation } from '../../navigation/common-navigation-templates';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
 import { user, user$ } from 'app/user/state/user';
 import { Filter } from 'app/room/comment/comment/comment.component';
 
@@ -167,7 +159,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
     appState: AppStateService,
-    private readonly m3NavigationService: M3NavigationService,
   ) {
     appState.language$.pipe(takeUntil(this._destroySubject)).subscribe(() => {
       this.translateService.get('comment-list.search').subscribe((msg) => {
@@ -195,77 +186,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
       );
-    this.initM3Navigation();
-  }
-
-  initM3Navigation() {
-    this.m3NavigationService.emit({
-      kind: M3TemplateKind.Navigation,
-      elevation: 1,
-      header: {
-        kind: M3TemplateKind.Header,
-        left: {
-          window: {
-            from: M3WindowSizeClass.Expanded,
-          },
-          buttons: Navigation.allButtonTemplates(
-            [
-              Navigation.feature.Brainstorming,
-              Navigation.feature.QuestionRadar,
-              Navigation.feature.QuizRally,
-              Navigation.feature.QuestionRadar,
-            ],
-            { type: 'stroked' },
-          ),
-        },
-        right: {
-          buttons: [
-            Navigation.more([
-              Navigation.common.CreateRoom,
-              Navigation.common.BonusToken,
-              Navigation.common.LogOut,
-            ]),
-          ],
-        },
-      },
-      railExtension: {
-        kind: M3TemplateKind.RailExtension,
-        sections: [
-          {
-            title: 'some arbitrary name',
-            kind: M3TemplateKind.RailSection,
-            labels: [Navigation.common.BonusToken],
-          },
-          {
-            title: 'Features',
-            kind: M3TemplateKind.RailSection,
-            labels: [
-              Navigation.feature.QuestionFocus,
-              Navigation.feature.FlashPoll,
-              Navigation.feature.QuestionRadar,
-              Navigation.feature.QuizRally,
-              Navigation.feature.Brainstorming,
-            ],
-          },
-        ],
-      },
-      rail: {
-        kind: M3TemplateKind.Rail,
-        title: 'Comments',
-        labels: [
-          Navigation.location.HomePage,
-          Navigation.location.UserHomePage,
-          Navigation.transform(Navigation.location.RoomPage, {
-            route: Navigation.routeFrom(
-              this.router.url.replace(/\/comments.*/gm, ''),
-            ),
-          }),
-          Navigation.transform(Navigation.location.Comments, {
-            state: M3State.Active,
-          }),
-        ],
-      },
-    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -772,99 +692,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.pageIndex = Math.floor(index / this.pageSize);
     setTimeout(() => (this.focusCommentId = commentId), 100);
-  }
-
-  private initNavigation(): void {
-    this.eventService
-      .on<unknown>('save-comment-filter')
-      .pipe(takeUntil(this._destroySubject))
-      .subscribe(() => {
-        this._filterObject.dataFilter.save();
-      });
-    const host = this.headerService.getHost();
-    if (!host) {
-      return;
-    }
-    this._list = this.composeService.builder(host, (e) => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'add',
-        class: 'header-icons material-icons-outlined',
-        text: 'header.create-question',
-        callback: () => this.writeComment(),
-        condition: () =>
-          !this.isMobile &&
-          this.room &&
-          !this.room.questionsBlocked &&
-          this.room?.mode === 'ARS',
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'add',
-        class: 'header-icons material-icons-outlined',
-        text: 'header.ple.create-question',
-        callback: () => this.writeComment(),
-        condition: () =>
-          !this.isMobile &&
-          this.room &&
-          !this.room.questionsBlocked &&
-          this.room?.mode === 'PLE',
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'file_download',
-        class: 'material-icons-outlined',
-        text: 'header.export-questions',
-        callback: () => {
-          const room = this.sessionService.currentRoom;
-          exportRoom(
-            this.translateService,
-            ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-              UserRole.PARTICIPANT,
-            this.notificationService,
-            this.bonusTokenService,
-            this.commentService,
-            'room-export',
-            user(),
-            room,
-            new Set<string>(this.moderatorAccountIds),
-          ).subscribe((text) => {
-            copyCSVString(
-              text[0],
-              room.name + '-' + room.shortId + '-' + text[1] + '.csv',
-            );
-          });
-        },
-        condition: () => this.room?.mode === 'ARS',
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'file_download',
-        class: 'material-icons-outlined',
-        text: 'header.ple.export-questions',
-        callback: () => {
-          const room = this.sessionService.currentRoom;
-          exportRoom(
-            this.translateService,
-            ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-              UserRole.PARTICIPANT,
-            this.notificationService,
-            this.bonusTokenService,
-            this.commentService,
-            'room-export',
-            user(),
-            room,
-            new Set<string>(this.moderatorAccountIds),
-          ).subscribe((text) => {
-            copyCSVString(
-              text[0],
-              room.name + '-' + room.shortId + '-' + text[1] + '.csv',
-            );
-          });
-        },
-        condition: () => this.room?.mode === 'PLE',
-      });
-    });
   }
 
   private updateKeywordMark() {

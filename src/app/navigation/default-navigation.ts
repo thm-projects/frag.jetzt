@@ -38,6 +38,7 @@ import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
 import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
+import { contrast, setContrast } from 'app/base/theme/contrast';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -66,9 +67,10 @@ export const getDefaultHeader = (
     user$,
     toObservable(i18n),
     toObservable(theme),
+    toObservable(contrast),
     onlineStateService.online$,
   ]).pipe(
-    map(([user, i18n, theme, isOnline]) => {
+    map(([user, i18n, theme, contrast, isOnline]) => {
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
       const isRoom = router.url.includes('/room');
@@ -139,7 +141,7 @@ export const getDefaultHeader = (
             : {
                 id: 'login',
                 icon: isOnline
-                  ? 'login'
+                  ? 'passkey'
                   : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
                 className: isOnline ? '' : 'error-text',
@@ -182,12 +184,49 @@ export const getDefaultHeader = (
                 title: i18n.header.system,
                 onClick: () => setTheme('system'),
               },
+            ],
+          },
+          {
+            id: 'contrast',
+            icon: 'settings_brightness',
+            title: i18n.header.contrast,
+            items: [
               {
-                icon: 'palette',
-                title: i18n.header.baseColor,
-                onClick: () => openThemeColor(injector),
+                icon: contrast === 'low' ? 'check' : 'brightness_4',
+                disabled: contrast === 'low',
+                title: i18n.header.low,
+                onClick: () => setContrast('low'),
+              },
+              {
+                icon: contrast === 'normal' ? 'check' : 'brightness_low',
+                disabled: contrast === 'normal',
+                title: i18n.header.normal,
+                onClick: () => setContrast('normal'),
+              },
+              {
+                icon: contrast === 'medium' ? 'check' : 'brightness_medium',
+                disabled: contrast === 'medium',
+                title: i18n.header.medium,
+                onClick: () => setContrast('medium'),
+              },
+              {
+                icon: contrast === 'high' ? 'check' : 'brightness_high',
+                disabled: contrast === 'high',
+                title: i18n.header.high,
+                onClick: () => setContrast('high'),
+              },
+              {
+                icon: contrast === 'system' ? 'check' : 'contrast',
+                disabled: contrast === 'system',
+                title: i18n.header.system,
+                onClick: () => setContrast('system'),
               },
             ],
+          },
+          {
+            icon: 'palette',
+            title: i18n.header.baseColor,
+            onClick: () => openThemeColor(injector),
           },
         ],
       };

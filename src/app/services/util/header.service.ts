@@ -1,8 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HeaderComponent } from '../../components/shared/header/header.component';
-import { TranslateService } from '@ngx-translate/core';
-import { NotificationService } from './notification.service';
-import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -13,18 +9,9 @@ export class HeaderService {
   private userActivityListener: ((v: string) => void)[] = [];
   private userActivityToggle: boolean;
   private userActivityToggleListener: ((v: boolean) => void)[] = [];
-  private headerComponent: () => HeaderComponent;
   private readonly _isActive: BehaviorSubject<boolean> = new BehaviorSubject(
     false,
   );
-
-  public getHeaderComponent(): HeaderComponent {
-    return this.headerComponent?.();
-  }
-
-  public initHeader(headerComponent: () => HeaderComponent) {
-    this.headerComponent = headerComponent;
-  }
 
   public setCurrentUserActivity(e: string) {
     if (this.userActivity === e) {
@@ -56,18 +43,6 @@ export class HeaderService {
 
   public onActivityChange(f: (v: boolean) => void) {
     this.userActivityToggleListener.push(f);
-  }
-
-  public getTranslate(): TranslateService {
-    return this.getHeaderComponent()?.translationService;
-  }
-
-  public getNotificationService(): NotificationService {
-    return this.getHeaderComponent()?.notificationService;
-  }
-
-  public getHost(): ArsComposeHostDirective {
-    return this.getHeaderComponent()?.host;
   }
 
   set isActive(value: boolean) {

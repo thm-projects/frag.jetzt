@@ -59,13 +59,10 @@ import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
-import { M3DynamicThemeService } from '../modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
 import { CommentService } from './services/http/comment.service';
 import { Comment, Language } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
-import { M3NavigationService } from '../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationTemplate } from '../modules/m3/components/navigation/m3-navigation-types';
 import { dataService } from './base/db/data-service';
 import { windowWatcher } from '../modules/navigation/utils/window-watcher';
 import { lorem } from './utils/lorem';
@@ -285,7 +282,6 @@ export class AppComponent implements OnInit {
     },
     self: undefined,
   };
-  template: M3NavigationTemplate | undefined;
   protected readonly windowClass = windowWatcher.windowState;
 
   constructor(
@@ -304,15 +300,12 @@ export class AppComponent implements OnInit {
     initService: InitService,
     matomoService: MatomoTrackingService,
     private themeService: ThemeService,
-    protected m3NavigationService: M3NavigationService,
-    public readonly m3DynamicThemeService: M3DynamicThemeService,
     // TODO remove after refactoring
     private readonly _sessionService: SessionService,
     private readonly _roomService: RoomService,
     private readonly _userService: UserService,
     private readonly _commentService: CommentService,
   ) {
-    this.m3NavigationService.template.subscribe((x) => (this.template = x));
     this.__debugger.load();
     this.__debugger.self = Object.entries(this.__debugger.__options);
     AppComponent.instance = this;

@@ -13,7 +13,8 @@
         [matTooltip]="elem.description"
         [disabled]="elem.disabled"
         (click)="elem.action()"
-        [class.contained-icon]="!elem.active"
+        [class.contained-icon-filled-tonal]="true"
+        [class.selected]="elem.active"
         [class.filled]="elem.active">
         <mat-icon
           class="fillable-icon"

@@ -14,9 +14,13 @@ import {
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { actualTheme } from 'app/base/theme/theme';
+import { actualTheme, setTheme, theme } from 'app/base/theme/theme';
 import { MatCardModule } from '@angular/material/card';
-import { M3DynamicThemeService } from 'modules/m3/services/dynamic-theme/m3-dynamic-theme.service';
+import {
+  setThemeSourceColor,
+  themeSourceColor,
+} from 'app/base/theme/apply-system-variables';
+import { actualContrast, setContrast } from 'app/base/theme/contrast';
 
 @Component({
   selector: 'app-theme-color',
@@ -29,25 +33,40 @@ export class ThemeColorComponent implements AfterViewInit {
   protected readonly dotStyle = computed(() => `left: ${this.dist()}px;`);
   protected readonly i18n = i18n;
   protected readonly theme = signal(actualTheme());
+  protected readonly contrast = signal(actualContrast());
   private container = viewChild('container', {
     read: ElementRef<HTMLDivElement>,
   });
   private ref = inject(MatDialogRef<ThemeColorComponent>);
-  private m3Service = inject(M3DynamicThemeService);
-  private startColor = this.m3Service.themeColor;
+  private startColor = themeSourceColor();
+  private beforeTheme = theme();
+  private beforeContrast = actualContrast();
   private dist = signal(0);
   private hue = signal(0);
 
   constructor() {
     this.hue.set(this.hexToHue(this.startColor));
-    effect(() => {
-      this.ref.removePanelClass(['light', 'dark']);
-      this.ref.addPanelClass(this.theme());
-    });
-    effect((onCleanup) => {
-      this.m3Service.themeColor = this.hueToHex(this.hue());
-      onCleanup(() => (this.m3Service.themeColor = this.startColor));
-    });
+    effect(
+      (onCleanup) => {
+        setTheme(this.theme());
+        onCleanup(() => setTheme(this.beforeTheme));
+      },
+      { allowSignalWrites: true },
+    );
+    effect(
+      (onCleanup) => {
+        setContrast(this.contrast());
+        onCleanup(() => setContrast(this.beforeContrast));
+      },
+      { allowSignalWrites: true },
+    );
+    effect(
+      (onCleanup) => {
+        setThemeSourceColor(this.hueToHex(this.hue()));
+        onCleanup(() => setThemeSourceColor(this.startColor));
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngAfterViewInit(): void {

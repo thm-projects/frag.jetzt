@@ -6,10 +6,6 @@ $footer-height: 80px;
   height: 100dvh;
 }
 
-mat-toolbar {
-  background-color: var(--md-sys-color-surface3);
-}
-
 .m3-nav-header {
   --mat-toolbar-standard-height: #{$header-height};
   --mat-toolbar-mobile-height: #{$header-height};

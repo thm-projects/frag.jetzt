@@ -82,7 +82,6 @@ import {
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FragJetztLogoComponent } from './components/branding/frag-jetzt-logo/frag-jetzt-logo.component';
 import { M3Module } from '../modules/m3/m3.module';
-import { M3NavPaneComponent } from '../modules/m3/components/navigation/m3-nav-pane/m3-nav-pane.component';
 import { M3BodyPaneComponent } from '../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
 import { M3SupportingPaneComponent } from '../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { ComponentTestCardComponent } from './components/shared/component-test/component-test-page/component-test-card/component-test-card.component';
@@ -95,6 +94,7 @@ import { angularInjector } from './base/angular-init';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
+import './base/theme/apply-system-variables';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -174,7 +174,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     }),
     ColorPickerModule,
     FragJetztLogoComponent,
-    M3NavPaneComponent,
     M3BodyPaneComponent,
     M3SupportingPaneComponent,
     ComponentTestCardComponent,

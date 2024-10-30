@@ -26,7 +26,6 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat-paginator/ars-mat-paginator.component';
-import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
 import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
 import { ArsLifeCycleVisitor } from './models/util/ars-life-cycle-visitor';
 import { MatSubMenuComponent } from './compose/elements/mat-sub-menu/mat-sub-menu.component';
@@ -63,7 +62,6 @@ import { MatChipsModule } from '@angular/material/chips';
     MatDatePickerComponent,
     MatMenuItemComponent,
     ArsMatPaginatorComponent,
-    DateTestComponent,
     DateFormatterComponent,
     ArsLifeCycleVisitor,
     MatSubMenuComponent,
@@ -100,7 +98,6 @@ import { MatChipsModule } from '@angular/material/chips';
     ArsComposeHostDirective,
     ArsMatPaginatorComponent,
     MatButtonComponent,
-    DateTestComponent,
     DateFormatterComponent,
   ],
 })

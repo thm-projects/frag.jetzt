@@ -9,7 +9,11 @@
     "cardContent": "Hier steht ein Beispieltext.",
     "primary": "Primär",
     "secondary": "Sekundär",
-    "tertiary": "Tertiär"
+    "tertiary": "Tertiär",
+    "low": "Wenig Kontrast",
+    "normal": "Normaler Kontrast",
+    "medium": "Mittlerer Kontrast",
+    "high": "Hoher Kontrast"
   },
   "en": {
     "title": "Customize baseline color",
@@ -20,7 +24,11 @@
     "cardContent": "Here is an example text.",
     "primary": "Primary",
     "secondary": "Secondary",
-    "tertiary": "Tertiary"
+    "tertiary": "Tertiary",
+    "low": "Low contrast",
+    "normal": "Normal contrast",
+    "medium": "Medium contrast",
+    "high": "High contrast"
   },
   "fr": {
     "title": "Personnaliser la couleur de base",
@@ -31,6 +39,10 @@
     "cardContent": "Voici un exemple de texte.",
     "primary": "Primaire",
     "secondary": "Secondaire",
-    "tertiary": "Tertiaire"
+    "tertiary": "Tertiaire",
+    "low": "Faible contraste",
+    "normal": "Contraste normal",
+    "medium": "Contraste moyen",
+    "high": "Fort contraste"
   }
 }

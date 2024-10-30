@@ -296,7 +296,7 @@ export class CommentHeaderActionComponent {
     const text = i18n();
     const isOwner = this.comment().creatorId === user().id;
     const isModerator = this.assignedRole() !== 'Participant';
-    const hasBonus = room().bonusArchiveActive;
+    const hasBonus = room()?.bonusArchiveActive;
     return [
       isModerator &&
         ({
