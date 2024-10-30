@@ -10,6 +10,10 @@ const render = (id: string, text: string) => {
     return;
   }
   const iframe = document.createElement('iframe');
+  iframe.style.setProperty('border', 'none');
+  iframe.style.setProperty('width', '100%');
+  iframe.style.setProperty('aspect-ratio', '16 / 9');
+  iframe.allowFullscreen = true;
   iframe.src = text.trim();
   container.append(iframe);
 };
