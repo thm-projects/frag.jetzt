@@ -4,12 +4,12 @@ table {
 
   tr {
     &:not(:last-child) {
-      border-bottom: 1px solid var(--md-sys-color-surface4);
+      border-bottom: 1px solid var(--sys-surface4);
     }
 
     &:first-child {
       font-weight: 600;
-      border-bottom: 1px solid var(--md-sys-color-surface-variant);
+      border-bottom: 1px solid var(--sys-surface-variant);
     }
 
     > td {
@@ -17,7 +17,7 @@ table {
       padding-bottom: 8px;
 
       &:last-child {
-        border-left: 1px solid var(--md-sys-color-surface-variant);
+        border-left: 1px solid var(--sys-surface-variant);
         width: 100%;
         padding-left: 8px;
       }

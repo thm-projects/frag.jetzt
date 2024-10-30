@@ -31,7 +31,6 @@ import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { SpendingWidgetComponent } from './spending-widget/spending-widget.component';
-import { M3DynamicThemePortalDirective } from '../../../modules/m3/components/dynamic-theme/m3-dynamic-theme-portal.directive';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
@@ -59,7 +58,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatRippleModule,
     QRCodeModule,
     SpendingWidgetComponent,
-    M3DynamicThemePortalDirective,
     CustomMarkdownModule,
     MatDialogModule,
   ],

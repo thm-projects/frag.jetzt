@@ -141,12 +141,12 @@ $_m3-navigation-properties: (
   .m3-label,
   .m3-badge,
   .m3-icon {
-    color: var(--md-sys-color-on-surface-variant);
+    color: var(--sys-on-surface-variant);
   }
 
   &.activated {
     .m3-label-button-active-indicator {
-      background-color: var(--md-sys-color-secondary-container);
+      background-color: var(--sys-secondary-container);
     }
   }
 
@@ -155,7 +155,7 @@ $_m3-navigation-properties: (
     .m3-label,
     .m3-badge,
     .m3-icon {
-      color: var(--md-sys-color-on-secondary-container);
+      color: var(--sys-on-secondary-container);
     }
   }
 

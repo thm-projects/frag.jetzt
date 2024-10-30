@@ -17,7 +17,7 @@
           {{ isExpanded() && isOnline ? header.slogan : "" }}
           <span
             class="m3-nav-header-title title-large"
-            style="color: var(--md-sys-color-error)">
+            style="color: var(--sys-error)">
             {{ isOnline ? "" : header.offline }}
           </span>
         </span>
@@ -93,9 +93,9 @@
   let-elements="elements">
   <button
     mat-icon-button
-    [matTooltip]="i18n().more"
+    [matTooltip]="i18n().headerMore"
     [matMenuTriggerFor]="more">
-    <mat-icon>more_vert</mat-icon>
+    <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #more>
     @for (elem of elements; track elem) {

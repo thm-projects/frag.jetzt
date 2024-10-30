@@ -1,14 +1,14 @@
 .high {
-  color: var(--md-sys-color-highlight-red);
+  color: var(--sys-red);
   transform: scale(1.5);
 }
 
 .medium {
-  color: var(--md-sys-color-highlight-yellow);
+  color: var(--sys-yellow);
   transform: scale(1.5);
 }
 
 .low {
-  color: var(--md-sys-color-highlight-green);
+  color: var(--sys-green);
   transform: scale(1.5);
 }

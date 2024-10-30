@@ -1,12 +1,15 @@
 {
   "key": "m3-navigation",
   "de": {
-    "more": "Mehr"
+    "more": "Mehr",
+    "headerMore": "Farben & Kontrast"
   },
   "en": {
-    "more": "More"
+    "more": "More",
+    "headerMore": "Colors & Contrast"
   },
   "fr": {
-    "more": "Plus"
+    "more": "Plus",
+    "headerMore": "Couleurs & contraste"
   }
 }

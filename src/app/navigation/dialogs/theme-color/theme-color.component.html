@@ -32,8 +32,39 @@
       {{ i18n().switchDark }}
     </button>
   </div>
+  <div class="button-wrapper">
+    <button
+      mat-button
+      [disabled]="contrast() === 'low'"
+      (click)="contrast.set('low')">
+      <mat-icon>brightness_4</mat-icon>
+      {{ i18n().low }}
+    </button>
+    <button
+      mat-button
+      [disabled]="contrast() === 'normal'"
+      (click)="contrast.set('normal')">
+      <mat-icon>brightness_low</mat-icon>
+      {{ i18n().normal }}
+    </button>
+    <button
+      mat-button
+      [disabled]="contrast() === 'medium'"
+      (click)="contrast.set('medium')">
+      <mat-icon>brightness_medium</mat-icon>
+      {{ i18n().medium }}
+    </button>
+
+    <button
+      mat-button
+      [disabled]="contrast() === 'high'"
+      (click)="contrast.set('high')">
+      <mat-icon>brightness_high</mat-icon>
+      {{ i18n().high }}
+    </button>
+  </div>
   <h1>{{ i18n().example }}</h1>
-  <mat-card>
+  <mat-card class="filled-card">
     <mat-card-title>
       {{ i18n().cardTitle }}
     </mat-card-title>
@@ -85,6 +116,22 @@
       </button>
       <button
         mat-stroked-button
+        class="primary">
+        {{ i18n().primary }}
+      </button>
+      <span style="flex: 1; min-width: 100%"></span>
+      <button
+        mat-raised-button
+        class="tertiary">
+        {{ i18n().tertiary }}
+      </button>
+      <button
+        mat-raised-button
+        class="secondary">
+        {{ i18n().secondary }}
+      </button>
+      <button
+        mat-raised-button
         class="primary">
         {{ i18n().primary }}
       </button>

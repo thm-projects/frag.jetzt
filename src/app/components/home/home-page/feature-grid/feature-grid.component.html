@@ -15,7 +15,7 @@
     <ng-container
       *ngTemplateOutlet="
         card;
-        context: { tile: tile, cls: 'fit-tile' }
+        context: { tile: tile, cls: 'fit-tile filled-card' }
       "></ng-container>
   }
 } @else {
@@ -42,7 +42,7 @@
         <ng-container
           *ngTemplateOutlet="
             card;
-            context: { tile: tile, cls: 'grid-tile' }
+            context: { tile: tile, cls: 'grid-tile filled-card' }
           "></ng-container>
       </mat-grid-tile>
     }
@@ -53,9 +53,7 @@
   #card
   let-tile="tile"
   let-cls="cls">
-  <mat-card
-    [ngClass]="cls"
-    [appearance]="'raised'">
+  <mat-card [ngClass]="cls">
     <div
       style="
         flex-grow: 1;

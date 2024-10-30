@@ -22,17 +22,12 @@ $rail-label-padding: 8px;
 mat-drawer-container {
   width: 100%;
   height: 100%;
-  background-color: var(--md-sys-color-surface-container-lowest);
-  color: var(--md-sys-color-on-surface);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
 
   mat-drawer {
     width: var(--nav-drawer-width);
-    transition: width 500ms var(--md-sys-motion-easing-emphasized);
-    background-color: var(
-      --md-sys-color-surface3
-    ); // non compliant, but works better
+    transition: width 500ms var(--sys-easing-emphasized);
     height: 100%;
     --nav-margin: 4px;
     --nav-grid-rows: auto 48px 0fr auto 1fr;
@@ -69,10 +64,10 @@ mat-drawer-container {
       margin: var(--nav-margin) 0;
       overflow-x: hidden;
       transition:
-        margin 500ms var(--md-sys-motion-easing-emphasized),
-        height 500ms var(--md-sys-motion-easing-emphasized),
-        grid-template-rows 500ms var(--md-sys-motion-easing-emphasized),
-        --scrollbar-color 500ms var(--md-sys-motion-easing-emphasized);
+        margin 500ms var(--sys-easing-emphasized),
+        height 500ms var(--sys-easing-emphasized),
+        grid-template-rows 500ms var(--sys-easing-emphasized),
+        --scrollbar-color 500ms var(--sys-easing-emphasized);
     }
   }
 
@@ -120,7 +115,7 @@ mat-drawer-container {
 }
 
 .fadeLeft {
-  animation: fadeLeftAnim 500ms var(--md-sys-motion-easing-emphasized);
+  animation: fadeLeftAnim 500ms var(--sys-easing-emphasized);
 }
 
 @keyframes fadeRightAnim {
@@ -133,7 +128,7 @@ mat-drawer-container {
 }
 
 .fadeRight {
-  animation: fadeRightAnim 500ms var(--md-sys-motion-easing-emphasized);
+  animation: fadeRightAnim 500ms var(--sys-easing-emphasized);
 }
 
 .m3-menu-button {
@@ -144,8 +139,8 @@ mat-drawer-container {
 .m3-nav-fab-button {
   margin-left: #{math.div($rail-size - 56px, 2)};
   transition:
-    width 500ms var(--md-sys-motion-easing-emphasized),
-    height 500ms var(--md-sys-motion-easing-emphasized);
+    width 500ms var(--sys-easing-emphasized),
+    height 500ms var(--sys-easing-emphasized);
   overflow: hidden;
   height: 0;
 
@@ -163,7 +158,7 @@ mat-drawer-container {
   }
 
   > ::ng-deep mat-icon {
-    transition: left 500ms var(--md-sys-motion-easing-emphasized);
+    transition: left 500ms var(--sys-easing-emphasized);
     position: absolute;
     left: 16px;
   }
@@ -184,10 +179,10 @@ mat-drawer-container {
 }
 
 .m3-nav-divider {
-  border-top-color: var(--md-sys-color-outline);
+  border-top-color: var(--sys-outline);
   margin: 4px 28px 0 28px;
   opacity: 0;
-  transition: opacity 200ms var(--md-sys-motion-easing-emphasized);
+  transition: opacity 200ms var(--sys-easing-emphasized);
 
   &.open {
     opacity: 1;

@@ -36,9 +36,3 @@
 mat-grid-tile {
   overflow: visible;
 }
-
-mat-card {
-  /// missing implementation for mat-cards in angular-material
-  background-color: var(--md-sys-color-surface-container);
-  color: var(--md-sys-color-on-surface);
-}

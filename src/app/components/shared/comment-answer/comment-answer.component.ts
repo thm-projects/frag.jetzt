@@ -41,9 +41,6 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog } from '@angular/material/dialog';
-import { M3NavigationService } from '../../../../modules/m3/services/navigation/m3-navigation.service';
-import { M3NavigationUtility } from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { HeaderComponent } from '../header/header.component';
 import { applyRoomNavigation } from 'app/navigation/room-navigation';
 import { user$ } from 'app/user/state/user';
 
@@ -97,15 +94,11 @@ export class CommentAnswerComponent
     private headerService: HeaderService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
-    private readonly m3NavigationService: M3NavigationService,
     injector: Injector,
   ) {
     applyRoomNavigation(this.injector)
       .pipe(takeUntil(this.destroyer))
       .subscribe();
-    this.m3NavigationService.emit(
-      M3NavigationUtility.emptyPortal(HeaderComponent),
-    );
     this._keywordExtractor = new KeywordExtractor(injector);
   }
 
@@ -126,7 +119,6 @@ export class CommentAnswerComponent
       );
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
-    this.initNavigation();
     user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {
       if (newUser) {
         this.user = newUser;
@@ -362,34 +354,5 @@ export class CommentAnswerComponent
       .get('comment-page.no-comment')
       .subscribe((msg) => this.notificationService.show(msg));
     this.goBackToCommentList();
-  }
-
-  private initNavigation() {
-    if (!this.headerService.getHost()) {
-      return;
-    }
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.back-to-questionboard',
-          callback: () => {
-            let role = 'participant';
-            if (this.userRole === UserRole.CREATOR) {
-              role = 'creator';
-            } else if (this.userRole > UserRole.PARTICIPANT) {
-              role = 'moderator';
-            }
-            this.router.navigate([
-              role + '/room/' + this.room?.shortId + '/comments',
-            ]);
-          },
-          condition: () => true,
-        });
-      },
-    );
   }
 }

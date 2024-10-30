@@ -22,6 +22,11 @@
       "light": "Hell",
       "dark": "Dunkel",
       "system": "Automatisch",
+      "contrast": "Kontrast",
+      "low": "Niedrig",
+      "normal": "Normal",
+      "medium": "Mittel",
+      "high": "Hoch",
       "baseColor": "Grundfarbe"
     },
     "navigation": {
@@ -73,6 +78,11 @@
       "light": "Light",
       "dark": "Dark",
       "system": "Automatic",
+      "contrast": "Contrast",
+      "low": "Low",
+      "normal": "Normal",
+      "medium": "Medium",
+      "high": "High",
       "baseColor": "Base color"
     },
     "navigation": {
@@ -124,6 +134,11 @@
       "light": "Lumière",
       "dark": "Sombre",
       "system": "Automatique",
+      "contrast": "Contraste",
+      "low": "Faible",
+      "normal": "Normal",
+      "medium": "Moyen",
+      "high": "Élevé",
       "baseColor": "Couleur de base"
     },
     "navigation": {

@@ -100,7 +100,7 @@
     top: 50%;
     transform: translateY(-50%);
     right: 0;
-    background-color: var(--md-sys-color-surface4);
+    background-color: var(--sys-surface-container);
   }
 </style>
 @if (canUseDebugger()) {
@@ -139,21 +139,6 @@
           (click)="option[1]()">
           {{ option[0] }}
         </button>
-      </div>
-      <div class="debugger-theme-switch">
-        <button
-          (click)="m3DynamicThemeService.themeType = 'dark'"
-          class="material-symbols-rounded">
-          dark_mode
-        </button>
-        <button
-          (click)="m3DynamicThemeService.themeType = 'light'"
-          class="material-symbols-rounded">
-          light_mode
-        </button>
-      </div>
-      <div class="debugger-color-picker">
-        <input [(colorPicker)]="m3DynamicThemeService.themeColor" />
       </div>
     </div>
   </div>

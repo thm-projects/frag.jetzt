@@ -29,7 +29,6 @@
               "src/sitemap.xml",
               "src/manifest.webmanifest"
             ],
-            "allowedCommonJsDependencies": ["qrcode", "@stomp/rx-stomp"],
             "styles": ["src/styles-prod.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]

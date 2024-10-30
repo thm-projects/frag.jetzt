@@ -1,7 +1,6 @@
 @use "sass:map";
 @use "../../../../node_modules/@angular/material/index" as mat;
 @use "../style/m3-components" as m3-components;
-@use "../style/m3-theme-utility" as m3;
 @use "../style/m3-token-map" as m3-map;
 @use "../style/m3-typescale" as m3-typescale;
 @use "../style/m3-motion" as m3-motion;
@@ -10,7 +9,7 @@
 @use "../style/m3-layout" as m3-layout;
 @use "style/layout/flex-layout";
 
-$base-theme: m3.define-theme(
+$base-theme: mat.define-theme(
   (
     color: (
       primary: mat.$magenta-palette,
@@ -42,8 +41,6 @@ $base-theme: m3.define-theme(
     @include m3-layout.all-layout-token();
     @include m3-fix.fix-all();
 
-    //@include matx.color-variants-back-compat($light-theme);
-    //@include m3.generate-color-classes(map.get($base-theme, light));
     //--custom-stars: #caca28;
     //--custom-good: rgb(37, 188, 37);
     //--custom-bad: rgb(186, 31, 31);
@@ -52,7 +49,6 @@ $base-theme: m3.define-theme(
   .dark {
     @include mat.all-component-colors(map.get($base-theme, dark));
     @include m3-map.make-components-dynamic(dark);
-    //@include m3.generate-color-classes(map.get($base-theme, dark));
     //--custom-stars: #caca28;
     //--custom-good: rgb(37, 188, 37);
     //--custom-bad: rgb(186, 31, 31);

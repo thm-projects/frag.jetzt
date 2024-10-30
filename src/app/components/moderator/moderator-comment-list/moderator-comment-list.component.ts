@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { first, forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
@@ -35,7 +34,6 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { ForumComment } from '../../../utils/data-accessor';
-import { Palette } from '../../../../theme/Theme';
 import { DeleteModerationCommentsComponent } from '../../creator/_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -157,7 +155,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initNavigation();
     user$.pipe(takeUntil(this.destroyer)).subscribe((user) => {
       if (!user) {
         return;
@@ -347,56 +344,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initNavigation() {
-    if (!this.headerService.getHost()) {
-      return;
-    }
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.export-questions',
-          callback: () => {
-            exportRoom(
-              this.translateService,
-              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-                UserRole.PARTICIPANT,
-              this.notificationService,
-              this.bonusTokenService,
-              this.commentService,
-              'room-export',
-              this.user,
-              this.room,
-              this.moderatorAccountIds,
-            ).subscribe((text) => {
-              copyCSVString(
-                text[0],
-                this.room.name +
-                  '-' +
-                  this.room.shortId +
-                  '-' +
-                  text[1] +
-                  '.csv',
-              );
-            });
-          },
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'delete_sweep',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          text: 'header.delete-moderation-questions',
-          callback: () => this.deleteQuestions(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-      },
-    );
-  }
   getEmptyMessage(): string {
     if (this.comments.length === 0) {
       return this.i18n().empty;
