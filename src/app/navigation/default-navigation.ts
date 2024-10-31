@@ -163,7 +163,7 @@ export const getDefaultHeader = (
           },
           {
             id: 'theme',
-            icon: 'format_color_fill',
+            icon: 'settings_brightness',
             title: i18n.header.theme,
             items: [
               {
@@ -188,7 +188,7 @@ export const getDefaultHeader = (
           },
           {
             id: 'contrast',
-            icon: 'settings_brightness',
+            icon: 'contrast_square',
             title: i18n.header.contrast,
             items: [
               {

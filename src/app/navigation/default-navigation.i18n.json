@@ -18,7 +18,7 @@
         "en": "Englisch",
         "fr": "Französisch"
       },
-      "theme": "Display",
+      "theme": "Erscheinungsbild",
       "light": "Hell",
       "dark": "Dunkel",
       "system": "Automatisch",
@@ -27,7 +27,7 @@
       "normal": "Normal",
       "medium": "Mittel",
       "high": "Hoch",
-      "baseColor": "Grundfarbe"
+      "baseColor": "Akzentfarbe"
     },
     "navigation": {
       "title": "Navigation & Optionen",
@@ -74,7 +74,7 @@
         "en": "English",
         "fr": "French"
       },
-      "theme": "Display",
+      "theme": "Appearance",
       "light": "Light",
       "dark": "Dark",
       "system": "Automatic",
@@ -83,7 +83,7 @@
       "normal": "Normal",
       "medium": "Medium",
       "high": "High",
-      "baseColor": "Base color"
+      "baseColor": "Accent color"
     },
     "navigation": {
       "title": "Navigation & Options",
@@ -130,7 +130,7 @@
         "en": "Anglais",
         "fr": "Français"
       },
-      "theme": "Display",
+      "theme": "Apparence",
       "light": "Lumière",
       "dark": "Sombre",
       "system": "Automatique",
@@ -139,7 +139,7 @@
       "normal": "Normal",
       "medium": "Moyen",
       "high": "Élevé",
-      "baseColor": "Couleur de base"
+      "baseColor": "Couleur d'accent"
     },
     "navigation": {
       "title": "Navigation & options",

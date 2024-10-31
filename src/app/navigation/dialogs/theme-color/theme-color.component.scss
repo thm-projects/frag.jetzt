@@ -18,6 +18,7 @@ $container-size: 2em;
 
 $dot-size: 1.5em;
 $border-width: 0.2em;
+
 .dot {
   border-radius: 100%;
   position: absolute;
@@ -46,4 +47,40 @@ mat-card {
 
 mat-dialog-content.custom {
   padding-block: 1em;
+}
+
+.fab-container {
+  display: flex;
+  justify-content: center;
+  /* Center the FABs horizontally */
+  align-items: center;
+  /* Align items vertically in the center */
+  gap: 16px;
+  /* Space between FABs */
+  margin-top: 16px;
+  /* Space above the FABs to separate from content */
+}
+
+.extended-fab {
+  display: flex;
+  align-items: center;
+  /* Align icon and text in the center vertically */
+  padding: 0 16px;
+  /* Add space around the text for better visibility */
+  min-width: 140px;
+  /* Ensure sufficient width for both text and icon */
+  white-space: nowrap;
+  /* Prevent text from wrapping to the next line */
+  gap: 8px;
+  /* Space between the icon and text */
+}
+
+.filled-card {
+  cursor: default;
+}
+
+.scrollable-dialog-content {
+  max-height: 60vh; /* Sets a maximum height of 60% of the viewport height */
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding-right: 16px; /* Adds padding to prevent overflow hiding */
 }
