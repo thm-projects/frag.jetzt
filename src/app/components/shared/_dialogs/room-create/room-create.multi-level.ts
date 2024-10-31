@@ -135,8 +135,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
           {
             type: 'radio-select',
             tag: 'setupType',
-            label: 'ml-room-create.q-p2-short',
-            defaultValue: previousState?.get('setupType')?.value,
+            defaultValue:
+              previousState?.get('setupType')?.value ?? 'with-global',
             options: [
               {
                 value: 'apiCode',
@@ -455,8 +455,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'moderation',
             label: 'ml-room-create.q-t3-moderation',
             defaultValue: previousState
-              ? previousState?.get('moderation')?.value ??
-                DEFAULT_TEACHER.moderation
+              ? (previousState?.get('moderation')?.value ??
+                DEFAULT_TEACHER.moderation)
               : DEFAULT_TEACHER.moderation,
           },
           {
@@ -464,8 +464,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'profanity',
             label: 'ml-room-create.q-t3-profanity',
             defaultValue: previousState
-              ? previousState?.get('profanity')?.value ??
-                DEFAULT_TEACHER.profanity
+              ? (previousState?.get('profanity')?.value ??
+                DEFAULT_TEACHER.profanity)
               : DEFAULT_TEACHER.profanity,
           },
           {
@@ -634,8 +634,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'target-group',
             label: 'ml-room-create.q-t5-target-group',
             defaultValue: previousState
-              ? previousState?.get('target-group')?.value ??
-                DEFAULT_TEACHER.studyBuddyGroup
+              ? (previousState?.get('target-group')?.value ??
+                DEFAULT_TEACHER.studyBuddyGroup)
               : DEFAULT_TEACHER.studyBuddyGroup,
             options: [
               {
@@ -676,8 +676,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'flash-poll',
             label: 'ml-room-create.q-t6-flash-poll',
             defaultValue: previousState
-              ? previousState?.get('flash-poll')?.value ??
-                DEFAULT_TEACHER.flashPoll
+              ? (previousState?.get('flash-poll')?.value ??
+                DEFAULT_TEACHER.flashPoll)
               : DEFAULT_TEACHER.flashPoll,
           },
           {
@@ -685,8 +685,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'bonus-archive',
             label: 'ml-room-create.q-t6-bonus-archive',
             defaultValue: previousState
-              ? previousState?.get('bonus-archive')?.value ??
-                DEFAULT_TEACHER.bonusArchive
+              ? (previousState?.get('bonus-archive')?.value ??
+                DEFAULT_TEACHER.bonusArchive)
               : DEFAULT_TEACHER.bonusArchive,
           },
           {
@@ -694,7 +694,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'quiz',
             label: 'ml-room-create.q-t6-quiz',
             defaultValue: previousState
-              ? previousState?.get('quiz')?.value ?? DEFAULT_TEACHER.quiz
+              ? (previousState?.get('quiz')?.value ?? DEFAULT_TEACHER.quiz)
               : DEFAULT_TEACHER.quiz,
           },
           {
