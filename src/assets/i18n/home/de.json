@@ -403,7 +403,7 @@
     "optionHeaderTitle": "Optionen",
     "prev": "Zurück",
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
-    "roomJoinTitle": "Veranstaltung besuchen",
+    "roomJoinTitle": "Raum-Code",
     "step": "{{step}} / {{total}}",
     "chatGPT": "Hier steht dir der Chatbot wie auf der Website von OpenAI zur Verfügung, aber wesentlich performanter und zuverlässiger, da er über die API von OpenAI aufgerufen wird.",
     "chatGPTTitle": "Mit ChatGPT arbeiten",
