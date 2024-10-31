@@ -9,7 +9,7 @@
     "completeText": "Klicke auf »Raum erstellen«, um die Raum-Konfiguration zu speichern.",
     "single": "Frage {{number}}",
     "range": "Fragen {{start}} bis {{end}}",
-    "elemTitle": "ChatGPT aktivieren"
+    "elemTitle": "KI-Assistenz aktivieren"
   },
   "en": {
     "title": "Create room",
@@ -20,7 +20,7 @@
     "completeText": "Click »Create room« to save the room configuration.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}",
-    "elemTitle": "Activate ChatGPT"
+    "elemTitle": "Activate AI assistant"
 
   },
   "fr": {
@@ -32,7 +32,7 @@
     "completeText": "Clique sur « Créer espace » pour enregistrer la configuration de la salle.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}",
-    "elemTitle": "Activer ChatGPT"
+    "elemTitle": "Activer l'assistant IA"
      
   }
 }
