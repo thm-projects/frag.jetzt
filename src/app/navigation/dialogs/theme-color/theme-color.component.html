@@ -114,6 +114,13 @@
 
       <button
         mat-flat-button
+        class="secondary"
+        aria-label="Ausgefüllt">
+        {{ i18n().tonal }}
+      </button>
+
+      <button
+        mat-flat-button
         color="primary"
         aria-label="Ausgefüllt">
         {{ i18n().primary }}
@@ -130,10 +137,10 @@
     </button>
     <button
       mat-fab
-      color="accent"
+      color="primary"
       class="extended-fab">
       <mat-icon>favorite</mat-icon>
-      Call to Action
+      {{ i18n().CTA }}
     </button>
   </div>
 </mat-dialog-content>
@@ -151,6 +158,6 @@
     color="primary"
     (click)="submit()"
     aria-label="Confirm">
-    {{ i18n().global.confirm }}
+    {{ i18n().global.saveAndClose }}
   </button>
 </mat-dialog-actions>
