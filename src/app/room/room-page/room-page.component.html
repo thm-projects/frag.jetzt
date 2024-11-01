@@ -49,21 +49,20 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content style="height: 40vh">
-          <div>
-            <span class="headline-small">
-              {{ i18n().descriptionHeader }}
-            </span>
-            @if (isPrivileged()) {
-              <button
-                mat-icon-button
-                (click)="editSessionDescription()">
-                <mat-icon>edit</mat-icon>
-              </button>
-            }
-          </div>
           <div class="scrollable-content">
             <app-markdown-viewer
-              [data]="room.description || ''"></app-markdown-viewer>
+              [data]="
+                room.description || i18n().defaultRoomDescription
+              "></app-markdown-viewer>
+            <div>
+              @if (isPrivileged()) {
+                <button
+                  mat-icon-button
+                  (click)="editSessionDescription()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </div>
           </div>
         </mat-card-content>
         <mat-card-actions

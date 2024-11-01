@@ -1,90 +1,90 @@
 {
   "key": "room-page",
   "de": {
-    "name": "»{{name}}«",
-    "shortId": "Teilnehmerzugang: »{{shortId}}«",
-    "shortQuestions": "Q {{number}}",
-    "shortAnswers": "A {{number}}",
+    "name": "{{name}}",
+    "shortId": "Teilnehmerzugang: {{shortId}}",
+    "shortQuestions": "F {{number}}",
+    "shortAnswers": "Antwort {{number}}",
     "ple": {
-      "join": "Zum Topic-Forum"
+      "join": "Forum"
     },
     "ars": {
-      "join": "Q&A"
+      "join": "Q&A öffnen"
     },
-    "copySuccessful": "Der Link wurde kopiert",
+    "copySuccessful": "Link kopiert!",
     "copyFailed": "Kopieren fehlgeschlagen",
-    "tooltipModerator": "Zugangscode für Gastmoderator*innen | Aufnahme von Dauermoderator*innen",
-    "tooltipCopy": "Direktlink für Teilnehmer*innen",
-    "tooltipEdit": "Titel der Veranstaltung ändern",
-    "tooltipOptions": "Weitere Optionen",
-    "editDescription": "Beschreibung bearbeiten",
-    "moderatorAccess": "Moderatoren-Zugang",
-    "descriptionHeader": "Begrüßungstext",
-    "participant": "Teilnehmer*innen",
-    "creator": "Raumersteller*innen",
+    "tooltipModerator": "Code für Gast-Moderation oder Dauer-Moderation",
+    "tooltipCopy": "Teilnehmer-Link kopieren",
+    "tooltipEdit": "Titel ändern",
+    "tooltipOptions": "Mehr Optionen",
+    "editDescription": "Beschreibung ändern",
+    "moderatorAccess": "Moderationszugang",
+    "participant": "Teilnehmende",
+    "creator": "Raumersteller*in",
     "chatGpt": "KI-Antworten",
-    "bonus": "Markiert für Bonus",
-    "moderators": "Moderatoren*innen",
+    "bonus": "Für Bonus markiert",
+    "moderators": "Moderation",
     "roomPropertiesTitle": "Beiträge",
     "purchase": "Tokens kaufen",
-    "tokensLeft": "Tokens: "
+    "tokensLeft": "Tokens:",
+    "defaultRoomDescription": "Dein Raum ist bereit! \n\nFalls KI aktiviert ist, kannst du:\n\n- Expertenrollen für präzise Antworten erstellen\n- Dokumente zur Analyse hochladen\n- Chats speichern, um Infos zu behalten\n\nDu kannst diesen Text bearbeiten, um eine eigene Begrüßung zu schreiben."
   },
   "en": {
-    "name": "»{{name}}«",
-    "shortId": "Participant access: »{{shortId}}«",
-    "shortQuestions": "Q {{number}}",
-    "shortAnswers": "A {{number}}",
-    "ple": {
-      "join": "Go to the Topic Forum"
+        "name": "{{name}}",
+        "shortId": "Access: {{shortId}}",
+        "shortQuestions": "Q {{number}}",
+        "shortAnswers": "A {{number}}",
+        "ple": {
+            "join": "Forum"
+        },
+        "ars": {
+            "join": "Open Q&A"
+        },
+        "copySuccessful": "Link copied!",
+        "copyFailed": "Copy failed",
+        "tooltipModerator": "Code for guest or permanent moderation",
+        "tooltipCopy": "Copy participant link",
+        "tooltipEdit": "Edit title",
+        "tooltipOptions": "More options",
+        "editDescription": "Edit description",
+        "moderatorAccess": "Moderator access",
+        "participant": "Participants",
+        "creator": "Room creator",
+        "chatGpt": "AI answers",
+        "bonus": "Marked for bonus",
+        "moderators": "Moderation",
+        "roomPropertiesTitle": "Posts",
+        "purchase": "Buy tokens",
+        "tokensLeft": "Tokens:",
+        "defaultRoomDescription": "Your room is ready!\n\nIf AI is enabled, you can:\n\n- Create expert roles for precise answers\n- Upload documents for analysis\n- Save chats to keep information\n\nYou can edit this text to write your own welcome message."
     },
-    "ars": {
-      "join": "Q&A forum"
-    },
-    "copySuccessful": "The link has been copied",
-    "copyFailed": "Copying failed",
-    "tooltipModerator": "Access code for guest moderators | Admission of permanent moderators",
-    "tooltipCopy": "Direct link for participants",
-    "tooltipEdit": "Edit event title",
-    "tooltipOptions": "More options",
-    "editDescription": "Edit description",
-    "moderatorAccess": "Moderator access",
-    "descriptionHeader": "Welcome text",
-    "participant": "Participant",
-    "creator": "Room Creator",
-    "chatGpt": "AI Answers",
-    "bonus": "Marked for Bonus",
-    "moderators": "Moderator",
-    "roomPropertiesTitle": "Statistics",
-    "purchase": "Purchase Tokens",
-    "tokensLeft": "Tokens left"
-  },
-  "fr": {
-    "name": "« {{name}} »",
-    "shortId": "Accès participant : « {{shortId}} »",
-    "shortQuestions": "Q {{number}}",
-    "shortAnswers": "R {{number}}",
-    "ple": {
-      "join": "Vers le forum des sujets"
-    },
-    "ars": {
-      "join": "Vers le forum Q&R"
-    },
-    "copySuccessful": "Le lien a été copié",
-    "copyFailed": "Échec de la copie",
-    "tooltipModerator": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
-    "tooltipCopy": "Lien direct pour les participants",
-    "tooltipEdit": "Modifier le titre de l'événement",
-    "tooltipOptions": "Plus d'options",
-    "editDescription": "Modifier la description",
-    "moderatorAccess": "Accès modérateur",
-    "descriptionHeader": "Texte de bienvenue",
-    "participant": "Participants",
-    "creator": "Créateurs",
-    "chatGpt": "Réponses KI",
-    "bonus": "Marqué pour bonus",
-    "moderators": "Modérateurs",
-    "roomPropertiesTitle": "Statistics",
-    "purchase": "Acheter des jetons",
-    "tokensLeft": "Jetons restants"
-  }
+    "fr": {
+        "name": "{{name}}",
+        "shortId": "Accès : {{shortId}}",
+        "shortQuestions": "Q {{number}}",
+        "shortAnswers": "R {{number}}",
+        "ple": {
+            "join": "Forum"
+        },
+        "ars": {
+            "join": "Ouvrir Q&R"
+        },
+        "copySuccessful": "Lien copié !",
+        "copyFailed": "Échec de la copie",
+        "tooltipModerator": "Code pour modération temporaire ou permanente",
+        "tooltipCopy": "Copier le lien participant",
+        "tooltipEdit": "Modifier le titre",
+        "tooltipOptions": "Plus d'options",
+        "editDescription": "Modifier la description",
+        "moderatorAccess": "Accès modérateur",
+        "participant": "Participants",
+        "creator": "Créateur de la salle",
+        "chatGpt": "Réponses IA",
+        "bonus": "Marqué comme bonus",
+        "moderators": "Modération",
+        "roomPropertiesTitle": "Publications",
+        "purchase": "Acheter des tokens",
+        "tokensLeft": "Tokens :",
+        "defaultRoomDescription": "Ta salle est prête !\n\nSi l'IA est activée, tu peux :\n\n- Créer des rôles d'experts pour des réponses précises\n- Télécharger des documents pour l'analyse\n- Sauvegarder les chats pour conserver les informations\n\nTu peux modifier ce texte pour rédiger ton propre message de bienvenue."
+    }
 }
