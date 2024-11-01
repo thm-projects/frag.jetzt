@@ -4,12 +4,12 @@
     "name": "{{name}}",
     "shortId": "Teilnehmerzugang: {{shortId}}",
     "shortQuestions": "F {{number}}",
-    "shortAnswers": "Antwort {{number}}",
+    "shortAnswers": "A {{number}}",
     "ple": {
-      "join": "Forum"
+      "join": "Chat"
     },
     "ars": {
-      "join": "Q&A öffnen"
+      "join": "Q&A"
     },
     "copySuccessful": "Link kopiert!",
     "copyFailed": "Kopieren fehlgeschlagen",
@@ -22,7 +22,7 @@
     "participant": "Teilnehmende",
     "creator": "Raumersteller*in",
     "chatGpt": "KI-Antworten",
-    "bonus": "Für Bonus markiert",
+    "bonus": "Mit Bonus-Stern",
     "moderators": "Moderation",
     "roomPropertiesTitle": "Beiträge",
     "purchase": "Tokens kaufen",
@@ -35,10 +35,10 @@
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "A {{number}}",
         "ple": {
-            "join": "Forum"
+            "join": "Chat"
         },
         "ars": {
-            "join": "Open Q&A"
+            "join": "Q&A"
         },
         "copySuccessful": "Link copied!",
         "copyFailed": "Copy failed",
@@ -51,7 +51,7 @@
         "participant": "Participants",
         "creator": "Room creator",
         "chatGpt": "AI answers",
-        "bonus": "Marked for bonus",
+        "bonus": "With bonus star",
         "moderators": "Moderation",
         "roomPropertiesTitle": "Posts",
         "purchase": "Buy tokens",
@@ -64,10 +64,10 @@
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "R {{number}}",
         "ple": {
-            "join": "Forum"
+            "join": "Chat"
         },
         "ars": {
-            "join": "Ouvrir Q&R"
+            "join": "Q&R"
         },
         "copySuccessful": "Lien copié !",
         "copyFailed": "Échec de la copie",
@@ -80,7 +80,7 @@
         "participant": "Participants",
         "creator": "Créateur de la salle",
         "chatGpt": "Réponses IA",
-        "bonus": "Marqué comme bonus",
+        "bonus": "Avec étoile bonus ",
         "moderators": "Modération",
         "roomPropertiesTitle": "Publications",
         "purchase": "Acheter des tokens",
