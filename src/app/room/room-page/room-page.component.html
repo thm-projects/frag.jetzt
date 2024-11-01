@@ -48,7 +48,7 @@
             }
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content style="height: 40vh">
           <div>
             <span class="headline-small">
               {{ i18n().descriptionHeader }}
@@ -77,6 +77,7 @@
               <button
                 mat-button
                 routerLink="/purchase">
+                <mat-icon>shopping_cart</mat-icon>
                 {{ i18n().purchase }}
               </button>
             }
@@ -120,7 +121,7 @@
 
 <ng-template #statistics>
   <mat-list style="margin-right: 32px">
-    <!--      <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>-->
+    <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>
     @for (entry of roomProperties; track entry) {
       <mat-list-item>
         <div class="row content-space-between">

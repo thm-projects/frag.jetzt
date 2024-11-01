@@ -9,7 +9,7 @@
       "join": "Zum Topic-Forum"
     },
     "ars": {
-      "join": "Q&A-Forum"
+      "join": "Q&A"
     },
     "copySuccessful": "Der Link wurde kopiert",
     "copyFailed": "Kopieren fehlgeschlagen",
@@ -20,14 +20,14 @@
     "editDescription": "Beschreibung bearbeiten",
     "moderatorAccess": "Moderatoren-Zugang",
     "descriptionHeader": "Begrüßungstext",
-    "participant": "Teilnehmer",
-    "creator": "Raumersteller",
+    "participant": "Teilnehmer*innen",
+    "creator": "Raumersteller*innen",
     "chatGpt": "KI-Antworten",
     "bonus": "Markiert für Bonus",
-    "moderators": "Moderatoren",
-    "roomPropertiesTitle": "Statistics",
+    "moderators": "Moderatoren*innen",
+    "roomPropertiesTitle": "Beiträge",
     "purchase": "Tokens kaufen",
-    "tokensLeft": "Verbleibende Tokens"
+    "tokensLeft": "Tokens: "
   },
   "en": {
     "name": "»{{name}}«",
