@@ -2,7 +2,7 @@
   "key": "room-page",
   "de": {
     "name": "{{name}}",
-    "shortId": "Teilnehmerzugang: {{shortId}}",
+    "shortId": "Raum-Code: {{shortId}}",
     "shortQuestions": "F {{number}}",
     "shortAnswers": "A {{number}}",
     "ple": {
@@ -25,13 +25,13 @@
     "bonus": "Mit Bonus-Stern",
     "moderators": "Moderation",
     "roomPropertiesTitle": "Beiträge",
-    "purchase": "Tokens kaufen",
-    "tokensLeft": "Tokens:",
+    "purchase": "Token kaufen",
+    "tokensLeft": "Rest-Token:",
     "defaultRoomDescription": "Dein Raum ist bereit! \n\nFalls KI aktiviert ist, kannst du:\n\n- Expertenrollen für präzise Antworten erstellen\n- Dokumente zur Analyse hochladen\n- Chats speichern, um Infos zu behalten\n\nDu kannst diesen Text bearbeiten, um eine eigene Begrüßung zu schreiben."
   },
   "en": {
         "name": "{{name}}",
-        "shortId": "Access: {{shortId}}",
+        "shortId": "Key code: {{shortId}}",
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "A {{number}}",
         "ple": {
@@ -55,12 +55,12 @@
         "moderators": "Moderation",
         "roomPropertiesTitle": "Posts",
         "purchase": "Buy tokens",
-        "tokensLeft": "Tokens:",
+        "tokensLeft": "Tokens left:",
         "defaultRoomDescription": "Your room is ready!\n\nIf AI is enabled, you can:\n\n- Create expert roles for precise answers\n- Upload documents for analysis\n- Save chats to keep information\n\nYou can edit this text to write your own welcome message."
     },
     "fr": {
         "name": "{{name}}",
-        "shortId": "Accès : {{shortId}}",
+        "shortId": "Code de la salle : {{shortId}}",
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "R {{number}}",
         "ple": {
@@ -84,7 +84,7 @@
         "moderators": "Modération",
         "roomPropertiesTitle": "Publications",
         "purchase": "Acheter des tokens",
-        "tokensLeft": "Tokens :",
+        "tokensLeft": "Tokens restants :",
         "defaultRoomDescription": "Ta salle est prête !\n\nSi l'IA est activée, tu peux :\n\n- Créer des rôles d'experts pour des réponses précises\n- Télécharger des documents pour l'analyse\n- Sauvegarder les chats pour conserver les informations\n\nTu peux modifier ce texte pour rédiger ton propre message de bienvenue."
     }
 }

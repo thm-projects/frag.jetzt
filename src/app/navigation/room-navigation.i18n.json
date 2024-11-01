@@ -5,7 +5,7 @@
     "qaPseudonym": "Q&A-Pseudonym",
     "features": {
       "title": "Features",
-      "forum": "Q&A-Forum",
+      "forum": "Forum",
       "flashpoll": "Blitzumfrage",
       "assistant": "KI-Assistent",
       "focus": "Fragen-Fokus",
@@ -50,7 +50,7 @@
     "qaPseudonym": "Q&A Pseudonym",
     "features": {
       "title": "Features",
-      "forum": "Q&A Forum",
+      "forum": "Forum",
       "flashpoll": "Flash Poll",
       "assistant": "AI Assistant",
       "focus": "Question Focus",
@@ -92,10 +92,10 @@
   },
   "fr": {
     "mainMenu": "Menu Principal",
-    "qaPseudonym": "Pseudonyme Q&A",
+    "qaPseudonym": "Pseudonyme Q&R",
     "features": {
       "title": "Fonctionnalités",
-      "forum": "Forum Q&A",
+      "forum": "Forum",
       "flashpoll": "Sondage Éclair",
       "assistant": "Assistant IA",
       "focus": "Focus sur les Questions",
@@ -116,7 +116,7 @@
         "bonusArchive": "Archive Bonus",
         "disableComments": "Bloquer les Questions",
         "mail": "Notification par Mail",
-        "export": "Exportation Q&A",
+        "export": "Exportation Q&R",
         "deleteQuestions": "Supprimer les Questions"
       },
       "room": {
