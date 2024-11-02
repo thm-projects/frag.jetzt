@@ -176,30 +176,10 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-
     position: relative;
     z-index: 10;
     padding: 8px;
     color: var(--sys-primary);
-
-    &::before {
-      content: "";
-      display: block;
-      border: none;
-      background-color: var(--sys-surface);
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-    }
-
-    &.user-icon::before {
-      border: none;
-      background-color: var(--sys-surface);
-    }
   }
 
   .user-icon {
