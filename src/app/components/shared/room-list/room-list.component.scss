@@ -9,3 +9,12 @@
   left: -3px;
   top: -1px;
 }
+
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 18px;
+}
+
+.clickable {
+  cursor: pointer;
+}

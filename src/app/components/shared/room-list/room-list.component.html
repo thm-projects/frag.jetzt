@@ -50,7 +50,7 @@
             mat-sort-header="name"
             sortActionDescription="Sort by name"
             *matHeaderCellDef
-            style="width: 40%; padding-right: 10px">
+            style="width: 40%">
             {{ i18n().colName }}
           </th>
           <td
@@ -79,7 +79,7 @@
             sortActionDescription="Sort by shortId"
             *matHeaderCellDef
             scope="col"
-            style="width: 40%">
+            style="width: 40%; text-align: left">
             {{ i18n().colId }}
           </th>
           <td
@@ -123,7 +123,7 @@
             sortActionDescription="Sort by role"
             *matHeaderCellDef
             scope="col"
-            style="text-align: center">
+            style="text-align: left">
             {{ i18n().colRole }}
           </th>
           <td
@@ -166,7 +166,7 @@
           <td
             mat-cell
             *matCellDef="let room"
-            style="text-align: center"
+            style="text-align: left"
             aria-labelledby="empty">
             <button
               mat-icon-button
@@ -184,11 +184,11 @@
             mat-header-cell
             *matHeaderCellDef
             scope="col"
-            style="text-align: center"></th>
+            style="text-align: left"></th>
           <td
             mat-cell
             *matCellDef="let room"
-            style="text-align: center"
+            style="text-align: left"
             aria-labelledby="empty">
             <button
               mat-icon-button
