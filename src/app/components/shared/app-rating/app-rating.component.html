@@ -44,7 +44,8 @@
     <button
       mat-flat-button
       class="secondary full-width"
-      (click)="save()">
+      (click)="save()"
+      style="margin-bottom: 20px; margin-top: 10px">
       {{ i18n().save | translate }}
     </button>
   }
@@ -54,7 +55,7 @@
     (click)="openPopup()"
     class="star-preview flex-container"
     [ngStyle]="{
-      justifyContent: indicator.status ? 'space-between' : 'center'
+      justifyContent: indicator.status ? 'space-between' : 'center',
     }">
     <span class="flex-container">
       <mat-icon

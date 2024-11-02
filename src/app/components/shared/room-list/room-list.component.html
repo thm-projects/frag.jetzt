@@ -17,18 +17,20 @@
     <div *ngIf="this.rooms && this.rooms.length <= 5"></div>
 
     <!-- filter input -->
-    <mat-form-field
-      style="width: 100%"
-      *ngIf="this.rooms && this.rooms.length > 5"
-      class="filterWrapper">
-      <input
-        appAccessibilityEscapedInput
-        matInput
-        #filterInput
-        (keyup)="applyFilter(filterInput.value)"
-        [placeholder]="i18n().search"
-        class="filter" />
-    </mat-form-field>
+    <div style="display: flex; justify-content: center">
+      <mat-form-field
+        style="width: 236px"
+        *ngIf="this.rooms && this.rooms.length > 5"
+        class="filterWrapper">
+        <input
+          appAccessibilityEscapedInput
+          matInput
+          #filterInput
+          (keyup)="applyFilter(filterInput.value)"
+          [placeholder]="i18n().search"
+          class="filter" />
+      </mat-form-field>
+    </div>
 
     <div class="table-container">
       <table
@@ -123,7 +125,7 @@
             sortActionDescription="Sort by role"
             *matHeaderCellDef
             scope="col"
-            style="text-align: left">
+            style="text-align: center">
             {{ i18n().colRole }}
           </th>
           <td
@@ -162,11 +164,24 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            scope="col"></th>
+            scope="col"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100%;
+            ">
+            <mat-icon
+              aria-hidden="true"
+              [matTooltip]="i18n().colAccessTooltip">
+              key
+            </mat-icon>
+          </th>
+
           <td
             mat-cell
             *matCellDef="let room"
-            style="text-align: left"
+            style="text-align: center"
             aria-labelledby="empty">
             <button
               mat-icon-button
