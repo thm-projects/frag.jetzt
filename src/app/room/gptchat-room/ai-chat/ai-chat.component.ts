@@ -160,22 +160,20 @@ export class AiChatComponent {
 
   exampleTopics = [
     {
-      emoji: '💻',
-      question:
-        'What is the most efficient coding language for web development?',
+      emoji: '📚',
+      question: 'Wie lerne ich am effektivsten?',
     },
     {
-      emoji: '🔄',
-      question: 'How can you improve sprint retrospectives in Scrum?',
+      emoji: '🌱',
+      question: 'Wie lerne ich nachhaltig?',
     },
     {
-      emoji: '🚀',
-      question: 'What are the best practices for continuous deployment?',
+      emoji: '⏰',
+      question: 'Wann lerne ich am besten?',
     },
     {
-      emoji: '🧩',
-      question:
-        'How do you handle dependencies in a microservices architecture?',
+      emoji: '💡',
+      question: 'Wie überwinde ich Lernblockaden?',
     },
   ];
 
