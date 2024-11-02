@@ -56,8 +56,8 @@
 
 textarea {
   width: 100%;
-  background-color: var(--sys-on-surface-dim);
-  color: var(--sys-on-surface-dim);
+  background-color: var(--sys-surface-dim);
+  color: var(--sys-on-surface);
   border-radius: 10px;
   border: none;
   outline: none;
@@ -68,10 +68,11 @@ textarea {
 .input-container {
   position: relative;
   width: 100%;
-
-  background-color: transparent;
-  border: 1px solid var(--sys-surface);
-  border-radius: 8px;
+  background-color: var(--sys-surface-dim);
+  color: var(--sys-on-surface);
+  border-radius: 10px;
+  border: none;
+  outline: none;
   padding: 24px;
 
   .actions {
