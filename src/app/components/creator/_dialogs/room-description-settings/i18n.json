@@ -2,7 +2,7 @@
   "key": "room-description-settings",
   "de": {
     "description":"Begrüßungstext",
-    "save":"Speichern und Schließen",
+    "save":"Speichern & Schließen",
     "chars": "{{count}} / {{max}}",
     "warning": "Die maximale Anzahl an Zeichen wurde überschritten!"
   },

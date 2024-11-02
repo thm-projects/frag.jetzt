@@ -72,8 +72,6 @@ export const getDefaultHeader = (
   ]).pipe(
     map(([user, i18n, theme, contrast, isOnline]) => {
       const isHome = router.url.startsWith('/home');
-      const isUser = router.url.startsWith('/user');
-      const isRoom = router.url.includes('/room');
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
       const isGuestUser = user?.isGuest;
 
@@ -84,7 +82,7 @@ export const getDefaultHeader = (
           : 'face';
 
       return {
-        slogan: isHome || isUser || isRoom ? i18n.header.slogan : '',
+        slogan: isHome ? i18n.header.slogan : '',
         offline: i18n.header.offline,
         options: [
           user
