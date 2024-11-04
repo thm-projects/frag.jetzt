@@ -75,7 +75,7 @@ $content-padding: 16px;
   bottom: 0;
   z-index: 2;
   overflow: hidden;
-  transition: height 500ms var(--md-sys-motion-easing-emphasized);
+  transition: height 500ms var(--sys-easing-emphasized);
   min-height: unset;
   height: var(--mat-toolbar-standard-height);
 
@@ -126,6 +126,6 @@ $content-padding: 16px;
 .m3-nav-footer-animated {
   &.show {
     animation: footerSlideIn calc(250ms * var(--i) + 500ms)
-      var(--md-sys-motion-easing-emphasized) forwards;
+      var(--sys-easing-emphasized) forwards;
   }
 }

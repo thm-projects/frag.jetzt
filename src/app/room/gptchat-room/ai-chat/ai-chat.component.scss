@@ -257,3 +257,23 @@ textarea {
     width: 75%;
   }
 }
+
+$padding: 1em;
+$footer-height: 80px;
+$fab-size-small: 40px;
+.scroll-top {
+  position: fixed;
+  left: calc(100% - #{$padding} - #{$fab-size-small});
+  bottom: $padding;
+  z-index: 1;
+  // small secondary fab
+  --mat-fab-foreground-color: var(--sys-secondary);
+  --mdc-fab-container-color: var(--sys-secondary-container);
+  --mdc-fab-container-shape: 12px;
+  width: 40px;
+  height: 40px;
+
+  &.stacked {
+    bottom: calc(#{2 * $padding} + #{$footer-height} + 5.5em);
+  }
+}

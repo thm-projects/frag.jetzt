@@ -12,7 +12,9 @@
     "attachment": "Anhang",
     "more": "Auswahl",
     "disclaimer": "KI-Antworten können falsch oder veraltet sein.",
-    "delete_conversation": "Konversation löschen"
+    "delete_conversation": "Konversation löschen",
+    "follow": "Textausgabe folgen",
+    "unfollow": "Textausgabe nicht mehr folgen"
   },
   "en": {
     "input": "Chat input",
@@ -26,7 +28,9 @@
     "attachment": "Attachment",
     "more": "Selection",
     "disclaimer": "AI responses may be inaccurate or outdated.",
-    "delete_conversation": "Delete conversation"
+    "delete_conversation": "Delete conversation",
+    "follow": "Follow text output",
+    "unfollow": "No longer follow text output"
   },
   "fr": {
     "input": "Saisie du message",
@@ -40,6 +44,8 @@
     "attachment": "Pièce jointe",
     "more": "Sélection",
     "disclaimer": "Les réponses de l'IA peuvent être inexactes ou obsolètes.",
-    "delete_conversation": "Supprimer la conversation"
+    "delete_conversation": "Supprimer la conversation",
+    "follow": "Suivre l'édition du texte",
+    "unfollow": "Ne plus suivre l'édition du texte"
   }
 }

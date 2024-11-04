@@ -117,8 +117,7 @@ $_m3-navigation-properties: (
     font-variation-settings:
       "wght" 400,
       "opsz" 24;
-    transition: font-variation-settings 0.1s
-      var(--md-sys-motion-easing-emphasized);
+    transition: font-variation-settings 0.1s var(--sys-easing-emphasized);
   }
 
   .m3-label {
@@ -127,14 +126,14 @@ $_m3-navigation-properties: (
       "GRAD" 0,
       "opsz" 17;
     transition:
-      all 250ms var(--md-sys-motion-easing-emphasized),
-      font-variation-settings 0.1s var(--md-sys-motion-easing-emphasized);
+      all 250ms var(--sys-easing-emphasized),
+      font-variation-settings 0.1s var(--sys-easing-emphasized);
     opacity: 1;
     &.hide {
       opacity: 0;
       transition:
-        all 50ms var(--md-sys-motion-easing-emphasized),
-        font-variation-settings 0.1s var(--md-sys-motion-easing-emphasized);
+        all 50ms var(--sys-easing-emphasized),
+        font-variation-settings 0.1s var(--sys-easing-emphasized);
     }
   }
 

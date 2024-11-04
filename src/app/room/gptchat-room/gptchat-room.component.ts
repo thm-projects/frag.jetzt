@@ -17,7 +17,7 @@ import {
 import { Observable, ReplaySubject, forkJoin, of, takeUntil } from 'rxjs';
 import { ForumComment } from '../../utils/data-accessor';
 import { EventService } from '../../services/util/event.service';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
@@ -41,6 +41,7 @@ import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AiChatComponent } from './ai-chat/ai-chat.component';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -240,14 +241,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.eventService
-      .on<ForumComment>('gptchat-room.data')
-      .pipe(takeUntil(this.destroyer), take(1))
-      .subscribe((comment) => {
-        this.owningComment = comment;
-        setTimeout(() => this.aiChat().setValue(comment.body), 100);
+    toObservable(this.state, { injector: this.injector })
+      .pipe(first((v) => v === 'ready'))
+      .subscribe(() => {
+        this.eventService
+          .on<ForumComment>('gptchat-room.data')
+          .pipe(takeUntil(this.destroyer), take(1))
+          .subscribe((comment) => {
+            this.owningComment = comment;
+            this.aiChat().setValue(comment.body);
+          });
+        this.eventService.broadcast('gptchat-room.init');
       });
-    this.eventService.broadcast('gptchat-room.init');
     this.accountState.gptConsented$
       .pipe(takeUntil(this.destroyer))
       .subscribe((state) => {

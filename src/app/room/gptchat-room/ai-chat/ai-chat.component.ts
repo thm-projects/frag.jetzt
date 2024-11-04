@@ -46,6 +46,7 @@ import {
   AssistantFile,
 } from '../../assistant-route/assistant-chat/assistant-chat.component';
 import { HttpEventType } from '@angular/common/http';
+import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 
 interface OverriddenMessage extends Message {
   chunks: string[];
@@ -127,7 +128,10 @@ export class AiChatComponent {
   private fileInput = viewChild('fileInput', {
     read: ElementRef<HTMLInputElement>,
   });
-  private follow = signal(false);
+  protected follow = signal(false);
+  protected mobile = computed(
+    () => windowWatcher.windowState() === M3WindowSizeClass.Compact,
+  );
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
 
@@ -218,6 +222,10 @@ export class AiChatComponent {
         return;
       }
     }
+  }
+
+  protected toggleFollow() {
+    this.follow.update((f) => !f);
   }
 
   protected sendExampleTopic(value: string) {

@@ -1,5 +1,11 @@
 @use "sass:math";
 
+$color1: var(--sys-primary-container);
+$color2: var(--sys-primary-container);
+$color3: var(--sys-primary-container);
+$color4: var(--sys-on-primary-container);
+$color5: var(--sys-on-primary);
+
 .custom-background {
   width: 100%;
   height: 100%;
@@ -9,25 +15,25 @@
 
   ::ng-deep {
     .dot {
-      fill: var(--md-ref-palette-primary40);
+      fill: $color1;
     }
 
     .rays {
-      stroke: var(--md-ref-palette-primary30);
-      fill: var(--md-ref-palette-primary20);
+      stroke: $color2;
+      fill: $color3;
     }
 
     .circle {
-      stroke: var(--md-ref-palette-primary30);
+      stroke: $color2;
     }
 
     .pulse-1 {
-      stop-color: var(--md-ref-palette-primary30);
+      stop-color: $color2;
       stop-opacity: 0.2;
     }
 
     .pulse-2 {
-      stop-color: var(--md-ref-palette-primary40);
+      stop-color: $color1;
       stop-opacity: 0.2;
     }
 
@@ -36,23 +42,23 @@
     }
 
     .swipe-1 {
-      stop-color: var(--md-ref-palette-primary30);
+      stop-color: $color2;
     }
 
     .swipe-2 {
-      stop-color: var(--md-ref-palette-primary40);
+      stop-color: $color1;
     }
 
     .dot-1 {
-      stop-color: var(--md-ref-palette-primary80);
+      stop-color: $color4;
     }
 
     .dot-2 {
-      stop-color: var(--md-ref-palette-primary40);
+      stop-color: $color1;
     }
 
     .outer {
-      stop-color: var(--md-ref-palette-primary0);
+      stop-color: $color5;
     }
   }
 }

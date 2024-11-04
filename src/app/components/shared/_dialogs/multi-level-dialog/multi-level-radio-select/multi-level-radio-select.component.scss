@@ -18,7 +18,7 @@ mat-label {
 
 mat-error {
   height: 3em;
-  transition: height 500ms var(--md-sys-motion-easing-emphasized);
+  transition: height 500ms var(--sys-easing-emphasized);
 
   &:empty {
     height: 0;

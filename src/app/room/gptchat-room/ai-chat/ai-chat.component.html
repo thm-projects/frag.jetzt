@@ -213,3 +213,14 @@
     </button>
   }
 </mat-menu>
+
+@if (updatedMessages().length) {
+  <button
+    mat-fab
+    [matTooltip]="follow() ? i18n().unfollow : i18n().follow"
+    class="scroll-top"
+    [class.stacked]="mobile()"
+    (click)="toggleFollow()">
+    <mat-icon>{{ follow() ? "block" : "vertical_align_bottom" }}</mat-icon>
+  </button>
+}
