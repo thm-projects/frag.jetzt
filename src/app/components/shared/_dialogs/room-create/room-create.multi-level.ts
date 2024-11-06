@@ -139,9 +139,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               previousState?.get('setupType')?.value ?? 'with-global',
             options: [
               {
-                value: 'apiCode',
-                label: 'ml-room-create.a-p2-api-code',
-                helpText: i18n().helpTextAPIKey,
+                value: 'with-global',
+                label: 'ml-room-create.a-p2-with-global',
               },
               {
                 value: 'voucher',
@@ -149,8 +148,9 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
                 helpText: i18n().helpTextVoucher,
               },
               {
-                value: 'with-global',
-                label: 'ml-room-create.a-p2-with-global',
+                value: 'apiCode',
+                label: 'ml-room-create.a-p2-api-code',
+                helpText: i18n().helpTextAPIKey,
               },
               { value: 'nothing', label: 'ml-room-create.a-p2-nothing' },
             ],
