@@ -111,7 +111,7 @@ export class CommentComponent implements AfterViewInit {
     }
     const u = user();
     if (u?.id === c.creatorId) {
-      return ['assignment', i18n().fromOwn];
+      return ['account_circle', i18n().fromOwn];
     }
     const r = room();
     const isOwner = r?.ownerId === c.creatorId;
@@ -126,7 +126,7 @@ export class CommentComponent implements AfterViewInit {
     if (c.gptWriterState !== 0) {
       return ['robot_2', i18n().withAI];
     }
-    return ['account_circle', i18n().fromParticipant];
+    return ['group', i18n().fromParticipant];
   }
 
   private formatCommentNumber(): [string, string] {

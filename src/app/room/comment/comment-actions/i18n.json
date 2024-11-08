@@ -13,7 +13,7 @@
     "notificationDescription": "Bei Änderungen, Aktionen oder neuen Antworten benachrichtigen",
     "notificationOff": "Nicht mehr benachrichtigen",
     "notificationOffDescription": "Benachrichtigt nicht mehr bei Änderungen, Aktionen oder neuen Antworten",
-    "ai": "Mit KI chatten",
+    "ai": "An KI senden",
     "aiDescription": "Diesen Post als Start für einen Chat mit der KI nehmen"
   },
   "en": {
@@ -29,7 +29,7 @@
     "notificationDescription": "Notify me of changes, actions or new answers",
     "notificationOff": "No more notifications",
     "notificationOffDescription": "No longer notifies you of changes, actions or new replies",
-    "ai": "Chat with AI",
+    "ai": "Send to AI",
     "aiDescription": "Use this post as a start for a chat with the AI"
   },
   "fr": {
@@ -45,7 +45,7 @@
     "notificationDescription": "Avertir en cas de modifications, d'actions ou de nouvelles réponses",
     "notificationOff": "Ne plus avertir",
     "notificationOffDescription": "Ne vous informe plus des modifications, des actions ou des nouvelles réponses",
-    "ai": "Chatter avec l'IA",
+    "ai": "Envoyer à l'IA",
     "aiDescription": "Utiliser ce post comme point de départ d'un chat avec l'IA"
   }
 }
