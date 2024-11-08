@@ -284,7 +284,9 @@
         mat-menu-item
         (click)="applyFilterByKey('Owner')"
         aria-labelledby="comment">
-        <mat-icon class="owner-icon material-icons-filled">person</mat-icon>
+        <mat-icon class="owner-icon material-icons-filled">
+          account_circle
+        </mat-icon>
         <span [ngClass]="{ Owner: 'owner-icon' }[filterType]">
           {{
             "comment-list." +
@@ -341,13 +343,15 @@
       <button
         mat-menu-item
         (click)="applyFilterByKey('ChatGPT')">
-        <span
+        <mat-icon
+          svgIcon="fj_robot"
           class="chatgpt-robot-icon"
           style="color: var(--primary)"
-          [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]"></span>
+          [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]"></mat-icon>
         <span [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]">
           {{ "comment-list.filter-chatgpt" | translate }}
         </span>
+
         <span
           class="inline-count-badge"
           [matBadge]="filterTypeCounts?.['ChatGPT'] || 0"

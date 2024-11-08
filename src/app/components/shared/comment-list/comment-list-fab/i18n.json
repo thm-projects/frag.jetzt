@@ -12,7 +12,7 @@
     "ple": {
       "write": "Thema hinzufügen",
       "creator": {
-        "askQuestion": "Motivieren deine Autoren, Themen hinzuzufügen!"
+        "askQuestion": "Motiviere deine Gruppe, Themen hinzuzufügen!"
       },
       "participant": {
         "askQuestion": "Sei der Anfang, erstelle das erste Thema!"
@@ -31,7 +31,7 @@
     "ple": {
       "write": "Add topic",
       "creator": {
-        "askQuestion": "Motivate your authors to add topics!"
+        "askQuestion": "Motivate your group to add topics!"
       },
       "participant": {
         "askQuestion": "Be the beginning, create the first topic!"
@@ -42,7 +42,7 @@
     "write": "Poser une question",
     "scrollTop": "Remonter en haut",
     "creator": {
-      "askQuestion": "Motive ton public à poser des questions !"
+      "askQuestion": "Motive ton pugblic à poser des questions !"
     },
     "participant": {
       "askQuestion": "Sois le premier, pose la première question !"
@@ -50,7 +50,7 @@
     "ple": {
       "write": "Ajouter un sujet",
       "creator": {
-        "askQuestion": "Motiver tes auteurs à ajouter des thèmes !"
+        "askQuestion": "Motiver ton groupe à ajouter des sujets !"
       },
       "participant": {
         "askQuestion": "Sois le premier, crée le premier sujet !"

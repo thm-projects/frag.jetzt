@@ -6,7 +6,7 @@
     "shortQuestions": "F {{number}}",
     "shortAnswers": "A {{number}}",
     "ple": {
-      "join": "Chat"
+      "join": "Q&A"
     },
     "ars": {
       "join": "Q&A"
@@ -35,7 +35,7 @@
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "A {{number}}",
         "ple": {
-            "join": "Chat"
+            "join": "Q&A"
         },
         "ars": {
             "join": "Q&A"
@@ -64,7 +64,7 @@
         "shortQuestions": "Q {{number}}",
         "shortAnswers": "R {{number}}",
         "ple": {
-            "join": "Chat"
+            "join": "Q&R"
         },
         "ars": {
             "join": "Q&R"
