@@ -506,7 +506,7 @@
     "q-p2-header": "KI aktivieren",
     "q-p2-title": "Wie möchtest du den KI-Assistenten in deinem Raum aktivieren?",
     "q-p2-short": "Aktivierungsart",
-    "a-p2-api-code": "Mit eigenem API-Key",
+    "a-p2-api-code": "Mit eigenem KI-Zugang (API-Key)",
     "a-p2-voucher": "Mit einem Gutschein für Lehrpersonen",
     "a-p2-with-global": "Mit meinem Starter-Guthaben von 5 €",
     "a-p2-nothing": "Nicht aktivieren",

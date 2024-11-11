@@ -506,7 +506,7 @@
     "q-p2-header": "Activer ChatGPT",
     "q-p2-title": "Comment souhaites-tu activer l'assistant IA dans ta salle ?",
     "q-p2-short": "Type d'activation",
-    "a-p2-api-code": "Avec sa propre clé API",
+    "a-p2-api-code": "Avec accès IA personnel (clé API)",
     "a-p2-voucher": "Avec un bon pour les enseignants",
     "a-p2-with-global": "Avec mon crédit de départ de 5 €",
     "a-p2-nothing": "Ne pas activer",

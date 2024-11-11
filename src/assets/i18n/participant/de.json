@@ -338,7 +338,7 @@
     "temperature-tooltip-balanced": "Ausgewogene Antworten können sich ändern, sind aber oft sehr gut auf die Frage abgestimmt.",
     "temperature-precise": "[Mehr] Genau",
     "temperature-tooltip-precise": "Lässt praktisch keinen Spielraum zu. Die Antworten sind fast identisch und somit teilweise deterministisch.",
-    "privacy-policy": "Hier Datenschutzerklärung für die Nutzung der OpenAI-API",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI-API",
     "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "context-context": "Kontext: {{value}}",
