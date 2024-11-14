@@ -27,6 +27,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         /^\/api\/motds\/all(\/|$)/g,
       ],
     },
+    {
+      allow: /^\/ai(\/|$)/g,
+      blacklist: [],
+    },
   ];
 
   constructor() {}

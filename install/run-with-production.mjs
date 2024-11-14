@@ -12,5 +12,8 @@ spawn("npm", ["run", "start"], {
     BACKEND_ADDRESS: "https://frag.jetzt/api",
     BACKEND_SECURE: "true",
     BACKEND_CHANGE_ORIGIN: "true",
+    AI_ADDRESS: "https://frag.jetzt/ai",
+    AI_SECURE: "true",
+    AI_CHANGE_ORIGIN: "true",
   },
 });

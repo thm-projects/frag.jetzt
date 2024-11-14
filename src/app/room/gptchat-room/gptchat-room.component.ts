@@ -14,10 +14,10 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Observable, ReplaySubject, forkJoin, of, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, of, takeUntil } from 'rxjs';
 import { ForumComment } from '../../utils/data-accessor';
 import { EventService } from '../../services/util/event.service';
-import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { filter, first, take } from 'rxjs/operators';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
@@ -29,7 +29,6 @@ import {
   AssistantsService,
   Content,
   Message,
-  ThreadReference,
   UploadedFile,
 } from 'app/services/http/assistants.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
@@ -42,6 +41,10 @@ import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AiChatComponent } from './ai-chat/ai-chat.component';
 import { toObservable } from '@angular/core/rxjs-interop';
+import {
+  AssistantThreadService,
+  Thread,
+} from '../assistant-route/services/assistant-thread.service';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -49,20 +52,24 @@ export interface AssistantEntry {
 }
 
 interface ThreadEntry {
-  ref: ThreadReference;
+  ref: Thread;
   headLine: string;
   content: string;
   fetched: boolean;
   messages: Message[];
 }
 
-interface MessageDelta {
-  id: string;
-  object: 'thread.message.delta';
-  delta: {
-    content: (Content & { index: number })[];
-  };
-}
+const transformMessage = (m: unknown): Message => {
+  return {
+    role: m['type'] === 'human' ? 'user' : 'assistant',
+    content: [
+      {
+        type: 'text',
+        text: { value: m['content'], annotations: [] },
+      },
+    ],
+  } satisfies Message;
+};
 
 @Component({
   selector: 'app-gptchat-room',
@@ -100,6 +107,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private eventService = inject(EventService);
   private accountState = inject(AccountStateService);
   private assistants = inject(AssistantsService);
+  private assistantThread = inject(AssistantThreadService);
   private roomState = inject(RoomStateService);
   private destroyRef = inject(DestroyRef);
   private aiChat = viewChild(AiChatComponent);
@@ -122,10 +130,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           this.currentMessages.set([...thread.messages]);
           return;
         }
-        this.assistants
-          .getThreadMessages(thread.ref.id, null)
+        this.assistantThread
+          .getMessages(thread.ref.id)
           .subscribe((messages) => {
-            thread.messages = messages.data.reverse();
+            messages = messages.map(transformMessage);
+            thread.messages = messages as Message[];
             thread.fetched = true;
             this.currentMessages.set([...thread.messages]);
           });
@@ -137,20 +146,22 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       const i18n = this.i18n();
       const lang = language();
       for (const thread of threads) {
-        thread.headLine = i18nContext(i18n.threadHeadLine, {
-          date: thread.ref.createdAt.toLocaleDateString(lang, {
-            year: 'numeric',
-            day: '2-digit',
-            month: '2-digit',
-          }),
-        });
-        thread.content = i18nContext(i18n.threadContent, {
-          time: thread.ref.createdAt.toLocaleTimeString(lang, {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          }),
-        });
+        thread.headLine = thread.ref.name;
+        thread.content =
+          i18nContext(i18n.threadHeadLine, {
+            date: thread.ref.created_at.toLocaleDateString(lang, {
+              year: 'numeric',
+              day: '2-digit',
+              month: '2-digit',
+            }),
+          }) +
+          i18nContext(i18n.threadContent, {
+            time: thread.ref.created_at.toLocaleTimeString(lang, {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }),
+          });
       }
     });
   }
@@ -195,7 +206,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 7);
 
-    const groups = [
+    const groups: { label: string; threads: ThreadEntry[] }[] = [
       { label: 'today', threads: [] },
       { label: 'yesterday', threads: [] },
       { label: 'previous_7_days', threads: [] },
@@ -205,7 +216,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const threads = this.threads();
     for (let i = threads.length - 1; i >= 0; i--) {
       const thread = threads[i];
-      const threadDate = thread.ref.createdAt;
+      const threadDate = thread.ref.created_at;
 
       if (this.isSameDate(threadDate, today)) {
         groups[0].threads.push(thread);
@@ -225,7 +236,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
 
     for (const group of groups) {
       group.threads.sort(
-        (a, b) => b.ref.createdAt.getTime() - a.ref.createdAt.getTime(),
+        (a, b) => b.ref.created_at.getTime() - a.ref.created_at.getTime(),
       );
     }
 
@@ -264,14 +275,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer), filter(Boolean))
       .subscribe((room) => {
         let count = 0;
-        this.assistants.listThreads(room.id).subscribe({
+        this.assistantThread.listThreads(room.id).subscribe({
           next: (threads) => {
             this.threads.set(
               threads
                 .map((e) => {
-                  e.createdAt = new Date(
-                    (e.createdAt as unknown as number) * 1000,
-                  );
                   return {
                     headLine: '',
                     content: '',
@@ -282,7 +290,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
                 })
                 .sort(
                   (a, b) =>
-                    b.ref.createdAt.getTime() - a.ref.createdAt.getTime(),
+                    b.ref.created_at.getTime() - a.ref.created_at.getTime(),
                 ),
             );
             if (++count === 2 && this.state() === 'loading') {
@@ -363,99 +371,67 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       this.state.set('ready');
       return false;
     }
-    const message: Message = {
-      role: 'user',
-      content: [
-        {
-          type: 'text',
-          text: {
-            value: msg,
-            annotations: [],
-          },
-        },
-      ],
-    };
     const roomId = this.roomState.getCurrentRoom().id;
     let data: Observable<unknown> = of(null);
-    if (files.length > 0) {
-      data = forkJoin(
-        files.map((e) => this.assistants.uploadToOpenAI(roomId, e.id)),
-      ).pipe(
-        map((refs) => {
-          message.attachments = refs.map((ref) => ({
-            file_id: ref.id,
-            tools: [{ type: 'file_search' }],
-          }));
-          return null;
-        }),
-      );
-    }
+    // TODO: Add attachments (files or images) to message
     if (!thread) {
-      data = data.pipe(
-        switchMap(() => {
-          const transformedMessage = { ...message };
-          transformedMessage.content =
-            transformedMessage.content[0]['text'].value;
-          return this.assistants.createThread(roomId, {
-            assistant_id: assistant.ref.openaiId,
-            stream: true,
-            thread: {
-              messages: [transformedMessage],
-            },
-          });
-        }),
-      );
+      data = this.assistantThread.newThread(roomId, msg);
     } else {
-      data = data.pipe(
-        switchMap(() => {
-          const transformedMessage = { ...message };
-          transformedMessage.content =
-            transformedMessage.content[0]['text'].value;
-          return this.assistants.continueThread(thread.ref.id, {
-            assistant_id: assistant.ref.openaiId,
-            stream: true,
-            additional_messages: [transformedMessage],
-          });
-        }),
-      );
+      data = this.assistantThread.continueThread(roomId, thread.ref.id, msg);
     }
     let newMessage: Message = null;
     data.subscribe({
       next: (data) => {
         const sse = data as ServerSentEvent;
-        if (sse.event === 'fj.created') {
-          const thread = {
-            headLine: '',
+        // TODO: Parse all
+        if (sse.event === 'thread_created') {
+          const thread = new Thread(sse.jsonData() as Thread);
+          const threadEntry = {
+            headLine: thread.name,
             content: '',
-            ref: sse.jsonData() as ThreadReference,
+            ref: thread,
             messages: [],
             fetched: true,
           };
-          thread.ref.createdAt = new Date(
-            (thread.ref.createdAt as unknown as number) * 1000,
-          );
           this.threads.update((threads) => {
-            return [thread, ...threads];
+            return [threadEntry, ...threads];
           });
-          this.selectedThread.set(thread);
-        } else if (sse.event === 'thread.run.created') {
-          this.selectedThread().messages.push(message);
-          this.currentMessages.set([...this.selectedThread().messages]);
-        } else if (sse.event === 'thread.message.created') {
-          newMessage = sse.jsonData() as Message;
-          this.selectedThread().messages.push(newMessage);
-          this.currentMessages.set([...this.selectedThread().messages]);
-        } else if (sse.event === 'thread.message.delta') {
-          const delta = sse.jsonData() as MessageDelta;
+          this.selectedThread.set(threadEntry);
+        } else if (sse.event === 'value') {
+          const messages = sse.jsonData()['messages'] as Message[];
+          if (newMessage == null) {
+            this.selectedThread().messages.push(
+              transformMessage(messages[messages.length - 1]),
+            );
+            this.currentMessages.set([...this.selectedThread().messages]);
+          } else {
+            const v = transformMessage(messages[messages.length - 1]);
+            for (const key of Object.keys(v)) {
+              newMessage[key] = v[key];
+            }
+            this.currentMessages.set([...this.selectedThread().messages]);
+          }
+          newMessage = null;
+        } else if (sse.event === 'message') {
+          if (newMessage == null) {
+            newMessage = transformMessage(sse.jsonData());
+            this.selectedThread().messages.push(newMessage);
+          }
+          const delta = sse.jsonData()['content'];
           if (!newMessage.content) {
             newMessage.content = [];
           }
           const data = newMessage.content as Content[];
-          for (const content of delta.delta.content) {
-            const { index, ...rest } = content;
-            this.mergeObject(data, index, rest);
-          }
+          this.mergeObject(data, 0, {
+            type: 'text',
+            text: {
+              value: delta,
+              annotations: [],
+            },
+          });
           this.currentMessages.set([...this.selectedThread().messages]);
+        } else {
+          console.log('Unknown event', sse);
         }
       },
       error: (err) => {
@@ -569,7 +545,20 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private loadAssistant(roomId: string, assistant: AssistantEntry) {
-    this.assistants.getAssistant(roomId, assistant.ref.openaiId).subscribe({
+    this.assistRefs.update((assistants) => {
+      const index = assistants.findIndex((e) => e.ref === assistant.ref);
+      if (index === -1) {
+        return assistants;
+      }
+      // TODO: Remove this
+      const a = {
+        model: 'gpt-4o',
+      } as Assistant;
+      a.name = a.name || assistants[index].assistant.name;
+      assistants[index].assistant = a;
+      return assistants;
+    });
+    /*this.assistants.getAssistant(roomId, assistant.ref.openaiId).subscribe({
       next: (a) => {
         this.assistRefs.update((assistants) => {
           const index = assistants.findIndex((e) => e.ref === assistant.ref);
@@ -588,14 +577,31 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           return assistants.filter((e) => e.ref !== assistant.ref);
         });
       },
-    });
+    });*/
   }
 
   private createDefaultAssistant(roomId: string) {
     if (this.roomState.getCurrentAssignedRole() === 'Participant') {
       return;
     }
-    this.assistants
+    const entry = {
+      ref: {
+        id: 'dummy',
+        openaiId: 'dummy',
+        roomId: roomId,
+        createdAt: new Date(),
+        updatedAt: null,
+      },
+      assistant: {
+        name: i18n().defaultName,
+      } as Assistant,
+    };
+    this.assistRefs.update((assistants) => {
+      return [...assistants, entry];
+    });
+    this.loadAssistant(roomId, entry);
+    this.selectedAssistant.set('dummy');
+    /*this.assistants
       .createAssistant(roomId, {
         model: 'gpt-4o',
         name: i18n().defaultName,
@@ -623,7 +629,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.error.set(this.makeError(err));
         },
-      });
+      });*/
   }
 
   private showError(error: string) {

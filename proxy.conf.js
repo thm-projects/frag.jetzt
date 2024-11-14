@@ -105,6 +105,15 @@ const PROXY_CONFIG = {
       "^/api": ""
     },
     "logLevel": "debug"
+  },
+  "/ai": {
+    "target": process.env.AI_ADDRESS || "http://localhost:6001",
+    "secure": process.env.AI_SECURE || false,
+    "changeOrigin": process.env.AI_CHANGE_ORIGIN || false,
+    "pathRewrite": {
+      "^/ai": ""
+    },
+    "logLevel": "debug"
   }
 };
 

@@ -195,7 +195,10 @@ export class AiChatComponent {
         this.selectedThread();
         this.inputMessage.setValue('');
         this.files.set([]);
-        this.fileInput().nativeElement.value = '';
+        const fileInput = this.fileInput()?.nativeElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
       },
       { allowSignalWrites: true },
     );

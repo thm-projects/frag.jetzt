@@ -10,6 +10,7 @@ services:
       - WS_GATEWAY_HTTP_ADDRESS=http://fragjetzt-ws-gateway:8080
       - BACKEND_ADDRESS=http://fragjetzt-backend:8888
       - KEYCLOAK_ADDRESS=http://fragjetzt-keycloak:8080
+      - AI_ADDRESS=http://fragjetzt-ai-provider:8080
     volumes:
       - 'cache:/cache'
       - './:/app'

@@ -45,20 +45,33 @@ export const postSSE = (
   );
 };
 
+const getIndexOf = (data: string, lastIndex: number): [number, number] => {
+  const index1 = data.indexOf('\n\n', lastIndex);
+  const index2 = data.indexOf('\r\n\r\n', lastIndex);
+  if (index1 < 0) {
+    return [index2, 4];
+  } else if (index2 < 0) {
+    return [index1, 2];
+  } else if (index1 < index2) {
+    return [index1, 2];
+  }
+  return [index2, 4];
+};
+
 const extractData = (
   data: string,
   updater: (str: string) => void,
 ): Observable<ServerSentEvent> => {
   let lastIndex = 0;
-  let currentIndex = 0;
+  let currentIndex = [0, 0];
   const resultArr: ServerSentEvent[] = [];
-  while ((currentIndex = data.indexOf('\n\n', lastIndex)) >= 0) {
+  while ((currentIndex = getIndexOf(data, lastIndex))[0] >= 0) {
     let id = null;
     let event = null;
     let sseData = null;
     let retry = null;
-    const subData = data.slice(lastIndex, currentIndex);
-    subData.split('\n').forEach((line: string) => {
+    const subData = data.slice(lastIndex, currentIndex[0]);
+    subData.split(/\r?\n/).forEach((line: string) => {
       const start = line.indexOf(':');
       if (start < 0) {
         console.error(
@@ -69,7 +82,7 @@ const extractData = (
         );
         return;
       }
-      const entryData = line.substring(start + 1);
+      const entryData = line.substring(start + 1).trim();
       switch (line.substring(0, start).toLowerCase()) {
         case 'id':
           id = (id != null ? id + '\n' : '') + entryData;
@@ -90,7 +103,7 @@ const extractData = (
     if (id != null || event != null || sseData != null || retry != null) {
       resultArr.push(new ServerSentEvent(id, event, sseData, retry));
     }
-    lastIndex = currentIndex + 2;
+    lastIndex = currentIndex[0] + currentIndex[1];
   }
   if (lastIndex > 0) {
     updater(data.slice(lastIndex));
