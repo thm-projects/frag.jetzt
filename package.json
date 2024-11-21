@@ -20,7 +20,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/datetime-picker": "^16.0.1",
     "@angular/animations": "^18.2.7",
     "@angular/cdk": "^18.2.7",
     "@angular/common": "^18.2.7",
@@ -117,19 +116,5 @@
       "eslint --fix"
     ],
     "*.{scss,md,component.html}": "prettier --write"
-  },
-  "overrides": {
-    "@angular-material-components/datetime-picker": {
-      "@angular/platform-browser": ">=18.0.0",
-      "@angular/common": ">=18.0.0",
-      "@angular/core": ">=18.0.0",
-      "@angular/forms": ">=18.0.0",
-      "@angular/material": ">=18.0.0",
-      "@angular/cdk": ">=18.0.0"
-    },
-    "@angular-material-components/moment-adapter": {
-      "@angular/common": ">=18.0.0",
-      "@angular/core": ">=18.0.0"
-    }
   }
 }
