@@ -9,6 +9,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
   selector: 'app-active-user',
   templateUrl: './active-user.component.html',
   styleUrls: ['./active-user.component.scss'],
+  standalone: false,
 })
 export class ActiveUserComponent implements OnInit, OnDestroy {
   @Input() room: Room;

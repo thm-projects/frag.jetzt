@@ -12,6 +12,7 @@ import {
     './multi-level-switch.component.scss',
     '../common-form-field.scss',
   ],
+  standalone: false,
 })
 export class MultiLevelSwitchComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<SwitchAction>;

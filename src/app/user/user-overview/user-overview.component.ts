@@ -17,7 +17,6 @@ interface Option {
 
 @Component({
   selector: 'app-user-overview',
-  standalone: true,
   imports: [
     MatGridListModule,
     MatCardModule,

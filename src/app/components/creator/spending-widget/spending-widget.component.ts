@@ -10,7 +10,6 @@ import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-spending-widget',
-  standalone: true,
   imports: [CurrencyPipe, NgIf, TranslateModule, MatCard],
   templateUrl: './spending-widget.component.html',
   styleUrl: './spending-widget.component.scss',

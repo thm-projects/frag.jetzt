@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-introduction-room-page',
   templateUrl: './introduction-room-page.component.html',
   styleUrls: ['./introduction-room-page.component.scss'],
+  standalone: false,
 })
 export class IntroductionRoomPageComponent implements OnDestroy {
   currentLanguage: Language;

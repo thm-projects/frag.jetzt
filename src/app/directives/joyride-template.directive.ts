@@ -5,6 +5,7 @@ import { EventService } from '../services/util/event.service';
 
 @Directive({
   selector: '[appJoyrideTemplate]',
+  standalone: false,
 })
 export class JoyrideTemplateDirective implements OnInit {
   constructor(

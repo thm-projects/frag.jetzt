@@ -13,7 +13,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-m3-label',
-  standalone: true,
   imports: [MatButtonModule, MatIconModule, CommonModule, MatSlideToggleModule],
   templateUrl: './m3-label.component.html',
   styleUrl: './m3-label.component.scss',

@@ -12,6 +12,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-pseudonym-editor',
   templateUrl: './pseudonym-editor.component.html',
   styleUrls: ['./pseudonym-editor.component.scss'],
+  standalone: false,
 })
 export class PseudonymEditorComponent implements OnInit {
   @Input()

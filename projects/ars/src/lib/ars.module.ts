@@ -8,7 +8,6 @@ import { WrapperDirective } from './components/layout/frame/wrp/WrapperDirective
 import { FrameTestComponent } from './components/test/layout/frame/frame-test/frame-test.component';
 import { ScrollDirective } from './components/layout/base/scroll/ScrollDirective';
 import { MaterialTypographyComponent } from './components/style/typography/material-typography/material-typography.component';
-import { ThemeTestComponent } from './components/test/theme-test/theme-test.component';
 import { BaseTestComponent } from './components/test/layout/base-test/base-test.component';
 import { FlexAlignComponent } from './components/layout/base/flex-align/flex-align.component';
 import { MenuWrapperDirective } from './components/content/menu/MenuWrapper.directive';
@@ -48,7 +47,6 @@ import { MatChipsModule } from '@angular/material/chips';
     FrameTestComponent,
     ScrollDirective,
     MaterialTypographyComponent,
-    ThemeTestComponent,
     BaseTestComponent,
     FlexAlignComponent,
     MenuWrapperDirective,
@@ -89,7 +87,6 @@ import { MatChipsModule } from '@angular/material/chips';
     RowComponent,
     ColComponent,
     FillComponent,
-    ThemeTestComponent,
     BaseTestComponent,
     MenuWrapperDirective,
     ButtonWrapperDirective,

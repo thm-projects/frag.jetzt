@@ -20,6 +20,7 @@ import { user } from 'app/user/state/user';
   selector: 'app-comment-vote',
   templateUrl: './comment-vote.component.html',
   styleUrl: './comment-vote.component.scss',
+  standalone: false,
 })
 export class CommentVoteComponent {
   comment = input.required<ForumComment>();

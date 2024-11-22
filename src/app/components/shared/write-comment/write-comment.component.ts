@@ -41,6 +41,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-write-comment',
   templateUrl: './write-comment.component.html',
   styleUrls: ['./write-comment.component.scss'],
+  standalone: false,
 })
 export class WriteCommentComponent implements OnInit, AfterViewInit {
   @Input() isModerator = false;

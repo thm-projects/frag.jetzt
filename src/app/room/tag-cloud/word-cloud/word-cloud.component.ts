@@ -68,6 +68,7 @@ const TO_RAD = (2 * Math.PI) / 360;
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],
+  standalone: false,
 })
 export class WordCloudComponent<T extends WordMeta>
   implements OnChanges, OnDestroy {

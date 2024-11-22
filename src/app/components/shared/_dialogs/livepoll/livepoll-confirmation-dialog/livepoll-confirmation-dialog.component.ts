@@ -20,6 +20,7 @@ export enum ConfirmDialogAction {
     './livepoll-confirmation-dialog.component.scss',
     '../livepoll-common.scss',
   ],
+  standalone: false,
 })
 export class LivepollConfirmationDialogComponent {
   public readonly translateKey: string = 'common';

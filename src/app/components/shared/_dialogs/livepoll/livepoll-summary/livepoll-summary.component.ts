@@ -14,6 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-livepoll-summary',
   templateUrl: './livepoll-summary.component.html',
   styleUrls: ['./livepoll-summary.component.scss', '../livepoll-common.scss'],
+  standalone: false,
 })
 export class LivepollSummaryComponent implements OnInit {
   public votes: number[];

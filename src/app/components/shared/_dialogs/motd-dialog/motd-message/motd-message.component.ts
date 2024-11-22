@@ -18,6 +18,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-motd-message',
   templateUrl: './motd-message.component.html',
   styleUrls: ['./motd-message.component.scss'],
+  standalone: false,
 })
 export class MotdMessageComponent implements OnInit, OnDestroy {
   @Input() message: Motd;

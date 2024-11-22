@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs';
   selector: 'app-brainstorming-blacklist-edit',
   templateUrl: './brainstorming-blacklist-edit.component.html',
   styleUrls: ['./brainstorming-blacklist-edit.component.scss'],
+  standalone: false,
 })
 export class BrainstormingBlacklistEditComponent implements OnInit {
   @Input() room: Room;

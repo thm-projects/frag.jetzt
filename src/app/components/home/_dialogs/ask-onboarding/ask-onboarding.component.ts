@@ -5,6 +5,7 @@ import { language } from 'app/base/language/language';
   selector: 'app-ask-onboarding',
   templateUrl: './ask-onboarding.component.html',
   styleUrls: ['./ask-onboarding.component.scss'],
+  standalone: false,
 })
 export class AskOnboardingComponent {
   protected readonly lang = language;

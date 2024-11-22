@@ -12,6 +12,7 @@ import {
     './multi-level-text-input.component.scss',
     '../common-form-field.scss',
   ],
+  standalone: false,
 })
 export class MultiLevelTextInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<TextInputAction>;

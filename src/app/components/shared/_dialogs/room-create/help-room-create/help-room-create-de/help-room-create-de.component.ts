@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-help-room-create-de',
   templateUrl: './help-room-create-de.component.html',
   styleUrls: ['./help-room-create-de.component.scss'],
+  standalone: false,
 })
 export class HelpRoomCreateDeComponent {}

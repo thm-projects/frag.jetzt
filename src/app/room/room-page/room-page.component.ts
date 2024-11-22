@@ -48,7 +48,6 @@ const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-room-page',
-  standalone: true,
   imports: [
     M3BodyPaneComponent,
     M3SupportingPaneComponent,

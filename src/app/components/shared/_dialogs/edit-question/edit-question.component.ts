@@ -10,6 +10,7 @@ import { TSMap } from 'typescript-map';
   selector: 'app-edit-question',
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.scss'],
+  standalone: false,
 })
 export class EditQuestionComponent {
   @Input() comment: ForumComment;

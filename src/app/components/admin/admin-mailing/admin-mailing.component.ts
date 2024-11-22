@@ -7,6 +7,7 @@ import { NotificationService } from 'app/services/util/notification.service';
   selector: 'app-admin-mailing',
   templateUrl: './admin-mailing.component.html',
   styleUrls: ['./admin-mailing.component.scss'],
+  standalone: false,
 })
 export class AdminMailingComponent {
   subject: string = '';

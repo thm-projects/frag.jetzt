@@ -10,6 +10,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-moderator-delete',
   templateUrl: './moderator-delete.component.html',
   styleUrls: ['./moderator-delete.component.scss'],
+  standalone: false,
 })
 export class ModeratorDeleteComponent implements OnInit {
   loginId: string;

@@ -42,7 +42,6 @@ interface FileInfo extends AssistantFile {
 
 @Component({
   selector: 'app-assistant-chat',
-  standalone: true,
   imports: [
     CdkTextareaAutosize,
     MatInputModule,

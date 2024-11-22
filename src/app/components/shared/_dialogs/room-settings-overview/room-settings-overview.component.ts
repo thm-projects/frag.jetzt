@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-room-settings-overview',
   templateUrl: './room-settings-overview.component.html',
   styleUrls: ['./room-settings-overview.component.scss'],
+  standalone: false,
 })
 export class RoomSettingsOverviewComponent implements OnInit {
   @Input() room: Readonly<Room>;

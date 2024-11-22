@@ -5,7 +5,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-assistant-upload',
-  standalone: true,
   imports: [
     MatIconModule,
     MatProgressSpinnerModule,

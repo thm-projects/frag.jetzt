@@ -8,7 +8,6 @@ import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-component-typography-test-page',
-  standalone: true,
   imports: [
     M3BodyPaneComponent,
     M3SupportingPaneComponent,

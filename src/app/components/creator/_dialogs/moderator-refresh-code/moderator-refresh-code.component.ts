@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-moderator-refresh-code',
   templateUrl: './moderator-refresh-code.component.html',
   styleUrls: ['./moderator-refresh-code.component.scss'],
+  standalone: false,
 })
 export class ModeratorRefreshCodeComponent {
   constructor(private dialogRef: MatDialogRef<ModeratorRefreshCodeComponent>) {}

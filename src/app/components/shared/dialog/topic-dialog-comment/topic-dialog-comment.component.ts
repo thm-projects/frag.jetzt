@@ -6,6 +6,7 @@ import { ProfanityFilterService } from '../../../../services/util/profanity-filt
   selector: 'app-topic-dialog-comment',
   templateUrl: './topic-dialog-comment.component.html',
   styleUrls: ['./topic-dialog-comment.component.scss'],
+  standalone: false,
 })
 export class TopicDialogCommentComponent implements OnInit {
   @Input() question: string;

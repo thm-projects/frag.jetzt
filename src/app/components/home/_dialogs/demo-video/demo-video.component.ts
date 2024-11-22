@@ -9,6 +9,7 @@ import { language } from 'app/base/language/language';
   selector: 'app-demo-video',
   templateUrl: './demo-video.component.html',
   styleUrls: ['./demo-video.component.scss'],
+  standalone: false,
 })
 export class DemoVideoComponent {
   protected readonly lang = language;

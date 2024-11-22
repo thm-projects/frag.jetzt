@@ -11,6 +11,7 @@ import { RoomDataService } from '../../../services/util/room-data.service';
   selector: 'app-uiregistration',
   templateUrl: './uiregistration.component.html',
   styleUrls: ['./uiregistration.component.scss'],
+  standalone: false,
 })
 export class UIRegistrationComponent implements OnDestroy, OnChanges {
   @Input()

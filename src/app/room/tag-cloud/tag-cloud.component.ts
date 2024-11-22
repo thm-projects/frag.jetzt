@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  effect,
   inject,
 } from '@angular/core';
 
@@ -18,7 +19,6 @@ import { NotificationService } from '../../services/util/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomService } from '../../services/http/room.service';
-import { ThemeService } from '../../../theme/theme.service';
 import { WsCommentService } from '../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../services/util/topic-cloud-admin.service';
@@ -52,15 +52,7 @@ import {
 } from '../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../utils/filtered-data-access';
-import {
-  filter,
-  first,
-  forkJoin,
-  Subject,
-  Subscription,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { filter, first, forkJoin, Subject, switchMap, takeUntil } from 'rxjs';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
@@ -80,6 +72,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { applyRadarNavigation } from './navigation/word-cloud-navigation';
 import { applyBrainstormingNavigation } from './navigation/brainstorming-navigation';
 import { user$ } from 'app/user/state/user';
+import { isDark, theme } from 'app/base/theme/theme';
 
 class TagComment implements WordMeta {
   constructor(
@@ -107,6 +100,7 @@ class BrainstormComment implements WordMeta {
   selector: 'app-tag-cloud',
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss'],
+  standalone: false,
 })
 export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild(WordCloudComponent, { static: false })
@@ -144,7 +138,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private intervalWriteChecker: TimeoutHelper;
-  private themeSubscription: Subscription;
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
   private keywordExtractor: KeywordExtractor;
@@ -159,7 +152,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private headerService: HeaderService,
     private route: ActivatedRoute,
     protected roomService: RoomService,
-    private themeService: ThemeService,
     private wsCommentService: WsCommentService,
     private topicCloudAdmin: TopicCloudAdminService,
     private sessionService: SessionService,
@@ -265,7 +257,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (customTagCloudStyles) {
       customTagCloudStyles.sheet.disabled = true;
     }
-    this.themeSubscription?.unsubscribe();
     this._subscriptionRoom?.unsubscribe();
     this.onDestroyListener.emit();
     clearInterval(this.intervalWriteChecker);
@@ -294,7 +285,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault(this.themeService.currentTheme.isDark);
+    param.resetToDefault(isDark());
     this.setCloudParameters(param, false);
     CloudParameters.removeParameters();
   }
@@ -509,7 +500,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.dataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
+    effect(() => {
+      theme();
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -639,7 +631,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       filterObj.dataFilter = filter;
       this.brainDataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
+    effect(() => {
+      theme();
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -708,9 +701,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private getCurrentCloudParameters(): CloudParameters {
-    return CloudParameters.getCurrentParameters(
-      this.themeService.currentTheme.isDark,
-    );
+    return CloudParameters.getCurrentParameters(isDark());
   }
 
   private retrieveTagCloudSettings(room: Room) {

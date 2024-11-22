@@ -1,41 +1,5 @@
-@import "../style/layout.scss";
-
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-header,
-footer {
-  position: fixed;
-  width: 100vw;
-  z-index: 1;
-  transition: transform 0.5s ease-in-out;
-}
-
-header {
-  left: 0;
-  top: 0;
-
-  &.hide {
-    transform: translateY(-100%);
-  }
-}
-
-footer {
-  bottom: 0;
-  left: 0;
-
-  &.hide {
-    transform: translateY(100%);
-  }
-}
-
-#scroll_container {
-  padding-top: $header-height;
-  padding-bottom: $footer-height;
-  height: calc(100dvh - #{$header-height} - #{$footer-height});
-  overflow-y: auto;
-  overflow-x: hidden;
 }

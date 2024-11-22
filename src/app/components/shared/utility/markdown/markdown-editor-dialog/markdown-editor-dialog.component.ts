@@ -17,6 +17,7 @@ export interface MarkdownEditorDialogData {
   selector: 'app-markdown-editor-dialog',
   templateUrl: './markdown-editor-dialog.component.html',
   styleUrls: ['./markdown-editor-dialog.component.scss'],
+  standalone: false,
 })
 export class MarkdownEditorDialogComponent implements OnDestroy {
   public data = signal('');

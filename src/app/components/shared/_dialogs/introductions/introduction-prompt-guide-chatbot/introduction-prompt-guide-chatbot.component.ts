@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-introduction-prompt-guide-chatbot',
   templateUrl: './introduction-prompt-guide-chatbot.component.html',
   styleUrls: ['./introduction-prompt-guide-chatbot.component.scss'],
+  standalone: false,
 })
 export class IntroductionPromptGuideChatbotComponent implements OnDestroy {
   currentLanguage: Language;

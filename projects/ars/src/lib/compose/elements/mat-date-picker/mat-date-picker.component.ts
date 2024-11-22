@@ -3,9 +3,10 @@ import { ARS_MAT_DATE_PICKER, ArsMatDatePickerConfig } from './mat-date-picker-c
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
-  selector:'ars-mat-date-picker',
-  templateUrl:'./mat-date-picker.component.html',
-  styleUrls:['./mat-date-picker.component.scss']
+    selector: 'ars-mat-date-picker',
+    templateUrl: './mat-date-picker.component.html',
+    styleUrls: ['./mat-date-picker.component.scss'],
+    standalone: false
 })
 export class MatDatePickerComponent implements OnInit,AfterViewInit{
 

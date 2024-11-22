@@ -217,6 +217,7 @@ const LANGUAGE_MESSAGES: LanguageMessageObject = {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent implements OnDestroy {
   toggleFilter: boolean = false;

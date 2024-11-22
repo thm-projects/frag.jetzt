@@ -18,7 +18,6 @@ interface ToggleButtonGroup {
 
 @Component({
   selector: 'app-component-test-button',
-  standalone: true,
   imports: [
     MatIconModule,
     MatDividerModule,

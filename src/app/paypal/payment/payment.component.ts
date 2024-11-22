@@ -57,7 +57,6 @@ interface MarkdownInfo {
 
 @Component({
   selector: 'app-payment',
-  standalone: true,
   imports: [
     M3BodyPaneComponent,
     M3SupportingPaneComponent,

@@ -8,6 +8,7 @@ import { language } from 'app/base/language/language';
   selector: 'app-data-protection',
   templateUrl: './data-protection.component.html',
   styleUrls: ['./data-protection.component.scss'],
+  standalone: false,
 })
 export class DataProtectionComponent {
   protected readonly lang = language;

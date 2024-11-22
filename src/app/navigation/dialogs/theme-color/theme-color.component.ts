@@ -24,7 +24,6 @@ import { actualContrast, setContrast } from 'app/base/theme/contrast';
 
 @Component({
   selector: 'app-theme-color',
-  standalone: true,
   imports: [MatDialogModule, MatButtonModule, MatIconModule, MatCardModule],
   templateUrl: './theme-color.component.html',
   styleUrl: './theme-color.component.scss',

@@ -7,6 +7,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-introduction-comment-list',
   templateUrl: './introduction-comment-list.component.html',
   styleUrls: ['./introduction-comment-list.component.scss'],
+  standalone: false,
 })
 export class IntroductionCommentListComponent implements OnDestroy {
   currentLanguage: Language;

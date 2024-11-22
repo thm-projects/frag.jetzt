@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-delete-answer',
   templateUrl: './delete-answer.component.html',
   styleUrls: ['./delete-answer.component.scss'],
+  standalone: false,
 })
 export class DeleteAnswerComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType =

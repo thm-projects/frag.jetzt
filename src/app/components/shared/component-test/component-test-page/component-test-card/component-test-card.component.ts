@@ -18,7 +18,6 @@ import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-component-test-card',
-  standalone: true,
   imports: [
     MatCardSmImage,
     MatCardSubtitle,

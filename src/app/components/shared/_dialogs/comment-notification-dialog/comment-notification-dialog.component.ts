@@ -24,6 +24,7 @@ enum WeekDay {
   selector: 'app-comment-notification-dialog',
   templateUrl: './comment-notification-dialog.component.html',
   styleUrls: ['./comment-notification-dialog.component.scss'],
+  standalone: false,
 })
 export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   @Input() room: Room;

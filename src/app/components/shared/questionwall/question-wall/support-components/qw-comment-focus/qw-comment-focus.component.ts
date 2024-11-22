@@ -38,7 +38,6 @@ const baseAnimationDuration = 100;
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-focus',
-  standalone: true,
   imports: [
     ArsModule,
     MatButton,

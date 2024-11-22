@@ -25,6 +25,7 @@ export interface LivepollComparison {
     './livepoll-peer-instruction-comparison.component.scss',
     '../../livepoll-common.scss',
   ],
+  standalone: false,
 })
 export class LivepollPeerInstructionComparisonComponent {
   protected readonly comparisonList: LivepollComparison[] = [];

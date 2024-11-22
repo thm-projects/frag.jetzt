@@ -21,7 +21,6 @@ const i18n = I18nLoader.load(i18nRaw);
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-top-bar',
-  standalone: true,
   imports: [
     MatButton,
     MatIcon,

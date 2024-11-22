@@ -11,7 +11,6 @@ const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-donation',
-  standalone: true,
   imports: [
     QRCodeModule,
     MatDialogModule,

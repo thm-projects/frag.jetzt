@@ -27,6 +27,7 @@ import { SessionService } from 'app/services/util/session.service';
   selector: 'app-comment-actions',
   templateUrl: './comment-actions.component.html',
   styleUrl: './comment-actions.component.scss',
+  standalone: false,
 })
 export class CommentActionsComponent {
   comment = input.required<ForumComment>();

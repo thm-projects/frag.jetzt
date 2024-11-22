@@ -14,7 +14,6 @@ import { UserRole } from 'app/models/user-roles.enum';
 
 @Component({
   selector: 'app-comment-list-fab',
-  standalone: true,
   imports: [MatTooltipModule, MatIconModule, MatButtonModule],
   templateUrl: './comment-list-fab.component.html',
   styleUrl: './comment-list-fab.component.scss',

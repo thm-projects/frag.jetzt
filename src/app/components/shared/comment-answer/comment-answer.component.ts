@@ -48,6 +48,7 @@ import { user$ } from 'app/user/state/user';
   selector: 'app-comment-answer',
   templateUrl: './comment-answer.component.html',
   styleUrls: ['./comment-answer.component.scss'],
+  standalone: false,
 })
 export class CommentAnswerComponent
   implements OnInit, OnDestroy, AfterViewInit {

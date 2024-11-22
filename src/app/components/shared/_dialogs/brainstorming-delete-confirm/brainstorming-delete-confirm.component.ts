@@ -8,6 +8,7 @@ import { NotificationService } from 'app/services/util/notification.service';
   selector: 'app-brainstorming-delete-confirm',
   templateUrl: './brainstorming-delete-confirm.component.html',
   styleUrls: ['./brainstorming-delete-confirm.component.scss'],
+  standalone: false,
 })
 export class BrainstormingDeleteConfirmComponent {
   @Input()

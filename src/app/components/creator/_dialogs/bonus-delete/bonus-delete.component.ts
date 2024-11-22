@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-bonus-delete',
   templateUrl: './bonus-delete.component.html',
   styleUrls: ['./bonus-delete.component.scss'],
+  standalone: false,
 })
 export class BonusDeleteComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType =

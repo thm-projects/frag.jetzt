@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-remind-of-tokens',
   templateUrl: './remind-of-tokens.component.html',
   styleUrls: ['./remind-of-tokens.component.scss'],
+  standalone: false,
 })
 export class RemindOfTokensComponent {
   constructor(

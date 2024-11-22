@@ -31,6 +31,7 @@ import { ToolbarItemOptions } from '@toast-ui/editor/types/ui';
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.scss',
+  standalone: false,
 })
 export class MarkdownEditorComponent implements AfterViewInit {
   data = model<string>('');

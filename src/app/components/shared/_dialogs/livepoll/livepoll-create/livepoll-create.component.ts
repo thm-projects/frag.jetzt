@@ -35,6 +35,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-livepoll-create',
   templateUrl: './livepoll-create.component.html',
   styleUrls: ['./livepoll-create.component.scss', '../livepoll-common.scss'],
+  standalone: false,
 })
 export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   @ViewChild('viewContainerRef', { read: ViewContainerRef, static: true })

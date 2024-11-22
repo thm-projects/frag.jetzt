@@ -39,6 +39,7 @@ const i18n = I18nLoader.load(i18nRaw);
   selector: 'app-bonus-token',
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss'],
+  standalone: false,
 })
 export class BonusTokenComponent implements OnInit, OnDestroy {
   value: string = '';

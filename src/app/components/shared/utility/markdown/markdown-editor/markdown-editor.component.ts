@@ -17,6 +17,7 @@ export type MarkdownEditorTab = 'edit' | 'preview';
   selector: 'app-markdown-editor2',
   templateUrl: './markdown-editor.component.html',
   styleUrls: ['./markdown-editor.component.scss'],
+  standalone: false,
 })
 export class MarkdownEditorComponent implements OnDestroy {
   @Input() public data: string;

@@ -24,7 +24,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
-import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ModeratorService } from './services/http/moderator.service';
@@ -144,7 +143,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     M3Module,
     M3NavigationComponent,
     SharedModule,
-    ThemeModule,
     MatIconModule,
     MatDialogModule,
     HttpClientModule,

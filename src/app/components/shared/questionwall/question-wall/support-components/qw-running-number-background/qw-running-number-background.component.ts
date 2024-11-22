@@ -5,7 +5,6 @@ export type RunningNumberMarker = 'moderator';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-running-number-background',
-  standalone: true,
   imports: [],
   templateUrl: './qw-running-number-background.component.html',
   styleUrl: './qw-running-number-background.component.scss',

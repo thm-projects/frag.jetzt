@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-worker-dialog',
   templateUrl: './worker-dialog.component.html',
   styleUrls: ['./worker-dialog.component.scss'],
+  standalone: false,
 })
 export class WorkerDialogComponent {
   private static dialogRef: MatDialogRef<WorkerDialogComponent> = null;

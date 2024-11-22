@@ -75,6 +75,7 @@ const transformMessage = (m: unknown): Message => {
   selector: 'app-gptchat-room',
   templateUrl: './gptchat-room.component.html',
   styleUrls: ['./gptchat-room.component.scss'],
+  standalone: false,
 })
 export class GPTChatRoomComponent implements OnInit, OnDestroy {
   @Input() protected owningComment: ForumComment;

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-excuse',
   templateUrl: './excuse.component.html',
   styleUrls: ['./excuse.component.scss'],
+  standalone: false,
 })
 export class ExcuseComponent {
   protected readonly lang = language;

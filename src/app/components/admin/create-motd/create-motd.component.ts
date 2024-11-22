@@ -11,6 +11,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-create-motd',
   templateUrl: './create-motd.component.html',
   styleUrls: ['./create-motd.component.scss'],
+  standalone: false,
 })
 export class CreateMotdComponent implements OnDestroy {
   startDate: Date = new Date();

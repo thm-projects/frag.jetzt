@@ -37,7 +37,6 @@ enum Currency {
 
 @Component({
   selector: 'app-transaction',
-  standalone: true,
   imports: [MatIconModule, MatListModule, MatCardModule, DecimalPipe],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.scss',

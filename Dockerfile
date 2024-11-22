@@ -1,5 +1,5 @@
 # DEVELOPMENT STAGE
-FROM node:20 AS DEV
+FROM node:22 AS dev
 
 ARG USER='1000:1000'
 ARG CACHEDIR=/cache
@@ -20,7 +20,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 
 # BUILD STAGE
-FROM node:20 AS BUILD
+FROM node:20 AS build
 
 WORKDIR /src/app
 
@@ -31,8 +31,8 @@ COPY . .
 RUN npm run build --prod
 
 # SERVE STAGE
-FROM nginx:stable-alpine AS SERVE
+FROM nginx:stable-alpine AS serve
 
 # This hard-coded configuration can be overwritten with a volume at runtime
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=BUILD /src/app/dist /var/www/frag.jetzt
+COPY --from=build /src/app/dist /var/www/frag.jetzt

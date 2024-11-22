@@ -17,6 +17,7 @@ import { EventService } from 'app/services/util/event.service';
   selector: 'app-new-landing',
   templateUrl: './new-landing.component.html',
   styleUrls: ['./new-landing.component.scss'],
+  standalone: false,
 })
 export class NewLandingComponent {
   protected readonly i18n = i18n;

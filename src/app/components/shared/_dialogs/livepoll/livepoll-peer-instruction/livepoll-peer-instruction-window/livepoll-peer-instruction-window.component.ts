@@ -20,6 +20,7 @@ import {
     './livepoll-peer-instruction-window.component.scss',
     '../../livepoll-common.scss',
   ],
+  standalone: false,
 })
 export class LivepollPeerInstructionWindowComponent {
   title: string;

@@ -6,7 +6,6 @@ import { MatDialogTitle } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-component-test-sub-section',
-  standalone: true,
   imports: [MatCardSubtitle, MatDivider, NgIf, MatDialogTitle, MatCardTitle],
   templateUrl: './component-test-sub-section.component.html',
   styleUrl: './component-test-sub-section.component.scss',

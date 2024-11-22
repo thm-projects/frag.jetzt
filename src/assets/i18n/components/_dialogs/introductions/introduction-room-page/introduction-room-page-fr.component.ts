@@ -5,17 +5,14 @@ import { CachedSanitizerService } from '../../../../../../app/services/util/cach
 @Component({
   selector: 'app-introduction-room-page-fr',
   templateUrl: './introduction-room-page-fr.component.html',
-  styleUrls: ['./introduction-room-page-fr.component.scss']
+  styleUrls: ['./introduction-room-page-fr.component.scss'],
+  standalone: false,
 })
 export class IntroductionRoomPageFRComponent implements OnInit {
-
   constructor(
     public sessionInfo: SessionService,
     public sanitizer: CachedSanitizerService,
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

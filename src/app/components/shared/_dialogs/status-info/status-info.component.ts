@@ -14,6 +14,7 @@ import { GlobalCountChanged } from 'app/models/global-count-changed';
   templateUrl: './status-info.component.html',
   styleUrls: ['./status-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StatusInfoComponent {
   protected status: GlobalCountChanged;

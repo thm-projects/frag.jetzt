@@ -57,6 +57,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-moderator-comment-list',
   templateUrl: './moderator-comment-list.component.html',
   styleUrls: ['./moderator-comment-list.component.scss'],
+  standalone: false,
 })
 export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;

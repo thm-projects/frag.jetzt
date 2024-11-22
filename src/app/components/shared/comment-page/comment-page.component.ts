@@ -22,6 +22,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-comment-page',
   templateUrl: './comment-page.component.html',
   styleUrls: ['./comment-page.component.scss'],
+  standalone: false,
 })
 export class CommentPageComponent
   implements OnInit, OnDestroy, AfterContentInit {

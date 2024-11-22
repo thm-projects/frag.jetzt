@@ -27,6 +27,7 @@ import { ReplaySubject, map, switchMap, takeUntil } from 'rxjs';
   selector: 'app-gpt-configuration',
   templateUrl: './gpt-configuration.component.html',
   styleUrls: ['./gpt-configuration.component.scss'],
+  standalone: false,
 })
 export class GptConfigurationComponent implements OnInit, OnDestroy {
   @ViewChild('inputCheck') inputCheck: ElementRef<HTMLInputElement>;

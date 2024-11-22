@@ -7,6 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-tags',
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss'],
+  standalone: false,
 })
 export class TagsComponent {
   displayEmptyOnCreateWarning = false;

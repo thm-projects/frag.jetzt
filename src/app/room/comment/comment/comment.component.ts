@@ -40,6 +40,7 @@ export interface Filter {
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss',
+  standalone: false,
 })
 export class CommentComponent implements AfterViewInit {
   comment = input.required<ForumComment>();

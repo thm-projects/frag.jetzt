@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-home-participant-page',
   templateUrl: './home-participant-page.component.html',
   styleUrls: ['./home-participant-page.component.scss'],
+  standalone: false,
 })
 export class HomeParticipantPageComponent {}

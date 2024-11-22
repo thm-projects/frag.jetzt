@@ -20,6 +20,7 @@ export interface Keyword {
   selector: 'app-spacy-dialog',
   templateUrl: './spacy-dialog.component.html',
   styleUrls: ['./spacy-dialog.component.scss'],
+  standalone: false,
 })
 export class SpacyDialogComponent implements OnInit {
   comment: Comment;

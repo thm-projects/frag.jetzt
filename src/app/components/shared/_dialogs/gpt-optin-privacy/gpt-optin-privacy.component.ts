@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-gpt-optin-privacy',
   templateUrl: './gpt-optin-privacy.component.html',
   styleUrls: ['./gpt-optin-privacy.component.scss'],
+  standalone: false,
 })
 export class GptOptInPrivacyComponent implements OnDestroy {
   currentLanguage: Language;

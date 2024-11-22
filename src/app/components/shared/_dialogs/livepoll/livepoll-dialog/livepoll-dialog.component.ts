@@ -92,6 +92,7 @@ interface MessagePayload {
     '../livepoll-common.scss',
   ],
   animations: [...LivepollComponentUtility.animation],
+  standalone: false,
 })
 export class LivepollDialogComponent
   implements OnInit, OnDestroy, AfterViewInit {

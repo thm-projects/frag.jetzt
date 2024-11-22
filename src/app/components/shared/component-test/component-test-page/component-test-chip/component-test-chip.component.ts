@@ -11,7 +11,6 @@ import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-component-test-chip',
-  standalone: true,
   imports: [
     MatChipInput,
     MatButton,

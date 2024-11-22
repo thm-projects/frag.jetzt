@@ -18,6 +18,7 @@ interface SelectableIdea {
   selector: 'app-chat-gptbrainstorm',
   templateUrl: './chat-gptbrainstorm.component.html',
   styleUrls: ['./chat-gptbrainstorm.component.scss'],
+  standalone: false,
 })
 export class ChatGPTBrainstormComponent {
   isSending = false;

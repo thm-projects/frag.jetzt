@@ -23,7 +23,6 @@ import { ComponentTestMarkdownComponent } from './component-test-markdown/compon
 
 @Component({
   selector: 'app-component-test-page',
-  standalone: true,
   templateUrl: './component-test-page.component.html',
   imports: [
     ComponentTestButtonComponent,

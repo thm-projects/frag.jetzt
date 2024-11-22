@@ -10,6 +10,7 @@ import { language } from 'app/base/language/language';
   selector: 'app-app-rating-pop-up',
   templateUrl: './app-rating-pop-up.component.html',
   styleUrls: ['./app-rating-pop-up.component.scss'],
+  standalone: false,
 })
 export class AppRatingPopUpComponent {
   @Input()

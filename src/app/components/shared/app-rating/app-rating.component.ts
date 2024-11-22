@@ -27,6 +27,7 @@ import { user, user$ } from 'app/user/state/user';
   selector: 'app-app-rating',
   templateUrl: './app-rating.component.html',
   styleUrls: ['./app-rating.component.scss'],
+  standalone: false,
 })
 export class AppRatingComponent implements OnInit, OnDestroy {
   @Input() rating: Rating = undefined;

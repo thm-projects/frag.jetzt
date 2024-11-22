@@ -35,6 +35,7 @@ export class MinRoom {
   selector: 'app-user-bonus-token',
   templateUrl: './user-bonus-token.component.html',
   styleUrls: ['./user-bonus-token.component.scss'],
+  standalone: false,
 })
 export class UserBonusTokenComponent implements OnInit {
   userId: string;

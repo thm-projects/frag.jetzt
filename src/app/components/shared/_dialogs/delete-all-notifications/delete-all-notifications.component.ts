@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-delete-all-notifications',
   templateUrl: './delete-all-notifications.component.html',
   styleUrls: ['./delete-all-notifications.component.scss'],
+  standalone: false,
 })
 export class DeleteAllNotificationsComponent implements OnInit {
   constructor(

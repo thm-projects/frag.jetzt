@@ -8,6 +8,7 @@ import { language } from 'app/base/language/language';
   selector: 'app-imprint',
   templateUrl: './imprint.component.html',
   styleUrls: ['./imprint.component.scss'],
+  standalone: false,
 })
 export class ImprintComponent {
   protected readonly lang = language;

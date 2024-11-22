@@ -11,6 +11,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-room-description-settings',
   templateUrl: './room-description-settings.component.html',
   styleUrls: ['./room-description-settings.component.scss'],
+  standalone: false,
 })
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
   editRoom = input.required<Readonly<Room>>();

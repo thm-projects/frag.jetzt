@@ -31,7 +31,6 @@ import { QwRunningNumberBackgroundComponent } from '../qw-running-number-backgro
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment',
-  standalone: true,
   imports: [
     MatCard,
     MatCardContent,

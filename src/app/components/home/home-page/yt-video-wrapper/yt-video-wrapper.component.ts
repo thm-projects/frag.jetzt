@@ -19,7 +19,6 @@ const LanguageKeyToEmbedURL: { [A in LanguageKey]: string } = {
 
 @Component({
   selector: 'app-yt-video-wrapper',
-  standalone: true,
   imports: [NgIf],
   templateUrl: './yt-video-wrapper.component.html',
   styleUrl: './yt-video-wrapper.component.scss',

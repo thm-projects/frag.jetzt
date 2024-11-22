@@ -7,7 +7,6 @@ import { QuestionWallService } from '../../question-wall.service';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-footer',
-  standalone: true,
   imports: [MatButton, MatIcon],
   templateUrl: './qw-comment-footer.component.html',
   styleUrl: './qw-comment-footer.component.scss',

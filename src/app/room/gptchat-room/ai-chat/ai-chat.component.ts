@@ -60,7 +60,6 @@ interface FileReference {
 
 @Component({
   selector: 'app-ai-chat',
-  standalone: true,
   imports: [
     MatCardModule,
     CustomMarkdownModule,

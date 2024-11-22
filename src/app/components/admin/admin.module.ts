@@ -15,7 +15,7 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
@@ -52,7 +52,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatRippleModule,
     QRCodeModule,
     MatDatepickerModule,
-    NgxMatTimepickerModule,
+    MatTimepickerModule,
   ],
 })
 export class AdminModule {

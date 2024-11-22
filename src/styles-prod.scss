@@ -3,9 +3,9 @@
 @use "modules/m3/style/m3-initializer" as m3-init;
 @use "modules/m3/style/m3-typescale" as m3-typescale;
 @use "modules/m3/style/m3-layout" as m3-layout;
-@import "style/joyride-theme.scss";
-@import "style/toast-ui-theme-m3.scss";
-@import "style/fonts.scss";
+@use "style/joyride-theme.scss";
+@use "style/toast-ui-theme-m3.scss";
+@use "style/fonts.scss";
 
 @include mat.core();
 

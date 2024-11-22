@@ -57,6 +57,7 @@ type CommentElement = CommentInfo | CommentAction;
   selector: 'app-comment-header-action',
   templateUrl: './comment-header-action.component.html',
   styleUrl: './comment-header-action.component.scss',
+  standalone: false,
 })
 export class CommentHeaderActionComponent {
   comment = input.required<ForumComment>();

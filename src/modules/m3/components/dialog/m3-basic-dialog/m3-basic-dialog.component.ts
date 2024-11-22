@@ -16,7 +16,6 @@ import { EssentialsModule } from '../../../../../app/components/essentials/essen
 
 @Component({
   selector: 'app-m3-basic-dialog',
-  standalone: true,
   imports: [
     MatDialogTitle,
     MatDialogActions,
