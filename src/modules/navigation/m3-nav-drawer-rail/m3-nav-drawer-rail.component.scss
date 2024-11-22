@@ -27,7 +27,7 @@ mat-drawer-container {
 
   mat-drawer {
     width: var(--nav-drawer-width);
-    transition: width 500ms var(--sys-easing-emphasized);
+    transition: width 500ms var(--mat-sys-easing-emphasized);
     height: 100%;
     --nav-margin: 4px;
     --nav-grid-rows: auto 48px 0fr auto 1fr;
@@ -64,10 +64,10 @@ mat-drawer-container {
       margin: var(--nav-margin) 0;
       overflow-x: hidden;
       transition:
-        margin 500ms var(--sys-easing-emphasized),
-        height 500ms var(--sys-easing-emphasized),
-        grid-template-rows 500ms var(--sys-easing-emphasized),
-        --scrollbar-color 500ms var(--sys-easing-emphasized);
+        margin 500ms var(--mat-sys-easing-emphasized),
+        height 500ms var(--mat-sys-easing-emphasized),
+        grid-template-rows 500ms var(--mat-sys-easing-emphasized),
+        --scrollbar-color 500ms var(--mat-sys-easing-emphasized);
     }
   }
 
@@ -115,7 +115,7 @@ mat-drawer-container {
 }
 
 .fadeLeft {
-  animation: fadeLeftAnim 500ms var(--sys-easing-emphasized);
+  animation: fadeLeftAnim 500ms var(--mat-sys-easing-emphasized);
 }
 
 @keyframes fadeRightAnim {
@@ -128,7 +128,7 @@ mat-drawer-container {
 }
 
 .fadeRight {
-  animation: fadeRightAnim 500ms var(--sys-easing-emphasized);
+  animation: fadeRightAnim 500ms var(--mat-sys-easing-emphasized);
 }
 
 .m3-menu-button {
@@ -139,8 +139,8 @@ mat-drawer-container {
 .m3-nav-fab-button {
   margin-left: #{math.div($rail-size - 56px, 2)};
   transition:
-    width 500ms var(--sys-easing-emphasized),
-    height 500ms var(--sys-easing-emphasized);
+    width 500ms var(--mat-sys-easing-emphasized),
+    height 500ms var(--mat-sys-easing-emphasized);
   overflow: hidden;
   height: 0;
 
@@ -158,7 +158,7 @@ mat-drawer-container {
   }
 
   > ::ng-deep mat-icon {
-    transition: left 500ms var(--sys-easing-emphasized);
+    transition: left 500ms var(--mat-sys-easing-emphasized);
     position: absolute;
     left: 16px;
   }
@@ -179,10 +179,10 @@ mat-drawer-container {
 }
 
 .m3-nav-divider {
-  border-top-color: var(--sys-outline);
+  border-top-color: var(--mat-sys-outline);
   margin: 4px 28px 0 28px;
   opacity: 0;
-  transition: opacity 200ms var(--sys-easing-emphasized);
+  transition: opacity 200ms var(--mat-sys-easing-emphasized);
 
   &.open {
     opacity: 1;

@@ -51,7 +51,7 @@ $comment-margin: 1em;
     position: relative;
     height: var(--height, 10.5em);
     overflow: hidden;
-    transition: height 500ms var(--sys-easing-emphasized);
+    transition: height 500ms var(--mat-sys-easing-emphasized);
 
     &.cut::before {
       $padding: 1em;

@@ -65,7 +65,7 @@
         > .bar {
           min-width: 1px;
           width: 10px;
-          background-color: var(--sys-primary);
+          background-color: var(--mat-sys-primary);
           border-radius: 2px;
           transition: width 100ms ease-in-out;
           overflow: hidden;
@@ -79,7 +79,7 @@
               top: 8px;
               border-radius: 2px;
               left: 13px;
-              color: var(--sys-on-primary);
+              color: var(--mat-sys-on-primary);
               z-index: 100;
             }
           }
@@ -97,7 +97,7 @@
         span {
           position: absolute;
           font-weight: bold;
-          color: var(--sys-on-surface);
+          color: var(--mat-sys-on-surface);
           top: 8px;
           border-radius: 2px;
           left: 13px;
@@ -109,5 +109,5 @@
 
 .option-icon,
 .option-plain {
-  color: var(--sys-on-surface);
+  color: var(--mat-sys-on-surface);
 }

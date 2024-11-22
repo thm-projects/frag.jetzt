@@ -1,12 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { MatCardSubtitle, MatCardTitle } from '@angular/material/card';
-import { MatDivider } from '@angular/material/divider';
-import { NgIf } from '@angular/common';
-import { MatDialogTitle } from '@angular/material/dialog';
+import { MatCardTitle } from '@angular/material/card';
 
 @Component({
   selector: 'app-component-test-sub-section',
-  imports: [MatCardSubtitle, MatDivider, NgIf, MatDialogTitle, MatCardTitle],
+  imports: [MatCardTitle],
   templateUrl: './component-test-sub-section.component.html',
   styleUrl: './component-test-sub-section.component.scss',
 })

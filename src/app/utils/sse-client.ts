@@ -1,4 +1,9 @@
-import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEventType,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
 import { Observable, of, switchMap } from 'rxjs';
 
 export class ServerSentEvent {
@@ -18,10 +23,12 @@ export const postSSE = (
   httpClient: HttpClient,
   url: string,
   body: unknown,
+  headers: HttpHeaders = undefined,
 ): Observable<ServerSentEvent> => {
   const request = new HttpRequest('POST', url, body, {
     reportProgress: true,
     responseType: 'text',
+    headers: headers,
   });
   let lastSize = 0;
   let remainingString = '';

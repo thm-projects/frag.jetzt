@@ -10,8 +10,8 @@ $fab-size: 56px;
   bottom: $padding;
   z-index: 1;
   // small secondary fab
-  --mat-fab-foreground-color: var(--sys-secondary);
-  --mdc-fab-container-color: var(--sys-secondary-container);
+  --mat-fab-foreground-color: var(--mat-sys-secondary);
+  --mdc-fab-container-color: var(--mat-sys-secondary-container);
   --mdc-fab-container-shape: 12px;
   width: 40px;
   height: 40px;

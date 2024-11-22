@@ -77,7 +77,7 @@ getInjector().subscribe((injector) => {
       });
       for (const color of COLORS) {
         document.documentElement.style.setProperty(
-          `--sys-${color.name.replaceAll('_', '-')}`,
+          `--mat-sys-${color.name.replaceAll('_', '-')}`,
           hexFromArgb(scheme.getArgb(color)),
         );
       }
@@ -85,19 +85,19 @@ getInjector().subscribe((injector) => {
       for (const color of colorPalette.customColors) {
         const name = color.color.name.replaceAll('_', '-');
         document.documentElement.style.setProperty(
-          `--sys-${name}`,
+          `--mat-sys-${name}`,
           hexFromArgb(color[label].color),
         );
         document.documentElement.style.setProperty(
-          `--sys-on-${name}`,
+          `--mat-sys-on-${name}`,
           hexFromArgb(color[label].onColor),
         );
         document.documentElement.style.setProperty(
-          `--sys-${name}-container`,
+          `--mat-sys-${name}-container`,
           hexFromArgb(color[label].colorContainer),
         );
         document.documentElement.style.setProperty(
-          `--sys-on-${name}-container`,
+          `--mat-sys-on-${name}-container`,
           hexFromArgb(color[label].onColorContainer),
         );
       }

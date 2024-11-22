@@ -66,17 +66,12 @@ export class AssistantThreadService extends BaseHttpService {
   listThreads(roomId: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.list}`;
     return this.http
-      .post<object[]>(
-        url,
-        {
-          config: {
-            configurable: {
-              room_id: roomId,
-            },
-          },
-        },
-        httpOptions,
-      )
+      .get<object[]>(url, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Room-Id': roomId,
+        }),
+      })
       .pipe(
         tap(() => ''),
         map((threads) => threads.map((thread: Thread) => new Thread(thread))),
@@ -85,31 +80,31 @@ export class AssistantThreadService extends BaseHttpService {
 
   newThread(roomId: string, input: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.new}`;
-    return postSSE(this.http, url, {
-      message: {
-        content: input,
-      },
-      config: {
-        configurable: {
-          room_id: roomId,
+    return postSSE(
+      this.http,
+      url,
+      {
+        message: {
+          content: input,
         },
       },
-    });
+      new HttpHeaders({ 'Room-Id': roomId }),
+    );
   }
 
   // TODO: Assistant Select
   continueThread(roomId: string, threadId: string, input: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.continue}/${threadId}`;
-    return postSSE(this.http, url, {
-      message: {
-        content: input,
-      },
-      config: {
-        configurable: {
-          room_id: roomId,
+    return postSSE(
+      this.http,
+      url,
+      {
+        message: {
+          content: input,
         },
       },
-    });
+      new HttpHeaders({ 'Room-Id': roomId }),
+    );
   }
 
   getMessages(threadId: string) {

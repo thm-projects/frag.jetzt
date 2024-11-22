@@ -1,11 +1,11 @@
 table {
-  border: 1px solid var(--sys-surface-container-high);
+  border: 1px solid var(--mat-sys-surface-container-high);
   border-collapse: collapse;
   thead {
-    background-color: var(--sys-surface);
+    background-color: var(--mat-sys-surface);
   }
   td {
-    border: 1px solid var(--sys-surface-container-high);
+    border: 1px solid var(--mat-sys-surface-container-high);
     padding: 4px;
   }
 }

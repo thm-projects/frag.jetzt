@@ -1,0 +1,534 @@
+<mat-toolbar>
+  <button
+    mat-icon-button
+    class="close-button"
+    mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <h1>{{ i18n().title }}</h1>
+  <span class="spacer"></span>
+  <button
+    mat-button
+    class="primary">
+    {{ i18n().global.saveAndClose }}
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content>
+  <!-- Blocking -->
+  <h2>{{ i18n().users }}</h2>
+  <div class="line-wrapper">
+    <mat-list class="item-list">
+      @for (block of blockedTargets(); track block) {
+        <mat-list-item>
+          <span matListItemTitle>{{ transformTarget(block) }}</span>
+          <button
+            mat-icon-button
+            matListItemMeta>
+            <mat-icon (click)="removeBlock(block)">delete</mat-icon>
+          </button>
+        </mat-list-item>
+      } @empty {
+        <mat-hint style="display: block; text-align: center">
+          {{ i18n().noBlockedUsers }}
+        </mat-hint>
+      }
+    </mat-list>
+
+    @if (blockOptions()?.length) {
+      <div class="wrapper">
+        <mat-form-field
+          appearance="outline"
+          style="flex: 1">
+          <mat-label>{{ i18n().userInput }}</mat-label>
+          <mat-select
+            #select
+            value="USER">
+            @for (target of blockOptions(); track target) {
+              <mat-option [value]="target">
+                {{ transformTarget(target) }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-button
+          (click)="addBlock(select.value)">
+          {{ i18n().add }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Quota -->
+  <h2>
+    {{ i18n().quota }}
+    <mat-icon [matTooltip]="i18n().quotaHint">info</mat-icon>
+  </h2>
+  <div class="line-wrapper">
+    <mat-list class="item-list">
+      @for (quota of quotas(); track quota) {
+        <mat-list-item>
+          <span matListItemTitle>
+            {{
+              i18n()[
+                quota.last_reset > currentDate ? "infoTitleBefore" : "infoTitle"
+              ]
+                | context
+                  : {
+                      price: transformCurrency(quota.quota),
+                      target: transformTarget(quota.target),
+                      date: transformDate(quota.last_reset),
+                      time: transformTime(quota.last_reset),
+                    }
+            }}
+          </span>
+          @if (quota.reset_strategy.strategy !== "never") {
+            <span matListItemLine>
+              {{
+                i18n().infoLine1
+                  | context
+                    : {
+                        repetition: transformRepetiton(quota.reset_strategy),
+                      }
+              }}
+            </span>
+          }
+          @if (quota.end_time) {
+            <span matListItemLine>
+              {{
+                i18n()[
+                  quota.end_time >= currentDate ? "infoLine2" : "infoLine2Ended"
+                ]
+                  | context
+                    : {
+                        endDate: transformDate(quota.end_time),
+                        endTime: transformTime(quota.end_time),
+                      }
+              }}
+            </span>
+          }
+          <button
+            mat-icon-button
+            matListItemMeta>
+            <mat-icon (click)="removeQuota(quota)">delete</mat-icon>
+          </button>
+        </mat-list-item>
+      } @empty {
+        <mat-hint style="display: block; text-align: center">
+          {{ i18n().noQuotas }}
+        </mat-hint>
+      }
+    </mat-list>
+
+    <div class="wrapper">
+      <form
+        style="width: 100%"
+        [formGroup]="inputQuota"
+        (ngSubmit)="addQuota()">
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().userInput }}</mat-label>
+            <mat-select formControlName="target">
+              @for (target of TARGETS; track target) {
+                <mat-option [value]="target">
+                  {{ transformTarget(target) }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().quotaInput }}</mat-label>
+            <span matTextPrefix>$ &nbsp;</span>
+            <input
+              matInput
+              formControlName="quota"
+              type="number"
+              #quotaInput
+              min="0"
+              step="0.01"
+              inputmode="numeric"
+              required />
+            <mat-icon
+              matSuffix
+              [matTooltip]="i18n().quotaInfo">
+              info
+            </mat-icon>
+            @if (inputQuota.get("quota").hasError("min")) {
+              <mat-error>
+                {{ i18n().errorMin }}
+              </mat-error>
+            }
+            @if (inputQuota.get("quota").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+            @if (inputQuota.get("quota").hasError("pattern")) {
+              <mat-error>{{ i18n().errorPattern }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().repetition }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().repetitionUnit }}</mat-label>
+            <mat-select formControlName="strategy">
+              <mat-option value="daily">
+                {{ i18n().repetitionUnits.daily }}
+              </mat-option>
+              <mat-option value="weekly">
+                {{ i18n().repetitionUnits.weekly }}
+              </mat-option>
+              <mat-option value="monthly">
+                {{ i18n().repetitionUnits.monthly }}
+              </mat-option>
+              <mat-option value="yearly">
+                {{ i18n().repetitionUnits.yearly }}
+              </mat-option>
+              <mat-option value="never">
+                {{ i18n().repetitionUnits.never }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().repetitionMultiplier }}</mat-label>
+            <input
+              matInput
+              formControlName="multiplier"
+              type="number"
+              #quotaInput
+              min="1"
+              step="1"
+              inputmode="numeric"
+              required />
+            <mat-icon
+              matSuffix
+              [matTooltip]="i18n().repetitionInfo">
+              info
+            </mat-icon>
+            @if (inputQuota.get("multiplier").hasError("min")) {
+              <mat-error>
+                {{ i18n().errorMinMultiplier }}
+              </mat-error>
+            }
+            @if (inputQuota.get("multiplier").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().endTime }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().endTimeDate }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker"
+              formControlName="endTime"
+              [value]="inputQuota.value.endTime" />
+            <mat-datepicker #datepicker />
+            @if (inputQuota.value.endTime) {
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="inputQuota.get('endTime').setValue(null)">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+            <mat-datepicker-toggle
+              [for]="datepicker"
+              matSuffix />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().endTimeTime }}</mat-label>
+            <input
+              matInput
+              [matTimepicker]="timepicker"
+              formControlName="endTime"
+              [value]="inputQuota.value.endTime" />
+            <mat-timepicker #timepicker />
+            @if (inputQuota.value.endTime) {
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="inputQuota.get('endTime').setValue(null)">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+            <mat-timepicker-toggle
+              [for]="timepicker"
+              matSuffix />
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().startTimeRepetition }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().startTimeDate }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="lastResetPicker"
+              formControlName="lastReset"
+              [value]="inputQuota.value.lastReset"
+              required />
+            <mat-datepicker #lastResetPicker />
+            <mat-datepicker-toggle
+              [for]="lastResetPicker"
+              matSuffix />
+            @if (inputQuota.get("lastReset").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().startTimeTime }}</mat-label>
+            <input
+              matInput
+              [matTimepicker]="lastResetTimepicker"
+              formControlName="lastReset"
+              [value]="inputQuota.value.lastReset"
+              required />
+            <mat-timepicker #lastResetTimepicker />
+            <mat-timepicker-toggle
+              [for]="lastResetTimepicker"
+              matSuffix />
+            @if (inputQuota.get("lastReset").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <button
+          mat-button
+          [disabled]="inputQuota.invalid"
+          type="submit">
+          {{ i18n().add }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Time -->
+  <h2>
+    {{ i18n().time }}
+    <mat-icon [matTooltip]="i18n().timeHint">info</mat-icon>
+  </h2>
+  <div class="line-wrapper">
+    <mat-list class="item-list">
+      @for (time of times(); track time) {
+        <mat-list-item>
+          <span matListItemTitle>
+            {{
+              i18n().timeTitle
+                | context
+                  : {
+                      target: transformTarget(time.target),
+                      date: transformDate(time.start_time),
+                      time: transformTime(time.start_time),
+                      endDate: transformDate(time.end_time),
+                      endTime: transformTime(time.end_time),
+                    }
+            }}
+          </span>
+          @if (time.repeat_strategy.strategy !== "never") {
+            <span matListItemLine>
+              {{
+                i18n().timeLine1
+                  | context
+                    : {
+                        repetition: transformRepetiton(time.repeat_strategy),
+                      }
+              }}
+            </span>
+          }
+          @if (time.timezone !== currentTimezone) {
+            <span matListItemLine>
+              {{ i18n().timeLine2 | context: { timezone: time.timezone } }}
+            </span>
+          }
+          <button
+            mat-icon-button
+            matListItemMeta>
+            <mat-icon (click)="removeTime(time)">delete</mat-icon>
+          </button>
+        </mat-list-item>
+      } @empty {
+        <mat-hint style="display: block; text-align: center">
+          {{ i18n().noTimes }}
+        </mat-hint>
+      }
+    </mat-list>
+
+    <div class="wrapper">
+      <form
+        style="width: 100%"
+        [formGroup]="inputTime"
+        (ngSubmit)="addTime()">
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().userInput }}</mat-label>
+            <mat-select formControlName="target">
+              @for (target of TARGETS; track target) {
+                <mat-option [value]="target">
+                  {{ transformTarget(target) }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().timeStart }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().timeStartDate }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startTimePicker"
+              formControlName="startTime"
+              [value]="inputTime.value.startTime"
+              required />
+            <mat-datepicker #startTimePicker />
+            <mat-datepicker-toggle
+              [for]="startTimePicker"
+              matSuffix />
+            @if (inputTime.get("startTime").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().timeStartTime }}</mat-label>
+            <input
+              matInput
+              [matTimepicker]="startTimeTimepicker"
+              formControlName="startTime"
+              [value]="inputTime.value.startTime"
+              required />
+            <mat-timepicker #startTimeTimepicker />
+            <mat-timepicker-toggle
+              [for]="startTimeTimepicker"
+              matSuffix />
+            @if (inputTime.get("startTime").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().timeEnd }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().timeEndDate }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endTimePicker"
+              formControlName="endTime"
+              [value]="inputTime.value.endTime"
+              required />
+            <mat-datepicker #endTimePicker />
+            <mat-datepicker-toggle
+              [for]="endTimePicker"
+              matSuffix />
+            @if (inputTime.get("endTime").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().timeEndTime }}</mat-label>
+            <input
+              matInput
+              [matTimepicker]="endTimeTimepicker"
+              formControlName="endTime"
+              [value]="inputTime.value.endTime"
+              required />
+            <mat-timepicker #endTimeTimepicker />
+            <mat-timepicker-toggle
+              [for]="endTimeTimepicker"
+              matSuffix />
+            @if (inputTime.get("endTime").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <h3>{{ i18n().repetition }}</h3>
+        <div class="inline-wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().repetitionUnit }}</mat-label>
+            <mat-select formControlName="strategy">
+              <mat-option value="daily">
+                {{ i18n().repetitionUnits.daily }}
+              </mat-option>
+              <mat-option value="weekly">
+                {{ i18n().repetitionUnits.weekly }}
+              </mat-option>
+              <mat-option value="monthly">
+                {{ i18n().repetitionUnits.monthly }}
+              </mat-option>
+              <mat-option value="yearly">
+                {{ i18n().repetitionUnits.yearly }}
+              </mat-option>
+              <mat-option value="never">
+                {{ i18n().repetitionUnits.never }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().repetitionMultiplier }}</mat-label>
+            <input
+              matInput
+              formControlName="multiplier"
+              type="number"
+              #quotaInput
+              min="1"
+              step="1"
+              inputmode="numeric"
+              required />
+            <mat-icon
+              matSuffix
+              [matTooltip]="i18n().repetitionInfo">
+              info
+            </mat-icon>
+            @if (inputTime.get("multiplier").hasError("min")) {
+              <mat-error>
+                {{ i18n().errorMinMultiplier }}
+              </mat-error>
+            }
+            @if (inputTime.get("multiplier").hasError("required")) {
+              <mat-error>
+                {{ i18n().errorRequired }}
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <button
+          mat-button
+          [disabled]="inputTime.invalid"
+          type="submit">
+          {{ i18n().add }}
+        </button>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>

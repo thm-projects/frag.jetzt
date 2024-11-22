@@ -67,7 +67,7 @@
   border-radius: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: var(--sys-surface-container-highest);
+  background-color: var(--mat-sys-surface-container-highest);
 }
 
 .pricing-card {
@@ -76,7 +76,7 @@
   border-radius: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: var(--sys-surface-container-highest);
+  background-color: var(--mat-sys-surface-container-highest);
 }
 
 .full-width > ::ng-deep div {
@@ -182,7 +182,7 @@ mat-card-subtitle {
   border-radius: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: var(--sys-surface-container-highest);
+  background-color: var(--mat-sys-surface-container-highest);
   text-align: left; /* Links ausgerichtet */
 }
 

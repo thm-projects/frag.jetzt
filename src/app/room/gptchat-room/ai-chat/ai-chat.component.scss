@@ -50,14 +50,14 @@
   }
 
   .title-icon {
-    color: var(--sys-primary);
+    color: var(--mat-sys-primary);
   }
 }
 
 textarea {
   width: 100%;
-  background-color: var(--sys-surface-dim);
-  color: var(--sys-on-surface);
+  background-color: var(--mat-sys-surface-dim);
+  color: var(--mat-sys-on-surface);
   border-radius: 10px;
   border: none;
   outline: none;
@@ -68,8 +68,8 @@ textarea {
 .input-container {
   position: relative;
   width: 100%;
-  background-color: var(--sys-surface-dim);
-  color: var(--sys-on-surface);
+  background-color: var(--mat-sys-surface-dim);
+  color: var(--mat-sys-on-surface);
   border-radius: 10px;
   border: none;
   outline: none;
@@ -82,14 +82,14 @@ textarea {
 }
 
 .left-buttons button {
-  color: var(--sys-on-background);
-  border: 1px solid var(--sys-surface);
+  color: var(--mat-sys-on-background);
+  border: 1px solid var(--mat-sys-surface);
   margin-right: 8px;
 }
 
 .send-button {
-  color: var(--sys-on-primary);
-  background-color: var(--sys-primary);
+  color: var(--mat-sys-on-primary);
+  background-color: var(--mat-sys-primary);
 }
 
 .topics {
@@ -103,7 +103,7 @@ textarea {
     display: grid;
     grid-template-columns: auto 1fr;
 
-    border: 1px solid var(--sys-surface);
+    border: 1px solid var(--mat-sys-surface);
     border-radius: 8px;
     height: auto;
     padding: 8px;
@@ -113,7 +113,7 @@ textarea {
       height: auto;
 
       padding: 8px;
-      background-color: var(--sys-surface);
+      background-color: var(--mat-sys-surface);
       border-radius: 8px;
     }
 
@@ -147,8 +147,8 @@ textarea {
     &.user-message {
       flex-direction: column;
       align-items: flex-end;
-      background-color: var(--sys-surface);
-      color: var(--sys-on-surface);
+      background-color: var(--mat-sys-surface);
+      color: var(--mat-sys-on-surface);
       margin-left: auto;
     }
 
@@ -179,7 +179,7 @@ textarea {
     position: relative;
     z-index: 10;
     padding: 8px;
-    color: var(--sys-primary);
+    color: var(--mat-sys-primary);
   }
 
   .user-icon {
@@ -207,7 +207,7 @@ textarea {
   margin: 8px 0;
 
   border-radius: 8px;
-  background-color: var(--sys-background);
+  background-color: var(--mat-sys-background);
   justify-content: flex-start;
   width: 100%;
 }
@@ -216,7 +216,7 @@ textarea {
   display: grid;
   grid-template-columns: auto 1fr;
   padding: 8px 12px;
-  border: 1px solid var(--sys-surface);
+  border: 1px solid var(--mat-sys-surface);
   border-radius: 5px;
   font-size: 14px;
   overflow: hidden;
@@ -225,11 +225,11 @@ textarea {
 
 .file-icon {
   margin-right: 8px;
-  color: var(--sys-primary);
+  color: var(--mat-sys-primary);
 }
 
 .file-name {
-  color: var(--sys-on-surface);
+  color: var(--mat-sys-on-surface);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -267,8 +267,8 @@ $fab-size-small: 40px;
   bottom: $padding;
   z-index: 1;
   // small secondary fab
-  --mat-fab-foreground-color: var(--sys-secondary);
-  --mdc-fab-container-color: var(--sys-secondary-container);
+  --mat-fab-foreground-color: var(--mat-sys-secondary);
+  --mdc-fab-container-color: var(--mat-sys-secondary-container);
   --mdc-fab-container-shape: 12px;
   width: 40px;
   height: 40px;

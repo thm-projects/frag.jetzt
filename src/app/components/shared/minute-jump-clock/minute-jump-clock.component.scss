@@ -22,41 +22,41 @@
     stroke-width: 15px;
 
     .duration-arc-passed {
-      stroke: var(--sys-yellow);
+      stroke: var(--mat-sys-yellow);
     }
 
     .duration-arc {
-      stroke: var(--sys-green);
+      stroke: var(--mat-sys-green);
     }
   }
 
   .mid-circle {
-    fill: var(--sys-on-surface);
-    stroke: var(--sys-on-surface);
+    fill: var(--mat-sys-on-surface);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .hour-marks {
     stroke-width: 9px;
     stroke-miterlimit: 10;
-    stroke: var(--sys-on-surface);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .hour-arm {
     stroke-width: 17px;
     stroke-miterlimit: 10;
-    stroke: var(--sys-on-surface);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .minute-arm {
     stroke-width: 11px;
     stroke-miterlimit: 10;
-    stroke: var(--sys-on-surface);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .second-arm {
     stroke-width: 4px;
     stroke-miterlimit: 10;
-    stroke: var(--sys-red);
+    stroke: var(--mat-sys-red);
   }
 
   /* Transparent box ensuring arms center properly. */

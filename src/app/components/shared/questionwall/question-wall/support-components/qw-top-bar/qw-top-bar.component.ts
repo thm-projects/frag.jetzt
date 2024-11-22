@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { SortType } from '../../../../../../utils/data-filter-object.lib';
 import { HeaderService } from '../../../../../../services/util/header.service';
 import {
@@ -26,8 +25,6 @@ const i18n = I18nLoader.load(i18nRaw);
     MatIcon,
     MatMenu,
     MatMenuItem,
-    MatSlider,
-    MatSliderThumb,
     FormsModule,
     MatMenuTrigger,
     MatTooltip,
