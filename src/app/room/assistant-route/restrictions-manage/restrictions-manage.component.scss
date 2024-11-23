@@ -2,6 +2,13 @@
   flex: 1 1 auto;
 }
 
+mat-spinner {
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
 mat-toolbar {
   min-height: 56px;
   padding: 0 24px 0 0;

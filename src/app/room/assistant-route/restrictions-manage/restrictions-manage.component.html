@@ -9,8 +9,13 @@
   <span class="spacer"></span>
   <button
     mat-button
+    (click)="save()"
+    [disabled]="saving()"
     class="primary">
     {{ i18n().global.saveAndClose }}
+    @if (saving()) {
+      <mat-spinner></mat-spinner>
+    }
   </button>
 </mat-toolbar>
 
