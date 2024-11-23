@@ -9,7 +9,7 @@ interface FailedUpload {
   filename: string;
 }
 
-interface UploadedFile {
+export interface UploadedFile {
   id: UUID;
   account_id: UUID;
   filename: string;

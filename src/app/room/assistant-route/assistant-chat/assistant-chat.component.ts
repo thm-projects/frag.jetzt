@@ -1,6 +1,6 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { HttpEventType } from '@angular/common/http';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
@@ -15,18 +15,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
-import {
-  AssistantsService,
-  UploadedFile,
-} from 'app/services/http/assistants.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { AssistantUploadComponent } from './assistant-upload/assistant-upload.component';
+import {
+  AssistantFileService,
+  UploadedFile,
+} from '../services/assistant-file.service';
 
 export interface AssistantFile {
   name: string;
-  ref: UploadedFile;
+  ref: UploadedFile | null;
 }
 
 export interface SubmitEvent {
@@ -36,14 +36,13 @@ export interface SubmitEvent {
 }
 
 interface FileInfo extends AssistantFile {
-  status: WritableSignal<'uploading' | 'uploaded' | 'failed'>;
+  status: WritableSignal<'uploading' | 'uploaded' | 'failed' | 'processing'>;
   progress: WritableSignal<number>;
 }
 
 @Component({
   selector: 'app-assistant-chat',
   imports: [
-    CdkTextareaAutosize,
     MatInputModule,
     CustomMarkdownModule,
     MatButtonModule,
@@ -54,29 +53,29 @@ interface FileInfo extends AssistantFile {
   templateUrl: './assistant-chat.component.html',
   styleUrl: './assistant-chat.component.scss',
 })
-export class AssistantChatComponent {
+export class AssistantChatComponent implements AfterViewInit {
   onSubmit = output<SubmitEvent>();
-  test = signal(0);
   protected readonly text = model<string>('');
   protected readonly uploadedFiles = signal<FileInfo[]>([]);
   private readonly fileInput =
     viewChild<ElementRef<HTMLInputElement>>('fileInput');
-  private assistants = inject(AssistantsService);
+  private readonly textArea =
+    viewChild<ElementRef<HTMLTextAreaElement>>('textArea');
+  private file = inject(AssistantFileService);
 
-  constructor() {
-    this.increase();
-  }
-
-  increase() {
-    setTimeout(() => {
-      this.test.set(this.test() + 1);
-    }, 250);
+  ngAfterViewInit(): void {
+    setTimeout(() => this.resize(this.textArea().nativeElement));
   }
 
   reset() {
     this.fileInput().nativeElement.value = '';
     this.uploadedFiles.set([]);
     this.text.set('');
+  }
+
+  protected resize(textArea: HTMLTextAreaElement) {
+    textArea.style.height = '0';
+    textArea.style.height = textArea.scrollHeight + 'px';
   }
 
   protected onKeyDown(e: KeyboardEvent) {
@@ -102,7 +101,7 @@ export class AssistantChatComponent {
     if (files.length === 0) {
       return;
     }
-    Array.from(files).forEach((file) => this.uploadFile(file));
+    this.uploadFiles(files);
   }
 
   protected send() {
@@ -122,28 +121,37 @@ export class AssistantChatComponent {
     this.uploadedFiles.update((files) => files.filter((f) => f !== file));
   }
 
-  private uploadFile(file: File) {
-    const obj: FileInfo = {
-      name: file.name,
+  private uploadFiles(file: FileList) {
+    const newFiles: FileInfo[] = Array.from(file).map((f) => ({
+      name: f.name,
       ref: null,
       status: signal('uploading'),
       progress: signal(0),
-    };
-    this.uploadedFiles.update((files) => [...files, obj]);
-    this.assistants.uploadFile(file).subscribe({
+    }));
+    this.uploadedFiles.update((files) => [...files, ...newFiles]);
+    this.file.uploadFile(file).subscribe({
       next: (res) => {
         if (res.type === HttpEventType.UploadProgress) {
-          obj.progress.set(Math.round((100 * res.loaded) / res.total));
+          const progress = Math.round((100 * res.loaded) / res.total);
+          newFiles.forEach((f) => f.progress.set(progress));
+          if (progress >= 100) {
+            newFiles.forEach((f) => f.status.set('processing'));
+          }
         }
         if (res.type === HttpEventType.Response) {
-          obj.ref = res.body;
+          newFiles.forEach((f, i) => {
+            const status = res.body[i];
+            if (status.result !== 'OK') {
+              f.status.set('failed');
+              return;
+            }
+            f.ref = status.file;
+            f.status.set('uploaded');
+          });
         }
       },
       error: () => {
-        obj.status.set('failed');
-      },
-      complete: () => {
-        obj.status.set('uploaded');
+        newFiles.forEach((f) => f.status.set('failed'));
       },
     });
   }

@@ -1,5 +1,6 @@
 :host {
   display: flex;
+  flex-direction: column;
   gap: 0.5em;
   background-color: var(--mat-sys-surface-container);
   color: var(--mat-sys-on-surface);
@@ -9,25 +10,18 @@
 }
 
 .actions {
-  width: max-content;
   display: flex;
-  align-items: end;
 }
 
 .text-files-wrapper {
-  flex: 1;
-  gap: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow-x: hidden;
+  padding: 0.5em 0.5em 0 0.5em;
 }
 
 .files-wrapper {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
-  gap: 0.25em;
+  gap: 0.5em;
   padding: 0.25em;
 }
 

@@ -16,7 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class AssistantUploadComponent {
   name = input.required<string>();
-  state = input.required<'uploading' | 'uploaded' | 'failed'>();
+  state = input.required<'uploading' | 'uploaded' | 'failed' | 'processing'>();
   progress = input.required<number>();
   remove = output<void>();
 
