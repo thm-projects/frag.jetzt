@@ -53,6 +53,16 @@ mat-toolbar {
 
 .item-list {
   width: 100%;
-  min-width: 320px;
-  max-width: 50dvw;
+}
+
+.side-container {
+  display: flex !important;
+  flex-direction: column;
+  margin-block: 0.5em;
+  justify-content: space-around;
+  gap: 0.5em;
+
+  &::before {
+    content: unset !important;
+  }
 }

@@ -1,0 +1,212 @@
+<h2>
+  {{ i18n().time }}
+  <mat-icon [matTooltip]="i18n().timeHint">info</mat-icon>
+</h2>
+<div
+  class="line-wrapper"
+  #listRef>
+  <mat-list class="item-list">
+    @for (time of times(); track time) {
+      <mat-list-item>
+        <span matListItemTitle>
+          {{ time.meta.title }}
+        </span>
+        @for (line of time.meta.lines; track line) {
+          <span matListItemLine>
+            {{ line }}
+          </span>
+        }
+        <span
+          matListItemMeta
+          class="side-container">
+          <button
+            mat-icon-button
+            [disabled]="time === currentEditTime()"
+            [matTooltip]="i18n().edit">
+            <mat-icon (click)="editTime(time)">edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [disabled]="time === currentEditTime()"
+            [matTooltip]="i18n().delete">
+            <mat-icon (click)="removeTime(time)">delete</mat-icon>
+          </button>
+        </span>
+      </mat-list-item>
+    } @empty {
+      <mat-hint style="display: block; text-align: center">
+        {{ i18n().noTimes }}
+      </mat-hint>
+    }
+  </mat-list>
+
+  <div class="wrapper">
+    <form
+      style="width: 100%"
+      [formGroup]="inputTime"
+      (ngSubmit)="addTime()">
+      <div
+        class="inline-wrapper"
+        #formRef>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().userInput }}</mat-label>
+          <mat-select formControlName="target">
+            @for (target of targets(); track target) {
+              <mat-option [value]="target.target">
+                {{ target.text }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <h3>{{ i18n().timeStart }}</h3>
+      <div class="inline-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().timeStartDate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="startTimePicker"
+            formControlName="startTime"
+            [value]="inputTime.value.startTime"
+            required />
+          <mat-datepicker #startTimePicker />
+          <mat-datepicker-toggle
+            [for]="startTimePicker"
+            matSuffix />
+          @if (inputTime.get("startTime").hasError("required")) {
+            <mat-error>
+              {{ i18n().errorRequired }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().timeStartTime }}</mat-label>
+          <input
+            matInput
+            [matTimepicker]="startTimeTimepicker"
+            formControlName="startTime"
+            [value]="inputTime.value.startTime"
+            required />
+          <mat-timepicker #startTimeTimepicker />
+          <mat-timepicker-toggle
+            [for]="startTimeTimepicker"
+            matSuffix />
+          @if (inputTime.get("startTime").hasError("required")) {
+            <mat-error>
+              {{ i18n().errorRequired }}
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <h3>{{ i18n().timeEnd }}</h3>
+      <div class="inline-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().timeEndDate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="endTimePicker"
+            formControlName="endTime"
+            [value]="inputTime.value.endTime"
+            required />
+          <mat-datepicker #endTimePicker />
+          <mat-datepicker-toggle
+            [for]="endTimePicker"
+            matSuffix />
+          @if (inputTime.get("endTime").hasError("required")) {
+            <mat-error>
+              {{ i18n().errorRequired }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().timeEndTime }}</mat-label>
+          <input
+            matInput
+            [matTimepicker]="endTimeTimepicker"
+            formControlName="endTime"
+            [value]="inputTime.value.endTime"
+            required />
+          <mat-timepicker #endTimeTimepicker />
+          <mat-timepicker-toggle
+            [for]="endTimeTimepicker"
+            matSuffix />
+          @if (inputTime.get("endTime").hasError("required")) {
+            <mat-error>
+              {{ i18n().errorRequired }}
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <h3>{{ i18n().repetition }}</h3>
+      <div class="inline-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().repetitionUnit }}</mat-label>
+          <mat-select formControlName="strategy">
+            <mat-option value="daily">
+              {{ i18n().repetitionUnits.daily }}
+            </mat-option>
+            <mat-option value="weekly">
+              {{ i18n().repetitionUnits.weekly }}
+            </mat-option>
+            <mat-option value="monthly">
+              {{ i18n().repetitionUnits.monthly }}
+            </mat-option>
+            <mat-option value="yearly">
+              {{ i18n().repetitionUnits.yearly }}
+            </mat-option>
+            <mat-option value="never">
+              {{ i18n().repetitionUnits.never }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ i18n().repetitionMultiplier }}</mat-label>
+          <input
+            matInput
+            formControlName="multiplier"
+            type="number"
+            #quotaInput
+            min="1"
+            step="1"
+            inputmode="numeric"
+            required />
+          <mat-icon
+            matSuffix
+            [matTooltip]="i18n().repetitionInfo">
+            info
+          </mat-icon>
+          @if (inputTime.get("multiplier").hasError("min")) {
+            <mat-error>
+              {{ i18n().errorMinMultiplier }}
+            </mat-error>
+          }
+          @if (inputTime.get("multiplier").hasError("required")) {
+            <mat-error>
+              {{ i18n().errorRequired }}
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <button
+        mat-button
+        [disabled]="inputTime.invalid"
+        type="submit">
+        {{ currentEditTime() ? i18n().confirmEdit : i18n().add }}
+      </button>
+      @if (currentEditTime()) {
+        <button
+          mat-button
+          (click)="cancelEdit()">
+          {{ i18n().cancelEdit }}
+        </button>
+      }
+    </form>
+  </div>
+</div>
