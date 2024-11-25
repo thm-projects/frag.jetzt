@@ -390,15 +390,19 @@ export const getDefaultNavigation = (
                   return false;
                 },
               },
-              {
-                id: 'tour',
-                icon: 'tour',
-                title: i18n.options.tour,
-                onClick: () => {
-                  startTour(injector);
-                  return true;
-                },
-              },
+              ...(router.url === '/home'
+                ? [
+                    {
+                      id: 'tour',
+                      icon: 'tour',
+                      title: i18n.options.tour,
+                      onClick: () => {
+                        startTour(injector);
+                        return true;
+                      },
+                    },
+                  ]
+                : []),
             ],
           },
           {
