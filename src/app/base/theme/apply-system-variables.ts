@@ -11,7 +11,6 @@ import { getInjector } from '../angular-init';
 import { actualTheme } from './theme';
 import { actualContrast } from './contrast';
 import { CUSTOM_COLORS } from './custom-colors';
-import { dataService } from '../db/data-service';
 
 const themeSourceColorSignal = signal('#769CDF');
 export const themeSourceColor = themeSourceColorSignal.asReadonly();
@@ -23,12 +22,15 @@ export const setThemeSourceColor = (color: string): boolean => {
     return false;
   }
   themeSourceColorSignal.set(color);
+  localStorage.setItem('themeSourceColor', color);
+  /*
   dataService.config
     .createOrUpdate({
       key: 'theme-source-color',
       value: color,
     })
     .subscribe();
+    */
   return true;
 };
 
@@ -54,9 +56,12 @@ const getColors = () => {
 const COLORS = getColors();
 
 // side effects
+/*
 dataService.config.get('theme-source-color').subscribe((color) => {
   setThemeSourceColor(color?.value as string);
 });
+*/
+setThemeSourceColor(localStorage.getItem('themeSourceColor'));
 
 getInjector().subscribe((injector) => {
   effect(
