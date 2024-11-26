@@ -33,7 +33,7 @@ interface DefaultConfig {
 }
 
 export const DEFAULT_TEACHER: DefaultConfig = {
-  chatgpt: true,
+  chatgpt: false,
   studdyBuddy: true,
   studyBuddyGroup: 'teachers',
   profanity: true,
@@ -48,7 +48,7 @@ export const DEFAULT_TEACHER: DefaultConfig = {
 };
 
 export const DEFAULT_STUDENT: DefaultConfig = {
-  chatgpt: true,
+  chatgpt: false,
   studdyBuddy: true,
   studyBuddyGroup: 'all',
   profanity: false,

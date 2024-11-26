@@ -74,7 +74,23 @@ export const generateRoom = (
   const shortId = answers['code']?.group?.value?.code;
   // settings
   const general = answers['general']?.group?.value;
-  const gpt = general?.gpt ?? defaults.chatgpt;
+
+  const isGptActive = (
+    answers: AnsweredMultiLevelData,
+    isEnabledPerDefault: boolean,
+  ): boolean => {
+    const answered = answers['gptSetup']?.group?.value?.['setupType'];
+    if (answered === 'nothing') {
+      // user actively chose to disable chatgpt
+      return false;
+    }
+    if (!answered) {
+      // user did not actively choose to enable or disable chatgpt, so we use the default value
+      return isEnabledPerDefault;
+    }
+    // user must have actively chosen to enable chatgpt
+    return true;
+  };
   const moderation = general?.moderation ?? defaults.moderation;
   const profanity = general?.profanity ?? defaults.profanity;
   const keywords = general?.keywords ?? defaults.keyword;
@@ -113,7 +129,7 @@ export const generateRoom = (
     keywordExtractionActive: keywords,
     radarActive: radar,
     focusActive: focus,
-    chatGptActive: gpt,
+    chatGptActive: isGptActive(answers, defaults.chatgpt),
     mode: isTeacher ? 'ARS' : 'PLE',
   });
   const translateService = injector.get(TranslateService);
