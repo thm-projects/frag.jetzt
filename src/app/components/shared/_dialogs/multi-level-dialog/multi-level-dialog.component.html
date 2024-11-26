@@ -57,6 +57,15 @@
                 "></ng-container>
             }
             <div class="button-container">
+              @if (isFirst) {
+                <button
+                  mat-button
+                  class="login-button"
+                  (click)="openLoginDialog()" >
+                  {{ i18n().login }}
+                </button>
+                <span style="flex: 1"></span>
+              }
               @if (!isFirst || showBackOption) {
                 <button
                   mat-button
