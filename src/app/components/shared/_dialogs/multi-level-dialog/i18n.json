@@ -9,7 +9,8 @@
     "completeText": "Klicke auf »Raum erstellen«, um die Raum-Konfiguration zu speichern.",
     "single": "Frage {{number}}",
     "range": "Fragen {{start}} bis {{end}}",
-    "elemTitle": "KI-Assistenz aktivieren"
+    "elemTitle": "KI-Assistenz aktivieren",
+    "login": "Anmelden"
   },
   "en": {
     "title": "Create room",
@@ -20,7 +21,8 @@
     "completeText": "Click »Create room« to save the room configuration.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}",
-    "elemTitle": "Activate AI assistant"
+    "elemTitle": "Activate AI assistant",
+    "login": "Login"
 
   },
   "fr": {
@@ -32,7 +34,8 @@
     "completeText": "Clique sur « Créer espace » pour enregistrer la configuration de la salle.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}",
-    "elemTitle": "Activer l'assistant IA"
+    "elemTitle": "Activer l'assistant IA",
+    "login": "Se connecter"
      
   }
 }
