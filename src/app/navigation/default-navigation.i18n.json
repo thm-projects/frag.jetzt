@@ -39,7 +39,8 @@
       "pricing": "Dankeschön & KI-Guthaben",
       "donation": "Wie du helfen kannst",
       "purchase": "Guthaben",
-      "transaction": "Transaktionen"
+      "transaction": "Transaktionen",
+      "chat": "Chat mit KI"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -95,7 +96,8 @@
       "pricing": "Thank you & AI Credit",
       "donation": "How you can help",
       "purchase": "Credit",
-      "transaction": "Transactions"
+      "transaction": "Transactions",
+      "chat": "Chat with AI"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -151,7 +153,8 @@
       "pricing": "Remerciement & Crédit IA",
       "donation": "Comment tu peux aider",
       "purchase": "Crédit",
-      "transaction": "Transactions"
+      "transaction": "Transactions",
+      "chat": "Chat avec l'IA"
     },
     "options": {
       "about": "À propos de frag.jetzt",

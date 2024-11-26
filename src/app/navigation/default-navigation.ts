@@ -255,6 +255,7 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
+      const isAIChat = router.url.startsWith('/gpt-prompts');
       // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
@@ -272,6 +273,18 @@ export const getDefaultNavigation = (
             return true;
           },
           activated: isUser,
+        });
+      }
+      if (user && isUser) {
+        navSection.entries.push({
+          id: 'chat-with-ai',
+          title: i18n.navigation.chat,
+          svgIcon: 'fj_robot',
+          onClick: () => {
+            router.navigate(['/gpt-prompts']);
+            return true;
+          },
+          activated: isAIChat,
         });
       }
       if (isHome || isUser) {
