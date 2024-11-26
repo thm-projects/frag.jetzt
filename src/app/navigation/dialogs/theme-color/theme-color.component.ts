@@ -2,7 +2,7 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 import {
-  AfterViewInit,
+  AfterViewChecked,
   Component,
   computed,
   effect,
@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { actualTheme, setTheme, theme } from 'app/base/theme/theme';
 import { MatCardModule } from '@angular/material/card';
 import {
+  DEFAULT_COLOR,
   setThemeSourceColor,
   themeSourceColor,
 } from 'app/base/theme/apply-system-variables';
@@ -28,7 +29,7 @@ import { actualContrast, setContrast } from 'app/base/theme/contrast';
   templateUrl: './theme-color.component.html',
   styleUrl: './theme-color.component.scss',
 })
-export class ThemeColorComponent implements AfterViewInit {
+export class ThemeColorComponent implements AfterViewChecked {
   protected readonly dotStyle = computed(() => `left: ${this.dist()}px;`);
   protected readonly i18n = i18n;
   protected readonly theme = signal(actualTheme());
@@ -68,7 +69,7 @@ export class ThemeColorComponent implements AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     const w = this.container().nativeElement.getBoundingClientRect().width;
     this.dist.set((this.hue() * w) / 360);
   }
@@ -107,6 +108,22 @@ export class ThemeColorComponent implements AfterViewInit {
     this.dist.set(distance);
     const hue = (distance * 360) / rect.width;
     this.hue.set(hue);
+  }
+
+  protected resetAll() {
+    const defaultHue = this.hexToHue(DEFAULT_COLOR);
+    this.hue.set(defaultHue);
+    const w = this.container().nativeElement.getBoundingClientRect().width;
+    this.dist.set((this.hue() * w) / 360);
+
+    setThemeSourceColor(DEFAULT_COLOR); //'#769CDF'
+
+    //TODO these work, but the logic that persist them does not (?)
+    this.theme.set('light');
+    setTheme(this.theme());
+
+    this.contrast.set('normal');
+    setContrast(this.contrast());
   }
 
   protected submit() {
