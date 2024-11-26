@@ -15,13 +15,10 @@ export class CommentFilterComponent {
   protected readonly userCount = signal(0);
 
   constructor() {
-    effect(
-      () => {
-        const count = commentsMeta().userCount.get(this.comment()?.creatorId);
-        this.userCount.set(count?.topLevel || 0);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const count = commentsMeta().userCount.get(this.comment()?.creatorId);
+      this.userCount.set(count?.topLevel || 0);
+    });
   }
 
   protected selectFilter(filter: Filter) {

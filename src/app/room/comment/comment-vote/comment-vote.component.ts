@@ -35,17 +35,12 @@ export class CommentVoteComponent {
   private voteService = inject(VoteService);
 
   constructor() {
-    effect(
-      () => {
-        const votes = userVotes();
-        if (!votes) return;
-        const value = (votes.get(this.comment().id)?.vote || 0) as 0 | 1 | -1;
-        this.vote.set({ value, state: 'valid' });
-      },
-      {
-        allowSignalWrites: true,
-      },
-    );
+    effect(() => {
+      const votes = userVotes();
+      if (!votes) return;
+      const value = (votes.get(this.comment().id)?.vote || 0) as 0 | 1 | -1;
+      this.vote.set({ value, state: 'valid' });
+    });
   }
 
   protected doVote(num: 1 | -1) {

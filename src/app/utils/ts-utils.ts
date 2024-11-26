@@ -1,4 +1,9 @@
-import { Subscribable } from 'rxjs';
+import {
+  concat,
+  MonoTypeOperatorFunction,
+  Observable,
+  Subscribable,
+} from 'rxjs';
 
 type ArrayLength<A extends Array<unknown>> = A['length'] extends infer T
   ? T
@@ -19,9 +24,8 @@ type EnumerationArray<
     ? A
     : EnumerationArray<N, [A['length'], ...A]>
   : never;
-type Enumerate<N extends number> = EnumerationArray<N> extends (infer E)[]
-  ? E
-  : never;
+type Enumerate<N extends number> =
+  EnumerationArray<N> extends (infer E)[] ? E : never;
 type NumberRange<FROM extends number, TO extends number> = Exclude<
   Enumerate<TO>,
   Enumerate<FROM>
@@ -80,11 +84,12 @@ export type HasStringLength<
   MIN extends number,
   MAX extends number,
   S extends string,
-> = StringLength<S> extends infer Count
-  ? Count extends NumberRange<MIN, MAX>
-    ? true
-    : false
-  : false;
+> =
+  StringLength<S> extends infer Count
+    ? Count extends NumberRange<MIN, MAX>
+      ? true
+      : false
+    : false;
 
 export type MakeUnique<T, K extends string> = T & { readonly __TYPE_NAME__: K };
 
@@ -107,39 +112,41 @@ export type IsValueOf<Value, Type> = Value extends Type
 
 export type Replaces<T, K> = Required<T> extends Required<K> ? true : false;
 
-export type Get<T, K extends string> = Exclude<T, undefined> extends never
-  ? undefined
-  : K extends keyof Exclude<T, undefined>
-    ? Exclude<T, undefined>[K]
-    : undefined;
-export type GetDefault<Type, Key extends string, Default> = Exclude<
-  Type,
-  undefined
-> extends never
-  ? Default
-  : Key extends keyof Exclude<Type, undefined>
-    ? Exclude<Type, undefined>[Key]
-    : Default;
+export type Get<T, K extends string> =
+  Exclude<T, undefined> extends never
+    ? undefined
+    : K extends keyof Exclude<T, undefined>
+      ? Exclude<T, undefined>[K]
+      : undefined;
+export type GetDefault<Type, Key extends string, Default> =
+  Exclude<Type, undefined> extends never
+    ? Default
+    : Key extends keyof Exclude<Type, undefined>
+      ? Exclude<Type, undefined>[Key]
+      : Default;
 
-export type Immutable<T> = IsObject<T> extends true
-  ? {
-      +readonly [P in keyof T]: Immutable<T[P]>;
-    }
-  : T;
+export type Immutable<T> =
+  IsObject<T> extends true
+    ? {
+        +readonly [P in keyof T]: Immutable<T[P]>;
+      }
+    : T;
 
-export type Mutable<T> = IsObject<T> extends true
-  ? {
-      -readonly [P in keyof T]: Mutable<T[P]>;
-    }
-  : T;
+export type Mutable<T> =
+  IsObject<T> extends true
+    ? {
+        -readonly [P in keyof T]: Mutable<T[P]>;
+      }
+    : T;
 
 export type GeneralFunction = (...anyArgs: unknown[]) => unknown;
 
-export type FieldsOf<T> = IsObject<T> extends true
-  ? {
-      [P in keyof T as T[P] extends GeneralFunction ? never : P]: T[P];
-    }
-  : never;
+export type FieldsOf<T> =
+  IsObject<T> extends true
+    ? {
+        [P in keyof T as T[P] extends GeneralFunction ? never : P]: T[P];
+      }
+    : never;
 
 export type Storable<T> = T extends GeneralFunction
   ? never
@@ -196,4 +203,10 @@ export const getInstant = <T, K extends Subscribable<T>>(
     })
     .unsubscribe();
   return result;
+};
+
+export const resumeWith = <T>(
+  observable: Observable<T>,
+): MonoTypeOperatorFunction<T> => {
+  return (source) => concat(source, observable);
 };

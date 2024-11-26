@@ -40,29 +40,26 @@ export class CommentListFabComponent {
   protected readonly starting = signal(true);
 
   constructor() {
-    effect(
-      (cleanup) => {
-        if (
-          !this.commentsEnabled() ||
-          this.isCommentListEmpty() ||
-          this.starting()
-        ) {
-          return;
-        }
-        FAB_BUTTON.set({
-          icon: 'add',
-          title: this.room()?.mode === 'PLE' ? i18n().ple.write : i18n().write,
-          onClick: () => {
-            this.writeComment()();
-            return false;
-          },
-        });
-        cleanup(() => {
-          FAB_BUTTON.set(null);
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect((cleanup) => {
+      if (
+        !this.commentsEnabled() ||
+        this.isCommentListEmpty() ||
+        this.starting()
+      ) {
+        return;
+      }
+      FAB_BUTTON.set({
+        icon: 'add',
+        title: this.room()?.mode === 'PLE' ? i18n().ple.write : i18n().write,
+        onClick: () => {
+          this.writeComment()();
+          return false;
+        },
+      });
+      cleanup(() => {
+        FAB_BUTTON.set(null);
+      });
+    });
   }
 
   protected isScrollButtonVisible(): boolean {

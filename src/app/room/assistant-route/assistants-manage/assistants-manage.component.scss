@@ -1,0 +1,57 @@
+mat-toolbar {
+  min-height: 56px;
+  padding: 0 24px 0 0;
+
+  & .primary.primary.primary {
+    --mdc-text-button-label-text-color: var(--mat-sys-primary);
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-spinner {
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.inline-wrapper {
+  display: flex;
+  gap: 1em;
+  align-items: baseline;
+
+  > * {
+    flex: 1;
+  }
+
+  > button {
+    flex: unset;
+  }
+}
+
+textarea {
+  max-height: 35dvh;
+  overflow-y: scroll;
+}
+
+mat-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 1em;
+  flex-wrap: wrap;
+}
