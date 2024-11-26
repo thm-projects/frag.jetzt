@@ -24,7 +24,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { LoginDialogRequest } from 'app/utils/service-component-events';
+import { EventService } from 'app/services/util/event.service';
 import { LoginComponent } from '../../login/login.component';
+
 const i18n = I18nLoader.load(rawI18n);
 
 const WINDOW_SIZE = 3;
@@ -288,11 +291,11 @@ export class MultiLevelDialogComponent implements OnInit {
   private onSubmit: MultiLevelDialogSubmit<unknown>;
   private dialogData: unknown;
   protected readonly i18n = i18n;
-
   constructor(
     private dialogRef: MatDialogRef<MultiLevelDialogComponent>,
     private dialog: MatDialog,
     private injector: Injector,
+    private eventService: EventService,
   ) {}
 
   public static open<T = unknown>(
@@ -316,20 +319,23 @@ export class MultiLevelDialogComponent implements OnInit {
     instance.defaultTouched = defaultTouched;
     return dialogRef;
   }
-
+  
   openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-    });
+    const dialogRef = this.dialog.open(LoginComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        console.log('Login erfolgreich:', result); // 
-      } else {
-        console.log('Gastlogin oder Dialog geschlossen');
+        console.log('Dialog result: ', result);
+        const request = new LoginDialogRequest(true);
+        this.eventService.sendEvent(request);
+      }
+      else {
+        console.log('Gast');
       }
     });
   }
 
+  
   ngOnInit(): void {
     this.dialogStepper = new MultiLevelStepper(
       this.data.questions,
