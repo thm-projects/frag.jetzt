@@ -94,7 +94,6 @@ import { PaymentRouteComponent } from './paypal/payment-route/payment-route.comp
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 import './base/theme/apply-system-variables';
-import { RestrictionsManageComponent } from './room/assistant-route/restrictions-manage/restrictions-manage.component';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -181,7 +180,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     FeatureGridComponent,
     CdkDrag,
     PaymentRouteComponent,
-    RestrictionsManageComponent,
   ],
   providers: [
     /*AppConfig,

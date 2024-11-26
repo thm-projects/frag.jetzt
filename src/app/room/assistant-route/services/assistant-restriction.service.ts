@@ -122,6 +122,9 @@ export class QuotaRestriction {
   }
 }
 
+export type PatchQuotaRestriction = Partial<InputQuotaRestriction> &
+  Pick<QuotaRestriction, 'id'>;
+
 export interface InputTimeRestriction {
   restriction_id: UUID;
   start_time: Date;
@@ -164,6 +167,9 @@ export class TimeRestriction {
     this.updated_at = verifyInstance(Date, updated_at);
   }
 }
+
+export type PatchTimeRestriction = Partial<InputTimeRestriction> &
+  Pick<TimeRestriction, 'id'>;
 
 @Injectable({
   providedIn: 'root',
@@ -341,6 +347,27 @@ export class AssistantRestrictionService extends BaseHttpService {
       );
   }
 
+  patchQuotaRestrictionForUser(
+    restrictionsId: UUID,
+    patchObject: PatchQuotaRestriction,
+  ) {
+    const api = this.apiUrl;
+    const { id, ...patch } = patchObject;
+    const url = `${api.base}/${restrictionsId}${api.quota}/${id}`;
+    return this.http
+      .patch<QuotaRestriction>(
+        url,
+        {
+          patch,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((value) => verifyInstance(QuotaRestriction, value)),
+      );
+  }
+
   deleteQuotaRestrictionForUser(restrictionsId: UUID, quotaId: UUID) {
     const api = this.apiUrl;
     const url = `${api.base}/${restrictionsId}${api.quota}/${quotaId}`;
@@ -364,6 +391,27 @@ export class AssistantRestrictionService extends BaseHttpService {
         url,
         {
           quota_restriction,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((value) => verifyInstance(QuotaRestriction, value)),
+      );
+  }
+
+  patchQuotaRestrictionForRoom(
+    restrictionsId: UUID,
+    patchObject: PatchQuotaRestriction,
+  ) {
+    const api = this.apiUrl;
+    const { id, ...patch } = patchObject;
+    const url = `${api.base}${api.room}/${restrictionsId}${api.quota}/${id}`;
+    return this.http
+      .patch<QuotaRestriction>(
+        url,
+        {
+          patch,
         },
         httpOptions,
       )
@@ -405,6 +453,27 @@ export class AssistantRestrictionService extends BaseHttpService {
       );
   }
 
+  patchTimeRestrictionForUser(
+    restrictionsId: UUID,
+    patchObject: PatchTimeRestriction,
+  ) {
+    const api = this.apiUrl;
+    const { id, ...patch } = patchObject;
+    const url = `${api.base}/${restrictionsId}${api.time}/${id}`;
+    return this.http
+      .patch<TimeRestriction>(
+        url,
+        {
+          patch,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((value) => verifyInstance(TimeRestriction, value)),
+      );
+  }
+
   deleteTimeRestrictionForUser(restrictionsId: UUID, timeId: UUID) {
     const api = this.apiUrl;
     const url = `${api.base}/${restrictionsId}${api.time}/${timeId}`;
@@ -428,6 +497,27 @@ export class AssistantRestrictionService extends BaseHttpService {
         url,
         {
           time_restriction,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((value) => verifyInstance(TimeRestriction, value)),
+      );
+  }
+
+  patchTimeRestrictionForRoom(
+    restrictionsId: UUID,
+    patchObject: PatchTimeRestriction,
+  ) {
+    const api = this.apiUrl;
+    const { id, ...patch } = patchObject;
+    const url = `${api.base}${api.room}/${restrictionsId}${api.time}/${id}`;
+    return this.http
+      .patch<TimeRestriction>(
+        url,
+        {
+          patch,
         },
         httpOptions,
       )

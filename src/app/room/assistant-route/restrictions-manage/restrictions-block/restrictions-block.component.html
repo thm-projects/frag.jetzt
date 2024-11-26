@@ -1,0 +1,43 @@
+<h2>{{ i18n().users }}</h2>
+<div class="line-wrapper">
+  <mat-list class="item-list">
+    @for (block of blockedTargets(); track block) {
+      <mat-list-item>
+        <span matListItemTitle>{{ block.text }}</span>
+        <button
+          mat-icon-button
+          matListItemMeta>
+          <mat-icon (click)="removeBlock(block.target)">delete</mat-icon>
+        </button>
+      </mat-list-item>
+    } @empty {
+      <mat-hint style="display: block; text-align: center">
+        {{ i18n().noBlockedUsers }}
+      </mat-hint>
+    }
+  </mat-list>
+
+  @if (blockOptions()?.length) {
+    <div class="wrapper">
+      <mat-form-field
+        appearance="outline"
+        style="flex: 1">
+        <mat-label>{{ i18n().userInput }}</mat-label>
+        <mat-select
+          #select
+          value="USER">
+          @for (target of blockOptions(); track target) {
+            <mat-option [value]="target.target">
+              {{ target.text }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <button
+        mat-button
+        (click)="addBlock(select.value)">
+        {{ i18n().add }}
+      </button>
+    </div>
+  }
+</div>
