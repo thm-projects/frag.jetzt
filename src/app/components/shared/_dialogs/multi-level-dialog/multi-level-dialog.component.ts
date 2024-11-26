@@ -24,6 +24,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { LoginComponent } from '../../login/login.component';
 const i18n = I18nLoader.load(rawI18n);
 
 const WINDOW_SIZE = 3;
@@ -314,6 +315,19 @@ export class MultiLevelDialogComponent implements OnInit {
     instance.onSubmit = onSubmit;
     instance.defaultTouched = defaultTouched;
     return dialogRef;
+  }
+
+  openLoginDialog(): void {
+    const dialogRef = this.dialog.open(LoginComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Login erfolgreich:', result); // 
+      } else {
+        console.log('Gastlogin oder Dialog geschlossen');
+      }
+    });
   }
 
   ngOnInit(): void {
