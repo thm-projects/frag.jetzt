@@ -36,7 +36,7 @@ import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
 import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
-import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
+import { Change } from './manage-ai/manage-ai.component';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AiChatComponent } from './ai-chat/ai-chat.component';
@@ -45,6 +45,7 @@ import {
   AssistantThreadService,
   Thread,
 } from '../assistant-route/services/assistant-thread.service';
+import { AssistantsManageComponent } from '../assistant-route/assistants-manage/assistants-manage.component';
 
 export interface AssistantEntry {
   ref: AssistantReference;
@@ -120,28 +121,23 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     );
     this.destroyRef.onDestroy(() => sub.unsubscribe());
     deviceState.mobile$.subscribe((isMobile) => this.isMobile.set(isMobile));
-    effect(
-      () => {
-        const thread = this.selectedThread();
-        if (!thread) {
-          this.currentMessages.set([]);
-          return;
-        }
-        if (thread.fetched) {
-          this.currentMessages.set([...thread.messages]);
-          return;
-        }
-        this.assistantThread
-          .getMessages(thread.ref.id)
-          .subscribe((messages) => {
-            messages = messages.map(transformMessage);
-            thread.messages = messages as Message[];
-            thread.fetched = true;
-            this.currentMessages.set([...thread.messages]);
-          });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const thread = this.selectedThread();
+      if (!thread) {
+        this.currentMessages.set([]);
+        return;
+      }
+      if (thread.fetched) {
+        this.currentMessages.set([...thread.messages]);
+        return;
+      }
+      this.assistantThread.getMessages(thread.ref.id).subscribe((messages) => {
+        messages = messages.map(transformMessage);
+        thread.messages = messages as Message[];
+        thread.fetched = true;
+        this.currentMessages.set([...thread.messages]);
+      });
+    });
     effect(() => {
       const threads = this.threads();
       const i18n = this.i18n();
@@ -448,11 +444,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   protected onNewClick() {
-    ManageAiComponent.open(
-      this.injector,
-      this.assistRefs,
-      this.onChange.bind(this),
-    );
+    AssistantsManageComponent.open(this.dialog, 'room');
   }
 
   protected deleteThread() {

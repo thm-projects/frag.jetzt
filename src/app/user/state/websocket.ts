@@ -89,7 +89,6 @@ getInjector().subscribe((injector) => {
     },
     {
       injector,
-      allowSignalWrites: true,
     },
   );
 });

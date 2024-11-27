@@ -16,8 +16,10 @@ import {
   M3NavigationTemplate,
   getById,
 } from 'modules/navigation/m3-navigation.types';
-import { Change, ManageAiComponent } from '../manage-ai/manage-ai.component';
+import { Change } from '../manage-ai/manage-ai.component';
 import { AssistantEntry } from '../gptchat-room.component';
+import { AssistantsManageComponent } from 'app/room/assistant-route/assistants-manage/assistants-manage.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface Data {
   assistants: Signal<AssistantEntry[]>;
@@ -60,7 +62,14 @@ export const getAiNavigation = (injector: Injector, data: Data) => {
           title: i18n.manageAssistants,
           icon: 'edit_square',
           onClick: () => {
-            ManageAiComponent.open(injector, data.assistants, data.onOutput);
+            const ref = AssistantsManageComponent.open(
+              injector.get(MatDialog),
+              'room',
+            );
+            ref.afterClosed().subscribe(() => {
+              data.assistants();
+            });
+            // ManageAiComponent.open(injector, data.assistants, data.onOutput);
             return false;
           },
         },

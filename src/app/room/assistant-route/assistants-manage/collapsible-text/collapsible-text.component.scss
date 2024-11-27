@@ -1,0 +1,19 @@
+span {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  position: relative;
+  display: block;
+
+  > button {
+    backdrop-filter: blur(0.25rem);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
