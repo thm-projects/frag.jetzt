@@ -1,7 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { LoginDialogRequest } from 'app/utils/service-component-events';
 
 interface BroadcastEvent {
   key: string;
