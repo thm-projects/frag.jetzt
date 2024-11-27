@@ -338,7 +338,7 @@ export class MultiLevelDialogComponent implements OnInit {
           this.isLoggedIn = false;
         }
       },
-      error: (err) => {
+      error: () => {
         this.isLoggedIn = false;
       },
     });
