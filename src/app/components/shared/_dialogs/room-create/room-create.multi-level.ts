@@ -255,7 +255,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             type: 'radio-select',
             tag: 'role-select',
             label: 'ml-room-create.q-1-short',
-            defaultValue: previousState?.get('role-select')?.value,
+            defaultValue: previousState?.get('role-select')?.value || 'teacher',
             options: [
               { value: 'teacher', label: 'ml-room-create.a-1-teacher' },
               { value: 'student', label: 'ml-room-create.a-1-student' },
