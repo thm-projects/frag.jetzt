@@ -1,4 +1,3 @@
-import { firstValueFrom } from 'rxjs';
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AnsweredMultiLevelData,
@@ -25,9 +24,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
-import { LoginDialogRequest } from 'app/utils/service-component-events';
 import { EventService } from 'app/services/util/event.service';
-import { LoginComponent } from '../../login/login.component';
 import { logout, openLogin } from 'app/user/state/user';
 
 const i18n = I18nLoader.load(rawI18n);
