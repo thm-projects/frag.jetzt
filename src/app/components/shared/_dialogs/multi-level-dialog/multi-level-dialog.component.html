@@ -61,9 +61,12 @@
                 <button
                   mat-button
                   class="login-button"
-                  (click)="openLoginDialog()" >
-                  {{ i18n().login }}
+                  (click)="isLoggedIn ? onLogoutClick() : onLoginClick()">
+                  {{ getButtonText() }}
                 </button>
+                <div *ngIf="isLoggedIn">
+                  <p>{{ getLoggedInText() }}</p>
+                </div>
                 <span style="flex: 1"></span>
               }
               @if (!isFirst || showBackOption) {
