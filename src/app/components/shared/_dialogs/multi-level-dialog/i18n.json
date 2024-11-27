@@ -40,8 +40,8 @@
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}",
     "elemTitle": "Activer l'assistant IA",
-    "login": "Se connecter",
-    "logout": "Se déconnecter",
+    "login": "S'inscrire",
+    "logout": "Se désinscrire",
     "guest": "Invité",
     "logged_in_as": "Connecté en tant que: "
   }
