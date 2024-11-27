@@ -7,3 +7,12 @@
 mat-progress-bar {
   margin-bottom: 1em;
 }
+
+.login-button {
+  background-color: var(--md-color-accent);
+  color: var(--md-color-text);
+}
+.logout-button {
+  background-color: var(--md-color-primary);
+  color: lightgrey;
+}
