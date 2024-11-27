@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs';
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AnsweredMultiLevelData,
@@ -27,6 +28,7 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { LoginDialogRequest } from 'app/utils/service-component-events';
 import { EventService } from 'app/services/util/event.service';
 import { LoginComponent } from '../../login/login.component';
+import { logout, openLogin } from 'app/user/state/user';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -284,6 +286,9 @@ export class MultiLevelDialogComponent implements OnInit {
   offsetIndex = 0;
   loadingCount = 0;
   currentQuestion: MultiLevelDataBuiltAction<unknown>;
+  isLoggedIn = false;
+  isGuest = false;
+  username: string | null = null;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   protected dialogStepper: MultiLevelStepper;
@@ -319,23 +324,59 @@ export class MultiLevelDialogComponent implements OnInit {
     instance.defaultTouched = defaultTouched;
     return dialogRef;
   }
-  
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {});
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        console.log('Dialog result: ', result);
-        const request = new LoginDialogRequest(true);
-        this.eventService.sendEvent(request);
-      }
-      else {
-        console.log('Gast');
-      }
+  onLoginClick(): void {
+    openLogin().subscribe({
+      next: (user) => {
+        if (user) {
+          this.isLoggedIn = true;
+          if (user.isGuest) {
+            this.isGuest = true;
+            this.username = 'Gast';
+          } else {
+            this.isGuest = false;
+            this.username = user.loginId;
+          }
+          console.log('Login erfolgreich:', user);
+        } else {
+          this.isLoggedIn = false;
+          console.log('Gast Login');
+        }
+      },
+      error: (err) => {
+        console.error('Fehler beim Login:', err);
+        this.isLoggedIn = false;
+      },
     });
   }
 
-  
+  onLogoutClick(): void {
+    logout().subscribe({
+      next: () => {
+        this.isLoggedIn = false;
+        this.isGuest = false;
+        this.username = null;
+      },
+      error: (err) => {
+        console.error('Error on Logout:', err);
+      },
+    });
+  }
+
+  getButtonText(): string {
+    if (this.isLoggedIn) {
+      return this.isGuest ? i18n().logout : i18n().logout;
+    }
+    return i18n().login;
+  }
+
+  getLoggedInText(): string {
+    if (this.isLoggedIn) {
+      return `${i18n().logged_in_as} ${this.isGuest ? i18n().guest : this.username}`;
+    }
+    return '';
+  }
+
   ngOnInit(): void {
     this.dialogStepper = new MultiLevelStepper(
       this.data.questions,
