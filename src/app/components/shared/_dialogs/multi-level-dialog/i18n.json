@@ -10,7 +10,10 @@
     "single": "Frage {{number}}",
     "range": "Fragen {{start}} bis {{end}}",
     "elemTitle": "KI-Assistenz aktivieren",
-    "login": "Anmelden"
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "guest": "Gast",
+    "logged_in_as": "Angemeldet als: "
   },
   "en": {
     "title": "Create room",
@@ -22,8 +25,10 @@
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}",
     "elemTitle": "Activate AI assistant",
-    "login": "Login"
-
+    "login": "Login",
+    "logout": "Logout",
+    "guest": "Guest",
+    "logged_in_as": "Logged in as: "
   },
   "fr": {
     "title": "Créer espace",
@@ -35,7 +40,9 @@
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}",
     "elemTitle": "Activer l'assistant IA",
-    "login": "Se connecter"
-     
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "guest": "Invité",
+    "logged_in_as": "Connecté en tant que: "
   }
 }
