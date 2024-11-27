@@ -118,7 +118,6 @@ export class ThemeColorComponent implements AfterViewChecked {
 
     setThemeSourceColor(DEFAULT_COLOR); //'#769CDF'
 
-    //TODO these work, but the logic that persist them does not (?)
     this.theme.set('light');
     setTheme(this.theme());
 
@@ -129,6 +128,8 @@ export class ThemeColorComponent implements AfterViewChecked {
   protected submit() {
     // effect cleanup will set it
     this.startColor = this.hueToHex(this.hue());
+    this.beforeContrast = this.contrast();
+    this.beforeTheme = this.theme();
     this.ref.close();
   }
 
