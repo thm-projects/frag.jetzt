@@ -39,7 +39,15 @@ import {
   TimeRestriction,
   TimeRestriction as TR,
 } from '../services/assistant-restriction.service';
-import { concatMap, forkJoin, map, Observable, of } from 'rxjs';
+import {
+  concatMap,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { room } from 'app/room/state/room';
 import { user } from 'app/user/state/user';
 import { NotificationService } from 'app/services/util/notification.service';
@@ -99,6 +107,7 @@ export class RestrictionsManageComponent {
   private readonly dialogRef = inject(MatDialogRef);
   private readonly _adapter =
     inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  private emitter = new Subject<void>();
 
   constructor() {
     effect(() => {
@@ -109,6 +118,7 @@ export class RestrictionsManageComponent {
       this.previousBlocks.set([]);
       this.previousQuotas.set([]);
       this.previousTimes.set([]);
+      this.emitter.next();
       if (id) {
         this.loadRestrictions(id);
       }
@@ -194,21 +204,21 @@ export class RestrictionsManageComponent {
       this.mode() === 'room'
         ? this.restriction.listBlockRestrictionsForRoom(id)
         : this.restriction.listBlockRestrictionsForUser(id);
-    blockObservable.subscribe((blocks) => {
+    blockObservable.pipe(takeUntil(this.emitter)).subscribe((blocks) => {
       this.previousBlocks.set(blocks);
     });
     const quotaObservable: Observable<QuotaRestriction[]> =
       this.mode() === 'room'
         ? this.restriction.listQuotaRestrictionsForRoom(id)
         : this.restriction.listQuotaRestrictionsForUser(id);
-    quotaObservable.subscribe((quotas) => {
+    quotaObservable.pipe(takeUntil(this.emitter)).subscribe((quotas) => {
       this.previousQuotas.set(quotas);
     });
     const timeObservable: Observable<TR[]> =
       this.mode() === 'room'
         ? this.restriction.listTimeRestrictionsForRoom(id)
         : this.restriction.listTimeRestrictionsForUser(id);
-    timeObservable.subscribe((times) => {
+    timeObservable.pipe(takeUntil(this.emitter)).subscribe((times) => {
       this.previousTimes.set(times);
     });
   }

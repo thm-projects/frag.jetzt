@@ -288,8 +288,11 @@ export class RestrictionsQuotaComponent {
   }
 
   protected editQuota(quota: Quota) {
-    this.preEditValue.set(this.inputQuota.value);
+    const editing = this.currentEditQuota();
     this.currentEditQuota.set(quota);
+    if (!editing) {
+      this.preEditValue.set(this.inputQuota.value);
+    }
     this.inputQuota.reset({
       quota: quota.quota,
       target: quota.target,

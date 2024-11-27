@@ -46,27 +46,18 @@ export class ThemeColorComponent implements AfterViewChecked {
 
   constructor() {
     this.hue.set(this.hexToHue(this.startColor));
-    effect(
-      (onCleanup) => {
-        setTheme(this.theme());
-        onCleanup(() => setTheme(this.beforeTheme));
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      (onCleanup) => {
-        setContrast(this.contrast());
-        onCleanup(() => setContrast(this.beforeContrast));
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      (onCleanup) => {
-        setThemeSourceColor(this.hueToHex(this.hue()));
-        onCleanup(() => setThemeSourceColor(this.startColor));
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      setTheme(this.theme());
+      onCleanup(() => setTheme(this.beforeTheme));
+    });
+    effect((onCleanup) => {
+      setContrast(this.contrast());
+      onCleanup(() => setContrast(this.beforeContrast));
+    });
+    effect((onCleanup) => {
+      setThemeSourceColor(this.hueToHex(this.hue()));
+      onCleanup(() => setThemeSourceColor(this.startColor));
+    });
   }
 
   ngAfterViewChecked(): void {

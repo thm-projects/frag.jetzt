@@ -18,6 +18,6 @@ getInjector().subscribe((injector) => {
       }
       //TODO: Fetch
     },
-    { injector, allowSignalWrites: true },
+    { injector },
   );
 });

@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from 'app/services/http/base-http.service';
-import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
-import { UUID } from 'crypto';
+import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { map, tap } from 'rxjs';
+import { UploadedFile } from './assistant-file.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -66,6 +66,8 @@ export class Assistant {
   }
 }
 
+export type PatchAssistant = Partial<InputAssistant> & Pick<Assistant, 'id'>;
+
 export class AssistantFile {
   assistant_id: UUID;
   uploaded_file_id: UUID;
@@ -82,6 +84,19 @@ export class AssistantFile {
   }
 }
 
+export class WrappedAssistant {
+  assistant: Assistant;
+  files: [AssistantFile, UploadedFile][];
+
+  constructor({ assistant, files }: FieldsOf<WrappedAssistant>) {
+    this.assistant = verifyInstance(Assistant, assistant);
+    this.files = files.map(([f, uf]) => [
+      verifyInstance(AssistantFile, f),
+      verifyInstance(UploadedFile, uf),
+    ]);
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -91,6 +106,7 @@ export class AssistantManageService extends BaseHttpService {
     roomBase: '/ai/room-assistant',
     platformBase: '/ai/platform-assistant',
     file: '/file',
+    deleteRequest: '/delete-request',
   };
 
   constructor(private http: HttpClient) {
@@ -100,9 +116,11 @@ export class AssistantManageService extends BaseHttpService {
   listUserAssistants() {
     const api = this.apiUrl;
     const url = `${api.userBase}`;
-    return this.http.get<Assistant[]>(url, httpOptions).pipe(
+    return this.http.get<WrappedAssistant[]>(url, httpOptions).pipe(
       tap(() => ''),
-      map((assistants) => assistants.map((a) => verifyInstance(Assistant, a))),
+      map((assistants) =>
+        assistants.map((a) => verifyInstance(WrappedAssistant, a)),
+      ),
     );
   }
 
@@ -118,11 +136,12 @@ export class AssistantManageService extends BaseHttpService {
   deleteUserAssistant(id: UUID) {
     const api = this.apiUrl;
     const url = `${api.userBase}/${id}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    return this.http.delete<void>(url, httpOptions).pipe(tap(() => ''));
   }
 
-  patchUserAssistant(id: UUID, assistant: Partial<InputAssistant>) {
+  patchUserAssistant(patchObject: PatchAssistant) {
     const api = this.apiUrl;
+    const { id, ...assistant } = patchObject;
     const url = `${api.userBase}/${id}`;
     return this.http.patch<Assistant>(url, { assistant }, httpOptions).pipe(
       tap(() => ''),
@@ -153,18 +172,20 @@ export class AssistantManageService extends BaseHttpService {
       .pipe(tap(() => ''));
   }
 
-  deleteUserAssistantFile(id: UUID, fileId: UUID) {
+  deleteUserAssistantFiles(id: UUID, file_ids: UUID[]) {
     const api = this.apiUrl;
-    const url = `${api.userBase}/${id}${api.file}/${fileId}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    const url = `${api.userBase}/${id}${api.file}${api.deleteRequest}`;
+    return this.http.post(url, { file_ids }, httpOptions).pipe(tap(() => ''));
   }
 
   listRoomAssistants() {
     const api = this.apiUrl;
     const url = `${api.roomBase}`;
-    return this.http.get<Assistant[]>(url, httpOptions).pipe(
+    return this.http.get<WrappedAssistant[]>(url, httpOptions).pipe(
       tap(() => ''),
-      map((assistants) => assistants.map((a) => verifyInstance(Assistant, a))),
+      map((assistants) =>
+        assistants.map((a) => verifyInstance(WrappedAssistant, a)),
+      ),
     );
   }
 
@@ -180,11 +201,12 @@ export class AssistantManageService extends BaseHttpService {
   deleteRoomAssistant(id: UUID) {
     const api = this.apiUrl;
     const url = `${api.roomBase}/${id}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    return this.http.delete<void>(url, httpOptions).pipe(tap(() => ''));
   }
 
-  patchRoomAssistant(id: UUID, assistant: Partial<InputAssistant>) {
+  patchRoomAssistant(patchObject: PatchAssistant) {
     const api = this.apiUrl;
+    const { id, ...assistant } = patchObject;
     const url = `${api.roomBase}/${id}`;
     return this.http.patch<Assistant>(url, { assistant }, httpOptions).pipe(
       tap(() => ''),
@@ -215,18 +237,20 @@ export class AssistantManageService extends BaseHttpService {
       .pipe(tap(() => ''));
   }
 
-  deleteRoomAssistantFile(id: UUID, fileId: UUID) {
+  deleteRoomAssistantFiles(id: UUID, file_ids: UUID[]) {
     const api = this.apiUrl;
-    const url = `${api.roomBase}/${id}${api.file}/${fileId}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    const url = `${api.roomBase}/${id}${api.file}${api.deleteRequest}`;
+    return this.http.post(url, { file_ids }, httpOptions).pipe(tap(() => ''));
   }
 
   listPlatformAssistants() {
     const api = this.apiUrl;
     const url = `${api.platformBase}`;
-    return this.http.get<Assistant[]>(url, httpOptions).pipe(
+    return this.http.get<WrappedAssistant[]>(url, httpOptions).pipe(
       tap(() => ''),
-      map((assistants) => assistants.map((a) => verifyInstance(Assistant, a))),
+      map((assistants) =>
+        assistants.map((a) => verifyInstance(WrappedAssistant, a)),
+      ),
     );
   }
 
@@ -242,11 +266,12 @@ export class AssistantManageService extends BaseHttpService {
   deletePlatformAssistant(id: UUID) {
     const api = this.apiUrl;
     const url = `${api.platformBase}/${id}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    return this.http.delete<void>(url, httpOptions).pipe(tap(() => ''));
   }
 
-  patchPlatformAssistant(id: UUID, assistant: Partial<InputAssistant>) {
+  patchPlatformAssistant(patchObject: PatchAssistant) {
     const api = this.apiUrl;
+    const { id, ...assistant } = patchObject;
     const url = `${api.platformBase}/${id}`;
     return this.http.patch<Assistant>(url, { assistant }, httpOptions).pipe(
       tap(() => ''),
@@ -277,9 +302,9 @@ export class AssistantManageService extends BaseHttpService {
       .pipe(tap(() => ''));
   }
 
-  deletePlatformAssistantFile(id: UUID, fileId: UUID) {
+  deletePlatformAssistantFiles(id: UUID, file_ids: UUID[]) {
     const api = this.apiUrl;
-    const url = `${api.platformBase}/${id}${api.file}/${fileId}`;
-    return this.http.delete(url, httpOptions).pipe(tap(() => ''));
+    const url = `${api.platformBase}/${id}${api.file}${api.deleteRequest}`;
+    return this.http.post(url, { file_ids }, httpOptions).pipe(tap(() => ''));
   }
 }

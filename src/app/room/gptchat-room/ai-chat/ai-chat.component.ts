@@ -188,18 +188,15 @@ export class AiChatComponent {
       }
     });
 
-    effect(
-      () => {
-        this.selectedThread();
-        this.inputMessage.setValue('');
-        this.files.set([]);
-        const fileInput = this.fileInput()?.nativeElement;
-        if (fileInput) {
-          fileInput.value = '';
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.selectedThread();
+      this.inputMessage.setValue('');
+      this.files.set([]);
+      const fileInput = this.fileInput()?.nativeElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+    });
   }
 
   setValue(text: string) {
