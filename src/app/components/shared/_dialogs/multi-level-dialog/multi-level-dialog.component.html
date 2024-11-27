@@ -61,10 +61,12 @@
                 <button
                   mat-button
                   class="login-button"
+                   [ngClass]="isLoggedIn ? 'logout-button' : 'login-button'"
                   (click)="isLoggedIn ? onLogoutClick() : onLoginClick()">
+                  <mat-icon>{{ isLoggedIn ? 'exit_to_app' : 'login' }}</mat-icon>
                   {{ getButtonText() }}
                 </button>
-                <div *ngIf="isLoggedIn">
+                <div class="logged-in-info" *ngIf="isLoggedIn">
                   <p>{{ getLoggedInText() }}</p>
                 </div>
                 <span style="flex: 1"></span>

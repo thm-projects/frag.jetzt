@@ -334,14 +334,11 @@ export class MultiLevelDialogComponent implements OnInit {
             this.isGuest = false;
             this.username = user.loginId;
           }
-          console.log('Login erfolgreich:', user);
         } else {
           this.isLoggedIn = false;
-          console.log('Gast Login');
         }
       },
       error: (err) => {
-        console.error('Fehler beim Login:', err);
         this.isLoggedIn = false;
       },
     });
@@ -353,9 +350,6 @@ export class MultiLevelDialogComponent implements OnInit {
         this.isLoggedIn = false;
         this.isGuest = false;
         this.username = null;
-      },
-      error: (err) => {
-        console.error('Error on Logout:', err);
       },
     });
   }
