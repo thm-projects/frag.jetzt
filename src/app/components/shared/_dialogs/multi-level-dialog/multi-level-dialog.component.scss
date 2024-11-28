@@ -1,18 +1,11 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 0.75em;
 }
 
 mat-progress-bar {
   margin-bottom: 1em;
-}
-
-.login-button {
-  background-color: var(--md-color-accent);
-  color: var(--md-color-text);
-}
-.logout-button {
-  background-color: var(--md-color-primary);
-  color: lightgrey;
 }
