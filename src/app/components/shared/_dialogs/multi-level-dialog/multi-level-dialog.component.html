@@ -58,10 +58,10 @@
             }
             <div class="button-container">
               @if (isFirst) {
-                <span style="flex: 1"></span>
                 <div class="logged-in-info" *ngIf="isLoggedIn">
                   <p>{{ getLoggedInText() }}</p>
                 </div>
+                <span style="flex: 1"></span>
                 <button
                   mat-button
                   class="login-button"
