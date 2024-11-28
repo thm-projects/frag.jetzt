@@ -23,6 +23,7 @@ import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
   selector: 'app-topic-cloud-brainstorming',
   templateUrl: './topic-cloud-brainstorming.component.html',
   styleUrls: ['./topic-cloud-brainstorming.component.scss'],
+  standalone: false,
 })
 export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   @Input() target: string;

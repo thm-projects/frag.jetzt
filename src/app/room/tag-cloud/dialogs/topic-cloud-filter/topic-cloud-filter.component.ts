@@ -68,6 +68,7 @@ type FilterTypeKey = (typeof FILTER_TYPES)[number];
   selector: 'app-topic-cloud-filter',
   templateUrl: './topic-cloud-filter.component.html',
   styleUrls: ['./topic-cloud-filter.component.scss'],
+  standalone: false,
 })
 export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;

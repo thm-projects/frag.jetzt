@@ -20,21 +20,20 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/datetime-picker": "^16.0.1",
-    "@angular/animations": "^18.2.7",
-    "@angular/cdk": "^18.2.7",
-    "@angular/common": "^18.2.7",
-    "@angular/compiler": "^18.2.7",
-    "@angular/core": "^18.2.7",
+    "@angular/animations": "^19.0.0",
+    "@angular/cdk": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/core": "^19.0.0",
     "@angular/flex-layout": "^15.0.0-beta.42",
-    "@angular/forms": "^18.2.7",
-    "@angular/material": "^18.2.7",
-    "@angular/platform-browser": "^18.2.7",
-    "@angular/platform-browser-dynamic": "^18.2.7",
-    "@angular/platform-server": "^18.2.7",
-    "@angular/router": "^18.2.7",
-    "@angular/service-worker": "^18.2.7",
-    "@angular/ssr": "^18.2.7",
+    "@angular/forms": "^19.0.0",
+    "@angular/material": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/platform-browser-dynamic": "^19.0.0",
+    "@angular/platform-server": "^19.0.0",
+    "@angular/router": "^19.0.0",
+    "@angular/service-worker": "^19.0.0",
+    "@angular/ssr": "^19.0.0",
     "@material/material-color-utilities": "^0.3.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
@@ -64,18 +63,18 @@
     "typescript-eslint": "^8.8.0",
     "typescript-map": "^0.1.0",
     "webpack": "^5.95.0",
-    "zone.js": "^0.14.10"
+    "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.7",
+    "@angular-devkit/build-angular": "^19.0.0",
     "@angular-eslint/builder": "^18.3.1",
     "@angular-eslint/eslint-plugin": "^18.3.1",
     "@angular-eslint/eslint-plugin-template": "^18.3.1",
     "@angular-eslint/schematics": "^18.3.1",
     "@angular-eslint/template-parser": "^18.3.1",
-    "@angular/cli": "^18.2.7",
-    "@angular/compiler-cli": "^18.2.7",
-    "@angular/language-service": "^18.2.7",
+    "@angular/cli": "^19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@angular/language-service": "^19.0.0",
     "@cucumber/cucumber": "^11.0.1",
     "@cypress/schematic": "^2.5.1",
     "@eslint/eslintrc": "^3.1.0",
@@ -117,19 +116,5 @@
       "eslint --fix"
     ],
     "*.{scss,md,component.html}": "prettier --write"
-  },
-  "overrides": {
-    "@angular-material-components/datetime-picker": {
-      "@angular/platform-browser": ">=18.0.0",
-      "@angular/common": ">=18.0.0",
-      "@angular/core": ">=18.0.0",
-      "@angular/forms": ">=18.0.0",
-      "@angular/material": ">=18.0.0",
-      "@angular/cdk": ">=18.0.0"
-    },
-    "@angular-material-components/moment-adapter": {
-      "@angular/common": ">=18.0.0",
-      "@angular/core": ">=18.0.0"
-    }
   }
 }

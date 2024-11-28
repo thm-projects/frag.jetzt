@@ -34,6 +34,7 @@ type IpType = IpSingle | IpRange | IpSubnet;
   selector: 'app-keycloak-provider',
   templateUrl: './keycloak-provider.component.html',
   styleUrls: ['./keycloak-provider.component.scss'],
+  standalone: false,
 })
 export class KeycloakProviderComponent implements OnInit, OnDestroy {
   readonly languages = AVAILABLE_LANGUAGES;

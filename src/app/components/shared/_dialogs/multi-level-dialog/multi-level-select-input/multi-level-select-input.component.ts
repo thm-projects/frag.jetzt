@@ -12,6 +12,7 @@ import {
     './multi-level-select-input.component.scss',
     '../common-form-field.scss',
   ],
+  standalone: false,
 })
 export class MultiLevelSelectInputComponent implements OnInit {
   data = inject(DYNAMIC_INPUT) as BuiltAction<SelectInputAction>;

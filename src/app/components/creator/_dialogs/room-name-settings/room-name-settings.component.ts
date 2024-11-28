@@ -11,6 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-room-name-settings',
   templateUrl: './room-name-settings.component.html',
   styleUrls: ['./room-name-settings.component.scss'],
+  standalone: false,
 })
 export class RoomNameSettingsComponent implements OnInit {
   @Input() editRoom: Readonly<Room>;

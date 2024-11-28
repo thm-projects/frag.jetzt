@@ -19,9 +19,10 @@ export interface ArsMatPaginatorTheme {
 }
 
 @Component({
-  selector: 'ars-mat-paginator',
-  templateUrl: './ars-mat-paginator.component.html',
-  styleUrls: ['./ars-mat-paginator.component.scss'],
+    selector: 'ars-mat-paginator',
+    templateUrl: './ars-mat-paginator.component.html',
+    styleUrls: ['./ars-mat-paginator.component.scss'],
+    standalone: false
 })
 export class ArsMatPaginatorComponent implements OnInit, OnDestroy {
   @Input() pageIndex: number;

@@ -13,7 +13,6 @@ import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-feature-grid-dialog',
-  standalone: true,
   imports: [
     MatDialogTitle,
     MatDialogContent,

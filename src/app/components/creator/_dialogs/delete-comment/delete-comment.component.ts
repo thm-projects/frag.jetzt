@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-delete-comment',
   templateUrl: './delete-comment.component.html',
   styleUrls: ['./delete-comment.component.scss'],
+  standalone: false,
 })
 export class DeleteCommentComponent implements OnInit {
   protected readonly i18n = i18n;

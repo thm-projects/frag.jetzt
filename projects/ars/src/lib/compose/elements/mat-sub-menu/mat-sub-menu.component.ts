@@ -7,9 +7,10 @@ import {
 import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
-  selector: 'ars-mat-sub-menu',
-  templateUrl: './mat-sub-menu.component.html',
-  styleUrls: ['./mat-sub-menu.component.scss'],
+    selector: 'ars-mat-sub-menu',
+    templateUrl: './mat-sub-menu.component.html',
+    styleUrls: ['./mat-sub-menu.component.scss'],
+    standalone: false
 })
 export class MatSubMenuComponent implements OnInit {
   @ViewChild(MatMenuTrigger) component: MatMenuTrigger;

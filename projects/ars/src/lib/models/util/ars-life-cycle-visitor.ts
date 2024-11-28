@@ -2,7 +2,8 @@ import {AfterViewInit, Component, OnDestroy, OnInit} from "@angular/core";
 import {ArsListener} from "./ars-listener";
 
 @Component({
-  template: ''
+    template: '',
+    standalone: false
 })
 export class ArsLifeCycleVisitor implements OnInit, AfterViewInit, OnDestroy {
 

@@ -13,7 +13,7 @@
           "thursday",
           "friday",
           "saturday",
-          "sunday"
+          "sunday",
         ];
         track day;
         let i = $index
@@ -21,7 +21,7 @@
         <mat-chip-option
           class="weekday-chip"
           [ngClass]="{
-            'primary-chips': isWeekDayActive(i)
+            'primary-chips': isWeekDayActive(i),
           }"
           [selected]="currentIndex === i"
           (click)="updateDateTo(i)">
@@ -51,7 +51,18 @@
           {{ "comment-notification.deactivate" | translate }}
         </button>
       </div>
-      <ngx-mat-timepicker [(ngModel)]="date"></ngx-mat-timepicker>
+
+      <mat-form-field>
+        <mat-label></mat-label>
+        <input
+          matInput
+          [matTimepicker]="picker"
+          [(ngModel)]="date" />
+        <mat-timepicker-toggle
+          matIconSuffix
+          [for]="picker" />
+        <mat-timepicker #picker />
+      </mat-form-field>
     </div>
   }
 </mat-dialog-content>

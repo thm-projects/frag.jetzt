@@ -10,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-motd-dialog',
   templateUrl: './motd-dialog.component.html',
   styleUrls: ['./motd-dialog.component.scss'],
+  standalone: false,
 })
 export class MotdDialogComponent implements OnInit {
   @Input()

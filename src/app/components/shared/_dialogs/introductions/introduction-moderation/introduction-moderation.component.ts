@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-introduction-moderation',
   templateUrl: './introduction-moderation.component.html',
   styleUrls: ['./introduction-moderation.component.scss'],
+  standalone: false,
 })
 export class IntroductionModerationComponent implements OnDestroy {
   currentLanguage: Language;

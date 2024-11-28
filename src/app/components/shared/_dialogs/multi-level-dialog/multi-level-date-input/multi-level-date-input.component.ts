@@ -64,6 +64,7 @@ interface Usage {
   selector: 'app-multi-level-date-input',
   templateUrl: './multi-level-date-input.component.html',
   styleUrls: ['./multi-level-date-input.component.scss'],
+  standalone: false,
 })
 export class MultiLevelDateInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<DateInputAction>;

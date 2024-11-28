@@ -30,8 +30,8 @@ $border-width: 0.2em;
       2
     )};
   translate: -50% 0%;
-  border: $border-width solid var(--sys-outline);
-  background: var(--sys-surface-container-high);
+  border: $border-width solid var(--mat-sys-outline);
+  background: var(--mat-sys-surface-container-high);
 }
 
 .button-wrapper {

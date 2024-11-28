@@ -8,7 +8,6 @@ import {
 
 @Component({
   selector: 'm3-supporting-pane',
-  standalone: true,
   host: {
     '[class]': `'m3-supporting-pane ' + 'type-' + type + ' priority-' + priority + ' elevation-' + elevation`,
   },

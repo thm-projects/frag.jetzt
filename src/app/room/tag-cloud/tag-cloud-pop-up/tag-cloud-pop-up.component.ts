@@ -42,6 +42,7 @@ const CLOSE_TIME = 100;
   selector: 'app-tag-cloud-pop-up',
   templateUrl: './tag-cloud-pop-up.component.html',
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
+  standalone: false,
 })
 export class TagCloudPopUpComponent
   implements OnInit, AfterViewInit, OnDestroy {

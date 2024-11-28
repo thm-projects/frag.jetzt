@@ -34,6 +34,7 @@ interface ConversationEntry {
   selector: 'app-gpt-chat',
   templateUrl: './gpt-chat.component.html',
   styleUrls: ['./gpt-chat.component.scss'],
+  standalone: false,
 })
 export class GptChatComponent implements OnInit, OnDestroy {
   @ViewChild('autoGrowElement')

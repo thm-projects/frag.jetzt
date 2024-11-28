@@ -12,6 +12,7 @@ import { user } from 'app/user/state/user';
   selector: 'app-quiz-now',
   templateUrl: './quiz-now.component.html',
   styleUrls: ['./quiz-now.component.scss'],
+  standalone: false,
 })
 export class QuizNowComponent implements OnInit, OnDestroy {
   urlSafe: SafeResourceUrl;

@@ -61,7 +61,6 @@ export type Change = CreatedAssistant | UpdatedAssistant | DeletedAssistant;
 
 @Component({
   selector: 'app-manage-ai',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

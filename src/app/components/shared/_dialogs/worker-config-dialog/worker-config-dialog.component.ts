@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-worker-config-dialog',
   templateUrl: './worker-config-dialog.component.html',
   styleUrls: ['./worker-config-dialog.component.scss'],
+  standalone: false,
 })
 export class WorkerConfigDialogComponent {
   public selection = 'normal';

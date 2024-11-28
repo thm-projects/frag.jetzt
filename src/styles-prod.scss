@@ -3,9 +3,9 @@
 @use "modules/m3/style/m3-initializer" as m3-init;
 @use "modules/m3/style/m3-typescale" as m3-typescale;
 @use "modules/m3/style/m3-layout" as m3-layout;
-@import "style/joyride-theme.scss";
-@import "style/toast-ui-theme-m3.scss";
-@import "style/fonts.scss";
+@use "style/joyride-theme.scss";
+@use "style/toast-ui-theme-m3.scss";
+@use "style/fonts.scss";
 
 @include mat.core();
 
@@ -37,62 +37,62 @@ $my-theme: mat.define-theme(
 html {
   // TODO: Remove
   --m3-comp-supporting-pane-fixed-width: 360px;
-  --m3-comp-nav-pane-transition: all 500ms var(--sys-easing-emphasized);
-  @include m3-layout.all-layout-token();
+  --m3-comp-nav-pane-transition: all 500ms var(--mat-sys-easing-emphasized);
   // material design
-  @include mat.all-component-themes($my-theme);
-  --sys-primary: rgb(170 199 255);
-  --sys-surface-tint: rgb(170 199 255);
-  --sys-on-primary: rgb(10 48 95);
-  --sys-primary-container: rgb(40 71 119);
-  --sys-on-primary-container: rgb(214 227 255);
-  --sys-secondary: rgb(190 198 220);
-  --sys-on-secondary: rgb(40 49 65);
-  --sys-secondary-container: rgb(62 71 89);
-  --sys-on-secondary-container: rgb(218 226 249);
-  --sys-tertiary: rgb(221 188 224);
-  --sys-on-tertiary: rgb(63 40 68);
-  --sys-tertiary-container: rgb(87 62 92);
-  --sys-on-tertiary-container: rgb(250 216 253);
-  --sys-error: rgb(255 180 171);
-  --sys-on-error: rgb(105 0 5);
-  --sys-error-container: rgb(147 0 10);
-  --sys-on-error-container: rgb(255 218 214);
-  --sys-background: rgb(17 19 24);
-  --sys-on-background: rgb(226 226 233);
-  --sys-surface: rgb(17 19 24);
-  --sys-on-surface: rgb(226 226 233);
-  --sys-surface-variant: rgb(68 71 78);
-  --sys-on-surface-variant: rgb(196 198 208);
-  --sys-outline: rgb(142 144 153);
-  --sys-outline-variant: rgb(68 71 78);
-  --sys-shadow: rgb(0 0 0);
-  --sys-scrim: rgb(0 0 0);
-  --sys-inverse-surface: rgb(226 226 233);
-  --sys-inverse-on-surface: rgb(46 48 54);
-  --sys-inverse-primary: rgb(65 95 145);
-  --sys-primary-fixed: rgb(214 227 255);
-  --sys-on-primary-fixed: rgb(0 27 62);
-  --sys-primary-fixed-dim: rgb(170 199 255);
-  --sys-on-primary-fixed-variant: rgb(40 71 119);
-  --sys-secondary-fixed: rgb(218 226 249);
-  --sys-on-secondary-fixed: rgb(19 28 43);
-  --sys-secondary-fixed-dim: rgb(190 198 220);
-  --sys-on-secondary-fixed-variant: rgb(62 71 89);
-  --sys-tertiary-fixed: rgb(250 216 253);
-  --sys-on-tertiary-fixed: rgb(40 19 46);
-  --sys-tertiary-fixed-dim: rgb(221 188 224);
-  --sys-on-tertiary-fixed-variant: rgb(87 62 92);
-  --sys-surface-dim: rgb(17 19 24);
-  --sys-surface-bright: rgb(55 57 62);
-  --sys-surface-container-lowest: rgb(12 14 19);
-  --sys-surface-container-low: rgb(25 28 32);
-  --sys-surface-container: rgb(29 32 36);
-  --sys-surface-container-high: rgb(40 42 47);
-  --sys-surface-container-highest: rgb(51 53 58);
+  --mat-sys-primary: rgb(170 199 255);
+  --mat-sys-surface-tint: rgb(170 199 255);
+  --mat-sys-on-primary: rgb(10 48 95);
+  --mat-sys-primary-container: rgb(40 71 119);
+  --mat-sys-on-primary-container: rgb(214 227 255);
+  --mat-sys-secondary: rgb(190 198 220);
+  --mat-sys-on-secondary: rgb(40 49 65);
+  --mat-sys-secondary-container: rgb(62 71 89);
+  --mat-sys-on-secondary-container: rgb(218 226 249);
+  --mat-sys-tertiary: rgb(221 188 224);
+  --mat-sys-on-tertiary: rgb(63 40 68);
+  --mat-sys-tertiary-container: rgb(87 62 92);
+  --mat-sys-on-tertiary-container: rgb(250 216 253);
+  --mat-sys-error: rgb(255 180 171);
+  --mat-sys-on-error: rgb(105 0 5);
+  --mat-sys-error-container: rgb(147 0 10);
+  --mat-sys-on-error-container: rgb(255 218 214);
+  --mat-sys-background: rgb(17 19 24);
+  --mat-sys-on-background: rgb(226 226 233);
+  --mat-sys-surface: rgb(17 19 24);
+  --mat-sys-on-surface: rgb(226 226 233);
+  --mat-sys-surface-variant: rgb(68 71 78);
+  --mat-sys-on-surface-variant: rgb(196 198 208);
+  --mat-sys-outline: rgb(142 144 153);
+  --mat-sys-outline-variant: rgb(68 71 78);
+  --mat-sys-shadow: rgb(0 0 0);
+  --mat-sys-scrim: rgb(0 0 0);
+  --mat-sys-inverse-surface: rgb(226 226 233);
+  --mat-sys-inverse-on-surface: rgb(46 48 54);
+  --mat-sys-inverse-primary: rgb(65 95 145);
+  --mat-sys-primary-fixed: rgb(214 227 255);
+  --mat-sys-on-primary-fixed: rgb(0 27 62);
+  --mat-sys-primary-fixed-dim: rgb(170 199 255);
+  --mat-sys-on-primary-fixed-variant: rgb(40 71 119);
+  --mat-sys-secondary-fixed: rgb(218 226 249);
+  --mat-sys-on-secondary-fixed: rgb(19 28 43);
+  --mat-sys-secondary-fixed-dim: rgb(190 198 220);
+  --mat-sys-on-secondary-fixed-variant: rgb(62 71 89);
+  --mat-sys-tertiary-fixed: rgb(250 216 253);
+  --mat-sys-on-tertiary-fixed: rgb(40 19 46);
+  --mat-sys-tertiary-fixed-dim: rgb(221 188 224);
+  --mat-sys-on-tertiary-fixed-variant: rgb(87 62 92);
+  --mat-sys-surface-dim: rgb(17 19 24);
+  --mat-sys-surface-bright: rgb(55 57 62);
+  --mat-sys-surface-container-lowest: rgb(12 14 19);
+  --mat-sys-surface-container-low: rgb(25 28 32);
+  --mat-sys-surface-container: rgb(29 32 36);
+  --mat-sys-surface-container-high: rgb(40 42 47);
+  --mat-sys-surface-container-highest: rgb(51 53 58);
   // font
   // motion
-  --sys-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --mat-sys-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  @include m3-layout.all-layout-token();
+  @include mat.all-component-themes($my-theme);
 }
 
 html,
@@ -273,7 +273,7 @@ $min-width: 360px;
 }
 
 .error-text {
-  color: var(--sys-error);
+  color: var(--mat-sys-error);
 }
 
 // Make large badges bigger
@@ -285,7 +285,7 @@ $min-width: 360px;
 /* Works on Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: var(--sys-outline) var(--sys-surface-dim);
+  scrollbar-color: var(--mat-sys-outline) var(--mat-sys-surface-dim);
 }
 
 $scrollbar-width: 8px;
@@ -299,14 +299,14 @@ $scrollbar-width: 8px;
   * {
     scrollbar-width: unset;
     scrollbar-color: unset;
-    transition: --scrollbar-color 500ms var(--sys-easing-emphasized);
+    transition: --scrollbar-color 500ms var(--mat-sys-easing-emphasized);
     --scrollbar-color: transparent;
   }
 
   :hover,
   :focus-within,
   :focus {
-    --scrollbar-color: var(--sys-outline);
+    --scrollbar-color: var(--mat-sys-outline);
   }
 
   /* width */
@@ -343,7 +343,7 @@ ul {
 }
 
 .fillable-icon {
-  transition: font-variation-settings 250ms var(--sys-easing-emphasized);
+  transition: font-variation-settings 250ms var(--mat-sys-easing-emphasized);
   --fill-state: 0;
   font-variation-settings: "FILL" var(--fill-state, 0);
 }
@@ -354,31 +354,31 @@ ul {
 
 // Icons
 .contained-icon-filled.mat-mdc-icon-button {
-  --mdc-icon-button-icon-color: var(--sys-primary);
-  --mdc-icon-button-button-color: var(--sys-surface-container-highest);
+  --mdc-icon-button-icon-color: var(--mat-sys-primary);
+  --mdc-icon-button-button-color: var(--mat-sys-surface-container-highest);
   background-color: var(--mdc-icon-button-button-color);
 
   &.selected {
-    --mdc-icon-button-icon-color: var(--sys-on-primary);
-    --mdc-icon-button-button-color: var(--sys-primary);
+    --mdc-icon-button-icon-color: var(--mat-sys-on-primary);
+    --mdc-icon-button-button-color: var(--mat-sys-primary);
   }
 }
 
 .contained-icon-filled-tonal.mat-mdc-icon-button {
-  --mdc-icon-button-icon-color: var(--sys-on-surface-variant);
-  --mdc-icon-button-button-color: var(--sys-surface-container-highest);
+  --mdc-icon-button-icon-color: var(--mat-sys-on-surface-variant);
+  --mdc-icon-button-button-color: var(--mat-sys-surface-container-highest);
   background-color: var(--mdc-icon-button-button-color);
 
   &.selected {
-    --mdc-icon-button-icon-color: var(--sys-on-secondary-container);
-    --mdc-icon-button-button-color: var(--sys-secondary-container);
+    --mdc-icon-button-icon-color: var(--mat-sys-on-secondary-container);
+    --mdc-icon-button-button-color: var(--mat-sys-secondary-container);
   }
 }
 
 .contained-icon-outlined.mat-mdc-icon-button {
-  --mdc-icon-button-icon-color: var(--sys-on-surface-variant);
+  --mdc-icon-button-icon-color: var(--mat-sys-on-surface-variant);
   --border-size: 1px;
-  border: var(--border-size) solid var(--sys-outline);
+  border: var(--border-size) solid var(--mat-sys-outline);
   padding: calc(
     calc(
         var(--mdc-icon-button-state-layer-size, 48px) - var(
@@ -389,17 +389,17 @@ ul {
   );
 
   &.selected {
-    --mdc-icon-button-icon-color: var(--sys-inverse-on-surface);
+    --mdc-icon-button-icon-color: var(--mat-sys-inverse-on-surface);
     --border-size: 0px;
-    background-color: var(--sys-inverse-surface);
+    background-color: var(--mat-sys-inverse-surface);
   }
 }
 
 // cards
 
 .filled-card {
-  --mdc-elevated-card-container-color: var(--sys-surface-container-highest);
-  color: var(--sys-on-surface);
+  --mdc-elevated-card-container-color: var(--mat-sys-surface-container-highest);
+  color: var(--mat-sys-on-surface);
   --mdc-elevated-card-container-elevation: var(
     --mdc-outlined-card-container-elevation
   );
@@ -408,11 +408,25 @@ ul {
 // buttons
 .mat-mdc-unelevated-button:not(:disabled) {
   &.secondary {
-    --mdc-filled-button-label-text-color: var(--sys-on-secondary);
-    --mdc-filled-button-container-color: var(--sys-secondary);
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-secondary);
+    --mdc-filled-button-container-color: var(--mat-sys-secondary);
   }
   &.tertiary {
-    --mdc-filled-button-label-text-color: var(--sys-on-tertiary);
-    --mdc-filled-button-container-color: var(--sys-tertiary);
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-tertiary);
+    --mdc-filled-button-container-color: var(--mat-sys-tertiary);
+  }
+}
+
+// dialogs
+
+.full-screen-dialog {
+  --mat-dialog-container-small-max-width: 100dvw;
+  --mat-dialog-container-max-width: 100dvw;
+  --mat-dialog-container-min-width: 100dvw;
+  --mat-dialog-container-max-height: 100dvh;
+  --mdc-dialog-container-shape: 0;
+
+  & .mat-mdc-dialog-content {
+    max-height: 100%;
   }
 }

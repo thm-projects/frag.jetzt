@@ -4,7 +4,8 @@ import { WrapperDirective } from '../../layout/frame/wrp/WrapperDirective';
 
 
 @Directive({
-  selector: '[ars-menu]'
+    selector: '[ars-menu]',
+    standalone: false
 })
 export class MenuWrapperDirective extends WrapperDirective implements OnInit, AfterViewInit {
 

@@ -15,6 +15,7 @@ import {
     './multi-level-radio-select.component.scss',
     '../common-form-field.scss',
   ],
+  standalone: false,
 })
 export class MultiLevelRadioSelectComponent implements OnInit {
   data = inject(DYNAMIC_INPUT) as BuiltAction<RadioSelectAction>;

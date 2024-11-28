@@ -1,0 +1,37 @@
+<mat-toolbar>
+  <button
+    mat-icon-button
+    class="close-button"
+    mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <h1>{{ i18n().title }}</h1>
+  <span class="spacer"></span>
+  <button
+    mat-button
+    (click)="save()"
+    [disabled]="saving()"
+    class="primary">
+    {{ i18n().global.saveAndClose }}
+    @if (saving()) {
+      <mat-spinner></mat-spinner>
+    }
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content>
+  <!-- Blocking -->
+  <app-restrictions-block
+    [blockedRestrictions]="previousBlocks()"
+    [mode]="mode()"></app-restrictions-block>
+
+  <!-- Quota -->
+  <app-restrictions-quota
+    [quotaRestrictions]="previousQuotas()"
+    [mode]="mode()"></app-restrictions-quota>
+
+  <!-- Time -->
+  <app-restrictions-time
+    [timeRestrictions]="previousTimes()"
+    [mode]="mode()"></app-restrictions-time>
+</mat-dialog-content>

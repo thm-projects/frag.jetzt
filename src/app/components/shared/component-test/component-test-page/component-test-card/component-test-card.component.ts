@@ -6,28 +6,21 @@ import {
   MatCardFooter,
   MatCardHeader,
   MatCardImage,
-  MatCardSmImage,
   MatCardSubtitle,
   MatCardTitle,
-  MatCardTitleGroup,
 } from '@angular/material/card';
-import { NgOptimizedImage } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-component-test-card',
-  standalone: true,
   imports: [
-    MatCardSmImage,
     MatCardSubtitle,
     MatCardTitle,
-    MatCardTitleGroup,
     MatCardHeader,
     MatCard,
     MatCardContent,
-    NgOptimizedImage,
     MatProgressBar,
     MatCardFooter,
     MatDivider,

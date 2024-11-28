@@ -4,9 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector:'ars-mat-menu-item',
-  templateUrl:'./mat-menu-item.component.html',
-  styleUrls:['./mat-menu-item.component.scss']
+    selector: 'ars-mat-menu-item',
+    templateUrl: './mat-menu-item.component.html',
+    styleUrls: ['./mat-menu-item.component.scss'],
+    standalone: false
 })
 export class MatMenuItemComponent implements OnInit{
 

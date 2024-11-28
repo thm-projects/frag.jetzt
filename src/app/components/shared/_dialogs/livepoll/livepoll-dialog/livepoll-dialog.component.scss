@@ -1,4 +1,4 @@
-@import "../livepoll-common";
+@use "../livepoll-common";
 
 .right-container {
   display: flex;
@@ -76,7 +76,7 @@
 
   > * > mat-icon {
     align-self: center;
-    color: var(--sys-on-surface);
+    color: var(--mat-sys-on-surface);
   }
 
   > div ~ div {

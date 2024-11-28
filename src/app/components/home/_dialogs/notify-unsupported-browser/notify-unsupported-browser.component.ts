@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-notify-unsupported-browser',
   templateUrl: './notify-unsupported-browser.component.html',
   styleUrls: ['./notify-unsupported-browser.component.scss'],
+  standalone: false,
 })
 export class NotifyUnsupportedBrowserComponent {
   constructor(

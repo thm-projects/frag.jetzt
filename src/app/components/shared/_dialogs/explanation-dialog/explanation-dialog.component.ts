@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-explanation-dialog',
   templateUrl: './explanation-dialog.component.html',
   styleUrls: ['./explanation-dialog.component.scss'],
+  standalone: false,
 })
 export class ExplanationDialogComponent implements OnInit {
   @Input() translateKey: string;

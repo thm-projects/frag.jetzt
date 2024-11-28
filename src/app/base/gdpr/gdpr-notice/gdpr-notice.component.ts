@@ -18,7 +18,6 @@ type Values = (typeof MAPPER)[keyof typeof MAPPER];
 
 @Component({
   selector: 'app-gdpr-notice',
-  standalone: true,
   imports: [MatCardModule, MatButtonModule],
   templateUrl: './gdpr-notice.component.html',
   styleUrl: './gdpr-notice.component.scss',

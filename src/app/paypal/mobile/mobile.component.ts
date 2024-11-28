@@ -28,7 +28,6 @@ interface Plan {
 
 @Component({
   selector: 'app-mobile',
-  standalone: true,
   imports: [
     M3BodyPaneComponent,
     M3SupportingPaneComponent,

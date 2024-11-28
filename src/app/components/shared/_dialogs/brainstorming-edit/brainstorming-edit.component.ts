@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-brainstorming-edit',
   templateUrl: './brainstorming-edit.component.html',
   styleUrls: ['./brainstorming-edit.component.scss'],
+  standalone: false,
 })
 export class BrainstormingEditComponent implements OnInit {
   @Input() target: string;

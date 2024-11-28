@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-introduction-brainstorming',
   templateUrl: './introduction-brainstorming.component.html',
   styleUrls: ['./introduction-brainstorming.component.scss'],
+  standalone: false,
 })
 export class IntroductionBrainstormingComponent implements OnDestroy {
   currentLanguage: Language;

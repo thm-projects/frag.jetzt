@@ -13,6 +13,7 @@ import { forceLogin, user } from 'app/user/state/user';
   selector: 'app-moderator-join',
   templateUrl: './moderator-join.component.html',
   styleUrls: ['./moderator-join.component.scss'],
+  standalone: false,
 })
 export class ModeratorJoinComponent implements OnInit {
   room: Room;

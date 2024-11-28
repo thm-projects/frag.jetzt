@@ -1,6 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { carousel } from '../home-page-carousel';
-import { M3SupportingPaneComponent } from '../../../../../modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -19,9 +18,7 @@ import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigati
 
 @Component({
   selector: 'app-feature-grid',
-  standalone: true,
   imports: [
-    M3SupportingPaneComponent,
     MatGridList,
     MatGridTile,
     MatIcon,

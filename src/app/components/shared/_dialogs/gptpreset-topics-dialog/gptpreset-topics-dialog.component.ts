@@ -7,6 +7,7 @@ import { GPTRoomPresetTopic } from 'app/models/gpt-room-preset';
   selector: 'app-gptpreset-topics-dialog',
   templateUrl: './gptpreset-topics-dialog.component.html',
   styleUrls: ['./gptpreset-topics-dialog.component.scss'],
+  standalone: false,
 })
 export class GPTPresetTopicsDialogComponent implements OnInit {
   @Input()

@@ -17,6 +17,7 @@ import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
   selector: 'app-chat-gptprompt-preset',
   templateUrl: './chat-gptprompt-preset.component.html',
   styleUrls: ['./chat-gptprompt-preset.component.scss'],
+  standalone: false,
 })
 export class ChatGPTPromptPresetComponent implements OnInit {
   readonly onDelete = this.delete.bind(this);

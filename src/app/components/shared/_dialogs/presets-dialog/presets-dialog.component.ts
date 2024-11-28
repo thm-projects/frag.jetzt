@@ -11,6 +11,7 @@ export enum PresetsDialogType {
   selector: 'app-presets-dialog',
   templateUrl: './presets-dialog.component.html',
   styleUrls: ['./presets-dialog.component.scss'],
+  standalone: false,
 })
 export class PresetsDialogComponent implements OnInit {
   @Input() type: PresetsDialogType;

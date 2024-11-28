@@ -6,7 +6,6 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 
 @Component({
   selector: 'app-ai-error',
-  standalone: true,
   imports: [CustomMarkdownModule, MatDialogModule, MatButtonModule],
   templateUrl: './ai-error.component.html',
   styleUrl: './ai-error.component.scss',

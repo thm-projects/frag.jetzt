@@ -15,6 +15,7 @@ import {
   selector: 'app-profanity-settings',
   templateUrl: './profanity-settings.component.html',
   styleUrls: ['./profanity-settings.component.scss'],
+  standalone: false,
 })
 export class ProfanitySettingsComponent implements OnInit {
   @Input() editRoom: Readonly<Room>;

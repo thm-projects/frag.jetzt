@@ -40,6 +40,7 @@ export interface Filter {
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss',
+  standalone: false,
 })
 export class CommentComponent implements AfterViewInit {
   comment = input.required<ForumComment>();
@@ -62,17 +63,14 @@ export class CommentComponent implements AfterViewInit {
   private ref = inject(ElementRef);
 
   constructor() {
-    effect(
-      (onCleanup) => {
-        const c = this.comment();
-        this.formattedDate = getActualDate(c.createdAt);
-        const sub = getRelativeDate(c.createdAt).subscribe((v) => {
-          this.relativeDate.set(v);
-        });
-        onCleanup(() => sub.unsubscribe());
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      const c = this.comment();
+      this.formattedDate = getActualDate(c.createdAt);
+      const sub = getRelativeDate(c.createdAt).subscribe((v) => {
+        this.relativeDate.set(v);
+      });
+      onCleanup(() => sub.unsubscribe());
+    });
   }
 
   ngAfterViewInit(): void {

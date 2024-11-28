@@ -5,6 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
   selector: 'app-brainstorming-category-editor',
   templateUrl: './brainstorming-category-editor.component.html',
   styleUrls: ['./brainstorming-category-editor.component.scss'],
+  standalone: false,
 })
 export class BrainstormingCategoryEditorComponent {
   readonly max = 40;

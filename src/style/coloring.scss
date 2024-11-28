@@ -1,14 +1,6 @@
 @use "@angular/material" as mat;
 @use "@angular/material-experimental" as matx;
 
-// Theming
-
-@import "../theme/light-theme/variables";
-//@import "theme/dark-theme/dark-theme";
-@import "../theme/dark-solarized-theme/dark-solarized-theme";
-//@import "theme/blue-theme/blue-theme";
-@import "../theme/high-contrast-theme/high-contrast-theme";
-
 // @include mat.all-component-typographies();
 @include mat.core();
 //

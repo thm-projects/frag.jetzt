@@ -13,6 +13,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   templateUrl: './livepoll-statistic.component.html',
   styleUrls: ['./livepoll-statistic.component.scss'],
   animations: [...LivepollComponentUtility.animation],
+  standalone: false,
 })
 export class LivepollStatisticComponent implements OnDestroy {
   @Input() options: LivepollOptionEntry[] | undefined;

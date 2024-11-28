@@ -9,6 +9,7 @@ import { Comment } from 'app/models/comment';
   selector: 'app-submit-comment',
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss'],
+  standalone: false,
 })
 export class CreateCommentComponent {
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;

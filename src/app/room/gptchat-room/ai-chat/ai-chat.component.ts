@@ -27,7 +27,6 @@ import {
   AssistantsService,
   FileObject,
   Message,
-  UploadedFile,
 } from 'app/services/http/assistants.service';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { MatSelectModule } from '@angular/material/select';
@@ -45,8 +44,8 @@ import {
   SubmitEvent,
   AssistantFile,
 } from '../../assistant-route/assistant-chat/assistant-chat.component';
-import { HttpEventType } from '@angular/common/http';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
+import { UploadedFile } from 'app/room/assistant-route/services/assistant-file.service';
 
 interface OverriddenMessage extends Message {
   chunks: string[];
@@ -60,7 +59,6 @@ interface FileReference {
 
 @Component({
   selector: 'app-ai-chat',
-  standalone: true,
   imports: [
     MatCardModule,
     CustomMarkdownModule,
@@ -190,18 +188,15 @@ export class AiChatComponent {
       }
     });
 
-    effect(
-      () => {
-        this.selectedThread();
-        this.inputMessage.setValue('');
-        this.files.set([]);
-        const fileInput = this.fileInput()?.nativeElement;
-        if (fileInput) {
-          fileInput.value = '';
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.selectedThread();
+      this.inputMessage.setValue('');
+      this.files.set([]);
+      const fileInput = this.fileInput()?.nativeElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+    });
   }
 
   setValue(text: string) {
@@ -264,26 +259,6 @@ export class AiChatComponent {
   protected updateHeight(area: HTMLTextAreaElement) {
     area.style.height = 'auto';
     area.style.height = area.scrollHeight + 'px';
-  }
-
-  protected onFileChange(fileList: FileList) {
-    for (let i = 0; i < fileList.length; i++) {
-      this.assistants.uploadFile(fileList[i]).subscribe((event) => {
-        if (event.type === HttpEventType.Response) {
-          const ref = event.body;
-          this.files.update((files) => {
-            if (
-              files.findIndex(
-                (e) => e.name === fileList[i].name && e.ref.id === ref.id,
-              ) !== -1
-            ) {
-              return files;
-            }
-            return [...files, { name: fileList[i].name, ref }];
-          });
-        }
-      });
-    }
   }
 
   private chunkMessage(

@@ -11,6 +11,7 @@ export enum DialogConfirmActionButtonType {
   selector: 'app-dialog-action-buttons',
   templateUrl: './dialog-action-buttons.component.html',
   styleUrls: ['./dialog-action-buttons.component.scss'],
+  standalone: false,
 })
 export class DialogActionButtonsComponent {
   /**

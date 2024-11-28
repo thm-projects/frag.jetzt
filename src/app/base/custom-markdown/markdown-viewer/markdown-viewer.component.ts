@@ -21,6 +21,7 @@ import { ReplaySubject } from 'rxjs';
   selector: 'app-markdown-viewer',
   templateUrl: './markdown-viewer.component.html',
   styleUrl: './markdown-viewer.component.scss',
+  standalone: false,
 })
 export class MarkdownViewerComponent implements AfterViewInit, OnDestroy {
   data = input.required<string>();

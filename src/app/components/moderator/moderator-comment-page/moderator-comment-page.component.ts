@@ -21,6 +21,7 @@ import { applyRoomNavigation } from 'app/navigation/room-navigation';
   selector: 'app-moderator-comment-page',
   templateUrl: './moderator-comment-page.component.html',
   styleUrls: ['./moderator-comment-page.component.scss'],
+  standalone: false,
 })
 export class ModeratorCommentPageComponent
   implements OnInit, OnDestroy, AfterContentInit {

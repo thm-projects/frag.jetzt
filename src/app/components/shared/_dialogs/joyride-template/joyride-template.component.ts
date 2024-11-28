@@ -15,6 +15,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-joyride-template',
   templateUrl: './joyride-template.component.html',
   styleUrls: ['./joyride-template.component.scss'],
+  standalone: false,
 })
 export class JoyrideTemplateComponent implements OnInit, OnDestroy {
   @ViewChild('nextButton', { static: true }) nextButton: TemplateRef<unknown>;

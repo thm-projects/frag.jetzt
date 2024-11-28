@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-edit-comment-tag',
   templateUrl: './edit-comment-tag.component.html',
   styleUrls: ['./edit-comment-tag.component.scss'],
+  standalone: false,
 })
 export class EditCommentTagComponent implements OnInit, OnDestroy {
   selectedTag: string;

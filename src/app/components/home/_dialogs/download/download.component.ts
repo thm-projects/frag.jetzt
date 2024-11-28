@@ -12,6 +12,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['./download.component.scss'],
+  standalone: false,
 })
 export class DownloadComponent {
   protected readonly lang = language;

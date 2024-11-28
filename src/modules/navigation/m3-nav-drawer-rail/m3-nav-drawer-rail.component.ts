@@ -59,7 +59,6 @@ const BACK_TRACKER = 1;
 
 @Component({
   selector: 'm3-nav-drawer-rail',
-  standalone: true,
   imports: [
     MatDrawer,
     MatDrawerContainer,

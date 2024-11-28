@@ -27,6 +27,7 @@ import { SessionService } from 'app/services/util/session.service';
   selector: 'app-comment-actions',
   templateUrl: './comment-actions.component.html',
   styleUrl: './comment-actions.component.scss',
+  standalone: false,
 })
 export class CommentActionsComponent {
   comment = input.required<ForumComment>();
@@ -73,17 +74,14 @@ export class CommentActionsComponent {
   private eventService = inject(EventService);
 
   constructor(sessionService: SessionService) {
-    effect(
-      () => {
-        const c = this.comment();
-        if (!c) return;
-        this.hasNotification.set({
-          value: this.dashboardNotificationService.hasCommentSubscription(c.id),
-          state: 'valid',
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const c = this.comment();
+      if (!c) return;
+      this.hasNotification.set({
+        value: this.dashboardNotificationService.hasCommentSubscription(c.id),
+        state: 'valid',
+      });
+    });
     sessionService
       .getGPTStatusOnce()
       .subscribe((v) => this.canOpenGPT.set(Boolean(v) && !v.restricted));

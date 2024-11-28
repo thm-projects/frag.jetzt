@@ -49,6 +49,7 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-room-join',
   templateUrl: './room-join.component.html',
   styleUrls: ['./room-join.component.scss'],
+  standalone: false,
 })
 export class RoomJoinComponent implements OnInit, OnDestroy {
   @ViewChild('sessionCode') sessionCodeElement: ElementRef;

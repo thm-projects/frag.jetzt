@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './qr-code-dialog.component.html',
   styleUrls: ['./qr-code-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class QrCodeDialogComponent implements AfterViewInit {
   data: string;

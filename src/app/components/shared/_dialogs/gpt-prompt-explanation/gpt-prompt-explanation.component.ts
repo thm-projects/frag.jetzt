@@ -8,6 +8,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-gpt-prompt-explanation',
   templateUrl: './gpt-prompt-explanation.component.html',
   styleUrls: ['./gpt-prompt-explanation.component.scss'],
+  standalone: false,
 })
 export class GptPromptExplanationComponent implements OnDestroy {
   currentLanguage: Language;

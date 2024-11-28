@@ -30,7 +30,6 @@ const i18n = I18nLoader.loadModule(rawI18n);
 
 @Component({
   selector: 'm3-navigation',
-  standalone: true,
   imports: [
     M3NavDrawerRailComponent,
     MatToolbarModule,

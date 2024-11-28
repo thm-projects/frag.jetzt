@@ -117,7 +117,7 @@ $_m3-navigation-properties: (
     font-variation-settings:
       "wght" 400,
       "opsz" 24;
-    transition: font-variation-settings 0.1s var(--sys-easing-emphasized);
+    transition: font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
   }
 
   .m3-label {
@@ -126,26 +126,26 @@ $_m3-navigation-properties: (
       "GRAD" 0,
       "opsz" 17;
     transition:
-      all 250ms var(--sys-easing-emphasized),
-      font-variation-settings 0.1s var(--sys-easing-emphasized);
+      all 250ms var(--mat-sys-easing-emphasized),
+      font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
     opacity: 1;
     &.hide {
       opacity: 0;
       transition:
-        all 50ms var(--sys-easing-emphasized),
-        font-variation-settings 0.1s var(--sys-easing-emphasized);
+        all 50ms var(--mat-sys-easing-emphasized),
+        font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
     }
   }
 
   .m3-label,
   .m3-badge,
   .m3-icon {
-    color: var(--sys-on-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
   }
 
   &.activated {
     .m3-label-button-active-indicator {
-      background-color: var(--sys-secondary-container);
+      background-color: var(--mat-sys-secondary-container);
     }
   }
 
@@ -154,7 +154,7 @@ $_m3-navigation-properties: (
     .m3-label,
     .m3-badge,
     .m3-icon {
-      color: var(--sys-on-secondary-container);
+      color: var(--mat-sys-on-secondary-container);
     }
   }
 

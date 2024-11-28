@@ -13,7 +13,6 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
   selector: 'app-room-delete',
   templateUrl: './room-delete.component.html',
   styleUrls: ['./room-delete.component.scss'],
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

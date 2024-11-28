@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
   selector: 'app-gptrating-dialog',
   templateUrl: './gptrating-dialog.component.html',
   styleUrls: ['./gptrating-dialog.component.scss'],
+  standalone: false,
 })
 export class GPTRatingDialogComponent {
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;

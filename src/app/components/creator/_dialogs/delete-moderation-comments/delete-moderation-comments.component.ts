@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-delete-moderation-comments',
   templateUrl: './delete-moderation-comments.component.html',
   styleUrls: ['./delete-moderation-comments.component.scss'],
+  standalone: false,
 })
 export class DeleteModerationCommentsComponent implements OnInit {
   /**

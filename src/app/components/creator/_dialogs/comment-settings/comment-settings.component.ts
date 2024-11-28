@@ -16,6 +16,7 @@ import {
   selector: 'app-comment-settings',
   templateUrl: './comment-settings.component.html',
   styleUrls: ['./comment-settings.component.scss'],
+  standalone: false,
 })
 export class CommentSettingsComponent implements OnInit {
   @Input() editRoom: Readonly<Room>;

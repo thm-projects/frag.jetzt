@@ -13,6 +13,7 @@ const i18n = I18nLoader.load(rawI18n);
   selector: 'app-first-time-user',
   templateUrl: './first-time-user.component.html',
   styleUrl: './first-time-user.component.scss',
+  standalone: false,
 })
 export class FirstTimeUserComponent implements OnInit, OnDestroy {
   accumulatedRatings: RatingResult;

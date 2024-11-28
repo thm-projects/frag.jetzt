@@ -33,6 +33,7 @@ import { ensureLoggedIn } from 'app/user/state/user';
   selector: 'app-user-home-page',
   templateUrl: './user-home-page.component.html',
   styleUrls: ['./user-home-page.component.scss'],
+  standalone: false,
 })
 export class UserHomePageComponent
   implements OnInit, OnDestroy, AfterContentInit {

@@ -9,6 +9,7 @@ import {
   selector: 'app-multi-level-quota-input',
   templateUrl: './multi-level-quota-input.component.html',
   styleUrls: ['./multi-level-quota-input.component.scss'],
+  standalone: false,
 })
 export class MultiLevelQuotaInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<QuotaInputAction>;

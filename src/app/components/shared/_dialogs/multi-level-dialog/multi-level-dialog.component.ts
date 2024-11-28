@@ -266,6 +266,7 @@ class MultiLevelStepper {
       useValue: { displayDefaultIndicatorType: false },
     },
   ],
+  standalone: false,
 })
 export class MultiLevelDialogComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;

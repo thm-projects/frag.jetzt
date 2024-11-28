@@ -19,6 +19,7 @@ interface GPTStatus {
   selector: 'app-gptchat-info',
   templateUrl: './gptchat-info.component.html',
   styleUrls: ['./gptchat-info.component.scss'],
+  standalone: false,
 })
 export class GPTChatInfoComponent implements OnInit {
   roles = {

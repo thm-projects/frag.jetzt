@@ -7,6 +7,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-help-room-create',
   templateUrl: './help-room-create.component.html',
   styleUrls: ['./help-room-create.component.scss'],
+  standalone: false,
 })
 export class HelpRoomCreateComponent implements OnInit, OnDestroy {
   language: string;

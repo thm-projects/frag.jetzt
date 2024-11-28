@@ -16,7 +16,6 @@ import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 @Component({
   selector: 'app-paypal-dialog',
-  standalone: true,
   imports: [
     MatDialogTitle,
     MatDialogContent,

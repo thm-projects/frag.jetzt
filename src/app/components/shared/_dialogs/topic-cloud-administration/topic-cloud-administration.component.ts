@@ -35,6 +35,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-topic-cloud-administration',
   templateUrl: './topic-cloud-administration.component.html',
   styleUrls: ['./topic-cloud-administration.component.scss'],
+  standalone: false,
 })
 export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;

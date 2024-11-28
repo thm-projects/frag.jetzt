@@ -1,13 +1,13 @@
-<div
-  class="sub-section-header"
-  *ngIf="title">
-  <h1 matCardTitle>{{ title }}</h1>
-</div>
-<div
-  class="sub-section-header subTitle"
-  *ngIf="subTitle">
-  <span>{{ subTitle }}</span>
-</div>
+@if (title) {
+  <div class="sub-section-header">
+    <h1 matCardTitle>{{ title }}</h1>
+  </div>
+}
+@if (subTitle) {
+  <div class="sub-section-header subTitle">
+    <span>{{ subTitle }}</span>
+  </div>
+}
 <div
   class="sub-section-content"
   [class.grid]="grid">

@@ -40,6 +40,7 @@ interface DialogData {
   selector: 'app-deep-ldialog',
   templateUrl: './deep-ldialog.component.html',
   styleUrls: ['./deep-ldialog.component.scss'],
+  standalone: false,
 })
 export class DeepLDialogComponent implements OnInit {
   radioButtonValue: ResultValue;

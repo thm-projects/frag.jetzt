@@ -57,6 +57,7 @@ type CommentElement = CommentInfo | CommentAction;
   selector: 'app-comment-header-action',
   templateUrl: './comment-header-action.component.html',
   styleUrl: './comment-header-action.component.scss',
+  standalone: false,
 })
 export class CommentHeaderActionComponent {
   comment = input.required<ForumComment>();
@@ -96,45 +97,39 @@ export class CommentHeaderActionComponent {
   private sessionService = inject(SessionService);
 
   constructor() {
-    effect(
-      () => {
-        const c = this.comment();
-        this.acknowledged.set({ value: c.ack, state: 'valid' });
-        if (c.correct === CorrectWrong.NULL) {
-          this.correct.set({ value: 0, state: 'valid' });
-        } else {
-          this.correct.set({
-            value: c.correct === CorrectWrong.CORRECT ? 1 : -1,
-            state: 'valid',
-          });
-        }
-        this.bonus.set({ value: c.favorite, state: 'valid' });
-        const isParticipant = this.assignedRole() === 'Participant';
-        if (isParticipant) return;
-        this.bookmark.set({ value: c.bookmark, state: 'valid' });
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const c = this.comment();
-        const isParticipant = this.assignedRole() === 'Participant';
-        if (!isParticipant) return;
-        const bookmarks = userBookmarks();
-        if (!bookmarks) {
-          this.bookmark.set({
-            value: false,
-            state: 'pending',
-          });
-          return;
-        }
-        this.bookmark.set({
-          value: Boolean(bookmarks.get(c.id)),
+    effect(() => {
+      const c = this.comment();
+      this.acknowledged.set({ value: c.ack, state: 'valid' });
+      if (c.correct === CorrectWrong.NULL) {
+        this.correct.set({ value: 0, state: 'valid' });
+      } else {
+        this.correct.set({
+          value: c.correct === CorrectWrong.CORRECT ? 1 : -1,
           state: 'valid',
         });
-      },
-      { allowSignalWrites: true },
-    );
+      }
+      this.bonus.set({ value: c.favorite, state: 'valid' });
+      const isParticipant = this.assignedRole() === 'Participant';
+      if (isParticipant) return;
+      this.bookmark.set({ value: c.bookmark, state: 'valid' });
+    });
+    effect(() => {
+      const c = this.comment();
+      const isParticipant = this.assignedRole() === 'Participant';
+      if (!isParticipant) return;
+      const bookmarks = userBookmarks();
+      if (!bookmarks) {
+        this.bookmark.set({
+          value: false,
+          state: 'pending',
+        });
+        return;
+      }
+      this.bookmark.set({
+        value: Boolean(bookmarks.get(c.id)),
+        state: 'valid',
+      });
+    });
   }
 
   private updateCommentTag() {

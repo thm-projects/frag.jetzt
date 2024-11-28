@@ -1,18 +1,33 @@
 <mat-card appearance="outlined">
   <h1>{{ "create-motd.title" | translate }}</h1>
   <div class="time-select">
-    <span>
+    <mat-form-field>
       <mat-label>
         {{ "create-motd.placeholder-time-start" | translate }}
       </mat-label>
-      <ngx-mat-timepicker [(ngModel)]="startDate"></ngx-mat-timepicker>
-    </span>
-    <span>
+      <input
+        matInput
+        [matTimepicker]="picker"
+        [(ngModel)]="startDate" />
+      <mat-timepicker-toggle
+        matIconSuffix
+        [for]="picker" />
+      <mat-timepicker #picker />
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>
         {{ "create-motd.placeholder-time-end" | translate }}
       </mat-label>
-      <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
-    </span>
+      <input
+        matInput
+        [matTimepicker]="endPicker"
+        [(ngModel)]="endDate" />
+      <mat-timepicker-toggle
+        matIconSuffix
+        [for]="endPicker" />
+      <mat-timepicker #endPicker />
+    </mat-form-field>
   </div>
   <mat-form-field>
     <mat-label>{{ "create-motd.label" | translate }}</mat-label>

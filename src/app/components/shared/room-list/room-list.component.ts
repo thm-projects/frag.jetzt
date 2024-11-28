@@ -54,6 +54,7 @@ const generateMultiSortFunc =
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
   styleUrls: ['./room-list.component.scss'],
+  standalone: false,
 })
 export class RoomListComponent implements OnInit, OnDestroy {
   user: User;

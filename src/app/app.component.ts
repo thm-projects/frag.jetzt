@@ -54,7 +54,6 @@ import {
   WebPushSubscription,
 } from './services/http/web-push.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ThemeService } from 'theme/theme.service';
 import { SessionService } from './services/util/session.service';
 import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
@@ -75,6 +74,7 @@ const PUSH_KEY = 'push-subscription';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   public static instance: AppComponent;
@@ -299,7 +299,6 @@ export class AppComponent implements OnInit {
     deviceState: DeviceStateService,
     initService: InitService,
     matomoService: MatomoTrackingService,
-    private themeService: ThemeService,
     // TODO remove after refactoring
     private readonly _sessionService: SessionService,
     private readonly _roomService: RoomService,
@@ -331,12 +330,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.initUpdates();
     this.initPush();
-    document.documentElement.classList.add('theme-target');
-    this.themeService.getTheme().subscribe((theme) => {
-      document.documentElement.classList.remove(this._lastClass);
-      document.documentElement.classList.add(theme.key);
-      this._lastClass = theme.key;
-    });
   }
 
   onScroll() {

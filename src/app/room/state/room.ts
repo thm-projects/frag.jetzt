@@ -26,6 +26,11 @@ export const enterRoom = (shortId: string) => {
 
 // room - fetching
 
+const isAvailable = computed(
+  () =>
+    INFOS[ConnectionService.WebSocket].status() === ConnectionStatus.Available,
+);
+
 export const room = fetchingSignal<[string, boolean, User], Room>({
   initialState: null,
   fetchingState: () => null,
@@ -41,11 +46,7 @@ export const room = fetchingSignal<[string, boolean, User], Room>({
       tap((room) => dataService.room.createOrUpdate(room).subscribe()),
     );
   },
-  provider: computed(() => [
-    shortId(),
-    INFOS[ConnectionService.WebSocket].status() === ConnectionStatus.Available,
-    user(),
-  ]),
+  provider: computed(() => [shortId(), isAvailable(), user()]),
 });
 
 // moderators - fetching

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-global-status-indicator',
   templateUrl: './global-status-indicator.component.html',
   styleUrls: ['./global-status-indicator.component.scss'],
+  standalone: false,
 })
 export class GlobalStatusIndicatorComponent implements OnInit, OnDestroy {
   status: GlobalCountChanged = null;

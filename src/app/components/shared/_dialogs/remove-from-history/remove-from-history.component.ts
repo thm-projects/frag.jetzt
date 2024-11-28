@@ -11,7 +11,6 @@ import { ContextPipe } from 'app/base/i18n/context.pipe';
   selector: 'app-remove-from-history',
   templateUrl: './remove-from-history.component.html',
   styleUrls: ['./remove-from-history.component.scss'],
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

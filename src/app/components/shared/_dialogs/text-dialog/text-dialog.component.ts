@@ -31,7 +31,6 @@ export const CLOSE_BUTTON = computed(() => {
 @Component({
   selector: 'app-text-dialog',
   templateUrl: './text-dialog.component.html',
-  standalone: true,
   imports: [
     MatButton,
     MatDialogContent,

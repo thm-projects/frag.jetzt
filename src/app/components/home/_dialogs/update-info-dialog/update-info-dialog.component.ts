@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-update-info-dialog',
   templateUrl: './update-info-dialog.component.html',
   styleUrls: ['./update-info-dialog.component.scss'],
-  standalone: true,
   imports: [CustomMarkdownModule, MatDialogModule, MatButtonModule],
 })
 export class UpdateInfoDialogComponent {

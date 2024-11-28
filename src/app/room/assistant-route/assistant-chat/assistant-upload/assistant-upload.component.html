@@ -1,5 +1,7 @@
 @if (state() === "uploading") {
   <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
+} @else if (state() === "processing") {
+  <mat-spinner></mat-spinner>
 } @else if (state() === "failed") {
   <mat-icon>error</mat-icon>
 } @else {

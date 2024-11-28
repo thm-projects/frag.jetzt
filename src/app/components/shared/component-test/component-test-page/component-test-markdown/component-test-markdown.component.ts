@@ -4,7 +4,6 @@ import { CustomMarkdownModule } from '../../../../../base/custom-markdown/custom
 
 @Component({
   selector: 'app-component-test-markdown',
-  standalone: true,
   imports: [CustomMarkdownModule],
   templateUrl: './component-test-markdown.component.html',
   styleUrl: './component-test-markdown.component.scss',

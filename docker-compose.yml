@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: SERVE
+      target: serve
     hostname: fragjetzt-frontend
     container_name: fragjetzt-frontend
     networks:

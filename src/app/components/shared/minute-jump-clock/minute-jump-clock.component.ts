@@ -7,9 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { HeaderService } from '../../../services/util/header.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ThemeService } from '../../../../theme/theme.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { TimeoutHelper } from 'app/utils/ts-utils';
 
@@ -17,6 +15,7 @@ import { TimeoutHelper } from 'app/utils/ts-utils';
   selector: 'app-minute-jump-clock',
   templateUrl: './minute-jump-clock.component.html',
   styleUrls: ['./minute-jump-clock.component.scss'],
+  standalone: false,
 })
 export class MinuteJumpClockComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -48,11 +47,7 @@ export class MinuteJumpClockComponent
   private _destroyer = new Subject();
   private _matcher: MediaQueryList;
 
-  constructor(
-    private readonly headerService: HeaderService,
-    private readonly deviceState: DeviceStateService,
-    private readonly themeService: ThemeService,
-  ) {}
+  constructor(private readonly deviceState: DeviceStateService) {}
 
   ngOnInit(): void {
     this._matcher = window.matchMedia('(max-width: ' + this.minWidth + 'px)');
@@ -64,10 +59,7 @@ export class MinuteJumpClockComponent
     this._destroyer.subscribe(() =>
       this._matcher.removeEventListener('change', func),
     );
-    this.themeService
-      .getTheme()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe(func);
+    this.update();
   }
 
   ngAfterViewInit() {
@@ -174,8 +166,7 @@ export class MinuteJumpClockComponent
     this.visible =
       (this.ignoreTooLessSpace ||
         (!this.deviceState.isMobile() && !this._matcher.matches)) &&
-      !this.deviceState.isSafari &&
-      this.themeService.currentTheme?.key !== 'projector';
+      !this.deviceState.isSafari;
     if (!this._initialized) {
       return;
     }

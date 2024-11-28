@@ -11,7 +11,6 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-response',
-  standalone: true,
   imports: [
     ArsModule,
     CustomMarkdownModule,

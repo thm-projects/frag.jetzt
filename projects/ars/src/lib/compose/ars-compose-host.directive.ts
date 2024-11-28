@@ -1,7 +1,8 @@
 import { AfterViewInit, Directive, EventEmitter, Input, Output, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector:'[arsComposeHost]'
+    selector: '[arsComposeHost]',
+    standalone: false
 })
 export class ArsComposeHostDirective implements AfterViewInit{
 

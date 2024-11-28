@@ -33,9 +33,12 @@ export const fetchingSignal = <In, Out>({
     untracked(() =>
       fetchedData.set({ input: value, output: fetchingState?.(value) }),
     );
-    lastSubscription = fetch(value).subscribe((output) =>
-      untracked(() => fetchedData.set({ input: value, output })),
-    );
+    lastSubscription = null;
+    setTimeout(() => {
+      lastSubscription = fetch(value).subscribe((output) =>
+        untracked(() => fetchedData.set({ input: value, output })),
+      );
+    });
     return fetchedData().output;
   });
 };

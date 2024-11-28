@@ -51,9 +51,9 @@
 .bar {
   padding: 2px;
   border-radius: 14px;
-  background-color: var(--sys-tertiary-container);
+  background-color: var(--mat-sys-tertiary-container);
 
   & .spent {
-    background-color: var(--sys-tertiary);
+    background-color: var(--mat-sys-tertiary);
   }
 }

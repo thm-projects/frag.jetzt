@@ -50,7 +50,6 @@ import {
   FilterTypeCounts,
   PeriodCounts,
 } from '../../../utils/filtered-data-access';
-import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
@@ -71,6 +70,7 @@ import { Filter } from 'app/room/comment/comment/comment.component';
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
+  standalone: false,
 })
 export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
@@ -154,7 +154,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private cloudDataService: TagCloudDataService,
-    private themeService: ThemeService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
@@ -168,12 +167,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     deviceState.mobile$
       .pipe(takeUntil(this._destroySubject))
       .subscribe((m) => (this.isMobile = m));
-    themeService
-      .getTheme()
-      .pipe(takeUntil(this._destroySubject))
-      .subscribe(() => {
-        this.updateQrCodeColors();
-      });
+    // TODO: Fix
+    this.updateQrCodeColors();
     this.questionNumberFormControl.valueChanges.subscribe((v) => {
       v = v || '';
       this.questionNumberOptions = this._allQuestionNumberOptions.filter((e) =>
@@ -588,11 +583,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   canShowURL() {
-    return (
-      this._matcher.matches &&
-      this.userRole > UserRole.PARTICIPANT &&
-      this.themeService.currentTheme?.key !== 'projector'
-    );
+    return this._matcher.matches && this.userRole > UserRole.PARTICIPANT;
   }
 
   editQuestion(comment: ForumComment) {

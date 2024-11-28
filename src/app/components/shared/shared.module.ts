@@ -66,10 +66,6 @@ import { IntroductionModerationComponent } from './_dialogs/introductions/introd
 import { IntroductionModerationDEComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-moderation/introduction-moderation-de.component';
 import { IntroductionModerationENComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-moderation/introduction-moderation-en.component';
 import { CommentNotificationDialogComponent } from './_dialogs/comment-notification-dialog/comment-notification-dialog.component';
-import {
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
 import { ToggleConversationComponent } from '../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
 import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
@@ -144,6 +140,7 @@ import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/mult
 import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
@@ -169,8 +166,6 @@ import { CommentModule } from 'app/room/comment/comment.module';
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
     CdkTrapFocus,
@@ -186,6 +181,7 @@ import { CommentModule } from 'app/room/comment/comment.module';
     AiChatComponent,
     QwDefaultPlaceholderComponent,
     CommentModule,
+    MatTimepickerModule,
   ],
   declarations: [
     RoomJoinComponent,

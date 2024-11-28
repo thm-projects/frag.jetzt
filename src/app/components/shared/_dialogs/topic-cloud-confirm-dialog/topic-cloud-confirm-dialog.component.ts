@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   selector: 'app-topic-cloud-confirm-dialog',
   templateUrl: './topic-cloud-confirm-dialog.component.html',
   styleUrls: ['./topic-cloud-confirm-dialog.component.scss'],
+  standalone: false,
 })
 export class TopicCloudConfirmDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}

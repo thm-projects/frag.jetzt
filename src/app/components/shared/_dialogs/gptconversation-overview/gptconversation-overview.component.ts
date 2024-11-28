@@ -10,6 +10,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-gptconversation-overview',
   templateUrl: './gptconversation-overview.component.html',
   styleUrls: ['./gptconversation-overview.component.scss'],
+  standalone: false,
 })
 export class GPTConversationOverviewComponent implements OnInit {
   roomConversations: GPTConversation[] = [];

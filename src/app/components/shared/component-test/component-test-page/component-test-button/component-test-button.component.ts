@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import { ComponentTestSubSectionComponent } from '../component-test-sub-section/component-test-sub-section.component';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { EssentialsModule } from '../../../../essentials/essentials.module';
-import { NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgForOf } from '@angular/common';
 
 interface ToggleButtonGroup {
   vertical: boolean;
@@ -18,18 +17,14 @@ interface ToggleButtonGroup {
 
 @Component({
   selector: 'app-component-test-button',
-  standalone: true,
   imports: [
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
-    ComponentTestSubSectionComponent,
     MatFormField,
     MatInput,
     EssentialsModule,
     NgForOf,
-    NgIf,
-    NgTemplateOutlet,
   ],
   templateUrl: './component-test-button.component.html',
   styleUrl: './component-test-button.component.scss',

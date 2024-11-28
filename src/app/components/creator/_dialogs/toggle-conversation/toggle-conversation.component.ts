@@ -7,6 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-toggle-conversation',
   templateUrl: './toggle-conversation.component.html',
   styleUrls: ['./toggle-conversation.component.scss'],
+  standalone: false,
 })
 export class ToggleConversationComponent implements OnInit {
   @Input() editorRoom: Readonly<Room>;

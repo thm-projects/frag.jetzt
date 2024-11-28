@@ -16,6 +16,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
     './livepoll-settings.component.scss',
     '../livepoll-common.scss',
   ],
+  standalone: false,
 })
 export class LivepollSettingsComponent implements OnDestroy {
   @Input() parent!: LivepollDialogComponent;

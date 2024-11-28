@@ -13,6 +13,7 @@ import { SessionService } from '../../../../services/util/session.service';
   selector: 'app-cloud-configuration',
   templateUrl: './cloud-configuration.component.html',
   styleUrls: ['./cloud-configuration.component.scss'],
+  standalone: false,
 })
 export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;

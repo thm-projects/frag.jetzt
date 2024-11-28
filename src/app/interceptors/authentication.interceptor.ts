@@ -10,8 +10,10 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { user } from 'app/user/state/user';
+import { room } from 'app/room/state/room';
 
 const AUTH_HEADER_KEY = 'Authorization';
+const ROOM_HEADER_KEY = 'Room-Id';
 const AUTH_SCHEME = 'Bearer';
 
 @Injectable()
@@ -58,8 +60,11 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if (!needsAuthentication) {
       return next.handle(req);
     }
+    const roomId = room()?.id || '';
     const cloned = req.clone({
-      headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`),
+      headers: req.headers
+        .set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
+        .set(ROOM_HEADER_KEY, roomId),
     });
 
     return next.handle(cloned).pipe(

@@ -7,7 +7,6 @@ const i18n = I18nLoader.load(i18nRaw);
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-default-placeholder',
-  standalone: true,
   imports: [],
   templateUrl: './qw-default-placeholder.component.html',
   styleUrl: './qw-default-placeholder.component.scss',

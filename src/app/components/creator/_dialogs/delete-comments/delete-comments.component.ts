@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'app-delete-comment',
   templateUrl: './delete-comments.component.html',
   styleUrls: ['./delete-comments.component.scss'],
+  standalone: false,
 })
 export class DeleteCommentsComponent implements OnInit {
   /**

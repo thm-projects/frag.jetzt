@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-fullscreen-image-dialog',
   templateUrl: './fullscreen-image-dialog.component.html',
   styleUrls: ['./fullscreen-image-dialog.component.scss'],
+  standalone: false,
 })
 export class FullscreenImageDialogComponent {
   @Input() src: string;

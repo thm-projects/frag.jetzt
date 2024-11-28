@@ -2,9 +2,9 @@
 @use "modules/m3/style/m3-typescale" as m3-typescale;
 
 .mat-mdc-unelevated-button:not(:disabled) {
-  background-color: var(--sys-secondary-container);
-  color: var(--sys-on-secondary-container);
-  --mat-filled-button-state-layer-color: var(--sys-on-secondary-container);
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  --mat-filled-button-state-layer-color: var(--mat-sys-on-secondary-container);
   --mat-filled-button-ripple-color: color-mix(
     in srgb,
     var(--mat-filled-button-state-layer-color) 12%,
@@ -13,8 +13,8 @@
 }
 
 .mat-mdc-button:not(:disabled) {
-  color: var(--sys-on-surface-variant);
-  --mat-text-button-state-layer-color: var(--sys-on-surface-variant);
+  color: var(--mat-sys-on-surface-variant);
+  --mat-text-button-state-layer-color: var(--mat-sys-on-surface-variant);
   --mat-text-button-ripple-color: color-mix(
     in srgb,
     var(--mat-text-button-state-layer-color) 12%,

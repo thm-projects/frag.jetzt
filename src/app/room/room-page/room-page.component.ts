@@ -42,13 +42,12 @@ import {
   MatListItem,
   MatListSubheaderCssMatStyler,
 } from '@angular/material/list';
-import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-room-page',
-  standalone: true,
   imports: [
     M3BodyPaneComponent,
     M3SupportingPaneComponent,
@@ -67,7 +66,6 @@ const i18n = I18nLoader.load(rawI18n);
     MatList,
     MatListItem,
     MatListSubheaderCssMatStyler,
-    DatePipe,
     NgTemplateOutlet,
   ],
   templateUrl: './room-page.component.html',
@@ -141,42 +139,39 @@ export class RoomPageComponent {
       sub.unsubscribe();
       updates.unsubscribe();
     });
-    effect(
-      (onCleanup) => {
-        const sub1 = this.roomState.assignedRole$
-          .pipe(map((role) => role !== 'Participant'))
-          .subscribe((privileged) => this.isPrivileged.set(privileged));
-        const sub5 = this.roomState.assignedRole$
-          .pipe(map((role) => role === 'Creator'))
-          .subscribe((creator) => this.isCreator.set(creator));
-        this.updateResponseCounter();
-        const sub2 = roomDataService.dataAccessor
-          .receiveUpdates([
-            { type: 'CommentCreated', finished: true },
-            { type: 'CommentDeleted', finished: true },
-            { type: 'CommentPatched', finished: true, updates: ['ack'] },
-          ])
-          .subscribe(() => {
-            this.updateResponseCounter();
-          });
-        const sub3 = roomDataService.observeUserCount().subscribe((text) => {
-          this.activeUsers.set(text);
+    effect((onCleanup) => {
+      const sub1 = this.roomState.assignedRole$
+        .pipe(map((role) => role !== 'Participant'))
+        .subscribe((privileged) => this.isPrivileged.set(privileged));
+      const sub5 = this.roomState.assignedRole$
+        .pipe(map((role) => role === 'Creator'))
+        .subscribe((creator) => this.isCreator.set(creator));
+      this.updateResponseCounter();
+      const sub2 = roomDataService.dataAccessor
+        .receiveUpdates([
+          { type: 'CommentCreated', finished: true },
+          { type: 'CommentDeleted', finished: true },
+          { type: 'CommentPatched', finished: true, updates: ['ack'] },
+        ])
+        .subscribe(() => {
+          this.updateResponseCounter();
         });
-        const sub4 = sessionService
-          .getModeratorsOnce()
-          .subscribe((moderators) => {
-            this.moderatorCount.set(moderators.length);
-          });
-        onCleanup(() => {
-          sub1.unsubscribe();
-          sub2.unsubscribe();
-          sub3.unsubscribe();
-          sub4.unsubscribe();
-          sub5.unsubscribe();
+      const sub3 = roomDataService.observeUserCount().subscribe((text) => {
+        this.activeUsers.set(text);
+      });
+      const sub4 = sessionService
+        .getModeratorsOnce()
+        .subscribe((moderators) => {
+          this.moderatorCount.set(moderators.length);
         });
-      },
-      { allowSignalWrites: true },
-    );
+      onCleanup(() => {
+        sub1.unsubscribe();
+        sub2.unsubscribe();
+        sub3.unsubscribe();
+        sub4.unsubscribe();
+        sub5.unsubscribe();
+      });
+    });
   }
 
   protected editSessionName() {

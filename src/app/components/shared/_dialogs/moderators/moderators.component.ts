@@ -36,6 +36,7 @@ function emailValidator(
   selector: 'app-moderators',
   templateUrl: './moderators.component.html',
   styleUrls: ['./moderators.component.scss'],
+  standalone: false,
 })
 export class ModeratorsComponent implements OnInit, OnDestroy {
   __debug = false;

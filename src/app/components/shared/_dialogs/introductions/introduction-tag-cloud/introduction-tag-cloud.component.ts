@@ -8,6 +8,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   selector: 'app-introduction-tag-cloud',
   templateUrl: './introduction-tag-cloud.component.html',
   styleUrls: ['./introduction-tag-cloud.component.scss'],
+  standalone: false,
 })
 export class IntroductionTagCloudComponent implements OnDestroy {
   currentLanguage: Language;

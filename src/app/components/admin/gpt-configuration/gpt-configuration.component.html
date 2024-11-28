@@ -129,12 +129,20 @@
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
-          <span class="time-select">
+
+          <mat-form-field class="time-select">
             <mat-label>
               {{ "gpt-config.restrict-end-date" | translate }}
             </mat-label>
-            <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
-          </span>
+            <input
+              matInput
+              [matTimepicker]="endPicker"
+              [(ngModel)]="endDate" />
+            <mat-timepicker-toggle
+              matIconSuffix
+              [for]="endPicker" />
+            <mat-timepicker #endPicker />
+          </mat-form-field>
         </div>
         <!-- Activation codes -->
         <mat-icon [matTooltip]="'gpt-config.help-activation-codes' | translate">
@@ -193,7 +201,7 @@
                     : {
                         code: item.code,
                         current: getQuotaMax(item),
-                        maxCost: getQuotaUsed(item)
+                        maxCost: getQuotaUsed(item),
                       }
               }}
             </div>
@@ -247,7 +255,7 @@
                   month: statistics.monthlyCounter.toFixed(2, 6),
                   week: statistics.weeklyCounter.toFixed(2, 6),
                   day: statistics.dailyCounter.toFixed(2, 6),
-                  date: prettyDate(statistics.lastUpdate)
+                  date: prettyDate(statistics.lastUpdate),
                 }
         }}
       </div>

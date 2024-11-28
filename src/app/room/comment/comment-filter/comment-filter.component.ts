@@ -7,6 +7,7 @@ import { commentsMeta } from 'app/room/state/comments';
   selector: 'app-comment-filter',
   templateUrl: './comment-filter.component.html',
   styleUrl: './comment-filter.component.scss',
+  standalone: false,
 })
 export class CommentFilterComponent {
   comment = input.required<ForumComment>();
@@ -14,13 +15,10 @@ export class CommentFilterComponent {
   protected readonly userCount = signal(0);
 
   constructor() {
-    effect(
-      () => {
-        const count = commentsMeta().userCount.get(this.comment()?.creatorId);
-        this.userCount.set(count?.topLevel || 0);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const count = commentsMeta().userCount.get(this.comment()?.creatorId);
+      this.userCount.set(count?.topLevel || 0);
+    });
   }
 
   protected selectFilter(filter: Filter) {

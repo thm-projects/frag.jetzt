@@ -40,6 +40,7 @@ const i18n = I18nLoader.load(i18nRaw);
   selector: 'app-question-wall',
   templateUrl: './question-wall.component.html',
   styleUrls: ['./question-wall.component.scss'],
+  standalone: false,
 })
 export class QuestionWallComponent implements OnInit, OnDestroy {
   protected readonly i18n = i18n;
