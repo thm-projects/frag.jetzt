@@ -320,7 +320,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             label: 'ml-room-create.q-t1-settings',
             defaultValue: previousState
               ? previousState?.get('settings').value
-              : false,
+              : true,
           },
         );
       },
@@ -375,7 +375,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             label: 'ml-room-create.q-t1-settings',
             defaultValue: previousState
               ? previousState?.get('settings').value
-              : false,
+              : true,
           },
         );
       },
