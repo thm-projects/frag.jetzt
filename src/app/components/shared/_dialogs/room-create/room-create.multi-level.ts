@@ -245,6 +245,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
       title: 'ml-room-create.q-1-header',
       stepHelp: 'ml-room-create.help.select-your-role',
       buildAction(_injector, _answers, previousState) {
+        const defaultRole = localStorage.getItem('preferredRole') || 'teacher';
         return buildInput(
           this,
           {
@@ -257,7 +258,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             label: 'ml-room-create.q-1-short',
             defaultValue: previousState
               ? previousState?.get('role-select').value
-              : 'teacher',
+              : defaultRole,
             options: [
               { value: 'teacher', label: 'ml-room-create.a-1-teacher' },
               { value: 'student', label: 'ml-room-create.a-1-student' },
