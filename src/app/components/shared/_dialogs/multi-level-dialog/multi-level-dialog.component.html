@@ -58,18 +58,18 @@
             }
             <div class="button-container">
               @if (isFirst) {
-                <button
-                  mat-button
-                  class="login-button"
-                   [ngClass]="isLoggedIn ? 'logout-button' : 'login-button'"
-                  (click)="isLoggedIn ? onLogoutClick() : onLoginClick()">
-                  <mat-icon>{{ isLoggedIn ? 'exit_to_app' : 'login' }}</mat-icon>
-                  {{ getButtonText() }}
-                </button>
+                <span style="flex: 1"></span>
                 <div class="logged-in-info" *ngIf="isLoggedIn">
                   <p>{{ getLoggedInText() }}</p>
                 </div>
-                <span style="flex: 1"></span>
+                <button
+                  mat-button
+                  class="login-button"
+                  [ngClass]="isLoggedIn ? 'logout-button' : 'login-button'"
+                  (click)="isLoggedIn ? onLogoutClick() : onLoginClick()">
+                  <mat-icon>{{ isLoggedIn ? 'logout' : 'login' }}</mat-icon>
+                  {{ getButtonText() }}
+                </button>
               }
               @if (!isFirst || showBackOption) {
                 <button
@@ -78,7 +78,6 @@
                   {{ i18n().previous }}
                 </button>
               }
-              <span style="flex: 1"></span>
               <button
                 mat-flat-button
                 class="secondary"
