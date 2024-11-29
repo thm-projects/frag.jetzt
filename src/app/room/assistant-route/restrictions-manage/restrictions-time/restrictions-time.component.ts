@@ -234,8 +234,11 @@ export class RestrictionsTimeComponent {
   }
 
   protected editTime(time: Time) {
-    this.preEditValue.set(this.inputTime.value);
+    const editing = this.currentEditTime();
     this.currentEditTime.set(time);
+    if (!editing) {
+      this.preEditValue.set(this.inputTime.value);
+    }
     this.inputTime.reset({
       startTime: time.start_time,
       endTime: time.end_time,

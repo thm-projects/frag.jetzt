@@ -67,6 +67,7 @@ export const generateRoom = (
   }
   // role
   const isTeacher = answers['role'].group?.value['role-select'] === 'teacher';
+  localStorage.setItem('preferredRole', isTeacher ? 'teacher' : 'student');
   const defaults = isTeacher ? DEFAULT_TEACHER : DEFAULT_STUDENT;
   // name + short id
   const name = answers['event'].group?.value.name;

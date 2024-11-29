@@ -74,17 +74,14 @@ export class CommentActionsComponent {
   private eventService = inject(EventService);
 
   constructor(sessionService: SessionService) {
-    effect(
-      () => {
-        const c = this.comment();
-        if (!c) return;
-        this.hasNotification.set({
-          value: this.dashboardNotificationService.hasCommentSubscription(c.id),
-          state: 'valid',
-        });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const c = this.comment();
+      if (!c) return;
+      this.hasNotification.set({
+        value: this.dashboardNotificationService.hasCommentSubscription(c.id),
+        state: 'valid',
+      });
+    });
     sessionService
       .getGPTStatusOnce()
       .subscribe((v) => this.canOpenGPT.set(Boolean(v) && !v.restricted));
