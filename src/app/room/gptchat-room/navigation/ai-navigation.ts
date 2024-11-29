@@ -1,7 +1,7 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
-import { Injector, Signal } from '@angular/core';
+import { Injector } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   getRoomHeader,
@@ -16,14 +16,12 @@ import {
   M3NavigationTemplate,
   getById,
 } from 'modules/navigation/m3-navigation.types';
-import { Change } from '../manage-ai/manage-ai.component';
-import { AssistantEntry } from '../gptchat-room.component';
 import { AssistantsManageComponent } from 'app/room/assistant-route/assistants-manage/assistants-manage.component';
 import { MatDialog } from '@angular/material/dialog';
+import { WrappedAssistant } from 'app/room/assistant-route/services/assistant-manage.service';
 
 export interface Data {
-  assistants: Signal<AssistantEntry[]>;
-  onOutput: (change: Change) => void;
+  onOutput: (change: WrappedAssistant[]) => void;
 }
 
 export const applyAiNavigation = (injector: Injector, data: Data) => {
@@ -66,10 +64,7 @@ export const getAiNavigation = (injector: Injector, data: Data) => {
               injector.get(MatDialog),
               'room',
             );
-            ref.afterClosed().subscribe(() => {
-              data.assistants();
-            });
-            // ManageAiComponent.open(injector, data.assistants, data.onOutput);
+            ref.afterClosed().subscribe((out) => data.onOutput(out));
             return false;
           },
         },

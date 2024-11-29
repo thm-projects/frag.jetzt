@@ -78,7 +78,7 @@ export class AssistantThreadService extends BaseHttpService {
       );
   }
 
-  newThread(roomId: string, input: string) {
+  newThread(roomId: string, input: string, assistantId: UUID) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.new}`;
     return postSSE(
       this.http,
@@ -87,13 +87,18 @@ export class AssistantThreadService extends BaseHttpService {
         message: {
           content: input,
         },
+        assistant_id: assistantId,
       },
       new HttpHeaders({ 'Room-Id': roomId }),
     );
   }
 
-  // TODO: Assistant Select
-  continueThread(roomId: string, threadId: string, input: string) {
+  continueThread(
+    roomId: string,
+    threadId: string,
+    input: string,
+    assistantId: UUID,
+  ) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.continue}/${threadId}`;
     return postSSE(
       this.http,
@@ -102,6 +107,7 @@ export class AssistantThreadService extends BaseHttpService {
         message: {
           content: input,
         },
+        assistant_id: assistantId,
       },
       new HttpHeaders({ 'Room-Id': roomId }),
     );
