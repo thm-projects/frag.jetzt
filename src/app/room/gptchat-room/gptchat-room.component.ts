@@ -497,6 +497,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private onUpdate(refs: WrappedAssistant[]) {
+    if (!refs) return;
     this.assistRefs.set(refs);
     const selected = this.selectedAssistant();
     if (selected && !refs.find((e) => e.assistant.id === selected)) {
