@@ -16,17 +16,17 @@
   <div class="button-wrapper">
     <button
       mat-flat-button
-      class="secondary"
       [disabled]="theme() === 'light'"
       (click)="theme.set('light')">
       <mat-icon>light_mode</mat-icon>
+      {{ i18n().switchLight }}
     </button>
     <button
       mat-flat-button
-      class="secondary"
       [disabled]="theme() === 'dark'"
       (click)="theme.set('dark')">
       <mat-icon>dark_mode</mat-icon>
+      {{ i18n().switchDark }}
     </button>
   </div>
 
