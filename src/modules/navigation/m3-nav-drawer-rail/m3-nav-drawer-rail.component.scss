@@ -58,6 +58,7 @@ mat-drawer-container {
     }
 
     > ::ng-deep .mat-drawer-inner-container {
+      background-color: var(--mat-sys-surface-container-high);
       display: grid;
       grid-template-rows: var(--nav-grid-rows);
       height: calc(100% - 2 * var(--nav-margin));
