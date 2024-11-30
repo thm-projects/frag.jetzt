@@ -1,8 +1,7 @@
-<h2 mat-dialog-title>
-  {{ i18n().title }}
-</h2>
-
 <mat-dialog-content class="custom scrollable-dialog-content">
+  <h2>
+    {{ i18n().title }}
+  </h2>
   <div
     #container
     class="container"
@@ -22,7 +21,7 @@
   <div class="button-wrapper">
     <button
       mat-flat-button
-      color="primary"
+      class="secondary"
       [disabled]="theme() === 'light'"
       (click)="theme.set('light')">
       <mat-icon>light_mode</mat-icon>
@@ -30,7 +29,7 @@
     </button>
     <button
       mat-flat-button
-      color="primary"
+      class="secondary"
       [disabled]="theme() === 'dark'"
       (click)="theme.set('dark')">
       <mat-icon>dark_mode</mat-icon>
@@ -42,7 +41,7 @@
 
   <div class="button-wrapper">
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'low'"
       (click)="contrast.set('low')">
@@ -50,15 +49,14 @@
       {{ i18n().low }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'normal'"
       (click)="contrast.set('normal')">
       <mat-icon>brightness_low</mat-icon>
-      {{ i18n().normal }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'medium'"
       (click)="contrast.set('medium')">
@@ -66,7 +64,7 @@
       {{ i18n().medium }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'high'"
       (click)="contrast.set('high')">
@@ -86,25 +84,6 @@
     </mat-card-content>
 
     <mat-card-actions class="button-wrapper">
-      <button
-        mat-icon-button
-        aria-label="Symbol">
-        <mat-icon>favorite</mat-icon>
-      </button>
-
-      <button
-        mat-button
-        aria-label="Symbol mit Text">
-        <mat-icon>favorite</mat-icon>
-        {{ i18n().iconText }}
-      </button>
-
-      <button
-        mat-button
-        aria-label="Einfacher Text">
-        {{ i18n().tertiary }}
-      </button>
-
       <button
         mat-stroked-button
         color="primary"
@@ -134,13 +113,6 @@
       color="primary"
       aria-label="Aktion">
       <mat-icon>favorite</mat-icon>
-    </button>
-    <button
-      mat-fab
-      color="primary"
-      class="extended-fab">
-      <mat-icon>favorite</mat-icon>
-      {{ i18n().CTA }}
     </button>
   </div>
 </mat-dialog-content>
