@@ -1,18 +1,4 @@
 <mat-dialog-content class="custom scrollable-dialog-content">
-  <div
-    #container
-    class="container"
-    (click)="onMouse(container, $event, false)"
-    (mousedown)="onMouse(container, $event, false)"
-    (mousemove)="onMouse(container, $event, true)"
-    (touchstart)="onTouch(container, $event)"
-    (touchmove)="onTouch(container, $event)"
-    (touchend)="onTouch(container, $event)">
-    <span
-      [style]="dotStyle()"
-      class="dot"></span>
-  </div>
-
   <div class="button-wrapper">
     <button
       mat-flat-button
@@ -28,6 +14,20 @@
       <mat-icon>dark_mode</mat-icon>
       {{ i18n().switchDark }}
     </button>
+  </div>
+
+  <div
+    #container
+    class="container"
+    (click)="onMouse(container, $event, false)"
+    (mousedown)="onMouse(container, $event, false)"
+    (mousemove)="onMouse(container, $event, true)"
+    (touchstart)="onTouch(container, $event)"
+    (touchmove)="onTouch(container, $event)"
+    (touchend)="onTouch(container, $event)">
+    <span
+      [style]="dotStyle()"
+      class="dot"></span>
   </div>
 
   <div class="button-wrapper">
