@@ -1,7 +1,4 @@
 <mat-dialog-content class="custom scrollable-dialog-content">
-  <h2>
-    {{ i18n().title }}
-  </h2>
   <div
     #container
     class="container"
@@ -16,8 +13,6 @@
       class="dot"></span>
   </div>
 
-  <h2>{{ i18n().appearance }}</h2>
-
   <div class="button-wrapper">
     <button
       mat-flat-button
@@ -25,7 +20,6 @@
       [disabled]="theme() === 'light'"
       (click)="theme.set('light')">
       <mat-icon>light_mode</mat-icon>
-      {{ i18n().switchLight }}
     </button>
     <button
       mat-flat-button
@@ -33,11 +27,8 @@
       [disabled]="theme() === 'dark'"
       (click)="theme.set('dark')">
       <mat-icon>dark_mode</mat-icon>
-      {{ i18n().switchDark }}
     </button>
   </div>
-
-  <h2>{{ i18n().contrast }}</h2>
 
   <div class="button-wrapper">
     <button
@@ -46,7 +37,6 @@
       [disabled]="contrast() === 'low'"
       (click)="contrast.set('low')">
       <mat-icon>brightness_4</mat-icon>
-      {{ i18n().low }}
     </button>
     <button
       mat-icon-button
@@ -61,7 +51,6 @@
       [disabled]="contrast() === 'medium'"
       (click)="contrast.set('medium')">
       <mat-icon>brightness_medium</mat-icon>
-      {{ i18n().medium }}
     </button>
     <button
       mat-icon-button
@@ -69,7 +58,6 @@
       [disabled]="contrast() === 'high'"
       (click)="contrast.set('high')">
       <mat-icon>brightness_high</mat-icon>
-      {{ i18n().high }}
     </button>
   </div>
 
@@ -87,23 +75,17 @@
       <button
         mat-stroked-button
         color="primary"
-        aria-label="Rahmen">
-        {{ i18n().secondary }}
-      </button>
+        aria-label="Rahmen"></button>
 
       <button
         mat-flat-button
         class="secondary"
-        aria-label="Ausgefüllt">
-        {{ i18n().tonal }}
-      </button>
+        aria-label="Ausgefüllt"></button>
 
       <button
         mat-flat-button
         color="primary"
-        aria-label="Ausgefüllt">
-        {{ i18n().primary }}
-      </button>
+        aria-label="Ausgefüllt"></button>
     </mat-card-actions>
   </mat-card>
 
