@@ -14,14 +14,14 @@ import {
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { actualTheme, setTheme, theme } from 'app/base/theme/theme';
+import { setTheme, theme } from 'app/base/theme/theme';
 import { MatCardModule } from '@angular/material/card';
 import {
   DEFAULT_COLOR,
   setThemeSourceColor,
   themeSourceColor,
 } from 'app/base/theme/apply-system-variables';
-import { actualContrast, setContrast } from 'app/base/theme/contrast';
+import { contrast, setContrast } from 'app/base/theme/contrast';
 
 @Component({
   selector: 'app-theme-color',
@@ -32,15 +32,15 @@ import { actualContrast, setContrast } from 'app/base/theme/contrast';
 export class ThemeColorComponent implements AfterViewChecked {
   protected readonly dotStyle = computed(() => `left: ${this.dist()}px;`);
   protected readonly i18n = i18n;
-  protected readonly theme = signal(actualTheme());
-  protected readonly contrast = signal(actualContrast());
+  protected readonly theme = signal(theme());
+  protected readonly contrast = signal(contrast());
   private container = viewChild('container', {
     read: ElementRef<HTMLDivElement>,
   });
   private ref = inject(MatDialogRef<ThemeColorComponent>);
   private startColor = themeSourceColor();
   private beforeTheme = theme();
-  private beforeContrast = actualContrast();
+  private beforeContrast = contrast();
   private dist = signal(0);
   private hue = signal(0);
 
@@ -109,10 +109,10 @@ export class ThemeColorComponent implements AfterViewChecked {
 
     setThemeSourceColor(DEFAULT_COLOR); //'#769CDF'
 
-    this.theme.set('light');
+    this.theme.set('system');
     setTheme(this.theme());
 
-    this.contrast.set('normal');
+    this.contrast.set('system');
     setContrast(this.contrast());
   }
 
