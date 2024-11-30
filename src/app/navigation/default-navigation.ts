@@ -30,7 +30,7 @@ import {
   language,
   setLanguage,
 } from 'app/base/language/language';
-import { setTheme, theme } from 'app/base/theme/theme';
+import { theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
@@ -38,7 +38,7 @@ import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
 import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
-import { contrast, setContrast } from 'app/base/theme/contrast';
+import { contrast } from 'app/base/theme/contrast';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -70,7 +70,7 @@ export const getDefaultHeader = (
     toObservable(contrast),
     onlineStateService.online$,
   ]).pipe(
-    map(([user, i18n, theme, contrast, isOnline]) => {
+    map(([user, i18n, isOnline]): M3HeaderTemplate => {
       const isHome = router.url.startsWith('/home');
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
       const isGuestUser = user?.isGuest;
@@ -160,74 +160,12 @@ export const getDefaultHeader = (
             ),
           },
           {
-            id: 'theme',
-            icon: 'settings_brightness',
+            icon: 'format_color_fill',
             title: i18n.header.theme,
-            items: [
-              {
-                icon: theme === 'light' ? 'check' : 'light_mode',
-                disabled: theme === 'light',
-                title: i18n.header.light,
-                onClick: () => setTheme('light'),
-              },
-              {
-                icon: theme === 'dark' ? 'check' : 'dark_mode',
-                disabled: theme === 'dark',
-                title: i18n.header.dark,
-                onClick: () => setTheme('dark'),
-              },
-              {
-                icon: theme === 'system' ? 'check' : 'nights_stay',
-                disabled: theme === 'system',
-                title: i18n.header.system,
-                onClick: () => setTheme('system'),
-              },
-            ],
-          },
-          {
-            id: 'contrast',
-            icon: 'contrast_square',
-            title: i18n.header.contrast,
-            items: [
-              {
-                icon: contrast === 'low' ? 'check' : 'brightness_4',
-                disabled: contrast === 'low',
-                title: i18n.header.low,
-                onClick: () => setContrast('low'),
-              },
-              {
-                icon: contrast === 'normal' ? 'check' : 'brightness_low',
-                disabled: contrast === 'normal',
-                title: i18n.header.normal,
-                onClick: () => setContrast('normal'),
-              },
-              {
-                icon: contrast === 'medium' ? 'check' : 'brightness_medium',
-                disabled: contrast === 'medium',
-                title: i18n.header.medium,
-                onClick: () => setContrast('medium'),
-              },
-              {
-                icon: contrast === 'high' ? 'check' : 'brightness_high',
-                disabled: contrast === 'high',
-                title: i18n.header.high,
-                onClick: () => setContrast('high'),
-              },
-              {
-                icon: contrast === 'system' ? 'check' : 'contrast',
-                disabled: contrast === 'system',
-                title: i18n.header.system,
-                onClick: () => setContrast('system'),
-              },
-            ],
-          },
-          {
-            icon: 'palette',
-            title: i18n.header.baseColor,
             onClick: () => openThemeColor(injector),
           },
         ],
-      };
+      } as M3HeaderTemplate;
     }),
   );
 };
