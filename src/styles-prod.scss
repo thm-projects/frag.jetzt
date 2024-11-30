@@ -282,6 +282,10 @@ $min-width: 360px;
   width: auto;
 }
 
+.mat-badge-above .mat-badge-content {
+  bottom: unset !important;
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: auto;
