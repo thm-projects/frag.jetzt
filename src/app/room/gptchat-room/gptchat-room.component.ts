@@ -40,6 +40,8 @@ import { AiChatComponent } from './ai-chat/ai-chat.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   AssistantThreadService,
+  BaseMessage,
+  InputMessage,
   Thread,
 } from '../assistant-route/services/assistant-thread.service';
 import { AssistantsManageComponent } from '../assistant-route/assistants-manage/assistants-manage.component';
@@ -48,6 +50,7 @@ import {
   AssistantManageService,
   WrappedAssistant,
 } from '../assistant-route/services/assistant-manage.service';
+import { UUID } from 'app/utils/ts-utils';
 
 interface ThreadEntry {
   ref: Thread;
@@ -57,15 +60,22 @@ interface ThreadEntry {
   messages: Message[];
 }
 
-const transformMessage = (m: unknown): Message => {
+const transformMessage = (m: BaseMessage): Message => {
+  const v = m.content;
+  const content: Content[] =
+    typeof v === 'string'
+      ? [
+          {
+            type: 'text',
+            text: { value: v, annotations: [] },
+          },
+        ]
+      : (v as unknown as Content[]);
+  const ids = (m.additional_kwargs?.attachments || []) as UUID[];
   return {
     role: m['type'] === 'human' ? 'user' : 'assistant',
-    content: [
-      {
-        type: 'text',
-        text: { value: m['content'], annotations: [] },
-      },
-    ],
+    content,
+    attachments: ids.map((id) => ({ file_id: id, tools: [] })),
   } satisfies Message;
 };
 
@@ -130,8 +140,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         return;
       }
       this.assistantThread.getMessages(thread.ref.id).subscribe((messages) => {
-        messages = messages.map(transformMessage);
-        thread.messages = messages as Message[];
+        thread.messages = messages.map(transformMessage) as Message[];
         thread.fetched = true;
         this.currentMessages.set([...thread.messages]);
       });
@@ -348,18 +357,23 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     const roomId = this.roomState.getCurrentRoom().id;
     let data: Observable<unknown> = of(null);
-    // TODO: Add attachments (files or images) to message
+    const message: InputMessage = {
+      content: msg,
+      additional_kwargs: { attachments: files.map((f) => f.id) },
+      type: 'human',
+    };
     if (!thread) {
-      data = this.assistantThread.newThread(roomId, msg, assistantId);
+      data = this.assistantThread.newThread(roomId, message, assistantId);
     } else {
       data = this.assistantThread.continueThread(
         roomId,
         thread.ref.id,
-        msg,
         assistantId,
+        message,
       );
     }
     let newMessage: Message = null;
+    let messageCount = -1;
     data.subscribe({
       next: (data) => {
         const sse = data as ServerSentEvent;
@@ -378,24 +392,29 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           });
           this.selectedThread.set(threadEntry);
         } else if (sse.event === 'value') {
-          const messages = sse.jsonData()['messages'] as Message[];
+          const messages = sse.jsonData()['messages'] as BaseMessage[];
           if (newMessage == null) {
-            this.selectedThread().messages.push(
-              transformMessage(messages[messages.length - 1]),
-            );
-            this.currentMessages.set([...this.selectedThread().messages]);
+            if (messages.length > messageCount) {
+              this.selectedThread().messages.push(
+                transformMessage(messages[messages.length - 1]),
+              );
+              this.currentMessages.set([...this.selectedThread().messages]);
+              messageCount = messages.length;
+            }
           } else {
             const v = transformMessage(messages[messages.length - 1]);
             for (const key of Object.keys(v)) {
               newMessage[key] = v[key];
             }
             this.currentMessages.set([...this.selectedThread().messages]);
+            messageCount += 1;
           }
           newMessage = null;
         } else if (sse.event === 'message') {
           if (newMessage == null) {
-            newMessage = transformMessage(sse.jsonData());
+            newMessage = transformMessage(sse.jsonData() as BaseMessage);
             this.selectedThread().messages.push(newMessage);
+            messageCount += 1;
           }
           const delta = sse.jsonData()['content'];
           if (!newMessage.content) {

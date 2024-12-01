@@ -9,6 +9,74 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
+export interface MessageAdditionalKwargs {
+  attachments: UUID[];
+}
+
+export interface Message {
+  content: string | (string | Record<string, unknown>)[];
+  additional_kwargs: MessageAdditionalKwargs | Record<string, unknown>;
+  response_metadata: Record<string, unknown>;
+  type: string;
+  name?: string;
+  id?: string;
+}
+
+export interface ToolMessage extends Message {
+  tool_call_id: string;
+  type: 'tool';
+  artifact?: unknown;
+  status: 'success' | 'error';
+}
+
+export interface SystemMessage extends Message {
+  type: 'system';
+}
+
+export interface HumanMessage extends Message {
+  type: 'human';
+  example: boolean;
+}
+
+export interface AiMessage extends Message {
+  type: 'ai';
+  example: boolean;
+  tool_calls: {
+    name: string;
+    args: Record<string, unknown>;
+    id?: string;
+    type?: 'tool_call';
+  }[];
+  invalid_tool_calls: {
+    name?: string;
+    args?: string;
+    id?: string;
+    error?: string;
+    type?: 'invalid_tool_call';
+  }[];
+  usage_metadata: {
+    input_tokens: number;
+    output_tokens: number;
+    total_tokens: number;
+    input_token_details?: {
+      audio: number;
+      cache_creation: number;
+      cache_read: number;
+    };
+    output_token_details?: {
+      audio: number;
+      reasoning: number;
+    };
+  };
+}
+
+export type InputMessage = Pick<Message, 'content'> & {
+  type?: 'human' | 'ai' | 'tool' | 'system';
+  additional_kwargs?: MessageAdditionalKwargs;
+};
+
+export type BaseMessage = Message & Record<string, unknown>;
+
 type ThreadShareType =
   | 'NONE'
   | 'CHAT_VIEW'
@@ -78,15 +146,13 @@ export class AssistantThreadService extends BaseHttpService {
       );
   }
 
-  newThread(roomId: string, input: string, assistantId: UUID) {
+  newThread(roomId: string, message: InputMessage, assistantId: UUID) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.new}`;
     return postSSE(
       this.http,
       url,
       {
-        message: {
-          content: input,
-        },
+        message,
         assistant_id: assistantId,
       },
       new HttpHeaders({ 'Room-Id': roomId }),
@@ -96,17 +162,15 @@ export class AssistantThreadService extends BaseHttpService {
   continueThread(
     roomId: string,
     threadId: string,
-    input: string,
     assistantId: UUID,
+    message: InputMessage | null = null,
   ) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.continue}/${threadId}`;
     return postSSE(
       this.http,
       url,
       {
-        message: {
-          content: input,
-        },
+        message: message || {},
         assistant_id: assistantId,
       },
       new HttpHeaders({ 'Room-Id': roomId }),
@@ -115,6 +179,6 @@ export class AssistantThreadService extends BaseHttpService {
 
   getMessages(threadId: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.messages}/${threadId}`;
-    return this.http.get<unknown[]>(url, httpOptions).pipe(tap(() => ''));
+    return this.http.get<BaseMessage[]>(url, httpOptions).pipe(tap(() => ''));
   }
 }
