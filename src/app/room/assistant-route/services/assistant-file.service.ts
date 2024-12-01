@@ -34,6 +34,8 @@ export class UploadedFile {
   }
 }
 
+export type FileInfo = Pick<UploadedFile, 'id' | 'name'>;
+
 interface SuccessfulUpload {
   result: 'OK';
   file: UploadedFile;
@@ -48,6 +50,7 @@ export class AssistantFileService extends BaseHttpService {
   private apiUrl = {
     base: '/ai',
     file: '/file',
+    info: '/info',
     upload: '/upload',
     delete: '/delete',
     content: '/content',
@@ -90,5 +93,10 @@ export class AssistantFileService extends BaseHttpService {
   getFileContent(fileId: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.file}${this.apiUrl.content}/${fileId}`;
     return this.http.get(url, { responseType: 'arraybuffer' });
+  }
+
+  getFileInfo(fileId: string) {
+    const url = `${this.apiUrl.base}${this.apiUrl.file}${this.apiUrl.info}/${fileId}`;
+    return this.http.get<UploadedFile | FileInfo>(url);
   }
 }
