@@ -23,7 +23,6 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { language } from 'app/base/language/language';
 import {
-  AssistantReference,
   AssistantsService,
   FileObject,
   Message,
@@ -37,7 +36,6 @@ import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { MatMenuModule } from '@angular/material/menu';
-import { AssistantEntry } from '../gptchat-room.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   AssistantChatComponent,
@@ -46,6 +44,10 @@ import {
 } from '../../assistant-route/assistant-chat/assistant-chat.component';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 import { UploadedFile } from 'app/room/assistant-route/services/assistant-file.service';
+import {
+  Assistant,
+  WrappedAssistant,
+} from 'app/room/assistant-route/services/assistant-manage.service';
 
 interface OverriddenMessage extends Message {
   chunks: string[];
@@ -85,9 +87,10 @@ export class AiChatComponent {
   selectedThread = input.required<unknown | null>();
   canSend = input.required<boolean>();
   isPrivileged = input.required<boolean>();
-  assistRefs = input.required<AssistantEntry[]>();
+  sortedAssistRefs = input.required<WrappedAssistant[]>();
+  selectedAssistantName = input.required<string>();
   overrideMessage = input<string>();
-  selectedAssistant = model.required<AssistantReference['id']>();
+  selectedAssistant = model.required<Assistant['id']>();
   onNewClick = input.required<() => void>();
   onSend =
     input.required<(message: string, files: UploadedFile[]) => boolean>();
@@ -132,33 +135,6 @@ export class AiChatComponent {
   );
   private assistants = inject(AssistantsService);
   private roomState = inject(RoomStateService);
-
-  protected selectedAssistantName = computed(() => {
-    const selectedId = this.selectedAssistant();
-    const selectedEntry = this.assistRefs().find(
-      (entry) => entry.ref.id === selectedId,
-    );
-    return selectedEntry ? selectedEntry.assistant.name : this.i18n().assistant;
-  });
-
-  protected sortedAssistRefs = computed(() => {
-    const selectedId = this.selectedAssistant();
-    const assistRefs = this.assistRefs();
-
-    const otherAssistants = assistRefs.filter(
-      (entry) => entry.ref.id !== selectedId,
-    );
-    const sortedOtherAssistants = otherAssistants.sort((a, b) =>
-      a.assistant.name.localeCompare(b.assistant.name),
-    );
-    const selectedAssistant = assistRefs.find(
-      (entry) => entry.ref.id === selectedId,
-    );
-
-    return selectedAssistant
-      ? [selectedAssistant, ...sortedOtherAssistants]
-      : sortedOtherAssistants;
-  });
 
   exampleTopics = [
     {

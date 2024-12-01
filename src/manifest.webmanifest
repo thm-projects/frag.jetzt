@@ -4,14 +4,12 @@
   "description": "Revolutionizing the way we ask questions and receive AI-driven answers, 'frag.jetzt' is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
   "categories": [
     "ChatGPT",
-    "AI Tutoring",
+    "AI Assistants",
     "Education",
     "Q&A",
     "Feedback",
     "Audience Response System",
-    "Personal Learning Environment",
-    "PLE",
-    "ARS"
+    "Personal Learning Environment"
   ],
   "lang": "de",
   "icons": [
@@ -58,8 +56,8 @@
       ]
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#1c1c1e",
+  "theme_color": "#000000",
+  "background_color": "#018000",
   "scope": "/",
   "start_url": "/home",
   "id": "/home",

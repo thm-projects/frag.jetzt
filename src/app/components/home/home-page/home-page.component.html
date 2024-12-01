@@ -9,6 +9,7 @@
     *ngIf="!featureState">
     <div
       class="flex-container book-room-container"
+      style="padding: 0 5em"
       fxLayout="column">
       <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
       <div
@@ -31,6 +32,7 @@
   </m3-supporting-pane>
   <m3-supporting-pane
     class="grid-pane"
+    style="padding-left: 0"
     [priority]="featureState ? 'primary' : 'secondary'"
     type="flexible">
     <app-feature-grid></app-feature-grid>

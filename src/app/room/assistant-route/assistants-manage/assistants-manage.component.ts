@@ -24,7 +24,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -79,6 +83,8 @@ interface UploadInfo {
   progress: WritableSignal<number>;
 }
 
+const DUMMY = [];
+
 @Component({
   selector: 'app-assistants-manage',
   imports: [
@@ -116,7 +122,7 @@ export class AssistantsManageComponent {
     provider_list: new FormControl([]), // 1024 by db
     override_json_settings: this.formBuilder.array([]),
   });
-  protected readonly assistants = signal<AssistantEntry[]>([]);
+  protected readonly assistants = signal<AssistantEntry[]>(DUMMY);
   protected readonly saving = signal(false);
   protected readonly editing = signal<AssistantEntry | null>(null);
   protected readonly files = signal<FileEntry[]>([]);
@@ -147,6 +153,7 @@ export class AssistantsManageComponent {
   private readonly notification = inject(NotificationService);
   private readonly listRef = viewChild<ElementRef<HTMLElement>>('listRef');
   private readonly formRef = viewChild<ElementRef<HTMLElement>>('formRef');
+  private ref = inject(MatDialogRef);
 
   constructor() {
     this.apiService.listProviders().subscribe((providers) => {
@@ -358,6 +365,11 @@ export class AssistantsManageComponent {
       });
     form.resetForm();
     this.reset();
+  }
+
+  protected close() {
+    const assistants = this.assistants();
+    this.ref.close(assistants === DUMMY ? null : assistants);
   }
 
   private patchAssistant() {
