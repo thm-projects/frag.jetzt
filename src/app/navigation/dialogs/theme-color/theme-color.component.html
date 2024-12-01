@@ -20,7 +20,7 @@
       [disabled]="theme() === 'system'"
       (click)="theme.set('system')">
       <mat-icon>contrast</mat-icon>
-      {{ i18n().system }}
+      {{ i18n().global.system }}
     </button>
   </div>
 
@@ -126,7 +126,7 @@
     color="primary"
     (click)="resetAll()"
     aria-label="Reset">
-    {{ i18n().reset }}
+    {{ i18n().global.reset }}
   </button>
   <span style="flex: 1"></span>
   <button
