@@ -434,3 +434,9 @@ ul {
     max-height: 100%;
   }
 }
+
+// toggle and radio buttons
+
+.mat-internal-form-field > label {
+  padding-left: 16px !important;
+}
