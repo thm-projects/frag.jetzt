@@ -36,6 +36,14 @@
       <mat-icon>dark_mode</mat-icon>
       {{ i18n().switchDark }}
     </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="theme() === 'system'"
+      (click)="theme.set('system')">
+      <mat-icon>contrast</mat-icon>
+      {{ i18n().system }}
+    </button>
   </div>
 
   <h2>{{ i18n().contrast }}</h2>
@@ -72,6 +80,14 @@
       (click)="contrast.set('high')">
       <mat-icon>brightness_high</mat-icon>
       {{ i18n().high }}
+    </button>
+    <button
+      mat-stroked-button
+      color="accent"
+      [disabled]="contrast() === 'system'"
+      (click)="contrast.set('system')">
+      <mat-icon>contrast</mat-icon>
+      {{ i18n().system }}
     </button>
   </div>
 

@@ -19,7 +19,8 @@
     "high": "Hoch",
     "icon": "Icon-Button",
     "CTA": "Hauptaktion (CTA)",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "system": "Automatisch"
   },
   "en": {
     "title": "Accent Color",
@@ -40,7 +41,8 @@
     "high": "High",
     "icon": "Icon Button",
     "CTA": "Main Action (CTA)",
-    "reset": "Reset"
+    "reset": "Reset",
+    "system": "Automatic"
   },
   "fr": {
     "title": "Couleur d’accentuation",
@@ -61,6 +63,7 @@
     "high": "Élevé",
     "icon": "Bouton Icône",
     "CTA": "Action principale (CTA)",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "system": "Automatique"
   }
 }
