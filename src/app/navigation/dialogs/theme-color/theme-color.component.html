@@ -14,6 +14,13 @@
       <mat-icon>dark_mode</mat-icon>
       {{ i18n().switchDark }}
     </button>
+    <button
+      mat-icon-button
+      color="accent"
+      [disabled]="theme() === 'system'"
+      (click)="theme.set('system')">
+      <mat-icon>night_sight_auto</mat-icon>
+    </button>
   </div>
 
   <div
@@ -58,6 +65,13 @@
       [disabled]="contrast() === 'high'"
       (click)="contrast.set('high')">
       <mat-icon>brightness_high</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="accent"
+      [disabled]="contrast() === 'system'"
+      (click)="contrast.set('system')">
+      <mat-icon>night_sight_auto</mat-icon>
     </button>
   </div>
 
@@ -107,6 +121,13 @@
     {{ i18n().global.cancel }}
   </button>
   <span style="flex: 1"></span>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="resetAll()"
+    aria-label="Reset">
+    {{ i18n().global.reset }}
+  </button>
   <button
     mat-flat-button
     color="primary"
