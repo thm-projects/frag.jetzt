@@ -304,7 +304,7 @@ export class AssistantsManageComponent {
         key: [key, Validators.required],
         value: [''],
       });
-      newEntry.get('property').disable();
+      newEntry.get('key').disable();
       t.push(newEntry);
     }
   }

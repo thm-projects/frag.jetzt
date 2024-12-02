@@ -159,7 +159,14 @@
       </mat-icon>
     </mat-form-field>
 
-    <h3>{{ i18n().overrideJson }}</h3>
+    <h3>
+      {{ i18n().overrideJson }}
+      <mat-icon
+        [matTooltip]="i18n().temperature"
+        style="vertical-align: bottom">
+        info
+      </mat-icon>
+    </h3>
     <!-- TODO add info button for temperature -->
     <ng-container formArrayName="override_json_settings">
       @for (override of getJsonSettings(); track override; let i = $index) {
@@ -190,7 +197,7 @@
           }
 
           @if (override.get("type").value === "range") {
-            <div style="margin-bottom: 1em">
+            <div style="margin-bottom: 1em; margin-bottom: 2em">
               <mat-label id="{{ override.get('property').value + '-label' }}">
                 {{ override.get("property").value }}
               </mat-label>
