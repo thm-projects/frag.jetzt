@@ -261,7 +261,11 @@
     <!-- Files -->
     <h3>
       {{ i18n().files }}
-      <mat-icon [matTooltip]="i18n().fileInfo">info</mat-icon>
+      <mat-icon
+        [matTooltip]="i18n().fileInfo"
+        style="vertical-align: bottom">
+        info
+      </mat-icon>
     </h3>
     @if (uploadInfo(); as info) {
       <div class="inline-wrapper">
