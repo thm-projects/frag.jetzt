@@ -57,6 +57,7 @@ import { MatListModule } from '@angular/material/list';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
 import {
   AssistantFileService,
   UploadedFile,
@@ -124,6 +125,7 @@ const DUMMY = [];
     CollapsibleTextComponent,
     MatListModule,
     MatProgressBarModule,
+    MatSliderModule,
   ],
   templateUrl: './assistants-manage.component.html',
   styleUrl: './assistants-manage.component.scss',
@@ -282,17 +284,29 @@ export class AssistantsManageComponent {
     const t = this.inputAssistant.get(
       'override_json_settings',
     ) as FormArray<FormGroup>;
-    const index = t.controls.findIndex((c) => c.get('key').value === key);
+    const index = t.controls.findIndex((c) => c.get('property').value === key);
     if (index >= 0) {
       this.notification.show(this.i18n().propertyExists);
       return;
     }
-    const newEntry = this.formBuilder.group({
-      key: [key, Validators.required],
-      value: [''],
-    });
-    newEntry.get('key').disable();
-    t.push(newEntry);
+    if (key === 'temperature') {
+      const newEntry = this.formBuilder.group({
+        property: [key],
+        type: ['range'],
+        key: [key, Validators.required],
+        value: [0.5],
+      });
+      t.push(newEntry);
+    } else {
+      const newEntry = this.formBuilder.group({
+        property: [key],
+        type: ['text'],
+        key: [key, Validators.required],
+        value: [''],
+      });
+      newEntry.get('property').disable();
+      t.push(newEntry);
+    }
   }
 
   protected removeJsonSetting(index: number) {
