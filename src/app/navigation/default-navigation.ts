@@ -255,7 +255,6 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
-      const isAIChat = router.url.startsWith('/gpt-prompts');
       // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
