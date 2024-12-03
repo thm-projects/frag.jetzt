@@ -283,7 +283,6 @@ export const getDefaultNavigation = (
             router.navigate(['/creator/room/Feedback/gpt-chat-room']);
             return true;
           },
-          activated: isAIChat,
         });
       }
       if (isHome || isUser) {
