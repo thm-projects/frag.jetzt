@@ -281,7 +281,7 @@ export const getDefaultNavigation = (
           title: i18n.navigation.chat,
           svgIcon: 'fj_robot',
           onClick: () => {
-            router.navigate(['/gpt-prompts']);
+            router.navigate(['/creator/room/Feedback/gpt-chat-room']);
             return true;
           },
           activated: isAIChat,
