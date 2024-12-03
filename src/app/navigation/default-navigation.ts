@@ -212,6 +212,17 @@ export const getDefaultNavigation = (
           activated: isUser,
         });
       }
+      if (user && isUser) {
+        navSection.entries.push({
+          id: 'chat-with-ai',
+          title: i18n.navigation.chat,
+          svgIcon: 'fj_robot',
+          onClick: () => {
+            router.navigate(['/creator/room/Feedback/gpt-chat-room']);
+            return true;
+          },
+        });
+      }
       if (isHome || isUser) {
         navSection.entries.unshift({
           id: 'home',

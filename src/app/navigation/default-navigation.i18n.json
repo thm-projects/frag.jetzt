@@ -35,11 +35,12 @@
       "home": "Start",
       "myRooms": "Meine Räume",
       "admin": "Administration",
-      "user": "Kontenübersicht",
+      "user": "Benutzer Überblick",
       "pricing": "Dankeschön & KI-Guthaben",
       "donation": "Wie du helfen kannst",
       "purchase": "Guthaben",
-      "transaction": "Transaktionen"
+      "transaction": "Transaktionen",
+      "chat": "Chat mit KI"
     },
     "options": {
       "about": "Über frag.jetzt",
@@ -77,7 +78,7 @@
       "theme": "Appearance",
       "light": "Light",
       "dark": "Dark",
-      "system": "Auto",
+      "system": "Automatic",
       "contrast": "Contrast",
       "low": "Low",
       "normal": "Normal",
@@ -91,11 +92,12 @@
       "home": "Start",
       "myRooms": "My rooms",
       "admin": "Administration",
-      "user": "Account overview",
+      "user": "User overview",
       "pricing": "Thank you & AI Credit",
       "donation": "How you can help",
       "purchase": "Credit",
-      "transaction": "Transactions"
+      "transaction": "Transactions",
+      "chat": "Chat with AI"
     },
     "options": {
       "about": "About frag.jetzt",
@@ -147,11 +149,12 @@
       "home": "Lancement",
       "myRooms": "Mes salles",
       "admin": "Administration",
-      "user": "Vue d'ensemble du compte",
+      "user": "Présentation de l'utilisateur",
       "pricing": "Remerciement & Crédit IA",
       "donation": "Comment tu peux aider",
       "purchase": "Crédit",
-      "transaction": "Transactions"
+      "transaction": "Transactions",
+      "chat": "Chat avec l'IA"
     },
     "options": {
       "about": "À propos de frag.jetzt",
