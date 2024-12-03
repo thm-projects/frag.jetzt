@@ -1,8 +1,28 @@
-<h2 mat-dialog-title>
-  {{ i18n().title }}
-</h2>
-
 <mat-dialog-content class="custom scrollable-dialog-content">
+  <div class="button-wrapper">
+    <button
+      mat-flat-button
+      [disabled]="theme() === 'light'"
+      (click)="theme.set('light')">
+      <mat-icon>light_mode</mat-icon>
+      {{ i18n().switchLight }}
+    </button>
+    <button
+      mat-flat-button
+      [disabled]="theme() === 'dark'"
+      (click)="theme.set('dark')">
+      <mat-icon>dark_mode</mat-icon>
+      {{ i18n().switchDark }}
+    </button>
+    <button
+      mat-icon-button
+      color="accent"
+      [disabled]="theme() === 'system'"
+      (click)="theme.set('system')">
+      <mat-icon>night_sight_auto</mat-icon>
+    </button>
+  </div>
+
   <div
     #container
     class="container"
@@ -17,61 +37,41 @@
       class="dot"></span>
   </div>
 
-  <h2>{{ i18n().appearance }}</h2>
-
   <div class="button-wrapper">
     <button
-      mat-flat-button
-      color="primary"
-      [disabled]="theme() === 'light'"
-      (click)="theme.set('light')">
-      <mat-icon>light_mode</mat-icon>
-      {{ i18n().switchLight }}
-    </button>
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="theme() === 'dark'"
-      (click)="theme.set('dark')">
-      <mat-icon>dark_mode</mat-icon>
-      {{ i18n().switchDark }}
-    </button>
-  </div>
-
-  <h2>{{ i18n().contrast }}</h2>
-
-  <div class="button-wrapper">
-    <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'low'"
       (click)="contrast.set('low')">
       <mat-icon>brightness_4</mat-icon>
-      {{ i18n().low }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'normal'"
       (click)="contrast.set('normal')">
       <mat-icon>brightness_low</mat-icon>
-      {{ i18n().normal }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'medium'"
       (click)="contrast.set('medium')">
       <mat-icon>brightness_medium</mat-icon>
-      {{ i18n().medium }}
     </button>
     <button
-      mat-stroked-button
+      mat-icon-button
       color="accent"
       [disabled]="contrast() === 'high'"
       (click)="contrast.set('high')">
       <mat-icon>brightness_high</mat-icon>
-      {{ i18n().high }}
+    </button>
+    <button
+      mat-icon-button
+      color="accent"
+      [disabled]="contrast() === 'system'"
+      (click)="contrast.set('system')">
+      <mat-icon>night_sight_auto</mat-icon>
     </button>
   </div>
 
@@ -87,44 +87,19 @@
 
     <mat-card-actions class="button-wrapper">
       <button
-        mat-icon-button
-        aria-label="Symbol">
-        <mat-icon>favorite</mat-icon>
-      </button>
-
-      <button
-        mat-button
-        aria-label="Symbol mit Text">
-        <mat-icon>favorite</mat-icon>
-        {{ i18n().iconText }}
-      </button>
-
-      <button
-        mat-button
-        aria-label="Einfacher Text">
-        {{ i18n().tertiary }}
-      </button>
-
-      <button
         mat-stroked-button
         color="primary"
-        aria-label="Rahmen">
-        {{ i18n().secondary }}
-      </button>
+        aria-label="Rahmen"></button>
 
       <button
         mat-flat-button
         class="secondary"
-        aria-label="Ausgefüllt">
-        {{ i18n().tonal }}
-      </button>
+        aria-label="Ausgefüllt"></button>
 
       <button
         mat-flat-button
         color="primary"
-        aria-label="Ausgefüllt">
-        {{ i18n().primary }}
-      </button>
+        aria-label="Ausgefüllt"></button>
     </mat-card-actions>
   </mat-card>
 
@@ -134,13 +109,6 @@
       color="primary"
       aria-label="Aktion">
       <mat-icon>favorite</mat-icon>
-    </button>
-    <button
-      mat-fab
-      color="primary"
-      class="extended-fab">
-      <mat-icon>favorite</mat-icon>
-      {{ i18n().CTA }}
     </button>
   </div>
 </mat-dialog-content>
@@ -153,6 +121,13 @@
     {{ i18n().global.cancel }}
   </button>
   <span style="flex: 1"></span>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="resetAll()"
+    aria-label="Reset">
+    {{ i18n().global.reset }}
+  </button>
   <button
     mat-flat-button
     color="primary"

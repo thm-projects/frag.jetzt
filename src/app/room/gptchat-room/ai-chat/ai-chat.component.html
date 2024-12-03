@@ -196,9 +196,9 @@
   @for (entry of sortedAssistRefs(); track entry) {
     <button
       mat-menu-item
-      [disabled]="entry.ref.id === selectedAssistant()"
-      (click)="selectedAssistant.set(entry.ref.id)">
-      @if (entry.ref.id === selectedAssistant()) {
+      [disabled]="entry.assistant.id === selectedAssistant()"
+      (click)="selectedAssistant.set(entry.assistant.id)">
+      @if (entry.assistant.id === selectedAssistant()) {
         <mat-icon>check</mat-icon>
       }
       {{ entry.assistant.name }}

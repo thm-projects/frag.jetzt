@@ -196,12 +196,13 @@
               periodItem | translate
           }}
         </span>
+        <span class="divider"></span>
         <span
           class="inline-count-badge"
           *ngIf="periodItem !== 'FromNow'"
-          [matBadge]="periodCounts?.[periodItem] || 0"
+          [matBadge]="(periodCounts?.[periodItem] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
     </div>
   </mat-menu>
@@ -296,9 +297,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Owner'] || 0"
+          [matBadge]="(filterTypeCounts?.['Owner'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -316,9 +317,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
+          [matBadge]="(filterTypeCounts?.['Bookmark'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -335,9 +336,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Favorite'] || 0"
+          [matBadge]="(filterTypeCounts?.['Favorite'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -354,9 +355,9 @@
 
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['ChatGPT'] || 0"
+          [matBadge]="(filterTypeCounts?.['ChatGPT'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -373,9 +374,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Approved'] || 0"
+          [matBadge]="(filterTypeCounts?.['Approved'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -390,9 +391,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Conversation'] || 0"
+          [matBadge]="(filterTypeCounts?.['Conversation'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -410,9 +411,11 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['AnsweredCreator'] || 0"
+          [matBadge]="
+            (filterTypeCounts?.['AnsweredCreator'] | truncateBadge) || 0
+          "
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -431,9 +434,11 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['AnsweredModerator'] || 0"
+          [matBadge]="
+            (filterTypeCounts?.['AnsweredModerator'] | truncateBadge) || 0
+          "
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -450,9 +455,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
+          [matBadge]="(filterTypeCounts?.['Unanswered'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -469,9 +474,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Censored'] || 0"
+          [matBadge]="(filterTypeCounts?.['Censored'] | truncateBadge) || 0"
           matBadgeColor="accent"
-          matBadgeSize="medium"></span>
+          matBadgeSize="large"></span>
       </button>
 
       <button

@@ -2,10 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { postSSE } from 'app/utils/sse-client';
+import { UUID } from 'app/utils/ts-utils';
 
 export interface UploadedFile {
-  id: string; // UUID
-  accountId: string; // UUID
+  id: UUID;
+  accountId: UUID;
   fileName: string;
   fileInfo: string; // byte array
   createdAt: Date;

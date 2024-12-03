@@ -30,7 +30,7 @@ mat-drawer-container {
     transition: width 500ms var(--mat-sys-easing-emphasized);
     height: 100%;
     --nav-margin: 4px;
-    --nav-grid-rows: auto 48px 0fr auto 1fr;
+    --nav-grid-rows: auto 0px 0fr auto 1fr;
 
     &.mat-drawer-side {
       border-radius: unset;
@@ -42,7 +42,7 @@ mat-drawer-container {
 
     &.open {
       --nav-margin: 4px;
-      --nav-grid-rows: auto 24px 0fr auto 1fr !important;
+      --nav-grid-rows: auto 0px 0fr auto 1fr !important;
 
       .m3-menu-button {
         margin-left: 18px;
@@ -50,14 +50,15 @@ mat-drawer-container {
     }
 
     &.center {
-      --nav-grid-rows: auto 48px 1fr auto 1fr;
+      --nav-grid-rows: auto 0px 1fr auto 1fr;
     }
 
     &.end {
-      --nav-grid-rows: auto 48px 1fr auto 0fr;
+      --nav-grid-rows: auto 0px 1fr auto 0fr;
     }
 
     > ::ng-deep .mat-drawer-inner-container {
+      background-color: var(--mat-sys-surface-container-high);
       display: grid;
       grid-template-rows: var(--nav-grid-rows);
       height: calc(100% - 2 * var(--nav-margin));

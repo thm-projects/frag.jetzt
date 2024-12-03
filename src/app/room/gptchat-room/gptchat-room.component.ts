@@ -24,8 +24,6 @@ import { language } from 'app/base/language/language';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { Location } from '@angular/common';
 import {
-  Assistant,
-  AssistantReference,
   AssistantsService,
   Content,
   Message,
@@ -36,20 +34,23 @@ import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
 import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
-import { Change, ManageAiComponent } from './manage-ai/manage-ai.component';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AiChatComponent } from './ai-chat/ai-chat.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   AssistantThreadService,
+  BaseMessage,
+  InputMessage,
   Thread,
 } from '../assistant-route/services/assistant-thread.service';
-
-export interface AssistantEntry {
-  ref: AssistantReference;
-  assistant: Assistant;
-}
+import { AssistantsManageComponent } from '../assistant-route/assistants-manage/assistants-manage.component';
+import {
+  Assistant,
+  AssistantManageService,
+  WrappedAssistant,
+} from '../assistant-route/services/assistant-manage.service';
+import { UUID } from 'app/utils/ts-utils';
 
 interface ThreadEntry {
   ref: Thread;
@@ -59,15 +60,22 @@ interface ThreadEntry {
   messages: Message[];
 }
 
-const transformMessage = (m: unknown): Message => {
+const transformMessage = (m: BaseMessage): Message => {
+  const v = m.content;
+  const content: Content[] =
+    typeof v === 'string'
+      ? [
+          {
+            type: 'text',
+            text: { value: v, annotations: [] },
+          },
+        ]
+      : (v as unknown as Content[]);
+  const ids = (m.additional_kwargs?.attachments || []) as UUID[];
   return {
     role: m['type'] === 'human' ? 'user' : 'assistant',
-    content: [
-      {
-        type: 'text',
-        text: { value: m['content'], annotations: [] },
-      },
-    ],
+    content,
+    attachments: ids.map((id) => ({ file_id: id, tools: [] })),
   } satisfies Message;
 };
 
@@ -82,7 +90,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected currentMessages = signal<Message[]>([]);
   protected selectedThread = signal<ThreadEntry | null>(null);
   protected threads = signal<ThreadEntry[]>([]);
-  protected assistRefs = signal<AssistantEntry[]>([]);
+  protected assistRefs = signal<WrappedAssistant[]>([]);
   protected state = signal<'loading' | 'ready' | 'sending'>('loading');
   protected error = signal<string | null>(null);
   protected overrideMessage = computed(() => {
@@ -98,7 +106,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected isMobile = signal(false);
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
-  protected selectedAssistant = signal<AssistantReference['id'] | null>(null);
+  protected selectedAssistant = signal<Assistant['id'] | null>(null);
   protected isPrivileged = signal<boolean>(false);
   protected onSend = this.sendMessage.bind(this);
   private destroyer = new ReplaySubject<void>(1);
@@ -109,6 +117,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private accountState = inject(AccountStateService);
   private assistants = inject(AssistantsService);
   private assistantThread = inject(AssistantThreadService);
+  private assistantManage = inject(AssistantManageService);
   private roomState = inject(RoomStateService);
   private destroyRef = inject(DestroyRef);
   private aiChat = viewChild(AiChatComponent);
@@ -120,28 +129,22 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     );
     this.destroyRef.onDestroy(() => sub.unsubscribe());
     deviceState.mobile$.subscribe((isMobile) => this.isMobile.set(isMobile));
-    effect(
-      () => {
-        const thread = this.selectedThread();
-        if (!thread) {
-          this.currentMessages.set([]);
-          return;
-        }
-        if (thread.fetched) {
-          this.currentMessages.set([...thread.messages]);
-          return;
-        }
-        this.assistantThread
-          .getMessages(thread.ref.id)
-          .subscribe((messages) => {
-            messages = messages.map(transformMessage);
-            thread.messages = messages as Message[];
-            thread.fetched = true;
-            this.currentMessages.set([...thread.messages]);
-          });
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const thread = this.selectedThread();
+      if (!thread) {
+        this.currentMessages.set([]);
+        return;
+      }
+      if (thread.fetched) {
+        this.currentMessages.set([...thread.messages]);
+        return;
+      }
+      this.assistantThread.getMessages(thread.ref.id).subscribe((messages) => {
+        thread.messages = messages.map(transformMessage) as Message[];
+        thread.fetched = true;
+        this.currentMessages.set([...thread.messages]);
+      });
+    });
     effect(() => {
       const threads = this.threads();
       const i18n = this.i18n();
@@ -175,28 +178,21 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected sortedAssistRefs = computed(() => {
     const selectedId = this.selectedAssistant();
     const assistRefs = this.assistRefs();
-
-    const otherAssistants = assistRefs.filter(
-      (entry) => entry.ref.id !== selectedId,
+    return assistRefs.sort((a, b) =>
+      a.assistant.id === selectedId
+        ? -1
+        : a.assistant.name.localeCompare(b.assistant.name, language(), {
+            sensitivity: 'base',
+          }),
     );
-    const sortedOtherAssistants = otherAssistants.sort((a, b) =>
-      a.assistant.name.localeCompare(b.assistant.name),
-    );
-    const selectedAssistant = assistRefs.find(
-      (entry) => entry.ref.id === selectedId,
-    );
-
-    return selectedAssistant
-      ? [selectedAssistant, ...sortedOtherAssistants]
-      : sortedOtherAssistants;
   });
 
   protected selectedAssistantName = computed(() => {
     const selectedId = this.selectedAssistant();
     const selectedEntry = this.assistRefs().find(
-      (entry) => entry.ref.id === selectedId,
+      (entry) => entry.assistant.id === selectedId,
     );
-    return selectedEntry ? selectedEntry.assistant.name : this.i18n().assistant;
+    return selectedEntry?.assistant?.name || this.i18n().assistant;
   });
 
   threadGroups() {
@@ -308,24 +304,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             }
           },
         });
-        this.assistants.listAssistants(room.id).subscribe({
+        this.assistantManage.listRoomAssistants().subscribe({
           next: (assistants) => {
-            const elements = assistants.map((e, i) => ({
-              ref: e,
-              assistant: {
-                name: i18nContext(i18n().blankAssistant, {
-                  num: String(i + 1),
-                }),
-              } as Assistant,
-            }));
-            this.assistRefs.set(elements);
-            for (const assistant of elements) {
-              this.loadAssistant(room.id, assistant);
-            }
-            if (elements.length === 0) {
-              this.createDefaultAssistant(room.id);
+            this.assistRefs.set(assistants);
+            if (assistants.length === 0) {
+              this.createDefaultAssistant();
             } else {
-              this.selectedAssistant.set(elements[0].ref.id);
+              this.selectedAssistant.set(assistants[0].assistant.id);
             }
             if (++count === 2 && this.state() === 'loading') {
               this.state.set('ready');
@@ -365,22 +350,30 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     this.state.set('sending');
     const thread = this.selectedThread();
-    const assistant = this.assistRefs().find(
-      (e) => e.ref.id === this.selectedAssistant(),
-    );
-    if (!assistant?.ref.openaiId) {
+    const assistantId = this.selectedAssistant();
+    if (!assistantId) {
       this.state.set('ready');
       return false;
     }
     const roomId = this.roomState.getCurrentRoom().id;
     let data: Observable<unknown> = of(null);
-    // TODO: Add attachments (files or images) to message
+    const message: InputMessage = {
+      content: msg,
+      additional_kwargs: { attachments: files.map((f) => f.id) },
+      type: 'human',
+    };
     if (!thread) {
-      data = this.assistantThread.newThread(roomId, msg);
+      data = this.assistantThread.newThread(roomId, message, assistantId);
     } else {
-      data = this.assistantThread.continueThread(roomId, thread.ref.id, msg);
+      data = this.assistantThread.continueThread(
+        roomId,
+        thread.ref.id,
+        assistantId,
+        message,
+      );
     }
     let newMessage: Message = null;
+    let messageCount = -1;
     data.subscribe({
       next: (data) => {
         const sse = data as ServerSentEvent;
@@ -399,24 +392,29 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           });
           this.selectedThread.set(threadEntry);
         } else if (sse.event === 'value') {
-          const messages = sse.jsonData()['messages'] as Message[];
+          const messages = sse.jsonData()['messages'] as BaseMessage[];
           if (newMessage == null) {
-            this.selectedThread().messages.push(
-              transformMessage(messages[messages.length - 1]),
-            );
-            this.currentMessages.set([...this.selectedThread().messages]);
+            if (messages.length > messageCount) {
+              this.selectedThread().messages.push(
+                transformMessage(messages[messages.length - 1]),
+              );
+              this.currentMessages.set([...this.selectedThread().messages]);
+              messageCount = messages.length;
+            }
           } else {
             const v = transformMessage(messages[messages.length - 1]);
             for (const key of Object.keys(v)) {
               newMessage[key] = v[key];
             }
             this.currentMessages.set([...this.selectedThread().messages]);
+            messageCount += 1;
           }
           newMessage = null;
         } else if (sse.event === 'message') {
           if (newMessage == null) {
-            newMessage = transformMessage(sse.jsonData());
+            newMessage = transformMessage(sse.jsonData() as BaseMessage);
             this.selectedThread().messages.push(newMessage);
+            messageCount += 1;
           }
           const delta = sse.jsonData()['content'];
           if (!newMessage.content) {
@@ -448,11 +446,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   protected onNewClick() {
-    ManageAiComponent.open(
-      this.injector,
-      this.assistRefs,
-      this.onChange.bind(this),
-    );
+    const ref = AssistantsManageComponent.open(this.dialog, 'room');
+    ref.afterClosed().subscribe((d) => this.onUpdate(d));
   }
 
   protected deleteThread() {
@@ -514,123 +509,52 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
 
   private initNav() {
     applyAiNavigation(this.injector, {
-      assistants: this.assistRefs,
-      onOutput: this.onChange.bind(this),
+      onOutput: this.onUpdate.bind(this),
     })
       .pipe(takeUntil(this.destroyer))
       .subscribe();
   }
 
-  private onChange(change: Change) {
-    if (change.type === 'created') {
-      this.assistRefs.update((assistants) => {
-        return [...assistants, change.assistant];
-      });
-      this.loadAssistant(this.roomState.getCurrentRoom().id, change.assistant);
-    } else if (change.type === 'updated') {
-      this.assistRefs.update((assistants) => {
-        const index = assistants.findIndex(
-          (e) => e.ref.id === change.assistant.ref.id,
-        );
-        if (index === -1) {
-          return assistants;
-        }
-        assistants[index] = change.assistant;
-        return assistants;
-      });
-    } else if (change.type === 'deleted') {
-      this.assistRefs.update((assistants) => {
-        return assistants.filter((e) => e.ref.id !== change.assistant.ref.id);
-      });
+  private onUpdate(refs: WrappedAssistant[]) {
+    if (!refs) return;
+    this.assistRefs.set(refs);
+    const selected = this.selectedAssistant();
+    if (selected && !refs.find((e) => e.assistant.id === selected)) {
+      this.selectedAssistant.set(refs.length ? refs[0].assistant.id : null);
     }
   }
 
-  private loadAssistant(roomId: string, assistant: AssistantEntry) {
-    this.assistRefs.update((assistants) => {
-      const index = assistants.findIndex((e) => e.ref === assistant.ref);
-      if (index === -1) {
-        return assistants;
-      }
-      // TODO: Remove this
-      const a = {
-        model: 'gpt-4o',
-      } as Assistant;
-      a.name = a.name || assistants[index].assistant.name;
-      assistants[index].assistant = a;
-      return assistants;
-    });
-    /*this.assistants.getAssistant(roomId, assistant.ref.openaiId).subscribe({
-      next: (a) => {
-        this.assistRefs.update((assistants) => {
-          const index = assistants.findIndex((e) => e.ref === assistant.ref);
-          if (index === -1) {
-            return assistants;
-          }
-          a.name = a.name || assistants[index].assistant.name;
-          assistants[index].assistant = a;
-          return assistants;
-        });
-      },
-      error: (err) => {
-        this.showError(this.makeError(err));
-        console.error(err);
-        this.assistRefs.update((assistants) => {
-          return assistants.filter((e) => e.ref !== assistant.ref);
-        });
-      },
-    });*/
-  }
-
-  private createDefaultAssistant(roomId: string) {
+  private createDefaultAssistant() {
     if (this.roomState.getCurrentAssignedRole() === 'Participant') {
       return;
     }
-    const entry = {
-      ref: {
-        id: 'dummy',
-        openaiId: 'dummy',
-        roomId: roomId,
-        createdAt: new Date(),
-        updatedAt: null,
-      },
-      assistant: {
+    this.assistantManage
+      .createRoomAssistant({
         name: i18n().defaultName,
-      } as Assistant,
-    };
-    this.assistRefs.update((assistants) => {
-      return [...assistants, entry];
-    });
-    this.loadAssistant(roomId, entry);
-    this.selectedAssistant.set('dummy');
-    /*this.assistants
-      .createAssistant(roomId, {
-        model: 'gpt-4o',
-        name: i18n().defaultName,
-        instructions: i18n().defaultInstructions,
-        tools: [
-          {
-            type: 'file_search',
-          },
-        ],
+        description: '',
+        instruction: i18n().defaultInstructions,
+        model_name: 'gpt-4o',
+        override_json_settings: '{}',
+        provider_list: '[]',
+        share_type: 'MINIMAL',
       })
       .subscribe({
-        next: (ref) => {
-          const entry = {
-            ref,
-            assistant: {
-              name: i18n().defaultName,
-            } as Assistant,
-          };
+        next: (assistant) => {
           this.assistRefs.update((assistants) => {
-            return [...assistants, entry];
+            return [
+              ...assistants,
+              {
+                assistant,
+                files: [],
+              },
+            ];
           });
-          this.loadAssistant(roomId, entry);
-          this.selectedAssistant.set(ref.id);
+          this.selectedAssistant.set(assistant.id);
         },
         error: (err) => {
           this.error.set(this.makeError(err));
         },
-      });*/
+      });
   }
 
   private showError(error: string) {

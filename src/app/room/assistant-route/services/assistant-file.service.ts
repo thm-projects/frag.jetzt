@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseHttpService } from 'app/services/http/base-http.service';
-import { UUID } from 'app/utils/ts-utils';
+import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 
 interface FailedUpload {
   result: 'Failed';
@@ -9,14 +9,32 @@ interface FailedUpload {
   filename: string;
 }
 
-export interface UploadedFile {
+export class UploadedFile {
   id: UUID;
   account_id: UUID;
-  filename: string;
-  fileInfo: string;
-  createdAt: Date;
-  updatedAt: Date;
+  content_id: UUID;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
+
+  constructor({
+    id,
+    account_id,
+    content_id,
+    name,
+    created_at,
+    updated_at,
+  }: FieldsOf<UploadedFile>) {
+    this.id = id;
+    this.account_id = account_id;
+    this.content_id = content_id;
+    this.name = name;
+    this.created_at = verifyInstance(Date, created_at);
+    this.updated_at = verifyInstance(Date, updated_at);
+  }
 }
+
+export type FileInfo = Pick<UploadedFile, 'id' | 'name'>;
 
 interface SuccessfulUpload {
   result: 'OK';
@@ -32,6 +50,7 @@ export class AssistantFileService extends BaseHttpService {
   private apiUrl = {
     base: '/ai',
     file: '/file',
+    info: '/info',
     upload: '/upload',
     delete: '/delete',
     content: '/content',
@@ -74,5 +93,10 @@ export class AssistantFileService extends BaseHttpService {
   getFileContent(fileId: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.file}${this.apiUrl.content}/${fileId}`;
     return this.http.get(url, { responseType: 'arraybuffer' });
+  }
+
+  getFileInfo(fileId: string) {
+    const url = `${this.apiUrl.base}${this.apiUrl.file}${this.apiUrl.info}/${fileId}`;
+    return this.http.get<UploadedFile | FileInfo>(url);
   }
 }

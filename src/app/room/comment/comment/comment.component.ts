@@ -63,17 +63,14 @@ export class CommentComponent implements AfterViewInit {
   private ref = inject(ElementRef);
 
   constructor() {
-    effect(
-      (onCleanup) => {
-        const c = this.comment();
-        this.formattedDate = getActualDate(c.createdAt);
-        const sub = getRelativeDate(c.createdAt).subscribe((v) => {
-          this.relativeDate.set(v);
-        });
-        onCleanup(() => sub.unsubscribe());
-      },
-      { allowSignalWrites: true },
-    );
+    effect((onCleanup) => {
+      const c = this.comment();
+      this.formattedDate = getActualDate(c.createdAt);
+      const sub = getRelativeDate(c.createdAt).subscribe((v) => {
+        this.relativeDate.set(v);
+      });
+      onCleanup(() => sub.unsubscribe());
+    });
   }
 
   ngAfterViewInit(): void {

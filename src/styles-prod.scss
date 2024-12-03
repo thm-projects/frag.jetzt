@@ -282,6 +282,10 @@ $min-width: 360px;
   width: auto;
 }
 
+.mat-badge-above .mat-badge-content {
+  bottom: unset !important;
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: auto;
@@ -429,4 +433,10 @@ ul {
   & .mat-mdc-dialog-content {
     max-height: 100%;
   }
+}
+
+// toggle and radio buttons
+
+.mat-internal-form-field > label {
+  padding-left: 16px !important;
 }
