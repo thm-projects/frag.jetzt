@@ -286,6 +286,7 @@ export class MultiLevelDialogComponent implements OnInit {
   isLoggedIn = false;
   isGuest = false;
   username: string | null = null;
+  isFirst: boolean = true;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   protected dialogStepper: MultiLevelStepper;
@@ -393,6 +394,7 @@ export class MultiLevelDialogComponent implements OnInit {
   next(index: number) {
     if (this.dialogStepper.next(index)) {
       this.currentStepperIndex++;
+      this.isFirst = this.currentStepperIndex === 0;
     }
   }
 
@@ -457,6 +459,7 @@ export class MultiLevelDialogComponent implements OnInit {
     this.currentStepperIndex = 0;
     this.offsetIndex = 0;
     this.dialogStepper.reset();
+    this.isFirst = true;
   }
 
   protected submit() {
