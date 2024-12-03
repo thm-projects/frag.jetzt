@@ -63,20 +63,29 @@
                 </div>
                 <span style="flex: 1"></span>
                 <button
+                  *ngIf="!isLoggedIn"
                   mat-flat-button
-                  class="secondary"
-                  aria-label="Ausgefüllt"
-                  [ngClass]="isLoggedIn ? 'logout-button' : 'login-button'"
-                  (click)="isLoggedIn ? onLogoutClick() : onLoginClick()">
-                  <mat-icon>{{ isLoggedIn ? 'logout' : 'login' }}</mat-icon>
-                  {{ getButtonText() }}
+                  class="secondary login-button"
+                  [attr.aria-label]="i18n().a11yLogin"
+                  (click)="onLoginClick()">
+                  <mat-icon>login</mat-icon>
+                  {{ i18n().login }}
+                </button>
+                <button
+                  *ngIf="isLoggedIn"
+                  mat-flat-button
+                  class="secondary logout-button"
+                  [attr.aria-label]="i18n().a11yLogout"
+                  (click)="onLogoutClick()">
+                  <mat-icon>logout</mat-icon>
+                  {{ i18n().logout }}
                 </button>
               }
               @if (!isFirst || showBackOption) {
                 <button
                   mat-stroked-button
                   color="primary"
-                  aria-label="Rahmen"
+                  [attr.aria-label]="i18n().a11yPrevious"
                   matStepperPrevious>
                   {{ i18n().previous }}
                 </button>
@@ -84,7 +93,7 @@
               <button
                 mat-flat-button
                 class="primary"
-                aria-label="Ausgefüllt"
+                [attr.aria-label]="i18n().a11yNext"
                 (click)="next(i + offsetIndex)">
                 <mat-icon>arrow_forward_ios</mat-icon>
                 {{ i18n().next }}
