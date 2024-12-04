@@ -94,7 +94,9 @@ export class OnboardingService {
     if (previous.length < current.length || previous[1] !== current[1]) {
       //Route gets switched
       const name = this._activeTour.name;
+      console.log(name);
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
+      console.log(routeChecker);
       this.cleanup();
       this.joyrideService.closeTour();
       this.dataStoreService.set(
@@ -257,6 +259,8 @@ export class OnboardingService {
   private cleanup(finished = false) {
     const redirectKey = 'onboarding_' + this._activeTour.name + '_redirect';
     const redirect = this.dataStoreService.get(redirectKey);
+    console.log('redirect');
+    console.log(redirect);
     this._eventServiceSubscription.unsubscribe();
     this._activeTour = null;
     if (finished) {

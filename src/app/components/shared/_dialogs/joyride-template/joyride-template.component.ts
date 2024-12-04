@@ -57,8 +57,19 @@ export class JoyrideTemplateComponent implements OnInit, OnDestroy {
     this.eventService.broadcast('onboarding', 'finished');
   }
 
-  handle(e: MouseEvent, dir: number) {
-    if (this.onboardingService.doStep(dir)) {
+  async handle(e: MouseEvent, dir: number) {
+    console.log(e);
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log('INFO');
+    console.log(dir);
+    if (await this.onboardingService.doStep(dir)) {
       e.preventDefault();
       e.stopPropagation();
     }
