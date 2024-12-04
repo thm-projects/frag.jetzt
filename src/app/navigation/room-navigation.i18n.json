@@ -25,7 +25,7 @@
         "categorys": "Fragenkategorien",
         "bonusArchive": "Bonusarchiv",
         "disableComments": "Fragen sperren",
-        "mail": "Mail-Benachrichtigung",
+        "mail": "Per Mail benachrichtigen",
         "export": "Q&A-Export",
         "deleteQuestions": "Fragen löschen"
       },
@@ -42,7 +42,7 @@
         "quota": "Quota-Management",
         "selection": "Modellauswahl"
       },
-      "switchView": "Teilnehmeransicht"
+      "switchView": "Teilnehmersicht"
     }
   },
   "en": {
@@ -132,7 +132,7 @@
         "quota": "Gestion des Quotas",
         "selection": "Sélection du Modèle"
       },
-      "switchView": "Vue des Participants"
+      "switchView": "Vue participant"
     }
   }
 }
