@@ -19,7 +19,6 @@
     "providerInfo": "Wenn kein Anbieter ausgewählt ist, werden alle Anbieter erlaubt.",
     "settingKey": "Name der Eigenschaft",
     "settingValue": "Wert der Eigenschaft",
-    "temperature": "Hier können Sie die Einstellungen des KI-Assistenten anpassen. In der Regel genügt es, die Temperatur zu verändern, da sie Kreativität und Zufälligkeit der Antworten steuert. Ein höherer Wert führt zu kreativere, aber weniger konsistenten Antworten.",
     "add": "Hinzufügen",
     "delete": "Löschen",
     "newAssistant": "Neuer Assistent",
@@ -40,7 +39,15 @@
     "fileInfo": "Du kannst die Dateien auch per Drag & Drop in dieses Fenster ziehen",
     "noFiles": "Keine Dateien hochgeladen",
     "addFile": "Dateien hinzufügen",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Hier können Sie die Einstellungen des KI-Assistenten anpassen. In der Regel genügt es, die Temperatur zu verändern, da sie Kreativität und Zufälligkeit der Antworten steuert.",
+      "notCreative": "Nicht Kreativ",
+      "somewhatCreative": "Wenig Kreativ",
+      "balanced": "Ausgewogen",
+      "creative": "Kreativ",
+      "highlyCreative": "Sehr Kreativ"
+    }
   },
   "en": {
     "title": "AI Assistant",
@@ -61,7 +68,6 @@
     "providerInfo": "If no provider is selected, all providers are allowed.",
     "settingKey": "Property Name",
     "settingValue": "Property Value",
-    "temperature": "Here you can adjust the settings of the AI assistant. Usually, it is sufficient to modify the temperature, as it controls the creativity and randomness of the responses. A higher value results in more creative but less consistent answers.",
     "add": "Add",
     "delete": "Delete",
     "newAssistant": "New Assistant",
@@ -82,7 +88,15 @@
     "fileInfo": "You can also drag and drop files into this window",
     "noFiles": "No files uploaded",
     "addFile": "Add files",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Here you can adjust the settings of the AI assistant. Usually, it is sufficient to modify the temperature, as it controls the creativity and randomness of the responses.",
+      "notCreative": "Not Creative",
+      "somewhatCreative": "Somewhat Creative",
+      "balanced": "Balanced",
+      "creative": "Creative",
+      "highlyCreative": "Highly Creative"
+    }
   },
   "fr": {
     "title": "Assistant IA",
@@ -103,7 +117,6 @@
     "providerInfo": "Si aucun fournisseur n'est sélectionné, tous les fournisseurs sont autorisés.",
     "settingKey": "Nom de la propriété",
     "settingValue": "Valeur de la propriété",
-    "temperature": "Ici, vous pouvez ajuster les paramètres de l'assistant IA. En règle générale, il suffit de modifier la température, car elle contrôle la créativité et le caractère aléatoire des réponses. Une valeur plus élevée entraîne des réponses plus créatives, mais moins cohérentes.",
     "add": "Ajouter",
     "delete": "Supprimer",
     "newAssistant": "Nouvel assistant",
@@ -124,6 +137,14 @@
     "fileInfo": "Tu peux aussi glisser-déposer des fichiers dans cette fenêtre",
     "noFiles": "Aucun fichier téléchargé",
     "addFile": "Ajouter des fichiers",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Ici, vous pouvez ajuster les paramètres de l'assistant IA. En règle générale, il suffit de modifier la température, car elle contrôle la créativité et le caractère aléatoire des réponses.",
+      "notCreative": "Pas créatif",
+      "somewhatCreative": "Assez créatif",
+      "balanced": "Équilibré",
+      "creative": "Créatif",
+      "highlyCreative": "Très créatif"
+    }
   }
 }

@@ -162,61 +162,31 @@
     <h3>
       {{ i18n().overrideJson }}
       <mat-icon
-        [matTooltip]="i18n().temperature"
+        [matTooltip]="i18n().temperature.info"
         style="vertical-align: bottom">
         info
       </mat-icon>
     </h3>
-    <!-- TODO add info button for temperature -->
     <ng-container formArrayName="override_json_settings">
       @for (override of getJsonSettings(); track override; let i = $index) {
         <div [formGroup]="override">
-          @if (override.get("type").value === "text") {
-            <div class="inline-wrapper">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ i18n().settingKey }}</mat-label>
-                <input
-                  matInput
-                  formControlName="key" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>{{ i18n().settingValue }}</mat-label>
-                <input
-                  matInput
-                  formControlName="value" />
-              </mat-form-field>
-
-              <button
-                mat-icon-button
-                [matTooltip]="i18n().delete"
-                (click)="removeJsonSetting(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          }
-
-          @if (override.get("type").value === "range") {
-            <div style="margin-bottom: 1em; margin-bottom: 2em">
-              <mat-label id="{{ override.get('property').value + '-label' }}">
-                {{ override.get("property").value }}
-              </mat-label>
-              <div class="slider-container">
-                <mat-icon>Remove</mat-icon>
-                <mat-slider
-                  discrete
-                  showTickMarks
-                  min="0"
-                  max="1"
-                  step="0.25">
+          @switch (override.get("type").value) {
+            @case ("text") {
+              <div class="inline-wrapper">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ i18n().settingKey }}</mat-label>
                   <input
-                    matSliderThumb
-                    formControlName="value"
-                    [attr.aria-labelledby]="
-                      override.get('property').value + '-label'
-                    " />
-                </mat-slider>
-                <mat-icon>Add</mat-icon>
+                    matInput
+                    formControlName="key" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ i18n().settingValue }}</mat-label>
+                  <input
+                    matInput
+                    formControlName="value" />
+                </mat-form-field>
+
                 <button
                   mat-icon-button
                   [matTooltip]="i18n().delete"
@@ -224,7 +194,72 @@
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
-            </div>
+            }
+
+            @case ("select") {
+              <div class="inline-wrapper">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ i18n().settingKey }}</mat-label>
+                  <input
+                    matInput
+                    formControlName="key" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ i18n().settingValue }}</mat-label>
+                  <mat-select
+                    formControlName="value"
+                    [value]="override.get('value').value">
+                    @for (
+                      option of override.get("options").value;
+                      track option.value
+                    ) {
+                      <mat-option [value]="option.value">
+                        {{ option.label }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <button
+                  mat-icon-button
+                  [matTooltip]="i18n().delete"
+                  (click)="removeJsonSetting(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+
+            @case ("range") {
+              <div style="margin-bottom: 1em; margin-bottom: 2em">
+                <mat-label id="{{ override.get('property').value + '-label' }}">
+                  {{ override.get("property").value }}
+                </mat-label>
+                <div class="slider-container">
+                  <mat-icon>Remove</mat-icon>
+                  <mat-slider
+                    discrete
+                    showTickMarks
+                    min="0"
+                    max="1"
+                    step="0.25">
+                    <input
+                      matSliderThumb
+                      formControlName="value"
+                      [attr.aria-labelledby]="
+                        override.get('property').value + '-label'
+                      " />
+                  </mat-slider>
+                  <mat-icon>Add</mat-icon>
+                  <button
+                    mat-icon-button
+                    [matTooltip]="i18n().delete"
+                    (click)="removeJsonSetting(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
           }
         </div>
       }
