@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TruncateBadgePipe implements PipeTransform {
   transform(value: number): string {
+    if (!value) return '';
     if (value > 999) {
       return '999+';
     }

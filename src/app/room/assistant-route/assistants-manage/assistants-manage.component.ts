@@ -63,6 +63,7 @@ import {
 } from '../services/assistant-file.service';
 import { HttpEventType } from '@angular/common/http';
 import { resumeWith, UUID } from 'app/utils/ts-utils';
+import { assistants, selectAssistant } from '../state/assistant';
 
 interface FileEntry {
   ref?: AssistantFile;
@@ -82,6 +83,25 @@ interface UploadInfo {
   file: File;
   progress: WritableSignal<number>;
 }
+
+const updateForRoom = (assists: AssistantEntry[]) => {
+  const before = new Set(assistants.value()?.map((e) => e.assistant.id) || []);
+  assistants.set(
+    assists.map(
+      (e) =>
+        new WrappedAssistant({
+          assistant: e.assistant,
+          files: e.files.map((e) => [e.ref, e.file] as const),
+        }),
+    ),
+  );
+  const newAssistants = assists
+    .map((e) => e.assistant.id)
+    .filter((e) => !before.has(e));
+  if (newAssistants.length) {
+    selectAssistant(newAssistants[newAssistants.length - 1]);
+  }
+};
 
 const DUMMY = [];
 
@@ -368,8 +388,14 @@ export class AssistantsManageComponent {
   }
 
   protected close() {
-    const assistants = this.assistants();
-    this.ref.close(assistants === DUMMY ? null : assistants);
+    const assists = this.assistants();
+    if (assists === DUMMY) {
+      this.ref.close(null);
+    }
+    if (this.mode() === 'room') {
+      updateForRoom(assists);
+    }
+    this.ref.close(assists);
   }
 
   private patchAssistant() {

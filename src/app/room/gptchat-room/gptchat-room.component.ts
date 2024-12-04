@@ -8,23 +8,23 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ResourceStatus,
   computed,
   effect,
   inject,
   signal,
-  viewChild,
+  untracked,
 } from '@angular/core';
 import { Observable, ReplaySubject, of, takeUntil } from 'rxjs';
 import { ForumComment } from '../../utils/data-accessor';
 import { EventService } from '../../services/util/event.service';
-import { filter, first, take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { Location } from '@angular/common';
 import {
-  AssistantsService,
   Content,
   Message,
   UploadedFile,
@@ -36,7 +36,6 @@ import { AiErrorComponent } from './ai-error/ai-error.component';
 import { applyAiNavigation } from './navigation/ai-navigation';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { DeviceStateService } from 'app/services/state/device-state.service';
-import { AiChatComponent } from './ai-chat/ai-chat.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   AssistantThreadService,
@@ -45,12 +44,16 @@ import {
   Thread,
 } from '../assistant-route/services/assistant-thread.service';
 import { AssistantsManageComponent } from '../assistant-route/assistants-manage/assistants-manage.component';
-import {
-  Assistant,
-  AssistantManageService,
-  WrappedAssistant,
-} from '../assistant-route/services/assistant-manage.service';
+import { AssistantManageService } from '../assistant-route/services/assistant-manage.service';
 import { UUID } from 'app/utils/ts-utils';
+import {
+  assistants,
+  selectAssistant,
+  selectedAssistant,
+  sortedAssistants,
+} from '../assistant-route/state/assistant';
+import { room } from '../state/room';
+import { loadMessages, threads } from '../assistant-route/state/thread';
 
 interface ThreadEntry {
   ref: Thread;
@@ -87,10 +90,25 @@ const transformMessage = (m: BaseMessage): Message => {
 })
 export class GPTChatRoomComponent implements OnInit, OnDestroy {
   @Input() protected owningComment: ForumComment;
+  protected readonly sortedAssistRefs = sortedAssistants;
+  protected readonly selectedAssistant = selectedAssistant;
+  protected readonly selectAssistant = selectAssistant;
   protected currentMessages = signal<Message[]>([]);
   protected selectedThread = signal<ThreadEntry | null>(null);
-  protected threads = signal<ThreadEntry[]>([]);
-  protected assistRefs = signal<WrappedAssistant[]>([]);
+  protected threads = computed(() => {
+    return (
+      threads.value()?.map((e) => {
+        const messages = e.messages();
+        return {
+          ref: e.thread,
+          headLine: e.thread.name,
+          content: '',
+          fetched: Boolean(messages),
+          messages: messages?.map(transformMessage) || [],
+        } as ThreadEntry;
+      }) || []
+    );
+  });
   protected state = signal<'loading' | 'ready' | 'sending'>('loading');
   protected error = signal<string | null>(null);
   protected overrideMessage = computed(() => {
@@ -98,7 +116,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     if (error) {
       return error;
     }
-    if (this.state() === 'ready' && this.assistRefs().length === 0) {
+    if (this.state() === 'ready' && !assistants.value()?.length) {
       return i18n().noAssistants;
     }
     return '';
@@ -106,7 +124,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected isMobile = signal(false);
   protected isOpen = signal(false);
   protected readonly i18n = i18n;
-  protected selectedAssistant = signal<Assistant['id'] | null>(null);
   protected isPrivileged = signal<boolean>(false);
   protected onSend = this.sendMessage.bind(this);
   private destroyer = new ReplaySubject<void>(1);
@@ -115,12 +132,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   private eventService = inject(EventService);
   private accountState = inject(AccountStateService);
-  private assistants = inject(AssistantsService);
   private assistantThread = inject(AssistantThreadService);
   private assistantManage = inject(AssistantManageService);
   private roomState = inject(RoomStateService);
   private destroyRef = inject(DestroyRef);
-  private aiChat = viewChild(AiChatComponent);
+  private seen = new Set<UUID>();
 
   constructor(deviceState: DeviceStateService) {
     this.initNav();
@@ -139,8 +155,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.currentMessages.set([...thread.messages]);
         return;
       }
-      this.assistantThread.getMessages(thread.ref.id).subscribe((messages) => {
-        thread.messages = messages.map(transformMessage) as Message[];
+      loadMessages(thread.ref.id).subscribe((wrapped) => {
+        thread.messages = wrapped.messages().map(transformMessage);
         thread.fetched = true;
         this.currentMessages.set([...thread.messages]);
       });
@@ -168,32 +184,38 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           });
       }
     });
+    effect(() => {
+      const elements = assistants.value();
+      const r = room.value();
+      if (!elements || !r) return;
+      if (elements.length === 0 && !this.seen.has(r.id)) {
+        this.seen.add(r.id);
+        this.createDefaultAssistant();
+      } else if (elements.length) {
+        const assistant = untracked(() => selectedAssistant());
+        if (!assistant) {
+          selectAssistant(elements[0].assistant.id);
+        }
+      }
+    });
+    effect(() => {
+      const s = this.state();
+      if (s !== 'loading') return;
+      const states = [
+        ResourceStatus.Resolved,
+        ResourceStatus.Error,
+        ResourceStatus.Local,
+      ];
+      if (!states.includes(assistants.status())) return;
+      if (!states.includes(threads.status())) return;
+      this.state.set('ready');
+    });
   }
 
   getDynamicI18n(key: string): string {
     const i18nObject = this.i18n();
     return key.split('.').reduce((o, i) => (o ? o[i] : null), i18nObject);
   }
-
-  protected sortedAssistRefs = computed(() => {
-    const selectedId = this.selectedAssistant();
-    const assistRefs = this.assistRefs();
-    return assistRefs.sort((a, b) =>
-      a.assistant.id === selectedId
-        ? -1
-        : a.assistant.name.localeCompare(b.assistant.name, language(), {
-            sensitivity: 'base',
-          }),
-    );
-  });
-
-  protected selectedAssistantName = computed(() => {
-    const selectedId = this.selectedAssistant();
-    const selectedEntry = this.assistRefs().find(
-      (entry) => entry.assistant.id === selectedId,
-    );
-    return selectedEntry?.assistant?.name || this.i18n().assistant;
-  });
 
   threadGroups() {
     const today = new Date();
@@ -257,7 +279,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroyer), take(1))
           .subscribe((comment) => {
             this.owningComment = comment;
-            this.aiChat().setValue(comment.body);
           });
         this.eventService.broadcast('gptchat-room.init');
       });
@@ -267,65 +288,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         if (!state) {
           this.openPrivacyDialog();
         }
-      });
-    this.roomState.room$
-      .pipe(takeUntil(this.destroyer), filter(Boolean))
-      .subscribe((room) => {
-        let count = 0;
-        this.assistantThread.listThreads(room.id).subscribe({
-          next: (threads) => {
-            this.threads.set(
-              threads
-                .map((e) => {
-                  return {
-                    headLine: '',
-                    content: '',
-                    ref: e,
-                    messages: [],
-                    fetched: false,
-                  };
-                })
-                .sort(
-                  (a, b) =>
-                    b.ref.created_at.getTime() - a.ref.created_at.getTime(),
-                ),
-            );
-            if (++count === 2 && this.state() === 'loading') {
-              this.state.set('ready');
-            }
-          },
-          error: (err) => {
-            const error = this.error();
-            const newError = this.makeError(err);
-            this.error.set(error ? error + '\n' + newError : newError);
-            console.error(err);
-            if (++count === 2 && this.state() === 'loading') {
-              this.state.set('ready');
-            }
-          },
-        });
-        this.assistantManage.listRoomAssistants().subscribe({
-          next: (assistants) => {
-            this.assistRefs.set(assistants);
-            if (assistants.length === 0) {
-              this.createDefaultAssistant();
-            } else {
-              this.selectedAssistant.set(assistants[0].assistant.id);
-            }
-            if (++count === 2 && this.state() === 'loading') {
-              this.state.set('ready');
-            }
-          },
-          error: (err) => {
-            const error = this.error();
-            const newError = this.makeError(err);
-            this.error.set(error ? error + '\n' + newError : newError);
-            console.error(err);
-            if (++count === 2 && this.state() === 'loading') {
-              this.state.set('ready');
-            }
-          },
-        });
       });
   }
 
@@ -350,8 +312,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     }
     this.state.set('sending');
     const thread = this.selectedThread();
-    const assistantId = this.selectedAssistant();
-    if (!assistantId) {
+    const assistant = selectedAssistant();
+    if (!assistant) {
       this.state.set('ready');
       return false;
     }
@@ -363,12 +325,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       type: 'human',
     };
     if (!thread) {
-      data = this.assistantThread.newThread(roomId, message, assistantId);
+      data = this.assistantThread.newThread(
+        roomId,
+        message,
+        assistant.assistant.id,
+      );
     } else {
       data = this.assistantThread.continueThread(
         roomId,
         thread.ref.id,
-        assistantId,
+        assistant.assistant.id,
         message,
       );
     }
@@ -387,8 +353,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
             messages: [],
             fetched: true,
           };
-          this.threads.update((threads) => {
-            return [threadEntry, ...threads];
+          threads.update((threads) => {
+            return [{ thread, messages: signal(null) }, ...threads];
           });
           this.selectedThread.set(threadEntry);
         } else if (sse.event === 'value') {
@@ -446,14 +412,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   protected onNewClick() {
-    const ref = AssistantsManageComponent.open(this.dialog, 'room');
-    ref.afterClosed().subscribe((d) => this.onUpdate(d));
+    AssistantsManageComponent.open(this.dialog, 'room');
   }
 
   protected deleteThread() {
     console.log('2');
-    const t = this.selectedThread();
-    this.assistants.deleteThread(t.ref.id).subscribe({
+    // TODO: const t = this.selectedThread();
+    /*this.assistants.deleteThread(t.ref.id).subscribe({
       next: () => {
         this.threads.update((threads) => {
           return threads.filter((e) => e.ref.id !== t.ref.id);
@@ -466,7 +431,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.showError(this.makeError(err));
         console.error(err);
       },
-    });
+    });*/
   }
 
   private mergeObject(data: Content[], index: number, content: Content) {
@@ -508,20 +473,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   private initNav() {
-    applyAiNavigation(this.injector, {
-      onOutput: this.onUpdate.bind(this),
-    })
+    applyAiNavigation(this.injector)
       .pipe(takeUntil(this.destroyer))
       .subscribe();
-  }
-
-  private onUpdate(refs: WrappedAssistant[]) {
-    if (!refs) return;
-    this.assistRefs.set(refs);
-    const selected = this.selectedAssistant();
-    if (selected && !refs.find((e) => e.assistant.id === selected)) {
-      this.selectedAssistant.set(refs.length ? refs[0].assistant.id : null);
-    }
   }
 
   private createDefaultAssistant() {
@@ -539,8 +493,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         share_type: 'MINIMAL',
       })
       .subscribe({
-        next: (assistant) => {
-          this.assistRefs.update((assistants) => {
+        next: () => {
+          /*this.assistRefs.update((assistants) => {
             return [
               ...assistants,
               {
@@ -549,7 +503,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
               },
             ];
           });
-          this.selectedAssistant.set(assistant.id);
+          this.selectedAssistant.set(assistant.id);*/
         },
         error: (err) => {
           this.error.set(this.makeError(err));
