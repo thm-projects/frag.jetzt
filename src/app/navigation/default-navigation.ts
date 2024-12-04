@@ -76,10 +76,10 @@ export const getDefaultHeader = (
       const isGuestUser = user?.isGuest;
 
       const account_icon = isAdmin
-        ? 'shield_person'
+        ? 'admin_panel_settings'
         : isGuestUser
-          ? 'person'
-          : 'face';
+          ? 'domino_mask'
+          : 'account_circle';
 
       return {
         slogan: isHome ? i18n.header.slogan : '',
