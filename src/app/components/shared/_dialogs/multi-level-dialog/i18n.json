@@ -9,7 +9,15 @@
     "completeText": "Klicke auf »Raum erstellen«, um die Raum-Konfiguration zu speichern.",
     "single": "Frage {{number}}",
     "range": "Fragen {{start}} bis {{end}}",
-    "elemTitle": "KI-Assistenz aktivieren"
+    "elemTitle": "KI-Assistenz aktivieren",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "guest": "Gast",
+    "logged_in_as": "Angemeldet als: ",
+    "a11yPrevious": "Zurück",
+    "a11yNext": "Weiter",
+    "a11yLogin": "Anmelden",
+    "a11yLogout": "Abmelden"
   },
   "en": {
     "title": "Create room",
@@ -20,8 +28,15 @@
     "completeText": "Click »Create room« to save the room configuration.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}",
-    "elemTitle": "Activate AI assistant"
-
+    "elemTitle": "Activate AI assistant",
+    "login": "Login",
+    "logout": "Logout",
+    "guest": "Guest",
+    "logged_in_as": "Logged in as: ",
+    "a11yPrevious": "Previous",
+    "a11yNext": "Next",
+    "a11yLogin": "Login",
+    "a11yLogout": "Logout"
   },
   "fr": {
     "title": "Créer espace",
@@ -32,7 +47,14 @@
     "completeText": "Clique sur « Créer espace » pour enregistrer la configuration de la salle.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}",
-    "elemTitle": "Activer l'assistant IA"
-     
+    "elemTitle": "Activer l'assistant IA",
+    "login": "S'inscrire",
+    "logout": "Se désinscrire",
+    "guest": "Invité",
+    "logged_in_as": "Connecté en tant que: ",
+    "a11yPrevious": "Précédent",
+    "a11yNext": "Suivant",
+    "a11yLogin": "S'inscrire",
+    "a11yLogout": "Se désinscrire"
   }
 }

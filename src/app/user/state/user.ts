@@ -272,7 +272,7 @@ export const logout = (): Observable<void> => {
       dataService.config.createOrUpdate({ key: 'logged-in', value: 'false' }),
     ),
     tap(() => userSignal.set(null)),
-    switchMap(() => of()),
+    switchMap(() => of(void 0)),
   );
 };
 

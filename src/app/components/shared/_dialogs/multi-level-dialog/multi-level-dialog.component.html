@@ -57,17 +57,42 @@
                 "></ng-container>
             }
             <div class="button-container">
+              @if (isFirst) {
+                <div class="logged-in-info" *ngIf="isLoggedIn">
+                  <p>{{ getLoggedInText() }}</p>
+                </div>
+                <button
+                  *ngIf="!isLoggedIn"
+                  mat-flat-button
+                  class="secondary login-button"
+                  [attr.aria-label]="i18n().a11yLogin"
+                  (click)="onLoginClick()">
+                  <mat-icon>login</mat-icon>
+                  {{ i18n().login }}
+                </button>
+                <button
+                  *ngIf="isLoggedIn"
+                  mat-flat-button
+                  class="secondary logout-button"
+                  [attr.aria-label]="i18n().a11yLogout"
+                  (click)="onLogoutClick()">
+                  <mat-icon>logout</mat-icon>
+                  {{ i18n().logout }}
+                </button>
+              }
               @if (!isFirst || showBackOption) {
                 <button
-                  mat-button
+                  mat-stroked-button
+                  color="primary"
+                  [attr.aria-label]="i18n().a11yPrevious"
                   matStepperPrevious>
                   {{ i18n().previous }}
                 </button>
               }
-              <span style="flex: 1"></span>
               <button
                 mat-flat-button
-                class="secondary"
+                class="primary"
+                [attr.aria-label]="i18n().a11yNext"
                 (click)="next(i + offsetIndex)">
                 <mat-icon>arrow_forward_ios</mat-icon>
                 {{ i18n().next }}

@@ -1,9 +1,12 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: end;
   gap: 0.75em;
 }
 
 mat-progress-bar {
   margin-bottom: 1em;
 }
+
