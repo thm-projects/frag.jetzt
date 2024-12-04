@@ -194,6 +194,7 @@ textarea {
 .input-container-compact {
   width: 100%;
   display: flex;
+  max-width: calc(100dvw - 16px);
 }
 
 .textarea-wrapper {

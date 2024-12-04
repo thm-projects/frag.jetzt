@@ -210,3 +210,18 @@ export const resumeWith = <T>(
 ): MonoTypeOperatorFunction<T> => {
   return (source) => concat(source, observable);
 };
+
+export const deepEqual = (a: unknown, b: unknown): boolean => {
+  if (a === b) return true;
+  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return false;
+  const aKeys = new Set(Object.keys(a));
+  const bKeys = new Set(Object.keys(b));
+  if (aKeys.size !== bKeys.size) return false;
+  for (const key of aKeys) {
+    if (!bKeys.has(key)) return false;
+  }
+  for (const key of aKeys) {
+    if (!deepEqual(a[key], b[key])) return false;
+  }
+  return true;
+};

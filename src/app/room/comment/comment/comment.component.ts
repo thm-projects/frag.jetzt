@@ -111,13 +111,13 @@ export class CommentComponent implements AfterViewInit {
     if (u?.id === c.creatorId) {
       return ['person', i18n().fromOwn];
     }
-    const r = room();
+    const r = room.value();
     const isOwner = r?.ownerId === c.creatorId;
     if (isOwner) {
       return ['co_present', i18n().fromOwner];
     }
     const isModerator =
-      moderators()?.findIndex((m) => m.accountId === u?.id) >= 0;
+      moderators.value()?.findIndex((m) => m.accountId === u?.id) >= 0;
     if (isModerator) {
       return ['support_agent', i18n().fromModerator];
     }

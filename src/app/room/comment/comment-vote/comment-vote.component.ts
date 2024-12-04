@@ -36,7 +36,7 @@ export class CommentVoteComponent {
 
   constructor() {
     effect(() => {
-      const votes = userVotes();
+      const votes = userVotes.value();
       if (!votes) return;
       const value = (votes.get(this.comment().id)?.vote || 0) as 0 | 1 | -1;
       this.vote.set({ value, state: 'valid' });
@@ -59,14 +59,14 @@ export class CommentVoteComponent {
           : this.voteService.voteDown(this.comment(), user().id);
       observable = obs.pipe(
         map((v) => {
-          userVotes().set(this.comment().id, v);
+          userVotes.value().set(this.comment().id, v);
           return null;
         }),
       );
     } else {
       observable = this.voteService.resetVote(this.comment(), user().id).pipe(
         map(() => {
-          userVotes().delete(this.comment().id);
+          userVotes.value().delete(this.comment().id);
           return null;
         }),
       );

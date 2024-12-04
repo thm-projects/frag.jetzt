@@ -11,6 +11,8 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
 }
 
 .text-files-wrapper {
@@ -35,4 +37,11 @@
   resize: none;
   overflow: auto;
   padding: 0;
+}
+
+mat-spinner {
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  --mdc-circular-progress-active-indicator-color: currentColor;
 }

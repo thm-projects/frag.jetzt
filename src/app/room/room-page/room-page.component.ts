@@ -72,7 +72,7 @@ const i18n = I18nLoader.load(rawI18n);
   styleUrl: './room-page.component.scss',
 })
 export class RoomPageComponent {
-  protected readonly room = room;
+  protected readonly room = room.value;
   protected readonly mode = computed(() => {
     return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
   });

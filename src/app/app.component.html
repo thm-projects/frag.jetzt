@@ -1,9 +1,5 @@
 <m3-navigation #nav>
-  <router-outlet
-    (activate)="nav.onNavigate(); onActive($event)"
-    (detach)="onDetach($event)"
-    (attach)="onAttach($event)"
-    (deactivate)="onDeactivate($event)"></router-outlet>
+  <router-outlet (activate)="nav.onNavigate()"></router-outlet>
 </m3-navigation>
 
 <style>
