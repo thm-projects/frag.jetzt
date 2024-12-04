@@ -161,8 +161,11 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.rewriteCommentData) {
-      // TODO
-      // this.commentData.currentData = clone(this.rewriteCommentData.body);
+      this.data.set(this.rewriteCommentData.body);
+      this.questionerNameFormControl.disable();
+      this.selectedTag = this.tags.includes(this.rewriteCommentData.tag)
+        ? this.rewriteCommentData.tag
+        : null;
     }
   }
 
@@ -230,6 +233,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
       keywordExtractionActive:
         this.sessionService.currentRoom?.keywordExtractionActive,
     };
+    localStorage.setItem('comment-created', String(true));
     this.onClose(this._keywordExtractor.createPlainComment(options));
     // TODO
     // let allowed = true;

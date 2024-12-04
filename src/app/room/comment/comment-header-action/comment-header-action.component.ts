@@ -117,7 +117,7 @@ export class CommentHeaderActionComponent {
       const c = this.comment();
       const isParticipant = this.assignedRole() === 'Participant';
       if (!isParticipant) return;
-      const bookmarks = userBookmarks();
+      const bookmarks = userBookmarks.value();
       if (!bookmarks) {
         this.bookmark.set({
           value: false,
@@ -166,7 +166,7 @@ export class CommentHeaderActionComponent {
   }
 
   private copyLink() {
-    const url = `${window.location.protocol}//${window.location.host}/participant/room/${room().shortId}/comment/${this.comment().id}/conversation`;
+    const url = `${window.location.protocol}//${window.location.host}/participant/room/${room.value().shortId}/comment/${this.comment().id}/conversation`;
     copyText(url).subscribe();
   }
 
@@ -213,21 +213,21 @@ export class CommentHeaderActionComponent {
     if (!current.value) {
       observable = this.bookmarkService
         .create({
-          roomId: room().id,
+          roomId: room.value().id,
           accountId: user().id,
           commentId: this.comment().id,
         })
         .pipe(
           map((x) => {
-            userBookmarks().set(this.comment().id, x);
+            userBookmarks.value().set(this.comment().id, x);
             return null;
           }),
         );
     } else {
-      const bookmark = userBookmarks().get(this.comment().id);
+      const bookmark = userBookmarks.value().get(this.comment().id);
       observable = this.bookmarkService.delete(bookmark.id).pipe(
         map(() => {
-          userBookmarks().delete(this.comment().id);
+          userBookmarks.value().delete(this.comment().id);
           return null;
         }),
       );
@@ -291,7 +291,7 @@ export class CommentHeaderActionComponent {
     const text = i18n();
     const isOwner = this.comment().creatorId === user().id;
     const isModerator = this.assignedRole() !== 'Participant';
-    const hasBonus = room()?.bonusArchiveActive;
+    const hasBonus = room.value()?.bonusArchiveActive;
     return [
       isModerator &&
         ({

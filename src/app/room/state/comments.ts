@@ -1,35 +1,19 @@
-import { getInjector } from 'app/base/angular-init';
 import { Bookmark } from 'app/models/bookmark';
-import { Room } from 'app/models/room';
 import { BookmarkService } from 'app/services/http/bookmark.service';
-import { fetchingSignal } from 'app/utils/fetching-signal';
-import { map, of, switchMap } from 'rxjs';
+import { computedResource } from 'app/utils/computed-resource';
+import { map } from 'rxjs';
 import { room } from './room';
 import { user } from 'app/user/state/user';
 import { Vote } from 'app/models/vote';
 import { VoteService } from 'app/services/http/vote.service';
 import { CommentService } from 'app/services/http/comment.service';
-import { Comment } from 'app/models/comment';
-import { computed } from '@angular/core';
-import { User } from 'app/models/user';
+import { computed, inject } from '@angular/core';
 
 // comments - fetching
 
-export const comments = fetchingSignal<Room, Comment[]>({
-  initialState: null,
-  fetchingState: () => null,
-  fetch: (room) => {
-    if (!room) {
-      return of(null);
-    }
-    // TODO: Stream
-    return getInjector().pipe(
-      switchMap((injector) =>
-        injector.get(CommentService).getAckComments(room.id),
-      ),
-    );
-  },
-  provider: room,
+export const comments = computedResource({
+  request: () => room.value()?.id,
+  loader: (params) => inject(CommentService).getAckComments(params.request),
 });
 
 // comment meta
@@ -41,13 +25,13 @@ interface UserCountEntry {
 
 export const commentsMeta = computed(() => {
   const userCount = new Map<string, UserCountEntry>();
-  const elems = comments();
+  const elems = comments.value();
   if (!elems) {
     return {
       userCount,
     };
   }
-  for (const c of comments()) {
+  for (const c of elems) {
     let obj: UserCountEntry;
     if (userCount.has(c.creatorId)) {
       obj = userCount.get(c.creatorId);
@@ -67,53 +51,46 @@ export const commentsMeta = computed(() => {
 
 // userBookmarks - fetching
 
-export const userBookmarks = fetchingSignal<
-  [Room, User],
-  Map<string, Bookmark>
->({
-  initialState: null,
-  fetchingState: () => null,
-  fetch: ([room, user]) => {
-    if (!room || !user) {
-      return of(null);
-    }
-    return getInjector().pipe(
-      switchMap((injector) =>
-        injector.get(BookmarkService).getByRoomId(room.id),
-      ),
-      map((bookmarks) => {
-        const result = new Map<string, Bookmark>();
-        for (const bookmark of bookmarks) {
-          result.set(bookmark.commentId, bookmark);
-        }
-        return result;
-      }),
-    );
+export const userBookmarks = computedResource({
+  request: () => {
+    const r = room.value();
+    const u = user();
+    if (!r || !u) return undefined;
+    return r.id;
   },
-  provider: computed(() => [room(), user()]),
+  loader: (params) =>
+    inject(BookmarkService)
+      .getByRoomId(params.request)
+      .pipe(
+        map((bookmarks) => {
+          const result = new Map<string, Bookmark>();
+          for (const bookmark of bookmarks) {
+            result.set(bookmark.commentId, bookmark);
+          }
+          return result;
+        }),
+      ),
 });
 
 // userVotes - fetching
 
-export const userVotes = fetchingSignal<[Room, User], Map<string, Vote>>({
-  initialState: null,
-  fetchingState: () => null,
-  fetch: ([room, user]) => {
-    if (!room || !user) {
-      return of(null);
-    }
-    return getInjector().pipe(
-      switchMap((injector) =>
-        injector.get(VoteService).getByRoomIdAndUserID(room.id, user.id),
-      ),
-      map((votes) => {
-        const result = new Map<string, Vote>();
-        for (const vote of votes) {
-          result.set(vote.commentId, vote);
-        }
-        return result;
-      }),
-    );
+export const userVotes = computedResource({
+  request: () => {
+    const r = room.value();
+    const u = user();
+    if (!r || !u) return undefined;
+    return [r.id, u.id] as const;
   },
-  provider: computed(() => [room(), user()]),
+  loader: (params) =>
+    inject(VoteService)
+      .getByRoomIdAndUserID(params.request[0], params.request[1])
+      .pipe(
+        map((votes) => {
+          const result = new Map<string, Vote>();
+          for (const vote of votes) {
+            result.set(vote.commentId, vote);
+          }
+          return result;
+        }),
+      ),
 });

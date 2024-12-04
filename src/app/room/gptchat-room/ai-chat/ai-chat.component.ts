@@ -8,7 +8,6 @@ import {
   effect,
   inject,
   input,
-  model,
   output,
   signal,
   untracked,
@@ -19,9 +18,8 @@ import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.m
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { language } from 'app/base/language/language';
 import {
   AssistantsService,
   FileObject,
@@ -32,25 +30,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { KeyboardUtils } from 'app/utils/keyboard';
-import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   AssistantChatComponent,
   SubmitEvent,
-  AssistantFile,
 } from '../../assistant-route/assistant-chat/assistant-chat.component';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 import {
   AssistantFileService,
   UploadedFile,
 } from 'app/room/assistant-route/services/assistant-file.service';
-import {
-  Assistant,
-  WrappedAssistant,
-} from 'app/room/assistant-route/services/assistant-manage.service';
 
 interface OverriddenMessage extends Message {
   chunks: string[];
@@ -90,11 +81,9 @@ export class AiChatComponent {
   selectedThread = input.required<unknown | null>();
   canSend = input.required<boolean>();
   isPrivileged = input.required<boolean>();
-  sortedAssistRefs = input.required<WrappedAssistant[]>();
-  selectedAssistantName = input.required<string>();
   overrideMessage = input<string>();
-  selectedAssistant = model.required<Assistant['id']>();
   onNewClick = input.required<() => void>();
+  defaultText = input('');
   onSend =
     input.required<(message: string, files: UploadedFile[]) => boolean>();
   protected fileReference = signal<FileReference[]>([]);
@@ -117,20 +106,8 @@ export class AiChatComponent {
     return messages;
   });
   protected readonly i18n = i18n;
-  protected files = signal<AssistantFile[]>([]);
-  protected filesString = computed(() => {
-    return new Intl.ListFormat(language(), {
-      localeMatcher: 'best fit',
-      style: 'long',
-      type: 'conjunction',
-    }).format(this.files().map((e) => e.name as string));
-  });
-  protected inputMessage = new FormControl();
   private scroll = viewChild('scroll', {
     read: ElementRef<HTMLElement>,
-  });
-  private fileInput = viewChild('fileInput', {
-    read: ElementRef<HTMLInputElement>,
   });
   protected follow = signal(false);
   protected mobile = computed(
@@ -167,54 +144,16 @@ export class AiChatComponent {
           this.scroll().nativeElement.scrollHeight;
       }
     });
-
-    effect(() => {
-      this.selectedThread();
-      this.inputMessage.setValue('');
-      this.files.set([]);
-      const fileInput = this.fileInput()?.nativeElement;
-      if (fileInput) {
-        fileInput.value = '';
-      }
-    });
-  }
-
-  setValue(text: string) {
-    this.inputMessage.setValue(text);
-  }
-
-  protected onKeyDown(e: KeyboardEvent) {
-    if (e.defaultPrevented) {
-      return;
-    }
-    if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Enter)) {
-      const hasModifier =
-        e.getModifierState('Meta') ||
-        e.getModifierState('Alt') ||
-        e.getModifierState('AltGraph') ||
-        e.getModifierState('Control') ||
-        e.getModifierState('Shift');
-      if (hasModifier === windowWatcher.isMobile()) {
-        e.preventDefault();
-        this.buildSendMessage();
-        return;
-      }
-    }
   }
 
   protected toggleFollow() {
     this.follow.update((f) => !f);
   }
 
-  protected sendExampleTopic(value: string) {
-    this.inputMessage.setValue(value);
-    this.buildSendMessage();
-  }
-
-  protected buildSendMessage() {
+  protected buildSendMessage(text: string) {
     this.sendMessage({
-      text: this.inputMessage.value,
-      files: this.files(),
+      text,
+      files: [],
       reset: () => {},
     });
   }
@@ -230,18 +169,7 @@ export class AiChatComponent {
       )
     ) {
       e.reset();
-      this.inputMessage.setValue('');
-      this.files.set([]);
-      const fileInput = this.fileInput()?.nativeElement;
-      if (fileInput) {
-        fileInput.value = '';
-      }
     }
-  }
-
-  protected updateHeight(area: HTMLTextAreaElement) {
-    area.style.height = 'auto';
-    area.style.height = area.scrollHeight + 'px';
   }
 
   private chunkMessage(

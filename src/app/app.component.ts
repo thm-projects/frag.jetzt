@@ -593,20 +593,4 @@ export class AppComponent implements OnInit {
       ),
     );
   }
-
-  onActive($event: unknown) {
-    console.log('activate', $event);
-  }
-
-  onDetach($event: unknown) {
-    console.log('detach', $event);
-  }
-
-  onAttach($event: unknown) {
-    console.log('attach', $event);
-  }
-
-  onDeactivate($event: unknown) {
-    console.log('deactivate', $event);
-  }
 }

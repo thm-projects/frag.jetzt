@@ -1,9 +1,14 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { HttpEventType } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   inject,
+  input,
   model,
   output,
   signal,
@@ -23,6 +28,17 @@ import {
   AssistantFileService,
   UploadedFile,
 } from '../services/assistant-file.service';
+import { MatMenuModule } from '@angular/material/menu';
+import {
+  selectAssistant,
+  selectedAssistant,
+  sortedAssistants,
+} from '../state/assistant';
+import { AssistantsManageComponent } from '../assistants-manage/assistants-manage.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface AssistantFile {
   name: string;
@@ -49,19 +65,41 @@ interface FileInfo extends AssistantFile {
     MatIconModule,
     FormsModule,
     AssistantUploadComponent,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './assistant-chat.component.html',
   styleUrl: './assistant-chat.component.scss',
 })
 export class AssistantChatComponent implements AfterViewInit {
   onSubmit = output<SubmitEvent>();
-  protected readonly text = model<string>('');
+  text = model<string>('');
+  isSending = input.required<boolean>();
+  minHeight = input.required<number>();
+  protected readonly i18n = i18n;
+  protected selectedAssistant = selectedAssistant;
+  protected sortedAssistants = sortedAssistants;
+  protected selectAssistant = selectAssistant;
   protected readonly uploadedFiles = signal<FileInfo[]>([]);
+  protected isPrivileged = signal(false);
   private readonly fileInput =
     viewChild<ElementRef<HTMLInputElement>>('fileInput');
   private readonly textArea =
     viewChild<ElementRef<HTMLTextAreaElement>>('textArea');
   private file = inject(AssistantFileService);
+  private dialog = inject(MatDialog);
+
+  constructor(roomState: RoomStateService) {
+    effect((onCleanup) => {
+      const sub = roomState.assignedRole$.subscribe((e) =>
+        this.isPrivileged.set(e !== 'Participant'),
+      );
+      onCleanup(() => {
+        sub.unsubscribe();
+      });
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => this.resize(this.textArea().nativeElement));
@@ -75,7 +113,8 @@ export class AssistantChatComponent implements AfterViewInit {
 
   protected resize(textArea: HTMLTextAreaElement) {
     textArea.style.height = '0';
-    textArea.style.height = textArea.scrollHeight + 'px';
+    textArea.style.height =
+      Math.max(this.minHeight(), textArea.scrollHeight) + 'px';
   }
 
   protected onKeyDown(e: KeyboardEvent) {
@@ -105,6 +144,7 @@ export class AssistantChatComponent implements AfterViewInit {
   }
 
   protected send() {
+    if (this.isSending()) return;
     this.onSubmit.emit({
       text: this.text(),
       files: this.uploadedFiles()
@@ -119,6 +159,10 @@ export class AssistantChatComponent implements AfterViewInit {
 
   protected removeFile(file: FileInfo) {
     this.uploadedFiles.update((files) => files.filter((f) => f !== file));
+  }
+
+  protected onNewClick() {
+    AssistantsManageComponent.open(this.dialog, 'room');
   }
 
   private uploadFiles(file: FileList) {

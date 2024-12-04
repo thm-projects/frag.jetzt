@@ -18,16 +18,11 @@ import {
 } from 'modules/navigation/m3-navigation.types';
 import { AssistantsManageComponent } from 'app/room/assistant-route/assistants-manage/assistants-manage.component';
 import { MatDialog } from '@angular/material/dialog';
-import { WrappedAssistant } from 'app/room/assistant-route/services/assistant-manage.service';
 
-export interface Data {
-  onOutput: (change: WrappedAssistant[]) => void;
-}
-
-export const applyAiNavigation = (injector: Injector, data: Data) => {
+export const applyAiNavigation = (injector: Injector) => {
   return combineLatest([
     getRoomHeader(injector),
-    getAiNavigation(injector, data),
+    getAiNavigation(injector),
   ]).pipe(
     map(([header, navigation]) => {
       HEADER.set(header);
@@ -36,7 +31,7 @@ export const applyAiNavigation = (injector: Injector, data: Data) => {
   );
 };
 
-export const getAiNavigation = (injector: Injector, data: Data) => {
+export const getAiNavigation = (injector: Injector) => {
   const roomState = injector.get(RoomStateService);
   return combineLatest([
     getRoomNavigation(injector),
@@ -60,11 +55,7 @@ export const getAiNavigation = (injector: Injector, data: Data) => {
           title: i18n.manageAssistants,
           icon: 'edit_square',
           onClick: () => {
-            const ref = AssistantsManageComponent.open(
-              injector.get(MatDialog),
-              'room',
-            );
-            ref.afterClosed().subscribe((out) => data.onOutput(out));
+            AssistantsManageComponent.open(injector.get(MatDialog), 'room');
             return false;
           },
         },
