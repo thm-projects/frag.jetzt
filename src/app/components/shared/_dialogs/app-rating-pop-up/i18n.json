@@ -8,8 +8,8 @@
     "stars5": "4,5 - 5 Sterne",
     "from5": "{{rating}} von 5",
     "people": "{{people}} Bewertungen",
-    "link": "Zum Feedback-Raum",
-    "title": "App-Bewertung"
+    "link": "Feedback-Raum",
+    "title": "frag.jetzt bewerten"
   },
   "en": {
     "star": "0.5 - 1 star",
@@ -19,7 +19,7 @@
     "stars5": "4.5 - 5 stars",
     "from5": "{{rating}} from 5",
     "people": "{{people}} ratings",
-    "link": "To the Feedback Room",
+    "link": "Feedback Room",
     "title": "App rating"
   },
   "fr": {
@@ -30,7 +30,7 @@
     "stars5": "4,5 - 5 étoiles",
     "from5": "{{rating}} sur 5",
     "people": "{{people}} Évaluations",
-    "link": "Vers la salle « Feedback »",
+    "link": "Salle « Feedback »",
     "title": "Évaluation de l'app"
   }
 }

@@ -361,7 +361,7 @@ export const getDefaultNavigation = (
             options: [
               {
                 id: 'feedback-room',
-                icon: 'meeting_room',
+                icon: 'door_front',
                 title: i18n.options.feedbackRoom,
                 onClick: () => {
                   open(
