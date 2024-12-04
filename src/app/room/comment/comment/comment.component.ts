@@ -109,7 +109,7 @@ export class CommentComponent implements AfterViewInit {
     }
     const u = user();
     if (u?.id === c.creatorId) {
-      return ['account_circle', i18n().fromOwn];
+      return ['person', i18n().fromOwn];
     }
     const r = room();
     const isOwner = r?.ownerId === c.creatorId;
@@ -122,7 +122,7 @@ export class CommentComponent implements AfterViewInit {
       return ['support_agent', i18n().fromModerator];
     }
     if (c.gptWriterState !== 0) {
-      return ['robot_2', i18n().withAI];
+      return ['robot', i18n().withAI];
     }
     return ['group', i18n().fromParticipant];
   }
