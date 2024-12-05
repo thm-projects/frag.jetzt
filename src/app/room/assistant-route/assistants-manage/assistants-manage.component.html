@@ -173,15 +173,15 @@
           @switch (override.get("type").value) {
             @case ("text") {
               <div class="inline-wrapper">
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ i18n().settingKey }}</mat-label>
-                  <input
-                    matInput
-                    formControlName="key" />
-                </mat-form-field>
+                <input
+                  matInput
+                  formControlName="key"
+                  hidden />
 
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ i18n().settingValue }}</mat-label>
+                <mat-form-field
+                  appearance="outline"
+                  floatLabel="always">
+                  <mat-label>{{ override.get("key").value }}</mat-label>
                   <input
                     matInput
                     formControlName="value" />
@@ -198,15 +198,13 @@
 
             @case ("select") {
               <div class="inline-wrapper">
-                <mat-form-field appearance="outline">
-                  <mat-label>{{ i18n().settingKey }}</mat-label>
-                  <input
-                    matInput
-                    formControlName="key" />
-                </mat-form-field>
+                <input
+                  matInput
+                  formControlName="key"
+                  hidden />
 
                 <mat-form-field appearance="outline">
-                  <mat-label>{{ i18n().settingValue }}</mat-label>
+                  <mat-label>{{ override.get("key").value }}</mat-label>
                   <mat-select
                     formControlName="value"
                     [value]="override.get('value').value">
