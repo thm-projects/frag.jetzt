@@ -296,11 +296,23 @@ export class AssistantsManageComponent {
         key: [key, Validators.required],
         options: [
           [
-            { value: 0, label: this.i18n().temperature.notCreative },
-            { value: 0.25, label: this.i18n().temperature.somewhatCreative },
-            { value: 0.5, label: this.i18n().temperature.balanced },
-            { value: 0.75, label: this.i18n().temperature.creative },
-            { value: 1, label: this.i18n().temperature.highlyCreative },
+            { value: 0, label: this.i18n().temperature.notCreative + ' (= 0)' },
+            {
+              value: 0.25,
+              label: this.i18n().temperature.somewhatCreative + ' (= 0.25)',
+            },
+            {
+              value: 0.5,
+              label: this.i18n().temperature.balanced + ' (= 0.5)',
+            },
+            {
+              value: 0.75,
+              label: this.i18n().temperature.creative + ' (= 0.75)',
+            },
+            {
+              value: 1,
+              label: this.i18n().temperature.highlyCreative + ' (= 1)',
+            },
           ],
         ],
         value: [0.5],
