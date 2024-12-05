@@ -1,18 +1,18 @@
 {
   "key": "donation",
   "de": {
-    "title": "Mach mit!",
-    "content": "Damit frag.jetzt für alle kostenlos bleibt, brauchen wir deine Unterstützung bei den Serverkosten.\n\nJeder Euro hilft.\n\n\n\n**[frag.jetzt unterstützen via PayPal]({{url}})**",
+    "title": "Hilf mit!",
+    "content": "frag.jetzt bleibt kostenlos und werbefrei –\nmit deiner Unterstützung!\n\nSchon ein kleiner Beitrag hilft, die Serverkosten zu decken.\n\n**[Jetzt via PayPal unterstützen]({{url}})**",
     "close": "Schließen"
   },
   "en": {
-    "title": "Join us!",
-    "content": "To keep frag.jetzt free for everyone, we need your support with server costs.\n\nEvery euro helps.\n\n\n\n**[Support frag.jetzt via PayPal]({{url}})**",
+    "title": "Support us!",
+    "content": "frag.jetzt stays free and ad-free –\nthanks to your help!\n\nEven a small contribution helps cover server costs.\n\n**[Support us via PayPal]({{url}})**",
     "close": "Close"
   },
   "fr": {
-    "title": "Participe avec nous !",
-    "content": "Pour que frag.jetzt reste gratuit pour tous, nous avons besoin de ton aide pour les frais de serveur.\n\nChaque euro compte.\n\n\n\n**[Soutenir frag.jetzt via PayPal]({{url}})**",
+    "title": "Soutiens-nous !",
+    "content": "frag.jetzt reste gratuit et sans pub –\ngrâce à ton aide !\n\nMême un petit geste peut couvrir les frais de serveur.\n\n**[Soutiens-nous via PayPal]({{url}})**",
     "close": "Fermer"
-  }
+  }  
 }
