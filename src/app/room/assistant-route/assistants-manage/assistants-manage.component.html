@@ -286,7 +286,7 @@
         type="button"
         [matTooltip]="i18n().add"
         [disabled]="keyInput.validity.valueMissing"
-        (click)="addJsonSetting(keyInput.value)">
+        (click)="addJsonSetting(keyInput.value); keyInput.value = ''">
         <mat-icon>add</mat-icon>
       </button>
     </div>
