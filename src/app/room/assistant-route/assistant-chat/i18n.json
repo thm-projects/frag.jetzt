@@ -1,0 +1,21 @@
+{
+  "key": "assistant-chat",
+  "de": {
+    "send": "Senden",
+    "assistent": "Assistent",
+    "create": "Neuer Assistent",
+    "attach": "Datei anhängen"
+  },
+  "en": {
+    "send": "Send",
+    "assistent": "Assistant",
+    "create": "New Assistant",
+    "attach": "Attach Files"
+  },
+  "fr": {
+    "send": "Envoyer",
+    "assistent": "Assistant",
+    "create": "Nouvel Assistant",
+    "attach": "Joindre des fichiers"
+  }
+}

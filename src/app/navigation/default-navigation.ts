@@ -95,13 +95,6 @@ export const getDefaultHeader = (
                 className: isOnline ? '' : 'error-text',
                 items: [
                   {
-                    svgIcon: 'fj_robot',
-                    title: i18n.header.myAiPrompts,
-                    onClick: () => {
-                      router.navigate(['/gpt-prompts']);
-                    },
-                  },
-                  {
                     icon: 'grade',
                     title: i18n.header.myStars,
                     onClick: () => {
@@ -361,7 +354,7 @@ export const getDefaultNavigation = (
             options: [
               {
                 id: 'feedback-room',
-                icon: 'meeting_room',
+                icon: 'door_front',
                 title: i18n.options.feedbackRoom,
                 onClick: () => {
                   open(

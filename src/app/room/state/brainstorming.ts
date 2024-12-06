@@ -12,7 +12,7 @@ export const updateCategories = (categories: BrainstormingCategory[]) => {
 getInjector().subscribe((injector) => {
   effect(
     () => {
-      const r = room();
+      const r = room.value();
       if (!r) {
         categoriesSignal.set(null);
       }

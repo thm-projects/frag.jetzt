@@ -39,6 +39,9 @@ export class EditQuestionComponent {
       const newKeyQuestioner = JSON.stringify(
         newComment.keywordsFromQuestioner,
       );
+      if (newComment.tag !== this.comment.tag) {
+        changes.set('tag', newComment.tag);
+      }
       if (
         newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromQuestioner)
       ) {

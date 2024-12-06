@@ -18,10 +18,21 @@ import { RatingService } from '../../../services/http/rating.service';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
-import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
+import {
+  Observable,
+  ReplaySubject,
+  filter,
+  first,
+  forkJoin,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
 import { user, user$ } from 'app/user/state/user';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-app-rating',
@@ -48,12 +59,20 @@ export class AppRatingComponent implements OnInit, OnDestroy {
   private listeningToMove = true;
   private changedBySubscription = false;
   private destroyer = new ReplaySubject(1);
+  private hasAccess: Observable<boolean>;
 
   constructor(
     private notificationService: NotificationService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
-  ) {}
+    accountState: AccountStateService,
+  ) {
+    const hasWritten = localStorage.getItem('comment-created') === 'true';
+    this.hasAccess = accountState.access$.pipe(
+      first((e) => Boolean(e)),
+      map((e) => Boolean(e.length && hasWritten)),
+    );
+  }
 
   getIcon(index: number) {
     if (this.visibleRating >= index + 1) {
@@ -75,15 +94,20 @@ export class AppRatingComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         take(1),
-        switchMap((user) => this.ratingService.getByAccountId(user.id)),
+        switchMap((user) =>
+          forkJoin([
+            this.ratingService.getByAccountId(user.id),
+            this.hasAccess,
+          ]),
+        ),
         takeUntil(this.destroyer),
       )
-      .subscribe((r) => {
+      .subscribe(([r, access]) => {
         if (r !== undefined && r !== null) {
           this.visibleRating = r.rating;
           this.changedBySubscription = true;
         } else {
-          this.mode.set('rating');
+          this.mode.set(access ? 'rating' : 'show');
         }
       });
   }
