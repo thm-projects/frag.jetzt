@@ -51,6 +51,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NotificationService } from 'app/services/util/notification.service';
 import { concatMap, filter, Observable, of } from 'rxjs';
 import { CollapsibleTextComponent } from './collapsible-text/collapsible-text.component';
+import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { language } from 'app/base/language/language';
 import { MatListModule } from '@angular/material/list';
@@ -176,6 +177,7 @@ export class AssistantsManageComponent {
   private readonly listRef = viewChild<ElementRef<HTMLElement>>('listRef');
   private readonly formRef = viewChild<ElementRef<HTMLElement>>('formRef');
   private ref = inject(MatDialogRef);
+  private dialog = inject(MatDialog);
 
   constructor() {
     this.apiService.listProviders().subscribe((providers) => {
@@ -423,15 +425,34 @@ export class AssistantsManageComponent {
     this.reset();
   }
 
+  protected hasUnsavedChanges(): boolean {
+    const jsonSettingsDirty = this.getJsonSettings().some(
+      (control) => control.dirty,
+    );
+    return (
+      this.inputAssistant.dirty || this.files().length > 0 || jsonSettingsDirty
+    );
+  }
+
   protected close() {
     const assists = this.assistants();
-    if (assists === DUMMY) {
-      this.ref.close(null);
+
+    if (this.hasUnsavedChanges()) {
+      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'discard') {
+          this.ref.close(assists);
+        }
+      });
+    } else {
+      if (assists === DUMMY) {
+        this.ref.close(null);
+      }
+      if (this.mode() === 'room') {
+        updateForRoom(assists);
+      }
+      this.ref.close(assists);
     }
-    if (this.mode() === 'room') {
-      updateForRoom(assists);
-    }
-    this.ref.close(assists);
   }
 
   private patchAssistant() {
