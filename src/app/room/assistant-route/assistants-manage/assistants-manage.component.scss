@@ -82,7 +82,17 @@ mat-card {
   width: 100%;
 }
 
+mat-card-actions {
+  margin-top: 1em;
+}
+
 h3 {
   padding-top: 0;
   margin-top: 0;
+}
+
+.upload-area {
+  border: 1px dashed var(--mat-sys-outline);
+  border-radius: 5px;
+  padding: 0.5em;
 }
