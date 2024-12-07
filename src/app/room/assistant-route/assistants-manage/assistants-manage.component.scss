@@ -1,11 +1,19 @@
-mat-toolbar {
-  min-height: 56px;
-  max-width: 850px;
-  margin: auto;
-  background-color: var(--mat-sys-primary-container);
+.toolbar-container {
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-container);
 
-  button {
-    color: var(--mat-sys-on-primary-container);
+  mat-toolbar {
+    margin: auto;
+    max-width: 700px;
+    background-color: var(--mat-sys-surface-container);
+
+    button {
+      color: var(--mat-sys-primary);
+    }
+
+    > h1 {
+      font-size: 1.2em;
+    }
   }
 }
 

@@ -2,15 +2,17 @@
   (window:dragover)="onDrag($event)"
   (window:drop)="onDrop($event)"></ng-container>
 
-<mat-toolbar>
-  <button
-    mat-icon-button
-    class="close-button"
-    (click)="close()">
-    <mat-icon>close</mat-icon>
-  </button>
-  <h1>{{ i18n().title }}</h1>
-</mat-toolbar>
+<div class="toolbar-container">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="close-button"
+      (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1>{{ i18n().title }}</h1>
+  </mat-toolbar>
+</div>
 
 <div class="container">
   <mat-dialog-content>
