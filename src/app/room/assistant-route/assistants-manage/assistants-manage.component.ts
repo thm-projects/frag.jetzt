@@ -292,6 +292,7 @@ export class AssistantsManageComponent {
       return;
     }
     if (key === 'temperature') {
+      const numberFormat = new Intl.NumberFormat(I18nLoader.getCurrentLocale());
       const newEntry = this.formBuilder.group({
         property: [key],
         type: ['select'],
@@ -301,15 +302,21 @@ export class AssistantsManageComponent {
             { value: 0, label: this.i18n().temperature.notCreative + ' (= 0)' },
             {
               value: 0.25,
-              label: this.i18n().temperature.somewhatCreative + ' (= 0.25)',
+              label:
+                this.i18n().temperature.somewhatCreative +
+                ` (= ${numberFormat.format(0.25)})`,
             },
             {
               value: 0.5,
-              label: this.i18n().temperature.balanced + ' (= 0.5)',
+              label:
+                this.i18n().temperature.balanced +
+                ` (= ${numberFormat.format(0.5)})`,
             },
             {
               value: 0.75,
-              label: this.i18n().temperature.creative + ' (= 0.75)',
+              label:
+                this.i18n().temperature.creative +
+                ` (= ${numberFormat.format(0.75)})`,
             },
             {
               value: 1,
