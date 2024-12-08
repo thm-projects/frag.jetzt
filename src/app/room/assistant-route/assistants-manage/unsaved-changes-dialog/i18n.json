@@ -2,7 +2,7 @@
   "key": "unsaved-changes-dialog",
   "de": {
     "unsavedChangesTitle": "Ungespeicherte Änderungen",
-    "unsavedChangesMessage": "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
+    "unsavedChangesMessage": "Du hast ungespeicherte Änderungen. Willst du diese wirklich verwerfen?",
     "cancel": "Abbrechen",
     "discard": "Änderungen verwerfen"
   },
@@ -14,7 +14,7 @@
   },
   "fr": {
     "unsavedChangesTitle": "Modifications non enregistrées",
-    "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Voulez-vous vraiment les abandonner?",
+    "unsavedChangesMessage": "Tu as des modifications non enregistrées. Tu veux vraiment les annuler ?",
     "cancel": "Annuler",
     "discard": "Abandonner les modifications"
   }
