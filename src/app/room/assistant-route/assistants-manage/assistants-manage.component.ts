@@ -51,12 +51,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NotificationService } from 'app/services/util/notification.service';
 import { concatMap, filter, Observable, of } from 'rxjs';
 import { CollapsibleTextComponent } from './collapsible-text/collapsible-text.component';
+import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { language } from 'app/base/language/language';
 import { MatListModule } from '@angular/material/list';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
 import {
   AssistantFileService,
   UploadedFile,
@@ -124,6 +126,7 @@ const DUMMY = [];
     CollapsibleTextComponent,
     MatListModule,
     MatProgressBarModule,
+    MatSliderModule,
   ],
   templateUrl: './assistants-manage.component.html',
   styleUrl: './assistants-manage.component.scss',
@@ -174,6 +177,7 @@ export class AssistantsManageComponent {
   private readonly listRef = viewChild<ElementRef<HTMLElement>>('listRef');
   private readonly formRef = viewChild<ElementRef<HTMLElement>>('formRef');
   private ref = inject(MatDialogRef);
+  private dialog = inject(MatDialog);
 
   constructor() {
     this.apiService.listProviders().subscribe((providers) => {
@@ -282,17 +286,58 @@ export class AssistantsManageComponent {
     const t = this.inputAssistant.get(
       'override_json_settings',
     ) as FormArray<FormGroup>;
-    const index = t.controls.findIndex((c) => c.get('key').value === key);
+    const index = t.controls.findIndex((c) => c.get('property').value === key);
     if (index >= 0) {
       this.notification.show(this.i18n().propertyExists);
       return;
     }
-    const newEntry = this.formBuilder.group({
-      key: [key, Validators.required],
-      value: [''],
-    });
-    newEntry.get('key').disable();
-    t.push(newEntry);
+    if (key === 'temperature') {
+      const numberFormat = new Intl.NumberFormat(I18nLoader.getCurrentLocale());
+      const newEntry = this.formBuilder.group({
+        property: [key],
+        type: ['select'],
+        key: [key, Validators.required],
+        options: [
+          [
+            { value: 0, label: this.i18n().temperature.notCreative + ' (= 0)' },
+            {
+              value: 0.25,
+              label:
+                this.i18n().temperature.somewhatCreative +
+                ` (= ${numberFormat.format(0.25)})`,
+            },
+            {
+              value: 0.5,
+              label:
+                this.i18n().temperature.balanced +
+                ` (= ${numberFormat.format(0.5)})`,
+            },
+            {
+              value: 0.75,
+              label:
+                this.i18n().temperature.creative +
+                ` (= ${numberFormat.format(0.75)})`,
+            },
+            {
+              value: 1,
+              label: this.i18n().temperature.highlyCreative + ' (= 1)',
+            },
+          ],
+        ],
+        value: [0.5],
+      });
+      newEntry.get('key').disable();
+      t.push(newEntry);
+    } else {
+      const newEntry = this.formBuilder.group({
+        property: [key],
+        type: ['text'],
+        key: [key, Validators.required],
+        value: [''],
+      });
+      newEntry.get('key').disable();
+      t.push(newEntry);
+    }
   }
 
   protected removeJsonSetting(index: number) {
@@ -387,15 +432,34 @@ export class AssistantsManageComponent {
     this.reset();
   }
 
+  protected hasUnsavedChanges(): boolean {
+    const jsonSettingsDirty = this.getJsonSettings().some(
+      (control) => control.dirty,
+    );
+    return (
+      this.inputAssistant.dirty || this.files().length > 0 || jsonSettingsDirty
+    );
+  }
+
   protected close() {
     const assists = this.assistants();
-    if (assists === DUMMY) {
-      this.ref.close(null);
+
+    if (this.hasUnsavedChanges()) {
+      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'discard') {
+          this.ref.close(assists);
+        }
+      });
+    } else {
+      if (assists === DUMMY) {
+        this.ref.close(null);
+      }
+      if (this.mode() === 'room') {
+        updateForRoom(assists);
+      }
+      this.ref.close(assists);
     }
-    if (this.mode() === 'room') {
-      updateForRoom(assists);
-    }
-    this.ref.close(assists);
   }
 
   private patchAssistant() {
