@@ -194,6 +194,17 @@ class Loader {
       .subscribe((data) => newSignal.set(data as T));
     return newSignal.asReadonly();
   }
+
+  getCurrentLocale(): string {
+    switch (language()) {
+      case 'fr':
+        return 'fr-FR';
+      case 'de':
+        return 'de-DE';
+      default:
+        return 'en-US';
+    }
+  }
 }
 
 export const I18nLoader = new Loader();

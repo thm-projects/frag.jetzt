@@ -1,294 +1,398 @@
 <ng-container
   (window:dragover)="onDrag($event)"
   (window:drop)="onDrop($event)"></ng-container>
-<mat-toolbar>
-  <button
-    mat-icon-button
-    class="close-button"
-    (click)="close()">
-    <mat-icon>close</mat-icon>
-  </button>
-  <h1>{{ i18n().title }}</h1>
-</mat-toolbar>
 
-<mat-dialog-content>
-  <!-- List Assistants-->
-  <h2 #listRef>{{ i18n().assistants }}</h2>
-  <div class="card-container">
-    @for (entry of assistants(); track entry) {
-      <mat-card>
+<div class="toolbar-container">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="close-button"
+      (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1>{{ i18n().title }}</h1>
+  </mat-toolbar>
+</div>
+
+<div class="container">
+  <mat-dialog-content>
+    <!-- List Assistants-->
+    <h2 #listRef>{{ i18n().assistants }}</h2>
+    <div class="card-container">
+      @for (entry of assistants(); track entry) {
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ entry.assistant.name }}</mat-card-title>
+            <mat-card-subtitle>{{ entry.meta.subtitle }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <app-collapsible-text [text]="entry.assistant.description" />
+
+            <h3>{{ i18n().instruction }}</h3>
+            <app-collapsible-text [text]="entry.assistant.instruction" />
+
+            <h3>{{ i18n().moreInfo }}</h3>
+            @for (line of entry.meta.lines; track line) {
+              <p>{{ line }}</p>
+            }
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              mat-button
+              [disabled]="entry === editing() || saving()"
+              (click)="deleteAssistant(entry)">
+              <mat-icon>delete</mat-icon>
+              {{ i18n().delete }}
+            </button>
+            <span style="flex: 1"></span>
+            <button
+              mat-button
+              [disabled]="entry === editing() || saving()"
+              (click)="editAssistant(entry)">
+              <mat-icon>edit</mat-icon>
+              {{ i18n().edit }}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p>{{ i18n().noAssistants }}</p>
+      }
+    </div>
+
+    <!-- Input of new Assistant or edit Assistant -->
+    <form
+      [formGroup]="inputAssistant"
+      (ngSubmit)="addAssistant(form)"
+      #form="ngForm"
+      #formRef>
+      <mat-card class="new-chatbot-card">
         <mat-card-header>
-          <mat-card-title>{{ entry.assistant.name }}</mat-card-title>
-          <mat-card-subtitle>{{ entry.meta.subtitle }}</mat-card-subtitle>
+          <mat-card-title-group>
+            <mat-card-title>
+              {{ editing() ? i18n().editAssistant : i18n().newAssistant }}
+            </mat-card-title>
+            <mat-card-subtitle>
+              {{ i18n().newAssistantSubtitle }}
+            </mat-card-subtitle>
+          </mat-card-title-group>
         </mat-card-header>
         <mat-card-content>
-          <app-collapsible-text [text]="entry.assistant.description" />
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().name }}</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              required />
+            @if (inputAssistant.get("name").hasError("required")) {
+              <mat-error>{{ i18n().fieldRequired }}</mat-error>
+            }
+            @if (inputAssistant.get("name").hasError("maxlength")) {
+              <mat-error>{{ i18n().fieldTooLong }}</mat-error>
+            }
+          </mat-form-field>
 
-          <h3>{{ i18n().instruction }}</h3>
-          <app-collapsible-text [text]="entry.assistant.instruction" />
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().description }}</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              cdkAutosizeMinRows="3"
+              cdkTextareaAutosize
+              required></textarea>
+            @if (inputAssistant.get("description").hasError("required")) {
+              <mat-error>{{ i18n().fieldRequired }}</mat-error>
+            }
+            @if (inputAssistant.get("description").hasError("maxlength")) {
+              <mat-error>{{ i18n().fieldTooLong }}</mat-error>
+            }
+          </mat-form-field>
 
-          <h3>{{ i18n().moreInfo }}</h3>
-          @for (line of entry.meta.lines; track line) {
-            <p>{{ line }}</p>
-          }
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().instruction }}</mat-label>
+            <textarea
+              matInput
+              formControlName="instruction"
+              cdkAutosizeMinRows="3"
+              cdkTextareaAutosize
+              required></textarea>
+            @if (inputAssistant.get("instruction").hasError("required")) {
+              <mat-error>{{ i18n().fieldRequired }}</mat-error>
+            }
+            @if (inputAssistant.get("instruction").hasError("maxlength")) {
+              <mat-error>{{ i18n().fieldTooLong }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().share }}</mat-label>
+            <mat-select formControlName="share_type">
+              <mat-option value="MINIMAL">
+                {{ i18n().shares.minimal }}
+              </mat-option>
+              <mat-option value="VIEWABLE">
+                {{ i18n().shares.viewable }}
+              </mat-option>
+              <mat-option value="COPYABLE">
+                {{ i18n().shares.copyable }}
+              </mat-option>
+            </mat-select>
+            @if (inputAssistant.get("share_type").hasError("required")) {
+              <mat-error>{{ i18n().fieldRequired }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().model }}</mat-label>
+            <input
+              matInput
+              formControlName="model_name"
+              [matAutocomplete]="modelAuto"
+              required />
+            @if (inputAssistant.get("model_name").hasError("required")) {
+              <mat-error>{{ i18n().fieldRequired }}</mat-error>
+            }
+            <mat-autocomplete #modelAuto="matAutocomplete">
+              <mat-option [value]="'gpt-4o'">{{ "GPT 4o" }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ i18n().providers }}</mat-label>
+            <mat-select
+              formControlName="provider_list"
+              [multiple]="true">
+              @for (provider of providers(); track provider) {
+                <mat-option [value]="provider">
+                  {{ provider }}
+                </mat-option>
+              }
+            </mat-select>
+            <mat-icon
+              matSuffix
+              [matTooltip]="i18n().providerInfo">
+              info
+            </mat-icon>
+          </mat-form-field>
+
+          <h3>
+            {{ i18n().overrideJson }}
+            <mat-icon
+              [matTooltip]="i18n().temperature.info"
+              style="vertical-align: bottom">
+              info
+            </mat-icon>
+          </h3>
+          <ng-container formArrayName="override_json_settings">
+            @for (
+              override of getJsonSettings();
+              track override;
+              let i = $index
+            ) {
+              <div [formGroup]="override">
+                @switch (override.get("type").value) {
+                  @case ("text") {
+                    <div class="inline-wrapper">
+                      <input
+                        matInput
+                        formControlName="key"
+                        hidden />
+
+                      <mat-form-field
+                        appearance="outline"
+                        floatLabel="always">
+                        <mat-label>{{ override.get("key").value }}</mat-label>
+                        <input
+                          matInput
+                          formControlName="value" />
+                      </mat-form-field>
+
+                      <button
+                        mat-icon-button
+                        [matTooltip]="i18n().delete"
+                        (click)="removeJsonSetting(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
+
+                  @case ("select") {
+                    <div class="inline-wrapper">
+                      <input
+                        matInput
+                        formControlName="key"
+                        hidden />
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ override.get("key").value }}</mat-label>
+                        <mat-select
+                          formControlName="value"
+                          [value]="override.get('value').value">
+                          @for (
+                            option of override.get("options").value;
+                            track option.value
+                          ) {
+                            <mat-option [value]="option.value">
+                              {{ option.label }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+
+                      <button
+                        mat-icon-button
+                        [matTooltip]="i18n().delete"
+                        (click)="removeJsonSetting(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
+
+                  @case ("range") {
+                    <div style="margin-bottom: 1em; margin-bottom: 2em">
+                      <mat-label
+                        id="{{ override.get('property').value + '-label' }}">
+                        {{ override.get("property").value }}
+                      </mat-label>
+                      <div class="slider-container">
+                        <mat-icon>Remove</mat-icon>
+                        <mat-slider
+                          discrete
+                          showTickMarks
+                          min="{{ override.get('min').value || 0 }}"
+                          max="{{ override.get('max').value || 1 }}"
+                          step="{{ override.get('step').value || 0.1 }}">
+                          <input
+                            matSliderThumb
+                            formControlName="value"
+                            [attr.aria-labelledby]="
+                              override.get('property').value + '-label'
+                            " />
+                        </mat-slider>
+                        <mat-icon>Add</mat-icon>
+                        <button
+                          mat-icon-button
+                          [matTooltip]="i18n().delete"
+                          (click)="removeJsonSetting(i)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </ng-container>
+
+          <div class="inline-wrapper">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ i18n().settingKey }}</mat-label>
+              <input
+                matInput
+                #keyInput
+                required
+                (keydown)="onKeyDown($event, keyInput.value)"
+                [matAutocomplete]="auto" />
+              @if (keyInput.validity.valueMissing) {
+                <mat-error>{{ i18n().fieldRequired }}</mat-error>
+              }
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option [value]="'temperature'">
+                  {{ i18n().temperature.propertyLabel }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <button
+              mat-icon-button
+              class="contained-icon-filled-tonal"
+              type="button"
+              [matTooltip]="i18n().add"
+              [disabled]="keyInput.validity.valueMissing"
+              (click)="addJsonSetting(keyInput.value); keyInput.value = ''">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+          <!-- Files -->
+          <div class="upload-area">
+            <h3>
+              {{ i18n().files }}
+              <mat-icon
+                [matTooltip]="i18n().fileInfo"
+                style="vertical-align: bottom">
+                info
+              </mat-icon>
+            </h3>
+            @if (uploadInfo(); as info) {
+              <div class="inline-wrapper">
+                <mat-progress-bar
+                  [mode]="
+                    info.finished === info.total
+                      ? 'indeterminate'
+                      : 'determinate'
+                  "
+                  [value]="info.progress"></mat-progress-bar>
+                <span style="flex: 0 1 auto">
+                  {{ info.finished + " / " + info.total }}
+                </span>
+              </div>
+            }
+            <mat-list>
+              @for (entry of files(); track entry; let i = $index) {
+                <mat-list-item>
+                  <span matListItemTitle>
+                    {{ entry.file?.name || i18n().notLoadedFile }}
+                  </span>
+                  <button
+                    mat-icon-button
+                    matListItemMeta
+                    [matTooltip]="i18n().delete"
+                    (click)="deleteFile(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-list-item>
+              } @empty {
+                <span style="display: block; text-align: center">
+                  {{ i18n().noFiles }}
+                </span>
+              }
+            </mat-list>
+            <button
+              mat-button
+              type="button"
+              (click)="fileInput.click()">
+              {{ i18n().addFile }}
+            </button>
+            <input
+              hidden
+              (change)="onFileSelect(fileInput)"
+              multiple
+              #fileInput
+              type="file" />
+          </div>
         </mat-card-content>
         <mat-card-actions>
-          <button
-            mat-button
-            [disabled]="entry === editing() || saving()"
-            (click)="deleteAssistant(entry)">
-            <mat-icon>delete</mat-icon>
-            {{ i18n().delete }}
-          </button>
           <span style="flex: 1"></span>
           <button
-            mat-button
-            [disabled]="entry === editing() || saving()"
-            (click)="editAssistant(entry)">
-            <mat-icon>edit</mat-icon>
-            {{ i18n().edit }}
+            mat-flat-button
+            type="submit"
+            [disabled]="saving() || uploadInfo()">
+            {{ editing() ? i18n().confirmEdit : i18n().add }}
+            @if (saving()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            }
           </button>
+          @if (editing()) {
+            <button
+              mat-flat-button
+              type="button"
+              [disabled]="saving() || uploadInfo()"
+              (click)="cancelEdit()">
+              {{ i18n().cancelEdit }}
+            </button>
+          }
         </mat-card-actions>
       </mat-card>
-    } @empty {
-      <p>{{ i18n().noAssistants }}</p>
-    }
-  </div>
-
-  <!-- Input of new Assistant or edit Assistant -->
-  <h2>{{ editing() ? i18n().editAssistant : i18n().newAssistant }}</h2>
-  <form
-    [formGroup]="inputAssistant"
-    (ngSubmit)="addAssistant(form)"
-    #form="ngForm"
-    #formRef>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().name }}</mat-label>
-      <input
-        matInput
-        formControlName="name"
-        required />
-      @if (inputAssistant.get("name").hasError("required")) {
-        <mat-error>{{ i18n().fieldRequired }}</mat-error>
-      }
-      @if (inputAssistant.get("name").hasError("maxlength")) {
-        <mat-error>{{ i18n().fieldTooLong }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().description }}</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        cdkAutosizeMinRows="3"
-        cdkTextareaAutosize
-        required></textarea>
-      @if (inputAssistant.get("description").hasError("required")) {
-        <mat-error>{{ i18n().fieldRequired }}</mat-error>
-      }
-      @if (inputAssistant.get("description").hasError("maxlength")) {
-        <mat-error>{{ i18n().fieldTooLong }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().instruction }}</mat-label>
-      <textarea
-        matInput
-        formControlName="instruction"
-        cdkAutosizeMinRows="3"
-        cdkTextareaAutosize
-        required></textarea>
-      @if (inputAssistant.get("instruction").hasError("required")) {
-        <mat-error>{{ i18n().fieldRequired }}</mat-error>
-      }
-      @if (inputAssistant.get("instruction").hasError("maxlength")) {
-        <mat-error>{{ i18n().fieldTooLong }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().share }}</mat-label>
-      <mat-select formControlName="share_type">
-        <mat-option value="MINIMAL">
-          {{ i18n().shares.minimal }}
-        </mat-option>
-        <mat-option value="VIEWABLE">
-          {{ i18n().shares.viewable }}
-        </mat-option>
-        <mat-option value="COPYABLE">
-          {{ i18n().shares.copyable }}
-        </mat-option>
-      </mat-select>
-      @if (inputAssistant.get("share_type").hasError("required")) {
-        <mat-error>{{ i18n().fieldRequired }}</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().model }}</mat-label>
-      <input
-        matInput
-        formControlName="model_name"
-        [matAutocomplete]="modelAuto"
-        required />
-      @if (inputAssistant.get("model_name").hasError("required")) {
-        <mat-error>{{ i18n().fieldRequired }}</mat-error>
-      }
-      <mat-autocomplete #modelAuto="matAutocomplete">
-        <mat-option [value]="'gpt-4o'">{{ "GPT 4o" }}</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>{{ i18n().providers }}</mat-label>
-      <mat-select
-        formControlName="provider_list"
-        [multiple]="true">
-        @for (provider of providers(); track provider) {
-          <mat-option [value]="provider">
-            {{ provider }}
-          </mat-option>
-        }
-      </mat-select>
-      <mat-icon
-        matSuffix
-        [matTooltip]="i18n().providerInfo">
-        info
-      </mat-icon>
-    </mat-form-field>
-
-    <h3>{{ i18n().overrideJson }}</h3>
-    <ng-container formArrayName="override_json_settings">
-      @for (override of getJsonSettings(); track override; let i = $index) {
-        <div
-          [formGroup]="override"
-          class="inline-wrapper">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ i18n().settingKey }}</mat-label>
-            <input
-              matInput
-              formControlName="key" />
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>{{ i18n().settingValue }}</mat-label>
-            <input
-              matInput
-              formControlName="value" />
-          </mat-form-field>
-
-          <button
-            mat-icon-button
-            [matTooltip]="i18n().delete"
-            (click)="removeJsonSetting(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      }
-    </ng-container>
-
-    <div class="inline-wrapper">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ i18n().settingKey }}</mat-label>
-        <input
-          matInput
-          #keyInput
-          required
-          (keydown)="onKeyDown($event, keyInput.value)"
-          [matAutocomplete]="auto" />
-        @if (keyInput.validity.valueMissing) {
-          <mat-error>{{ i18n().fieldRequired }}</mat-error>
-        }
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option [value]="'temperature'">{{ "Temperatur" }}</mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <button
-        mat-icon-button
-        class="contained-icon-filled-tonal"
-        type="button"
-        [matTooltip]="i18n().add"
-        [disabled]="keyInput.validity.valueMissing"
-        (click)="addJsonSetting(keyInput.value)">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-
-    <!-- Files -->
-    <h3>
-      {{ i18n().files }}
-      <mat-icon [matTooltip]="i18n().fileInfo">info</mat-icon>
-    </h3>
-    @if (uploadInfo(); as info) {
-      <div class="inline-wrapper">
-        <mat-progress-bar
-          [mode]="
-            info.finished === info.total ? 'indeterminate' : 'determinate'
-          "
-          [value]="info.progress"></mat-progress-bar>
-        <span style="flex: 0 1 auto">
-          {{ info.finished + " / " + info.total }}
-        </span>
-      </div>
-    }
-    <mat-list>
-      @for (entry of files(); track entry; let i = $index) {
-        <mat-list-item>
-          <span matListItemTitle>
-            {{ entry.file?.name || i18n().notLoadedFile }}
-          </span>
-          <button
-            mat-icon-button
-            matListItemMeta
-            [matTooltip]="i18n().delete"
-            (click)="deleteFile(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-list-item>
-      } @empty {
-        <span style="display: block; text-align: center">
-          {{ i18n().noFiles }}
-        </span>
-      }
-    </mat-list>
-    <div>
-      <button
-        mat-button
-        type="button"
-        (click)="fileInput.click()">
-        {{ i18n().addFile }}
-      </button>
-      <input
-        hidden
-        (change)="onFileSelect(fileInput)"
-        multiple
-        #fileInput
-        type="file" />
-    </div>
-
-    <br />
-    <div>
-      <button
-        mat-button
-        type="submit"
-        [disabled]="saving() || uploadInfo()">
-        {{ editing() ? i18n().confirmEdit : i18n().add }}
-        @if (saving()) {
-          <mat-spinner diameter="20"></mat-spinner>
-        }
-      </button>
-      @if (editing()) {
-        <button
-          mat-button
-          type="button"
-          [disabled]="saving() || uploadInfo()"
-          (click)="cancelEdit()">
-          {{ i18n().cancelEdit }}
-        </button>
-      }
-    </div>
-  </form>
-</mat-dialog-content>
+    </form>
+  </mat-dialog-content>
+</div>

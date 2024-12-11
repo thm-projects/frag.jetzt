@@ -107,7 +107,7 @@ export class ThemeColorComponent implements AfterViewChecked {
     const w = this.container().nativeElement.getBoundingClientRect().width;
     this.dist.set((this.hue() * w) / 360);
 
-    setThemeSourceColor(DEFAULT_COLOR); //'#769CDF'
+    setThemeSourceColor(DEFAULT_COLOR); //'#856222'
 
     this.theme.set('system');
     setTheme(this.theme());

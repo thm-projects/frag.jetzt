@@ -186,6 +186,7 @@ export const getDefaultNavigation = (
       // NAVIGATION
       const isHome = router.url.startsWith('/home');
       const isUser = router.url.startsWith('/user');
+      const isGuestUser = user?.isGuest;
       // app navigation
       const navSection: M3NavigationSection = {
         id: 'main',
@@ -205,7 +206,7 @@ export const getDefaultNavigation = (
           activated: isUser,
         });
       }
-      if (user && isUser) {
+      if (user && isUser && !isGuestUser) {
         navSection.entries.push({
           id: 'chat-with-ai',
           title: i18n.navigation.chat,

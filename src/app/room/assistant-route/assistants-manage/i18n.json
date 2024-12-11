@@ -23,6 +23,7 @@
     "delete": "Löschen",
     "newAssistant": "Neuer Assistent",
     "editAssistant": "Assistent bearbeiten",
+    "newAssistantSubtitle": "Personalisiere hier deinen eigenen KI-Assistenten",
     "cancelEdit": "Bearbeitung abbrechen",
     "confirmEdit": "Aktualisieren",
     "assistants": "Assistenten-Übersicht",
@@ -39,7 +40,16 @@
     "fileInfo": "Du kannst die Dateien auch per Drag & Drop in dieses Fenster ziehen",
     "noFiles": "Keine Dateien hochgeladen",
     "addFile": "Dateien hinzufügen",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Hier können Sie die Einstellungen des KI-Assistenten anpassen. In der Regel genügt es, die Temperatur zu verändern, da sie Kreativität und Zufälligkeit der Antworten steuert.",
+      "propertyLabel": "Temperatur",
+      "notCreative": "Nicht Kreativ",
+      "somewhatCreative": "Wenig Kreativ",
+      "balanced": "Ausgewogen",
+      "creative": "Kreativ",
+      "highlyCreative": "Sehr Kreativ"
+    }
   },
   "en": {
     "title": "AI Assistant",
@@ -64,6 +74,7 @@
     "delete": "Delete",
     "newAssistant": "New Assistant",
     "editAssistant": "Edit Assistant",
+    "newAssistantSubtitle": "Personalize your own AI assistant here",
     "cancelEdit": "Cancel Edit",
     "confirmEdit": "Update",
     "assistants": "Assistants Overview",
@@ -80,7 +91,16 @@
     "fileInfo": "You can also drag and drop files into this window",
     "noFiles": "No files uploaded",
     "addFile": "Add files",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Here you can adjust the settings of the AI assistant. Usually, it is sufficient to modify the temperature, as it controls the creativity and randomness of the responses.",
+      "propertyLabel": "Temperature",
+      "notCreative": "Not Creative",
+      "somewhatCreative": "Somewhat Creative",
+      "balanced": "Balanced",
+      "creative": "Creative",
+      "highlyCreative": "Highly Creative"
+    }
   },
   "fr": {
     "title": "Assistant IA",
@@ -105,6 +125,7 @@
     "delete": "Supprimer",
     "newAssistant": "Nouvel assistant",
     "editAssistant": "Modifier l'assistant",
+    "newAssistantSubtitle": "Personnalise ici ton propre assistant IA",
     "cancelEdit": "Annuler la modification",
     "confirmEdit": "Mettre à jour",
     "assistants": "Aperçu des assistants",
@@ -121,6 +142,15 @@
     "fileInfo": "Tu peux aussi glisser-déposer des fichiers dans cette fenêtre",
     "noFiles": "Aucun fichier téléchargé",
     "addFile": "Ajouter des fichiers",
-    "notLoadedFile": "..."
+    "notLoadedFile": "...",
+    "temperature": {
+      "info": "Ici, vous pouvez ajuster les paramètres de l'assistant IA. En règle générale, il suffit de modifier la température, car elle contrôle la créativité et le caractère aléatoire des réponses.",
+      "propertyLabel": "Température",
+      "notCreative": "Pas créatif",
+      "somewhatCreative": "Assez créatif",
+      "balanced": "Équilibré",
+      "creative": "Créatif",
+      "highlyCreative": "Très créatif"
+    }
   }
 }
