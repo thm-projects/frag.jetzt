@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+<mat-dialog-content>
+  <p>{{ i18n().example_text }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="onContinue()">
+    {{ i18n().global.continue }}
+  </button>
+  <button
+    mat-button
+    (click)="onDiscard()">
+    {{ i18n().global.cancel }}
+  </button>
+</mat-dialog-actions>

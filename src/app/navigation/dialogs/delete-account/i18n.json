@@ -1,0 +1,15 @@
+{
+  "key": "delete-account-dialog",
+  "de": {
+    "title": "Account löschen?!",
+    "example_text": "Durch das Löschen Ihres Kontos gehen folgende Daten verloren"
+  },
+  "en": {
+    "title": "",
+    "example_text": ""
+  },
+  "fr": {
+    "title": "",
+    "example_text": ""
+  }
+}

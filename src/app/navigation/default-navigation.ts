@@ -48,6 +48,7 @@ import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route
 import { RoomService } from '../services/http/room.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
 import { switchMap } from 'rxjs/operators';
+import { DeleteAccountDialogComponent } from './dialogs/delete-account/delete-account-dialog.component';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -123,15 +124,16 @@ export const getDefaultHeader = (
                       keycloak.redirectAccountManagement();
                     },
                   },
-                  //TODO put behind boolean to check if user is guest && user has data left behind (bonus stars, rooms etc)
-                  (isGuestUser && hasData) ||
-                    (!isGuestUser && {
-                      icon: 'person_remove',
-                      title: i18n.header.deleteAccount,
-                      onClick: () => {
-                        keycloak.deleteAccount();
-                      },
-                    }),
+                  //TODO how to handle keycloak
+                  ((isGuestUser && hasData) || !isGuestUser) && {
+                    icon: 'person_remove',
+                    title: i18n.header.deleteAccount,
+                    onClick: () => {
+                      //TODO pass in rooms & tokens
+                      DeleteAccountDialogComponent.openDialog(dialog);
+                      //keycloak.deleteAccount();
+                    },
+                  },
                   {
                     icon: 'logout',
                     title: i18n.header.logout,
@@ -517,8 +519,6 @@ const hasRoomsOrTokens = (
   user: Observable<User>,
   injector: Injector,
 ): Observable<boolean> => {
-  // undefined == falsy == null
-
   return combineLatest([user]).pipe(
     switchMap(([u]) => {
       if (!u) {
@@ -530,13 +530,8 @@ const hasRoomsOrTokens = (
         .getTokensByUserId(u.id);
       return forkJoin([roomService, tokenService]).pipe(
         map(([rooms, tokens]) => {
-          console.log('user rooms: ', rooms.length);
-          console.log('user tokens: ', tokens.length);
-
           const hasRooms = rooms.length !== 0;
           const hasTokens = tokens.length !== 0;
-
-          console.log('rooms and tokens:', hasRooms, hasTokens);
           return hasRooms || hasTokens;
         }),
       );
