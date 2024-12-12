@@ -35,9 +35,15 @@
 }
 
 .new-chatbot-card {
+  margin-inline: auto;
+
   > mat-card-header {
     margin-bottom: 15px;
   }
+}
+
+mat-divider {
+  margin-block: 1em;
 }
 
 mat-spinner {

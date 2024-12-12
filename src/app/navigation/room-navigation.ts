@@ -68,6 +68,7 @@ import rawI18n from './room-navigation.i18n.json';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { user$ } from 'app/user/state/user';
+import { RoomActivityComponent } from 'app/room/room-activity/room-activity.component';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -93,6 +94,7 @@ export const getRoomHeader = (
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
   ]).pipe(
     map(([template, user, room, role]) => {
+      template.slogan = RoomActivityComponent;
       const headerOpts = template.options.find(
         (e) => 'id' in e && e.id === 'account',
       ) as M3HeaderMenu;

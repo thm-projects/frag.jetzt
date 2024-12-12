@@ -66,6 +66,7 @@ import {
 import { HttpEventType } from '@angular/common/http';
 import { resumeWith, UUID } from 'app/utils/ts-utils';
 import { assistants, selectAssistant } from '../state/assistant';
+import { MatDividerModule } from '@angular/material/divider';
 
 interface FileEntry {
   ref?: AssistantFile;
@@ -127,6 +128,7 @@ const DUMMY = [];
     MatListModule,
     MatProgressBarModule,
     MatSliderModule,
+    MatDividerModule,
   ],
   templateUrl: './assistants-manage.component.html',
   styleUrl: './assistants-manage.component.scss',

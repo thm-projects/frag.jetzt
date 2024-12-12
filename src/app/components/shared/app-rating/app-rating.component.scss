@@ -68,3 +68,8 @@ mat-icon.interactive {
     transform: scale(1.33333333);
   }
 }
+
+:host.mat-mdc-dialog-component-host {
+  padding: 1em;
+  display: block;
+}
