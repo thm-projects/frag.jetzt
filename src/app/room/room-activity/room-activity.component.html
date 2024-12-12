@@ -1,0 +1,12 @@
+<mat-icon [matTooltip]="i18n().participants">person</mat-icon>
+{{ participantCount() }}
+<mat-icon [matTooltip]="i18n().moderators">support_agent</mat-icon>
+{{ moderatorCount() }}
+<mat-icon
+  [matTooltip]="hasCreator() ? i18n().activeCreator : i18n().notActiveCreator">
+  co_present
+</mat-icon>
+<span
+  [matTooltip]="hasCreator() ? i18n().activeCreator : i18n().notActiveCreator"
+  class="custom-badge"
+  [class.active]="hasCreator()"></span>

@@ -1,0 +1,25 @@
+mat-icon {
+  margin-bottom: -0.2em;
+
+  &:not(:first-child) {
+    margin-left: 0.5em;
+  }
+}
+
+.custom-badge {
+  display: inline-block;
+  margin-left: 0.25em;
+  margin-bottom: -0.1em;
+  width: 0.75em;
+  height: 0.75em;
+  background-color: var(--mat-badge-background-color, var(--mat-sys-error));
+  color: var(--mat-badge-text-color, var(--mat-sys-on-error));
+  font-family: var(--mat-badge-text-font, var(--mat-sys-label-small-font));
+  font-weight: var(--mat-badge-text-weight, var(--mat-sys-label-small-weight));
+  border-radius: var(--mat-badge-container-shape, var(--mat-sys-corner-full));
+
+  &.active {
+    --mat-badge-background-color: var(--mat-sys-green);
+    --mat-badge-text-color: var(--mat-sys-on-green);
+  }
+}

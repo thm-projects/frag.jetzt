@@ -82,7 +82,9 @@ export class AppRatingComponent implements OnInit, OnDestroy {
   }
 
   getIconAccumulated(index: number) {
-    const rating = Math.round(this.ratingResults().rating * 2) / 2;
+    const r = this.ratingResults();
+    if (!r) return 'star_border';
+    const rating = Math.round(r.rating * 2) / 2;
     if (rating >= index + 1) {
       return 'star_full';
     }
