@@ -375,6 +375,15 @@
         </mat-card-content>
         <mat-card-actions>
           <span style="flex: 1"></span>
+          @if (editing()) {
+            <button
+              mat-stroked-button
+              type="button"
+              [disabled]="saving() || uploadInfo()"
+              (click)="cancelEdit()">
+              {{ i18n().cancelEdit }}
+            </button>
+          }
           <button
             mat-flat-button
             type="submit"
@@ -384,15 +393,6 @@
               <mat-spinner diameter="20"></mat-spinner>
             }
           </button>
-          @if (editing()) {
-            <button
-              mat-flat-button
-              type="button"
-              [disabled]="saving() || uploadInfo()"
-              (click)="cancelEdit()">
-              {{ i18n().cancelEdit }}
-            </button>
-          }
         </mat-card-actions>
       </mat-card>
     </form>

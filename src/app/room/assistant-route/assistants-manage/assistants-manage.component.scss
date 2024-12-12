@@ -111,3 +111,15 @@ h3 {
   border-radius: 5px;
   padding: 0.5em;
 }
+
+mat-card-actions {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 8px; // 8dp gap according to Material Design 3 guidelines
+
+  @media (max-width: 400px) {
+    button {
+      flex: 1 1 100%;
+    }
+  }
+}
