@@ -350,9 +350,20 @@ export class AssistantsManageComponent {
   }
 
   protected cancelEdit() {
-    this.reset();
-    this.files.set([]);
-    this.loadedFiles = null;
+    if (this.hasUnsavedChanges()) {
+      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'discard') {
+          this.reset();
+          this.files.set([]);
+          this.loadedFiles = null;
+        }
+      });
+    } else {
+      this.reset();
+      this.files.set([]);
+      this.loadedFiles = null;
+    }
   }
 
   protected deleteAssistant(entry: AssistantEntry) {
