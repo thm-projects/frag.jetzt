@@ -1,13 +1,26 @@
 <h2 mat-dialog-title>{{ i18n().title }}</h2>
 <mat-dialog-content>
-  <p>{{ i18n().example_text }}</p>
+  <p>{{ i18n().text }}</p>
+
+  <h3>{{ i18n().rooms }}</h3>
+  <ul>
+    <li *ngFor="let room of data.ownedRooms">{{ room.name }}</li>
+  </ul>
+
+  <h3>{{ i18n().tokens }}</h3>
+  <ul>
+    <li *ngFor="let mapping of data.tokenCounts | keyvalue">
+      {{ mapping.key }} - {{ mapping.value }}
+    </li>
+  </ul>
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <button
     mat-button
     mat-dialog-close
     cdkFocusInitial
-    (click)="onContinue()">
+    (click)="data.keycloakService.deleteAccount()">
     {{ i18n().global.continue }}
   </button>
   <button

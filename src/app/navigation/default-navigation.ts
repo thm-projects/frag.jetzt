@@ -72,6 +72,8 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
+  const roomService = injector.get(RoomService);
+  const bonusTokenService = injector.get(BonusTokenService);
   const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
     user$,
@@ -124,14 +126,16 @@ export const getDefaultHeader = (
                       keycloak.redirectAccountManagement();
                     },
                   },
-                  //TODO how to handle keycloak
                   ((isGuestUser && hasData) || !isGuestUser) && {
                     icon: 'person_remove',
                     title: i18n.header.deleteAccount,
                     onClick: () => {
-                      //TODO pass in rooms & tokens
-                      DeleteAccountDialogComponent.openDialog(dialog);
-                      //keycloak.deleteAccount();
+                      DeleteAccountDialogComponent.openDialog(
+                        dialog,
+                        keycloak,
+                        roomService,
+                        bonusTokenService,
+                      );
                     },
                   },
                   {
