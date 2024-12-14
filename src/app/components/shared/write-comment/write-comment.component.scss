@@ -1,8 +1,8 @@
 .char-hint {
   display: flex;
   justify-content: right;
-  width: 95%;
   color: var(--mdc-dialog-supporting-text-color);
+  padding: 20px 0;
 }
 
 .hint-error {

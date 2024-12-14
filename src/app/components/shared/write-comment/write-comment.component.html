@@ -79,14 +79,13 @@
   </span>
 </mat-hint>
 
-<mat-dialog-actions>
-  @if (!disableCancelButton && onClose) {
-    <button
-      mat-button
-      (click)="onClose()">
-      {{ i18n().cancel }}
-    </button>
-  }
+<mat-dialog-actions style="display: flex">
+  <button
+    *ngIf="!disableCancelButton && onClose"
+    mat-button
+    (click)="onClose()">
+    {{ i18n().cancel }}
+  </button>
   <span style="flex: 1"></span>
   <button
     mat-flat-button
