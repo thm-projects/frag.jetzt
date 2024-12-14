@@ -19,7 +19,7 @@ $comment-margin: 1em;
 .title {
   hyphens: auto;
   text-wrap: wrap;
-  line-break: anywhere;
+  line-break: strict;
 }
 
 .avatar {
