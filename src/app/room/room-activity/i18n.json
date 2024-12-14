@@ -1,21 +1,21 @@
 {
   "key": "room-activity",
   "de": {
-    "participants": "Aktuell eingeloggte Teilnehmer",
-    "moderators": "Aktull eingeloggte Moderierende",
-    "activeCreator": "Ersteller*in ist eingeloggt",
-    "notActiveCreator": "Ersteller*in ist offline"
+    "participants": "Teilnehmende online",
+    "moderators": "Moderierende online",
+    "activeCreator": "Raumersteller*in ist online",
+    "notActiveCreator": "Raumersteller*in ist offline"
   },
   "en": {
-    "participants": "Currently logged in participants",
-    "moderators": "Currently logged in moderators",
-    "activeCreator": "Creator is logged in",
-    "notActiveCreator": "Creator is offline"
+    "participants": "Participants online",
+    "moderators": "Moderators online",
+    "activeCreator": "Room creator is online",
+    "notActiveCreator": "Room creator is offline"
   },
   "fr": {
-    "participants": "Participants actuellement connectés",
-    "moderators": "Modérateurs actuellement connectés",
-    "activeCreator": "Le créateur est connecté",
-    "notActiveCreator": "Le créateur est hors ligne"
+    "participants": "Participants en ligne",
+    "moderators": "Modérateurs en ligne",
+    "activeCreator": "Le créateur de salle est en ligne",
+    "notActiveCreator": "Le créateur de salle est hors ligne"
   }
 }
