@@ -1,6 +1,3 @@
-<h2 mat-dialog-title>
-  {{ i18n().title }}
-</h2>
 <div class="utility-container">
   <mat-form-field>
     <mat-icon matPrefix>{{ getRoleIcon() }}</mat-icon>
@@ -67,17 +64,16 @@
 
 <mat-dialog-content>
   <app-markdown-editor [(data)]="data"></app-markdown-editor>
+  <mat-hint
+    class="char-hint"
+    [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
+    <span
+      aria-hidden="true"
+      class="label-medium">
+      {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
+    </span>
+  </mat-hint>
 </mat-dialog-content>
-
-<mat-hint
-  class="char-hint"
-  [ngClass]="{ 'hint-error': data().length > maxTextCharacters }">
-  <span
-    aria-hidden="true"
-    class="label-medium">
-    {{ i18n().chars | context: { maxTextCharacters, count: data().length } }}
-  </span>
-</mat-hint>
 
 <mat-dialog-actions style="display: flex">
   <button

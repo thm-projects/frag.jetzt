@@ -2,7 +2,8 @@
   display: flex;
   justify-content: right;
   color: var(--mdc-dialog-supporting-text-color);
-  padding: 20px 0;
+  padding: 5px 5px 20px;
+  font-size: 12px;
 }
 
 .hint-error {
@@ -13,6 +14,7 @@
   display: flex;
   justify-content: space-between;
   padding-inline: 1.5em;
+  padding-top: 1em;
   gap: 1.5em;
   flex-wrap: wrap;
 
