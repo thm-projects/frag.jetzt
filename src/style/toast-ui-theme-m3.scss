@@ -490,7 +490,9 @@ div.toastui-editor-fragjetzt {
         }
       }
     }
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .scroll-sync {
       color: var(--mdc-form-field-label-text-color);
       width: auto;
@@ -1815,4 +1817,9 @@ div.toastui-editor-fragjetzt {
       @include m3-typescale.font-size(body, medium, em);
     }
   }
+}
+.toastui-editor-toolbar-group {
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
 }
