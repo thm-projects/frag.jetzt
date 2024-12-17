@@ -109,20 +109,20 @@ export class CommentComponent implements AfterViewInit {
     }
     const u = user();
     if (u?.id === c.creatorId) {
-      return ['account_circle', i18n().fromOwn];
+      return ['person', i18n().fromOwn];
     }
-    const r = room();
+    const r = room.value();
     const isOwner = r?.ownerId === c.creatorId;
     if (isOwner) {
       return ['co_present', i18n().fromOwner];
     }
     const isModerator =
-      moderators()?.findIndex((m) => m.accountId === u?.id) >= 0;
+      moderators.value()?.findIndex((m) => m.accountId === u?.id) >= 0;
     if (isModerator) {
       return ['support_agent', i18n().fromModerator];
     }
     if (c.gptWriterState !== 0) {
-      return ['robot_2', i18n().withAI];
+      return ['robot', i18n().withAI];
     }
     return ['group', i18n().fromParticipant];
   }

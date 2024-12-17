@@ -101,7 +101,7 @@
     "comment-stream-stopped": "The question stream has been stopped.",
     "correct": "Marked as correct",
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
-    "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
+    "counter-description": "Questions (Q), Answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
     "filter-answered-creator": "Room creator",
     "filter-answered-moderator": "Moderator",

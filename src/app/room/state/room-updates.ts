@@ -104,7 +104,7 @@ let lastSubscription: Subscription = null;
 getInjector().subscribe((injector) => {
   effect(
     () => {
-      const r = room();
+      const r = room.value();
       lastSubscription?.unsubscribe();
       if (!r) {
         return;
@@ -119,7 +119,7 @@ getInjector().subscribe((injector) => {
 });
 
 const handleMessage = (msg: { body: string }) => {
-  const r = room();
+  const r = room.value();
   const message = JSON.parse(msg.body);
   if (message.roomId && message.roomId !== r.id) {
     console.error('Wrong room!', message);

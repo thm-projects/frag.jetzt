@@ -85,9 +85,7 @@ export class MarkdownEditorComponent implements AfterViewInit {
         e.on('changeMode', (mode) => this.editType.set(mode));
         e.on('changeToolbarState', ({ toolbarState }) => {
           this.toolbarState.set(toolbarState);
-          console.log(toolbarState);
         });
-        console.log(e);
         const observer = this.addRipples(container);
         this.addAdditionalContainer(container);
 

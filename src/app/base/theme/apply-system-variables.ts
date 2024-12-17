@@ -13,7 +13,7 @@ import { actualContrast } from './contrast';
 import { CUSTOM_COLORS } from './custom-colors';
 import { dataService } from '../db/data-service';
 
-export const DEFAULT_COLOR = '#769CDF';
+export const DEFAULT_COLOR = '#856222';
 const themeSourceColorSignal = signal(DEFAULT_COLOR);
 export const themeSourceColor = themeSourceColorSignal.asReadonly();
 export const setThemeSourceColor = (color: string): boolean => {

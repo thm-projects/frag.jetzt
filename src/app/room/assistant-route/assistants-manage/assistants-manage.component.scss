@@ -1,14 +1,49 @@
-mat-toolbar {
-  min-height: 56px;
-  padding: 0 24px 0 0;
+.toolbar-container {
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-container);
 
-  & .primary.primary.primary {
-    --mdc-text-button-label-text-color: var(--mat-sys-primary);
+  mat-toolbar {
+    margin: auto;
+    max-width: 700px;
+    background-color: var(--mat-sys-surface-container);
+
+    button {
+      color: var(--mat-sys-primary);
+    }
+
+    > h1 {
+      font-size: 1.2em;
+    }
   }
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 1em;
+  flex-wrap: wrap;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.new-chatbot-card {
+  margin-inline: auto;
+
+  > mat-card-header {
+    margin-bottom: 15px;
+  }
+}
+
+mat-divider {
+  margin-block: 1em;
 }
 
 mat-spinner {
@@ -21,8 +56,12 @@ mat-spinner {
 form {
   display: flex;
   flex-direction: column;
-  max-width: 840px;
   margin: 0 auto;
+}
+
+mat-form-field {
+  width: 100%;
+  padding-bottom: 0.5em;
 }
 
 .inline-wrapper {
@@ -39,6 +78,15 @@ form {
   }
 }
 
+.slider-container {
+  display: flex;
+  align-items: center;
+
+  > mat-slider {
+    flex-grow: 1;
+  }
+}
+
 textarea {
   max-height: 35dvh;
   overflow-y: scroll;
@@ -49,9 +97,29 @@ mat-card {
   width: 100%;
 }
 
-.card-container {
-  display: flex;
-  justify-content: space-around;
-  gap: 1em;
+mat-card-actions {
+  margin-top: 1em;
+}
+
+h3 {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.upload-area {
+  border: 1px dashed var(--mat-sys-outline);
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+mat-card-actions {
   flex-wrap: wrap;
+  display: flex;
+  gap: 8px; // 8dp gap according to Material Design 3 guidelines
+
+  @media (max-width: 400px) {
+    button {
+      flex: 1 1 100%;
+    }
+  }
 }

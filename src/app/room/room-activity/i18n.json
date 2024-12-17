@@ -1,0 +1,21 @@
+{
+  "key": "room-activity",
+  "de": {
+    "participants": "Teilnehmende online",
+    "moderators": "Moderierende online",
+    "activeCreator": "Raumersteller*in ist online",
+    "notActiveCreator": "Raumersteller*in ist offline"
+  },
+  "en": {
+    "participants": "Participants online",
+    "moderators": "Moderators online",
+    "activeCreator": "Room creator is online",
+    "notActiveCreator": "Room creator is offline"
+  },
+  "fr": {
+    "participants": "Participants en ligne",
+    "moderators": "Modérateurs en ligne",
+    "activeCreator": "Le créateur de salle est en ligne",
+    "notActiveCreator": "Le créateur de salle est hors ligne"
+  }
+}

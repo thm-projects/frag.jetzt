@@ -72,7 +72,7 @@ const i18n = I18nLoader.load(rawI18n);
   styleUrl: './room-page.component.scss',
 })
 export class RoomPageComponent {
-  protected readonly room = room;
+  protected readonly room = room.value;
   protected readonly mode = computed(() => {
     return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
   });
@@ -97,9 +97,14 @@ export class RoomPageComponent {
     translation: () => string;
   }[] = [
     {
-      icon: 'person',
+      icon: 'group',
       value: () => this.commentCounter() + this.answerCounter(),
       translation: () => i18n().participant,
+    },
+    {
+      icon: 'support_agent',
+      value: () => 0,
+      translation: () => i18n().moderators,
     },
     {
       icon: 'co_present',
@@ -113,14 +118,9 @@ export class RoomPageComponent {
       translation: () => i18n().chatGpt,
     },
     {
-      icon: 'grade',
+      icon: 'star',
       value: () => 0,
       translation: () => i18n().bonus,
-    },
-    {
-      icon: 'support_agent',
-      value: () => 0,
-      translation: () => i18n().moderators,
     },
   ];
 

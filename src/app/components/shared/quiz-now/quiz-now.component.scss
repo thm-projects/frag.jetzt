@@ -11,14 +11,5 @@
   position: absolute;
   width: 100%;
   top: 64px;
-  height: calc(100% - 64px);
-}
-
-@media only screen and (max-width: 599px) {
-  .responsive-iframe {
-    position: absolute;
-    width: 100%;
-    top: 64px;
-    height: calc(100% - 56px);
-  }
+  height: calc(100% - 144px);
 }

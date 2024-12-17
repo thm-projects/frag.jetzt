@@ -1,7 +1,7 @@
 {
     "key": "write-comment-editor-settings",
     "de": {
-      "title": "Frage stellen",
+      "title": "",
       "questionerName": "Nickname",
       "tagButtonHint": "Wähle die treffende Kategorie für deine Frage.",
       "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
@@ -14,7 +14,7 @@
       "cancel":"Abbrechen"
     },
     "en": {
-      "title": "Ask a question",
+      "title": "",
       "questionerName": "Nickname",
       "tagButtonHint": "Select the most appropriate category for your question.",
       "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
@@ -27,7 +27,7 @@
       "cancel":"Cancel"
     },
     "fr": {
-      "title": "Poser une question",
+      "title": "",
       "questionerName": "Pseudo",
       "tagButtonHint": "Choisis la catégorie la plus pertinente pour ta question",
       "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",

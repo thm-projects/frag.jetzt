@@ -43,7 +43,7 @@
         [matMenuTriggerFor]="assistantMenu"
         mat-button>
         <mat-icon>keyboard_arrow_down</mat-icon>
-        {{ selectedAssistantName() }}
+        {{ selectedAssistant()?.assistant?.name }}
       </button>
       @if (isMobile()) {
         <button
@@ -96,18 +96,15 @@
         </ng-container>
       </ng-container>
     </mat-drawer>
-
     <app-ai-chat
-      [(selectedAssistant)]="selectedAssistant"
       [messages]="currentMessages()"
       [canSend]="state() === 'ready'"
       [overrideMessage]="overrideMessage()"
       [isPrivileged]="isPrivileged()"
-      [sortedAssistRefs]="sortedAssistRefs()"
-      [selectedAssistantName]="selectedAssistantName()"
       [onNewClick]="onNewClick.bind(this)"
       [onSend]="onSend"
       (deleteThread)="deleteThread()"
+      [defaultText]="owningComment?.body"
       [selectedThread]="selectedThread()"></app-ai-chat>
   </mat-drawer-container>
 </div>
@@ -116,10 +113,10 @@
   @for (entry of sortedAssistRefs(); track entry) {
     <button
       mat-menu-item
-      [disabled]="entry.assistant.id === selectedAssistant()"
-      (click)="selectedAssistant.set(entry.assistant.id)">
+      [disabled]="entry === selectedAssistant()"
+      (click)="selectAssistant(entry.assistant.id)">
       {{ entry.assistant.name }}
-      @if (entry.assistant.id === selectedAssistant()) {
+      @if (entry === selectedAssistant()) {
         <mat-icon>check</mat-icon>
       }
     </button>
@@ -128,7 +125,7 @@
     <button
       mat-menu-item
       (click)="onNewClick()">
-      <em>Create Assistant</em>
+      <em>{{ i18n().createAssistant }}</em>
     </button>
   }
 </mat-menu>

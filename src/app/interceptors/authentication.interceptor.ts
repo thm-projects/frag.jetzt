@@ -60,7 +60,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if (!needsAuthentication) {
       return next.handle(req);
     }
-    const roomId = room()?.id || '';
+    const roomId = room.value()?.id || '';
     const cloned = req.clone({
       headers: req.headers
         .set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)

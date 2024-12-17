@@ -14,12 +14,23 @@
       <!-- Header -->
       @if (header(); as header) {
         <span class="m3-nav-header-title title-large">
-          {{ isExpanded() && isOnline ? header.slogan : "" }}
-          <span
-            class="m3-nav-header-title title-large"
-            style="color: var(--mat-sys-error)">
-            {{ isOnline ? "" : header.offline }}
-          </span>
+          @if (isOnline) {
+            @if (headerSlogan(); as slogan) {
+              <ng-container
+                [ngComponentOutlet]="slogan"
+                [ngComponentOutletInputs]="{
+                  expanded: isExpanded(),
+                }"></ng-container>
+            } @else {
+              {{ isExpanded() ? header.slogan : "" }}
+            }
+          } @else {
+            <span
+              class="m3-nav-header-title title-large"
+              style="color: var(--mat-sys-error)">
+              {{ header.offline }}
+            </span>
+          }
         </span>
         <!-- Header Options -->
         @if (header.options.length; as length) {

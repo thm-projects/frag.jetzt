@@ -46,7 +46,7 @@ export class CommentActionsComponent {
   protected readonly canReply = computed(() => {
     const c = this.comment();
     if (!c) return false;
-    const r = room();
+    const r = room.value();
     if (!r) return false;
     const role = this.assignedRole();
     return (
@@ -116,7 +116,7 @@ export class CommentActionsComponent {
       );
     } else {
       obs = this.dashboardNotificationService.addCommentSubscription(
-        room().id,
+        room.value().id,
         this.comment().id,
       );
     }
@@ -150,6 +150,6 @@ export class CommentActionsComponent {
     } else if (assigned === 'Moderator') {
       role = 'moderator';
     }
-    return `${role}/room/${room().shortId}/`;
+    return `${role}/room/${room.value().shortId}/`;
   }
 }
