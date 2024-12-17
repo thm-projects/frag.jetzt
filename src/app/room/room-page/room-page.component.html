@@ -66,7 +66,12 @@
           </div>
         </mat-card-content>
         <mat-card-actions
-          style="flex-wrap: wrap; justify-content: space-between">
+          style="
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+            align-items: flex-end;
+          ">
           <span style="display: flex; flex-direction: row">
             <span class="row items-center gap-medium">
               <mat-icon svgIcon="fj_robot"></mat-icon>
@@ -74,15 +79,27 @@
             </span>
             @if (isCreator()) {
               <button
-                mat-button
+                mat-stroked-button
+                color="secondary"
+                style="margin-left: 20px"
                 routerLink="/purchase">
                 <mat-icon>shopping_cart</mat-icon>
+                {{ i18n().purchase }}
               </button>
             }
           </span>
           <span>
+            @if (isPrivileged() && !room.directSend) {
+              <button
+                style="margin-right: 20px"
+                routerLink="moderator/comments"
+                mat-flat-button
+                class="secondary">
+                <mat-icon>gavel</mat-icon>
+                {{ i18n().moderators }}
+              </button>
+            }
             <button
-              style="margin-right: 4px"
               routerLink="comments"
               mat-flat-button>
               <mat-icon>
@@ -90,14 +107,6 @@
               </mat-icon>
               {{ i18n()[mode()].join }}
             </button>
-            @if (isPrivileged() && !room.directSend) {
-              <button
-                routerLink="moderator/comments"
-                mat-flat-button>
-                <mat-icon>gavel</mat-icon>
-                Moderation
-              </button>
-            }
           </span>
         </mat-card-actions>
       </mat-card>

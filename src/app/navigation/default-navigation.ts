@@ -139,7 +139,7 @@ export const getDefaultHeader = (
             : {
                 id: 'login',
                 icon: isOnline
-                  ? 'passkey'
+                  ? 'login'
                   : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
                 className: isOnline ? '' : 'error-text',
