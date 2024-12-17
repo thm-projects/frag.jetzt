@@ -75,6 +75,7 @@ export class OnboardingService {
   }
 
   doStep(stepDirection: number): boolean {
+    console.log(this._activeTour);
     if (!this._activeTour) {
       return false;
     }
@@ -107,6 +108,7 @@ export class OnboardingService {
       console.log(name);
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
       console.log(routeChecker);
+      const activeTour = this._activeTour;
       this.cleanup();
       this.joyrideService.closeTour();
       this.dataStoreService.set(
@@ -116,7 +118,9 @@ export class OnboardingService {
           step: this._currentStep + stepDirection,
         }),
       );
-      this.tryNavigate(name, current[1], routeChecker);
+      this.tryNavigate(name, current[1], routeChecker, () =>
+        this.startOnboardingTour(activeTour),
+      );
       return true;
     }
     return false;
@@ -151,6 +155,7 @@ export class OnboardingService {
         tour.name,
         firstStepRoute[1],
         tour.checkIfRouteCanBeAccessed,
+        () => this.startOnboardingTour(tour),
       );
       return false;
     }
@@ -209,6 +214,7 @@ export class OnboardingService {
     tourName: string,
     route: string,
     routeChecker: (string) => Observable<boolean>,
+    onDone: () => void,
   ) {
     console.log(
       'WAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOS',
@@ -225,7 +231,9 @@ export class OnboardingService {
         if (canAccess) {
           console.log(3);
           //window.location.href = route;
-          this.router.navigate([route]);
+          this.router.navigate([route]).then(() => {
+            onDone();
+          });
           console.log(4);
         } else {
           console.log(4);
@@ -244,10 +252,9 @@ export class OnboardingService {
       });
     } else {
       console.log(2);
-      console.log(2);
-      console.log(2);
-      console.log(2);
-      this.router.navigate([route]);
+      this.router.navigate([route]).then(() => {
+        onDone();
+      });
     }
   }
 
