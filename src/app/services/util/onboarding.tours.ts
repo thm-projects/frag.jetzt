@@ -38,9 +38,6 @@ const roomChecker = (
       sub.next(false);
     },
   });
-  console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
-  console.log(sub);
-  console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
   return sub.asObservable();
 };
 
@@ -51,6 +48,7 @@ export const initDefaultTour = (
   name: 'default',
   tour: [
     'greeting@home',
+    'login@home',
     'roomJoin@home',
     'createRoom@home',
     'createQuestion@participant/room/Feedback/comments',
