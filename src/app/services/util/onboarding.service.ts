@@ -81,6 +81,13 @@ export class OnboardingService {
     const previous = this._activeTour.tour[this._currentStep - 1].split('@');
     const current =
       this._activeTour.tour[this._currentStep - 1 + stepDirection].split('@');
+    console.log(this._currentStep);
+    console.log('ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ');
+    console.log('ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ');
+    console.log('ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ');
+    console.log('ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ');
+    console.log('ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ');
+    console.log(this._activeTour.tourActions);
     if (this._activeTour.tourActions) {
       const prevObj = this._activeTour.tourActions[previous[0]];
       const currentObj = this._activeTour.tourActions[current[0]];
@@ -91,9 +98,12 @@ export class OnboardingService {
         currentObj.beforeLoad(stepDirection === 1);
       }
     }
+    console.log(previous);
+    console.log(current);
     if (previous.length < current.length || previous[1] !== current[1]) {
       //Route gets switched
       const name = this._activeTour.name;
+
       console.log(name);
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
       console.log(routeChecker);
@@ -134,6 +144,7 @@ export class OnboardingService {
     }
     sendEvent(this.eventService, new RescaleRequest(1));
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
+    console.log('SSSJAMAMAMAMALALADDDDDDDDDDDDDDDDKKKKKKKKKKFFFFFFFFFFFFFF');
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
     if (firstStepRoute.length > 1 && !url.endsWith('/' + firstStepRoute[1])) {
       this.tryNavigate(
@@ -155,6 +166,7 @@ export class OnboardingService {
         logsEnabled: false,
         stepDefaultPosition: 'center',
         startWith: this._activeTour.tour[this._currentStep - 1],
+        waitingTime: 500,
       })
       .subscribe((step) => this.afterStepMade(step));
     this._eventServiceSubscription = this.eventService
@@ -198,11 +210,27 @@ export class OnboardingService {
     route: string,
     routeChecker: (string) => Observable<boolean>,
   ) {
+    console.log(
+      'WAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOS',
+    );
+    console.log(routeChecker);
+    console.log(
+      'WAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOSWAS IST LOS',
+    );
     if (routeChecker) {
+      console.log(1);
+      console.log(1);
       routeChecker(route).subscribe((canAccess) => {
+        console.log(canAccess);
         if (canAccess) {
+          console.log(3);
+          //window.location.href = route;
           this.router.navigate([route]);
+          console.log(4);
         } else {
+          console.log(4);
+          console.log(4);
+          console.log(4);
           this.dataStoreService.set(
             'onboarding_' + tourName,
             JSON.stringify({ state: 'canceled' }),
@@ -215,6 +243,10 @@ export class OnboardingService {
         }
       });
     } else {
+      console.log(2);
+      console.log(2);
+      console.log(2);
+      console.log(2);
       this.router.navigate([route]);
     }
   }

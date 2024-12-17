@@ -38,6 +38,9 @@ const roomChecker = (
       sub.next(false);
     },
   });
+  console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
+  console.log(sub);
+  console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
   return sub.asObservable();
 };
 
