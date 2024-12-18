@@ -11,7 +11,6 @@ export class PwaService {
   public installPromptAvailable$ = new BehaviorSubject<boolean>(false);
   private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent> | null =
     null;
-  private manuallyDismissed = false;
 
   constructor(private snackBar: MatSnackBar) {
     // Listen to the 'beforeinstallprompt' event
@@ -22,7 +21,7 @@ export class PwaService {
       // Check if app is already installed
       if (!this.isAppInstalled()) {
         this.installPromptAvailable$.next(true); // Notify listeners
-        this.showInstallSnackbar(); // Show the snackbar to the user
+        this.showInstallSnackbar();
       }
     });
   }
@@ -43,17 +42,40 @@ export class PwaService {
    * Displays the snackbar with installation options.
    */
   private showInstallSnackbar() {
+    // Only one snackbar can be opened
+    if (this.snackBarRef) {
+      return;
+    }
+
+    // Dont open a new snackbar if it was dismissed
+    if (!this.installPromptAvailable$) {
+      return;
+    }
+
+    // Open the install Snackbar
     this.snackBarRef = this.snackBar.openFromComponent(
       PwaInstallSnackbarComponent,
-      { duration: 0 }, // Keep the snackbar open indefinitely
+      {
+        duration: 0,
+      },
     );
+
+    // Reset manual dismissal state if replaced by another Snackbar
+    this.snackBarRef.afterDismissed().subscribe(() => {
+      this.snackBarRef = null;
+      // Check if snackbar can be reopened
+      if (!this.installPromptAvailable$) {
+        this.showInstallSnackbar();
+      }
+    });
   }
 
+  /**
+   * Dismisses the snackbar when button is pressed.
+   */
   dismissInstall() {
-    this.manuallyDismissed = true;
     this.snackBarRef.dismiss();
     this.installPromptAvailable$.next(false);
-    // Handle the "Dismiss" action (close snackbar manually)
   }
 
   /**
@@ -64,9 +86,12 @@ export class PwaService {
       return Promise.reject('Install prompt is not available');
     }
 
-    return this.deferredPrompt.prompt().then(() => {
+    return this.deferredPrompt.prompt().then((result) => {
       this.deferredPrompt = null; // Reset the deferred prompt
-      this.installPromptAvailable$.next(false); // Update state
+      if (result.outcome === 'accepted') {
+        this.snackBarRef.dismiss();
+        this.installPromptAvailable$.next(false);
+      }
     });
   }
 }

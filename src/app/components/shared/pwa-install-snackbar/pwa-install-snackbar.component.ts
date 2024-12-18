@@ -19,7 +19,6 @@ export class PwaInstallSnackbarComponent {
 
   install() {
     this.pwaService.triggerInstallPrompt();
-    this.snackBarRef.dismiss(); // Close snackbar after installation
   }
 
   dismiss() {
