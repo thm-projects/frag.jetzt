@@ -17,6 +17,7 @@ import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UUID } from 'app/utils/ts-utils';
 import { InitService } from './init.service';
 import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
+import { keycloakInfo } from 'app/base/theme/apply-system-variables';
 
 export interface TokenReturn {
   token: string;
@@ -169,6 +170,20 @@ export class KeycloakService {
         realm: keycloakProvider.realm,
         clientId: keycloakProvider.clientId,
       });
+      const original = newKeycloak.createLoginUrl.bind(newKeycloak);
+      newKeycloak.createLoginUrl = (options?) => {
+        const str = original(options);
+        const info = keycloakInfo();
+        return (
+          str +
+          '&source-color=' +
+          encodeURIComponent(info.color) +
+          '&contrast-level=' +
+          encodeURIComponent(info.contrastLevel) +
+          '&is-dark=' +
+          encodeURIComponent(info.isDark)
+        );
+      };
       this.keycloak = newKeycloak;
       this.tokenUpdated = tokenUpdated;
       this.activeProvider$.next(keycloakProvider);
