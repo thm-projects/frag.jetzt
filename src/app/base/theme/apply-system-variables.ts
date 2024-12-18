@@ -46,6 +46,12 @@ const contrastLevel = computed(() => {
   }
 });
 
+export const keycloakInfo = computed(() => ({
+  contrastLevel: contrastLevel(),
+  color: themeSourceColor(),
+  isDark: actualTheme() === 'dark',
+}));
+
 const getColors = () => {
   return Object.values(MaterialDynamicColors).filter(
     (e) => e instanceof DynamicColor && e.name && !e.name.includes('palette'),
