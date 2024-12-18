@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { PwaInstallSnackbarComponent } from 'app/components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,6 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 export class PwaService {
   private deferredPrompt = null;
   public installPromptAvailable$ = new BehaviorSubject<boolean>(false);
+  private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent> | null =
+    null;
+  private manuallyDismissed = false;
 
   constructor(private snackBar: MatSnackBar) {
     // Listen to the 'beforeinstallprompt' event
@@ -40,20 +43,17 @@ export class PwaService {
    * Displays the snackbar with installation options.
    */
   private showInstallSnackbar() {
-    const snackBarRef = this.snackBar.openFromComponent(
+    this.snackBarRef = this.snackBar.openFromComponent(
       PwaInstallSnackbarComponent,
       { duration: 0 }, // Keep the snackbar open indefinitely
     );
+  }
 
-    // Handle the "Install" button click
-    snackBarRef.onAction().subscribe(() => {
-      this.triggerInstallPrompt(); // Trigger the installation prompt
-    });
-
+  dismissInstall() {
+    this.manuallyDismissed = true;
+    this.snackBarRef.dismiss();
+    this.installPromptAvailable$.next(false);
     // Handle the "Dismiss" action (close snackbar manually)
-    snackBarRef.afterDismissed().subscribe(() => {
-      this.installPromptAvailable$.next(false); // Hide further prompts
-    });
   }
 
   /**

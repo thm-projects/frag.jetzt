@@ -23,6 +23,6 @@ export class PwaInstallSnackbarComponent {
   }
 
   dismiss() {
-    this.snackBarRef.dismiss(); // Simply close the snackbar
+    this.pwaService.dismissInstall(); // Simply close the snackbar
   }
 }
