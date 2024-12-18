@@ -42,13 +42,12 @@ export class PwaService {
    * Displays the snackbar with installation options.
    */
   private showInstallSnackbar() {
-    // Only one snackbar can be opened
-    if (this.snackBarRef) {
+    // Dont open a new snackbar if it was dismissed
+    if (!this.installPromptAvailable$.value) {
       return;
     }
-
-    // Dont open a new snackbar if it was dismissed
-    if (!this.installPromptAvailable$) {
+    // Only one snackbar can be opened
+    if (this.snackBarRef) {
       return;
     }
 
@@ -64,7 +63,7 @@ export class PwaService {
     this.snackBarRef.afterDismissed().subscribe(() => {
       this.snackBarRef = null;
       // Check if snackbar can be reopened
-      if (!this.installPromptAvailable$) {
+      if (this.installPromptAvailable$.value) {
         this.showInstallSnackbar();
       }
     });
