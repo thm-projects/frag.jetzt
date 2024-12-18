@@ -20,6 +20,7 @@ import { user$ } from '../../../user/state/user';
 import { combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Room } from '../../../models/room';
+import { MatList, MatListItem } from '@angular/material/list';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -35,6 +36,8 @@ const i18n = I18nLoader.load(rawI18n);
     MatDialogClose,
     MatDialogContent,
     CommonModule,
+    MatListItem,
+    MatList,
   ],
 })
 export class DeleteAccountDialogComponent {
@@ -68,17 +71,40 @@ export class DeleteAccountDialogComponent {
                 tokens.map((token) =>
                   roomService
                     .getRoom(token.roomId)
-                    .pipe(map((room) => ({ roomName: room.name, token }))),
+                    .pipe(
+                      map((room) => ({
+                        roomId: room.id,
+                        roomName: room.name,
+                        token,
+                      })),
+                    ),
                 ),
               ).pipe(
                 map((tokenRoomPairs) => {
                   const tokenCounts = tokenRoomPairs.reduce(
-                    (acc, { roomName }) => {
-                      acc[roomName] = (acc[roomName] || 0) + 1;
+                    (acc, pair) => {
+                      const existingRoom = acc.find(
+                        (room) => room.roomId === pair.roomId,
+                      );
+                      if (existingRoom) {
+                        existingRoom.tokenCount++;
+                      } else {
+                        acc.push({
+                          roomId: pair.roomId,
+                          roomName: pair.roomName,
+                          tokenCount: 1,
+                        });
+                      }
+
                       return acc;
                     },
-                    {},
+                    [] as {
+                      roomId: string;
+                      roomName: string;
+                      tokenCount: number;
+                    }[],
                   );
+
                   return { ownedRooms, tokenCounts };
                 }),
               ),
@@ -91,11 +117,22 @@ export class DeleteAccountDialogComponent {
           data: { keycloakService, ownedRooms, tokenCounts },
         });
       });
-
-    return null; // maybe evil?
+    return null;
   }
 
   onDiscard(): void {
     this.dialogRef.close('discard');
   }
+
+  onDelete(): void {
+    user$.subscribe((user) => {
+      if (user.isGuest) {
+        //todo ins backend
+      } else {
+        this.data.keycloakService.deleteAccount();
+      }
+    });
+  }
+
+  protected readonly Object = Object;
 }
