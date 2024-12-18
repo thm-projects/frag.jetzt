@@ -2,7 +2,7 @@ import { ProfanityFilter, Room } from '../../models/room';
 import { Comment } from '../../models/comment';
 import { SpacyKeyword } from '../http/spacy.service';
 import { ProfanityFilterService } from './profanity-filter.service';
-import { ForumComment } from '../../utils/data-accessor';
+import { UIComment } from 'app/room/state/comment-updates';
 
 export interface CommentFilterData {
   body: string;
@@ -16,7 +16,7 @@ export interface CommentFilterData {
 }
 
 export interface CommentProfanityInformation {
-  comment: ForumComment;
+  comment: UIComment;
   beforeFiltering: CommentFilterData;
   afterFiltering: CommentFilterData;
   hasProfanity: boolean;
@@ -38,10 +38,10 @@ export class RoomDataProfanityFilter {
     );
   }
 
-  public static applyToComment(comment: ForumComment, data: CommentFilterData) {
-    comment.body = data.body;
-    comment.keywordsFromQuestioner = data.keywordsFromQuestioner;
-    comment.keywordsFromSpacy = data.keywordsFromSpacy;
+  public static applyToComment(comment: UIComment, data: CommentFilterData) {
+    comment.comment.body = data.body;
+    comment.comment.keywordsFromQuestioner = data.keywordsFromQuestioner;
+    comment.comment.keywordsFromSpacy = data.keywordsFromSpacy;
   }
 
   private static cloneKeywords(arr: SpacyKeyword[]) {
@@ -53,20 +53,20 @@ export class RoomDataProfanityFilter {
   }
 
   public filterComment(
-    comment: ForumComment,
+    comment: UIComment,
     censorIfProfanity = true,
   ): CommentProfanityInformation {
     const before: CommentFilterData = {
-      body: comment.body,
+      body: comment.comment.body,
       keywordsFromSpacy: RoomDataProfanityFilter.cloneKeywords(
-        comment.keywordsFromSpacy,
+        comment.comment.keywordsFromSpacy,
       ),
       keywordsFromQuestioner: RoomDataProfanityFilter.cloneKeywords(
-        comment.keywordsFromQuestioner,
+        comment.comment.keywordsFromQuestioner,
       ),
-      questionerName: comment.questionerName,
+      questionerName: comment.comment.questionerName,
     };
-    const after = this.filterCommentOfProfanity(this.room, comment);
+    const after = this.filterCommentOfProfanity(this.room, comment.comment);
     const hasProfanity = RoomDataProfanityFilter.hasDataProfanityMarked(after);
     const filtered = censorIfProfanity && hasProfanity;
     if (filtered) {

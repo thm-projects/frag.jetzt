@@ -5,6 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { map, Observable, of } from 'rxjs';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 
+export interface AIGeneratedKeyword {
+  keywords: string[];
+  entities: string[];
+  special: string[];
+}
+
 export class Comment {
   id: UUID;
   roomId: UUID;
