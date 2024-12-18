@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
-import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';
 import { ForumComment } from 'app/utils/data-accessor';
 import { TSMap } from 'typescript-map';
@@ -13,48 +12,51 @@ import { TSMap } from 'typescript-map';
   standalone: false,
 })
 export class EditQuestionComponent {
-  @Input() comment: ForumComment;
-  @Input() tags: string[];
-  @Input() userRole: UserRole;
+  comment: ForumComment;
 
   constructor(
     private ref: MatDialogRef<EditQuestionComponent>,
     private commentService: CommentService,
   ) {}
 
-  createClick() {
-    return (newComment) => {
-      this.ref.close();
-      if (!newComment) {
-        return;
-      }
-      const changes = new TSMap<keyof Comment, unknown>();
-      const newBody = newComment.body;
-      if (newBody !== this.comment.body) {
-        changes.set('body', newBody);
-      }
-      if (newComment.language !== this.comment.language) {
-        changes.set('language', newComment.language);
-      }
-      const newKeyQuestioner = JSON.stringify(
-        newComment.keywordsFromQuestioner,
-      );
-      if (newComment.tag !== this.comment.tag) {
-        changes.set('tag', newComment.tag);
-      }
-      if (
-        newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromQuestioner)
-      ) {
-        changes.set('keywordsFromQuestioner', newKeyQuestioner);
-      }
-      const newKeySpaCy = JSON.stringify(newComment.keywordsFromSpacy);
-      if (newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromSpacy)) {
-        changes.set('keywordsFromSpacy', newKeySpaCy);
-      }
-      if (changes.size() === 0) {
-        return;
-      }
-      this.commentService.patchComment(this.comment, changes).subscribe();
-    };
+  static open(
+    dialog: MatDialog,
+    comment: ForumComment,
+  ): MatDialogRef<EditQuestionComponent> {
+    const ref = dialog.open(EditQuestionComponent);
+    ref.componentRef.setInput('comment', comment);
+    return ref;
+  }
+
+  create(c: Comment) {
+    this.ref.close();
+    if (!c) {
+      return;
+    }
+    const changes = new TSMap<keyof Comment, unknown>();
+    const newBody = c.body;
+    if (newBody !== this.comment.body) {
+      changes.set('body', newBody);
+    }
+    if (c.language !== this.comment.language) {
+      changes.set('language', c.language);
+    }
+    const newKeyQuestioner = JSON.stringify(c.keywordsFromQuestioner);
+    if (c.tag !== this.comment.tag) {
+      changes.set('tag', c.tag);
+    }
+    if (
+      newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromQuestioner)
+    ) {
+      changes.set('keywordsFromQuestioner', newKeyQuestioner);
+    }
+    const newKeySpaCy = JSON.stringify(c.keywordsFromSpacy);
+    if (newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromSpacy)) {
+      changes.set('keywordsFromSpacy', newKeySpaCy);
+    }
+    if (changes.size() === 0) {
+      return;
+    }
+    this.commentService.patchComment(this.comment, changes).subscribe();
   }
 }

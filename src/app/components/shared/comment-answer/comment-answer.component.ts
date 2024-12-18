@@ -26,14 +26,9 @@ import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
-import { Location } from '@angular/common';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
 import { ForumComment } from '../../../utils/data-accessor';
-import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { Comment } from '../../../models/comment';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
-import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import {
@@ -43,6 +38,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { applyRoomNavigation } from 'app/navigation/room-navigation';
 import { user$ } from 'app/user/state/user';
+import { writeInteractiveComment } from 'app/room/comment/util/create-comment';
 
 @Component({
   selector: 'app-comment-answer',
@@ -72,11 +68,9 @@ export class CommentAnswerComponent
   roleString: string;
   private injector = inject(Injector);
   private changeDetector = inject(ChangeDetectorRef);
-  private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
   private destroyer = new ReplaySubject(1);
   private _list: ComponentRef<unknown>[];
-  private _keywordExtractor: KeywordExtractor;
   private commentOverride: Partial<Comment>;
 
   constructor(
@@ -90,17 +84,12 @@ export class CommentAnswerComponent
     public eventService: EventService,
     private sessionService: SessionService,
     private voteService: VoteService,
-    private location: Location,
-    private composeService: ArsComposeService,
-    private headerService: HeaderService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
-    injector: Injector,
   ) {
     applyRoomNavigation(this.injector)
       .pipe(takeUntil(this.destroyer))
       .subscribe();
-    this._keywordExtractor = new KeywordExtractor(injector);
   }
 
   get responses() {
@@ -143,13 +132,6 @@ export class CommentAnswerComponent
         this.room = room;
         this.commentsEnabled =
           this.userRole > UserRole.PARTICIPANT || !room.questionsBlocked;
-        this.createCommentWrapper = new CreateCommentWrapper(
-          this.translateService,
-          this.notificationService,
-          this.commentService,
-          this.dialog,
-          this.room,
-        );
         this.mods = new Set<string>(mods.map((m) => m.accountId));
         this.votes = {};
         this.voteService
@@ -183,13 +165,11 @@ export class CommentAnswerComponent
   }
 
   writeComment() {
-    this.createCommentWrapper
-      .openCreateDialog(this.user, this.userRole)
-      .subscribe((c) => {
-        if (c) {
-          this.goBackToCommentList();
-        }
-      });
+    writeInteractiveComment(this.injector).subscribe((c) => {
+      if (c) {
+        this.goBackToCommentList();
+      }
+    });
   }
 
   goBack() {
@@ -274,16 +254,7 @@ export class CommentAnswerComponent
   }
 
   editQuestion(comment: ForumComment) {
-    const ref = this.dialog.open(EditQuestionComponent, {
-      width: '900px',
-      maxWidth: '100%',
-      maxHeight: 'calc( 100vh - 20px )',
-      autoFocus: false,
-    });
-    ref.componentInstance.comment = comment;
-    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
-    ref.componentInstance.userRole =
-      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
+    EditQuestionComponent.open(this.dialog, comment);
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {

@@ -1,12 +1,5 @@
 <mat-dialog-content>
   <app-write-comment
-    [confirmLabel]="'send'"
-    [brainstormingData]="null"
-    [tags]="tags"
-    [isQuestionerNameEnabled]="false"
-    [isModerator]="userRole > 0"
     [rewriteCommentData]="comment"
-    [onClose]="this.createClick()"
-  >
-  </app-write-comment>
+    (commentCreated)="create($event)"></app-write-comment>
 </mat-dialog-content>

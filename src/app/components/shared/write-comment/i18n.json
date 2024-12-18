@@ -1,43 +1,48 @@
 {
-    "key": "write-comment-editor-settings",
-    "de": {
-      "title": "",
-      "questionerName": "Nickname",
-      "tagButtonHint": "Wähle die treffende Kategorie für deine Frage.",
-      "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
-      "chars": "{{count}} / {{maxTextCharacters}}",
-      "nameChars": "{{count}} / {{questionerNameMax}}",
-      "warning": "Die maximale Anzahl an Zeichen wurde überschritten!",
-      "tag": "Kategorie",
-      "tagReset": "ohne",
-      "send":"Senden",
-      "cancel":"Abbrechen"
-    },
-    "en": {
-      "title": "",
-      "questionerName": "Nickname",
-      "tagButtonHint": "Select the most appropriate category for your question.",
-      "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
-      "chars": "{{count}} / {{maxTextCharacters}}",
-      "nameChars": "{{count}} / {{questionerNameMax}}",
-      "warning": "The maximum number of characters has been exceeded!",
-      "tag": "Category",
-      "tagReset": "none",
-      "send":"Send",
-      "cancel":"Cancel"
-    },
-    "fr": {
-      "title": "",
-      "questionerName": "Pseudo",
-      "tagButtonHint": "Choisis la catégorie la plus pertinente pour ta question",
-      "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-      "chars": "{{count}} / {{maxTextCharacters}}",
-      "nameChars": "{{count}} / {{questionerNameMax}}",
-      "warning": "Le nombre maximal de caractères est dépassé!",
-      "tag": "Catégorie",
-      "tagReset": "sans",
-      "send":"Envoyer",
-      "cancel":"Annuler"
-
-    }
+  "key": "write-comment-editor-settings",
+  "de": {
+    "title": "",
+    "questionerName": "Nickname",
+    "tagButtonHint": "Wähle die treffende Kategorie für deine Frage.",
+    "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
+    "chars": "{{count}} / {{maxCharacters}}",
+    "nameChars": "{{count}} / {{questionerNameMax}}",
+    "warning": "Die maximale Anzahl an Zeichen wurde überschritten!",
+    "emptyComment": "Du musst mindestens ein Zeichen eingeben.",
+    "tag": "Kategorie",
+    "tagReset": "ohne",
+    "send": "Senden",
+    "cancel": "Abbrechen",
+    "questionerNameError": "Die Länge des Namens ist nicht korrekt."
+  },
+  "en": {
+    "title": "",
+    "questionerName": "Nickname",
+    "tagButtonHint": "Select the most appropriate category for your question.",
+    "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
+    "chars": "{{count}} / {{maxCharacters}}",
+    "nameChars": "{{count}} / {{questionerNameMax}}",
+    "warning": "The maximum number of characters has been exceeded!",
+    "emptyComment": "You must enter at least one character.",
+    "tag": "Category",
+    "tagReset": "none",
+    "send": "Send",
+    "cancel": "Cancel",
+    "questionerNameError": "The length of the name is incorrect."
+  },
+  "fr": {
+    "title": "",
+    "questionerName": "Pseudo",
+    "tagButtonHint": "Choisis la catégorie la plus pertinente pour ta question",
+    "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
+    "chars": "{{count}} / {{maxCharacters}}",
+    "nameChars": "{{count}} / {{questionerNameMax}}",
+    "warning": "Le nombre maximal de caractères est dépassé!",
+    "emptyComment": "Tu dois entrer au moins un caractère.",
+    "tag": "Catégorie",
+    "tagReset": "sans",
+    "send": "Envoyer",
+    "cancel": "Annuler",
+    "questionerNameError": "La longueur du nom n'est pas correcte."
   }
+}

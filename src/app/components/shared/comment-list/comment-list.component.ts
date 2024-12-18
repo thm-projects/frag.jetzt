@@ -3,6 +3,8 @@ import {
   Component,
   ComponentRef,
   ElementRef,
+  inject,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -22,7 +24,6 @@ import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
@@ -65,6 +66,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { user, user$ } from 'app/user/state/user';
 import { Filter } from 'app/room/comment/comment/comment.component';
+import { writeInteractiveComment } from 'app/room/comment/util/create-comment';
 
 @Component({
   selector: 'app-comment-list',
@@ -94,7 +96,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   periodsList = Object.values(Period) as PeriodKey[];
   headerInterface = null;
   commentsEnabled: boolean;
-  createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
   focusCommentId = '';
   sendCommentId = '';
@@ -134,6 +135,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private _cloudFilterObject: FilteredDataAccess;
   private _destroySubject = new Subject();
   private _matcher: MediaQueryList;
+  private injector = inject(Injector);
 
   constructor(
     private commentService: CommentService,
@@ -242,13 +244,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionService
         .receiveRoomUpdates()
         .subscribe((_room) => this.receiveRoom(_room as Room));
-      this.createCommentWrapper = new CreateCommentWrapper(
-        this.translateService,
-        this.notificationService,
-        this.commentService,
-        this.dialog,
-        this.sessionService.currentRoom,
-      );
       this.updateKeywordMark();
       this._filterObject.attach({
         userId: user().id,
@@ -465,20 +460,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   writeComment() {
-    const dialogRef = this.createCommentWrapper.openCreateDialog(
-      user(),
-      this.userRole,
-      undefined,
-      undefined,
-      {
-        disableClose: true,
-        width: '900px',
-        maxWidth: '100%',
-        maxHeight: 'calc(100vh - 20px)',
-        autoFocus: false,
-      },
+    writeInteractiveComment(this.injector).subscribe(
+      (comment) => (this.sendCommentId = comment?.id),
     );
-    dialogRef.subscribe((comment) => (this.sendCommentId = comment?.id));
   }
 
   /**
@@ -587,15 +571,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editQuestion(comment: ForumComment) {
-    const ref = this.dialog.open(EditQuestionComponent, {
-      width: '900px',
-      maxWidth: '100%',
-      maxHeight: 'calc( 100vh - 20px )',
-      autoFocus: false,
-    });
-    ref.componentInstance.comment = comment;
-    ref.componentInstance.tags = this.room.tags;
-    ref.componentInstance.userRole = this.userRole;
+    EditQuestionComponent.open(this.dialog, comment);
   }
 
   protected openFilterMenu() {

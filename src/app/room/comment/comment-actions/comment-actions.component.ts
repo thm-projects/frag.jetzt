@@ -43,6 +43,7 @@ export class CommentActionsComponent {
   private assignedRole = toSignal(inject(RoomStateService).assignedRole$, {
     initialValue: 'Participant',
   });
+  protected readonly hasAI = computed(() => room.value()?.chatGptActive);
   protected readonly canReply = computed(() => {
     const c = this.comment();
     if (!c) return false;
