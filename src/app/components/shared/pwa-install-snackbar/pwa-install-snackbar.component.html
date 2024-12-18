@@ -1,10 +1,10 @@
 <div class="snackbar-container">
-  <span>Install this app for a better experience!</span>
+  <span>{{ i18n().installPrompt }}</span>
   <div class="snackbar-actions">
     <button
       mat-button
       (click)="install()">
-      Install
+      {{ i18n().installButton }}
     </button>
     <button
       mat-icon-button

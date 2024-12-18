@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component } from '@angular/core';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { PwaService } from 'app/services/util/pwa-installation.service';
@@ -12,6 +15,7 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './pwa-install-snackbar.component.scss',
 })
 export class PwaInstallSnackbarComponent {
+  protected readonly i18n = i18n;
   constructor(
     private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent>,
     private pwaService: PwaService,
