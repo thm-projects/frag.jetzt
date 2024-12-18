@@ -1,8 +1,6 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { WriteCommentComponent } from '../../write-comment/write-comment.component';
-import { UserRole } from '../../../../models/user-roles.enum';
+import { Component, inject, input } from '@angular/core';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 
 @Component({
@@ -12,14 +10,25 @@ import { Comment } from 'app/models/comment';
   standalone: false,
 })
 export class CreateCommentComponent {
-  @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
-  @Input() userRole: UserRole;
-  @Input() tags: string[];
-  @Input() brainstormingData: BrainstormingSession;
+  brainstormingData = input<BrainstormingSession>(null);
+  private dialogRef = inject(MatDialogRef);
 
-  constructor(public dialogRef: MatDialogRef<CreateCommentComponent>) {}
+  static open(
+    dialog: MatDialog,
+    brainstormingData: BrainstormingSession,
+  ): MatDialogRef<CreateCommentComponent> {
+    const ref = dialog.open(CreateCommentComponent, {
+      disableClose: true,
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc(100vh - 20px)',
+      autoFocus: false,
+    });
+    ref.componentRef.setInput('brainstormingData', brainstormingData);
+    return ref;
+  }
 
-  onNoClick(comment?: Comment): void {
+  forward(comment?: Comment): void {
     this.dialogRef.close(comment);
   }
 }

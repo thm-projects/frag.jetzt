@@ -123,21 +123,23 @@
     }
   }
 
-  @if (isSmall()) {
-    <button
-      mat-icon-button
-      (click)="chatWithAI()"
-      class="contained-icon-filled selected"
-      [matTooltip]="i18n().aiDescription">
-      <mat-icon svgIcon="fj_robot"></mat-icon>
-    </button>
-  } @else {
-    <button
-      mat-flat-button
-      (click)="chatWithAI()"
-      [matTooltip]="i18n().aiDescription">
-      <mat-icon svgIcon="fj_robot"></mat-icon>
-      {{ i18n().ai }}
-    </button>
+  @if (hasAI()) {
+    @if (isSmall()) {
+      <button
+        mat-icon-button
+        (click)="chatWithAI()"
+        class="contained-icon-filled selected"
+        [matTooltip]="i18n().aiDescription">
+        <mat-icon svgIcon="fj_robot"></mat-icon>
+      </button>
+    } @else {
+      <button
+        mat-flat-button
+        (click)="chatWithAI()"
+        [matTooltip]="i18n().aiDescription">
+        <mat-icon svgIcon="fj_robot"></mat-icon>
+        {{ i18n().ai }}
+      </button>
+    }
   }
 </mat-card-actions>

@@ -1,0 +1,21 @@
+{
+  "key": "create-comment",
+  "de": {
+    "alreadySubmitted": "Du hast diese Idee bereits eingereicht. Hast du eine andere Idee?",
+    "wordLimitExceeded": "Diese Brainstorming-Sitzung erlaubt nur eine Wortanzahl von {{maxWordCount}}.",
+    "directSend": "Dein Beitrag wurde veröffentlicht.",
+    "moderatedSend": "Dein Beitrag wird von einer Moderatorin oder einem Moderator überprüft."
+  },
+  "en": {
+    "alreadySubmitted": "You have already submitted this idea. Do you have another idea?",
+    "wordLimitExceeded": "This brainstorming session allows only a word count of {{maxWordCount}}.",
+    "directSend": "Your contribution has been published.",
+    "moderatedSend": "Your contribution will be reviewed by a moderator."
+  },
+  "fr": {
+    "alreadySubmitted": "Tu as déjà soumis cette idée. As-tu une autre idée?",
+    "wordLimitExceeded": "Cette session de remue-méninges ne permet qu'un nombre de mots de {{maxWordCount}}.",
+    "directSend": "Ta contribution a été publiée.",
+    "moderatedSend": "Ta contribution sera examinée par un modérateur."
+  }
+}

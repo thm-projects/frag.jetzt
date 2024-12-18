@@ -27,7 +27,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditCommentTagComponent } from 'app/components/creator/_dialogs/edit-comment-tag/edit-comment-tag.component';
 import { EditQuestionComponent } from 'app/components/shared/_dialogs/edit-question/edit-question.component';
 import { SessionService } from 'app/services/util/session.service';
-import { UserRole } from 'app/models/user-roles.enum';
 import { copyText } from 'app/room/util/clipboard';
 import { DeleteCommentComponent } from 'app/components/creator/_dialogs/delete-comment/delete-comment.component';
 import { userBookmarks } from 'app/room/state/comments';
@@ -147,22 +146,7 @@ export class CommentHeaderActionComponent {
   }
 
   private editQuestion() {
-    let role = UserRole.PARTICIPANT;
-    const assigned = this.assignedRole();
-    if (assigned === 'Creator') {
-      role = UserRole.CREATOR;
-    } else if (assigned === 'Moderator') {
-      role = UserRole.EXECUTIVE_MODERATOR;
-    }
-    const ref = this.dialog.open(EditQuestionComponent, {
-      width: '900px',
-      maxWidth: '100%',
-      maxHeight: 'calc( 100vh - 20px )',
-      autoFocus: false,
-    });
-    ref.componentInstance.comment = this.comment();
-    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
-    ref.componentInstance.userRole = role;
+    EditQuestionComponent.open(this.dialog, this.comment());
   }
 
   private copyLink() {

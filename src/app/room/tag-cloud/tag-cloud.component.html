@@ -46,11 +46,13 @@
       [parent]="this"></app-cloud-configuration>
   </mat-drawer>
   <mat-drawer-content>
-    <h1
-      *ngIf="brainstormingActive && brainstormingData?.title"
-      class="tag-cloud-brainstorming-question mat-headline-4 active">
-      {{ brainstormingData?.title }}
-    </h1>
+    <div class="tag-cloud-container">
+      <h1
+        *ngIf="brainstormingActive && brainstormingData?.title"
+        class="tag-cloud-brainstorming-question mat-headline-4 active">
+        {{ brainstormingData?.title }}
+      </h1>
+    </div>
     <app-tag-cloud-pop-up
       [room]="room"
       [requester]="request()"></app-tag-cloud-pop-up>
@@ -83,18 +85,16 @@
       *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
       mat-fab
       [ngClass]="{
-        center_screen: isCloudEmpty()
+        center_screen: isCloudEmpty(),
       }"
       class="fab_add_comment"
       (click)="writeComment()"
       matTooltip="{{ 'comment-list.add-idea' | translate }}"
       [matTooltipPosition]="'above'">
       <mat-icon>add</mat-icon>
-      <p
-        class="oldtypo-p"
-        *ngIf="isCloudEmpty()">
+      @if (isCloudEmpty()) {
         {{ "comment-list.ask-brainstorm-empty" | translate }}
-      </p>
+      }
     </button>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -12,8 +12,8 @@
     "pay": "Wie wollen sie zahlen?",
 
     "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
-    
-    "tokens": "Tokens",
+
+    "tokens": "Token",
     "words": "Wörter",
 
     "register": "Einloggen",
@@ -22,9 +22,9 @@
     "selectFreePlan": "Kostenloser Plan benutzt",
     "purchased": "Gekauft",
     "unlimitedPurchase": "Wiederholbarer Kauf",
-    "faqText": "Nicht sicher, wie Tokens funktionieren?",
-    "faqLink": "Erfahren Sie mehr über Tokens und Preise",
-    "yourTokens": "Ihre Tokens:",
+    "faqText": "Nicht sicher, wie Token funktionieren?",
+    "faqLink": "Erfahren Sie mehr über Token und Preise",
+    "yourTokens": "Ihre Token:",
     "buy": "Deaktiviert"
   },
   "en": {
@@ -64,9 +64,9 @@
     "special": "spécial",
 
     "pay": "Comment vont-ils payer ?",
-    
+
     "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
-    
+
     "tokens": "Jetons",
     "words": "Mots",
 

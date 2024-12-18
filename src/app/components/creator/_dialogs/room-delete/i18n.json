@@ -2,7 +2,7 @@
   "key": "room-delete",
   "de": {
     "title": "Raum löschen?",
-    "description": "Willst du den Raum **»{{name}}«** wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
+    "description": "Willst du den Raum **»{{name}}«** wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Token überprüfen kannst.",
     "delete": "Raum löschen"
   },
   "en": {

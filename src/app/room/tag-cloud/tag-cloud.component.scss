@@ -8,10 +8,8 @@ $margin: 15px;
   left: 50%;
   top: 88%;
   transform: translate(-50%, 0);
-  background: transparent;
   border-radius: 5px;
-  outline: 2px solid var(--primary);
-  outline-offset: 1em;
+  position: absolute;
 }
 
 ars-fill {
@@ -67,47 +65,47 @@ app-tag-cloud-pop-up {
 .fab_add_comment {
   position: fixed;
   right: 35px;
-  bottom: 35px;
-  background-color: var(--primary);
-  color: var(--on-primary);
-  transform: scale(1.4);
+  bottom: 115px;
   transition: all 0.5s ease-in-out;
   z-index: 2;
 
-  &:hover {
-    background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 2px;
-  }
-
   &.center_screen {
+    position: absolute;
     right: calc(50% - 20px);
     bottom: calc(50% - 20px);
   }
 
-  p {
+  & ::ng-deep .mdc-button__label {
     position: absolute;
-    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
+    top: calc(100% + 1em);
+    width: max-content;
+    font-size: 1.35em;
   }
 }
 
-.tag-cloud-brainstorming-question {
+.tag-cloud-container {
+  display: flex;
+  justify-content: center;
   position: fixed;
   top: 60px;
-  left: 20px;
+  left: 0;
+  width: 100%;
   z-index: 2;
+}
+
+.tag-cloud-brainstorming-question {
   color: var(--primary) !important;
   font-weight: bold;
   font-style: var(--tag-cloud-font-style, normal);
   font-family: var(--tag-cloud-font-family, "sans-serif");
   font-size: 2em !important;
   line-height: unset;
-  padding-right: 15px;
-  hyphens: unset;
+  padding: 0 0.5em;
   transition: inset 0.5s ease;
+  hyphens: auto;
 
   &.active {
-    top: 70px;
+    /* Zusätzliche Stile für den aktiven Zustand */
   }
 }
 
