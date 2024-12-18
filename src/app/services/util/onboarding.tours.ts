@@ -48,7 +48,6 @@ export const initDefaultTour = (
   name: 'default',
   tour: [
     'greeting@home',
-    'login@home',
     'roomJoin@home',
     'createRoom@home',
     'createQuestion@participant/room/Feedback/comments',
