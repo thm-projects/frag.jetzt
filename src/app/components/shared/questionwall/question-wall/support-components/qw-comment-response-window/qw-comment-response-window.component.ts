@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { QwCommentResponseComponent } from '../qw-comment-response/qw-comment-response.component';
-import { ForumComment } from '../../../../../../utils/data-accessor';
+import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,5 +10,5 @@ import { ForumComment } from '../../../../../../utils/data-accessor';
   styleUrl: './qw-comment-response-window.component.scss',
 })
 export class QwCommentResponseWindowComponent {
-  @Input() replies: ForumComment[];
+  @Input() replies: UIComment[];
 }

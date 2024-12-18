@@ -37,15 +37,16 @@
     fxLayout="row"
     #container
     fxLayoutAlign="center">
-    <app-comment
-      *ngIf="comment?.body"
-      [comment]="comment"
-      [showAnswers]="isConversationView"
-      [onlyShowUp]="true"></app-comment>
+    @if (comment(); as comment) {
+      <app-comment
+        [inputComment]="comment"
+        [showAnswers]="isConversationView"
+        [onlyShowUp]="true"></app-comment>
+    }
   </div>
   <div
     fxLayout="row"
-    *ngIf="(room.conversationDepth || !isStudent) && !isConversationView"
+    *ngIf="(room()?.conversationDepth || !isStudent) && !isConversationView"
     fxLayoutAlign="center">
     <div
       class="main-container"
@@ -53,7 +54,8 @@
       <mat-card
         appearance="outlined"
         class="answer border-answer">
-        <app-write-comment [commentReference]="comment.id"></app-write-comment>
+        <app-write-comment
+          [commentReference]="comment()?.comment?.id"></app-write-comment>
       </mat-card>
     </div>
   </div>

@@ -10,11 +10,11 @@ import {
   signal,
 } from '@angular/core';
 import { ValueOption } from '../comment/comment.component';
-import { ForumComment } from 'app/utils/data-accessor';
 import { userVotes } from 'app/room/state/comments';
 import { VoteService } from 'app/services/http/vote.service';
 import { map, Observable } from 'rxjs';
 import { user } from 'app/user/state/user';
+import { Comment } from 'app/models/comment';
 
 @Component({
   selector: 'app-comment-vote',
@@ -23,7 +23,7 @@ import { user } from 'app/user/state/user';
   standalone: false,
 })
 export class CommentVoteComponent {
-  comment = input.required<ForumComment>();
+  comment = input.required<Comment>();
   protected readonly i18n = i18n;
   protected readonly vote = signal<ValueOption<0 | 1 | -1>>({
     value: 0,

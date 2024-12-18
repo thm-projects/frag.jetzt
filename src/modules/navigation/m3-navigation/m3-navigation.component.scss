@@ -85,32 +85,7 @@ $content-padding: 16px;
 
   > .mat-toolbar-row {
     padding: 0;
-    display: flex;
     justify-content: space-around;
-    gap: 8px;
-
-    > .m3-label-button {
-      margin-top: 12px;
-      margin-bottom: 16px;
-      padding: 0;
-      height: 52px;
-      width: 56px;
-
-      ::ng-deep .m3-label-button-active-indicator,
-      ::ng-deep .mat-mdc-button-ripple {
-        margin-left: unset;
-      }
-
-      ::ng-deep .m3-label-button-content {
-        > .m3-icon {
-          left: 0;
-        }
-
-        > .m3-label {
-          width: 56px;
-        }
-      }
-    }
   }
 }
 

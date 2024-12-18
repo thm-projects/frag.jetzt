@@ -16,7 +16,6 @@ import {
   untracked,
 } from '@angular/core';
 import { Observable, ReplaySubject, of, takeUntil } from 'rxjs';
-import { ForumComment } from '../../utils/data-accessor';
 import { EventService } from '../../services/util/event.service';
 import { first, take } from 'rxjs/operators';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -54,6 +53,7 @@ import {
 } from '../assistant-route/state/assistant';
 import { room } from '../state/room';
 import { loadMessages, threads } from '../assistant-route/state/thread';
+import { UIComment } from '../state/comment-updates';
 
 interface ThreadEntry {
   ref: Thread;
@@ -89,7 +89,7 @@ const transformMessage = (m: BaseMessage): Message => {
   standalone: false,
 })
 export class GPTChatRoomComponent implements OnInit, OnDestroy {
-  @Input() protected owningComment: ForumComment;
+  @Input() protected owningComment: UIComment;
   protected readonly sortedAssistRefs = sortedAssistants;
   protected readonly selectedAssistant = selectedAssistant;
   protected readonly selectAssistant = selectAssistant;
@@ -275,7 +275,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       .pipe(first((v) => v === 'ready'))
       .subscribe(() => {
         this.eventService
-          .on<ForumComment>('gptchat-room.data')
+          .on<UIComment>('gptchat-room.data')
           .pipe(takeUntil(this.destroyer), take(1))
           .subscribe((comment) => {
             this.owningComment = comment;

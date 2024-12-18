@@ -104,7 +104,7 @@
       [onNewClick]="onNewClick.bind(this)"
       [onSend]="onSend"
       (deleteThread)="deleteThread()"
-      [defaultText]="owningComment?.body"
+      [defaultText]="owningComment?.comment.body"
       [selectedThread]="selectedThread()"></app-ai-chat>
   </mat-drawer-container>
 </div>

@@ -20,9 +20,8 @@ import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-suppo
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';
-import { RoomDataService } from 'app/services/util/room-data.service';
 import { CommentService } from 'app/services/http/comment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomNameSettingsComponent } from 'app/components/creator/_dialogs/room-name-settings/room-name-settings.component';
@@ -34,7 +33,7 @@ import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { room } from '../state/room';
-import { afterUpdate } from '../state/room-updates';
+import { afterUpdate as afterRoomUpdate } from '../state/room-updates';
 import { SessionService } from 'app/services/util/session.service';
 import { MatDividerModule } from '@angular/material/divider';
 import {
@@ -43,6 +42,7 @@ import {
   MatListSubheaderCssMatStyler,
 } from '@angular/material/list';
 import { NgTemplateOutlet } from '@angular/common';
+import { afterUpdate, roomCount } from '../state/comment-updates';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -83,7 +83,11 @@ export class RoomPageComponent {
   protected readonly answerCounter = signal<number>(0);
   protected readonly moderatedCommentCounter = signal<number>(0);
   protected readonly moderatedAnswerCounter = signal<number>(0);
-  protected readonly activeUsers = signal('?');
+  protected readonly activeUsers = computed(() => {
+    const x = roomCount();
+    if (!x) return '?';
+    return String(x.participantCount + x.moderatorCount + x.creatorCount);
+  });
   protected readonly moderatorCount = signal<number | string>('?');
   private commentService = inject(CommentService);
   private dialog = inject(MatDialog);
@@ -125,12 +129,11 @@ export class RoomPageComponent {
   ];
 
   constructor() {
-    const updates = afterUpdate.subscribe((u) => {
+    const updates = afterRoomUpdate.subscribe((u) => {
       if (u.type === 'RoomPatched') {
         this.changeDetector.detectChanges();
       }
     });
-    const roomDataService = inject(RoomDataService);
     const sessionService = inject(SessionService);
     const destroyRef = inject(DestroyRef);
     const injector = inject(Injector);
@@ -143,23 +146,23 @@ export class RoomPageComponent {
       const sub1 = this.roomState.assignedRole$
         .pipe(map((role) => role !== 'Participant'))
         .subscribe((privileged) => this.isPrivileged.set(privileged));
-      const sub5 = this.roomState.assignedRole$
+      const sub4 = this.roomState.assignedRole$
         .pipe(map((role) => role === 'Creator'))
         .subscribe((creator) => this.isCreator.set(creator));
       this.updateResponseCounter();
-      const sub2 = roomDataService.dataAccessor
-        .receiveUpdates([
-          { type: 'CommentCreated', finished: true },
-          { type: 'CommentDeleted', finished: true },
-          { type: 'CommentPatched', finished: true, updates: ['ack'] },
-        ])
+      const sub2 = afterUpdate
+        .pipe(
+          filter(
+            (e) =>
+              e.type === 'CommentCreated' ||
+              e.type === 'CommentDeleted' ||
+              (e.type === 'CommentPatched' && 'ack' in e.changes),
+          ),
+        )
         .subscribe(() => {
           this.updateResponseCounter();
         });
-      const sub3 = roomDataService.observeUserCount().subscribe((text) => {
-        this.activeUsers.set(text);
-      });
-      const sub4 = sessionService
+      const sub3 = sessionService
         .getModeratorsOnce()
         .subscribe((moderators) => {
           this.moderatorCount.set(moderators.length);
@@ -169,7 +172,6 @@ export class RoomPageComponent {
         sub2.unsubscribe();
         sub3.unsubscribe();
         sub4.unsubscribe();
-        sub5.unsubscribe();
       });
     });
   }

@@ -39,7 +39,6 @@ import { BrainstormingSession } from '../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../../components/shared/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
 import { IntroductionBrainstormingComponent } from '../../components/shared/_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
-import { RoomDataService } from '../../services/util/room-data.service';
 import {
   BrainstormingFilter,
   FilterType,
@@ -149,7 +148,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private router: Router,
     public dataManager: TagCloudDataService,
     public brainDataManager: BrainstormingDataService,
-    private roomDataService: RoomDataService,
     private eventService: EventService,
     private roomState: RoomStateService,
   ) {
@@ -463,7 +461,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       const raw = sessionStorage.getItem('tagCloudOnlyQuestions') !== 'true';
       const filterObj = FilteredDataAccess.buildNormalAccess(
         this.sessionService,
-        this.roomDataService,
+        this.injector,
         raw,
         'tagCloud',
       );
@@ -579,7 +577,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.directSend = this.room.directSend;
       const filterObj = FilteredDataAccess.buildNormalAccess(
         this.sessionService,
-        this.roomDataService,
+        this.injector,
         true,
         'brainstorming',
       );

@@ -3,8 +3,8 @@ import { Room } from '../../../../models/room';
 import { TSMap } from 'typescript-map';
 import { WorkerDialogTask } from './worker-dialog-task';
 import { Comment, Language } from '../../../../models/comment';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { uiComments } from 'app/room/state/comment-updates';
 
 @Component({
   selector: 'app-worker-dialog',
@@ -18,10 +18,7 @@ export class WorkerDialogComponent {
 
   @Input() inlined = false;
 
-  constructor(
-    private roomDataService: RoomDataService,
-    private injector: Injector,
-  ) {}
+  constructor(private injector: Injector) {}
 
   static isWorkingOnRoom(roomId: string) {
     if (!this.dialogRef) {
@@ -56,8 +53,7 @@ export class WorkerDialogComponent {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    let comments =
-      this.dialogRef.componentInstance.roomDataService.dataAccessor.currentRawComments();
+    let comments = uiComments().rawComments.map((e) => e.comment);
     if (onlyFailed) {
       comments = comments.filter((c) => {
         const isKeywordOkay =

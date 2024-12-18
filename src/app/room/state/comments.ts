@@ -16,6 +16,12 @@ export const comments = computedResource({
   loader: (params) => inject(CommentService).getAckComments(params.request),
 });
 
+export const moderatedComments = computedResource({
+  request: () => room.value()?.id,
+  loader: (params) =>
+    inject(CommentService).getRejectedComments(params.request),
+});
+
 // comment meta
 
 interface UserCountEntry {

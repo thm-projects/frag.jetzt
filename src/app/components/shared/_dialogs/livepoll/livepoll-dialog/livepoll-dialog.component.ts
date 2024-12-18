@@ -39,7 +39,6 @@ import { NotificationService } from '../../../../../services/util/notification.s
 import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { prettyPrintDate } from 'app/utils/date';
-import { RoomDataService } from '../../../../../services/util/room-data.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
@@ -48,6 +47,8 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { UserRole } from 'app/models/user-roles.enum';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { roomCount } from 'app/room/state/comment-updates';
 
 export enum PeerInstructionPhase {
   Undefined,
@@ -117,6 +118,11 @@ export class LivepollDialogComponent
   private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
+  private userCount$ = toObservable(roomCount).pipe(
+    map((x) =>
+      x ? String(x.participantCount + x.moderatorCount + x.creatorCount) : '?',
+    ),
+  );
 
   constructor(
     public readonly translationService: TranslateService,
@@ -128,10 +134,9 @@ export class LivepollDialogComponent
     public readonly dialogRef: MatDialogRef<LivepollDialogResponseData>,
     public readonly notification: NotificationService,
     private readonly activeUser: ActiveUserService,
-    private readonly roomDataService: RoomDataService,
     @Inject(MAT_DIALOG_DATA) data: LivepollDialogInjectionData,
     private appState: AppStateService,
-    private roomState: RoomStateService,
+    roomState: RoomStateService,
     deviceState: DeviceStateService,
   ) {
     if (data) {
@@ -174,9 +179,7 @@ export class LivepollDialogComponent
 
   ngOnInit(): void {
     if (this.livepollSession) {
-      this.roomDataService
-        .observeUserCount()
-        .subscribe((x) => (this.participantCount = x));
+      this.userCount$.subscribe((x) => (this.participantCount = x));
       this.livepollService
         .findByRoomId(this.session.currentRoom.id)
         .subscribe((x) => {

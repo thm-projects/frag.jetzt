@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ForumComment } from '../../../../../../utils/data-accessor';
 import {
   QuestionWallService,
   QuestionWallSession,
@@ -17,6 +16,7 @@ import { CustomMarkdownModule } from '../../../../../../base/custom-markdown/cus
 import { QwCommentFooterComponent } from '../qw-comment-footer/qw-comment-footer.component';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { QwRunningNumberBackgroundComponent } from '../qw-running-number-background/qw-running-number-background.component';
+import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -33,7 +33,7 @@ import { QwRunningNumberBackgroundComponent } from '../qw-running-number-backgro
 export class QwCommentComponent implements OnDestroy, OnInit {
   @Input() data!: {
     session: QuestionWallSession;
-    comment: ForumComment;
+    comment: UIComment;
   };
   _destroyer: ReplaySubject<1> = new ReplaySubject<1>();
   @HostBinding('class.highlight')
@@ -48,7 +48,7 @@ export class QwCommentComponent implements OnDestroy, OnInit {
     this.data.session.focus
       .pipe(takeUntil(this._destroyer))
       .subscribe((focus) => {
-        if (focus && this.data.comment.id === focus.id) {
+        if (focus && this.data.comment.comment.id === focus.id) {
           if (!this._isFocused) {
             this._isFocused = true;
           }
@@ -66,8 +66,8 @@ export class QwCommentComponent implements OnDestroy, OnInit {
   }
 
   @HostListener('click') _click() {
-    if (this.self.session.focus.value?.id !== this.data.comment.id) {
-      this.self.session.focus.next(this.data.comment);
+    if (this.self.session.focus.value?.id !== this.data.comment.comment.id) {
+      this.self.session.focus.next(this.data.comment.comment);
     }
   }
 }

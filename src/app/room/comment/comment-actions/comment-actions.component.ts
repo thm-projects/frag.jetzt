@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
-import { ForumComment } from 'app/utils/data-accessor';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { room } from 'app/room/state/room';
@@ -22,6 +21,7 @@ import { Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { EventService } from 'app/services/util/event.service';
 import { SessionService } from 'app/services/util/session.service';
+import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
   selector: 'app-comment-actions',
@@ -30,9 +30,15 @@ import { SessionService } from 'app/services/util/session.service';
   standalone: false,
 })
 export class CommentActionsComponent {
-  comment = input.required<ForumComment>();
+  inputComment = input.required<UIComment>();
   showAnswers = model(false);
   onlyShowUp = input(false);
+  protected comment = computed(() => this.inputComment()?.comment);
+  protected totalCount = computed(() => {
+    const c = this.inputComment()?.totalAnswerCount;
+    if (!c) return 0;
+    return c.participants + c.moderators + c.creator;
+  });
   protected readonly i18n = i18n;
   protected readonly isSmall = computed(() => {
     const state = windowWatcher.windowState();
@@ -68,7 +74,7 @@ export class CommentActionsComponent {
   protected readonly canToggleAnswers = computed(
     () =>
       !this.onlyShowUp() &&
-      (this.showAnswers() || this.comment().children.size),
+      (this.showAnswers() || this.inputComment().children.size),
   );
   private canOpenGPT = signal(false);
   private router = inject(Router);
@@ -138,7 +144,7 @@ export class CommentActionsComponent {
       .on('gptchat-room.init')
       .pipe(take(1))
       .subscribe(() => {
-        this.eventService.broadcast('gptchat-room.data', this.comment());
+        this.eventService.broadcast('gptchat-room.data', this.inputComment());
       });
     this.router.navigate([url]);
   }

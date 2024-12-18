@@ -3,7 +3,6 @@ import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-clou
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { Comment } from '../../models/comment';
-import { RoomDataService } from './room-data.service';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { Room } from '../../models/room';
@@ -13,8 +12,7 @@ import {
   calculateControversy,
   FilteredDataAccess,
 } from '../../utils/filtered-data-access';
-import { ForumComment } from '../../utils/data-accessor';
-import { RoomService } from '../http/room.service';
+import { afterUpdate, UIComment } from 'app/room/state/comment-updates';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -35,7 +33,7 @@ export interface TagCloudDataTagEntry {
   responseCount: number;
   answerCount: number;
   countedComments: Set<string>;
-  questionChildren: Map<string, ForumComment[]>;
+  questionChildren: Map<string, UIComment[]>;
 }
 
 export interface TagCloudMetaData {
@@ -84,8 +82,6 @@ export class TagCloudDataService {
 
   constructor(
     private _tagCloudAdmin: TopicCloudAdminService,
-    private _roomDataService: RoomDataService,
-    private _roomService: RoomService,
     private sessionService: SessionService,
   ) {
     this._isAlphabeticallySorted = false;
@@ -128,18 +124,16 @@ export class TagCloudDataService {
     blacklist: string[],
     blacklistEnabled: boolean,
     adminData: TopicCloudAdminData,
-    roomDataService: RoomDataService,
-    comments: Comment[],
+    comments: UIComment[],
   ): [TagCloudData, Set<string>] {
     const builder = new TagCloudDataBuilder(
       moderators,
-      roomDataService,
       adminData,
       blacklist,
       blacklistEnabled,
       roomOwner,
     );
-    builder.addComments(comments as ForumComment[]);
+    builder.addComments(comments);
     return [builder.getData(), builder.getUsers()];
   }
 
@@ -207,29 +201,9 @@ export class TagCloudDataService {
         this.onReceiveAdminData(adminData, true);
       },
     );
-    this._commentSubscription = this._roomDataService.dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentDeleted' },
-        { type: 'CommentPatched', finished: true, updates: ['score'] },
-        { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
-        { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromSpacy'],
-        },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromQuestioner'],
-        },
-        { type: 'CommentPatched', finished: true, updates: ['ack'] },
-        { type: 'CommentPatched', finished: true, updates: ['tag'] },
-      ])
-      .subscribe(() => {
-        this.rebuildTagData();
-      });
+    this._commentSubscription = afterUpdate.subscribe(() => {
+      this.rebuildTagData();
+    });
   }
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
@@ -291,7 +265,6 @@ export class TagCloudDataService {
       currentBlacklist,
       room.blacklistActive,
       this._adminData,
-      this._roomDataService,
       [...filteredComments],
     );
     let minWeight = null;
