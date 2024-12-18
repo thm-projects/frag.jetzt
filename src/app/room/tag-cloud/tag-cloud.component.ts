@@ -19,8 +19,6 @@ import { NotificationService } from '../../services/util/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomService } from '../../services/http/room.service';
-import { WsCommentService } from '../../services/websockets/ws-comment.service';
-import { CreateCommentWrapper } from '../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import {
@@ -35,8 +33,6 @@ import {
   WordCloudComponent,
   WordMeta,
 } from './word-cloud/word-cloud.component';
-import { ArsComposeService } from '../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../services/util/header.service';
 import { TagCloudSettings } from '../../utils/TagCloudSettings';
 import { SessionService } from '../../services/util/session.service';
 import { BrainstormingSession } from '../../models/brainstorming-session';
@@ -55,15 +51,10 @@ import { FilteredDataAccess } from '../../utils/filtered-data-access';
 import { filter, first, forkJoin, Subject, switchMap, takeUntil } from 'rxjs';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
-import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { TimeoutHelper } from 'app/utils/ts-utils';
-import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { EventService } from 'app/services/util/event.service';
 import { ChatGPTBrainstormComponent } from '../../components/shared/_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
-import { KeywordExtractor } from 'app/utils/keyword-extractor';
-import { AccountStateService } from 'app/services/state/account-state.service';
-import { DeviceStateService } from 'app/services/state/device-state.service';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
@@ -73,6 +64,11 @@ import { applyRadarNavigation } from './navigation/word-cloud-navigation';
 import { applyBrainstormingNavigation } from './navigation/brainstorming-navigation';
 import { user$ } from 'app/user/state/user';
 import { isDark, theme } from 'app/base/theme/theme';
+import {
+  generateComment,
+  writeInteractiveComment,
+} from '../comment/util/create-comment';
+import { Comment } from 'app/models/comment';
 
 class TagComment implements WordMeta {
   constructor(
@@ -129,7 +125,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   userRole: UserRole;
   data: (TagComment | BrainstormComment)[] = [];
   isLoading = true;
-  createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
   brainstormingCategories: BrainstormingCategory[];
@@ -140,7 +135,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private intervalWriteChecker: TimeoutHelper;
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
-  private keywordExtractor: KeywordExtractor;
   private injector = inject(Injector);
 
   constructor(
@@ -148,22 +142,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private translateService: TranslateService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private composeService: ArsComposeService,
-    private headerService: HeaderService,
     private route: ActivatedRoute,
     protected roomService: RoomService,
-    private wsCommentService: WsCommentService,
     private topicCloudAdmin: TopicCloudAdminService,
     private sessionService: SessionService,
     private router: Router,
     public dataManager: TagCloudDataService,
     public brainDataManager: BrainstormingDataService,
     private roomDataService: RoomDataService,
-    private brainstormingService: BrainstormingService,
-    private bonusTokenService: BonusTokenService,
     private eventService: EventService,
-    private accountState: AccountStateService,
-    private deviceState: DeviceStateService,
     private roomState: RoomStateService,
   ) {
     let url = this.router.url;
@@ -172,7 +159,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     this.brainstormingActive = url.endsWith('/brainstorming');
     this.initNavigation();
-    this.keywordExtractor = new KeywordExtractor(this.injector);
     for (let i = 0; i < 10; i++) {
       this.demoDataKeys.push([
         '',
@@ -330,13 +316,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.canWriteComment(true)) {
       return;
     }
-    this.createCommentWrapper
-      .openCreateDialog(
-        this.user,
-        this.userRole,
-        this.brainstormingActive && this.brainstormingData,
-      )
-      .subscribe();
+    writeInteractiveComment(
+      this.injector,
+      this.brainstormingActive && this.brainstormingData,
+    ).subscribe();
   }
 
   rebuildBrainstormingData() {
@@ -477,13 +460,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.retrieveTagCloudSettings(room);
       this.directSend = this.room.directSend;
-      this.createCommentWrapper = new CreateCommentWrapper(
-        this.translateService,
-        this.notificationService,
-        this.commentService,
-        this.dialog,
-        this.room,
-      );
       const raw = sessionStorage.getItem('tagCloudOnlyQuestions') !== 'true';
       const filterObj = FilteredDataAccess.buildNormalAccess(
         this.sessionService,
@@ -500,14 +476,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.dataManager.filterObject = filterObj;
     });
-    effect(() => {
-      theme();
-      if (this.cloud) {
-        setTimeout(() => {
-          this.setCloudParameters(this.getCurrentCloudParameters(), false);
-        }, 1);
-      }
-    });
+    effect(
+      () => {
+        theme();
+        if (this.cloud) {
+          setTimeout(() => {
+            this.setCloudParameters(this.getCurrentCloudParameters(), false);
+          }, 1);
+        }
+      },
+      { injector: this.injector },
+    );
   }
 
   private rebuildDemoData() {
@@ -558,19 +537,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           }
           const session = this.room.brainstormingSession;
           e.forEach((elem) => {
-            this.keywordExtractor
-              .createCommentInteractive({
-                body: elem + '\n\n',
-                brainstormingLanguage: session.language,
-                brainstormingSessionId: session.id,
-                hadUsedDeepL: false,
-                isModerator: true,
-                keywordExtractionActive: false,
-                questionerName: 'ChatGPT',
-                selectedLanguage: 'auto',
-                userId: this.user.id,
-                tag: null,
-              })
+            generateComment({
+              body: elem,
+              brainstormingSession: session,
+              questionerName: 'AI',
+              selectedLanguage: 'AUTO' as Comment['language'],
+              injector: this.injector,
+              tag: null,
+              commentReference: null,
+            })
               .pipe(
                 filter((c) => Boolean(c)),
                 switchMap((c) => this.commentService.addComment(c)),
@@ -602,13 +577,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.retrieveTagCloudSettings(room);
       this.directSend = this.room.directSend;
-      this.createCommentWrapper = new CreateCommentWrapper(
-        this.translateService,
-        this.notificationService,
-        this.commentService,
-        this.dialog,
-        this.room,
-      );
       const filterObj = FilteredDataAccess.buildNormalAccess(
         this.sessionService,
         this.roomDataService,
@@ -631,14 +599,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       filterObj.dataFilter = filter;
       this.brainDataManager.filterObject = filterObj;
     });
-    effect(() => {
-      theme();
-      if (this.cloud) {
-        setTimeout(() => {
-          this.setCloudParameters(this.getCurrentCloudParameters(), false);
-        }, 1);
-      }
-    });
+    effect(
+      () => {
+        theme();
+        if (this.cloud) {
+          setTimeout(() => {
+            this.setCloudParameters(this.getCurrentCloudParameters(), false);
+          }, 1);
+        }
+      },
+      { injector: this.injector },
+    );
   }
 
   private createTagElement(

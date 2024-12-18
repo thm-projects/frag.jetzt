@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Comment } from '../../../../models/comment';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-import { KeywordsResultType } from '../../../../utils/keyword-extractor';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -38,6 +37,7 @@ export class SpacyDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.comment = this.data.comment;
+    /* TODO: Uncomment this code
     const resultKey = this.data.result.resultType;
     this.langSupported = resultKey !== KeywordsResultType.LanguageNotSupported;
     const source = this.comment.keywordsFromSpacy;
@@ -59,7 +59,7 @@ export class SpacyDialogComponent implements OnInit {
           selected: false,
         }) as Keyword,
     );
-    this.keywords.sort((a, b) => a.word.localeCompare(b.word));
+    this.keywords.sort((a, b) => a.word.localeCompare(b.word));*/
   }
 
   createComment() {
