@@ -101,7 +101,7 @@
     "comment-stream-stopped": "Le flux de questions a été stoppé.",
     "correct": "Questions marquées comme correctes",
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
-    "counter-description": "Compteur de questions (Q), de réponses (A), de questions ou de réponses dans la modération (M)",
+    "counter-description": "Questions (Q), de réponses (R), de questions ou de réponses dans la modération (M)",
     "favorite": "Questions marquées",
     "filter-answered-creator": "Créateur de salle",
     "filter-answered-moderator": "Modérateur",

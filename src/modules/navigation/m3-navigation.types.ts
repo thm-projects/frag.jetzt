@@ -1,5 +1,7 @@
 // Preferred Template
 
+import { Type } from '@angular/core';
+
 export interface M3PreferredTemplate {
   railOrientation: 'start' | 'center' | 'end';
   railDivider: boolean;
@@ -8,7 +10,7 @@ export interface M3PreferredTemplate {
 // Header
 
 export interface M3HeaderTemplate {
-  slogan?: string;
+  slogan?: string | Type<any>;
   offline?: string;
   options: (M3HeaderOption | M3HeaderMenu)[];
   /**

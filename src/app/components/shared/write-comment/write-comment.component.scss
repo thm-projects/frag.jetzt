@@ -1,8 +1,9 @@
 .char-hint {
   display: flex;
   justify-content: right;
-  width: 95%;
   color: var(--mdc-dialog-supporting-text-color);
+  padding: 5px 5px 20px;
+  font-size: 12px;
 }
 
 .hint-error {
@@ -13,6 +14,7 @@
   display: flex;
   justify-content: space-between;
   padding-inline: 1.5em;
+  padding-top: 1em;
   gap: 1.5em;
   flex-wrap: wrap;
 

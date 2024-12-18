@@ -24,3 +24,16 @@
     display: none;
   }
 }
+
+.mat-mdc-card {
+  background-color: var(--mat-sys-surface-container-highest);
+}
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+  padding: 16px 16px 16px 0;
+}
+
+.mat-mdc-card-actions {
+  padding: 1em;
+}

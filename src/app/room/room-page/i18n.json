@@ -11,8 +11,8 @@
     "ars": {
       "join": "Q&A"
     },
-    "copySuccessful": "Link kopiert!",
-    "copyFailed": "Kopieren fehlgeschlagen",
+    "copySuccessful": "Link zum Raum in die Zwischenablage kopiert",
+    "copyFailed": "Fehler: Link konnte nicht in die Zwischenablage kopiert werden",
     "tooltipModerator": "Code für Gast-Moderation oder Dauer-Moderation",
     "tooltipCopy": "Teilnehmer-Link kopieren",
     "tooltipEdit": "Titel ändern",
@@ -40,8 +40,8 @@
         "ars": {
             "join": "Q&A"
         },
-        "copySuccessful": "Link copied!",
-        "copyFailed": "Copy failed",
+        "copySuccessful": "The link to this room was copied to the clipboard",
+        "copyFailed": "Error: The link to this room could not be copied to the clipboard",
         "tooltipModerator": "Code for guest or permanent moderation",
         "tooltipCopy": "Copy participant link",
         "tooltipEdit": "Edit title",
@@ -69,8 +69,8 @@
         "ars": {
             "join": "Q&R"
         },
-        "copySuccessful": "Lien copié !",
-        "copyFailed": "Échec de la copie",
+        "copySuccessful": "Lien vers ca salle copié dans le presse-papiers",
+        "copyFailed": "Erreur : Le lien n'a pas pu être copié dans le presse-papierse",
         "tooltipModerator": "Code pour modération temporaire ou permanente",
         "tooltipCopy": "Copier le lien participant",
         "tooltipEdit": "Modifier le titre",

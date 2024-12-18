@@ -1,9 +1,3 @@
-<ars-row ars-flex-box>
-  <app-write-comment [confirmLabel]="'send'"
-                     [brainstormingData]="brainstormingData"
-                     [isQuestionerNameEnabled]="true"
-                     [onClose]="this.onNoClick.bind(this)"
-                     [tags]="tags"
-                     [isModerator]="userRole > 0">
-  </app-write-comment>
-</ars-row>
+<app-write-comment
+  [brainstormingData]="brainstormingData()"
+  (commentCreated)="forward($event)"></app-write-comment>
