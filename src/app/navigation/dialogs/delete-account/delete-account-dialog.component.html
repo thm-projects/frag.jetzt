@@ -34,7 +34,7 @@
     color="primary"
     mat-dialog-close
     cdkFocusInitial
-    (click)="onDelete()">
+    (click)="onDelete(data.authService)">
     {{ i18n().global.continue }}
   </button>
 </mat-dialog-actions>

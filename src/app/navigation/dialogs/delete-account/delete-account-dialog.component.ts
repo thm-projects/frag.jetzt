@@ -16,11 +16,20 @@ import { KeycloakService } from '../../../services/util/keycloak.service';
 import { CommonModule } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { user$ } from '../../../user/state/user';
-import { combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { logout, user$ } from '../../../user/state/user';
+import { combineLatest, endWith } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { Room } from '../../../models/room';
 import { MatList, MatListItem } from '@angular/material/list';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UUID } from '../../../utils/ts-utils';
+import { BonusToken } from '../../../models/bonus-token';
+
+interface TokenWrapper {
+  roomId: UUID;
+  roomName: string;
+  token: BonusToken;
+}
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -48,6 +57,7 @@ export class DeleteAccountDialogComponent {
       keycloakService: KeycloakService;
       ownedRooms: Room[];
       tokenCounts;
+      authService: AuthenticationService;
     },
   ) {}
 
@@ -58,6 +68,7 @@ export class DeleteAccountDialogComponent {
     keycloakService: KeycloakService,
     roomService: RoomService,
     bonusTokenService: BonusTokenService,
+    authService: AuthenticationService,
   ): MatDialogRef<DeleteAccountDialogComponent> {
     user$
       .pipe(
@@ -69,17 +80,17 @@ export class DeleteAccountDialogComponent {
             switchMap(([ownedRooms, tokens]) =>
               combineLatest(
                 tokens.map((token) =>
-                  roomService
-                    .getRoom(token.roomId)
-                    .pipe(
-                      map((room) => ({
-                        roomId: room.id,
-                        roomName: room.name,
-                        token,
-                      })),
-                    ),
+                  roomService.getRoom(token.roomId).pipe(
+                    map((room) => ({
+                      roomId: room.id,
+                      roomName: room.name,
+                      token,
+                    })),
+                  ),
                 ),
               ).pipe(
+                endWith([] as TokenWrapper[]),
+                take(1),
                 map((tokenRoomPairs) => {
                   const tokenCounts = tokenRoomPairs.reduce(
                     (acc, pair) => {
@@ -114,7 +125,7 @@ export class DeleteAccountDialogComponent {
       )
       .subscribe(({ ownedRooms, tokenCounts }) => {
         dialog.open(DeleteAccountDialogComponent, {
-          data: { keycloakService, ownedRooms, tokenCounts },
+          data: { keycloakService, ownedRooms, tokenCounts, authService },
         });
       });
     return null;
@@ -124,10 +135,10 @@ export class DeleteAccountDialogComponent {
     this.dialogRef.close('discard');
   }
 
-  onDelete(): void {
-    user$.subscribe((user) => {
+  onDelete(authService: AuthenticationService): void {
+    user$.pipe(take(1)).subscribe((user) => {
       if (user.isGuest) {
-        //todo ins backend
+        authService.delete(user.id).subscribe(() => logout().subscribe());
       } else {
         this.data.keycloakService.deleteAccount();
       }

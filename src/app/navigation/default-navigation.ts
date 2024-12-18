@@ -49,6 +49,7 @@ import { RoomService } from '../services/http/room.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
 import { switchMap } from 'rxjs/operators';
 import { DeleteAccountDialogComponent } from './dialogs/delete-account/delete-account-dialog.component';
+import { AuthenticationService } from '../services/http/authentication.service';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -72,6 +73,7 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
+  const authService = injector.get(AuthenticationService);
   const roomService = injector.get(RoomService);
   const bonusTokenService = injector.get(BonusTokenService);
   const onlineStateService = injector.get(OnlineStateService);
@@ -135,6 +137,7 @@ export const getDefaultHeader = (
                         keycloak,
                         roomService,
                         bonusTokenService,
+                        authService,
                       );
                     },
                   },
