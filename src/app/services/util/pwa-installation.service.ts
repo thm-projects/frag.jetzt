@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PwaInstallSnackbarComponent } from 'app/components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -39,9 +40,8 @@ export class PwaService {
    * Displays the snackbar with installation options.
    */
   private showInstallSnackbar() {
-    const snackBarRef = this.snackBar.open(
-      'Install this app for a better experience!',
-      'Install',
+    const snackBarRef = this.snackBar.openFromComponent(
+      PwaInstallSnackbarComponent,
       { duration: 0 }, // Keep the snackbar open indefinitely
     );
 
@@ -52,7 +52,6 @@ export class PwaService {
 
     // Handle the "Dismiss" action (close snackbar manually)
     snackBarRef.afterDismissed().subscribe(() => {
-      console.log('Snackbar dismissed by the user.');
       this.installPromptAvailable$.next(false); // Hide further prompts
     });
   }

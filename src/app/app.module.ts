@@ -94,6 +94,7 @@ import { PaymentRouteComponent } from './paypal/payment-route/payment-route.comp
 import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 import './base/theme/apply-system-variables';
+import { PwaInstallSnackbarComponent } from './components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -180,6 +181,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     FeatureGridComponent,
     CdkDrag,
     PaymentRouteComponent,
+    PwaInstallSnackbarComponent,
   ],
   providers: [
     /*AppConfig,
