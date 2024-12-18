@@ -32,9 +32,7 @@
           </span>
         }
       </div>
-      <mat-card
-        appearance="outlined"
-        style="margin-top: 12px; max-width: 600px; width: 100%">
+      <mat-card style="margin-top: 12px; max-width: 600px; width: 100%">
         <mat-card-header>
           <mat-card-title class="headline-large">
             {{ i18n().name | context: { name: room.name } }}
@@ -66,23 +64,41 @@
           </div>
         </mat-card-content>
         <mat-card-actions
-          style="flex-wrap: wrap; justify-content: space-between">
+          style="
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+            align-items: flex-end;
+          ">
           <span style="display: flex; flex-direction: row">
-            <span class="row items-center gap-medium">
-              <mat-icon svgIcon="fj_robot"></mat-icon>
-              <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
-            </span>
-            @if (isCreator()) {
-              <button
-                mat-button
-                routerLink="/purchase">
-                <mat-icon>shopping_cart</mat-icon>
-              </button>
+            @if (room.chatGptActive) {
+              <span class="row items-center gap-medium">
+                <mat-icon svgIcon="fj_robot"></mat-icon>
+                <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
+              </span>
+              @if (isCreator()) {
+                <button
+                  mat-stroked-button
+                  style="margin-left: 1.25em"
+                  routerLink="/purchase">
+                  <mat-icon>shopping_cart</mat-icon>
+                  {{ i18n().purchase }}
+                </button>
+              }
             }
           </span>
           <span>
+            @if (isPrivileged() && !room.directSend) {
+              <button
+                style="margin-right: 20px"
+                routerLink="moderator/comments"
+                mat-flat-button
+                class="secondary">
+                <mat-icon>gavel</mat-icon>
+                {{ i18n().moderators }}
+              </button>
+            }
             <button
-              style="margin-right: 4px"
               routerLink="comments"
               mat-flat-button>
               <mat-icon>
@@ -90,14 +106,6 @@
               </mat-icon>
               {{ i18n()[mode()].join }}
             </button>
-            @if (isPrivileged() && !room.directSend) {
-              <button
-                routerLink="moderator/comments"
-                mat-flat-button>
-                <mat-icon>gavel</mat-icon>
-                Moderation
-              </button>
-            }
           </span>
         </mat-card-actions>
       </mat-card>

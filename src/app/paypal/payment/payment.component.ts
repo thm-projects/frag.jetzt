@@ -235,7 +235,7 @@ export class PaymentComponent implements OnInit {
           try {
             await this.apiService.captureOrder(data.orderID).toPromise(); // Bestellung erfassen
             console.log('Transaction completed');
-            this.handlePaymentSuccess(amount); // Benutzer-Tokens aktualisieren
+            this.handlePaymentSuccess(amount); // Benutzer-Token aktualisieren
           } catch (error) {
             console.error('Error capturing order:', error);
           }

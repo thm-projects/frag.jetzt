@@ -1,7 +1,7 @@
 {
-    "key": "user-bonus-token", 
+    "key": "user-bonus-token",
     "de": {
-        "roomNamelq": "»", 
+        "roomNamelq": "»",
         "roomNamerq": "«",
         "redeemTokens": "Bonuscode per Mail einlösen",
         "redeemTokensClipboard": "Bonuscode in die Zwischenablage",
@@ -14,9 +14,9 @@
         "bonusTokens": "\n\nMeine Boni",
         "copyClipboardNotification": "In Zwischenablage kopiert",
         "emailNotSet": "\nKeine Email hinterlegt",
-        "mailBody1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n",
+        "mailBody1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Token erhalten:\n",
         "mailBody2": "\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
-        "mailSubject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+        "mailSubject": "Bitte um Einlösung meiner Token aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
         "redeemMailFailure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement.",
         "redeemMailSuccess": "Die Mail wurde versendet.",
         "sessionId": "Raum-Code",
@@ -25,9 +25,9 @@
         "redeemClipboardFailure": "Die Daten konnten nicht in der Zwischenablage gespeichert werden.",
         "redeemClipboardSuccess": "Alle erforderlichen Daten für die Mail wurden in die Zwischenablage kopiert.",
         "moderatorEmails": "\n\nE-Mail der Moderatoren"
-    }, 
+    },
     "en": {
-        "roomNamelq": "»", 
+        "roomNamelq": "»",
         "roomNamerq": "«",
         "redeemTokens": "Redeem bonus code by mail",
         "redeemTokensClipboard": "Bonus code to clipboard",
@@ -42,7 +42,7 @@
         "emailNotSet": "\nNo email set",
         "mailBody1": "Hello,\n\nI have received the following bonus codes in the »frag.jetzt« session »{{sessionName}}« with the key code »{{sessionId}}«:\n",
         "mailBody2": "\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
-        "mailSubject": "Request to redeem my bonus codes from the »frag.jetzt« session »{{sessionName}}«",  
+        "mailSubject": "Request to redeem my bonus codes from the »frag.jetzt« session »{{sessionName}}«",
         "redeemMailFailure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management.",
         "redeemMailSuccess": "Your mail was sent.",
         "sessionId": "Key code",
@@ -53,7 +53,7 @@
         "moderatorEmails": "\n\nModerator emails"
     },
     "fr": {
-        "roomNamelq": "»", 
+        "roomNamelq": "»",
         "roomNamerq": "«",
         "redeemTokens": "Encaisser le code bonus par mail",
         "redeemTokensClipboard": "Code bonus dans le presse-papiers",
@@ -70,7 +70,7 @@
         "mailBody2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour « frag.jetzt » !\n\n---",
         "mailSubject": "Demande d'échange de mes codes bonus de la session « {{sessionName}} »",
         "redeemMailFailure": "Ton application de e-mail n'a pas pu être accédée. Copie les données dans le cache du navigateur et utilise-les pour créer un e-mail destiné au service de gestion des événements.",
-        "redeemMailSuccess": "Votre courrier a été envoyé.",    
+        "redeemMailSuccess": "Votre courrier a été envoyé.",
         "sessionId": "Code de la salle",
         "sessionName": "Événement",
         "ownerEmail": "\n\nE-mail du créateur de la salle",

@@ -31,7 +31,7 @@
     "entry-token": "Bonuscode",
     "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv",
     "name": "Veranstaltungsname",
-    "no-data": "Es gibt keine Bonus-Tokens.",
+    "no-data": "Es gibt keine Bonus-Token.",
     "user-anonym": "anonym",
     "user-name": "User"
   },
@@ -276,7 +276,7 @@
     "questions-blocked": "Weitere Fragen deaktiviert ",
     "questionwall": "Fragen-Fokus",
     "quiz-now": "Quiz-Rallye",
-    "really-delete-account": "Willst du dein Konto mit allen Räumen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
+    "really-delete-account": "Willst du dein Konto mit allen Räumen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Token überprüfen kannst.",
     "regular-user-view": "Teilnehmeransicht",
     "room-qr": "QR-Code",
     "room-presets": "Mein Q&A-Pseudonym",
@@ -710,7 +710,7 @@
     "copy-fail": "Passwort konnte nicht kopiert werden"
   },
   "remind-of-tokens": {
-    "cancel": "Zu meinen Tokens",
+    "cancel": "Zu meinen Token",
     "logout": "Abmelden"
   },
   "room-create": {
@@ -908,9 +908,9 @@
     "copy-clipboard-notification": "In Zwischenablage kopiert",
     "email-not-set": "\nKeine Email hinterlegt",
     "header": "Sterne für Bonuspunkte einlösen",
-    "mail-body1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n",
+    "mail-body1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Token erhalten:\n",
     "mail-body2": "\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
-    "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+    "mail-subject": "Bitte um Einlösung meiner Token aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
     "moderator-emails": "\n\nE-Mail der Moderatoren",
     "no-bonus": "Du hast noch keinen Stern für eine »gute« Frage erhalten.",
     "owner-email": "\n\nE-Mail des Raumerstellers",

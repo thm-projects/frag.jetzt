@@ -25,7 +25,8 @@ import { ComponentType } from '@angular/cdk/portal';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { EventService } from 'app/services/util/event.service';
-import { logout, openLogin } from 'app/user/state/user';
+import { logout, openLogin, user } from 'app/user/state/user';
+import { isLoggedIn } from 'app/user/state/user';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -283,7 +284,6 @@ export class MultiLevelDialogComponent implements OnInit {
   offsetIndex = 0;
   loadingCount = 0;
   currentQuestion: MultiLevelDataBuiltAction<unknown>;
-  isLoggedIn = false;
   isGuest = false;
   username: string | null = null;
   isFirst: boolean = true;
@@ -323,11 +323,14 @@ export class MultiLevelDialogComponent implements OnInit {
     return dialogRef;
   }
 
+  get isLoggedIn(): boolean {
+    return isLoggedIn();
+  }
+
   onLoginClick(): void {
     openLogin().subscribe({
       next: (user) => {
         if (user) {
-          this.isLoggedIn = true;
           if (user.isGuest) {
             this.isGuest = true;
             this.username = 'Gast';
@@ -335,50 +338,42 @@ export class MultiLevelDialogComponent implements OnInit {
             this.isGuest = false;
             this.username = user.loginId;
           }
-        } else {
-          this.isLoggedIn = false;
         }
       },
-      error: () => {
-        this.isLoggedIn = false;
-      },
+      error: () => {},
     });
   }
 
   onLogoutClick(): void {
     logout().subscribe({
       next: () => {
-        this.isLoggedIn = false;
         this.isGuest = false;
         this.username = null;
+        this.reset();
       },
     });
   }
 
   getButtonText(): string {
-    if (this.isLoggedIn) {
+    if (isLoggedIn) {
       return this.isGuest ? i18n().logout : i18n().logout;
     }
     return i18n().login;
   }
 
   getLoggedInText(): string {
-    if (this.isLoggedIn) {
+    if (isLoggedIn) {
       return `${i18n().logged_in_as} ${this.isGuest ? i18n().guest : this.username}`;
     }
     return '';
   }
 
   ngOnInit(): void {
-    this.dialogStepper = new MultiLevelStepper(
-      this.data.questions,
-      this.injector,
-      this.dialogData,
-      this.defaultTouched,
-      this.updateView.bind(this),
-    );
+    this.initializeStepper();
     this.reset();
+    this.checkLoginStatus();
   }
+
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       const index =
@@ -499,5 +494,28 @@ export class MultiLevelDialogComponent implements OnInit {
     const index =
       this.currentStepperIndex + this.offsetIndex - Number(this.showBackOption);
     this.currentQuestion = this.dialogStepper.elements[index];
+  }
+
+  private initializeStepper(): void {
+    this.dialogStepper = new MultiLevelStepper(
+      this.data.questions,
+      this.injector,
+      this.dialogData,
+      this.defaultTouched,
+      this.updateView.bind(this),
+    );
+  }
+
+  private checkLoginStatus(): void {
+    if (isLoggedIn()) {
+      const currentUser = user();
+      if (currentUser) {
+        this.username = currentUser.loginId;
+        this.isGuest = currentUser.isGuest;
+      }
+    } else {
+      this.username = null;
+      this.isGuest = false;
+    }
   }
 }

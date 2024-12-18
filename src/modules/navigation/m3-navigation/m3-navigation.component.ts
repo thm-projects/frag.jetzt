@@ -5,6 +5,7 @@ import {
   viewChild,
   OnInit,
   OnDestroy,
+  Type,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { M3NavDrawerRailComponent } from '../m3-nav-drawer-rail/m3-nav-drawer-rail.component';
@@ -40,6 +41,7 @@ const i18n = I18nLoader.loadModule(rawI18n);
     CommonModule,
     MatTabsModule,
     M3LabelComponent,
+    CommonModule,
   ],
   templateUrl: './m3-navigation.component.html',
   styleUrl: './m3-navigation.component.scss',
@@ -47,6 +49,10 @@ const i18n = I18nLoader.loadModule(rawI18n);
 export class M3NavigationComponent implements OnInit, OnDestroy {
   protected readonly i18n = i18n;
   protected header = HEADER.asReadonly();
+  protected headerSlogan = computed(() => {
+    const slogan = this.header()?.slogan;
+    return (typeof slogan === 'string' ? null : slogan) as Type<any>;
+  });
   protected navigation = NAVIGATION.asReadonly();
   protected fab = FAB_BUTTON.asReadonly();
   protected isSmall = computed(() => windowWatcher.windowState() === 'compact');

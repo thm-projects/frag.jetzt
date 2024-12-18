@@ -17,11 +17,14 @@ import {
   CommentFilterData,
   RoomDataProfanityFilter,
 } from './room-data.profanity-filter';
-import { ActiveUserService } from '../http/active-user.service';
+import {
+  ActiveUserService,
+  RoomCountChanged,
+} from '../http/active-user.service';
 import { BookmarkService } from '../http/bookmark.service';
 import { Bookmark } from '../../models/bookmark';
 import { DataAccessor, ForumComment } from '../../utils/data-accessor';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { AccountStateService } from '../state/account-state.service';
 import {
   ROOM_ROLE_MAPPER,
@@ -40,7 +43,7 @@ export class RoomDataService {
   public readonly dataAccessor: DataAccessor;
   public readonly moderatorDataAccessor: DataAccessor;
   private _canAccessModerator = false;
-  private _currentUserCount = new BehaviorSubject<string>('?');
+  private _currentRoomCount = new BehaviorSubject<RoomCountChanged>(null);
   private _userBookmarks: BookmarkAccess = {};
   private _destroyer: Subject<unknown>;
   private _commentUIRegistrations = new Map<string, Set<unknown>>();
@@ -76,7 +79,17 @@ export class RoomDataService {
   }
 
   observeUserCount(): Observable<string> {
-    return this._currentUserCount.asObservable();
+    return this._currentRoomCount.pipe(
+      map((x) =>
+        x
+          ? String(x.participantCount + x.moderatorCount + x.creatorCount)
+          : '?',
+      ),
+    );
+  }
+
+  observeRoomCount(): Observable<RoomCountChanged> {
+    return this._currentRoomCount;
   }
 
   applyStateToComment(
@@ -198,9 +211,9 @@ export class RoomDataService {
     const currentDestroyer = this._destroyer;
     this._commentUISubscriber = new Subject();
     this.activeUserService
-      .getActiveUser(room)
+      .getActiveUsers(room)
       .pipe(takeUntil(currentDestroyer))
-      .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
+      .subscribe(([count]) => this._currentRoomCount.next(count));
     const userRole =
       ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
@@ -211,9 +224,9 @@ export class RoomDataService {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (!payload) {
-          this._currentUserCount.next(
-            String(msg['UserCountChanged'].userCount),
-          );
+          if ('RoomCountChanged' in msg) {
+            this._currentRoomCount.next(msg['RoomCountChanged']);
+          }
           return;
         }
         this.dataAccessor.receiveMessage(msg);
@@ -226,9 +239,9 @@ export class RoomDataService {
           const msg = JSON.parse(message.body);
           const payload = msg.payload;
           if (!payload) {
-            this._currentUserCount.next(
-              String(msg['UserCountChanged'].userCount),
-            );
+            if ('RoomCountChanged' in msg) {
+              this._currentRoomCount.next(msg['RoomCountChanged']);
+            }
             return;
           }
           this.moderatorDataAccessor.receiveMessage(msg);
@@ -293,7 +306,7 @@ export class RoomDataService {
   }
 
   private clear() {
-    this._currentUserCount.next('?');
+    this._currentRoomCount.next(null);
     this._userBookmarks = {};
     if (this._commentUISubscriber) {
       this._commentUIRegistrations.forEach((registrations, commentId) => {

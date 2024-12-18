@@ -148,7 +148,7 @@ export const getDefaultHeader = (
             : {
                 id: 'login',
                 icon: isOnline
-                  ? 'passkey'
+                  ? 'login'
                   : 'signal_cellular_connected_no_internet_0_bar',
                 title: i18n.header.login,
                 className: isOnline ? '' : 'error-text',
@@ -465,17 +465,18 @@ const openAIConsent = (injector: Injector) => {
 };
 
 const openRateApp = (user: User, injector: Injector) => {
-  injector
-    .get(RatingService)
-    .getByAccountId(user.id)
-    .subscribe((r) => {
+  const service = injector.get(RatingService);
+  forkJoin([service.getRatings(), service.getByAccountId(user.id)]).subscribe(
+    ([ratings, r]) => {
       const dialogRef = injector.get(MatDialog).open(AppRatingComponent);
       dialogRef.componentInstance.mode.set('dialog');
       dialogRef.componentInstance.rating = r;
+      dialogRef.componentRef.setInput('ratingResults', ratings);
       dialogRef.componentInstance.onSuccess = () => {
         dialogRef.close();
       };
-    });
+    },
+  );
 };
 
 const showImprint = (injector: Injector) => {

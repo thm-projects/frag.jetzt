@@ -68,6 +68,8 @@ import rawI18n from './room-navigation.i18n.json';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { user$ } from 'app/user/state/user';
+import { RoomActivityComponent } from 'app/room/room-activity/room-activity.component';
+import { RoomSettingsOverviewComponent } from 'app/components/shared/_dialogs/room-settings-overview/room-settings-overview.component';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -93,6 +95,7 @@ export const getRoomHeader = (
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
   ]).pipe(
     map(([template, user, room, role]) => {
+      template.slogan = RoomActivityComponent;
       const headerOpts = template.options.find(
         (e) => 'id' in e && e.id === 'account',
       ) as M3HeaderMenu;
@@ -392,7 +395,7 @@ export const getRoomNavigation = (
                   title: i18n.options.room.features,
                   icon: 'settings_suggest',
                   onClick: () => {
-                    console.log('Features clicked');
+                    openEditRoomSettings(room, injector);
                     return false;
                   },
                 },
@@ -699,4 +702,10 @@ const openMail = (user: User, room: Room, injector: Injector) => {
     return;
   }
   CommentNotificationDialogComponent.openDialog(injector.get(MatDialog), room);
+};
+
+const openEditRoomSettings = (room: Room, injector: Injector) => {
+  const ref = injector.get(MatDialog).open(RoomSettingsOverviewComponent);
+  ref.componentInstance.awaitComplete = true;
+  ref.componentInstance.room = room;
 };
