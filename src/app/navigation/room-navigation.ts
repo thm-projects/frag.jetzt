@@ -41,6 +41,7 @@ import { DeleteCommentsComponent } from 'app/components/creator/_dialogs/delete-
 import { CommentService } from 'app/services/http/comment.service';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { QuotaService } from 'app/services/http/quota.service';
+
 import { MultiLevelDialogComponent } from '../components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
 import { saveSettings } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.executor';
@@ -68,8 +69,14 @@ import rawI18n from './room-navigation.i18n.json';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { user$ } from 'app/user/state/user';
+import { MatBadgeSize } from '@angular/material/badge';
 import { RoomActivityComponent } from 'app/room/room-activity/room-activity.component';
+import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { RoomSettingsOverviewComponent } from 'app/components/shared/_dialogs/room-settings-overview/room-settings-overview.component';
+import {
+  uiComments,
+  uiModeratedComments,
+} from 'app/room/state/comment-updates';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -122,6 +129,8 @@ export const getRoomNavigation = (
   const dialog = injector.get(MatDialog);
   const livepoll = injector.get(LivepollService);
   const session = injector.get(SessionService);
+  const brainstorming = injector.get(BrainstormingService);
+
   // Start building
   return combineLatest([
     getDefaultNavigation(injector),
@@ -131,351 +140,416 @@ export const getRoomNavigation = (
     roomState.role$.pipe(filter((e) => Boolean(e))),
     toObservable(i18n),
     toObservable(windowWatcher.isMobile),
+    roomState.room$.pipe(
+      // Retrieves an observable indicating if a livepoll is in progress.
+      // An initial value is set to avoid an invalid state after a browser refresh.
+      switchMap((room) => {
+        const livepollInprogress =
+          room?.livepollSession?.active && !room?.livepollSession?.paused;
+        // When a new brainstorming session is created, the navigation updates again, and the livepoll variable appears to be undefined, despite being defined earlier.
+        // This makes it impossible to determine whether a livepoll is currently in progress using the values mentioned above.
+        // To ascertain the current state of the livepoll, we actively fetch the current value of the 'active' property from the livepoll service, but only when livepollInprogress is undefined.
+        // Be also aware of, that we cannot soloy relying on the livepoll.livepollInprogress, as this value alone would cause the livepoll state to be lost after a browser refresh.
+        return livepoll.getLivepollInProgress(
+          livepollInprogress ?? livepoll.livepollInProgress,
+        );
+      }),
+    ),
+    roomState.room$.pipe(
+      switchMap((room) => {
+        // When a new brainstorming session is created, the inprogress value is properly set.
+        // But unfortunately, the following code is run after the session was created, rather than before - the reason for this is unknown.
+        // As a result, the navigation is updated again the old value of the brainstormingInProgressSubject, which is false - but should be true.
+        // To avoid this, the current value of the active property of the brainstorming session is actively retrieved to properly reinitialize the brainstormingInProgressSubject.
+        return brainstorming.getBrainstormingInProgress(
+          room?.brainstormingSession?.active ??
+            brainstorming.brainstormingInProgress,
+        );
+      }),
+    ),
+    toObservable(uiComments),
+    toObservable(uiModeratedComments),
   ]).pipe(
-    map(([template, user, room, assignedRole, currentRole, i18n, isMobile]) => {
-      template = clone(template) as M3NavigationTemplate;
-      let url = router.url;
-      const hashIndex = url.indexOf('#');
-      if (hashIndex > 0) {
-        url = url.substring(0, hashIndex);
-      }
-      if (!url.endsWith('/')) {
-        url += '/';
-      }
-      const roomIndex = url.indexOf('/room/');
-      const role = url.substring(1, roomIndex);
-      const urlEndIndex = url.indexOf('/', roomIndex + 6);
-      const shortId = url.substring(roomIndex + 6, urlEndIndex);
-      const isMod = assignedRole !== 'Participant';
-      const isOverview = url.endsWith(shortId + '/');
-      template.title = i18n.mainMenu;
-      // Navigation
-      template.sections.unshift({
-        id: 'features',
-        kind: 'navigation',
-        title: i18n.features.title,
-        entries: [
-          {
-            id: 'forum',
-            title: i18n.features.forum,
-            icon: 'forum',
-            onClick: () => {
-              router.navigate([`/${role}/room/${shortId}/comments`]);
-              return true;
-            },
-            activated: url.endsWith(`/${shortId}/comments/`),
-          },
-          room?.livepollActive &&
-            (room.livepollSession || isMod) && {
-              id: 'flashpoll',
-              title: i18n.features.flashpoll,
-              icon: 'flash_on',
+    map(
+      ([
+        template,
+        user,
+        room,
+        assignedRole,
+        currentRole,
+        i18n,
+        isMobile,
+        livepollInprogress,
+        brainstormingInProgress,
+        qaNumber,
+        moderatedNumber,
+      ]) => {
+        template = clone(template) as M3NavigationTemplate;
+        let url = router.url;
+        const hashIndex = url.indexOf('#');
+        if (hashIndex > 0) {
+          url = url.substring(0, hashIndex);
+        }
+        if (!url.endsWith('/')) {
+          url += '/';
+        }
+        const roomIndex = url.indexOf('/room/');
+        const role = url.substring(1, roomIndex);
+        const urlEndIndex = url.indexOf('/', roomIndex + 6);
+        const shortId = url.substring(roomIndex + 6, urlEndIndex);
+        const isMod = assignedRole !== 'Participant';
+        const isOverview = url.endsWith(shortId + '/');
+        template.title = i18n.mainMenu;
+
+        const nComments = qaNumber?.forumComments?.length || 0;
+        const nModerationComments = moderatedNumber?.rawComments?.length || 0;
+
+        // Navigation
+        template.sections.unshift({
+          id: 'features',
+          kind: 'navigation',
+          title: i18n.features.title,
+          entries: [
+            {
+              id: 'forum',
+              title: i18n.features.forum,
+              icon: 'forum',
+              badgeClass: 'badge',
+              badgeSize: 'medium' as MatBadgeSize,
+              badgeCount: nComments,
+              badgeOverlap: false,
               onClick: () => {
-                livepoll.open(session);
+                router.navigate([`/${role}/room/${shortId}/comments`]);
                 return true;
               },
+              activated: url.endsWith(`/${shortId}/comments/`),
             },
-          room?.chatGptActive && {
-            id: 'assistant',
-            title: i18n.features.assistant,
-            svgIcon: 'fj_robot',
-            onClick: () => {
-              router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
-              return true;
-            },
-            activated: url.endsWith('/gpt-chat-room/'),
-          },
-          room?.focusActive &&
-            !isMobile && {
-              id: 'focus',
-              title: i18n.features.focus,
-              svgIcon: 'fj_beamer',
-              onClick: () => {
-                router.navigate([
-                  `/${role}/room/${shortId}/comments/questionwall`,
-                ]);
-                return true;
-              },
-              activated: url.endsWith('/comments/questionwall/'),
-            },
-          room?.radarActive && {
-            id: 'radar',
-            title: i18n.features.radar,
-            icon: 'radar',
-            onClick: () => {
-              if (url.endsWith('/tagcloud/')) {
-                return false;
-              }
-              eventService.broadcast('save-comment-filter');
-              const confirmDialogRef = dialog.open(TopicCloudFilterComponent, {
-                minHeight: 'unset',
-                autoFocus: false,
-                data: {
-                  filterObject: RoomDataFilter.loadFilter('commentList'),
+            room?.livepollActive &&
+              (room.livepollSession || isMod) && {
+                id: 'livepoll',
+                title: i18n.features.livepoll,
+                icon: 'flash_on',
+                badgeSize: 'small' as MatBadgeSize,
+                badgeCount: livepollInprogress ? 1 : null,
+                badgeOverlap: true,
+                onClick: () => {
+                  livepoll.open(session);
+                  return true;
                 },
-              });
-              confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
-              confirmDialogRef.componentInstance.userRole =
-                ROOM_ROLE_MAPPER[assignedRole];
-              return true;
-            },
-            activated: url.endsWith('/tagcloud/'),
-          },
-          room?.brainstormingActive &&
-            (room.brainstormingSession || isMod) && {
-              id: 'brainstorming',
-              title: i18n.features.brainstorming,
-              icon: 'tips_and_updates',
+              },
+            room?.chatGptActive && {
+              id: 'assistant',
+              title: i18n.features.assistant,
+              svgIcon: 'fj_robot',
               onClick: () => {
-                if (url.endsWith('/brainstorming/')) {
+                router.navigate([`/${role}/room/${shortId}/gpt-chat-room`]);
+                return true;
+              },
+              activated: url.endsWith('/gpt-chat-room/'),
+            },
+            room?.focusActive &&
+              !isMobile && {
+                id: 'focus',
+                title: i18n.features.focus,
+                svgIcon: 'fj_beamer',
+                onClick: () => {
+                  router.navigate([
+                    `/${role}/room/${shortId}/comments/questionwall`,
+                  ]);
+                  return true;
+                },
+                activated: url.endsWith('/comments/questionwall/'),
+              },
+            room?.radarActive && {
+              id: 'radar',
+              title: i18n.features.radar,
+              icon: 'radar',
+              onClick: () => {
+                if (url.endsWith('/tagcloud/')) {
                   return false;
                 }
+                eventService.broadcast('save-comment-filter');
                 const confirmDialogRef = dialog.open(
-                  TopicCloudBrainstormingComponent,
+                  TopicCloudFilterComponent,
                   {
+                    minHeight: 'unset',
                     autoFocus: false,
-                    disableClose: true,
+                    data: {
+                      filterObject: RoomDataFilter.loadFilter('commentList'),
+                    },
                   },
                 );
-                confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
+                confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/tagcloud`;
                 confirmDialogRef.componentInstance.userRole =
                   ROOM_ROLE_MAPPER[assignedRole];
                 return true;
               },
-              activated: url.endsWith('/brainstorming/'),
+              activated: url.endsWith('/tagcloud/'),
             },
-          room?.quizActive && {
-            id: 'rallye',
-            title: i18n.features.rallye,
-            icon: 'quiz',
-            onClick: () => {
-              router.navigate(['/quiz']);
-              return true;
-            },
-          },
-          isMod && {
-            id: 'moderation',
-            title: i18n.features.moderation,
-            icon: 'gavel',
-            onClick: () => {
-              router.navigate([`/${role}/room/${shortId}/moderator/comments`]);
-              return true;
-            },
-            activated: url.endsWith('/moderator/comments/'),
-          },
-        ].filter(Boolean),
-      });
-      addAround(
-        template,
-        'main.my-rooms',
-        {
-          id: isMod ? 'room-home' : 'reception',
-          title: isMod ? i18n.reception : i18n.reception,
-          icon: isMod ? 'door_front' : 'door_front',
-          onClick: () => {
-            router.navigate([`/${role}/room/${shortId}/`]);
-            return true;
-          },
-          activated: isOverview,
-        },
-        true,
-      );
-      // Einstellungen
-      const isRealMod =
-        currentRole !== 'Participant' && assignedRole !== currentRole;
-      if (isMod || isRealMod) {
-        template.sections.splice(2, 0, {
-          id: 'room-settings',
-          title: i18n.options.title,
-          kind: 'options',
-          options: [
-            isMod && {
-              id: 'qa',
-              title: i18n.options.qa.title,
-              icon: 'forum',
-              options: [
-                {
-                  id: 'moderation',
-                  title: i18n.options.qa.moderation,
-                  icon: 'gavel',
-                  onClick: () => {
-                    openModeration(room, injector);
+            room?.brainstormingActive &&
+              (room.brainstormingSession || isMod) && {
+                id: 'brainstorming',
+                title: i18n.features.brainstorming,
+                icon: 'tips_and_updates',
+                badgeSize: 'small' as MatBadgeSize,
+                badgeCount: brainstormingInProgress ? 1 : null,
+                badgeOverlap: true,
+                onClick: () => {
+                  if (url.endsWith('/brainstorming/')) {
                     return false;
-                  },
-                },
-                {
-                  id: 'conversation',
-                  title: i18n.options.qa.conversation,
-                  icon: 'forum',
-                  onClick: () => {
-                    openConversation(room, injector);
-                    return false;
-                  },
-                },
-                {
-                  id: 'categorys',
-                  title: i18n.options.qa.categorys,
-                  icon: 'sell',
-                  onClick: () => {
-                    openRoomTags(room, injector);
-                    return false;
-                  },
-                },
-                room.bonusArchiveActive &&
-                  room.mode !== 'PLE' && {
-                    id: 'bonus-archive',
-                    title: i18n.options.qa.bonusArchive,
-                    icon: 'grade',
-                    onClick: () => {
-                      openBonusArchive(room, injector);
-                      return false;
+                  }
+                  const confirmDialogRef = dialog.open(
+                    TopicCloudBrainstormingComponent,
+                    {
+                      autoFocus: false,
+                      disableClose: true,
                     },
-                  },
-                {
-                  id: 'disable-comments',
-                  title: i18n.options.qa.disableComments,
-                  icon: 'comments_disabled',
-                  onClick: () => {
-                    saveChanges(
-                      room.id,
-                      {
-                        questionsBlocked: !room.questionsBlocked,
-                      },
-                      injector,
-                    );
-                    return false;
-                  },
-                  switchState: room.questionsBlocked,
+                  );
+                  confirmDialogRef.componentInstance.target = `/${role}/room/${shortId}/comments/brainstorming`;
+                  confirmDialogRef.componentInstance.userRole =
+                    ROOM_ROLE_MAPPER[assignedRole];
+                  return true;
                 },
-                {
-                  id: 'mail',
-                  title: i18n.options.qa.mail,
-                  icon: 'mail',
-                  onClick: () => {
-                    openMail(user, room, injector);
-                    return true;
-                  },
-                },
-                {
-                  id: 'export',
-                  title: i18n.options.qa.export,
-                  icon: 'file_download',
-                  onClick: () => {
-                    doExport(user, room, injector);
-                    return true;
-                  },
-                },
-                {
-                  id: 'delete-questions',
-                  title: i18n.options.qa.deleteQuestions,
-                  icon: 'delete_sweep',
-                  onClick: () => {
-                    openDeleteComments(room, injector);
-                    return false;
-                  },
-                },
-              ].filter(Boolean),
-            },
-            isMod && {
-              id: 'room',
-              title: i18n.options.room.title,
-              icon: 'meeting_room',
-              options: [
-                {
-                  id: 'qr',
-                  title: i18n.options.room.qr,
-                  icon: 'qr_code',
-                  onClick: () => {
-                    openQr(room, injector);
-                    return true;
-                  },
-                },
-                {
-                  id: 'features',
-                  title: i18n.options.room.features,
-                  icon: 'settings_suggest',
-                  onClick: () => {
-                    openEditRoomSettings(room, injector);
-                    return false;
-                  },
-                },
-                {
-                  id: 'welcome-text',
-                  title: i18n.options.room.welcomeText,
-                  icon: 'waving_hand',
-                  onClick: () => {
-                    openEditDescription(room, injector);
-                    return false;
-                  },
-                },
-                {
-                  id: 'moderators',
-                  title: i18n.options.room.moderators,
-                  icon: 'key',
-                  onClick: () => {
-                    showModeratorsDialog(room, assignedRole, injector);
-                    return false;
-                  },
-                },
-                assignedRole === 'Creator' && {
-                  id: 'delete-room',
-                  title: i18n.options.room.deleteRoom,
-                  icon: 'delete',
-                  onClick: () => {
-                    openDeleteRoom(room, injector);
-                    return true;
-                  },
-                },
-              ].filter(Boolean),
-            },
-            isMod && {
-              id: 'ai',
-              title: i18n.options.ai.title,
-              svgIcon: 'fj_robot',
-              options: [
-                {
-                  id: 'quota',
-                  title: i18n.options.ai.quota,
-                  icon: 'payment',
-                  onClick: () => {
-                    console.log('Quota clicked');
-                    openAISettings(room, injector);
-                    return false;
-                  },
-                },
-                {
-                  id: 'model-selection',
-                  svgIcon: 'fj_robot',
-                  title: i18n.options.ai.selection,
-                  onClick: () => {
-                    console.log('Model clicked');
-                    return false;
-                  },
-                },
-              ],
-            },
-            (isMod || isRealMod) && {
-              id: 'switch-view',
-              title: i18n.options.switchView,
-              icon: 'groups_3',
-              onClick: () => {
-                let userRole = 'participant';
-                if (!isMod) {
-                  userRole =
-                    currentRole === 'Moderator' ? 'moderator' : 'creator';
-                }
-                router.navigate([
-                  `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
-                ]);
-                return false;
+                activated: url.endsWith('/brainstorming/'),
               },
-              switchState: isRealMod,
+            room?.quizActive && {
+              id: 'rallye',
+              title: i18n.features.rallye,
+              icon: 'quiz',
+              onClick: () => {
+                router.navigate(['/quiz']);
+                return true;
+              },
+            },
+            isMod && {
+              id: 'moderation',
+              title: i18n.features.moderation,
+              icon: 'gavel',
+              badgeSize: 'medium' as MatBadgeSize,
+              badgeCount: nModerationComments,
+              badgeOverlap: true,
+              onClick: () => {
+                router.navigate([
+                  `/${role}/room/${shortId}/moderator/comments`,
+                ]);
+                return true;
+              },
+              activated: url.endsWith('/moderator/comments/'),
             },
           ].filter(Boolean),
         });
-      }
-      return template;
-    }),
+        addAround(
+          template,
+          'main.my-rooms',
+          {
+            id: isMod ? 'room-home' : 'reception',
+            title: isMod ? i18n.reception : i18n.reception,
+            icon: isMod ? 'door_front' : 'door_front',
+            onClick: () => {
+              router.navigate([`/${role}/room/${shortId}/`]);
+              return true;
+            },
+            activated: isOverview,
+          },
+          true,
+        );
+        // Einstellungen
+        const isRealMod =
+          currentRole !== 'Participant' && assignedRole !== currentRole;
+        if (isMod || isRealMod) {
+          template.sections.splice(2, 0, {
+            id: 'room-settings',
+            title: i18n.options.title,
+            kind: 'options',
+            options: [
+              isMod && {
+                id: 'qa',
+                title: i18n.options.qa.title,
+                icon: 'forum',
+                options: [
+                  {
+                    id: 'moderation',
+                    title: i18n.options.qa.moderation,
+                    icon: 'gavel',
+                    onClick: () => {
+                      openModeration(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'conversation',
+                    title: i18n.options.qa.conversation,
+                    icon: 'forum',
+                    onClick: () => {
+                      openConversation(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'categorys',
+                    title: i18n.options.qa.categorys,
+                    icon: 'sell',
+                    onClick: () => {
+                      openRoomTags(room, injector);
+                      return false;
+                    },
+                  },
+                  room.bonusArchiveActive &&
+                    room.mode !== 'PLE' && {
+                      id: 'bonus-archive',
+                      title: i18n.options.qa.bonusArchive,
+                      icon: 'grade',
+                      onClick: () => {
+                        openBonusArchive(room, injector);
+                        return false;
+                      },
+                    },
+                  {
+                    id: 'disable-comments',
+                    title: i18n.options.qa.disableComments,
+                    icon: 'comments_disabled',
+                    onClick: () => {
+                      saveChanges(
+                        room.id,
+                        {
+                          questionsBlocked: !room.questionsBlocked,
+                        },
+                        injector,
+                      );
+                      return false;
+                    },
+                    switchState: room.questionsBlocked,
+                  },
+                  {
+                    id: 'mail',
+                    title: i18n.options.qa.mail,
+                    icon: 'mail',
+                    onClick: () => {
+                      openMail(user, room, injector);
+                      return true;
+                    },
+                  },
+                  {
+                    id: 'export',
+                    title: i18n.options.qa.export,
+                    icon: 'file_download',
+                    onClick: () => {
+                      doExport(user, room, injector);
+                      return true;
+                    },
+                  },
+                  {
+                    id: 'delete-questions',
+                    title: i18n.options.qa.deleteQuestions,
+                    icon: 'delete_sweep',
+                    onClick: () => {
+                      openDeleteComments(room, injector);
+                      return false;
+                    },
+                  },
+                ].filter(Boolean),
+              },
+              isMod && {
+                id: 'room',
+                title: i18n.options.room.title,
+                icon: 'meeting_room',
+                options: [
+                  {
+                    id: 'qr',
+                    title: i18n.options.room.qr,
+                    icon: 'qr_code',
+                    onClick: () => {
+                      openQr(room, injector);
+                      return true;
+                    },
+                  },
+                  {
+                    id: 'features',
+                    title: i18n.options.room.features,
+                    icon: 'settings_suggest',
+                    onClick: () => {
+                      openEditRoomSettings(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'welcome-text',
+                    title: i18n.options.room.welcomeText,
+                    icon: 'waving_hand',
+                    onClick: () => {
+                      openEditDescription(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'moderators',
+                    title: i18n.options.room.moderators,
+                    icon: 'key',
+                    onClick: () => {
+                      showModeratorsDialog(room, assignedRole, injector);
+                      return false;
+                    },
+                  },
+                  assignedRole === 'Creator' && {
+                    id: 'delete-room',
+                    title: i18n.options.room.deleteRoom,
+                    icon: 'delete',
+                    onClick: () => {
+                      openDeleteRoom(room, injector);
+                      return true;
+                    },
+                  },
+                ].filter(Boolean),
+              },
+              isMod && {
+                id: 'ai',
+                title: i18n.options.ai.title,
+                svgIcon: 'fj_robot',
+                options: [
+                  {
+                    id: 'quota',
+                    title: i18n.options.ai.quota,
+                    icon: 'payment',
+                    onClick: () => {
+                      console.log('Quota clicked');
+                      openAISettings(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'model-selection',
+                    svgIcon: 'fj_robot',
+                    title: i18n.options.ai.selection,
+                    onClick: () => {
+                      console.log('Model clicked');
+                      return false;
+                    },
+                  },
+                ],
+              },
+              (isMod || isRealMod) && {
+                id: 'switch-view',
+                title: i18n.options.switchView,
+                icon: 'groups_3',
+                onClick: () => {
+                  let userRole = 'participant';
+                  if (!isMod) {
+                    userRole =
+                      currentRole === 'Moderator' ? 'moderator' : 'creator';
+                  }
+                  router.navigate([
+                    `/${userRole}/room/${shortId}${url.substring(urlEndIndex)}`,
+                  ]);
+                  return false;
+                },
+                switchState: isRealMod,
+              },
+            ].filter(Boolean),
+          });
+        }
+        return template;
+      },
+    ),
   );
 };
 

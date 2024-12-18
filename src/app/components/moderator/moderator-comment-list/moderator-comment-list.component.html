@@ -376,7 +376,7 @@
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of comments"
-    [comment]="current"
+    [inputComment]="current"
     (filterSelect)="selectFilter($event)"></app-comment>
 </div>
 <ars-mat-paginator

@@ -1,10 +1,10 @@
 <div class="header">
   <ars-date-formatter
     [formatter]="dateFormatter"
-    [date]="comment.createdAt"></ars-date-formatter>
+    [date]="comment.comment.createdAt"></ars-date-formatter>
 </div>
 <div class="content">
-  <app-markdown-viewer [data]="comment.body"></app-markdown-viewer>
+  <app-markdown-viewer [data]="comment.comment.body"></app-markdown-viewer>
 </div>
 <qw-comment-footer [comment]="comment">
   <button
@@ -20,7 +20,7 @@
 @if (answersExpanded && comment.children.size) {
   <div class="response-window">
     @for (answer of comment.children; track answer) {
-      <p>{{ answer.id }}</p>
+      <p>{{ answer.comment.id }}</p>
     }
   </div>
 }

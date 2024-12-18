@@ -6,7 +6,6 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { ForumComment } from '../../../../../../utils/data-accessor';
 import {
   QuestionWallService,
   QuestionWallSession,
@@ -32,6 +31,7 @@ import { CommentService } from '../../../../../../services/http/comment.service'
 import { QwCommentResponseWindowComponent } from '../qw-comment-response-window/qw-comment-response-window.component';
 import { MarkdownViewerComponent } from '../../../../../../base/custom-markdown/markdown-viewer/markdown-viewer.component';
 import { QwRunningNumberBackgroundComponent } from '../qw-running-number-background/qw-running-number-background.component';
+import { UIComment } from 'app/room/state/comment-updates';
 
 const baseAnimationDuration = 100;
 
@@ -80,13 +80,13 @@ const baseAnimationDuration = 100;
   ],
 })
 export class QwCommentFocusComponent implements OnDestroy {
-  public readonly comment: ForumComment;
+  public readonly comment: UIComment;
   destroyer: ReplaySubject<1>;
   @HostBinding('@flyInOut')
   public baseAnimationState: '_0' | '_1' = '_1';
 
   protected answersExpanded: boolean = false;
-  protected replies: ForumComment[] | undefined;
+  protected replies: UIComment[] | undefined;
 
   @ViewChild('markdownViewerComponent') set _markdownViewerComponent(
     component: MarkdownViewerComponent,
@@ -110,7 +110,7 @@ export class QwCommentFocusComponent implements OnDestroy {
     public readonly commentService: CommentService,
     @Inject(MAT_DIALOG_DATA)
     public readonly data: ComponentData<{
-      comment: ForumComment;
+      comment: UIComment;
       session: QuestionWallSession;
     }>,
   ) {

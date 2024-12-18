@@ -47,16 +47,16 @@
   </mat-card-content>
 
   <app-comment-actions
-    [comment]="comment()"
+    [inputComment]="inputComment()"
     [onlyShowUp]="onlyShowUp()"
     [(showAnswers)]="showAnswers"></app-comment-actions>
 </mat-card>
 
-@if (comment().children.size && showAnswers()) {
+@if (inputComment().children.size && showAnswers()) {
   <div class="children-container">
-    @for (child of comment().children; track child.id) {
+    @for (child of inputComment().children; track child.comment.id) {
       <app-comment
-        [comment]="child"
+        [inputComment]="child"
         (filterSelect)="selectFilter($event)"></app-comment>
     }
   </div>

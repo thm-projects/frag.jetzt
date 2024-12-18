@@ -48,3 +48,7 @@ export const moderators = computedResource({
   request: () => room.value()?.id,
   loader: (params) => inject(ModeratorService).get(params.request),
 });
+
+export const moderatorsSet = computed(() => {
+  return new Set(moderators.value()?.map((e) => e.accountId) ?? []);
+});

@@ -1,7 +1,15 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -14,7 +22,6 @@ import { WorkerDialogComponent } from '../../../../components/shared/_dialogs/wo
 import { Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../../../../components/shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import {
@@ -24,13 +31,17 @@ import {
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { DeviceStateService } from 'app/services/state/device-state.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { user } from 'app/user/state/user';
+import {
+  afterUpdate,
+  UIComment,
+  uiComments,
+} from 'app/room/state/comment-updates';
 
 class CommentsCount {
   comments: number;
@@ -100,6 +111,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   protected readonly i18n = i18n;
   private readonly _adminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
+  private injector = inject(Injector);
 
   constructor(
     public dialogRef: MatDialogRef<TopicCloudFilterComponent>,
@@ -110,9 +122,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { filterObject: FilteredDataAccess },
     public eventService: EventService,
     private sessionService: SessionService,
-    private topicCloudAdminService: TopicCloudAdminService,
-    private roomDataService: RoomDataService,
-    private accountState: AccountStateService,
     deviceState: DeviceStateService,
   ) {
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
@@ -172,8 +181,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.commentsLoadedCallback(true);
-    this.roomDataService.dataAccessor
-      .receiveUpdates([{ finished: true }])
+    afterUpdate
       .pipe(takeUntil(this.destroyer))
       .subscribe(() => this.commentsLoadedCallback());
     this.sessionService.getRoom().subscribe((room) => {
@@ -233,7 +241,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     });
     if (isNew) {
       this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(
-        [...this.roomDataService.dataAccessor.currentRawComments()],
+        [...uiComments().rawComments.map((e) => e.comment)],
         this.userRole,
         room.id,
       );
@@ -250,7 +258,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   getCommentCounts(
-    comments: Comment[],
+    comments: UIComment[],
     blacklist: string[],
     blacklistEnabled: boolean,
     ownerId: string,
@@ -262,7 +270,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       blacklist,
       blacklistEnabled,
       this._adminData,
-      this.roomDataService,
       comments,
     );
     const counts = new CommentsCount();
@@ -331,7 +338,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   ): Observable<CommentsCount> {
     const filter = FilteredDataAccess.buildNormalAccess(
       this.sessionService,
-      this.roomDataService,
+      this.injector,
       everything,
       'dummy',
     );

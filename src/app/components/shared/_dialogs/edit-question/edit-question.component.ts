@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 import { CommentService } from 'app/services/http/comment.service';
-import { ForumComment } from 'app/utils/data-accessor';
 import { TSMap } from 'typescript-map';
 
 @Component({
@@ -12,7 +11,7 @@ import { TSMap } from 'typescript-map';
   standalone: false,
 })
 export class EditQuestionComponent {
-  comment: ForumComment;
+  comment: Comment;
 
   constructor(
     private ref: MatDialogRef<EditQuestionComponent>,
@@ -21,7 +20,7 @@ export class EditQuestionComponent {
 
   static open(
     dialog: MatDialog,
-    comment: ForumComment,
+    comment: Comment,
   ): MatDialogRef<EditQuestionComponent> {
     const ref = dialog.open(EditQuestionComponent);
     ref.componentRef.setInput('comment', comment);

@@ -580,8 +580,8 @@
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of getSlicedComments(); let i = index"
-    [appScrollIntoView]="current.id === focusCommentId"
-    [comment]="current"
+    [appScrollIntoView]="current.comment.id === focusCommentId"
+    [inputComment]="current"
     (filterSelect)="selectFilter($event)"></app-comment>
   <ars-mat-paginator
     *ngIf="comments.length > 0"

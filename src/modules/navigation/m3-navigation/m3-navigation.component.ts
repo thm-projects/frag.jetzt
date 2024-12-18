@@ -18,7 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FAB_BUTTON, HEADER, NAVIGATION } from '../m3-navigation-emitter';
-import { M3LabelComponent } from '../m3-label/m3-label.component';
+import { CompactNavigationButtonComponent } from '../compact-navigation-button/compact-navigation-button.component';
 import { OnlineStateService } from 'app/services/state/online-state.service';
 import {
   M3NavigationEntry,
@@ -27,6 +27,7 @@ import {
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 
 import rawI18n from './i18n.json';
+import { MatBadgeModule } from '@angular/material/badge';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 @Component({
@@ -40,8 +41,8 @@ const i18n = I18nLoader.loadModule(rawI18n);
     MatTooltipModule,
     CommonModule,
     MatTabsModule,
-    M3LabelComponent,
-    CommonModule,
+    MatBadgeModule,
+    CompactNavigationButtonComponent,
   ],
   templateUrl: './m3-navigation.component.html',
   styleUrl: './m3-navigation.component.scss',

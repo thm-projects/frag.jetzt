@@ -3,10 +3,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'truncateBadge',
 })
 export class TruncateBadgePipe implements PipeTransform {
-  transform(value: number): string {
+  transform(value: number, digits: number = 999): string {
     if (!value) return '';
-    if (value > 999) {
-      return '999+';
+    if (value > digits) {
+      return `${digits}+`;
     }
     return value.toString();
   }
