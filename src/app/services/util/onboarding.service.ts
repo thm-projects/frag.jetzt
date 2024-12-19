@@ -94,7 +94,9 @@ export class OnboardingService {
     if (previous.length < current.length || previous[1] !== current[1]) {
       //Route gets switched
       const name = this._activeTour.name;
+
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
+      const activeTour = this._activeTour;
       this.cleanup();
       this.joyrideService.closeTour();
       this.dataStoreService.set(
@@ -104,7 +106,9 @@ export class OnboardingService {
           step: this._currentStep + stepDirection,
         }),
       );
-      this.tryNavigate(name, current[1], routeChecker);
+      this.tryNavigate(name, current[1], routeChecker, () =>
+        this.startOnboardingTour(activeTour),
+      );
       return true;
     }
     return false;
@@ -138,6 +142,7 @@ export class OnboardingService {
         tour.name,
         firstStepRoute[1],
         tour.checkIfRouteCanBeAccessed,
+        () => this.startOnboardingTour(tour),
       );
       return false;
     }
@@ -195,11 +200,14 @@ export class OnboardingService {
     tourName: string,
     route: string,
     routeChecker: (string) => Observable<boolean>,
+    onDone: () => void,
   ) {
     if (routeChecker) {
       routeChecker(route).subscribe((canAccess) => {
         if (canAccess) {
-          this.router.navigate([route]);
+          this.router.navigate([route]).then(() => {
+            onDone();
+          });
         } else {
           this.dataStoreService.set(
             'onboarding_' + tourName,
@@ -213,7 +221,9 @@ export class OnboardingService {
         }
       });
     } else {
-      this.router.navigate([route]);
+      this.router.navigate([route]).then(() => {
+        onDone();
+      });
     }
   }
 

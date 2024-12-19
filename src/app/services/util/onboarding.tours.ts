@@ -48,19 +48,10 @@ export const initDefaultTour = (
   name: 'default',
   tour: [
     'greeting@home',
-    'loginButtonHeader@home',
     'roomJoin@home',
     'createRoom@home',
-    'introduction@home',
-    'feedbackLink@home',
     'createQuestion@participant/room/Feedback/comments',
-    'voting@participant/room/Feedback/comments',
     'commentFilter@participant/room/Feedback/comments',
-    'commentUserNumber@participant/room/Feedback/comments',
-    'dashboard@participant/room/Feedback/comments',
-    'chatGPT@participant/room/Feedback/comments',
-    'navigationButton@participant/room/Feedback/comments',
-    'optionHeader@participant/room/Feedback/comments',
   ],
   tourActions: {
     feedbackLink: {
