@@ -2,12 +2,13 @@
   <span>{{ i18n().installPrompt }}</span>
   <div class="snackbar-actions">
     <button
-      mat-button
+      mat-flat-button
       (click)="install()">
       {{ i18n().installButton }}
     </button>
     <button
       mat-icon-button
+      class="contained-icon-outlined selected"
       (click)="dismiss()">
       <mat-icon>close</mat-icon>
     </button>
