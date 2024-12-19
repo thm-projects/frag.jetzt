@@ -11,10 +11,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-collapsible-text',
-  imports: [MatButtonModule],
+  imports: [NgIf, MatButtonModule],
   templateUrl: './collapsible-text.component.html',
   styleUrl: './collapsible-text.component.scss',
 })

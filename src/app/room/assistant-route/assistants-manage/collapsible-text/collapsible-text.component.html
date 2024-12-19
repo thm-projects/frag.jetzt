@@ -6,10 +6,12 @@
     #ref>
     {{ text() }}
   </p>
-  <button
-    mat-button
-    (click)="toggle()"
-    [class.hidden]="!canCollapse()">
-    {{ collapsed() ? i18n().expand : i18n().collapse }}
-  </button>
+  <ng-container *ngIf="canCollapse()">
+    <button
+      mat-button
+      (click)="toggle()"
+      [class.hidden]="!canCollapse()">
+      {{ collapsed() ? i18n().expand : i18n().collapse }}
+    </button>
+  </ng-container>
 </div>
