@@ -1,21 +1,21 @@
 <div class="background-container">
   <div class="background row content-end">
     <qw-running-number-background
-      [commentIdentifier]="data.comment.number"
+      [commentIdentifier]="data.comment.comment.number"
       [marker]="
-        data.session.userContext[comment.creatorId]?.marker
+        data.session.userContext[comment.comment.creatorId]?.marker
       "></qw-running-number-background>
   </div>
 </div>
 <div class="header">
   <ars-date-formatter
     [formatter]="dateFormatter"
-    [date]="comment.createdAt"></ars-date-formatter>
+    [date]="comment.comment.createdAt"></ars-date-formatter>
 </div>
 <div class="content">
   <app-markdown-viewer
     #markdownViewerComponent
-    [data]="comment.body"></app-markdown-viewer>
+    [data]="comment.comment.body"></app-markdown-viewer>
 </div>
 <qw-comment-footer [comment]="comment">
   <button

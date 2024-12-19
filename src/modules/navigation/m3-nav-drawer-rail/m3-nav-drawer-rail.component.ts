@@ -26,7 +26,7 @@ import {
   getById,
 } from '../m3-navigation.types';
 import { CommonModule, Location } from '@angular/common';
-import { M3LabelComponent } from '../m3-label/m3-label.component';
+import { ExpandedNavigationButtonComponent } from '../expanded-navigation-button/expanded-navigation-button.component';
 import {
   FAB_BUTTON,
   NAVIGATION,
@@ -36,6 +36,8 @@ import { Router } from '@angular/router';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 
 import rawI18n from './i18n.json';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CompactNavigationButtonComponent } from '../compact-navigation-button/compact-navigation-button.component';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 interface RailDrawerEntry {
@@ -66,7 +68,9 @@ const BACK_TRACKER = 1;
     MatDividerModule,
     MatIconModule,
     CommonModule,
-    M3LabelComponent,
+    ExpandedNavigationButtonComponent,
+    MatBadgeModule,
+    CompactNavigationButtonComponent,
   ],
   templateUrl: './m3-nav-drawer-rail.component.html',
   styleUrl: './m3-nav-drawer-rail.component.scss',
@@ -305,6 +309,10 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
                     )
                 : nav.onClick,
             activated: nav.activated,
+            smallTitle: nav.smallTitle,
+            badgeCount: nav.badgeCount,
+            badgeSize: nav.badgeSize,
+            badgeOverlap: nav.badgeOverlap,
           })),
         });
         return;
@@ -380,6 +388,10 @@ export class M3NavDrawerRailComponent implements AfterViewInit {
                 this.forward(parentId, nav as M3NavigationNestedOptionSection)
             : nav.onClick,
         forward: nav.activated && 'options' in nav,
+        smallTitle: nav.smallTitle,
+        badgeCount: nav.badgeCount,
+        badgeSize: nav.badgeSize,
+        badgeOverlap: nav.badgeOverlap,
       })),
     });
   }

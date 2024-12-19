@@ -9,7 +9,6 @@ import { SessionService } from '../../../../services/util/session.service';
 import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 import { Room } from '../../../../models/room';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../../../../components/shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
@@ -18,6 +17,10 @@ import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
+import {
+  uiComments,
+  uiModeratedComments,
+} from 'app/room/state/comment-updates';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -63,7 +66,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<TopicCloudBrainstormingComponent>,
     private dialog: MatDialog,
     private sessionService: SessionService,
-    private roomDataService: RoomDataService,
     private commentService: CommentService,
     private notificationService: NotificationService,
     private router: Router,
@@ -211,7 +213,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   private deleteOldBrainstormingQuestions(): Observable<unknown> {
-    const comments = this.roomDataService.dataAccessor.currentRawComments();
+    const comments = uiComments().rawComments.map((e) => e.comment);
     if (!comments) {
       return of(null);
     }
@@ -221,9 +223,9 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
         (comment) => comment.brainstormingSessionId === sessionId && comment.id,
       )
       .concat(
-        (
-          this.roomDataService.moderatorDataAccessor.currentRawComments() ?? []
-        ).filter((c) => c.brainstormingSessionId === sessionId && c.id),
+        (uiModeratedComments()?.rawComments.map((e) => e.comment) ?? []).filter(
+          (c) => c.brainstormingSessionId === sessionId && c.id,
+        ),
       );
     if (toBeRemoved.length < 1) {
       return of(null);

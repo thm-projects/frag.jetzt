@@ -16,7 +16,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { SessionService } from '../../../services/util/session.service';
-import { ForumComment } from '../../../utils/data-accessor';
 import { UUID } from 'app/utils/ts-utils';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { dataService } from 'app/base/db/data-service';
@@ -41,7 +40,7 @@ export class WriteCommentComponent {
   brainstormingData = input<BrainstormingSession>(null);
   commentReference = input<UUID>(null);
   canSelectTags = input(true);
-  rewriteCommentData = input<ForumComment>(null);
+  rewriteCommentData = input<Comment>(null);
   questionerNameEnabled = input(true);
   private readonly roomState = inject(RoomStateService);
   protected role = toSignal(this.roomState.assignedRole$, {
@@ -68,6 +67,7 @@ export class WriteCommentComponent {
   protected readonly tags = computed(() => room.value()?.tags ?? []);
   protected readonly i18n = i18n;
   data = signal('');
+  protected readonly textData = signal('');
   isSubmittingComment = signal(false);
   selectedTag = signal<string | null>(null);
   // Grammarheck
@@ -133,6 +133,7 @@ export class WriteCommentComponent {
 
     const options: CreateCommentOptions = {
       body: body,
+      pureText: this.textData(),
       tag: this.selectedTag(),
       questionerName: this.questionerNameFormControl.value,
       brainstormingSession: this.brainstormingData(),

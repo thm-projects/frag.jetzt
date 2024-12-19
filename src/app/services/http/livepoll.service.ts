@@ -82,6 +82,7 @@ export class LivepollService extends BaseHttpService {
     string,
     Map<string, [string, string]>
   > = new Map();
+  private readonly _livepollInProgress$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     public readonly http: HttpClient,
@@ -120,8 +121,21 @@ export class LivepollService extends BaseHttpService {
     return this._dialogState.value > LivepollDialogState.Closed;
   }
 
-  get listener(): Observable<unknown> {
+  get listener(): Observable<{
+    session: LivepollSession;
+    changes: Partial<LivepollSession>;
+    type: LivepollEventType;
+  }> {
     return LivepollService.livepollEventEmitter;
+  }
+
+  get livepollInProgress(): boolean {
+    return this._livepollInProgress$.value;
+  }
+
+  getLivepollInProgress(initialValue: boolean): Observable<boolean> {
+    this._livepollInProgress$.next(initialValue);
+    return this._livepollInProgress$.asObservable();
   }
 
   findByRoomId(roomId: string): Observable<LivepollSession[]> {
@@ -151,7 +165,9 @@ export class LivepollService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap(() => ''),
+        tap(() => {
+          this._livepollInProgress$.next(true);
+        }),
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('create')),
       );
@@ -172,7 +188,11 @@ export class LivepollService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap(() => ''),
+        tap((updatedSession) => {
+          this._livepollInProgress$.next(
+            updatedSession.active && !updatedSession.paused,
+          );
+        }),
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('update')),
       );

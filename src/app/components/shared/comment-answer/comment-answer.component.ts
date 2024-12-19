@@ -6,8 +6,12 @@ import {
   Injector,
   OnDestroy,
   OnInit,
+  Signal,
   ViewChild,
+  computed,
+  effect,
   inject,
+  signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,16 +23,10 @@ import { WriteCommentComponent } from '../write-comment/write-comment.component'
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
-import { first, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { forkJoin, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
-import { Room } from '../../../models/room';
-import { VoteService } from '../../../services/http/vote.service';
-import { Vote } from '../../../models/vote';
-import { ForumComment } from '../../../utils/data-accessor';
 import { Comment } from '../../../models/comment';
-import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import {
@@ -38,6 +36,12 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { applyRoomNavigation } from 'app/navigation/room-navigation';
 import { user$ } from 'app/user/state/user';
+import {
+  UIComment,
+  uiComments,
+  uiModeratedComments,
+} from 'app/room/state/comment-updates';
+import { room } from 'app/room/state/room';
 import { writeInteractiveComment } from 'app/room/comment/util/create-comment';
 
 @Component({
@@ -52,20 +56,41 @@ export class CommentAnswerComponent
 
   canOpenGPT = false;
   consentGPT = false;
-  comment: ForumComment;
   answer = '';
-  isLoading = true;
   userRole: UserRole;
   user: User;
   isStudent = true;
-  room: Room;
-  mods: Set<string>;
-  votes: { [commentId: string]: Vote };
-  isModerationComment = false;
   isConversationView: boolean;
   backUrl: string = null;
   commentsEnabled = false;
   roleString: string;
+  protected room = room.value;
+  protected commentId = signal<string | null>(null);
+  protected foundComment: Signal<[UIComment, boolean] | string> = computed(
+    () => {
+      const id = this.commentId();
+      if (!id) return null;
+      const c = uiComments();
+      if (!c) return null;
+      const found = c.rawComments.find((e) => e.comment.id === id);
+      if (found) return [found, false] as const;
+      const m = uiModeratedComments();
+      if (!m) return null;
+      const foundM = m.rawComments.find((e) => e.comment.id === id);
+      return foundM ? ([foundM, true] as const) : 'Not Found';
+    },
+  );
+  protected comment = computed(() => {
+    const c = this.foundComment();
+    if (Array.isArray(c)) return c[0];
+    return null;
+  });
+  protected isModerationgComment = computed(() => {
+    const c = this.foundComment();
+    if (Array.isArray(c)) return c[1];
+    return null;
+  });
+  protected isLoading = computed(() => this.foundComment() === null);
   private injector = inject(Injector);
   private changeDetector = inject(ChangeDetectorRef);
   private _commentSubscription;
@@ -78,22 +103,26 @@ export class CommentAnswerComponent
     private notificationService: NotificationService,
     private translateService: TranslateService,
     protected commentService: CommentService,
-    private roomDataService: RoomDataService,
     public dialog: MatDialog,
     private router: Router,
     public eventService: EventService,
     private sessionService: SessionService,
-    private voteService: VoteService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
   ) {
     applyRoomNavigation(this.injector)
       .pipe(takeUntil(this.destroyer))
       .subscribe();
+    effect(() => {
+      if (typeof this.foundComment() === 'string') {
+        this.onNoComment();
+      }
+    });
   }
 
   get responses() {
-    return [...this.comment.children];
+    const c = this.comment();
+    return c ? [...c.children] : [];
   }
 
   ngOnInit() {
@@ -124,28 +153,10 @@ export class CommentAnswerComponent
     }
     this.route.params.subscribe((params) => {
       const commentId = params['commentId'];
-      forkJoin([
-        this.sessionService.getRoomOnce(),
-        this.sessionService.getModeratorsOnce(),
-        user$.pipe(first(Boolean)),
-      ]).subscribe(([room, mods, user]) => {
-        this.room = room;
+      this.commentId.set(commentId);
+      forkJoin([this.sessionService.getRoomOnce()]).subscribe(([room]) => {
         this.commentsEnabled =
           this.userRole > UserRole.PARTICIPANT || !room.questionsBlocked;
-        this.mods = new Set<string>(mods.map((m) => m.accountId));
-        this.votes = {};
-        this.voteService
-          .getByRoomIdAndUserID(this.sessionService.currentRoom.id, user.id)
-          .subscribe((votes) => {
-            votes.forEach((v) => (this.votes[v.commentId] = v));
-          });
-        this.findComment(commentId).subscribe((result) => {
-          if (!result) {
-            this.onNoComment();
-          } else {
-            this.onCommentReceive(...result);
-          }
-        });
       });
     });
   }
@@ -183,7 +194,7 @@ export class CommentAnswerComponent
     this._list?.forEach((e) => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
-      this.commentService.lowlight(this.comment).subscribe();
+      this.commentService.lowlight(this.comment().comment).subscribe();
     }
   }
 
@@ -228,97 +239,23 @@ export class CommentAnswerComponent
       }
       return () => '';
     }
-    comment.ack = this.room.directSend;
+    comment.ack = room.value().directSend;
     if (this.commentOverride) {
       for (const key of Object.keys(this.commentOverride)) {
         comment[key] = this.commentOverride[key];
       }
     }
-    this.commentService.addComment(comment).subscribe((newComment) => {
+    this.commentService.addComment(comment).subscribe(() => {
       this.translateService
         .get('comment-list.comment-sent')
         .subscribe((msg) => this.notificationService.show(msg));
       this.route.params.subscribe((params) => {
-        this.router
-          .navigate([
-            `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`,
-          ])
-          .then(() => {
-            if (!comment.ack) {
-              this.roomDataService.dataAccessor.addComment(newComment);
-            }
-          });
+        this.router.navigate([
+          `${this.roleString}/room/${params['shortId']}/comment/${this.comment().comment.id}/conversation`,
+        ]);
       });
     });
     return () => '';
-  }
-
-  editQuestion(comment: ForumComment) {
-    EditQuestionComponent.open(this.dialog, comment);
-  }
-
-  private findComment(commentId: string): Observable<[ForumComment, boolean]> {
-    return this.roomDataService.dataAccessor.getRawComments(true).pipe(
-      map((comments) => {
-        const foundComment = comments.find((c) => c.id === commentId);
-        return (foundComment ? [foundComment, false] : null) as [
-          ForumComment,
-          boolean,
-        ];
-      }),
-      mergeMap((current) => {
-        if (current) {
-          return of(current);
-        }
-        if (!this.roomDataService.canAccessModerator) {
-          return of(null);
-        }
-        return this.roomDataService.moderatorDataAccessor
-          .getRawComments(true)
-          .pipe(
-            map((comments) => {
-              const foundComment = comments.find((c) => c.id === commentId);
-              return (foundComment ? [foundComment, true] : null) as [
-                ForumComment,
-                boolean,
-              ];
-            }),
-          );
-      }),
-    );
-  }
-
-  private onCommentReceive(c: ForumComment, isModerationComment: boolean) {
-    this.comment = c;
-    this.isModerationComment = isModerationComment;
-    this.isLoading = false;
-    const source = isModerationComment
-      ? this.roomDataService.moderatorDataAccessor
-      : this.roomDataService.dataAccessor;
-    this._commentSubscription = source
-      .receiveUpdates([
-        { type: 'CommentPatched', finished: true, updates: ['ack'] },
-        { type: 'CommentDeleted', finished: true },
-      ])
-      .subscribe((update) => {
-        if (update.comment.id !== this.comment.id) {
-          return;
-        }
-        if (update.type === 'CommentPatched' && update.finished === true) {
-          if (
-            update.updates.includes('ack') &&
-            !this.roomDataService.canAccessModerator
-          ) {
-            this.onNoComment();
-          }
-        } else if (update.type === 'CommentDeleted') {
-          this.onNoComment();
-        }
-      });
-    if (!this.isStudent) {
-      this.commentService.highlight(this.comment).subscribe();
-    }
-    this.changeDetector.markForCheck();
   }
 
   private onNoComment() {

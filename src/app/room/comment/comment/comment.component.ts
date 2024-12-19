@@ -16,15 +16,15 @@ import {
   viewChild,
 } from '@angular/core';
 import { MarkdownViewerComponent } from 'app/base/custom-markdown/markdown-viewer/markdown-viewer.component';
-import { ForumComment } from 'app/utils/data-accessor';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import {
   FormattedDate,
   getActualDate,
   getRelativeDate,
 } from 'app/base/util/dateSignal';
-import { moderators, room } from 'app/room/state/room';
+import { moderatorsSet, room } from 'app/room/state/room';
 import { user } from 'app/user/state/user';
+import { UIComment } from 'app/room/state/comment-updates';
 
 export interface ValueOption<T> {
   value: T;
@@ -43,10 +43,11 @@ export interface Filter {
   standalone: false,
 })
 export class CommentComponent implements AfterViewInit {
-  comment = input.required<ForumComment>();
+  inputComment = input.required<UIComment>();
   filterSelect = output<Filter>();
   onlyShowUp = input(false);
   showAnswers = model(false);
+  protected comment = computed(() => this.inputComment()?.comment);
   protected readonly i18n = i18n;
   protected readonly header = computed(() => this.formatCommentNumber());
   protected readonly isTaller = signal<boolean>(false);
@@ -116,8 +117,7 @@ export class CommentComponent implements AfterViewInit {
     if (isOwner) {
       return ['co_present', i18n().fromOwner];
     }
-    const isModerator =
-      moderators.value()?.findIndex((m) => m.accountId === u?.id) >= 0;
+    const isModerator = moderatorsSet().has(u?.id);
     if (isModerator) {
       return ['support_agent', i18n().fromModerator];
     }

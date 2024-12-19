@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionWallKeyEventSupport } from '../question-wall-key-event-support';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
@@ -20,7 +19,6 @@ import {
 } from '../../../../utils/data-filter-object.lib';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
-import { ForumComment } from '../../../../utils/data-accessor';
 import { PageEvent } from '@angular/material/paginator';
 import { applyRoomNavigation } from '../../../../navigation/room-navigation';
 import {
@@ -33,6 +31,7 @@ import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { createComponentBuilder } from '../component-builder-support';
 import i18nRaw from './translation/qw.i18n.json';
 import { I18nLoader } from '../../../../base/i18n/i18n-loader';
+import { UIComment, uiComments } from 'app/room/state/comment-updates';
 
 const i18n = I18nLoader.load(i18nRaw);
 
@@ -57,7 +56,7 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
           this.hasCommentFocus = true;
           componentBuilder.destroyAll().subscribe(() => {
             componentBuilder.createComponent(QwCommentFocusComponent, {
-              comment,
+              comment: uiComments().fastAccess[comment.id],
               session,
             });
           });
@@ -72,7 +71,7 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
 
   hasCommentFocus: boolean;
 
-  comments: ForumComment[] = [];
+  comments: UIComment[] = [];
   // unused
   keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
@@ -96,7 +95,6 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
-    private roomDataService: RoomDataService,
     private sessionService: SessionService,
     public headerService: HeaderService,
     public readonly self: QuestionWallService,
@@ -107,7 +105,7 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
       createCommentListSupport(
         FilteredDataAccess.buildNormalAccess(
           this.sessionService,
-          this.roomDataService,
+          this.injector,
           false,
           'presentation',
         ),
