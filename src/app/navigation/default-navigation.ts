@@ -28,6 +28,7 @@ import {
   forkJoin,
   map,
   Observable,
+  of,
   startWith,
 } from 'rxjs';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
@@ -37,7 +38,6 @@ import {
   language,
   setLanguage,
 } from 'app/base/language/language';
-import { theme } from 'app/base/theme/theme';
 
 import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
@@ -45,7 +45,11 @@ import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
 import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
-import { contrast } from 'app/base/theme/contrast';
+import { RoomService } from '../services/http/room.service';
+import { BonusTokenService } from '../services/http/bonus-token.service';
+import { switchMap } from 'rxjs/operators';
+import { DeleteAccountDialogComponent } from './dialogs/delete-account/delete-account-dialog.component';
+import { AuthenticationService } from '../services/http/authentication.service';
 
 const i18n = I18nLoader.loadModule(i18nRaw);
 
@@ -69,15 +73,17 @@ export const getDefaultHeader = (
   const router = injector.get(Router);
   const dialog = injector.get(MatDialog);
   const keycloak = injector.get(KeycloakService);
+  const authService = injector.get(AuthenticationService);
+  const roomService = injector.get(RoomService);
+  const bonusTokenService = injector.get(BonusTokenService);
   const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
     user$,
     toObservable(i18n),
-    toObservable(theme),
-    toObservable(contrast),
     onlineStateService.online$,
+    hasRoomsOrTokens(user$, injector),
   ]).pipe(
-    map(([user, i18n, isOnline]): M3HeaderTemplate => {
+    map(([user, i18n, isOnline, hasData]): M3HeaderTemplate => {
       const isHome = router.url.startsWith('/home');
       const isAdmin = user?.hasRole(KeycloakRoles.AdminDashboard);
       const isGuestUser = user?.isGuest;
@@ -122,11 +128,17 @@ export const getDefaultHeader = (
                       keycloak.redirectAccountManagement();
                     },
                   },
-                  {
+                  ((isGuestUser && hasData) || !isGuestUser) && {
                     icon: 'person_remove',
                     title: i18n.header.deleteAccount,
                     onClick: () => {
-                      keycloak.deleteAccount();
+                      DeleteAccountDialogComponent.openDialog(
+                        dialog,
+                        keycloak,
+                        roomService,
+                        bonusTokenService,
+                        authService,
+                      );
                     },
                   },
                   {
@@ -509,4 +521,28 @@ const showDemo = (injector: Injector) => {
 
 const openThemeColor = (injector: Injector) => {
   injector.get(MatDialog).open(ThemeColorComponent);
+};
+
+const hasRoomsOrTokens = (
+  user: Observable<User>,
+  injector: Injector,
+): Observable<boolean> => {
+  return combineLatest([user]).pipe(
+    switchMap(([u]) => {
+      if (!u) {
+        return of(false);
+      }
+      const roomService = injector.get(RoomService).getCreatorRooms(u.id);
+      const tokenService = injector
+        .get(BonusTokenService)
+        .getTokensByUserId(u.id);
+      return forkJoin([roomService, tokenService]).pipe(
+        map(([rooms, tokens]) => {
+          const hasRooms = rooms.length !== 0;
+          const hasTokens = tokens.length !== 0;
+          return hasRooms || hasTokens;
+        }),
+      );
+    }),
+  );
 };

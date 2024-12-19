@@ -16,7 +16,7 @@
     <mat-icon>person_pin_circle</mat-icon>
   </button>
 }
-@if (comment().keywordsFromQuestioner; as keywords) {
+@if (keywords(); as keywords) {
   @if (keywords.length) {
     <button
       mat-icon-button

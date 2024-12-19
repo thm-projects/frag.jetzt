@@ -18,7 +18,6 @@ import {
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
@@ -30,6 +29,8 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { afterUpdate, uiComments } from 'app/room/state/comment-updates';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -90,6 +91,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   isPle = false;
   private topicCloudAdminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
+  private comments$ = toObservable(uiComments);
 
   constructor(
     public cloudDialogRef: MatDialogRef<TopicCloudAdministrationComponent>,
@@ -99,7 +101,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private topicCloudAdminService: TopicCloudAdminService,
     private sessionService: SessionService,
     private commentService: CommentService,
-    private roomDataService: RoomDataService,
     private profanityFilterService: ProfanityFilterService,
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
@@ -170,11 +171,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   refreshKeywords() {
     this.blacklistKeywords = [];
     this.keywords = new Map<string, Keyword>();
-    this.roomDataService.dataAccessor
-      .currentRawComments()
-      .forEach((comment) => {
-        this.pushInKeywords(comment);
-      });
+    uiComments().rawComments.forEach((comment) => {
+      this.pushInKeywords(comment.comment);
+    });
     if (this.searchMode) {
       this.searchKeyword();
     }
@@ -222,60 +221,26 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   initializeKeywords() {
-    this.roomDataService.dataAccessor
-      .getRawComments(false)
-      .subscribe((comments) => {
-        this.keywords = new Map<string, Keyword>();
-        comments.forEach((comment) => {
-          this.pushInKeywords(comment);
-        });
-        this.sortQuestions();
-        this.isLoading = false;
+    this.comments$.subscribe((comments) => {
+      this.keywords = new Map<string, Keyword>();
+      comments.rawComments.forEach((comment) => {
+        this.pushInKeywords(comment.comment);
       });
-    this.roomDataService.dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentDeleted' },
-        { type: 'CommentPatched', finished: true, updates: ['score'] },
-        { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
-        { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromSpacy'],
-        },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromQuestioner'],
-        },
-        { type: 'CommentPatched', finished: true, updates: ['ack'] },
-        { type: 'CommentPatched', finished: true, updates: ['tag'] },
-        { type: 'CommentPatched', subtype: 'ack' },
-        { finished: true },
-      ])
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((update) => {
-        if (update.type === 'CommentCreated') {
-          this.pushInKeywords(update.comment);
-        } else if (update.type === 'CommentDeleted') {
-          this.removeFromKeywords(update.comment);
-        } else if (
-          update.type === 'CommentPatched' &&
-          update.finished === false &&
-          update.subtype === 'ack'
-        ) {
-          if (!update.comment.ack) {
-            this.removeFromKeywords(update.comment);
-          }
+      this.sortQuestions();
+      this.isLoading = false;
+    });
+    afterUpdate.pipe(takeUntil(this.destroyer)).subscribe((e) => {
+      if (e.type === 'CommentCreated') {
+        this.pushInKeywords(e.comment);
+      } else if (e.type === 'CommentDeleted') {
+        this.removeFromKeywords(e.comment);
+      } else {
+        if (this.searchMode) {
+          this.searchKeyword();
         }
-        if (update.finished) {
-          if (this.searchMode) {
-            this.searchKeyword();
-          }
-          this.refreshKeywords();
-        }
-      });
+        this.refreshKeywords();
+      }
+    });
   }
 
   blacklistIncludesKeyword(keyword: string) {

@@ -27,6 +27,7 @@ import { CommentService } from 'app/services/http/comment.service';
 
 export interface CreateCommentOptions {
   body: Comment['body'];
+  pureText: string;
   tag: Comment['tag'];
   questionerName: Comment['questionerName'];
   commentReference: Comment['commentReference'];
@@ -67,9 +68,13 @@ const generateBrainstormingComment = (
   options: CreateCommentOptions,
 ): Observable<Comment> => {
   const text = checkAndUpdateWord(
-    options.body,
+    options.pureText,
     options.brainstormingSession.maxWordCount,
   );
+  if (!text.trim().length) {
+    options.injector.get(NotificationService).show(i18n().noContent);
+    return throwError(() => 'No word');
+  }
   if (!text) {
     options.injector.get(NotificationService).show(
       i18nContext(i18n().wordLimitExceeded, {

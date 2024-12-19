@@ -10,7 +10,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Comment, numberSorter } from '../../../models/comment';
-import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
@@ -23,15 +22,9 @@ import { forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { TitleService } from '../../../services/util/title.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { OnboardingService } from '../../../services/util/onboarding.service';
 import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { FormControl } from '@angular/forms';
-import { BrainstormingService } from '../../../services/http/brainstorming.service';
 import { SessionService } from '../../../services/util/session.service';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
 import {
   BrainstormingFilter,
@@ -42,10 +35,6 @@ import {
   SortType,
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
-import {
-  CommentPatchedKeyInformation,
-  ForumComment,
-} from '../../../utils/data-accessor';
 import {
   FilteredDataAccess,
   FilterTypeCounts,
@@ -67,6 +56,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { user, user$ } from 'app/user/state/user';
 import { Filter } from 'app/room/comment/comment/comment.component';
 import { writeInteractiveComment } from 'app/room/comment/util/create-comment';
+import {
+  afterUpdate,
+  PatchComment,
+  UIComment,
+  uiModeratedComments,
+} from 'app/room/state/comment-updates';
 
 @Component({
   selector: 'app-comment-list',
@@ -79,7 +74,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @ViewChild('qrCodeColors') qrCodeColors: ElementRef<HTMLDivElement>;
   AppComponent = AppComponent;
-  comments: ForumComment[] = [];
+  comments: UIComment[] = [];
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
@@ -138,7 +133,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private injector = inject(Injector);
 
   constructor(
-    private commentService: CommentService,
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected roomService: RoomService,
@@ -148,13 +142,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     public liveAnnouncer: LiveAnnouncer,
     private router: Router,
     private titleService: TitleService,
-    private bonusTokenService: BonusTokenService,
-    private roomDataService: RoomDataService,
-    private onboardingService: OnboardingService,
-    private brainstormingService: BrainstormingService,
     private sessionService: SessionService,
-    private composeService: ArsComposeService,
-    private headerService: HeaderService,
     private cloudDataService: TagCloudDataService,
     private accountState: AccountStateService,
     private roomState: RoomStateService,
@@ -198,13 +186,13 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     this._filterObject = FilteredDataAccess.buildNormalAccess(
       this.sessionService,
-      this.roomDataService,
+      this.injector,
       false,
       'commentList',
     );
     this._cloudFilterObject = FilteredDataAccess.buildNormalAccess(
       this.sessionService,
-      this.roomDataService,
+      this.injector,
       true,
       'tagCloud',
     );
@@ -256,7 +244,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this._filterObject.getFilteredData().subscribe(() => {
         if (!hasUpdated) {
           hasUpdated = true;
-          this.generateKeywordsIfEmpty([...this._filterObject.getSourceData()]);
+          this.generateKeywordsIfEmpty([
+            ...this._filterObject.getSourceData().map((e) => e.comment),
+          ]);
         }
         this.onRefreshFiltering();
       });
@@ -338,9 +328,13 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
     }
     const allComments = [...this._filterObject.getSourceData()];
-    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    allComments.sort((a, b) =>
+      numberSorter(a.comment.number, b.comment.number),
+    );
     this._allQuestionNumberOptions = allComments.map((c) =>
-      Comment.computePrettyCommentNumber(this.translateService, c).join(' '),
+      Comment.computePrettyCommentNumber(this.translateService, c.comment).join(
+        ' ',
+      ),
     );
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter((e) =>
@@ -348,12 +342,12 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
-      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      let set = this.commentsWrittenByUsers.get(comment.comment.creatorId);
       if (!set) {
         set = new Set<string>();
-        this.commentsWrittenByUsers.set(comment.creatorId, set);
+        this.commentsWrittenByUsers.set(comment.comment.creatorId, set);
       }
-      set.add(comment.id);
+      set.add(comment.comment.id);
     }
     this.titleService.attachTitle(
       '(' + this.commentsFilteredByTimeLength + ')',
@@ -431,26 +425,20 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscribeCommentStream() {
     let wasUpdate = false;
-    this.commentStream = this.roomDataService.dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentPatched', subtype: 'favorite' },
-        { finished: true },
-      ])
-      .subscribe((update) => {
-        if (update.type === 'CommentCreated') {
-          this.announceNewComment(update.comment.body);
-          if (update.comment.id && update.comment.id === this.sendCommentId) {
-            wasUpdate = true;
-          }
-        } else if (update.type === 'CommentPatched') {
-          this.onCommentPatched(update as CommentPatchedKeyInformation);
+    this.commentStream = afterUpdate.subscribe((update) => {
+      if (update.type === 'CommentCreated') {
+        this.announceNewComment(update.comment.body);
+        if (update.comment.id && update.comment.id === this.sendCommentId) {
+          wasUpdate = true;
         }
-        if (update.finished && wasUpdate) {
-          this.setFocusedComment(this.sendCommentId);
-          this.sendCommentId = null;
-        }
-      });
+      } else if (update.type === 'CommentPatched') {
+        this.onCommentPatched(update);
+      }
+      if (wasUpdate) {
+        this.setFocusedComment(this.sendCommentId);
+        this.sendCommentId = null;
+      }
+    });
   }
 
   switchToModerationList(): void {
@@ -527,7 +515,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  getSlicedComments(): ForumComment[] {
+  getSlicedComments(): UIComment[] {
     const start = this.pageIndex * this.pageSize;
     const end = start + this.pageSize;
     this.hasGivenJoyride = false;
@@ -547,14 +535,17 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCommentInfo() {
     const answers = this.comments.reduce(
-      (acc, c) => acc + c.totalAnswerCounts.accumulated,
+      (acc, c) =>
+        acc +
+        c.totalAnswerCount.participants +
+        c.totalAnswerCount.moderators +
+        c.totalAnswerCount.creator,
       0,
     );
     return {
       comments: this.comments.length,
       answers,
-      moderated:
-        this.roomDataService.moderatorDataAccessor.currentRawComments().length,
+      moderated: uiModeratedComments()?.rawComments?.length || 0,
     } as const;
   }
 
@@ -570,8 +561,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._matcher.matches && this.userRole > UserRole.PARTICIPANT;
   }
 
-  editQuestion(comment: ForumComment) {
-    EditQuestionComponent.open(this.dialog, comment);
+  editQuestion(comment: UIComment) {
+    EditQuestionComponent.open(this.dialog, comment.comment);
   }
 
   protected openFilterMenu() {
@@ -601,8 +592,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private onCommentPatched(update: CommentPatchedKeyInformation) {
-    if (update.subtype === 'favorite') {
+  private onCommentPatched(update: PatchComment) {
+    if ('favorite' in update.changes) {
       if (
         user().id === update.comment.creatorId &&
         this.userRole === UserRole.PARTICIPANT &&
@@ -653,7 +644,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!commentId) {
       return;
     }
-    const index = this.comments.findIndex((e) => e.id === commentId);
+    const index = this.comments.findIndex((e) => e.comment.id === commentId);
     if (index < 0) {
       return;
     }

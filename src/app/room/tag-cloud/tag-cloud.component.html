@@ -60,7 +60,7 @@
       *ngIf="isLoading"
       [overlay]="true"></app-mat-spinner-overlay>
     <app-word-cloud
-      [keywords]="data"
+      [keywords]="data()"
       [isRadar]="!brainstormingActive"
       [parameters]="currentCloudParameters"
       style="flex-grow: 1"
@@ -75,6 +75,7 @@
       [top]="120"></app-active-user>
     <button
       class="start_introduction"
+      [class.stacked]="classes() === 'mobile'"
       (click)="startIntroduction()"
       mat-fab
       matTooltip="{{ 'comment-list.start-introduction-video' | translate }}"
@@ -82,11 +83,15 @@
       <mat-icon>question_mark</mat-icon>
     </button>
     <button
-      *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
+      *ngIf="
+        brainstormingActive &&
+        canWriteComment() &&
+        !drawer?.opened &&
+        isNotInSidebar()
+      "
       mat-fab
-      [ngClass]="{
-        center_screen: isCloudEmpty(),
-      }"
+      [class]="classes()"
+      (animationend)="starting.set(false)"
       class="fab_add_comment"
       (click)="writeComment()"
       matTooltip="{{ 'comment-list.add-idea' | translate }}"

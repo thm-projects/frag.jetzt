@@ -11,7 +11,6 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { ValueOption } from '../comment/comment.component';
-import { ForumComment } from 'app/utils/data-accessor';
 import { CorrectWrong } from 'app/models/correct-wrong.enum';
 import { user } from 'app/user/state/user';
 import { room } from 'app/room/state/room';
@@ -59,7 +58,7 @@ type CommentElement = CommentInfo | CommentAction;
   standalone: false,
 })
 export class CommentHeaderActionComponent {
-  comment = input.required<ForumComment>();
+  comment = input.required<Comment>();
   protected readonly elements = computed(() => this.buildActions());
   protected readonly seperatedElements = computed(() => {
     const window = windowWatcher.windowState();

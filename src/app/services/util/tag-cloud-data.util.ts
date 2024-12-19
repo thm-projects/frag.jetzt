@@ -1,13 +1,9 @@
 import { TagCloudData, TagCloudDataTagEntry } from './tag-cloud-data.service';
 import { SpacyKeyword } from '../http/spacy.service';
-import { RoomDataService } from './room-data.service';
-import {
-  KeywordOrFulltext,
-  TopicCloudAdminData,
-} from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
-import { ForumComment } from '../../utils/data-accessor';
+import { UIComment } from 'app/room/state/comment-updates';
 
 const words = stopWords.map((word) =>
   escapeForRegex(word).replace(/\s+/, '\\s*'),
@@ -28,7 +24,7 @@ export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
 interface CommentKeywordSourceInformation {
-  comment: ForumComment;
+  comment: UIComment;
   source: SpacyKeyword[];
   censored: boolean[];
   fromQuestioner: boolean;
@@ -40,7 +36,6 @@ export class TagCloudDataBuilder {
 
   constructor(
     private readonly mods: Set<string>,
-    private readonly roomDataService: RoomDataService,
     private readonly adminData: TopicCloudAdminData,
     private readonly blacklist: string[],
     private readonly blacklistEnabled: boolean,
@@ -62,15 +57,15 @@ export class TagCloudDataBuilder {
     this.users.clear();
   }
 
-  addComments(comments: ForumComment[]): void {
+  addComments(comments: UIComment[]): void {
     for (const comment of comments) {
-      if (comment.brainstormingSessionId !== null) {
+      if (comment.comment.brainstormingSessionId !== null) {
         continue;
       }
       const wantedLabels =
-        this.adminData.wantedLabels[comment.language.toLowerCase()];
+        this.adminData.wantedLabels[comment.comment.language.toLowerCase()];
       this.approveKeywords(this.receiveSource(comment), wantedLabels);
-      this.users.add(comment.creatorId);
+      this.users.add(comment.comment.creatorId);
     }
   }
 
@@ -87,32 +82,10 @@ export class TagCloudDataBuilder {
   }
 
   private receiveSource(
-    comment: ForumComment,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    comment: UIComment,
   ): CommentKeywordSourceInformation {
-    const censoredInfo = this.roomDataService.getCensoredInformation(comment);
-    if (!censoredInfo) {
-      return null;
-    }
-    let source = comment.keywordsFromQuestioner;
-    let censored = censoredInfo.keywordsFromQuestionerCensored;
-    let fromQuestioner = true;
-    if (this.adminData.keywordORfulltext === KeywordOrFulltext.Both) {
-      if (!source || !source.length) {
-        fromQuestioner = false;
-        source = comment.keywordsFromSpacy;
-        censored = censoredInfo.keywordsFromSpacyCensored;
-      }
-    } else if (
-      this.adminData.keywordORfulltext === KeywordOrFulltext.Fulltext
-    ) {
-      fromQuestioner = false;
-      source = comment.keywordsFromSpacy;
-      censored = censoredInfo.keywordsFromSpacyCensored;
-    }
-    if (!source) {
-      return null;
-    }
-    return { source, censored, fromQuestioner, comment };
+    return null;
   }
 
   private approveKeywords(
@@ -126,7 +99,10 @@ export class TagCloudDataBuilder {
       if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
         return;
       }
-      if (wantedLabels?.length && !keyword.dep?.some((e) => wantedLabels.includes(e))) {
+      if (
+        wantedLabels?.length &&
+        !keyword.dep?.some((e) => wantedLabels.includes(e))
+      ) {
         return;
       }
       if (!this.passesBlacklist(keyword.text)) {
@@ -138,11 +114,11 @@ export class TagCloudDataBuilder {
 
   private addToData(
     keyword: SpacyKeyword,
-    comment: ForumComment,
+    comment: UIComment,
     isFromQuestioner: boolean,
   ) {
     let current: TagCloudDataTagEntry = this.data.get(keyword.text);
-    const commentDate = new Date(comment.createdAt);
+    const commentDate = new Date(comment.comment.createdAt);
     if (current === undefined) {
       current = {
         cachedVoteCount: 0,
@@ -162,26 +138,26 @@ export class TagCloudDataBuilder {
         commentsByModerators: 0,
         responseCount: 0,
         answerCount: 0,
-        questionChildren: new Map<string, ForumComment[]>(),
+        questionChildren: new Map<string, UIComment[]>(),
         countedComments: new Set<string>(),
       };
       this.data.set(keyword.text, current);
     }
     keyword.dep.forEach((dependency) => current.dependencies.add(dependency));
-    current.cachedVoteCount += comment.score;
-    current.cachedUpVotes += comment.upvotes;
-    current.cachedDownVotes += comment.downvotes;
-    current.distinctUsers.add(comment.creatorId);
+    current.cachedVoteCount += comment.comment.score;
+    current.cachedUpVotes += comment.comment.upvotes;
+    current.cachedDownVotes += comment.comment.downvotes;
+    current.distinctUsers.add(comment.comment.creatorId);
     current.generatedByQuestionerCount += +isFromQuestioner;
-    current.taggedCommentsCount += +!!comment.tag;
+    current.taggedCommentsCount += +!!comment.comment.tag;
     this.addResponseAndAnswerCount(current, comment);
-    if (comment.creatorId === this.roomOwner) {
+    if (comment.comment.creatorId === this.roomOwner) {
       ++current.commentsByCreator;
-    } else if (this.mods.has(comment.creatorId)) {
+    } else if (this.mods.has(comment.comment.creatorId)) {
       ++current.commentsByModerators;
     }
-    if (comment.tag) {
-      current.categories.add(comment.tag);
+    if (comment.comment.tag) {
+      current.categories.add(comment.comment.tag);
     }
     if (current.firstTimeStamp.getTime() - commentDate.getTime() > 0) {
       current.firstTimeStamp = commentDate;
@@ -189,36 +165,38 @@ export class TagCloudDataBuilder {
     if (current.lastTimeStamp.getTime() - commentDate.getTime() < 0) {
       current.lastTimeStamp = commentDate;
     }
-    current.comments.push(comment);
+    current.comments.push(comment.comment);
   }
 
   private addResponseAndAnswerCount(
     data: TagCloudDataTagEntry,
-    comment: ForumComment,
+    comment: UIComment,
   ) {
-    data.countedComments.add(comment.id);
+    data.countedComments.add(comment.comment.id);
     let lastCommentId;
     for (
       let parentComment = comment.parent;
       parentComment;
       parentComment = parentComment.parent
     ) {
-      if (data.countedComments.has(parentComment.id)) {
+      if (data.countedComments.has(parentComment.comment.id)) {
         // when parent counted, this comment already counted.
         return;
       }
-      lastCommentId = parentComment.id;
+      lastCommentId = parentComment.comment.id;
     }
     this.removeChildrenCounts(data, comment, lastCommentId);
-    data.responseCount += comment.totalAnswerCounts.accumulated;
+    data.responseCount +=
+      comment.totalAnswerCount.participants +
+      comment.totalAnswerCount.moderators +
+      comment.answerCount.creator;
     data.answerCount +=
-      comment.totalAnswerCounts.fromCreator +
-      comment.totalAnswerCounts.fromModerators;
+      comment.totalAnswerCount.creator + comment.totalAnswerCount.moderators;
   }
 
   private removeChildrenCounts(
     data: TagCloudDataTagEntry,
-    comment: ForumComment,
+    comment: UIComment,
     lastCommentId: string,
   ) {
     const referenced =
@@ -230,11 +208,14 @@ export class TagCloudDataBuilder {
         parentComment;
         parentComment = parentComment.parent
       ) {
-        if (parentComment.id === comment.id) {
-          data.responseCount += comment.totalAnswerCounts.accumulated;
+        if (parentComment.comment.id === comment.comment.id) {
+          data.responseCount +=
+            comment.totalAnswerCount.participants +
+            comment.totalAnswerCount.moderators +
+            comment.totalAnswerCount.creator;
           data.answerCount +=
-            comment.totalAnswerCounts.fromCreator +
-            comment.totalAnswerCounts.fromModerators;
+            comment.totalAnswerCount.creator +
+            comment.totalAnswerCount.moderators;
           return false;
         }
       }

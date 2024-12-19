@@ -38,22 +38,9 @@
   right: 20px;
   bottom: 65px;
   z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
-  transform: scale(1.4);
   transition: all 0.5s ease-in-out;
   min-width: unset;
   margin-top: unset;
-
-  mat-icon {
-    margin: 0;
-  }
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--primary);
-    outline: var(--primary) solid 2px;
-  }
 }
 
 app-comment,

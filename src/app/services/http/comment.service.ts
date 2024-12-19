@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Comment } from '../../models/comment';
+import { AIGeneratedKeyword, Comment } from '../../models/comment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
@@ -320,6 +320,15 @@ export class CommentService extends BaseHttpService {
     parsedComment.keywordsFromSpacy = JSON.parse(
       comment.keywordsFromSpacy ?? null,
     );
+    if ('entities' in parsedComment.keywordsFromSpacy) {
+      const keys =
+        parsedComment.keywordsFromSpacy as unknown as AIGeneratedKeyword;
+      parsedComment.keywordsFromSpacy = [
+        ...keys.keywords,
+        ...keys.entities,
+        ...keys.special,
+      ].map((e) => ({ text: e, dep: [] }));
+    }
     return parsedComment;
   }
 

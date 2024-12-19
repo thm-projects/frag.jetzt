@@ -50,7 +50,7 @@
             ? i18n().hideAnswersDescription
             : i18n().showAnswersDescription
         "
-        [matBadge]="comment().totalAnswerCounts.accumulated"
+        [matBadge]="totalCount()"
         matBadgeSize="large">
         <mat-icon
           class="fillable-icon"
@@ -67,7 +67,7 @@
             ? i18n().hideAnswersDescription
             : i18n().showAnswersDescription
         "
-        [matBadge]="comment().totalAnswerCounts.accumulated"
+        [matBadge]="totalCount()"
         matBadgeSize="large">
         <mat-icon
           class="fillable-icon"

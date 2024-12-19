@@ -1,8 +1,4 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import {
-  ForumComment,
-  UpdateInformation,
-} from '../../../../utils/data-accessor';
 import { Comment } from '../../../../models/comment';
 import { User } from '../../../../models/user';
 import { CommentListSupport } from './comment-list-support';
@@ -10,12 +6,10 @@ import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { Moderator } from '../../../../models/moderator';
 import { ObjectMap } from '../../../../models/object-map';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import {
   BehaviorSubject,
   filter,
   forkJoin,
-  mergeMap,
   Observable,
   of,
   ReplaySubject,
@@ -27,11 +21,13 @@ import { user$ } from 'app/user/state/user';
 import { DefaultSliderConfig } from './qw-config';
 import { RunningNumberMarker } from './support-components/qw-running-number-background/qw-running-number-background.component';
 import { VoteService } from 'app/services/http/vote.service';
+import {
+  afterUpdate,
+  UIComment,
+  uiComments,
+} from 'app/room/state/comment-updates';
 
-export type AdjacentComments = [
-  ForumComment | undefined,
-  ForumComment | undefined,
-];
+export type AdjacentComments = [UIComment | undefined, UIComment | undefined];
 
 export interface QuestionWallSession {
   qrcode: boolean;
@@ -41,9 +37,9 @@ export interface QuestionWallSession {
   moderators: Moderator[];
   commentsCountQuestions: number;
   commentsCountUsers: number;
-  comments: ForumComment[];
+  comments: UIComment[];
   filter: CommentListSupport;
-  focus: BehaviorSubject<ForumComment | undefined>;
+  focus: BehaviorSubject<Comment | undefined>;
   destroyer: ReplaySubject<1>;
   period: Period;
   filterChangeListener: EventEmitter<void>;
@@ -63,8 +59,8 @@ export interface QuestionWallSession {
    */
   generateCommentReplyStream(
     destroyer: ReplaySubject<1>,
-    comment: ForumComment,
-  ): BehaviorSubject<ForumComment[]>;
+    comment: UIComment,
+  ): BehaviorSubject<UIComment[]>;
 }
 
 @Injectable({
@@ -76,7 +72,6 @@ export class QuestionWallService {
 
   constructor(
     private readonly sessionService: SessionService,
-    private readonly roomDataService: RoomDataService,
     private readonly voteService: VoteService,
   ) {}
 
@@ -106,15 +101,13 @@ export class QuestionWallService {
   ): QuestionWallSession {
     // newest comments first as default sort
     support.sort(SortType.Time, false);
-    const sessionService: SessionService = this.sessionService;
-    const roomDataService: RoomDataService = this.roomDataService;
     // todo(lph) change to signals later!
     const filterChangeListener = new EventEmitter();
-    const onCommentAddListener = new EventEmitter<ForumComment>();
+    const onCommentAddListener = new EventEmitter<Comment>();
     ///
     const onInit = new BehaviorSubject<boolean>(false);
-    const focus = new BehaviorSubject<ForumComment | undefined>(undefined);
-    let filteredComments: ForumComment[] = [];
+    const focus = new BehaviorSubject<Comment | undefined>(undefined);
+    let filteredComments: UIComment[] = [];
     let commentsCountQuestions: number = 0;
     let commentsCountUsers: number = 0;
     let user: User;
@@ -181,14 +174,18 @@ export class QuestionWallService {
 
     function generateCommentReplyStream(
       destroyer: ReplaySubject<1>,
-      comment: ForumComment,
-    ): BehaviorSubject<ForumComment[]> {
+      c: UIComment,
+    ): BehaviorSubject<UIComment[]> {
+      const comment = uiComments().fastAccess[c.comment.id];
       const stream = new BehaviorSubject([...comment.children]);
       onCommentAddListener
         .pipe(takeUntil(destroyer))
         .subscribe((newComment) => {
-          if (newComment.commentReference === comment.id) {
-            stream.next([...stream.value, newComment]);
+          if (newComment.commentReference === comment.comment.id) {
+            const newC = Array.from(comment.children.values()).find(
+              (e) => (e.comment.id = newComment.id),
+            );
+            stream.next([...stream.value, newC]);
           }
         });
       return stream;
@@ -205,29 +202,18 @@ export class QuestionWallService {
       moderators = _moderators;
       attachToFilteredDataAccess();
       initializeFilteredDataChange();
-      sessionService
-        .getRoomOnce()
-        .pipe(
-          mergeMap(() =>
-            roomDataService.dataAccessor.receiveUpdates([
-              { type: 'CommentCreated' },
-            ]),
-          ),
-        )
-        .subscribe((c: UpdateInformation) => {
-          onCommentAddListener.emit(c.comment);
-          if (c.finished) {
-            if (autofocus && !c.comment.commentReference) {
-              focus.next(c.comment);
-            }
-            return;
-          }
-          // this.unreadComments++;
+      afterUpdate
+        .pipe(filter((e) => e.type === 'CommentCreated'))
+        .subscribe((c) => {
           const date = new Date(c.comment.createdAt);
           commentCache[c.comment.id] = {
             date,
             old: false,
           };
+          onCommentAddListener.emit(c.comment);
+          if (autofocus && !c.comment.commentReference) {
+            focus.next(c.comment);
+          }
         });
     }
 
@@ -263,7 +249,7 @@ export class QuestionWallService {
       } else {
         for (let i = 0; i < filteredComments.length; i++) {
           const comment = filteredComments[i];
-          if (comment.id === currentFocus.id) {
+          if (comment.comment.id === currentFocus.id) {
             adjacentComments[0] = filteredComments[i - 1];
             adjacentComments[1] = filteredComments[i + 1];
             return;
@@ -279,21 +265,21 @@ export class QuestionWallService {
       const tempUserSet = new Set<string>();
       for (let i = 0; i < filteredComments.length; i++) {
         const comment = filteredComments[i];
-        tempUserSet.add(comment.creatorId);
-        let userSetIndex = userSet.indexOf(comment.creatorId);
+        tempUserSet.add(comment.comment.creatorId);
+        let userSetIndex = userSet.indexOf(comment.comment.creatorId);
         if (userSetIndex === -1) {
           userSetIndex = userSet.length;
-          userSet.push(comment.creatorId);
+          userSet.push(comment.comment.creatorId);
         }
-        userContext[comment.creatorId] = {
-          marker: getRunningNumberMarker(comment),
+        userContext[comment.comment.creatorId] = {
+          marker: getRunningNumberMarker(comment.comment),
           userUID: userSetIndex + 1 + '',
         };
-        if (commentCache[comment.id]) {
+        if (commentCache[comment.comment.id]) {
           continue;
         }
-        const date = new Date(comment.createdAt);
-        commentCache[comment.id] = {
+        const date = new Date(comment.comment.createdAt);
+        commentCache[comment.comment.id] = {
           date,
           old: true,
         };
@@ -304,7 +290,7 @@ export class QuestionWallService {
     }
 
     function getRunningNumberMarker(
-      comment: ForumComment,
+      comment: Comment,
     ): RunningNumberMarker | undefined {
       if (comment.creatorId === session.room.ownerId) {
         return 'moderator';

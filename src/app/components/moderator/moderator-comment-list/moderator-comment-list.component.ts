@@ -2,6 +2,7 @@ import {
   Component,
   ComponentRef,
   ElementRef,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -17,13 +18,9 @@ import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { NotificationService } from '../../../services/util/notification.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { SessionService } from '../../../services/util/session.service';
 import { first, forkJoin, ReplaySubject, takeUntil } from 'rxjs';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
 import { FormControl } from '@angular/forms';
-import { RoomDataService } from '../../../services/util/room-data.service';
 import {
   FilterType,
   FilterTypeKey,
@@ -33,10 +30,8 @@ import {
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { ForumComment } from '../../../utils/data-accessor';
 import { DeleteModerationCommentsComponent } from '../../creator/_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
@@ -50,6 +45,7 @@ import { user$ } from 'app/user/state/user';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import { Filter } from 'app/room/comment/comment/comment.component';
+import { UIComment, uiModeratedComments } from 'app/room/state/comment-updates';
 
 const i18n = I18nLoader.load(rawI18n);
 
@@ -65,7 +61,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   user: User;
   roomId: string;
   AppComponent = AppComponent;
-  comments: ForumComment[] = [];
+  comments: UIComment[] = [];
   commentsFilteredByTimeLength: number;
   isMobile: boolean;
   room: Room;
@@ -116,14 +112,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     private router: Router,
     private notificationService: NotificationService,
-    private bonusTokenService: BonusTokenService,
     private sessionService: SessionService,
-    private accountState: AccountStateService,
     private deviceState: DeviceStateService,
-    private composeService: ArsComposeService,
-    private headerService: HeaderService,
-    private roomDataService: RoomDataService,
     private roomState: RoomStateService,
+    injector: Injector,
   ) {
     this.deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
@@ -136,7 +128,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this._filterObject = FilteredDataAccess.buildModeratedAccess(
       sessionService,
-      roomDataService,
+      injector,
       true,
       'moderatorList',
     );
@@ -237,9 +229,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
     }
     const allComments = [...this._filterObject.getSourceData()];
-    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    allComments.sort((a, b) =>
+      numberSorter(a.comment.number, b.comment.number),
+    );
     this._allQuestionNumberOptions = allComments.map((c) =>
-      Comment.computePrettyCommentNumber(this.translateService, c).join(' '),
+      Comment.computePrettyCommentNumber(this.translateService, c.comment).join(
+        ' ',
+      ),
     );
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter((e) =>
@@ -247,12 +243,12 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     );
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
-      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      let set = this.commentsWrittenByUsers.get(comment.comment.creatorId);
       if (!set) {
         set = new Set<string>();
-        this.commentsWrittenByUsers.set(comment.creatorId, set);
+        this.commentsWrittenByUsers.set(comment.comment.creatorId, set);
       }
-      set.add(comment.id);
+      set.add(comment.comment.id);
     }
     const filter = this._filterObject.dataFilter;
     this.filterType = filter.filterType;
@@ -334,9 +330,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
           .subscribe((msg) => {
             this.notificationService.show(msg);
           });
-        const data = this.roomDataService.moderatorDataAccessor
-          .currentRawComments()
-          ?.map((c) => c.id);
+        const data = uiModeratedComments()?.rawComments.map(
+          (e) => e.comment.id,
+        );
         if (!data || data.length === 0) {
           return;
         }

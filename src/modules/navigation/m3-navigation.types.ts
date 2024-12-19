@@ -1,5 +1,7 @@
 // Preferred Template
 
+import { MatBadgeSize } from '@angular/material/badge';
+
 import { Type } from '@angular/core';
 
 export interface M3PreferredTemplate {
@@ -75,6 +77,9 @@ export interface M3NavigationEntry
   icon?: string;
   svgIcon?: string;
   activated?: boolean;
+  badgeSize?: MatBadgeSize;
+  badgeCount?: number;
+  badgeOverlap?: boolean;
 }
 
 // Options

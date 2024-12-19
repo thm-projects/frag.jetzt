@@ -54,7 +54,7 @@
                 [ngTemplateOutletContext]="{
                   elem,
                   first,
-                  state
+                  state,
                 }"></ng-container>
             }
           </div>
@@ -72,7 +72,7 @@
               [ngTemplateOutletContext]="{
                 elem,
                 first,
-                state
+                state,
               }"></ng-container>
           }
         </div>
@@ -88,7 +88,7 @@
                 [ngTemplateOutletContext]="{
                   elem,
                   first,
-                  state
+                  state,
                 }"></ng-container>
             }
           </div>
@@ -121,14 +121,32 @@
     </span>
   }
   @for (entry of elem.options; track entry.title) {
-    <app-m3-label
-      (click)="onNavClick(entry?.onClick)"
-      [collapsed]="state === 'rail'"
-      [active]="entry.activated"
-      [icon]="entry.icon"
-      [title]="entry.title"
-      [svgIcon]="entry.svgIcon"
-      [endSwitch]="entry.switchState"
-      [endIcon]="entry.forward ? 'arrow_forward' : ''"></app-m3-label>
+    @if (state === "rail") {
+      <div>
+        <compact-navigation-button
+          (click)="onNavClick(entry?.onClick)"
+          [active]="entry.activated"
+          [icon]="entry.icon"
+          [title]="entry.title"
+          [svgIcon]="entry.svgIcon"
+          [badgeSize]="entry.badgeSize"
+          [badgeCount]="entry.badgeCount"
+          [badgeOverlap]="entry.badgeOverlap"></compact-navigation-button>
+      </div>
+    } @else {
+      <div class="nav-entry-container-extended">
+        <expanded-navigation-button
+          (click)="onNavClick(entry?.onClick)"
+          [active]="entry.activated"
+          [icon]="entry.icon"
+          [title]="entry.title"
+          [svgIcon]="entry.svgIcon"
+          [endSwitch]="entry.switchState"
+          [endIcon]="entry.forward ? 'arrow_forward' : ''"
+          [badgeSize]="entry.badgeSize"
+          [badgeCount]="entry.badgeCount"
+          [badgeOverlap]="entry.badgeOverlap"></expanded-navigation-button>
+      </div>
+    }
   }
 </ng-template>

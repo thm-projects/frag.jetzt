@@ -1,59 +1,59 @@
 {
   "key": "comment-list-fab",
   "de": {
-    "write": "Frage stellen",
-    "scrollTop": "Zum Anfang springen",
+    "write": "Stell eine Frage",
+    "scrollTop": "Nach oben",
     "creator": {
-      "askQuestion": "Motiviere dein Publikum, Fragen zu stellen!"
+      "askQuestion": "Motivier dein Publikum!"
     },
     "participant": {
-      "askQuestion": "Sei der Anfang, stell die erste Frage!"
+      "askQuestion": "Stell die erste Frage!"
     },
     "ple": {
       "write": "Thema hinzufügen",
       "creator": {
-        "askQuestion": "Motiviere deine Gruppe, Themen hinzuzufügen!"
+        "askQuestion": "Motivier deine Gruppe!"
       },
       "participant": {
-        "askQuestion": "Sei der Anfang, erstelle das erste Thema!"
+        "askQuestion": "Schreib den ersten Beitrag!"
       }
     }
   },
   "en": {
     "write": "Ask a question",
-    "scrollTop": "Scroll to top",
+    "scrollTop": "Go to top",
     "creator": {
-      "askQuestion": "Motivate your audience to ask questions!"
+      "askQuestion": "Motivate your audience!"
     },
     "participant": {
-      "askQuestion": "Be the beginning, ask the first question!"
+      "askQuestion": "Be the first to ask!"
     },
     "ple": {
-      "write": "Add topic",
+      "write": "Add a topic",
       "creator": {
-        "askQuestion": "Motivate your group to add topics!"
+        "askQuestion": "Motivate your group!"
       },
       "participant": {
-        "askQuestion": "Be the beginning, create the first topic!"
+        "askQuestion": "Write the first post!"
       }
     }
   },
   "fr": {
-    "write": "Poser une question",
-    "scrollTop": "Remonter en haut",
+    "write": "Pose une question",
+    "scrollTop": "Haut de page",
     "creator": {
-      "askQuestion": "Motive ton pugblic à poser des questions !"
+      "askQuestion": "Motives ton public !"
     },
     "participant": {
-      "askQuestion": "Sois le premier, pose la première question !"
+      "askQuestion": "Pose la première question !"
     },
     "ple": {
-      "write": "Ajouter un sujet",
+      "write": "Ajoute un sujet",
       "creator": {
-        "askQuestion": "Motiver ton groupe à ajouter des sujets !"
+        "askQuestion": "Motives ton groupe !"
       },
       "participant": {
-        "askQuestion": "Sois le premier, crée le premier sujet !"
+        "askQuestion": "Écris le premier message !"
       }
     }
   }

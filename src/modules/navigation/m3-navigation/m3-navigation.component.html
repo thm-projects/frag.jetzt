@@ -81,17 +81,18 @@
     [class.hide]="hideBottomBar()">
     <mat-toolbar-row>
       @for (navArr of bottomBarData(); track navArr[1].id; let index = $index) {
-        <app-m3-label
+        <compact-navigation-button
           class="m3-nav-footer-animated"
           [active]="navArr[1].activated"
           [style]="'--i: ' + index + ';'"
           [class.show]="!hideBottomBar()"
-          [smallLabel]="true"
           (click)="this.forward(navArr[0], navArr[1])"
           [icon]="navArr[1].icon"
-          [collapsed]="true"
           [svgIcon]="navArr[1].svgIcon"
-          [title]="navArr[1].title"></app-m3-label>
+          [title]="navArr[1].title"
+          [badgeSize]="navArr[1].badgeSize"
+          [badgeCount]="navArr[1].badgeCount"
+          [badgeOverlap]="navArr[1].badgeOverlap"></compact-navigation-button>
       }
     </mat-toolbar-row>
   </mat-toolbar>

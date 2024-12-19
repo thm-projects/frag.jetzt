@@ -82,7 +82,6 @@ import { IntroductionRoomListFRComponent } from '../../../assets/i18n/components
 import { IntroductionRoomPageFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-fr.component';
 import { IntroductionTagCloudFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-fr.component';
 import { TranslateService } from '@ngx-translate/core';
-import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
@@ -259,7 +258,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     AppRatingComponent,
     AppRatingPopUpComponent,
     MinuteJumpClockComponent,
-    UIRegistrationComponent,
     PseudonymEditorComponent,
     BrainstormingBlacklistEditComponent,
     EditQuestionComponent,

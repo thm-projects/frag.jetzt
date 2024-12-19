@@ -6,7 +6,7 @@
     "features": {
       "title": "Features",
       "forum": "Q&A",
-      "flashpoll": "Blitzumfrage",
+      "livepoll": "Blitzumfrage",
       "assistant": "KI-Assistent",
       "focus": "Fragen-Fokus",
       "radar": "Fragen-Radar",
@@ -51,7 +51,7 @@
     "features": {
       "title": "Features",
       "forum": "Q&A",
-      "flashpoll": "Flash Poll",
+      "livepoll": "Flash Poll",
       "assistant": "AI Assistant",
       "focus": "Question Focus",
       "radar": "Question Radar",
@@ -96,7 +96,7 @@
     "features": {
       "title": "Fonctionnalités",
       "forum": "Q&R",
-      "flashpoll": "Sondage Éclair",
+      "livepoll": "Sondage Éclair",
       "assistant": "Assistant IA",
       "focus": "Focus sur les Questions",
       "radar": "Radar de Questions",

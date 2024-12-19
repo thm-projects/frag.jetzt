@@ -11,14 +11,14 @@
   <button
     mat-button
     [disabled]="!session.adjacentComments[0]"
-    (click)="session.focus.next(session.adjacentComments[0])">
+    (click)="session.focus.next(session.adjacentComments[0].comment)">
     <mat-icon>chevron_left</mat-icon>
     {{ i18n().action.previous }}
   </button>
   <button
     mat-button
     [disabled]="!session.adjacentComments[1]"
-    (click)="session.focus.next(session.adjacentComments[1])">
+    (click)="session.focus.next(session.adjacentComments[1].comment)">
     <mat-icon>chevron_right</mat-icon>
     {{ i18n().action.next }}
   </button>
