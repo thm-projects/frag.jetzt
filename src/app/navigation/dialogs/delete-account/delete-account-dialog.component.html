@@ -5,18 +5,36 @@
   <div *ngIf="data.ownedRooms.length > 0">
     <h3>{{ i18n().rooms }}</h3>
     <mat-list>
-      <mat-list-item *ngFor="let room of data.ownedRooms">
-        {{ room.name }}
-      </mat-list-item>
+      <div *ngFor="let room of data.ownedRooms">
+        <mat-list-item>
+          <div class="flex align-center">
+            <mat-icon class="mr-3">meeting_room</mat-icon>
+            {{
+              room.name.length > 20 ? room.name.slice(0, 20) + "..." : room.name
+            }}
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </div>
     </mat-list>
   </div>
 
   <div *ngIf="Object.keys(data.tokenCounts).length > 0">
     <h3>{{ i18n().tokens }}</h3>
     <mat-list>
-      <mat-list-item *ngFor="let roomTokens of data.tokenCounts">
-        {{ roomTokens.roomName }}: {{ roomTokens.tokenCount }}
-      </mat-list-item>
+      <div *ngFor="let roomTokens of data.tokenCounts">
+        <mat-list-item>
+          <div class="flex align-center">
+            <mat-icon class="mr-3">voting_chip</mat-icon>
+            {{
+              roomTokens.roomName.length > 20
+                ? roomTokens.roomName.slice(0, 20) + "..."
+                : roomTokens.roomName
+            }}: {{ roomTokens.tokenCount }}
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </div>
     </mat-list>
   </div>
 </mat-dialog-content>
