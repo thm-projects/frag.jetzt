@@ -190,7 +190,7 @@ export const getRoomNavigation = (
           [0, new Set<string>()] as [number, Set<string>],
         );
         // Remove banned words from brainstorming set
-        const brainstormWords = room.brainstormingSession.wordsWithMeta;
+        const brainstormWords = room.brainstormingSession?.wordsWithMeta || {};
         Object.keys(brainstormWords).forEach((key) => {
           if (brainstormWords[key].word.banned) {
             nBrainstormingSet.delete(key);
