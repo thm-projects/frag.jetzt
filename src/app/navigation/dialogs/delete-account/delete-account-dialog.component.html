@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+<mat-dialog-content>
+  <p>{{ i18n().text }}</p>
+
+  <div *ngIf="data.ownedRooms.length > 0">
+    <h3>{{ i18n().rooms }}</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let room of data.ownedRooms">
+        {{ room.name }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div *ngIf="Object.keys(data.tokenCounts).length > 0">
+    <h3>{{ i18n().tokens }}</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let roomTokens of data.tokenCounts">
+        {{ roomTokens.roomName }}: {{ roomTokens.tokenCount }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex justify-between">
+  <button
+    mat-flat-button
+    class="secondary"
+    (click)="onDiscard()">
+    {{ i18n().global.cancel }}
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="onDelete(data.authService)">
+    {{ i18n().global.continue }}
+  </button>
+</mat-dialog-actions>
