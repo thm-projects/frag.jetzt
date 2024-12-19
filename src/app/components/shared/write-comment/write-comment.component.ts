@@ -67,6 +67,7 @@ export class WriteCommentComponent {
   protected readonly tags = computed(() => room.value()?.tags ?? []);
   protected readonly i18n = i18n;
   data = signal('');
+  protected readonly textData = signal('');
   isSubmittingComment = signal(false);
   selectedTag = signal<string | null>(null);
   // Grammarheck
@@ -132,6 +133,7 @@ export class WriteCommentComponent {
 
     const options: CreateCommentOptions = {
       body: body,
+      pureText: this.textData(),
       tag: this.selectedTag(),
       questionerName: this.questionerNameFormControl.value,
       brainstormingSession: this.brainstormingData(),

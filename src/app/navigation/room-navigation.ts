@@ -21,6 +21,7 @@ import {
   forkJoin,
   map,
   of,
+  startWith,
   switchMap,
 } from 'rxjs';
 import { TopicCloudFilterComponent } from '../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
@@ -77,6 +78,8 @@ import {
   uiComments,
   uiModeratedComments,
 } from 'app/room/state/comment-updates';
+import { afterUpdate } from 'app/room/state/room-updates';
+import { room } from 'app/room/state/room';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -135,7 +138,7 @@ export const getRoomNavigation = (
   return combineLatest([
     getDefaultNavigation(injector),
     user$.pipe(filter((e) => Boolean(e))),
-    roomState.room$.pipe(filter((e) => Boolean(e))),
+    toObservable(room.value).pipe(filter((e) => Boolean(e))),
     roomState.assignedRole$.pipe(filter((e) => Boolean(e))),
     roomState.role$.pipe(filter((e) => Boolean(e))),
     toObservable(i18n),
@@ -169,6 +172,7 @@ export const getRoomNavigation = (
     ),
     toObservable(uiComments),
     toObservable(uiModeratedComments),
+    afterUpdate.pipe(startWith(null)),
   ]).pipe(
     map(
       ([

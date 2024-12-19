@@ -24,7 +24,7 @@
 <div
   fxLayout="column"
   fxLayoutAlign="center"
-  *ngIf="!isLoading"
+  *ngIf="!isLoading()"
   (document:keyup)="checkForEscape($event)"
   (document:click)="
     checkForBackDropClick(
@@ -55,6 +55,7 @@
         appearance="outlined"
         class="answer border-answer">
         <app-write-comment
+          (commentCreated)="onSubmit($event)"
           [commentReference]="comment()?.comment?.id"></app-write-comment>
       </mat-card>
     </div>

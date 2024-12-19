@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import {
   AfterContentInit,
   Component,
@@ -6,8 +9,10 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  computed,
   effect,
   inject,
+  signal,
 } from '@angular/core';
 
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
@@ -68,6 +73,9 @@ import {
   writeInteractiveComment,
 } from '../comment/util/create-comment';
 import { Comment } from 'app/models/comment';
+import { windowWatcher } from 'modules/navigation/utils/window-watcher';
+import { M3WindowSizeClass } from 'modules/m3/components/navigation/m3-navigation-types';
+import { FAB_BUTTON } from 'modules/navigation/m3-navigation-emitter';
 
 class TagComment implements WordMeta {
   constructor(
@@ -122,11 +130,21 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     delay: 0.4,
   };
   userRole: UserRole;
-  data: (TagComment | BrainstormComment)[] = [];
+  protected data = signal<(TagComment | BrainstormComment)[]>([]);
   isLoading = true;
   brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
   brainstormingCategories: BrainstormingCategory[];
+  protected starting = signal(true);
+  protected classes = computed(() => {
+    if (this.isCloudEmpty()) return '';
+    return windowWatcher.windowState() === M3WindowSizeClass.Compact
+      ? 'mobile'
+      : 'desktop';
+  });
+  protected isNotInSidebar = computed(() => {
+    return this.starting() || this.classes() !== 'desktop';
+  });
   private destroyer = new Subject();
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
@@ -135,6 +153,22 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
   private injector = inject(Injector);
+  private _e1 = effect((cleanup) => {
+    const inSidebar = !this.isNotInSidebar();
+    if (inSidebar && this.brainstormingActive && this.canWriteComment()) {
+      FAB_BUTTON.set({
+        icon: 'add',
+        title: i18n().addIdea,
+        onClick: () => {
+          this.writeComment();
+          return false;
+        },
+      });
+    }
+    cleanup(() => {
+      FAB_BUTTON.set(null);
+    });
+  });
 
   constructor(
     private commentService: CommentService,
@@ -333,7 +367,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     for (const topic of data) {
       this.createBrainTagElement(topic, newElements);
     }
-    this.data = newElements;
+    this.data.set(newElements);
     setTimeout(() => {
       this.updateTagCloud(true);
     }, 2);
@@ -358,7 +392,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     for (const [tag, tagData] of data) {
       this.createTagElement(countFiler, tagData, tag, newElements);
     }
-    this.data = newElements;
+    this.data.set(newElements);
     setTimeout(() => {
       this.updateTagCloud(true);
     }, 2);
@@ -397,7 +431,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   isCloudEmpty() {
-    return !this.data?.length;
+    return !this.data()?.length;
   }
 
   enter(word: ActiveWord<TagComment | BrainstormComment>) {
@@ -505,7 +539,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.createTagElement(countFiler, tagData, tag, newElements);
       }
     }
-    this.data = newElements;
+    this.data.set(newElements);
     setTimeout(() => {
       this.updateTagCloud(true);
     }, 2);
@@ -537,6 +571,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           e.forEach((elem) => {
             generateComment({
               body: elem,
+              pureText: elem,
               brainstormingSession: session,
               questionerName: 'AI',
               selectedLanguage: 'AUTO' as Comment['language'],
