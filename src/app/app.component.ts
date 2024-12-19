@@ -67,6 +67,7 @@ import { windowWatcher } from '../modules/navigation/utils/window-watcher';
 import { lorem } from './utils/lorem';
 import { user } from './user/state/user';
 import { KeycloakRoles } from './models/user';
+import { PwaService } from './services/util/pwa-installation.service';
 
 const PUSH_KEY = 'push-subscription';
 
@@ -285,6 +286,7 @@ export class AppComponent implements OnInit {
   protected readonly windowClass = windowWatcher.windowState;
 
   constructor(
+    private pwaService: PwaService,
     private translationService: TranslateService,
     private update: SwUpdate,
     private push: SwPush,

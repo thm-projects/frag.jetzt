@@ -1,0 +1,15 @@
+<div class="snackbar-container">
+  <span>{{ i18n().installPrompt }}</span>
+  <div class="snackbar-actions">
+    <button
+      mat-button
+      (click)="install()">
+      {{ i18n().installButton }}
+    </button>
+    <button
+      mat-icon-button
+      (click)="dismiss()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
