@@ -24,6 +24,8 @@ import { MatList, MatListItem } from '@angular/material/list';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UUID } from '../../../utils/ts-utils';
 import { BonusToken } from '../../../models/bonus-token';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 interface TokenWrapper {
   roomId: UUID;
@@ -47,6 +49,8 @@ const i18n = I18nLoader.load(rawI18n);
     CommonModule,
     MatListItem,
     MatList,
+    MatIcon,
+    MatDivider,
   ],
 })
 export class DeleteAccountDialogComponent {
