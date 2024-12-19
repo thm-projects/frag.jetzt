@@ -114,11 +114,16 @@ h3 {
 mat-card-actions {
   flex-wrap: wrap;
   display: flex;
-  gap: 8px; // 8dp gap according to Material Design 3 guidelines
+  gap: 8px;
 
   @media (max-width: 400px) {
     button {
       flex: 1 1 100%;
     }
   }
+}
+
+.info-section-content {
+  padding-left: 1em;
+  padding-right: 1em;
 }
