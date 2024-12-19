@@ -81,11 +81,19 @@ export class TagCloudDataBuilder {
     );
   }
 
-  private receiveSource(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    comment: UIComment,
-  ): CommentKeywordSourceInformation {
-    return null;
+  private receiveSource(comment: UIComment): CommentKeywordSourceInformation {
+    let keywords = comment.comment.keywordsFromQuestioner;
+    let fromQuestioner = true;
+    if (!keywords?.length) {
+      keywords = comment.comment.keywordsFromSpacy || [];
+      fromQuestioner = false;
+    }
+    return {
+      comment: comment,
+      source: keywords,
+      censored: new Array(keywords.length).fill(false),
+      fromQuestioner,
+    };
   }
 
   private approveKeywords(

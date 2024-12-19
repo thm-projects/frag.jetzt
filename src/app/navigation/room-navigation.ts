@@ -72,7 +72,6 @@ import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { user$ } from 'app/user/state/user';
 import { MatBadgeSize } from '@angular/material/badge';
 import { RoomActivityComponent } from 'app/room/room-activity/room-activity.component';
-import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { RoomSettingsOverviewComponent } from 'app/components/shared/_dialogs/room-settings-overview/room-settings-overview.component';
 import {
   uiComments,
@@ -132,7 +131,6 @@ export const getRoomNavigation = (
   const dialog = injector.get(MatDialog);
   const livepoll = injector.get(LivepollService);
   const session = injector.get(SessionService);
-  const brainstorming = injector.get(BrainstormingService);
 
   // Start building
   return combineLatest([
@@ -143,33 +141,6 @@ export const getRoomNavigation = (
     roomState.role$.pipe(filter((e) => Boolean(e))),
     toObservable(i18n),
     toObservable(windowWatcher.isMobile),
-    roomState.room$.pipe(
-      // Retrieves an observable indicating if a livepoll is in progress.
-      // An initial value is set to avoid an invalid state after a browser refresh.
-      switchMap((room) => {
-        const livepollInprogress =
-          room?.livepollSession?.active && !room?.livepollSession?.paused;
-        // When a new brainstorming session is created, the navigation updates again, and the livepoll variable appears to be undefined, despite being defined earlier.
-        // This makes it impossible to determine whether a livepoll is currently in progress using the values mentioned above.
-        // To ascertain the current state of the livepoll, we actively fetch the current value of the 'active' property from the livepoll service, but only when livepollInprogress is undefined.
-        // Be also aware of, that we cannot soloy relying on the livepoll.livepollInprogress, as this value alone would cause the livepoll state to be lost after a browser refresh.
-        return livepoll.getLivepollInProgress(
-          livepollInprogress ?? livepoll.livepollInProgress,
-        );
-      }),
-    ),
-    roomState.room$.pipe(
-      switchMap((room) => {
-        // When a new brainstorming session is created, the inprogress value is properly set.
-        // But unfortunately, the following code is run after the session was created, rather than before - the reason for this is unknown.
-        // As a result, the navigation is updated again the old value of the brainstormingInProgressSubject, which is false - but should be true.
-        // To avoid this, the current value of the active property of the brainstorming session is actively retrieved to properly reinitialize the brainstormingInProgressSubject.
-        return brainstorming.getBrainstormingInProgress(
-          room?.brainstormingSession?.active ??
-            brainstorming.brainstormingInProgress,
-        );
-      }),
-    ),
     toObservable(uiComments),
     toObservable(uiModeratedComments),
     afterUpdate.pipe(startWith(null)),
@@ -183,8 +154,6 @@ export const getRoomNavigation = (
         currentRole,
         i18n,
         isMobile,
-        livepollInprogress,
-        brainstormingInProgress,
         qaNumber,
         moderatedNumber,
       ]) => {
@@ -205,8 +174,33 @@ export const getRoomNavigation = (
         const isOverview = url.endsWith(shortId + '/');
         template.title = i18n.mainMenu;
 
-        const nComments = qaNumber?.forumComments?.length || 0;
+        const comments = qaNumber?.forumComments || [];
+        const [nComments, nBrainstormingSet] = comments.reduce(
+          (acc, c) => {
+            const id = c.comment.brainstormingSessionId;
+            if (id) {
+              if (id === room.brainstormingSession.id) {
+                acc[1].add(c.comment.brainstormingWordId);
+              }
+            } else {
+              acc[0]++;
+            }
+            return acc;
+          },
+          [0, new Set<string>()] as [number, Set<string>],
+        );
+        // Remove banned words from brainstorming set
+        const brainstormWords = room.brainstormingSession.wordsWithMeta;
+        Object.keys(brainstormWords).forEach((key) => {
+          if (brainstormWords[key].word.banned) {
+            nBrainstormingSet.delete(key);
+          }
+        });
         const nModerationComments = moderatedNumber?.rawComments?.length || 0;
+
+        const livepollActive =
+          room?.livepollSession?.active && !room?.livepollSession?.paused;
+        const brainstormingActive = room?.brainstormingSession?.active;
 
         // Navigation
         template.sections.unshift({
@@ -221,7 +215,6 @@ export const getRoomNavigation = (
               badgeClass: 'badge',
               badgeSize: 'medium' as MatBadgeSize,
               badgeCount: nComments,
-              badgeOverlap: false,
               onClick: () => {
                 router.navigate([`/${role}/room/${shortId}/comments`]);
                 return true;
@@ -234,8 +227,7 @@ export const getRoomNavigation = (
                 title: i18n.features.livepoll,
                 icon: 'flash_on',
                 badgeSize: 'small' as MatBadgeSize,
-                badgeCount: livepollInprogress ? 1 : null,
-                badgeOverlap: true,
+                badgeCount: livepollActive ? 1 : null,
                 onClick: () => {
                   livepoll.open(session);
                   return true;
@@ -295,9 +287,12 @@ export const getRoomNavigation = (
                 id: 'brainstorming',
                 title: i18n.features.brainstorming,
                 icon: 'tips_and_updates',
-                badgeSize: 'small' as MatBadgeSize,
-                badgeCount: brainstormingInProgress ? 1 : null,
-                badgeOverlap: true,
+                badgeSize: (nBrainstormingSet.size > 0
+                  ? 'medium'
+                  : 'small') as MatBadgeSize,
+                badgeCount: brainstormingActive
+                  ? nBrainstormingSet.size || 1
+                  : null,
                 onClick: () => {
                   if (url.endsWith('/brainstorming/')) {
                     return false;
@@ -331,7 +326,6 @@ export const getRoomNavigation = (
               icon: 'gavel',
               badgeSize: 'medium' as MatBadgeSize,
               badgeCount: nModerationComments,
-              badgeOverlap: true,
               onClick: () => {
                 router.navigate([
                   `/${role}/room/${shortId}/moderator/comments`,

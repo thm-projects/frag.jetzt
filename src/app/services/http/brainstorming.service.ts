@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BrainstormingSession } from '../../models/brainstorming-session';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
@@ -49,19 +49,8 @@ export class BrainstormingService extends BaseHttpService {
     resetCategorization: '/reset-categorization',
   };
 
-  private brainstormingInProgressSubject = new BehaviorSubject<boolean>(false);
-
   constructor(private http: HttpClient) {
     super();
-  }
-
-  get brainstormingInProgress(): boolean {
-    return this.brainstormingInProgressSubject.value;
-  }
-
-  getBrainstormingInProgress(initValue: boolean): Observable<boolean> {
-    this.brainstormingInProgressSubject.next(initValue);
-    return this.brainstormingInProgressSubject.asObservable();
   }
 
   createSession(
@@ -71,10 +60,6 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .post<BrainstormingSession>(connectionUrl, session, httpOptions)
       .pipe(
-        tap(() => {
-          console.log('Brainstorming session created');
-          this.brainstormingInProgressSubject.next(true);
-        }),
         catchError(this.handleError<BrainstormingSession>('createSession')),
       );
   }
@@ -87,13 +72,7 @@ export class BrainstormingService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
     return this.http
       .patch<BrainstormingSession>(connectionUrl, sessionChanges, httpOptions)
-      .pipe(
-        tap((updatedSession) => {
-          console.log('Brainstorming session updated');
-          this.brainstormingInProgressSubject.next(updatedSession.active);
-        }),
-        catchError(this.handleError<BrainstormingSession>('patchSession')),
-      );
+      .pipe(catchError(this.handleError<BrainstormingSession>('patchSession')));
   }
 
   deleteSession(sessionId: string): Observable<void> {

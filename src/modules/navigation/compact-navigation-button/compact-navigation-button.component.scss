@@ -1,6 +1,16 @@
 @use "sass:math";
 @use "modules/m3/style/m3-typescale" as m3-typescale;
 
+:host ::ng-deep .mat-badge-content {
+  --mat-badge-small-size-container-size: 0.75rem;
+  --mat-badge-background-color: var(--mat-sys-surface-container-lowest);
+  --mat-badge-text-color: var(--mat-sys-on-surface);
+  box-shadow:
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
 .button-label-container {
   display: flex;
   flex-direction: column;

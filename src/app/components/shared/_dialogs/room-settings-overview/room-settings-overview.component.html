@@ -113,6 +113,28 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.brainstorming-enabled" | translate }}
   </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="aiEnabled"
+    matTooltip="{{ 'room-settings-overview.tooltip-ai-enabled' | translate }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.ai-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="focusEnabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-focus-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.focus-enabled" | translate }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [(ngModel)]="radarEnabled"
+    matTooltip="{{
+      'room-settings-overview.tooltip-radar-enabled' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.radar-enabled" | translate }}
+  </mat-slide-toggle>
   <p>{{ "room-settings-overview.note-on-changing-settings" | translate }}</p>
 </mat-dialog-content>
 

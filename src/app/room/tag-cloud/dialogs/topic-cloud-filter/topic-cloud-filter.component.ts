@@ -137,6 +137,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     userRole: UserRole,
     roomId: string,
   ): boolean {
+    const temp = true;
+    //TODO: Fix this
+    if (temp) return false;
     const data = localStorage.getItem('commentListKeywordGen');
     const set = new Set<string>(data ? JSON.parse(data) : []);
     let count = 0;

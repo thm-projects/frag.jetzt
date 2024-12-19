@@ -129,16 +129,33 @@ export const generateComment = (
   if (options.brainstormingSession) {
     return generateBrainstormingComment(options);
   }
+  const r = room.value();
+  if (!r.keywordExtractionActive) {
+    return of(
+      new Comment({
+        body: options.body,
+        tag: options.tag,
+        questionerName: options.questionerName,
+        roomId: r.id,
+        creatorId: user().id,
+        commentReference: options.commentReference,
+        brainstormingSessionId: null,
+        brainstormingWordId: null,
+        keywordsFromSpacy: [],
+        keywordsFromQuestioner: [],
+        language: options.selectedLanguage,
+      }),
+    );
+  }
   const service = options.injector.get(SimpleAIService);
-  const roomId = room.value().id;
-  return service.getKeywords(options.body, roomId).pipe(
+  return service.getKeywords(options.body, r.id).pipe(
     catchError(() => of([])),
     map((keywords) => {
       return new Comment({
         body: options.body,
         tag: options.tag,
         questionerName: options.questionerName,
-        roomId: room.value().id,
+        roomId: r.id,
         creatorId: user().id,
         commentReference: options.commentReference,
         brainstormingSessionId: null,
