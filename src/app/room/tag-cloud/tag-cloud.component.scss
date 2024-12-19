@@ -1,3 +1,4 @@
+@use "sass:math";
 $header-size: 56px;
 $margin: 15px;
 
@@ -45,28 +46,34 @@ app-tag-cloud-pop-up {
   cursor: pointer;
 }
 
+$padding: 1em;
+$footer-height: 80px;
+$fab-size-small: 40px;
+$fab-size: 56px;
+
 .start_introduction {
   position: fixed;
-  left: 35px;
-  bottom: 35px;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-  transform: scale(1.4);
-  transition: all 0.1s ease-in-out;
+  right: calc(#{$padding});
+  bottom: $padding;
   z-index: 2;
+  // small secondary fab
+  --mat-fab-foreground-color: var(--mat-sys-secondary);
+  --mdc-fab-container-color: var(--mat-sys-secondary-container);
+  --mdc-fab-container-shape: 12px;
+  width: 40px;
+  height: 40px;
 
-  &:hover {
-    background-color: transparent;
-    color: var(--secondary);
-    outline: var(--secondary) solid 2px;
+  &.stacked {
+    right: calc(#{$padding} + #{math.div($fab-size - $fab-size-small, 2)});
+    bottom: calc(#{2 * $padding} + #{$footer-height} + #{$fab-size});
   }
 }
 
 .fab_add_comment {
   position: fixed;
-  right: 35px;
-  bottom: 115px;
-  transition: all 0.5s ease-in-out;
+  left: calc(50% + var(--nav-drawer-width) / 2);
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
 
   &.center_screen {
@@ -80,6 +87,32 @@ app-tag-cloud-pop-up {
     top: calc(100% + 1em);
     width: max-content;
     font-size: 1.35em;
+  }
+
+  &.mobile {
+    animation: moveRightDown 1.5s ease-in-out 1s forwards;
+  }
+
+  &.desktop {
+    animation: moveLeftUp 1.5s ease-in-out 1s forwards;
+  }
+}
+
+@keyframes moveRightDown {
+  to {
+    left: calc(100% - #{math.div($fab-size, 2)} - #{$padding});
+    top: calc(
+      100% - #{math.div($fab-size, 2)} - #{$padding} - #{$footer-height}
+    );
+  }
+}
+
+@keyframes moveLeftUp {
+  to {
+    left: calc(
+      var(--nav-drawer-width) + #{math.div($fab-size, 2)} + #{$padding}
+    );
+    top: 108px;
   }
 }
 
@@ -103,10 +136,6 @@ app-tag-cloud-pop-up {
   padding: 0 0.5em;
   transition: inset 0.5s ease;
   hyphens: auto;
-
-  &.active {
-    /* Zusätzliche Stile für den aktiven Zustand */
-  }
 }
 
 /* abril-fatface-regular - latin-ext */

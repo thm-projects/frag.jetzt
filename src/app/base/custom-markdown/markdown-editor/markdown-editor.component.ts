@@ -14,6 +14,7 @@ import {
   inject,
   input,
   model,
+  output,
   signal,
   untracked,
   viewChild,
@@ -27,6 +28,11 @@ import { language } from 'app/base/language/language';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
 import { ToolbarItemOptions } from '@toast-ui/editor/types/ui';
 
+const htmlToText = (html: string) => {
+  return new DOMParser().parseFromString(html, 'text/html').documentElement
+    .innerText;
+};
+
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
@@ -36,6 +42,7 @@ import { ToolbarItemOptions } from '@toast-ui/editor/types/ui';
 export class MarkdownEditorComponent implements AfterViewInit {
   data = model<string>('');
   additionalInfo = input<TemplateRef<unknown>>();
+  textData = output<string>();
   protected editorElement =
     viewChild.required<ElementRef<HTMLDivElement>>('editorElem');
   protected additionalElement =
@@ -81,7 +88,11 @@ export class MarkdownEditorComponent implements AfterViewInit {
         }) as Editor;
 
         const e = this.editor;
-        e.on('change', () => this.data.set(e.getMarkdown()));
+        this.textData.emit(htmlToText(e.getHTML()));
+        e.on('change', () => {
+          this.textData.emit(htmlToText(e.getHTML()));
+          this.data.set(e.getMarkdown());
+        });
         e.on('changeMode', (mode) => this.editType.set(mode));
         e.on('changeToolbarState', ({ toolbarState }) => {
           this.toolbarState.set(toolbarState);
