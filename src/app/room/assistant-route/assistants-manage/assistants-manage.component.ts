@@ -256,18 +256,22 @@ export class AssistantsManageComponent {
     if (!editing) {
       this.previousState.set(this.inputAssistant.getRawValue());
     }
-    const object = JSON.parse(assistant.override_json_settings);
+    const object = JSON.parse(assistant.override_json_settings || '{}');
+    const overrideSettings = Object.keys(object).map((key) => ({
+      property: key,
+      type: key === 'temperature' ? 'select' : 'text',
+      key: key,
+      value: object[key],
+      options: key === 'temperature' ? this.getTemperatureOptions() : [],
+    }));
     this.setGroupState({
       name: assistant.name,
       description: assistant.description,
       instruction: assistant.instruction,
       share_type: assistant.share_type,
       model_name: assistant.model_name,
-      provider_list: JSON.parse(assistant.provider_list),
-      override_json_settings: Object.keys(object).map((key) => ({
-        key,
-        value: object[key],
-      })),
+      provider_list: JSON.parse(assistant.provider_list || '[]'),
+      override_json_settings: overrideSettings,
     });
     this.loadedFiles = entry.files.map((v) => v.ref);
     this.files.set([...entry.files]);
@@ -294,38 +298,11 @@ export class AssistantsManageComponent {
       return;
     }
     if (key === 'temperature') {
-      const numberFormat = new Intl.NumberFormat(I18nLoader.getCurrentLocale());
       const newEntry = this.formBuilder.group({
         property: [key],
         type: ['select'],
         key: [key, Validators.required],
-        options: [
-          [
-            { value: 0, label: this.i18n().temperature.notCreative + ' (= 0)' },
-            {
-              value: 0.25,
-              label:
-                this.i18n().temperature.somewhatCreative +
-                ` (= ${numberFormat.format(0.25)})`,
-            },
-            {
-              value: 0.5,
-              label:
-                this.i18n().temperature.balanced +
-                ` (= ${numberFormat.format(0.5)})`,
-            },
-            {
-              value: 0.75,
-              label:
-                this.i18n().temperature.creative +
-                ` (= ${numberFormat.format(0.75)})`,
-            },
-            {
-              value: 1,
-              label: this.i18n().temperature.highlyCreative + ' (= 1)',
-            },
-          ],
-        ],
+        options: [this.getTemperatureOptions()],
         value: [0.5],
       });
       newEntry.get('key').disable();
@@ -650,7 +627,23 @@ export class AssistantsManageComponent {
       this.editing.set(null);
       const previous = this.previousState();
       this.previousState.set(null);
-      this.setGroupState(previous);
+      this.setGroupState(
+        previous as {
+          name: string;
+          description: string;
+          instruction: string;
+          share_type: ShareType;
+          model_name: string;
+          provider_list: string[];
+          override_json_settings: {
+            property: string;
+            type: string;
+            key: string;
+            value: string;
+            options: { value: number; label: string }[];
+          }[];
+        },
+      );
       return;
     }
     this.setGroupState({
@@ -664,24 +657,63 @@ export class AssistantsManageComponent {
     });
   }
 
-  private setGroupState(state: unknown) {
-    const length = state['override_json_settings']?.length || 0;
+  private setGroupState(state: {
+    name: string;
+    description: string;
+    instruction: string;
+    share_type: ShareType;
+    model_name: string;
+    provider_list: string[];
+    override_json_settings: {
+      property: string;
+      type: string;
+      key: string;
+      value: string;
+      options: { value: number; label: string }[];
+    }[];
+  }) {
+    const length = state.override_json_settings?.length || 0;
     const t = this.inputAssistant.get(
       'override_json_settings',
     ) as FormArray<FormGroup>;
+
+    // Adjust the FormArray size
     while (t.length > length) {
-      t.controls[0].markAsUntouched();
-      t.removeAt(0);
+      t.removeAt(t.length - 1);
     }
     while (t.length < length) {
       const group = this.formBuilder.group({
-        key: ['', Validators.required],
+        property: [''],
+        type: ['text'],
+        key: [{ value: '', disabled: true }, Validators.required],
         value: [''],
+        options: [[]],
       });
-      group.get('key').disable();
       t.push(group);
     }
-    this.inputAssistant.reset(state);
+
+    // Set values for each control in the FormArray
+    state.override_json_settings.forEach((item, index) => {
+      t.at(index).patchValue({
+        property: item.property || item.key,
+        type: item.type || 'text',
+        key: item.key,
+        value: item.value,
+        options: item.options || [],
+      });
+    });
+
+    // Set the values of the main form group
+    this.inputAssistant.patchValue({
+      name: state.name,
+      description: state.description,
+      instruction: state.instruction,
+      share_type: state.share_type,
+      model_name: state.model_name,
+      provider_list: state.provider_list,
+    });
+    // Mark controls as touched to update floating labels
+    this.inputAssistant.markAllAsTouched();
   }
 
   private loadAssistants() {
@@ -799,5 +831,33 @@ export class AssistantsManageComponent {
           })
         : '',
     ].filter(Boolean);
+  }
+
+  private getTemperatureOptions() {
+    const numberFormat = new Intl.NumberFormat(I18nLoader.getCurrentLocale());
+    return [
+      { value: 0, label: this.i18n().temperature.notCreative + ' (= 0)' },
+      {
+        value: 0.25,
+        label:
+          this.i18n().temperature.somewhatCreative +
+          ` (= ${numberFormat.format(0.25)})`,
+      },
+      {
+        value: 0.5,
+        label:
+          this.i18n().temperature.balanced + ` (= ${numberFormat.format(0.5)})`,
+      },
+      {
+        value: 0.75,
+        label:
+          this.i18n().temperature.creative +
+          ` (= ${numberFormat.format(0.75)})`,
+      },
+      {
+        value: 1,
+        label: this.i18n().temperature.highlyCreative + ' (= 1)',
+      },
+    ];
   }
 }
