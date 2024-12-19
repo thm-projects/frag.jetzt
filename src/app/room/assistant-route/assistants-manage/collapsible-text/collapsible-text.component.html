@@ -1,11 +1,15 @@
-<!-- prettier-ignore -->
-<span
-  [style.max-height]="maxHeight()"
-  #ref>{{ text() }}
+<div>
+  <p
+    [style.max-height]="maxHeight()"
+    [class.collapsed]="collapsed()"
+    [class.expanded]="!collapsed()"
+    #ref>
+    {{ text() }}
+  </p>
   <button
     mat-button
     (click)="toggle()"
     [class.hidden]="!canCollapse()">
     {{ collapsed() ? i18n().expand : i18n().collapse }}
   </button>
-</span>
+</div>
