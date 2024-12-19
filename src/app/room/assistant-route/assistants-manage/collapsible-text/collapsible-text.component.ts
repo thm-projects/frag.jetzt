@@ -48,11 +48,33 @@ export class CollapsibleTextComponent {
     if (!this.ref()) return;
     setTimeout(() => {
       const elem = this.ref().nativeElement;
-      if (elem.clientHeight !== elem.scrollHeight) {
+      // Temporarily remove 'max-height' to measure full content height
+      const prevMaxHeight = elem.style.maxHeight;
+      elem.style.maxHeight = '';
+      const contentHeight = elem.scrollHeight;
+      // Restore 'max-height'
+      elem.style.maxHeight = prevMaxHeight;
+
+      // Convert maxHeight to pixels
+      const maxHeightValue = this.maxHeight();
+      const maxHeightPixels = this.convertToPixels(maxHeightValue, elem);
+
+      if (contentHeight > maxHeightPixels) {
         this.canCollapse.set(true);
       } else {
+        this.canCollapse.set(false);
         this.collapsed.set(false);
       }
     });
+  }
+
+  private convertToPixels(value: string, element: HTMLElement): number {
+    // Create a temporary element
+    const tempDiv = document.createElement('div');
+    tempDiv.style.height = value;
+    element.appendChild(tempDiv);
+    const pixels = tempDiv.clientHeight;
+    element.removeChild(tempDiv);
+    return pixels;
   }
 }
