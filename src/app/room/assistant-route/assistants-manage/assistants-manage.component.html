@@ -40,7 +40,7 @@
             <button
               mat-button
               [disabled]="entry === editing() || saving()"
-              (click)="deleteAssistant(entry)">
+              (click)="openConfirmDeletionDialog(entry)">
               <mat-icon>delete</mat-icon>
               {{ i18n().delete }}
             </button>
