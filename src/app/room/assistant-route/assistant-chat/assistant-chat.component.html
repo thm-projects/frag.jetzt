@@ -16,7 +16,7 @@
     class="text-input"
     (input)="resize(textArea)"
     #textArea
-    placeholder="Follow up questions..."
+    placeholder="{{ i18n().followUpQuestions }}"
     (keydown)="onKeyDown($event)"></textarea>
 </div>
 <div class="actions">
