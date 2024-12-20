@@ -42,6 +42,16 @@
   }
 }
 
+mat-card-header {
+  margin-bottom: 15px;
+  display: unset;
+  mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 mat-divider {
   margin-block: 1em;
 }
