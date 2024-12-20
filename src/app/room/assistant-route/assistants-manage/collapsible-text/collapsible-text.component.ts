@@ -50,6 +50,7 @@ export class CollapsibleTextComponent {
       const textContentHeight = this.textRef.nativeElement.scrollHeight;
       const textContainerHeight = textContainer.clientHeight;
       this.canCollapse.set(textContentHeight > textContainerHeight);
+      this.collapsed.set(this.canCollapse());
     }, delay);
   }
 

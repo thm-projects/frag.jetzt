@@ -5,6 +5,7 @@ div {
 
   .text-wrapper {
     transition: max-height 0.5s ease;
+    align-self: flex-start;
 
     &.collapsed {
       overflow-y: hidden;
