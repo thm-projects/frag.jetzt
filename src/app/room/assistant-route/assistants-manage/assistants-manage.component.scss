@@ -42,6 +42,19 @@
   }
 }
 
+mat-card-header {
+  margin-bottom: 15px;
+  display: unset;
+  mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  mat-card-subtitle {
+    color: unset;
+  }
+}
+
 mat-divider {
   margin-block: 1em;
 }
@@ -126,4 +139,12 @@ mat-card-actions {
 .info-section-content {
   padding-left: 1em;
   padding-right: 1em;
+}
+
+::ng-deep .mat-mdc-select-value {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  color: var(--mat-sys-on-surface-variant);
 }
