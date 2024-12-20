@@ -1,23 +1,23 @@
-p {
-  margin-bottom: 0;
-  transition: max-height 0.5s ease;
-
-  &.collapsed {
-    overflow-y: hidden;
-    text-overflow: ellipsis;
-    mask-image: linear-gradient(to bottom, black 70%, transparent);
-  }
-
-  button {
-    margin-top: 0;
-    &.hidden {
-      display: none;
-    }
-  }
-}
-
 div {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .text-wrapper {
+    transition: max-height 0.5s ease;
+
+    &.collapsed {
+      overflow-y: hidden;
+      text-overflow: ellipsis;
+      mask-image: linear-gradient(to bottom, black 70%, transparent);
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  button {
+    margin-top: 0;
+  }
 }

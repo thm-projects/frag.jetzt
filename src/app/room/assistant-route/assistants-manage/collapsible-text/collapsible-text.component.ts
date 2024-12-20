@@ -8,73 +8,56 @@ import {
   input,
   signal,
   untracked,
-  viewChild,
+  ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-collapsible-text',
-  imports: [NgIf, MatButtonModule],
+  imports: [MatButtonModule],
   templateUrl: './collapsible-text.component.html',
   styleUrl: './collapsible-text.component.scss',
 })
 export class CollapsibleTextComponent {
   text = input.required<string>();
   maxHeight = input<string>('6em');
+
   protected readonly i18n = i18n;
-  protected readonly canCollapse = signal<boolean>(false);
+  protected readonly canCollapse = signal<boolean>(true);
   protected readonly collapsed = signal<boolean>(true);
-  private ref = viewChild<ElementRef<HTMLElement>>('ref');
+  protected readonly displayHeight = signal<string>(this.maxHeight());
+
+  @ViewChild('textWrapperRef', { static: true })
+  textWrapperRef!: ElementRef<HTMLElement>;
+  @ViewChild('textRef', { static: true }) textRef!: ElementRef<HTMLElement>;
 
   constructor() {
     effect(() => {
       this.text();
-      untracked(() => this.update());
+      untracked(() => this.checkCanCollapse());
     });
+  }
+
+  private checkCanCollapse() {
+    // This delay prevents a race condition. Without it, the heights of the text
+    // and container might be measured too early, resulting in them appearing
+    // equal. This would cause the component to not collapse when it should.
+    // The delay is minimal enough to not be noticeable to the user.
+    const delay = 20;
+    if (!this.textRef && !this.textWrapperRef) return;
+    setTimeout(() => {
+      const textContainer = this.textWrapperRef.nativeElement;
+      const textContentHeight = this.textRef.nativeElement.scrollHeight;
+      const textContainerHeight = textContainer.clientHeight;
+      this.canCollapse.set(textContentHeight > textContainerHeight);
+    }, delay);
   }
 
   protected toggle() {
-    if (!this.canCollapse()) return;
-    this.collapsed.set(!this.collapsed());
-    const elem = this.ref().nativeElement;
-    elem.style.setProperty(
-      'max-height',
-      this.collapsed() ? this.maxHeight() : `${elem.scrollHeight}px`,
+    this.collapsed.update((collapsed) => !collapsed);
+    const fullContentHeight = `${this.textWrapperRef.nativeElement.scrollHeight}px`;
+    this.displayHeight.set(
+      this.collapsed() ? this.maxHeight() : fullContentHeight,
     );
-  }
-
-  private update() {
-    if (!this.ref()) return;
-    setTimeout(() => {
-      const elem = this.ref().nativeElement;
-      // Temporarily remove 'max-height' to measure full content height
-      const prevMaxHeight = elem.style.maxHeight;
-      elem.style.maxHeight = '';
-      const contentHeight = elem.scrollHeight;
-      // Restore 'max-height'
-      elem.style.maxHeight = prevMaxHeight;
-
-      // Convert maxHeight to pixels
-      const maxHeightValue = this.maxHeight();
-      const maxHeightPixels = this.convertToPixels(maxHeightValue, elem);
-
-      if (contentHeight > maxHeightPixels) {
-        this.canCollapse.set(true);
-      } else {
-        this.canCollapse.set(false);
-        this.collapsed.set(false);
-      }
-    });
-  }
-
-  private convertToPixels(value: string, element: HTMLElement): number {
-    // Create a temporary element
-    const tempDiv = document.createElement('div');
-    tempDiv.style.height = value;
-    element.appendChild(tempDiv);
-    const pixels = tempDiv.clientHeight;
-    element.removeChild(tempDiv);
-    return pixels;
   }
 }

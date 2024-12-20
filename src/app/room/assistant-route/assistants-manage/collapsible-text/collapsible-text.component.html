@@ -1,17 +1,19 @@
 <div>
-  <p
-    [style.max-height]="maxHeight()"
+  <div
+    #textWrapperRef
+    class="text-wrapper"
     [class.collapsed]="collapsed()"
-    [class.expanded]="!collapsed()"
-    #ref>
-    {{ text() }}
-  </p>
-  <ng-container *ngIf="canCollapse()">
+    [style.max-height]="displayHeight()">
+    <p #textRef>
+      {{ text() }}
+    </p>
+  </div>
+  @if (canCollapse()) {
     <button
       mat-button
       (click)="toggle()"
       [class.hidden]="!canCollapse()">
       {{ collapsed() ? i18n().expand : i18n().collapse }}
     </button>
-  </ng-container>
+  }
 </div>
