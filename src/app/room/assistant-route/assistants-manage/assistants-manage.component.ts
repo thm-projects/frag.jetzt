@@ -643,35 +643,42 @@ export class AssistantsManageComponent {
             options: { value: number; label: string }[];
           }[];
         },
+        false, // Do not mark fields as touched when resetting
       );
       return;
     }
-    this.setGroupState({
-      name: '',
-      description: '',
-      instruction: '',
-      share_type: 'MINIMAL',
-      model_name: '',
-      provider_list: [],
-      override_json_settings: [],
-    });
+    this.setGroupState(
+      {
+        name: '',
+        description: '',
+        instruction: '',
+        share_type: 'MINIMAL',
+        model_name: '',
+        provider_list: [],
+        override_json_settings: [],
+      },
+      false, // Do not mark fields as touched when resetting
+    );
   }
 
-  private setGroupState(state: {
-    name: string;
-    description: string;
-    instruction: string;
-    share_type: ShareType;
-    model_name: string;
-    provider_list: string[];
-    override_json_settings: {
-      property: string;
-      type: string;
-      key: string;
-      value: string;
-      options: { value: number; label: string }[];
-    }[];
-  }) {
+  private setGroupState(
+    state: {
+      name: string;
+      description: string;
+      instruction: string;
+      share_type: ShareType;
+      model_name: string;
+      provider_list: string[];
+      override_json_settings: {
+        property: string;
+        type: string;
+        key: string;
+        value: string;
+        options: { value: number; label: string }[];
+      }[];
+    },
+    markAsTouched: boolean = true,
+  ) {
     const length = state.override_json_settings?.length || 0;
     const t = this.inputAssistant.get(
       'override_json_settings',
@@ -713,7 +720,12 @@ export class AssistantsManageComponent {
       provider_list: state.provider_list,
     });
     // Mark controls as touched to update floating labels
-    this.inputAssistant.markAllAsTouched();
+    if (markAsTouched) {
+      this.inputAssistant.markAllAsTouched();
+    } else {
+      this.inputAssistant.markAsPristine();
+      this.inputAssistant.markAsUntouched();
+    }
   }
 
   private loadAssistants() {
