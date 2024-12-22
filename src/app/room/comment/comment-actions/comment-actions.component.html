@@ -26,14 +26,14 @@
         class="primary"
         (click)="navigateUp()"
         [matTooltip]="i18n().oneLevelUpDescription">
-        <mat-icon>unfold_less</mat-icon>
+        <mat-icon>undo</mat-icon>
       </button>
     } @else {
       <button
         mat-button
         (click)="navigateUp()"
         [matTooltip]="i18n().oneLevelUpDescription">
-        <mat-icon>unfold_less</mat-icon>
+        <mat-icon>undo</mat-icon>
         {{ i18n().oneLevelUp }}
       </button>
     }

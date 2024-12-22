@@ -36,7 +36,7 @@
 .fab_add_comment {
   position: fixed;
   right: 20px;
-  bottom: 65px;
+  bottom: calc(80px + 1em);
   z-index: 1;
   transition: all 0.5s ease-in-out;
   min-width: unset;
@@ -83,10 +83,9 @@ button {
 }
 
 mat-icon {
-  font-size: 18px;
-  height: 18px;
-  width: 18px;
-  margin-right: 5px;
+  font-size: 24px;
+  height: 24px;
+  width: 24px;
 }
 
 .border-answer {
