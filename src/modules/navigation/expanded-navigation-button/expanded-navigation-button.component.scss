@@ -41,18 +41,17 @@
         font-size: 24px;
         width: 1em;
         height: 1em;
-        margin-right: 8px;
+        margin-right: 12px;
         min-width: 1em;
       }
 
       .overflow-cage {
         display: inline-flex;
-        overflow: hidden;
 
         .button-caption {
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
+          hyphens: auto;
+          text-align: left;
+          line-height: 1.4;
         }
       }
 
