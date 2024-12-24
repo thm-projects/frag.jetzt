@@ -1,3 +1,18 @@
+<p
+  style="
+    font-size: 20px;
+    color: var(--mat-sys-red);
+    font-weight: 500;
+    hyphens: auto;
+    justify-content: center;
+    display: flex;
+    padding: 0 16px;
+  ">
+  {{ "comment-list.moderation-title" | translate }}
+  {{ "room-page.session-id-lq-x" | translate }}{{ room?.name
+  }}{{ "room-page.session-id-rq" | translate }}
+</p>
+
 <div
   fxLayout="row"
   *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
