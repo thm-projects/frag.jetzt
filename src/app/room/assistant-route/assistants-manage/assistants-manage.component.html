@@ -375,7 +375,7 @@
         </mat-card-content>
         <mat-card-actions>
           <div style="display: flex; flex-wrap: wrap; gap: 8px">
-            <ng-container *ngIf="editing()">
+            @if (editing()) {
               <button
                 mat-stroked-button
                 type="button"
@@ -383,16 +383,16 @@
                 (click)="cancelEdit()">
                 {{ i18n().cancelEdit }}
               </button>
-            </ng-container>
+            }
             <span style="flex: 1"></span>
             <button
               mat-flat-button
               type="submit"
               [disabled]="saving() || uploadInfo()">
               {{ editing() ? i18n().confirmEdit : i18n().add }}
-              <ng-container *ngIf="saving()">
+              @if (saving()) {
                 <mat-spinner diameter="20"></mat-spinner>
-              </ng-container>
+              }
             </button>
           </div>
         </mat-card-actions>
