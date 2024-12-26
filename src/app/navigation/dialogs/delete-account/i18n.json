@@ -1,21 +1,21 @@
 {
   "key": "delete-account-dialog",
   "de": {
-    "title": "Account löschen",
-    "text": "Durch das Löschen Ihres Kontos gehen folgende Daten verloren:",
-    "rooms": "Räume",
+    "title": "Konto löschen",
+    "text": "Beim Löschen deines Kontos werden folgende Daten dauerhaft entfernt:",
+    "rooms": "Räume:",
     "tokens": "Bonuspunkte"
   },
   "en": {
     "title": "Delete account",
-    "text": "The following data will be lost if you delete your account:",
-    "rooms": "Rooms",
+    "text": "Deleting your account will permanently remove the following data:",
+    "rooms": "Rooms:",
     "tokens": "Bonus tokens"
   },
   "fr": {
     "title": "Supprimer le compte",
-    "text": "La suppression de votre compte entraîne la perte des données suivantes",
-    "rooms": "chambres",
+    "text": "La suppression de ton compte supprimera définitivement les données suivantes :",
+    "rooms": "Chambres :",
     "tokens": "Jetons de bonus"
   }
 }

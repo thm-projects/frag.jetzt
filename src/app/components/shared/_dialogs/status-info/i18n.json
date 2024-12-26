@@ -10,6 +10,6 @@
   },
   "fr": {
     "title": "Statut en ligne",
-    "message": "La couleur de la lampe indique le niveau d'utilisation : Vert signifie faible, Jaune modérée et Rouge élevée.\n\nConnexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLa plateforme est conçue pour environ 1 000 connexions actives simultanées."
+    "message": "La couleur de la lampe indique le niveau d'utilisation : Vert signifie faible, Jaune modérée et Rouge élevée.\n\nConnexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLa plateforme est conçue pour environ 1 000 connexions actives simultanées."
   }
 }
