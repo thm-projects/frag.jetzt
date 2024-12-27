@@ -374,27 +374,23 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <div>
-            @if (editing()) {
-              <button
-                style="margin-right: 10px"
-                mat-button
-                type="button"
-                [disabled]="saving() || uploadInfo()"
-                (click)="cancelEdit()">
-                {{ i18n().cancelEdit }}
-              </button>
-            }
+          @if (editing()) {
             <button
-              mat-flat-button
-              type="submit"
-              [disabled]="saving() || uploadInfo()">
-              {{ editing() ? i18n().confirmEdit : i18n().add }}
-              @if (saving()) {
-                <mat-spinner diameter="20"></mat-spinner>
-              }
+              style="margin-right: 10px"
+              mat-button
+              [disabled]="saving() || uploadInfo()"
+              (click)="cancelEdit()">
+              {{ i18n().cancelEdit }}
             </button>
-          </div>
+          }
+          <button
+            mat-flat-button
+            [disabled]="saving() || uploadInfo()">
+            {{ editing() ? i18n().confirmEdit : i18n().add }}
+            @if (saving()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            }
+          </button>
         </mat-card-actions>
       </mat-card>
     </form>
