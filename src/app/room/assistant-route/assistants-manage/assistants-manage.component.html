@@ -374,23 +374,17 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <div
-            style="
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: flex-end;
-              gap: 8px;
-            ">
+          <div>
             @if (editing()) {
               <button
                 mat-stroked-button
-                type="cancel"
+                type="button"
                 [disabled]="saving() || uploadInfo()"
                 (click)="cancelEdit()">
                 {{ i18n().cancelEdit }}
               </button>
+              <span style="flex: 1"></span>
             }
-            <span style="flex: 1"></span>
             <button
               mat-flat-button
               type="submit"
