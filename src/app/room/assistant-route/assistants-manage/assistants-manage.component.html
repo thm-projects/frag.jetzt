@@ -377,13 +377,13 @@
           <div>
             @if (editing()) {
               <button
-                mat-stroked-button
+                style="margin-right: 10px"
+                mat-button
                 type="button"
                 [disabled]="saving() || uploadInfo()"
                 (click)="cancelEdit()">
                 {{ i18n().cancelEdit }}
               </button>
-              <span style="flex: 1"></span>
             }
             <button
               mat-flat-button
