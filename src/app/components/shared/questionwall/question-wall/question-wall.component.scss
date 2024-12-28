@@ -26,7 +26,7 @@
   max-width: 100%;
   display: flex;
   overflow: auto;
-  padding: var(--m3-sys-layout-spacing-pane);
+  padding: 0 5em 5em;
   justify-content: flex-start;
 }
 
@@ -35,7 +35,7 @@
   max-width: 1600px;
   height: 0;
   flex-shrink: 1;
-  padding: 64px 0;
+  padding: 5em 0;
 }
 
 .view-placeholder {
