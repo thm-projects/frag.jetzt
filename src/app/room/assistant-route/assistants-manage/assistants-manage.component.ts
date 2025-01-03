@@ -199,10 +199,21 @@ export class AssistantsManageComponent {
         );
       });
     });
+
+    this.ref.keydownEvents().subscribe((event) => {
+      if (event.key === 'Escape') {
+        this.close();
+      }
+    });
+
+    this.ref.backdropClick().subscribe(() => {
+      this.close();
+    });
   }
 
   static open(dialog: MatDialog, mode: 'user' | 'platform' | 'room') {
     const ref = dialog.open(AssistantsManageComponent, {
+      disableClose: true,
       width: '100%',
       height: '100%',
       panelClass: 'full-screen-dialog',
