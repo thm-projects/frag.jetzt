@@ -9,20 +9,20 @@
     },
     "peer-instruction": {
       "second-round": "2ème tour du sondage",
-      "name": "$undefined",
+      "name": "»Peer Instruction«",
       "result-statistics": {
         "title": "Résultat",
         "result-1": "Premier sondage",
         "result-2": "Deuxième sondage",
         "start-next": "Démarrer 2ème tour du sondage",
-        "end": "$undefined"
+        "end": "Terminer"
       }
     },
     "edit": {
       "view-as-participant": "Aperçu du point de vue du participant:",
       "reset": "Reset",
-      "pause": "$undefined",
-      "delete": "$undefined",
+      "pause": "Mettre en pause",
+      "delete": "Supprimer",
       "continue": "Continuer",
       "close": "Fermer",
       "new": "Nouveau sondage",
