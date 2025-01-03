@@ -20,51 +20,58 @@ skinparam defaultFontSize 20
 skinparam Padding 8
 skinparam Nodesep 150
 skinparam ArrowColor DarkSlateGray
-
 hide methods
 hide empty members
 hide circle
 
-package "frag.jetzt | PLE domain diagram" <<Rectangle>> {
+rectangle "AI-Provider" <<external service>> {
 
+}
+rectangle "TopicExtractionProvider" <<external service>> {
+
+}
+
+rectangle "PLE domain diagram" {
   class "StudyRoom" {
     welcomeText
     name
     directLink
     settings
   }
-
   class Topic {
     topicNumber
     rating
   }
-
   class Conversation {
     threads
     aiAssistantContext
   }
-
   class "Learner" {
-
   }
-
   class "CoLearner" {
-
   }
-
-  class "AI-Assistant" <<webService>> {
-    [[https://platform.openai.com/docs/assistants/overview {used for automated answering} Link to an Example from OpenAI]]
+  class "AI-Assistant" <<USP>> {
+    name
+    description
+    behaviourInstructions
+    shareRestrictions
+    model
+    modelProvider
+    modelProperties
+    files
   }
-
-  "CoLearner" <|--down- "Learner"
-
-  Topic ---o Conversation
-
-  Conversation --.> "AI-Assistant" : <<use>>
-  Conversation ---left-* "StudyRoom"
+  class "TopicExtraction" {}
 
   "StudyRoom" -- "CoLearner"
-
+  "CoLearner" <|-down- "Learner"
+  "StudyRoom" *- Topic
+  "StudyRoom" *- Conversation
+  Conversation -.> "AI-Assistant" : <<use>>
+  "StudyRoom" *- "AI-Assistant"
+  Topic -o Conversation
+  Conversation -.> "TopicExtraction" : <<uses>>
+  "TopicExtraction" -.> "TopicExtractionProvider" : <<use>>
+  "AI-Assistant" -.> "AI-Provider" : <<use>>
 }
 
 legend right
@@ -74,8 +81,8 @@ legend right
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
-| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel, Sascha San Juan|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 21.11.2023 |
+| Last revision| 23.12.2024 |
 end legend
 @enduml
