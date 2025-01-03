@@ -1,6 +1,6 @@
 export const DefaultSliderConfig = {
-  min: 250,
+  min: 200,
   max: 1500,
   step: 50,
-  _default: 550,
+  _default: 350,
 };

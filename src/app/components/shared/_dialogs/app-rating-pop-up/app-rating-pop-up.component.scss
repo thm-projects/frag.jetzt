@@ -1,15 +1,19 @@
 .star_container {
   display: flex;
-  align-items: center;
   font-size: 1.2em;
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
+  align-items: center;
+  justify-content: center;
 
   .star_full {
     font-variation-settings: "FILL" 1;
   }
 
   > mat-icon {
-    color: var(--custom-stars);
+    font-size: 1.7em;
+    width: 1em;
+    height: 1em;
+    color: var(--mat-sys-yellow);
   }
 }
 

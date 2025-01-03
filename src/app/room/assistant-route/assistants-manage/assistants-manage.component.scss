@@ -110,8 +110,11 @@ mat-card {
   width: 100%;
 }
 
-mat-card-actions {
+.mat-mdc-card-actions {
+  display: flex;
+  padding: 8px;
   margin-top: 1em;
+  justify-content: flex-end;
 }
 
 h3 {

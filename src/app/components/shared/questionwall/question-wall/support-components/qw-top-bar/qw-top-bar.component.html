@@ -2,12 +2,6 @@
 <div class="row items-center gap-large">
   <div
     class="text-icon"
-    [matTooltip]="'question-wall.users-online' | translate">
-    <mat-icon>people</mat-icon>
-    {{ headerService.getCurrentUserActivity() || 0 }}
-  </div>
-  <div
-    class="text-icon"
     [matTooltip]="'question-wall.overview-question-tooltip' | translate">
     <mat-icon>comment</mat-icon>
     {{ session?.commentsCountQuestions }}

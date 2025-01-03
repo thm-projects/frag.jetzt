@@ -8,6 +8,6 @@
   @include m3-typescale.font-size(display, large);
 
   > .material-symbols-outlined {
-    @include m3-typescale.font-size(display, medium);
+    @include m3-typescale.font-size(display, large);
   }
 }
