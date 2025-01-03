@@ -6,6 +6,8 @@
     "fieldTooLong": "Eingabe zu lang",
     "name": "Name",
     "description": "Beschreibung",
+    "noDescription": "Keine Beschreibung gegeben.",
+    "noInstructions": "Keine Anweisungen gegeben.",
     "instruction": "Anweisung",
     "share": "Freigabe",
     "shares": {
@@ -57,6 +59,8 @@
     "fieldTooLong": "Input too long",
     "name": "Name",
     "description": "Description",
+    "noDescription": "No description provided.",
+    "noInstructions": "No instructions provided.",
     "instruction": "Instruction",
     "share": "Share",
     "shares": {
@@ -108,6 +112,8 @@
     "fieldTooLong": "Entrée trop longue",
     "name": "Nom",
     "description": "Description",
+    "noDescription": "Aucune description donnée.",
+    "noInstructions": "Aucune instruction donnée.",
     "instruction": "Instruction",
     "share": "Partager",
     "shares": {

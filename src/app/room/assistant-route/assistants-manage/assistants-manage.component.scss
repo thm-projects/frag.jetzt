@@ -50,6 +50,9 @@ mat-card-header {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  mat-card-subtitle {
+    color: unset;
+  }
 }
 
 mat-divider {
@@ -115,7 +118,6 @@ mat-card {
 }
 
 h3 {
-  padding-top: 0;
   margin-top: 0;
 }
 
@@ -123,4 +125,29 @@ h3 {
   border: 1px dashed var(--mat-sys-outline);
   border-radius: 5px;
   padding: 0.5em;
+}
+
+mat-card-actions {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+
+  @media (max-width: 400px) {
+    button {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+.info-section-content {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+::ng-deep .mat-mdc-select-value {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  color: var(--mat-sys-on-surface-variant);
 }
