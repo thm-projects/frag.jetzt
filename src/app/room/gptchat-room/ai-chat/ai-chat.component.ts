@@ -117,24 +117,24 @@ export class AiChatComponent {
   private roomState = inject(RoomStateService);
   private assistantFile = inject(AssistantFileService);
 
-  exampleTopics = [
+  exampleTopics = computed(() => [
     {
       emoji: '📚',
-      question: 'Wie lerne ich am effektivsten?',
+      question: this.i18n().exampleTopics.effectiveLearning,
     },
     {
       emoji: '🌱',
-      question: 'Wie lerne ich nachhaltig?',
+      question: this.i18n().exampleTopics.sustainableLearning,
     },
     {
       emoji: '⏰',
-      question: 'Wann lerne ich am besten?',
+      question: this.i18n().exampleTopics.bestTimeToLearn,
     },
     {
       emoji: '💡',
-      question: 'Wie überwinde ich Lernblockaden?',
+      question: this.i18n().exampleTopics.overcomeBlocks,
     },
-  ];
+  ]);
 
   constructor() {
     effect(() => {

@@ -26,21 +26,40 @@
             <mat-card-subtitle>{{ entry.meta.subtitle }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <app-collapsible-text [text]="entry.assistant.description" />
+            <section class="info-section">
+              <h3>{{ i18n().description }}</h3>
+              <div class="info-section-content">
+                <app-collapsible-text
+                  [text]="
+                    entry.assistant.description || i18n().noDescription
+                  " />
+              </div>
+            </section>
 
-            <h3>{{ i18n().instruction }}</h3>
-            <app-collapsible-text [text]="entry.assistant.instruction" />
+            <section class="info-section">
+              <h3>{{ i18n().instruction }}</h3>
+              <div class="info-section-content">
+                <app-collapsible-text
+                  [text]="
+                    entry.assistant.instruction || i18n().noInstructions
+                  " />
+              </div>
+            </section>
 
-            <h3>{{ i18n().moreInfo }}</h3>
-            @for (line of entry.meta.lines; track line) {
-              <p>{{ line }}</p>
-            }
+            <section class="info-section">
+              <h3>{{ i18n().moreInfo }}</h3>
+              <div class="info-section-content">
+                @for (line of entry.meta.lines; track line) {
+                  <p>{{ line }}</p>
+                }
+              </div>
+            </section>
           </mat-card-content>
           <mat-card-actions>
             <button
               mat-button
               [disabled]="entry === editing() || saving()"
-              (click)="deleteAssistant(entry)">
+              (click)="openConfirmDeletionDialog(entry)">
               <mat-icon>delete</mat-icon>
               {{ i18n().delete }}
             </button>
@@ -374,11 +393,10 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <span style="flex: 1"></span>
           @if (editing()) {
             <button
-              mat-stroked-button
-              type="button"
+              style="margin-right: 10px"
+              mat-button
               [disabled]="saving() || uploadInfo()"
               (click)="cancelEdit()">
               {{ i18n().cancelEdit }}
@@ -386,7 +404,6 @@
           }
           <button
             mat-flat-button
-            type="submit"
             [disabled]="saving() || uploadInfo()">
             {{ editing() ? i18n().confirmEdit : i18n().add }}
             @if (saving()) {

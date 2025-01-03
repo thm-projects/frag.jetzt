@@ -123,6 +123,8 @@
     "filter-approved": "Checked answers",
     "filter-chatgpt": "ChatGPT answers",
     "filter-wrong": "Negated questions",
+    "hits": "Results: ",
+    "moderation-title": "Content to be moderated from: ",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",

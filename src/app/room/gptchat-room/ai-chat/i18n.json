@@ -6,7 +6,7 @@
     "uploadedFiles": "Dateien ({{count}}): {{files}}",
     "deleted": "» Gelöscht «",
     "ref": "[{{num}}]: {{file}}",
-    "createAssistant": "Assistenten erstellen...",
+    "createAssistant": "Verwalte Assistenten...",
     "assistant": "Assistent",
     "title": "Hallo, was kann ich für dich tun?",
     "attachment": "Anhang",
@@ -14,7 +14,13 @@
     "disclaimer": "KI-Antworten können falsch oder veraltet sein.",
     "delete_conversation": "Konversation löschen",
     "follow": "Textausgabe folgen",
-    "unfollow": "Textausgabe nicht mehr folgen"
+    "unfollow": "Textausgabe nicht mehr folgen",
+    "exampleTopics": {
+      "effectiveLearning": "Wie lerne ich am effektivsten?",
+      "sustainableLearning": "Wie lerne ich nachhaltig?",
+      "bestTimeToLearn": "Wann lerne ich am besten?",
+      "overcomeBlocks": "Wie überwinde ich Lernblockaden?"
+    }
   },
   "en": {
     "input": "Chat input",
@@ -22,7 +28,7 @@
     "uploadedFiles": "Files ({{count}}): {{files}}",
     "deleted": "» Deleted «",
     "ref": "[{{num}}]: {{file}}",
-    "createAssistant": "Create assistant...",
+    "createAssistant": "Manage assistants...",
     "assistant": "Assistant",
     "title": "Hello, how can I help you?",
     "attachment": "Attachment",
@@ -30,7 +36,13 @@
     "disclaimer": "AI responses may be inaccurate or outdated.",
     "delete_conversation": "Delete conversation",
     "follow": "Follow text output",
-    "unfollow": "No longer follow text output"
+    "unfollow": "No longer follow text output",
+    "exampleTopics": {
+      "effectiveLearning": "How can I learn most effectively?",
+      "sustainableLearning": "How can I learn sustainably?",
+      "bestTimeToLearn": "When do I learn best?",
+      "overcomeBlocks": "How do I overcome learning blocks?"
+    }
   },
   "fr": {
     "input": "Saisie du message",
@@ -38,7 +50,7 @@
     "uploadedFiles": "Fichiers ({{count}}): {{files}}",
     "deleted": "» Supprimé «",
     "ref": "[{{num}}]: {{file}}",
-    "createAssistant": "Créer un assistant...",
+    "createAssistant": "Gérer les assistants...",
     "assistant": "Assistant",
     "title": "Salut, que puis-je faire pour toi ?",
     "attachment": "Pièce jointe",
@@ -46,6 +58,12 @@
     "disclaimer": "Les réponses de l'IA peuvent être inexactes ou obsolètes.",
     "delete_conversation": "Supprimer la conversation",
     "follow": "Suivre l'édition du texte",
-    "unfollow": "Ne plus suivre l'édition du texte"
+    "unfollow": "Ne plus suivre l'édition du texte",
+    "exampleTopics": {
+      "effectiveLearning": "Comment puis-je apprendre le plus efficacement ?",
+      "sustainableLearning": "Comment puis-je apprendre durablement ?",
+      "bestTimeToLearn": "Quand est-ce que j'apprends le mieux ?",
+      "overcomeBlocks": "Comment surmonter les blocages d'apprentissage ?"
+    }
   }
 }

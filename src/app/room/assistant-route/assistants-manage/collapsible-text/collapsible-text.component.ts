@@ -8,7 +8,7 @@ import {
   input,
   signal,
   untracked,
-  viewChild,
+  ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -21,37 +21,44 @@ import { MatButtonModule } from '@angular/material/button';
 export class CollapsibleTextComponent {
   text = input.required<string>();
   maxHeight = input<string>('6em');
+
   protected readonly i18n = i18n;
-  protected readonly canCollapse = signal<boolean>(false);
+  protected readonly canCollapse = signal<boolean>(true);
   protected readonly collapsed = signal<boolean>(true);
-  private ref = viewChild<ElementRef<HTMLElement>>('ref');
+  protected readonly displayHeight = signal<string>(this.maxHeight());
+
+  @ViewChild('textWrapperRef', { static: true })
+  textWrapperRef!: ElementRef<HTMLElement>;
+  @ViewChild('textRef', { static: true }) textRef!: ElementRef<HTMLElement>;
 
   constructor() {
     effect(() => {
       this.text();
-      untracked(() => this.update());
+      untracked(() => this.checkCanCollapse());
     });
+  }
+
+  private checkCanCollapse() {
+    // This delay prevents a race condition. Without it, the heights of the text
+    // and container might be measured too early, resulting in them appearing
+    // equal. This would cause the component to not collapse when it should.
+    // The delay is minimal enough to not be noticeable to the user.
+    const delay = 20;
+    if (!this.textRef && !this.textWrapperRef) return;
+    setTimeout(() => {
+      const textContainer = this.textWrapperRef.nativeElement;
+      const textContentHeight = this.textRef.nativeElement.scrollHeight;
+      const textContainerHeight = textContainer.clientHeight;
+      this.canCollapse.set(textContentHeight > textContainerHeight);
+      this.collapsed.set(this.canCollapse());
+    }, delay);
   }
 
   protected toggle() {
-    if (!this.canCollapse()) return;
-    this.collapsed.set(!this.collapsed());
-    const elem = this.ref().nativeElement;
-    elem.style.setProperty(
-      'max-height',
-      this.collapsed() ? this.maxHeight() : `${elem.scrollHeight}px`,
+    this.collapsed.update((collapsed) => !collapsed);
+    const fullContentHeight = `${this.textWrapperRef.nativeElement.scrollHeight}px`;
+    this.displayHeight.set(
+      this.collapsed() ? this.maxHeight() : fullContentHeight,
     );
-  }
-
-  private update() {
-    if (!this.ref()) return;
-    setTimeout(() => {
-      const elem = this.ref().nativeElement;
-      if (elem.clientHeight !== elem.scrollHeight) {
-        this.canCollapse.set(true);
-      } else {
-        this.collapsed.set(false);
-      }
-    });
   }
 }

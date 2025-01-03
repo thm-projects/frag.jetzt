@@ -13,15 +13,14 @@ partition "Create a Study room" {
   start
 
   :go to frag.jetzt;
-  if(you have selected PLE?) then (yes)
-    if(Study room already exists?) then (yes)
-      :go to the Study room;
-    else (no)
-      :create a Study room;
-    endif
+  if(Study room already exists?) then (yes)
+    :go to the Study room;
   else (no)
-    :select PLE;
-    :create a Study room;
+    :Click on "Create a room";
+    :Enable or disable AI;
+    :Choose Student as role;
+    :Enter a room name;
+    :Create room by clicking "Create room";
   endif
   stop
 }
@@ -43,7 +42,7 @@ partition "Join Study room" {
 
 partition "Create topics" {
   start
-  floating note left: You are in the Study room.
+  floating note left: You are in an owned study room with AI enabled.
   :go to »Topic board«;
   (T)
   :open editor;
@@ -59,42 +58,117 @@ partition "Create topics" {
 
 |Learner|
 
-partition "Setup personal AI Assistant" {
+partition "Setup Rooms AI Assistant" {
   start
-  :go to »My AI Assistants«;
+  floating note left: While you are in a study room.
+  :go to »AI Assistant«;
   if (you have already created Assistant?) then (yes)
-    :Select AI Assistant;
+    :Select default AI Assistant;
+    stop
   else (no)
     :create AI Assistant;
   endif
-  if (you have already uploaded all data for the assistant?) then (yes)
-    :Save AI Assistant and set default;
-  else (no)
-    (U)
-    :Upload data;
-    if (want to upload more data?) then (yes)
-      (U)
-      detach
-    else (no)
-      :Save AI Assistant and set default;
+
+  (T)
+  fork
+    :Enter required information;
+  fork again
+    :Abort creation;
+    if (Was some data entered?) then (yes)
+      :Confirm abort;
+      if (Abort confirmed?) then (yes)
+        stop
+      else (no)
+        (t)
+        detach
+      endif
     endif
-  endif
+  fork again
+    if (Was adding of AI Assistant requested?) then (yes)
+      if (All required information is provided?) then (no)
+        (t)
+        detach
+      endif
+      if (Given information is valid?) then (no)
+        (t)
+        detach
+      endif
+      :Save and set new AI Assistant as default;
+      stop
+    else (no)
+      (T)
+      detach
+    endif
+  end fork
+  (T)
+  detach
+}
+
+partition "Edit existing Room AI Assistants" {
+  start
+  floating note left: You are in an owned study room with AI enabled.
+  :go to »AI Assistant«;
+  :Click on "Create AI Assistant";
+  :Click "Edit" on the Assistant you want to change;
+  (T)
+  fork
+    :Enter required information;
+  fork again
+    :Abort creation;
+    if (Was some data entered?) then (yes)
+      :Confirm abort;
+      if (Abort confirmed?) then (yes)
+        stop
+      else (no)
+        (t)
+        detach
+      endif
+    endif
+  fork again
+    if (Was adding of AI Assistant requested?) then (yes)
+      if (All required information is provided?) then (no)
+        (t)
+        detach
+      endif
+      if (Given information is valid?) then (no)
+        (t)
+        detach
+      endif
+      :Save and set edited AI Assistant as default;
+      stop
+    else (no)
+      (T)
+      detach
+    endif
+  end fork
+  (T)
+  detach
+}
+
+partition "Delete existing Room AI Assistants" {
+  start
+  floating note left: You are in an owned study room with AI enabled.
+  :go to »AI Assistant«;
+  :Click on "Create AI Assistant";
+  :Click "Delete" on the Assistant you want to delete;
   stop
 }
 
 |Co-Learner|
 
-partition "Answer question by AI Assistant" {
+partition "Answer question via Room AI Assistant" {
   start
-  :go to »Topic board«;
-  :select topic;
-  :press answer by "AI Assistant";
-  :verify answer;
-  :submit answer;
+  floating note left: While you are in a study room.
+  :Go to »Q&A board«;
+  :Select a Question;
+  :Press "Send to AI";
   (D)
-  if (want to deepen the conversation?) then (yes)
-    :ask more relevant questions;
-    :submit conversation to »Topic board«;
+  if (Want to answere the question by rooms default AI Assistant?) then (no)
+    :Choose select one alternative Assistant from "Assistant" menu;
+  endif
+  :Submit question to AI by clicking "Send";
+  if (Want to deepen the conversation?) then (yes)
+    :Ask the AI some follow up questions;
     (D)
     detach
   else (no)
@@ -102,6 +176,42 @@ partition "Answer question by AI Assistant" {
   endif
 }
 
+partition "Start new Chat with Room AI Assistant" {
+  start
+  floating note left: While you are in a study room with an AI Assistant.
+  :Go to »AI Assistant«;
+  :Enter your question in the chat textfield;
+  (D)
+  if (Want to answere the question by rooms default AI Assistant?) then (no)
+    :Choose select one alternative Assistant from "Assistant" menu;
+  endif
+  :Submit question to AI by clicking "Send";
+  if (Want to deepen the conversation?) then (yes)
+    :Ask the AI some follow up questions;
+    (D)
+    detach
+  else (no)
+    stop
+  endif
+}
+
+|Learner|
+
+partition "Chat with Platform AI Assistant" {
+  start
+  floating note left: While you are in the room overview.
+  :Press "AI Assistant" in navigation menu;
+  :Enter your question in the chat textfield;
+  :Submit the question to AI by clicking "Send";
+  (D)
+  if (Want to deepen the conversation?) then (yes)
+    :Ask the AI some follow up questions;
+    (D)
+    detach
+  else (no)
+    stop
+  endif
+}
 
 legend right
 |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« |
@@ -110,7 +220,7 @@ legend right
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
-| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel, Sascha San Juan|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 22.11.2023 |
+| Last revision| 23.12.2024 |
 end legend

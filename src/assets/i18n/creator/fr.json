@@ -123,6 +123,8 @@
     "filter-approved": "Réponses vérifiées",
     "filter-chatgpt": "Réponses ChatGPT",
     "filter-wrong": "Questions négatives",
+    "hits": "Résultats : ",
+    "moderation-title": "Contenu à modérer de : ",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour permettre de lire ou de présenter les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",

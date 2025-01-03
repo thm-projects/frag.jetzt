@@ -67,6 +67,8 @@ import { HttpEventType } from '@angular/common/http';
 import { resumeWith, UUID } from 'app/utils/ts-utils';
 import { assistants, selectAssistant } from '../state/assistant';
 import { MatDividerModule } from '@angular/material/divider';
+import { ConfirmDeletionDialogComponent } from './deletion-confirmation-dialog/confirm-deletion-dialog.component';
+import { DialogResult } from './deletion-confirmation-dialog/confirm-deletion-dialog.component';
 
 interface FileEntry {
   ref?: AssistantFile;
@@ -392,6 +394,16 @@ export class AssistantsManageComponent {
         );
         this.saving.set(false);
       },
+    });
+  }
+
+  openConfirmDeletionDialog(entry: AssistantEntry): void {
+    const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      if (result === 'confirmed') {
+        this.deleteAssistant(entry);
+      }
     });
   }
 

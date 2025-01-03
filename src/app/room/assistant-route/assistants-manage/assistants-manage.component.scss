@@ -42,6 +42,19 @@
   }
 }
 
+mat-card-header {
+  margin-bottom: 15px;
+  display: unset;
+  mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  mat-card-subtitle {
+    color: unset;
+  }
+}
+
 mat-divider {
   margin-block: 1em;
 }
@@ -97,12 +110,14 @@ mat-card {
   width: 100%;
 }
 
-mat-card-actions {
+.mat-mdc-card-actions {
+  display: flex;
+  padding: 8px;
   margin-top: 1em;
+  justify-content: flex-end;
 }
 
 h3 {
-  padding-top: 0;
   margin-top: 0;
 }
 
@@ -115,11 +130,24 @@ h3 {
 mat-card-actions {
   flex-wrap: wrap;
   display: flex;
-  gap: 8px; // 8dp gap according to Material Design 3 guidelines
+  gap: 8px;
 
   @media (max-width: 400px) {
     button {
       flex: 1 1 100%;
     }
   }
+}
+
+.info-section-content {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+::ng-deep .mat-mdc-select-value {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  color: var(--mat-sys-on-surface-variant);
 }

@@ -123,6 +123,8 @@
     "filter-approved": "Geprüfte Antworten",
     "filter-chatgpt": "ChatGPT-Antworten",
     "filter-wrong": "Verneinte Fragen",
+    "hits": "Ergebnisse: ",
+    "moderation-title": "Zu moderierende Inhalte aus: ",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
