@@ -3,19 +3,22 @@
   "de": {
     "send": "Senden",
     "assistent": "Assistent",
-    "create": "Verwalte Assistenten...",
-    "attach": "Datei anhängen"
+    "create": "Neuer Assistent",
+    "attach": "Datei anhängen",
+    "followUpQuestions": "Folgefragen..."
   },
   "en": {
     "send": "Send",
     "assistent": "Assistant",
-    "create": "Manage Assistants...",
-    "attach": "Attach Files"
+    "create": "New Assistant",
+    "attach": "Attach Files",
+    "followUpQuestions": "Follow up questions..."
   },
   "fr": {
     "send": "Envoyer",
     "assistent": "Assistant",
-    "create": "Gérer les assistants...",
-    "attach": "Joindre des fichiers"
+    "create": "Nouvel Assistant",
+    "attach": "Joindre des fichiers",
+    "followUpQuestions": "Questions de suivi..."
   }
 }
