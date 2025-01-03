@@ -3,19 +3,19 @@
   "de": {
     "send": "Senden",
     "assistent": "Assistent",
-    "create": "Neuer Assistent",
+    "create": "Verwalte Assistenten...",
     "attach": "Datei anhängen"
   },
   "en": {
     "send": "Send",
     "assistent": "Assistant",
-    "create": "New Assistant",
+    "create": "Manage Assistants...",
     "attach": "Attach Files"
   },
   "fr": {
     "send": "Envoyer",
     "assistent": "Assistant",
-    "create": "Nouvel Assistant",
+    "create": "Gérer les assistants...",
     "attach": "Joindre des fichiers"
   }
 }

@@ -18,7 +18,7 @@
     "yesterday": "Gestern",
     "previous_7_days": "In den letzten 7 Tagen",
     "older": "Älter",
-    "createAssistant": "Assistenten erstellen...",
+    "createAssistant": "Verwalte Assistenten...",
     "assistant": "Assistent"
   },
   "en": {
@@ -39,7 +39,7 @@
     "yesterday": "Yesterday",
     "previous_7_days": "Previous 7 Days",
     "older": "Older",
-    "createAssistant": "Create an assistant...",
+    "createAssistant": "Manage assistants...",
     "assistant": "Assistant"
   },
   "fr": {
@@ -60,7 +60,7 @@
     "yesterday": "Hier",
     "previous_7_days": "7 derniers jours",
     "older": "Plus ancien",
-    "createAssistant": "Créer un assistant...",
+    "createAssistant": "Gérer les assistants...",
     "assistant": "Assistant"
   }
 }
