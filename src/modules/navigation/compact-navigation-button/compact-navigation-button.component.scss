@@ -32,7 +32,6 @@
   .button-caption {
     white-space: normal;
     word-break: break-word;
-    hyphens: auto;
     text-align: center;
     @include m3-typescale.typescale(body, small);
   }
