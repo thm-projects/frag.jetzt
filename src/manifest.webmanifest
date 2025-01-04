@@ -1,7 +1,7 @@
 {
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
-  "description": "Revolutionizing the way we ask questions and receive AI-driven answers, 'frag.jetzt' is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
+  "description": "Revolutionizing the way we ask questions and receive AI-driven answers, »frag.jetzt« is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
   "categories": [
     "ChatGPT",
     "AI Assistants",
@@ -91,25 +91,36 @@
       "src": "/assets/images/frag.jetzt_startpage.png",
       "sizes": "720x1280",
       "type": "image/png",
+      "form_factor": "narrow",
       "label": "Startpage of frag.jetzt"
     },
     {
       "src": "/assets/images/frag.jetzt_Feedback_room.png",
       "sizes": "720x1280",
       "type": "image/png",
+      "form_factor": "narrow",
       "label": "Feedback Room of frag.jetzt"
     },
     {
       "src": "/assets/images/frag.jetzt_Q&A_forum.png",
       "sizes": "720x1280",
       "type": "image/png",
+      "form_factor": "narrow",
       "label": "Q&A Forum of frag.jetzt"
     },
     {
       "src": "/assets/images/frag.jetzt_ChatGPT_room.png",
       "sizes": "720x1280",
       "type": "image/png",
+      "form_factor": "narrow",
       "label": "ChatGPT Room of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_startpage_wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Startpage of frag.jetzt on a wide screen"
     }
   ]
 }

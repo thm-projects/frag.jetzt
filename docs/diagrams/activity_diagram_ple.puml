@@ -20,7 +20,7 @@ partition "Create a Study room" {
     :Enable or disable AI;
     :Choose Student as role;
     :Enter a room name;
-    :Create room by clicking "Create room";
+    :Create a room by clicking "Create a room";
   endif
   stop
 }

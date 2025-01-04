@@ -20,12 +20,12 @@
     "a11yLogout": "Abmelden"
   },
   "en": {
-    "title": "Create room",
+    "title": "Create a room",
     "previous":"Previous",
     "next": "Next",
-    "confirm": "Create room",
+    "confirm": "Create a room",
     "resetAll": "Reset everything",
-    "completeText": "Click »Create room« to save the room configuration.",
+    "completeText": "Click »Create a room« to save the room configuration.",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}",
     "elemTitle": "Activate AI assistant",
