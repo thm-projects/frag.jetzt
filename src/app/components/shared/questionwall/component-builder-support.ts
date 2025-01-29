@@ -81,7 +81,6 @@ export function createComponentBuilder(config: {
     },
     destroyAll(): Observable<void> {
       const currentComponents = [...attachedComponents];
-      console.log('request destroy all');
       if (currentComponents.length === 0) {
         return of(undefined);
       }

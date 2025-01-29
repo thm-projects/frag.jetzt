@@ -14,7 +14,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ModeratorsComponent } from '../shared/_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from './_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
-import { TagsComponent } from './_dialogs/tags/tags.component';
 import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-delete.component';
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
@@ -65,7 +64,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,
-    TagsComponent,
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
     DeleteCommentComponent,

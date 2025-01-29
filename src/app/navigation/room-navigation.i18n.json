@@ -35,7 +35,8 @@
         "features": "Features aktivieren",
         "welcomeText": "Willkommenstext",
         "moderators": "Moderationszugang",
-        "deleteRoom": "Raum löschen"
+        "deleteRoom": "Raum löschen",
+        "testModeration": "Moderationscheck"
       },
       "ai": {
         "title": "KI-Assistent",
@@ -80,7 +81,8 @@
         "features": "Activate Features",
         "welcomeText": "Welcome Text",
         "moderators": "Moderator Access",
-        "deleteRoom": "Delete Room"
+        "deleteRoom": "Delete Room",
+        "testModeration": "Moderation Test"
       },
       "ai": {
         "title": "AI Assistant",
@@ -125,7 +127,8 @@
         "features": "Activer les Fonctionnalités",
         "welcomeText": "Texte de Bienvenue",
         "moderators": "Accès Modérateur",
-        "deleteRoom": "Supprimer la Salle"
+        "deleteRoom": "Supprimer la Salle",
+        "testModeration": "Test de Modération"
       },
       "ai": {
         "title": "Assistants IA",

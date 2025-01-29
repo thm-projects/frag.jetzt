@@ -27,11 +27,6 @@ export class CompactNavigationButtonComponent {
   badgeSize = input<MatBadgeSize>('medium');
   badgeCount = input<number>(0);
   badgeOverlap = input<boolean>(true);
-  private injector = inject(Injector);
-
-  constructor() {
-    effect(() => {}, { injector: this.injector });
-  }
 
   get shouldBeHighlighted() {
     return this.badgeCount() > 0 && this.badgeSize() === 'small';

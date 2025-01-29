@@ -107,150 +107,38 @@ $translateY: - math.div($marginParent, 2);
   }
 }
 
-div > p {
-  margin-bottom: 1px;
-}
-
-span {
-  margin-right: 5px;
-
-  & > mat-icon {
-    margin: -1px 0px 0px 12px;
-    vertical-align: middle;
-  }
-
-  & > p {
-    display: inline;
-    vertical-align: middle;
-  }
-}
-
-ul {
-  margin: 0;
-}
-
-button {
-  color: var(--red);
-  min-width: unset;
-  margin-left: 0;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
 .vote-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
   min-width: 30px !important;
   min-height: 10px !important;
   width: calc(50% - 1em);
   z-index: 3;
   margin: 0.5em;
+}
 
-  &.active {
-    background-color: var(--green);
-    color: var(--black);
-
-    &.downvote {
-      background-color: var(--red);
-      color: var(--white);
-    }
-  }
-
-  span {
-    margin: 0 5px;
-
-    > mat-icon {
-      margin: 0 0.2em;
-    }
-  }
+.info-container {
+  display: flex;
+  align-items: center;
 }
 
 .replace-button,
 .open-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 2px;
-  min-width: 30px !important;
-  min-height: 30px !important;
-  width: auto;
   z-index: 3;
-  display: flex;
-  margin: 0 auto 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+  margin-inline: auto;
+  display: block;
 }
 
-::ng-deep .replacementContainer,
-::ng-deep .selectContainer {
-  align-self: center;
-  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-  .mat-form-field-infix {
-    min-width: 150px;
-    line-height: normal;
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-  .mat-form-field-wrapper {
-    margin: 1em 0 0 0;
-  }
+.inner-text {
+  margin-inline: 0.5em;
+  margin-block: 0;
+  display: inline-block;
+  font-size: 16px;
+  vertical-align: super;
 }
 
-mat-form-field {
-  border-radius: 5px;
-  line-height: 80%;
-  caret-color: var(--on-surface);
-  appearance: textarea;
-  min-height: 30px;
-  min-width: 140px;
-  cursor: text;
-  color: var(--on-dialog);
-  background-color: var(--dialog);
-  margin-top: 0.2em;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-#replacement {
-  color: var(--on-dialog);
-  background-color: var(--dialog);
-  border-radius: 5px;
-}
-
-.mat-mdc-unelevated-button.mat-primary.mat-button-disabled,
-.mat-flat-button.mat-accent.mat-button-disabled,
-.mat-flat-button.mat-warn.mat-button-disabled,
-.mat-flat-button.mat-button-disabled.mat-button-disabled,
-.mat-mdc-raised-button.mat-primary.mat-button-disabled,
-.mat-raised-button.mat-accent.mat-button-disabled,
-.mat-raised-button.mat-warn.mat-button-disabled,
-.mat-raised-button.mat-button-disabled.mat-button-disabled,
-.mat-mdc-fab.mat-primary.mat-button-disabled,
-.mat-fab.mat-accent.mat-button-disabled,
-.mat-fab.mat-warn.mat-button-disabled,
-.mat-fab.mat-button-disabled.mat-button-disabled,
-.mat-mdc-mini-fab.mat-primary.mat-button-disabled,
-.mat-mini-fab.mat-accent.mat-button-disabled,
-.mat-mini-fab.mat-warn.mat-button-disabled,
-.mat-mini-fab.mat-button-disabled.mat-button-disabled {
-  display: none;
-}
-
-.open-button .mat-badge-content {
-  left: -2em !important;
-  top: -1em !important;
-}
-
-.responseCountBadge {
-  width: 0;
-
-  > .mat-badge-content {
-    background-color: var(--primary);
-    color: var(--on-primary);
-    left: -1.5em !important;
-    top: 1em !important;
-  }
+:host ::ng-deep .mat-badge-content {
+  --mat-badge-small-size-container-size: 0.9rem;
+  box-shadow:
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }

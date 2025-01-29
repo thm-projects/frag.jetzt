@@ -101,6 +101,23 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
     public readonly cdr: ChangeDetectorRef,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
+    const next = () => {
+      if (!this.session?.adjacentComments[1]) return;
+      this.session.focus.next(this.session.adjacentComments[1].comment);
+    };
+    const prev = () => {
+      if (!this.session?.adjacentComments[0]) return;
+      this.session.focus.next(this.session.adjacentComments[0].comment);
+    };
+    this.keySupport.addKeyEvent('ArrowLeft', prev);
+    this.keySupport.addKeyEvent('ArrowUp', prev);
+    this.keySupport.addKeyEvent('ArrowRight', next);
+    this.keySupport.addKeyEvent('ArrowDown', next);
+    this.keySupport.addKeyEvent(' ', next);
+    this.keySupport.addKeyEvent(
+      'q',
+      () => (this.session.qrcode = !this.session.qrcode),
+    );
     this.session = self.createSession(
       createCommentListSupport(
         FilteredDataAccess.buildNormalAccess(
@@ -112,9 +129,7 @@ export class QuestionWallComponent implements OnInit, OnDestroy {
       ),
       this.destroyer,
     );
-    this.session.focus.subscribe((focus) => {
-      console.log(focus);
-    });
+    this.session.focus.subscribe(() => {});
     this.initNavigation();
   }
 
