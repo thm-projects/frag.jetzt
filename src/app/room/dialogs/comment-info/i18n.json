@@ -1,0 +1,45 @@
+{
+  "key": "comment-info",
+  "de": {
+    "title": "Mehr anpassen?",
+    "category": "Kategorie",
+    "noCategory": "Ohne",
+    "keywords": "Stichwörter",
+    "newKeyword": "Neues Stichwort",
+    "addKeyword": "Hinzufügen",
+    "noValidKeyword": "Gib ein gültiges Stichwort ein",
+    "deleteKeyword": "Löschen",
+    "noKeywords": "Keine Stichwörter vorhanden",
+    "goBack": "Zurück",
+    "send": "Absenden",
+    "alreadyPresent": "Stichwort bereits vorhanden"
+  },
+  "en": {
+    "title": "Customize more?",
+    "category": "Category",
+    "noCategory": "None",
+    "keywords": "Keywords",
+    "newKeyword": "New keyword",
+    "addKeyword": "Add",
+    "noValidKeyword": "Enter a valid keyword",
+    "deleteKeyword": "Delete",
+    "noKeywords": "No keywords available",
+    "goBack": "Go back",
+    "send": "Send",
+    "alreadyPresent": "Keyword already present"
+  },
+  "fr": {
+    "title": "Adapter davantage ?",
+    "category": "Catégorie",
+    "noCategory": "Aucune",
+    "keywords": "Mots clés",
+    "newKeyword": "Nouveau mot clé",
+    "addKeyword": "Ajouter",
+    "noValidKeyword": "Entrer un mot clé valide",
+    "deleteKeyword": "Supprimer",
+    "noKeywords": "Aucun mot clé disponible",
+    "goBack": "Retour",
+    "send": "Envoyer",
+    "alreadyPresent": "Mot clé déjà présent"
+  }
+}

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../../../services/util/session.service';
-import { TagsComponent } from '../tags/tags.component';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { RoomService } from '../../../../services/http/room.service';
@@ -11,6 +10,7 @@ import {
 import { UserRole } from 'app/models/user-roles.enum';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CategoryListCreatorComponent } from 'app/room/dialogs/category-list-creator/category-list-creator.component';
 
 @Component({
   selector: 'app-edit-comment-tag',
@@ -45,35 +45,7 @@ export class EditCommentTagComponent implements OnInit, OnDestroy {
   }
 
   openAllTags(): void {
-    const dialogRef = this.dialog.open(TagsComponent, {
-      width: '400px',
-    });
-    dialogRef.componentInstance.tags = this.sessionInfo.currentRoom?.tags || [];
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result || result === 'abort') {
-        return;
-      }
-      const room = this.sessionInfo.currentRoom;
-      const previous = room.tags;
-      room.tags = result;
-      this.roomService.patchRoom(room.id, { tags: result }).subscribe({
-        next: () => {
-          this.translateService
-            .get('room-page.changes-successful')
-            .subscribe((msg) => {
-              this.notificationService.show(msg);
-            });
-        },
-        error: () => {
-          room.tags = previous;
-          this.translateService
-            .get('room-page.changes-gone-wrong')
-            .subscribe((msg) => {
-              this.notificationService.show(msg);
-            });
-        },
-      });
-    });
+    this.dialog.open(CategoryListCreatorComponent);
   }
 
   buildCloseDialogActionCallback(): () => void {

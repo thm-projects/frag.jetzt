@@ -1,0 +1,45 @@
+{
+  "key": "moderation-checker",
+  "de": {
+    "title": "Moderationstest",
+    "oldSystemSettings": "Alte Systemeinstellungen",
+    "partialWords": "Innerhalb eines Wortes zensieren",
+    "languageSpecific": "Sprachspezifische Filterung",
+    "no": "Nein",
+    "newSystemSettings": "Neue Systemeinstellungen",
+    "allowOpenai": "Erlaube OpenAI Moderation",
+    "textInput": "Texteingabe",
+    "text": "Text für Moderationstest",
+    "oldResults": "Alte Ergebnisse",
+    "newResults": "Neue Ergebnisse",
+    "flagged": "Angeschlagen?: {{flag}}"
+  },
+  "en": {
+    "title": "Moderation Checker",
+    "oldSystemSettings": "Old System Settings",
+    "partialWords": "Partial word censoring",
+    "languageSpecific": "Language specific filtering",
+    "no": "No",
+    "newSystemSettings": "New System Settings",
+    "allowOpenai": "Allow OpenAI Moderation",
+    "textInput": "Text input",
+    "text": "Text for Moderation Checker",
+    "oldResults": "Old Results",
+    "newResults": "New Results",
+    "flagged": "Flagged?: {{flag}}"
+  },
+  "fr": {
+    "title": "Test de modération",
+    "oldSystemSettings": "Anciennes paramètres du système",
+    "partialWords": "Censure de mots partiels",
+    "languageSpecific": "Filtrage spécifique à la langue",
+    "no": "Non",
+    "newSystemSettings": "Nouveaux paramètres du système",
+    "allowOpenai": "Autoriser la modération OpenAI",
+    "textInput": "Entrée de texte",
+    "text": "Texte pour le test de modération",
+    "oldResults": "Résultats anciens",
+    "newResults": "Résultats nouveaux",
+    "flagged": "Marqué?: {{flag}}"
+  }
+}

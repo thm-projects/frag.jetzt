@@ -1,0 +1,36 @@
+{
+  "key": "category-list-creator",
+  "de": {
+    "title": "Kategorien aus Beiträgen extrahieren",
+    "noItems": "Keine Kategorien vorhanden",
+    "categoryAddHeader": "Kategorienname",
+    "categoryAddButton": "Erstellen",
+    "categoryByAI": "Mit KI generieren",
+    "error": "Kategorie muss zwischen {{min}} und {{max}} Zeichen lang sein",
+    "charCount": "{{char}} / {{total}}",
+    "alreadyExists": "Kategorie bereits vorhanden",
+    "noChanges": "Es gab keine neuen Änderungen, Liste bleibt unverändert"
+  },
+  "en": {
+    "title": "Extract Categories from Posts",
+    "noItems": "No categories available",
+    "categoryAddHeader": "Category Name",
+    "categoryAddButton": "Create",
+    "categoryByAI": "Generate by AI",
+    "error": "Category must be between {{min}} and {{max}} characters long",
+    "charCount": "{{char}} / {{total}}",
+    "alreadyExists": "Category already exists",
+    "noChanges": "No new changes, list remains unchanged"
+  },
+  "fr": {
+    "title": "Extraire les catégories des articles",
+    "noItems": "Aucune catégorie disponible",
+    "categoryAddHeader": "Nom de la catégorie",
+    "categoryAddButton": "Créer",
+    "categoryByAI": "Générer par IA",
+    "error": "La catégorie doit faire entre {{min}} et {{max}} caractères",
+    "charCount": "{{char}} / {{total}}",
+    "alreadyExists": "La catégorie existe déjà",
+    "noChanges": "Aucune nouvelle modification, liste reste inchangée"
+  }
+}

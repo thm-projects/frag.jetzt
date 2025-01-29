@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { EventService } from 'app/services/util/event.service';
 import { SessionService } from 'app/services/util/session.service';
 import { UIComment } from 'app/room/state/comment-updates';
+import { afterUpdate } from 'app/room/state/room-updates';
 
 @Component({
   selector: 'app-comment-actions',
@@ -49,7 +50,11 @@ export class CommentActionsComponent {
   private assignedRole = toSignal(inject(RoomStateService).assignedRole$, {
     initialValue: 'Participant',
   });
-  protected readonly hasAI = computed(() => room.value()?.chatGptActive);
+  private updateCounter = signal(0);
+  protected readonly hasAI = computed(() => {
+    this.updateCounter();
+    return room.value()?.chatGptActive;
+  });
   protected readonly canReply = computed(() => {
     const c = this.comment();
     if (!c) return false;
@@ -88,6 +93,12 @@ export class CommentActionsComponent {
         value: this.dashboardNotificationService.hasCommentSubscription(c.id),
         state: 'valid',
       });
+    });
+    effect((onCleanup) => {
+      const sub1 = afterUpdate.subscribe(() => {
+        this.updateCounter.update((v) => v + 1);
+      });
+      onCleanup(() => sub1.unsubscribe());
     });
     sessionService
       .getGPTStatusOnce()
