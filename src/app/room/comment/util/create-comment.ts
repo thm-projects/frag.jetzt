@@ -24,6 +24,7 @@ import { i18nContext } from 'app/base/i18n/i18n-context';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateCommentComponent } from 'app/components/shared/_dialogs/create-comment/create-comment.component';
 import { CommentService } from 'app/services/http/comment.service';
+import { CommentInfoComponent } from 'app/room/dialogs/comment-info/comment-info.component';
 
 export interface CreateCommentOptions {
   body: Comment['body'];
@@ -71,17 +72,17 @@ const generateBrainstormingComment = (
     options.pureText,
     options.brainstormingSession.maxWordCount,
   );
-  if (!text.trim().length) {
-    options.injector.get(NotificationService).show(i18n().noContent);
-    return throwError(() => 'No word');
-  }
-  if (!text) {
+  if (text === null) {
     options.injector.get(NotificationService).show(
       i18nContext(i18n().wordLimitExceeded, {
         maxWordCount: String(options.brainstormingSession.maxWordCount),
       }),
     );
     return throwError(() => 'Word limit exceeded');
+  }
+  if (!text.trim().length) {
+    options.injector.get(NotificationService).show(i18n().noContent);
+    return throwError(() => 'No word');
   }
   // TODO: Lemmatize
   const service = options.injector.get(BrainstormingService);
@@ -123,6 +124,20 @@ const generateBrainstormingComment = (
   );
 };
 
+const openCheck = (
+  injector: Injector,
+  comment: Comment,
+): Observable<Comment> => {
+  const ref = CommentInfoComponent.open(injector, comment);
+  if (!ref) return of(comment);
+  return ref.afterClosed().pipe(
+    switchMap((result) => {
+      if (!result) return throwError(() => 'Abort');
+      return of(result);
+    }),
+  );
+};
+
 export const generateComment = (
   options: CreateCommentOptions,
 ): Observable<Comment> => {
@@ -130,41 +145,27 @@ export const generateComment = (
     return generateBrainstormingComment(options);
   }
   const r = room.value();
-  if (!r.keywordExtractionActive) {
-    return of(
-      new Comment({
-        body: options.body,
-        tag: options.tag,
-        questionerName: options.questionerName,
-        roomId: r.id,
-        creatorId: user().id,
-        commentReference: options.commentReference,
-        brainstormingSessionId: null,
-        brainstormingWordId: null,
-        keywordsFromSpacy: [],
-        keywordsFromQuestioner: [],
-        language: options.selectedLanguage,
-      }),
-    );
-  }
+  const c = new Comment({
+    body: options.body,
+    tag: options.tag,
+    questionerName: options.questionerName,
+    roomId: r.id,
+    creatorId: user().id,
+    commentReference: options.commentReference,
+    brainstormingSessionId: null,
+    brainstormingWordId: null,
+    keywordsFromSpacy: [],
+    keywordsFromQuestioner: [],
+    language: options.selectedLanguage,
+  });
   const service = options.injector.get(SimpleAIService);
-  return service.getKeywords(options.body, r.id).pipe(
+  return service.getKeywords(options.body).pipe(
     catchError(() => of([])),
     map((keywords) => {
-      return new Comment({
-        body: options.body,
-        tag: options.tag,
-        questionerName: options.questionerName,
-        roomId: r.id,
-        creatorId: user().id,
-        commentReference: options.commentReference,
-        brainstormingSessionId: null,
-        brainstormingWordId: null,
-        keywordsFromSpacy: keywords,
-        keywordsFromQuestioner: [],
-        language: options.selectedLanguage,
-      });
+      c.keywordsFromSpacy = keywords;
+      return c;
     }),
+    switchMap((c) => openCheck(options.injector, c)),
   );
 };
 

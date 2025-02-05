@@ -7,10 +7,17 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
-interface Keywords {
+export interface Keywords {
   keywords: string[];
   entities: string[];
   special: string[];
+}
+
+export interface ModerationResult {
+  detoxify: { [key: string]: number };
+  celadon: { [key: string]: number | string };
+  openai?: { [key: string]: number | boolean };
+  sentiment: [positive: number, neutral: number, negative: number];
 }
 
 @Injectable({
@@ -22,13 +29,19 @@ export class SimpleAIService extends BaseHttpService {
     improve: '/improve',
     keyword: '/keyword',
     invoke: '/invoke',
+    category: '/category',
+    extract: '/extract',
+    apply: '/apply',
+    similarity: '/similarity',
+    embed: '/embed',
+    moderate: '/moderate',
   };
 
   constructor(private http: HttpClient) {
     super();
   }
 
-  improveWriting(text: string, roomId: string) {
+  improveWriting(text: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.improve}${this.apiUrl.invoke}`;
     return this.http
       .post(
@@ -36,11 +49,6 @@ export class SimpleAIService extends BaseHttpService {
         {
           input: {
             text,
-          },
-          config: {
-            configurable: {
-              room_id: roomId,
-            },
           },
         },
         httpOptions,
@@ -51,7 +59,7 @@ export class SimpleAIService extends BaseHttpService {
       );
   }
 
-  getKeywords(text: string, roomId: string) {
+  getKeywords(text: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.keyword}${this.apiUrl.invoke}`;
     return this.http
       .post<Keywords>(
@@ -62,7 +70,6 @@ export class SimpleAIService extends BaseHttpService {
           },
           config: {
             configurable: {
-              room_id: roomId,
               allow_duplicates: false,
             },
           },
@@ -73,5 +80,64 @@ export class SimpleAIService extends BaseHttpService {
         tap(() => ''),
         map((x) => x['output']),
       );
+  }
+
+  extractCategories(texts: string[]) {
+    const url = `${this.apiUrl.base}${this.apiUrl.category}${this.apiUrl.extract}`;
+    return this.http
+      .post<{ categories: string[] }>(
+        url,
+        {
+          texts,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((e) => e.categories),
+      );
+  }
+
+  selectCategory(categories: string[], text: string) {
+    const url = `${this.apiUrl.base}${this.apiUrl.category}${this.apiUrl.apply}`;
+    return this.http
+      .post<{ category: string }>(
+        url,
+        {
+          categories,
+          text,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((e) => e.category),
+      );
+  }
+
+  getVectorEmbeddings(texts: string[]) {
+    const url = `${this.apiUrl.base}${this.apiUrl.similarity}${this.apiUrl.embed}`;
+    return this.http
+      .post<string[]>(
+        url,
+        {
+          texts,
+        },
+        httpOptions,
+      )
+      .pipe(tap(() => ''));
+  }
+
+  moderateContent(texts: string[], allowOpenai = false) {
+    const url = `${this.apiUrl.base}${this.apiUrl.moderate}/?allow_openai=${allowOpenai}`;
+    return this.http
+      .post<ModerationResult[]>(
+        url,
+        {
+          texts,
+        },
+        httpOptions,
+      )
+      .pipe(tap(() => ''));
   }
 }

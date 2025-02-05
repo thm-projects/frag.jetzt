@@ -243,18 +243,20 @@ export class QuestionWallService {
 
     function revalidateAdjacentComments() {
       const currentFocus = focus.value;
-      if (!currentFocus) {
-        adjacentComments[0] = undefined;
-        adjacentComments[1] = undefined;
-      } else {
-        for (let i = 0; i < filteredComments.length; i++) {
-          const comment = filteredComments[i];
-          if (comment.comment.id === currentFocus.id) {
-            adjacentComments[0] = filteredComments[i - 1];
-            adjacentComments[1] = filteredComments[i + 1];
-            return;
-          }
-        }
+      adjacentComments[0] = undefined;
+      adjacentComments[1] = undefined;
+      const found =
+        currentFocus &&
+        filteredComments.findIndex((c) => c.comment.id === currentFocus.id);
+      if (typeof found === 'number' && found >= 0) {
+        adjacentComments[0] = filteredComments[found - 1];
+        adjacentComments[1] = filteredComments[found + 1];
+      }
+      if (adjacentComments[0] === undefined) {
+        adjacentComments[0] = filteredComments[filteredComments.length - 1];
+      }
+      if (adjacentComments[1] === undefined) {
+        adjacentComments[1] = filteredComments[0];
       }
     }
 

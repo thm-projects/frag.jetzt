@@ -34,7 +34,6 @@ import { CommentSettingsDialog } from 'app/models/comment-settings-dialog';
 import { RoomService } from 'app/services/http/room.service';
 import { Room } from 'app/models/room';
 import { ToggleConversationComponent } from 'app/components/creator/_dialogs/toggle-conversation/toggle-conversation.component';
-import { TagsComponent } from 'app/components/creator/_dialogs/tags/tags.component';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
 import { RoomDeleteComponent } from 'app/components/creator/_dialogs/room-delete/room-delete.component';
 import { RoomDeleted } from 'app/models/events/room-deleted';
@@ -79,6 +78,8 @@ import {
 } from 'app/room/state/comment-updates';
 import { afterUpdate } from 'app/room/state/room-updates';
 import { room } from 'app/room/state/room';
+import { CategoryListCreatorComponent } from 'app/room/dialogs/category-list-creator/category-list-creator.component';
+import { ModerationCheckerComponent } from 'app/room/dialogs/moderation-checker/moderation-checker.component';
 const i18n = I18nLoader.loadModule(rawI18n);
 
 export const applyRoomNavigation = (injector: Injector): Observable<void> => {
@@ -388,7 +389,7 @@ export const getRoomNavigation = (
                     title: i18n.options.qa.categorys,
                     icon: 'sell',
                     onClick: () => {
-                      openRoomTags(room, injector);
+                      openAIRoomTags(injector);
                       return false;
                     },
                   },
@@ -476,6 +477,15 @@ export const getRoomNavigation = (
                     icon: 'waving_hand',
                     onClick: () => {
                       openEditDescription(room, injector);
+                      return false;
+                    },
+                  },
+                  {
+                    id: 'test-moderation',
+                    title: i18n.options.room.testModeration,
+                    icon: 'policy_alert',
+                    onClick: () => {
+                      ModerationCheckerComponent.open(injector);
                       return false;
                     },
                   },
@@ -594,26 +604,9 @@ const openConversation = (room: Room, injector: Injector) => {
   });
 };
 
-const openRoomTags = (room: Room, injector: Injector) => {
+const openAIRoomTags = (injector: Injector) => {
   const dialog = injector.get(MatDialog);
-  const dialogRef = dialog.open(TagsComponent, {
-    width: '400px',
-  });
-  const tags = [...(room.tags || [])];
-  const tagsBefore = [...tags];
-  dialogRef.componentInstance.tags = tags;
-  dialogRef.afterClosed().subscribe((result) => {
-    if (!result || result === 'abort') {
-      return;
-    }
-    if (
-      tagsBefore.length === result.length &&
-      tagsBefore.every((tag) => result.includes(tag))
-    ) {
-      return;
-    }
-    saveChanges(room.id, { tags: result }, injector);
-  });
+  dialog.open(CategoryListCreatorComponent);
 };
 
 const openBonusArchive = (room: Room, injector: Injector) => {
