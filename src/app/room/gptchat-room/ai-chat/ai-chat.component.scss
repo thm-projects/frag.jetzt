@@ -123,6 +123,27 @@ textarea {
   }
 }
 
+.ref-content {
+  display: flex;
+  gap: 1.5em;
+  overflow-x: scroll;
+}
+
+.ref-container {
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+  padding: 1em;
+  border-radius: 8px;
+  word-wrap: break-word;
+  width: 50%;
+  flex-shrink: 0;
+
+  > h2 {
+    padding: 0;
+    margin-top: 0;
+  }
+}
+
 .messages-container {
   overflow: scroll;
   padding: 24px;

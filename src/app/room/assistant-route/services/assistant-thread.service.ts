@@ -179,6 +179,21 @@ export class AssistantThreadService extends BaseHttpService {
 
   getMessages(threadId: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.thread}${this.apiUrl.messages}/${threadId}`;
-    return this.http.get<BaseMessage[]>(url, httpOptions).pipe(tap(() => ''));
+    return this.http.get<BaseMessage[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      map((messages) =>
+        messages.map((e) => {
+          if (typeof e.content === 'string') {
+            e.content = [e.content];
+          }
+          return e;
+        }),
+      ),
+    );
+  }
+
+  deleteThread(threadId: string) {
+    const url = `${this.apiUrl.base}${this.apiUrl.thread}/${threadId}`;
+    return this.http.delete(url, httpOptions);
   }
 }

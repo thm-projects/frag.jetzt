@@ -2,7 +2,6 @@ import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
 import {
-  AfterViewInit,
   Component,
   computed,
   effect,
@@ -13,6 +12,7 @@ import {
   output,
   Signal,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { MarkdownViewerComponent } from 'app/base/custom-markdown/markdown-viewer/markdown-viewer.component';
@@ -42,7 +42,7 @@ export interface Filter {
   styleUrl: './comment.component.scss',
   standalone: false,
 })
-export class CommentComponent implements AfterViewInit {
+export class CommentComponent {
   inputComment = input.required<UIComment>();
   filterSelect = output<Filter>();
   onlyShowUp = input(false);
@@ -62,8 +62,10 @@ export class CommentComponent implements AfterViewInit {
     viewChild<ElementRef<HTMLDivElement>>('contentWrapper');
   protected editor = viewChild(MarkdownViewerComponent);
   private ref = inject(ElementRef);
+  private readonly resize = new ResizeObserver(() => this.checkSize());
 
   constructor() {
+    // time
     effect((onCleanup) => {
       const c = this.comment();
       this.formattedDate = getActualDate(c.createdAt);
@@ -72,12 +74,13 @@ export class CommentComponent implements AfterViewInit {
       });
       onCleanup(() => sub.unsubscribe());
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.editor().renderedPreview$.subscribe(() => {
-      const div = this.contentWrapper().nativeElement;
-      this.isTaller.set(div.clientHeight < div.scrollHeight);
+    // resize
+    effect((onCleanup) => {
+      this.comment();
+      this.resize.disconnect();
+      const div = untracked(() => this.contentWrapper().nativeElement);
+      this.resize.observe(div);
+      onCleanup(() => this.resize.disconnect());
     });
   }
 
@@ -86,18 +89,26 @@ export class CommentComponent implements AfterViewInit {
   }
 
   protected expandSwitch() {
-    const div = this.contentWrapper().nativeElement;
-    div.style.setProperty(
-      '--height',
-      this.isExpanded() ? '' : `${div.scrollHeight}px`,
-    );
     this.isExpanded.update((v) => !v);
+    this.checkSize();
     if (!this.isExpanded()) {
       this.ref.nativeElement.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
         inline: 'nearest',
       });
+    }
+  }
+
+  protected checkSize() {
+    const expanded = this.isExpanded();
+    const div = this.contentWrapper().nativeElement;
+    const actualHeight = (div.firstElementChild as HTMLElement).offsetHeight;
+    if (expanded) {
+      div.style.setProperty('--height', `${actualHeight}px`);
+    } else {
+      div.style.setProperty('--height', '');
+      this.isTaller.set(div.clientHeight < actualHeight);
     }
   }
 

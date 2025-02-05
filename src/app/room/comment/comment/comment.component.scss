@@ -50,7 +50,7 @@ $comment-margin: 1em;
     // Custom size
     position: relative;
     height: var(--height, 10.5em);
-    overflow: hidden;
+    overflow-y: clip;
     transition: height 500ms var(--mat-sys-easing-emphasized);
 
     &.cut::before {

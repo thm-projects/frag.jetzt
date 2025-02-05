@@ -11,7 +11,7 @@
 
 <div
   *ngIf="
-    comments &&
+    comments() &&
     (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')
   ">
   <p
@@ -25,14 +25,14 @@
     class="counter-filtered"
     *ngIf="filterType || search">
     {{ "comment-list.hits" | translate }}
-    {{ comments.length }}
+    {{ comments().length }}
   </p>
 </div>
 
 <div
   fxLayout="row"
   *ngIf="
-    comments.length > 2 ||
+    comments().length > 2 ||
     filterType ||
     period !== 'All' ||
     search ||
@@ -89,11 +89,11 @@
       mat-icon-button
       class="icon-button"
       (click)="resetFiltering(); activateSearch()"
-      *ngIf="isMobile && !search && comments && comments.length > 0">
+      *ngIf="isMobile && !search && comments() && comments().length > 0">
       <mat-icon>search</mat-icon>
     </button>
 
-    @if (comments && comments.length > 2 && !search) {
+    @if (comments() && comments().length > 2 && !search) {
       <button
         id="sort-button"
         mat-icon-button
@@ -111,7 +111,7 @@
 
     @if (
       !search &&
-      ((comments && commentsFilteredByTimeLength > 2) || filterBrainstorming)
+      ((comments() && commentsFilteredByTimeLength > 2) || filterBrainstorming)
     ) {
       <button
         id="filter-button"
@@ -131,7 +131,7 @@
       </button>
     }
 
-    @if (!search && comments && (comments.length > 0 || period !== "All")) {
+    @if (!search && comments() && (comments().length > 0 || period !== "All")) {
       <button
         id="time-button"
         mat-icon-button
@@ -144,7 +144,7 @@
       </button>
     }
 
-    @if (!search && comments.length > 0) {
+    @if (!search && comments().length > 0) {
       @if (!freeze) {
         <button
           id="pause-comments"
@@ -571,7 +571,7 @@
   [room]="room"
   [isCommentListEmpty]="isCommentListEmpty()"
   [writeComment]="writeCommentBound"
-  [commentLength]="comments?.length"
+  [commentLength]="comments()?.length"
   [userRole]="userRole"></app-comment-list-fab>
 
 <app-mat-spinner-overlay
@@ -579,22 +579,23 @@
   [overlay]="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment
-    *ngFor="let current of getSlicedComments(); let i = index"
-    [appScrollIntoView]="current.comment.id === focusCommentId"
-    [inputComment]="current"
-    (filterSelect)="selectFilter($event)"></app-comment>
+  @for (current of slicedComments(); track current.comment.id; let i = $index) {
+    <app-comment
+      [appScrollIntoView]="current.comment.id === focusCommentId"
+      [inputComment]="current"
+      (filterSelect)="selectFilter($event)"></app-comment>
+  }
   <ars-mat-paginator
-    *ngIf="comments.length > 0"
-    [pageSize]="this.pageSize"
+    *ngIf="comments().length > 0"
+    [pageSize]="pageSize()"
     (page)="handlePageEvent($event)"
     [showFirstLastButtons]="showFirstLastButtons"
     [pageSizeOptions]="pageSizeOptions"
-    [pageIndex]="pageIndex"
-    [length]="comments.length"></ars-mat-paginator>
+    [pageIndex]="pageIndex()"
+    [length]="comments().length"></ars-mat-paginator>
   <ars-row
     [height]="64"
-    *ngIf="comments.length > 0"></ars-row>
+    *ngIf="comments().length > 0"></ars-row>
 </div>
 <!-- Active User Overlay -->
 <app-active-user
@@ -613,12 +614,12 @@
 
 <div
   *ngIf="
-    (filterType && comments.length === 0) ||
-    (comments &&
+    (filterType && comments().length === 0) ||
+    (comments() &&
       commentsFilteredByTimeLength === 0 &&
       period !== 'All' &&
       !isLoading &&
-      comments.length > 0)
+      comments().length > 0)
   "
   fxLayout="row"
   fxLayoutAlign="center center"

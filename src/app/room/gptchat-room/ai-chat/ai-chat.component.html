@@ -46,7 +46,7 @@
             </mat-card>
           } @else {
             @for (message of updatedMessages(); track message) {
-              @if (message.role === "user") {
+              @if (message.type === "human") {
                 <div class="message user-message">
                   <div class="message-content">
                     <div class="text-content">
@@ -91,6 +91,30 @@
                       @for (messageContent of message.chunks; track $index) {
                         <app-markdown-viewer
                           [data]="messageContent"></app-markdown-viewer>
+                      }
+                      @if (message.references.length) {
+                        <h1>{{ i18n().foundRefs }}</h1>
+                        <div class="ref-content">
+                          @for (
+                            reference of message.references;
+                            track reference.id;
+                            let i = $index
+                          ) {
+                            <div class="ref-container">
+                              <h2>
+                                {{
+                                  i18n().foundRef
+                                    | context
+                                      : { num: i + 1, file: reference.name }
+                                }}
+                              </h2>
+                              @for (e of reference.additional_infos; track e) {
+                                <p>{{ e }}</p>
+                              }
+                              {{ reference.text }}
+                            </div>
+                          }
+                        </div>
                       }
                     </div>
                   </div>

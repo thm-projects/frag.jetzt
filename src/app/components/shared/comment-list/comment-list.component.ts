@@ -2,11 +2,13 @@ import {
   AfterViewInit,
   Component,
   ComponentRef,
+  computed,
   ElementRef,
   inject,
   Injector,
   OnDestroy,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { Comment, numberSorter } from '../../../models/comment';
@@ -74,7 +76,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @ViewChild('qrCodeColors') qrCodeColors: ElementRef<HTMLDivElement>;
   AppComponent = AppComponent;
-  comments: UIComment[] = [];
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
@@ -95,8 +96,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   focusCommentId = '';
   sendCommentId = '';
   activeUsers = 0;
-  pageIndex = 0;
-  pageSize = 25;
   pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<
@@ -121,6 +120,14 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   canOpenGPT = false;
   consentGPT = false;
   isMobile = false;
+  protected readonly comments = signal<UIComment[]>([]);
+  protected readonly pageIndex = signal<number>(0);
+  protected readonly pageSize = signal<number>(25);
+  protected slicedComments = computed(() => {
+    const size = this.pageSize();
+    const start = this.pageIndex() * size;
+    return this.comments().slice(start, start + size);
+  });
   protected readonly user = user;
   protected writeCommentBound = this.writeComment.bind(this);
   private firstReceive = true;
@@ -174,8 +181,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pageIndex = e.pageIndex;
-    this.pageSize = e.pageSize;
+    this.pageIndex.set(e.pageIndex);
+    this.pageSize.set(e.pageSize);
   }
 
   ngOnInit() {
@@ -201,7 +208,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this._cloudFilterObject.dataFilter = filter;
     // this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
-    this.pageSize = data ? +data || this.pageSize : this.pageSize;
+    const currentSize = this.pageSize();
+    this.pageSize.set(data ? +data || currentSize : currentSize);
     user$.pipe(takeUntil(this._destroySubject)).subscribe((newUser) => {
       if (!newUser) {
         return;
@@ -316,11 +324,11 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onRefreshFiltering(): void {
-    this.comments = [...this._filterObject.getCurrentData()];
+    this.comments.set([...this._filterObject.getCurrentData()]);
     this.commentsFilteredByTimeLength =
       this._filterObject.getCurrentPeriodCount();
     this.isLoading = false;
-    if (this.comments.length > 0 && this.firstReceive) {
+    if (this.comments().length > 0 && this.firstReceive) {
       this.firstReceive = false;
       if (this._filterObject.dataFilter.currentSearch) {
         this.search = true;
@@ -341,7 +349,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       e.startsWith(value),
     );
     this.commentsWrittenByUsers.clear();
-    for (const comment of this.comments) {
+    for (const comment of this.comments()) {
       let set = this.commentsWrittenByUsers.get(comment.comment.creatorId);
       if (!set) {
         set = new Set<string>();
@@ -369,7 +377,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   resetFiltering() {
-    this.pageIndex = 0;
+    this.pageIndex.set(0);
     const filter = this._filterObject.dataFilter;
     filter.filterType = null;
     filter.filterCompare = undefined;
@@ -379,14 +387,14 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterByBrainstorming() {
-    this.pageIndex = 0;
+    this.pageIndex.set(0);
     const filter = this._filterObject.dataFilter;
     filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
     this._filterObject.dataFilter = filter;
   }
 
   applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
-    this.pageIndex = 0;
+    this.pageIndex.set(0);
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];
     filter.filterCompare = compare;
@@ -508,18 +516,11 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isCommentListEmpty(): boolean {
     return (
-      this.comments &&
+      this.comments() &&
       ((this.commentsFilteredByTimeLength < 1 && this.period === 'All') ||
-        this.comments.length === 0) &&
+        this.comments().length === 0) &&
       !this.isLoading
     );
-  }
-
-  getSlicedComments(): UIComment[] {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    this.hasGivenJoyride = false;
-    return this.comments.slice(start, end);
   }
 
   requestJoyride(comment: Comment): boolean {
@@ -534,7 +535,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentInfo() {
-    const answers = this.comments.reduce(
+    const answers = this.comments().reduce(
       (acc, c) =>
         acc +
         c.totalAnswerCount.participants +
@@ -543,7 +544,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       0,
     );
     return {
-      comments: this.comments.length,
+      comments: this.comments().length,
       answers,
       moderated: uiModeratedComments()?.rawComments?.length || 0,
     } as const;
@@ -644,11 +645,11 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!commentId) {
       return;
     }
-    const index = this.comments.findIndex((e) => e.comment.id === commentId);
+    const index = this.comments().findIndex((e) => e.comment.id === commentId);
     if (index < 0) {
       return;
     }
-    this.pageIndex = Math.floor(index / this.pageSize);
+    this.pageIndex.set(Math.floor(index / this.pageSize()));
     setTimeout(() => (this.focusCommentId = commentId), 100);
   }
 

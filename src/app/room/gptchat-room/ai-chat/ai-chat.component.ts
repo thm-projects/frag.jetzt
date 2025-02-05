@@ -23,7 +23,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   AssistantsService,
   FileObject,
-  Message,
 } from 'app/services/http/assistants.service';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { MatSelectModule } from '@angular/material/select';
@@ -42,10 +41,17 @@ import {
   AssistantFileService,
   UploadedFile,
 } from 'app/room/assistant-route/services/assistant-file.service';
+import { BaseMessage } from 'app/room/assistant-route/services/assistant-thread.service';
 
-interface OverriddenMessage extends Message {
+interface OverriddenMessage extends BaseMessage {
   chunks: string[];
   attached: [number, string][];
+  references: {
+    name: string;
+    text: string;
+    id: string;
+    additional_infos: string[];
+  }[];
 }
 
 interface FileReference {
@@ -76,7 +82,7 @@ interface FileReference {
   styleUrl: './ai-chat.component.scss',
 })
 export class AiChatComponent {
-  messages = input.required<Message[]>();
+  messages = input.required<BaseMessage[]>();
   deleteThread = output<void>();
   selectedThread = input.required<unknown | null>();
   canSend = input.required<boolean>();
@@ -91,12 +97,30 @@ export class AiChatComponent {
     const messages = this.messages() as OverriddenMessage[];
     const fileReference = this.fileReference();
     const startSize = fileReference.length;
+    let previous = null;
     messages.forEach((message) => {
-      message.chunks = this.chunkMessage(fileReference, message);
+      message.chunks = this.chunkMessage(fileReference, message, previous);
       message.attached =
-        message.attachments?.map((e) =>
-          this.getFile(fileReference, e.file_id),
+        (message.additional_kwargs?.attachments as unknown[])?.map((e) =>
+          this.getFile(fileReference, e as string),
         ) || [];
+      message.references =
+        message['artifact']?.['documents'].map((e) => {
+          const additional_infos: string[] = [];
+          for (const key of Object.keys(e['metadata'])) {
+            if (['id', 'ref_id', 'name'].includes(key)) {
+              continue;
+            }
+            additional_infos.push(`${key}: ${e['metadata'][key]}`);
+          }
+          return {
+            name: e['metadata']['name'],
+            id: e['metadata']['id'],
+            text: e['page_content'],
+            additional_infos,
+          };
+        }) || [];
+      previous = message;
     });
     if (startSize !== fileReference.length) {
       untracked(() => {
@@ -175,40 +199,35 @@ export class AiChatComponent {
   private chunkMessage(
     ref: FileReference[],
     message: OverriddenMessage,
+    previous: OverriddenMessage,
   ): string[] {
     const chunks: string[] = [];
     for (const entry of message.content) {
-      if (entry.type === 'text') {
-        let i = 0;
-        let newString = '';
-        const original = entry.text.value;
-        for (const annotation of entry.text.annotations) {
-          if (annotation.type === 'file_citation') {
-            const index = this.getFile(
-              ref,
-              annotation.file_citation.file_id,
-            )[0];
-            newString += original.slice(i, annotation.start_index);
-            newString += `<span class="file-ref">[${index}]</span>`;
-            i = annotation.end_index;
-          } else if (annotation.type === 'file_path') {
-            newString += original.slice(i, annotation.start_index);
-            newString += `[File 2](#${annotation.file_path.file_id})`;
-            i = annotation.end_index;
-          }
-        }
-        newString += original.slice(i);
-        chunks.push(newString);
-      } else if (entry.type === 'image_file') {
-        const str = this.downloadImage(ref, entry.image_file.file_id);
-        chunks.push(str);
-      } else if (entry.type === 'image_url') {
-        chunks.push(`![Image](${entry.image_url.url})`);
+      if (typeof entry === 'string') {
+        chunks.push(this.replaceRefernce(entry, previous));
+      } else if (entry['type'] === 'text') {
+        chunks.push(this.replaceRefernce(entry['text'] as string, previous));
       } else {
         console.error('Unknown entry type:', entry);
       }
     }
     return chunks;
+  }
+
+  private replaceRefernce(text: string, message: OverriddenMessage): string {
+    const regex = /†\[[0-9a-fA-F-]+\]†/gm;
+    let m: RegExpExecArray;
+    let lastIndex = 0;
+    let result = '';
+    while ((m = regex.exec(text)) !== null) {
+      const id = text.substring(m.index + 2, regex.lastIndex - 2);
+      const index = message?.references.findIndex((e) => e.id === id) ?? -1;
+      const ref = index < 0 ? '[?]' : `[${index + 1}]`;
+      result += text.substring(lastIndex, m.index) + ref;
+      lastIndex = regex.lastIndex;
+    }
+    result += text.substring(lastIndex);
+    return result;
   }
 
   private downloadImage(ref: FileReference[], fileId: string) {
@@ -248,7 +267,6 @@ export class AiChatComponent {
   }
 
   protected delete() {
-    console.log('1');
     this.deleteThread.emit();
   }
 

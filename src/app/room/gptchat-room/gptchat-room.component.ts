@@ -23,11 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { language } from 'app/base/language/language';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { Location } from '@angular/common';
-import {
-  Content,
-  Message,
-  UploadedFile,
-} from 'app/services/http/assistants.service';
+import { Content, UploadedFile } from 'app/services/http/assistants.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { ServerSentEvent } from 'app/utils/sse-client';
@@ -60,27 +56,8 @@ interface ThreadEntry {
   headLine: string;
   content: string;
   fetched: boolean;
-  messages: Message[];
+  messages: BaseMessage[];
 }
-
-const transformMessage = (m: BaseMessage): Message => {
-  const v = m.content;
-  const content: Content[] =
-    typeof v === 'string'
-      ? [
-          {
-            type: 'text',
-            text: { value: v, annotations: [] },
-          },
-        ]
-      : (v as unknown as Content[]);
-  const ids = (m.additional_kwargs?.attachments || []) as UUID[];
-  return {
-    role: m['type'] === 'human' ? 'user' : 'assistant',
-    content,
-    attachments: ids.map((id) => ({ file_id: id, tools: [] })),
-  } satisfies Message;
-};
 
 @Component({
   selector: 'app-gptchat-room',
@@ -93,7 +70,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   protected readonly sortedAssistRefs = sortedAssistants;
   protected readonly selectedAssistant = selectedAssistant;
   protected readonly selectAssistant = selectAssistant;
-  protected currentMessages = signal<Message[]>([]);
+  protected currentMessages = signal<BaseMessage[]>([]);
   protected selectedThread = signal<ThreadEntry | null>(null);
   protected threads = computed(() => {
     return (
@@ -104,7 +81,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           headLine: e.thread.name,
           content: '',
           fetched: Boolean(messages),
-          messages: messages?.map(transformMessage) || [],
+          messages: messages || [],
         } as ThreadEntry;
       }) || []
     );
@@ -156,7 +133,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         return;
       }
       loadMessages(thread.ref.id).subscribe((wrapped) => {
-        thread.messages = wrapped.messages().map(transformMessage);
+        thread.messages = wrapped.messages();
         thread.fetched = true;
         this.currentMessages.set([...thread.messages]);
       });
@@ -320,7 +297,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const roomId = this.roomState.getCurrentRoom().id;
     let data: Observable<unknown> = of(null);
     const message: InputMessage = {
-      content: msg,
+      content: [
+        {
+          type: 'text',
+          text: msg,
+        },
+      ],
       additional_kwargs: { attachments: files.map((f) => f.id) },
       type: 'human',
     };
@@ -338,7 +320,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         message,
       );
     }
-    let newMessage: Message = null;
+    let newMessage: BaseMessage = null;
     let messageCount = -1;
     data.subscribe({
       next: (data) => {
@@ -359,16 +341,21 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           this.selectedThread.set(threadEntry);
         } else if (sse.event === 'value') {
           const messages = sse.jsonData()['messages'] as BaseMessage[];
+          for (const message of messages) {
+            if (typeof message.content === 'string') {
+              message.content = [message.content];
+            }
+          }
           if (newMessage == null) {
             if (messages.length > messageCount) {
               this.selectedThread().messages.push(
-                transformMessage(messages[messages.length - 1]),
+                messages[messages.length - 1],
               );
               this.currentMessages.set([...this.selectedThread().messages]);
               messageCount = messages.length;
             }
           } else {
-            const v = transformMessage(messages[messages.length - 1]);
+            const v = messages[messages.length - 1];
             for (const key of Object.keys(v)) {
               newMessage[key] = v[key];
             }
@@ -378,22 +365,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
           newMessage = null;
         } else if (sse.event === 'message') {
           if (newMessage == null) {
-            newMessage = transformMessage(sse.jsonData() as BaseMessage);
+            newMessage = sse.jsonData() as BaseMessage;
             this.selectedThread().messages.push(newMessage);
             messageCount += 1;
           }
           const delta = sse.jsonData()['content'];
           if (!newMessage.content) {
-            newMessage.content = [];
+            newMessage.content = [delta];
+          } else {
+            (newMessage.content as unknown[])[0] += delta;
           }
-          const data = newMessage.content as Content[];
-          this.mergeObject(data, 0, {
-            type: 'text',
-            text: {
-              value: delta,
-              annotations: [],
-            },
-          });
           this.currentMessages.set([...this.selectedThread().messages]);
         } else {
           console.log('Unknown event', sse);
@@ -416,12 +397,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   }
 
   protected deleteThread() {
-    console.log('2');
-    // TODO: const t = this.selectedThread();
-    /*this.assistants.deleteThread(t.ref.id).subscribe({
+    const t = this.selectedThread();
+    this.assistantThread.deleteThread(t.ref.id).subscribe({
       next: () => {
-        this.threads.update((threads) => {
-          return threads.filter((e) => e.ref.id !== t.ref.id);
+        threads.update((threads) => {
+          return threads.filter((e) => e.thread.id !== t.ref.id);
         });
         if (this.selectedThread() === t) {
           this.selectedThread.set(null);
@@ -431,7 +411,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
         this.showError(this.makeError(err));
         console.error(err);
       },
-    });*/
+    });
   }
 
   private mergeObject(data: Content[], index: number, content: Content) {
