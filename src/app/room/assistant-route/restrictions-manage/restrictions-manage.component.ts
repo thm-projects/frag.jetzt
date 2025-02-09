@@ -229,7 +229,7 @@ export class RestrictionsManageComponent {
     if (!id) {
       start = (
         this.mode() === 'room'
-          ? this.restriction.createRoomRestriction(room().id)
+          ? this.restriction.createRoomRestriction(room.value().id)
           : this.restriction.createUserRestriction(user().id)
       ).pipe(map((r) => r.id));
     }

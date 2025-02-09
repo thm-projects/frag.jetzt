@@ -11,6 +11,7 @@ import { ChatGPTPromptPresetComponent } from './components/shared/chat-gptprompt
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
 import { TransactionComponent } from './paypal/transaction/transaction.component';
 import { UserOverviewComponent } from './user/user-overview/user-overview.component';
+import { APISetupComponent } from './user/apisetup/apisetup.component';
 const routes: Routes = [
   {
     path: '',
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: 'user/overview',
     component: UserOverviewComponent,
     title: 'user-overview',
+  },
+  {
+    path: 'user/api-setup',
+    component: APISetupComponent,
+    title: 'api-setup',
   },
   {
     path: 'imprint',

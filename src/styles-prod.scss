@@ -419,6 +419,10 @@ ul {
     --mdc-filled-button-label-text-color: var(--mat-sys-on-tertiary);
     --mdc-filled-button-container-color: var(--mat-sys-tertiary);
   }
+  &.error {
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-error);
+    --mdc-filled-button-container-color: var(--mat-sys-error);
+  }
 }
 
 // dialogs

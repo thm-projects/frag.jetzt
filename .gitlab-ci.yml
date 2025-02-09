@@ -7,6 +7,7 @@ stages:
   - codequality
   - build
   - deploy
+  - push_manifest
   - deploy_servers
 
 install:
@@ -171,6 +172,9 @@ deploy_frag_thm:
 
 .build_image_template:
   stage: deploy
+  only:
+    - staging
+    - master
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -181,16 +185,59 @@ deploy_frag_thm:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor
-      --context     "$CI_PROJECT_DIR"
-      --dockerfile  "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
-      --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-      --build-arg   "BUILD_DIR=$BUILD_DIR"
+      --custom-platform "$PLATFORM"
+      --context         "$CI_PROJECT_DIR"
+      --dockerfile      "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
+      --build-arg       "BUILD_DIR=$BUILD_DIR"
+      --build-arg       "TARGETPLATFORM=$PLATFORM"
+      --destination     "$IMAGE"
 
-build_image:
-  extends: .build_image_template
+
+.manifest:
+  stage: push_manifest
   only:
     - staging
     - master
+  tags:
+    - curl
+  before_script:
+    - PROJECT_URL="https://github.com/estesp/manifest-tool"
+    - VERSION="v1.0.3"
+    - ARTIFACT="manifest-tool-linux-amd64"
+    - URL="$PROJECT_URL/releases/download/$VERSION/$ARTIFACT"
+    - curl -L -o manifest-tool $URL
+    - chmod +x manifest-tool
+    - echo "$MANIFEST" > manifest.yml
+
+build_image_amd64:
+  extends: .build_image_template
+  variables:
+    PLATFORM: linux/amd64
+    IMAGE: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
+
+build_image_arm64:
+  extends: .build_image_template
+  variables:
+    PLATFORM: linux/arm64
+    IMAGE: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
+
+gitlab_registry_manifest:
+  extends: .manifest
+  variables:
+    MANIFEST: |
+      image: "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+      manifests:
+        - image: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
+          platform:
+            architecture: arm64
+            os: linux
+        - image: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
+          platform:
+            architecture: amd64
+            os: linux
+  script:
+    - ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-spec manifest.yml
+
 
 build_image_manual:
   extends: .build_image_template

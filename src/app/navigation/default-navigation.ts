@@ -79,7 +79,7 @@ export const getDefaultHeader = (
   const onlineStateService = injector.get(OnlineStateService);
   return combineLatest([
     user$,
-    toObservable(i18n),
+    toObservable(i18n, { injector }),
     onlineStateService.online$,
     hasRoomsOrTokens(user$, injector),
   ]).pipe(

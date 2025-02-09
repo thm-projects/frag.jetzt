@@ -1,0 +1,258 @@
+<div class="toolbar-container">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="close-button"
+      (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1 style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
+      {{ inputProvider() ? i18n().editTitle : i18n().title }}
+    </h1>
+    <span style="width: 3em"></span>
+    <button
+      style="flex-shrink: 0"
+      mat-flat-button
+      [disabled]="saving()"
+      (click)="save()">
+      {{ i18n().global.saveAndClose }}
+      @if (saving()) {
+        <mat-spinner class="button-spinner"></mat-spinner>
+      }
+    </button>
+  </mat-toolbar>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().provider }}</mat-label>
+      <mat-select
+        (valueChange)="onProviderChange($event)"
+        formControlName="provider"
+        [compareWith]="checkIsProvider">
+        @for (option of providers() | keyvalue; track option.key) {
+          <mat-option [value]="option.key">{{ option.key }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <p>
+      @if (form.get("restriction_id").value; as id) {
+        <button
+          mat-flat-button
+          (click)="editRestriction()">
+          {{ i18n().editRestriction }}
+        </button>
+        <button
+          mat-flat-button
+          style="margin-left: 1em"
+          class="error"
+          (click)="deleteRestriction()">
+          {{ i18n().deleteRestriction }}
+        </button>
+      } @else {
+        <button
+          mat-flat-button
+          (click)="addRestriction()">
+          {{ i18n().addRestriction }}
+        </button>
+      }
+    </p>
+
+    @if (mandatoryElements().length; as length) {
+      <h2>{{ i18n().mandatory }}</h2>
+      @if (length === 1) {
+        @for (field of mandatoryElements()[0]; track $index) {
+          <ng-container
+            formGroupName="mandatory_json_settings"
+            [ngTemplateOutlet]="inputElem"
+            [ngTemplateOutletContext]="{
+              name: field.name,
+              type: field.type,
+              id: 'mandatory_json_settings.' + field.name,
+            }" />
+        }
+      } @else {
+        <mat-tab-group (selectedIndexChange)="selectedIndex.set($event)">
+          @for (options of mandatoryElements(); track $index; let i = $index) {
+            <mat-tab [label]="'Option ' + (i + 1)">
+              @for (field of options; track $index) {
+                <ng-container
+                  [ngTemplateOutlet]="inputElem"
+                  [ngTemplateOutletContext]="{
+                    name: field.name,
+                    type: field.type,
+                    id: 'mandatory_json_settings.' + field.name,
+                  }" />
+              }
+            </mat-tab>
+          }
+        </mat-tab-group>
+      }
+    }
+
+    <h2>{{ i18n().optional }}</h2>
+    @for (item of optionalElements() | keyvalue; track item.key) {
+      <ng-container
+        [ngTemplateOutlet]="inputElem"
+        [ngTemplateOutletContext]="{
+          name: item.key,
+          default: item.value.default,
+          type: item.value.type,
+          id: 'optional_json_settings.' + item.key,
+        }" />
+    }
+  </form>
+</mat-dialog-content>
+
+<ng-template
+  #inputElem
+  let-default="default"
+  let-type="type"
+  let-name="name"
+  let-id="id">
+  @if (getType(type); as type) {
+    @switch (type) {
+      @case ("str") {
+        <mat-form-field class="full-width">
+          <mat-label>{{ i18n().name[name] }}</mat-label>
+          @if (getControl(id); as control) {
+            <input
+              (input)="control.setValue(control.value)"
+              [placeholder]="
+                i18n().placeholder | context: { value: default ?? i18n().empty }
+              "
+              [formControl]="control"
+              matInput
+              type="text" />
+          }
+          <button
+            mat-icon-button
+            matSuffix
+            [matTooltip]="i18n().description[name]">
+            <mat-icon>help</mat-icon>
+          </button>
+        </mat-form-field>
+      }
+      @case ("float") {
+        <mat-form-field class="full-width">
+          <mat-label>{{ i18n().name[name] }}</mat-label>
+          @if (getControl(id); as control) {
+            <input
+              [formControl]="control"
+              [placeholder]="
+                i18n().placeholder | context: { value: default ?? i18n().empty }
+              "
+              matInput
+              step="0.01"
+              inputmode="numeric"
+              type="number" />
+          }
+          <button
+            mat-icon-button
+            matSuffix
+            [matTooltip]="i18n().description[name]">
+            <mat-icon>help</mat-icon>
+          </button>
+        </mat-form-field>
+      }
+      @case ("int") {
+        <mat-form-field class="full-width">
+          <mat-label>{{ i18n().name[name] }}</mat-label>
+          @if (getControl(id); as control) {
+            <input
+              [formControl]="control"
+              [placeholder]="
+                i18n().placeholder | context: { value: default ?? i18n().empty }
+              "
+              matInput
+              inputmode="numeric"
+              type="number" />
+          }
+          <button
+            mat-icon-button
+            matSuffix
+            [matTooltip]="i18n().description[name]">
+            <mat-icon>help</mat-icon>
+          </button>
+        </mat-form-field>
+      }
+      @case ("dict") {
+        <h3>{{ i18n().name[name] }}</h3>
+        @if (getFormArray(id); as arr) {
+          @for (control of arr.controls; track $index; let i = $index) {
+            @if (castGroup(control); as group) {
+              <span class="add-info">{{ group.controls["key"].value }}</span>
+              <div class="add-container">
+                <ng-container
+                  [ngTemplateOutlet]="inputElem"
+                  [ngTemplateOutletContext]="{
+                    name: group.controls['key'].value,
+                    type: group.controls['type'].value,
+                    id: id + '.' + i + '.value',
+                  }" />
+                <button
+                  mat-icon-button
+                  (click)="removeFromArr(arr, i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+          }
+          <div class="add-container">
+            <mat-form-field>
+              <mat-label>{{ i18n().nameInput }}</mat-label>
+              <input
+                matInput
+                #name
+                type="text"
+                required />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Typ</mat-label>
+              <mat-select #select>
+                <mat-option value="text">
+                  {{ i18n().addOptions.text }}
+                </mat-option>
+                <mat-option value="float">
+                  {{ i18n().addOptions.float }}
+                </mat-option>
+                <mat-option value="int">{{ i18n().addOptions.int }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button
+              mat-flat-button
+              (click)="addToArray(arr, name.value, select.value)">
+              {{ i18n().add }}
+            </button>
+          </div>
+        }
+      }
+      @default {
+        @if (typeof type === 'object') {
+          <div class="add-info">
+            <h3>{{ i18n().name[name] }}</h3>
+            @for (item of type | keyvalue; track item.key) {
+              <ng-container
+                [ngTemplateOutlet]="inputElem"
+                [ngTemplateOutletContext]="{
+                  name: item.key,
+                  default: item.value['default'],
+                  type: item.value['type'],
+                  id: id + '.' + item.key,
+                }" />
+            }
+          </div>
+        } @else {
+          <span>{{ type }}</span>
+          <p>
+            {{
+              i18n().placeholder | context: { value: default ?? i18n().empty }
+            }}
+          </p>
+        }
+      }
+    }
+  }
+</ng-template>

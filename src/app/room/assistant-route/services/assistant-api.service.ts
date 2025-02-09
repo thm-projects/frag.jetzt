@@ -19,15 +19,19 @@ export interface DefaultedElementType {
   default: unknown;
 }
 
-interface MandatoryField {
+export interface MandatoryField {
   name: string;
   type: ElementType;
 }
-type MandatoryFields = (MandatoryField | MandatoryFields)[];
+export type MandatoryFields = (MandatoryField | MandatoryFields)[];
 
-interface ProviderInfo {
+export interface ProviderInfo {
   mandatory: MandatoryFields;
   optional: DefaultDictType;
+}
+
+export interface ProviderInfos {
+  [provider: string]: ProviderInfo;
 }
 
 export interface InputProviderSetting {
@@ -230,7 +234,7 @@ export class AssistantAPIService extends BaseHttpService {
 
   listProviders() {
     const url = `${this.apiUrl.base}${this.apiUrl.provider}`;
-    return this.http.get<{ [provider: string]: ProviderInfo }>(url);
+    return this.http.get<ProviderInfos>(url);
   }
 
   createSetting(

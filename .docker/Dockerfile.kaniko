@@ -1,8 +1,9 @@
 # THIS DOCKERFILE IS SUPPOSED TO RUN ON THE KANIKO EXECUTOR
 # ON SCM-ADMIN - ARTIFACT FROM PIPELINE NEEDED!
 
-FROM nginx:stable-alpine
+FROM --platform=$TARGETPLATFORM nginx:stable-alpine
 
+ARG TARGETPLATFORM
 ARG BUILD_DIR=$BUILD_DIR
 
 # Copy dist folder from artifact coordinator

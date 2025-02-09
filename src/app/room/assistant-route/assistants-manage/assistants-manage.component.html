@@ -404,6 +404,7 @@
           }
           <button
             mat-flat-button
+            type="submit"
             [disabled]="saving() || uploadInfo()">
             {{ editing() ? i18n().confirmEdit : i18n().add }}
             @if (saving()) {

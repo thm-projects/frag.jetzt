@@ -1,26 +1,21 @@
-<mat-grid-list
-  cols="3"
-  rowHeight="2:1">
-  @for (opt of options; track opt) {
-    <mat-grid-tile>
-      <mat-card class="responsive-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{ opt.title }}
-          </mat-card-title>
-        </mat-card-header>
+@for (opt of options(); track opt.route) {
+  <mat-card class="responsive-card">
+    <mat-card-header>
+      <mat-card-title>
+        {{ opt.title }}
+      </mat-card-title>
+    </mat-card-header>
 
-        <mat-card-content class="card-content">
-          <mat-icon class="large-icon">{{ opt.content }}</mat-icon>
-        </mat-card-content>
-        <mat-card-actions>
-          <button
-            mat-flat-button
-            [routerLink]="opt.route">
-            {{ i18n().button }}
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  }
-</mat-grid-list>
+    <mat-card-content>
+      <mat-icon class="large-icon">{{ opt.content }}</mat-icon>
+      <p>{{ opt.description }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        [routerLink]="opt.route">
+        {{ i18n().button }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+}

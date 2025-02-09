@@ -1,13 +1,16 @@
-mat-grid-list {
+$padding: 1.5em;
+:host {
   width: 100%;
-  /* Ensure grid list takes full width */
-}
-
-mat-grid-tile {
+  min-height: calc(
+    100dvh - var(--header-height) - var(--footer-height) - #{2 * $padding}
+  );
+  height: max-content;
+  padding-block: $padding;
   display: flex;
-  /* Allows flex properties on tile */
-  justify-content: center;
-  /* Center content */
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 3em;
 }
 
 .responsive-card {
@@ -15,20 +18,17 @@ mat-grid-tile {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 30em;
+  height: 21.213em;
   flex-wrap: wrap;
-  margin: 10px;
 }
 
-.card-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+mat-card-content {
   flex: 1;
-  /* Makes the content area flexible */
-  width: 100%;
-  /* Full width for content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .large-icon {

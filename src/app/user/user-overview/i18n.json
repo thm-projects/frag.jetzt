@@ -1,48 +1,54 @@
 {
-  "key": "purchase",
+  "key": "user-overview",
   "de": {
     "purchase": {
       "title": "Kaufen"
     },
     "myRooms": {
-      "title": "Meine Räume"
+      "title": "Meine Räume",
+      "description": "Sieh alle Räume, die du erstellt hast oder denen du beigetreten bist."
     },
     "apiKeys": {
-      "title": "API Schlüssel"
+      "title": "Meine API-Schlüssel",
+      "description": "Erstelle ein API-Setup, um API-Schlüssel zu bündeln. So kannst du sie mit Beschränkungen leichter Räumen zuweisen."
     },
     "transaction": {
       "title": "Transaktionen"
     },
-    "button": "Weiter zu"
+    "button": "Weiter"
   },
   "en": {
     "purchase": {
       "title": "Purchase"
     },
     "myRooms": {
-      "title": "My rooms"
+      "title": "My rooms",
+    "description": "View all rooms you have created or joined."
     },
     "apiKeys": {
-      "title": "API Keys"
+      "title": "My API Keys",
+    "description": "Create an API setup to bundle API keys. This makes it easier to assign them to rooms with restrictions."
     },
     "transaction": {
       "title": "Transactions"
     },
-    "button": "Go to"
+    "button": "Continue"
   },
   "fr": {
     "purchase": {
       "title": "Achat"
     },
     "myRooms": {
-      "title": "Mes salles"
+      "title": "Mes salles",
+      "description": "Voir toutes les salles que vous avez créées ou rejointes."
     },
     "apiKeys": {
-      "title": "Clés API"
+      "title": "Mes clés API",
+      "description": "Créez une configuration API pour regrouper les clés API. Cela facilite leur attribution aux salles avec des restrictions."
     },
     "transaction": {
       "title": "Transactions"
     },
-    "button": "Aller à"
+    "button": "Continuer"
   }
 }
