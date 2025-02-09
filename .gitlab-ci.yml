@@ -190,7 +190,7 @@ deploy_frag_thm:
   tags:
     - curl
   before_script:
-    - apt-get install -y podman
+    - apt update && apt install -y podman
     - echo "$CI_REGISTRY_PASSWORD" | podman login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
