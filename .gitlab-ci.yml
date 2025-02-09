@@ -128,10 +128,6 @@ deploy_staging:
     - staging
   tags:
     - ssh
-  dependencies:
-    - build_image
-  needs:
-    - build_image
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -160,9 +156,6 @@ deploy_frag_thm:
     - master
   tags:
     - ssh
-  needs:
-    - job: build_image
-      artifacts: false
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -172,9 +165,6 @@ deploy_frag_thm:
 
 .build_image_template:
   stage: deploy
-  only:
-    - staging
-    - master
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -211,12 +201,18 @@ deploy_frag_thm:
 
 build_image_amd64:
   extends: .build_image_template
+  only:
+    - staging
+    - master
   variables:
     PLATFORM: linux/amd64
     IMAGE: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
 
 build_image_arm64:
   extends: .build_image_template
+  only:
+    - staging
+    - master
   variables:
     PLATFORM: linux/arm64
     IMAGE: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
