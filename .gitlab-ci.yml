@@ -192,12 +192,14 @@ deploy_frag_thm:
     - curl
   before_script:
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
-    - VERSION="v1.0.3"
-    - ARTIFACT="manifest-tool-linux-amd64"
+    - VERSION="v2.1.9"
+    - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
     - URL="$PROJECT_URL/releases/download/$VERSION/$ARTIFACT"
-    - curl -L -o manifest-tool $URL
+    - curl -L -o manifest-tool.tar.gz $URL
+    - tar -zxvf manifest-tool.tar.gz manifest-tool-linux-$(dpkg --print-architecture)
+    - rm manifest-tool.tar.gz
+    - mv manifest-tool-linux-$(dpkg --print-architecture) manifest-tool
     - chmod +x manifest-tool
-    - echo "$MANIFEST" > manifest.yml
 
 build_image_amd64:
   extends: .build_image_template
@@ -219,20 +221,12 @@ build_image_arm64:
 
 gitlab_registry_manifest:
   extends: .manifest
-  variables:
-    MANIFEST: |
-      image: "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-      manifests:
-        - image: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
-          platform:
-            architecture: arm64
-            os: linux
-        - image: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
-          platform:
-            architecture: amd64
-            os: linux
   script:
-    - ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-spec manifest.yml
+    - ./manifest-tool push from-args
+      --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD"
+      --platforms linux/arm64,linux/amd64
+      --template "$CI_REGISTRY_IMAGE:ARCH-$CI_COMMIT_REF_SLUG"
+      --target "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
 
 
 build_image_manual:
