@@ -182,7 +182,6 @@ deploy_frag_thm:
       --build-arg       "TARGETPLATFORM=$PLATFORM"
       --destination     "$IMAGE"
 
-
 .manifest:
   stage: push_manifest
   only:
@@ -191,6 +190,8 @@ deploy_frag_thm:
   tags:
     - curl
   before_script:
+    - apt-get install -y podman
+    - echo "$CI_REGISTRY_PASSWORD" | podman login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
     - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
@@ -223,11 +224,9 @@ gitlab_registry_manifest:
   extends: .manifest
   script:
     - ./manifest-tool push from-args
-      --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD"
       --platforms linux/arm64,linux/amd64
       --template "$CI_REGISTRY_IMAGE:ARCH-$CI_COMMIT_REF_SLUG"
       --target "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-
 
 build_image_manual:
   extends: .build_image_template
