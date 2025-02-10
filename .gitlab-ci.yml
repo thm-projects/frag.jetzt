@@ -190,10 +190,6 @@ deploy_frag_thm:
   tags:
     - curl
   before_script:
-    - mkdir -p ~/.docker
-    - AUTH=$(echo -n "$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD" | base64)
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$AUTH\"}}}" > .docker/config.json
-    - "curl -X GET \"$CI_REGISTRY\" -H \"Authorization: Basic $AUTH\""
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
     - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
@@ -225,7 +221,7 @@ build_image_arm64:
 gitlab_registry_manifest:
   extends: .manifest
   script:
-    - ./manifest-tool push from-args
+    - ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-args
       --platforms linux/arm64,linux/amd64
       --template "${CI_REGISTRY_IMAGE}:ARCH-${CI_COMMIT_REF_SLUG}"
       --target "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
