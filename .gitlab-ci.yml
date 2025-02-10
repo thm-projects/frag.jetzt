@@ -190,7 +190,8 @@ deploy_frag_thm:
   tags:
     - curl
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | podman login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+    - mkdir .docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > .docker/config.json
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
     - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
@@ -224,8 +225,8 @@ gitlab_registry_manifest:
   script:
     - ./manifest-tool push from-args
       --platforms linux/arm64,linux/amd64
-      --template "$CI_REGISTRY_IMAGE:ARCH-$CI_COMMIT_REF_SLUG"
-      --target "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+      --template "${CI_REGISTRY_IMAGE}:ARCH-${CI_COMMIT_REF_SLUG}"
+      --target "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
 
 build_image_manual:
   extends: .build_image_template
