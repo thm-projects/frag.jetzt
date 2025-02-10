@@ -190,8 +190,10 @@ deploy_frag_thm:
   tags:
     - curl
   before_script:
-    - mkdir .docker || echo 'Already exists'
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > .docker/config.json
+    - mkdir -p ~/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"" > .docker/config.json
+    - echo -n "$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD" | base64 >> .docker/config.json
+    - echo "\"}}}" >> .docker/config.json
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
     - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
