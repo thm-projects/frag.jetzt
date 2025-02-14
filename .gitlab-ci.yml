@@ -127,7 +127,7 @@ deploy_staging:
   only:
     - staging
   tags:
-    - ssh
+    - common
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -140,7 +140,7 @@ deploy_production:
   only:
     - master
   tags:
-    - ssh
+    - common
   dependencies:
     - ngbuild
   script:
@@ -155,7 +155,7 @@ deploy_frag_thm:
   only:
     - master
   tags:
-    - ssh
+    - common
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -189,7 +189,7 @@ deploy_frag_thm:
     - staging
     - master
   tags:
-    - curl
+    - common
   before_script:
     - PROJECT_URL="https://github.com/estesp/manifest-tool"
     - VERSION="v2.1.9"
