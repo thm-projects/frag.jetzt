@@ -14,7 +14,7 @@ install:
   stage: install
   tags:
     - angular
-  image: local-angular:19
+  image: angular:19
   allow_failure: false
   script:
     - npm ci --legacy-peer-deps
@@ -28,7 +28,7 @@ eslint:
   stage: codequality
   tags:
     - angular
-  image: local-angular:19
+  image: angular:19
   allow_failure: false
   dependencies:
     - install
@@ -41,7 +41,7 @@ unit_tests:
   stage: test
   tags:
     - angular
-  image: local-angular:19
+  image: angular:19
   allow_failure: true
   dependencies:
     - install
@@ -57,7 +57,7 @@ unit_tests:
   stage: test
   tags:
     - angular
-  image: local-angular:19
+  image: angular:19
   allow_failure: true
   variables:
     TEST_USER_MAIL: $E2E_TEST_USER_MAIL
@@ -99,7 +99,7 @@ ngbuild:
   stage: build
   tags:
     - angular
-  image: local-angular:19
+  image: angular:19
   allow_failure: false
   dependencies:
     - install
