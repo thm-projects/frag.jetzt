@@ -93,7 +93,7 @@ sonar:
     - unit_tests
     - install
   script:
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
+    - sonar-scanner -Dsonar.login="$SONAR_TOKEN" -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.qualitygate.wait=true -Dsonar.projectKey=frag.jetzt-frontend
 
 ngbuild:
   stage: build
