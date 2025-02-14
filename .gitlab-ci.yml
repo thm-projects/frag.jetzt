@@ -174,15 +174,13 @@ deploy_frag_thm:
     - sed -i '/^dist$/d' .dockerignore
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - echo "$CI_REGISTRY" "$CI_PROJECT_PATH"
-    - echo /kaniko/executor
+    - /kaniko/executor
       --custom-platform "$PLATFORM"
       --context         "$CI_PROJECT_DIR"
       --dockerfile      "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
       --build-arg       "BUILD_DIR=$BUILD_DIR"
       --build-arg       "TARGETPLATFORM=$PLATFORM"
       --destination     "$IMAGE"
-    - exit 1
 
 .manifest:
   stage: push_manifest
