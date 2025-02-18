@@ -43,7 +43,6 @@ import i18nRaw from './default-navigation.i18n.json';
 import { FeatureGridDialogComponent } from '../components/home/home-page/feature-grid/feature-grid-dialog/feature-grid-dialog.component';
 import { logout, openLogin, user$ } from 'app/user/state/user';
 import { ThemeColorComponent } from './dialogs/theme-color/theme-color.component';
-import { DownloadComponent } from 'app/components/home/_dialogs/download/download.component';
 import { DonationRouteComponent } from 'app/paypal/donation-route/donation-route.component';
 import { RoomService } from '../services/http/room.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
@@ -182,7 +181,7 @@ export const getDefaultHeader = (
   );
 };
 
-const isStandalone = (): boolean => {
+export const isStandalone = (): boolean => {
   return (
     navigator['standalone'] ||
     window.matchMedia('(display-mode: standalone)').matches
@@ -284,21 +283,23 @@ export const getDefaultNavigation = (
       // app navigation
       const isPurchase = router.url.startsWith('/purchase');
       const isTransaction = router.url.startsWith('/transactions');
+      const transactionsDisabled = true;
       const pricingSection: M3NavigationSection = {
         id: 'pricing',
         kind: 'navigation',
         title: i18n.navigation.pricing,
         entries: [
-          user && {
-            id: 'purchase',
-            title: i18n.navigation.purchase,
-            svgIcon: 'fj_robot',
-            onClick: () => {
-              router.navigate(['/purchase']);
-              return true;
+          !transactionsDisabled &&
+            user && {
+              id: 'purchase',
+              title: i18n.navigation.purchase,
+              svgIcon: 'fj_robot',
+              onClick: () => {
+                router.navigate(['/purchase']);
+                return true;
+              },
+              activated: isPurchase,
             },
-            activated: isPurchase,
-          },
           user && {
             id: 'donation',
             title: i18n.navigation.donation,
@@ -308,7 +309,8 @@ export const getDefaultNavigation = (
               return false;
             },
           },
-          user &&
+          !transactionsDisabled &&
+            user &&
             !user.isGuest && {
               id: 'transaction',
               title: i18n.navigation.transaction,
@@ -337,9 +339,9 @@ export const getDefaultNavigation = (
                 icon: 'apps',
                 title: i18n.options.features,
                 onClick: () => {
-                  injector.get(MatDialog).open(FeatureGridDialogComponent, {
-                    width: '800px',
-                  });
+                  injector
+                    .get(MatDialog)
+                    .open(FeatureGridDialogComponent, { width: '800px' });
                   return false;
                 },
               },
@@ -422,15 +424,6 @@ export const getDefaultNavigation = (
               return false;
             },
           },
-          !isStandalone() && {
-            id: 'download',
-            icon: 'download',
-            title: i18n.options.download,
-            onClick: () => {
-              showDownload(injector);
-              return false;
-            },
-          },
           user && {
             id: 'logout',
             icon: 'logout',
@@ -450,18 +443,15 @@ export const getDefaultNavigation = (
         sections.push(pricingSection);
       }
       sections.push(optionSection);
-      return {
-        title: i18n.navigation.title,
-        sections: sections,
-      };
+      return { title: i18n.navigation.title, sections: sections };
     }),
   );
 };
 
 const openAIConsent = (injector: Injector) => {
-  const dialogRef = injector.get(MatDialog).open(GptOptInPrivacyComponent, {
-    autoFocus: false,
-  });
+  const dialogRef = injector
+    .get(MatDialog)
+    .open(GptOptInPrivacyComponent, { autoFocus: false });
   dialogRef.afterClosed().subscribe((result) => {
     injector.get(AccountStateService).updateGPTConsentState(result);
   });
@@ -483,14 +473,9 @@ const openRateApp = (user: User, injector: Injector) => {
 };
 
 const showImprint = (injector: Injector) => {
-  injector.get(MatDialog).open(ImprintComponent, {
-    width: '80%',
-    maxWidth: '600px',
-  });
-};
-
-const showDownload = (injector: Injector) => {
-  injector.get(MatDialog).open(DownloadComponent);
+  injector
+    .get(MatDialog)
+    .open(ImprintComponent, { width: '80%', maxWidth: '600px' });
 };
 
 const showDonation = (injector: Injector) => {
@@ -498,10 +483,9 @@ const showDonation = (injector: Injector) => {
 };
 
 const showGDPR = (injector: Injector) => {
-  injector.get(MatDialog).open(DataProtectionComponent, {
-    width: '80%',
-    maxWidth: '600px',
-  });
+  injector
+    .get(MatDialog)
+    .open(DataProtectionComponent, { width: '80%', maxWidth: '600px' });
 };
 
 const showNews = (injector: Injector) => {
@@ -513,10 +497,9 @@ const startTour = (injector: Injector) => {
 };
 
 const showDemo = (injector: Injector) => {
-  injector.get(MatDialog).open(DemoVideoComponent, {
-    width: '80%',
-    maxWidth: '600px',
-  });
+  injector
+    .get(MatDialog)
+    .open(DemoVideoComponent, { width: '80%', maxWidth: '600px' });
 };
 
 const openThemeColor = (injector: Injector) => {

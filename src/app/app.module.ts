@@ -72,7 +72,6 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { AppStateService } from './services/state/app-state.service';
-import { DownloadComponent } from './components/home/_dialogs/download/download.component';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -91,7 +90,6 @@ import { FeatureGridComponent } from './components/home/home-page/feature-grid/f
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { angularInjector } from './base/angular-init';
 import { PaymentRouteComponent } from './paypal/payment-route/payment-route.component';
-import { ExcuseComponent } from './components/home/_dialogs/excuse/excuse.component';
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 import './base/theme/apply-system-variables';
 import { PwaInstallSnackbarComponent } from './components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
@@ -133,8 +131,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AskOnboardingDEComponent,
     AskOnboardingENComponent,
     AskOnboardingFRComponent,
-    DownloadComponent,
-    ExcuseComponent,
   ],
   imports: [
     AppRoutingModule,

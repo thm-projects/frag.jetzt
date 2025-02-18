@@ -18,7 +18,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
-import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -31,7 +30,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     CreateMotdComponent,
     GptConfigurationComponent,
     AdminOverviewComponent,
-    GptChatComponent,
     AdminMailingComponent,
     KeycloakProviderComponent,
   ],

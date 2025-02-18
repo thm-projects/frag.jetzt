@@ -105,7 +105,6 @@ import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings
 import { GPTChatRoomComponent } from '../../room/gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
-import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptprompt-preset.component';
 import { LivepollConfirmationDialogComponent } from './_dialogs/livepoll/livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { LivepollStatisticComponent } from './_dialogs/livepoll/livepoll-statistic/livepoll-statistic.component';
 import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
@@ -281,7 +280,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     GPTChatRoomComponent,
     PresetsDialogComponent,
     GPTChatInfoComponent,
-    ChatGPTPromptPresetComponent,
     LivepollConfirmationDialogComponent,
     LivepollStatisticComponent,
     LivepollSummaryComponent,

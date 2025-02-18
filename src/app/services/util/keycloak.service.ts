@@ -26,9 +26,7 @@ export interface TokenReturn {
   roles: string[];
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class KeycloakService {
   readonly providers$ = this.keycloakProvider.getAll();
   readonly activeProvider$ = new BehaviorSubject<KeycloakProvider>(null);
@@ -40,12 +38,9 @@ export class KeycloakService {
     private keycloakProvider: KeycloakProviderService,
     private initService: InitService,
   ) {
-    this.providers$ = keycloakProvider.getAll().pipe(
-      repeat({
-        delay: () => this.updateStream$,
-      }),
-      shareReplay(1),
-    );
+    this.providers$ = keycloakProvider
+      .getAll()
+      .pipe(repeat({ delay: () => this.updateStream$ }), shareReplay(1));
     this.initService.init$.pipe(take(1)).subscribe(() => {
       // side effects
       this.providers$.subscribe((providers) => {
@@ -72,9 +67,7 @@ export class KeycloakService {
   }
 
   redirectLogout() {
-    this.keycloak.logout({
-      redirectUri: location.origin + '/home',
-    });
+    this.keycloak.logout({ redirectUri: location.origin + '/home' });
   }
 
   doKeycloakLogin(
@@ -171,17 +164,17 @@ export class KeycloakService {
         clientId: keycloakProvider.clientId,
       });
       const original = newKeycloak.createLoginUrl.bind(newKeycloak);
-      newKeycloak.createLoginUrl = (options?) => {
-        const str = original(options);
+      newKeycloak.createLoginUrl = async (options?) => {
+        const str = await original(options);
         const info = keycloakInfo();
-        return Promise.resolve(
+        return (
           str +
-            '&source-color=' +
-            encodeURIComponent(info.color) +
-            '&contrast-level=' +
-            encodeURIComponent(info.contrastLevel) +
-            '&is-dark=' +
-            encodeURIComponent(info.isDark),
+          '&source-color=' +
+          encodeURIComponent(info.color) +
+          '&contrast-level=' +
+          encodeURIComponent(info.contrastLevel) +
+          '&is-dark=' +
+          encodeURIComponent(info.isDark)
         );
       };
       this.keycloak = newKeycloak;

@@ -34,11 +34,6 @@ export class UserOverviewComponent {
 
   options: Signal<Option[]> = computed(() => {
     return [
-      /*{
-        title: i18n().purchase.title,
-        content: 'credit_card',
-        route: '/purchase',
-      },*/
       {
         title: i18n().myRooms.title,
         description: i18n().myRooms.description,
@@ -51,11 +46,6 @@ export class UserOverviewComponent {
         content: 'key',
         route: '/user/api-setup',
       },
-      /*{
-        title: i18n().transaction.title,
-        content: 'person',
-        route: '/transaction',
-      },*/
     ];
   });
 
