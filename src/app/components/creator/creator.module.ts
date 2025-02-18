@@ -24,7 +24,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
 import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { EditCommentTagComponent } from './_dialogs/edit-comment-tag/edit-comment-tag.component';
 import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
@@ -55,7 +55,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     }),
     ArsModule,
     MatRippleModule,
-    QRCodeModule,
+    QRCodeComponent,
     SpendingWidgetComponent,
     CustomMarkdownModule,
     MatDialogModule,

@@ -1,5 +1,5 @@
 import { MdNode } from '@toast-ui/editor';
-import { HTMLToken } from '@toast-ui/editor/types/toastmark';
+import { HTMLToken } from '@toast-ui/editor';
 import { generateId, renderKatex } from './katex-plugin';
 
 // TODO: Fix emph in Katex

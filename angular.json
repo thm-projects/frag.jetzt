@@ -128,7 +128,7 @@
               "src/favicon.ico",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles-prod.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "src/"]
             },
@@ -138,6 +138,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
+            "eslintConfig": "./eslint.config.mjs",
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },

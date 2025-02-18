@@ -74,9 +74,7 @@ export class ComputedResource<T> implements Resource<T> {
         setTimeout(() =>
           this.makeRequest(opts.loader, {
             abortSignal: null,
-            previous: {
-              status: prev,
-            },
+            previous: { status: prev },
             request: current[1],
           }),
         );
@@ -86,7 +84,7 @@ export class ComputedResource<T> implements Resource<T> {
     this.value = this.valueSignal.asReadonly();
   }
 
-  hasValue(): this is Resource<T> & { value: Signal<T> } {
+  hasValue(): this is Resource<Exclude<T, undefined>> {
     return Boolean(this.value());
   }
 
@@ -119,10 +117,7 @@ export class ComputedResource<T> implements Resource<T> {
             const controller = new AbortController();
             this.lastAbortController.set(controller);
             return runInInjectionContext(injector, () =>
-              loader({
-                ...params,
-                abortSignal: controller.signal,
-              }),
+              loader({ ...params, abortSignal: controller.signal }),
             );
           }),
           tap({
@@ -172,9 +167,7 @@ export class WritableComputedResource<T>
     this.value = this.valueSignal;
   }
 
-  override hasValue(): this is WritableResource<T> & {
-    value: WritableSignal<T>;
-  } {
+  override hasValue(): this is WritableResource<Exclude<T, undefined>> {
     return Boolean(this.value());
   }
 

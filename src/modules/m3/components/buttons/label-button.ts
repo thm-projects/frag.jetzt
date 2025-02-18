@@ -7,7 +7,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { MatRipple, MatRippleLoader } from '@angular/material/core';
+import { MatRippleLoader } from '@angular/material/core';
 import { FocusMonitor } from '@angular/cdk/a11y';
 
 @Component({
@@ -68,14 +68,6 @@ export class M3LabelButton implements AfterViewInit, OnDestroy {
   }
 
   private _activated: boolean = false;
-
-  get ripple(): MatRipple {
-    return this._rippleLoader?.getRipple(this._elementRef.nativeElement);
-  }
-
-  set ripple(matRipple: MatRipple) {
-    this._rippleLoader?.attachRipple(this._elementRef.nativeElement, matRipple);
-  }
 
   ngAfterViewInit() {
     this._focusMonitor.monitor(this._elementRef, true);

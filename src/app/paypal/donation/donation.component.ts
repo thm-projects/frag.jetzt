@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import rawI18n from './i18n.json';
@@ -12,7 +12,7 @@ const i18n = I18nLoader.load(rawI18n);
 @Component({
   selector: 'app-donation',
   imports: [
-    QRCodeModule,
+    QRCodeComponent,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,

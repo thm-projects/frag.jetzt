@@ -1,5 +1,5 @@
 import { PluginContext, PluginInfo, MdNode } from '@toast-ui/editor';
-import katex from 'katex';
+import katex, { KatexOptions } from 'katex';
 
 type func = (...args: unknown[]) => unknown;
 
@@ -27,7 +27,7 @@ export const generateId = () =>
 export const renderKatex = (
   id: string,
   text: string,
-  options: PluginOptions,
+  options: KatexOptions,
 ) => {
   const container = document.querySelector(
     `[data-katex-id=${id}]`,
@@ -56,7 +56,7 @@ export const renderKatex = (
 
 export const katexPlugin = (
   context: PluginContext,
-  options: PluginOptions,
+  options: KatexOptions,
 ): PluginInfo => {
   let timer = null;
   return {

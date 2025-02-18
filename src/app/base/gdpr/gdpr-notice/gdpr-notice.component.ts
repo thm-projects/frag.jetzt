@@ -28,7 +28,7 @@ export class GdprNoticeComponent {
   dummy = input.required<HTMLElement>();
   iframe = input.required<HTMLIFrameElement>();
   style = input.required<CSSStyleDeclaration>();
-  onSubmit = output();
+  verified = output();
   protected readonly i18n = i18n;
   protected readonly option: Signal<Values | 'unknown'> = computed(() => {
     return MAPPER[this.source()] || 'unknown';

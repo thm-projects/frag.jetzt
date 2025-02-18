@@ -26,7 +26,7 @@ import {
 } from '../markdown-common/plugins';
 import { language } from 'app/base/language/language';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
-import { ToolbarItemOptions } from '@toast-ui/editor/types/ui';
+import { ToolbarItemOptions } from '@toast-ui/editor';
 
 const htmlToText = (html: string) => {
   return new DOMParser().parseFromString(html, 'text/html').documentElement

@@ -13,6 +13,7 @@ import { defaultCategories } from '../../utils/defaultCategories';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from '../state/account-state.service';
 import { Router } from '@angular/router';
+import { user as user2 } from 'app/user/state/user';
 
 interface RoomHistory {
   userId: string;
@@ -95,7 +96,7 @@ export class RoomServiceMock extends RoomService {
 
   override addRoom(room: Room, exc?: () => void): Observable<Room> {
     this.validateRoom(room);
-    room.ownerId = this.account.getCurrentUser().id;
+    room.ownerId = user2().id;
     if (!room.shortId) {
       room.shortId = this.generateNoDuplicateShortId();
     }
@@ -146,7 +147,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   override addToHistory(roomId: string): void {
-    const user = this.account.getCurrentUser();
+    const user = user2();
     const roomIndex = this.rooms.findIndex((r) => r.id === roomId);
     if (roomIndex < 0) {
       throw new Error('Not Found');
@@ -167,7 +168,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   override removeFromHistory(roomId: string): Observable<void> {
-    const user = this.account.getCurrentUser();
+    const user = user2();
     const index = this.roomHistories.findIndex(
       (history) => history.roomId === roomId && history.userId === user.id,
     );
@@ -201,7 +202,7 @@ export class RoomServiceMock extends RoomService {
       throw new Error('Not Found');
     }
     const room = this.rooms[roomIndex];
-    if (room.ownerId !== this.account.getCurrentUser().id) {
+    if (room.ownerId !== user2().id) {
       throw new Error('Forbidden');
     }
     this.rooms.splice(roomIndex, 1);
@@ -260,7 +261,7 @@ export class RoomServiceMock extends RoomService {
     ) {
       return false;
     }
-    const id = this.account.getCurrentUser().id;
+    const id = user2().id;
     if (id === oldRoom.ownerId) {
       return true;
     }

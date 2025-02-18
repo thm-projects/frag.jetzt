@@ -174,14 +174,14 @@ export class KeycloakService {
       newKeycloak.createLoginUrl = (options?) => {
         const str = original(options);
         const info = keycloakInfo();
-        return (
+        return Promise.resolve(
           str +
-          '&source-color=' +
-          encodeURIComponent(info.color) +
-          '&contrast-level=' +
-          encodeURIComponent(info.contrastLevel) +
-          '&is-dark=' +
-          encodeURIComponent(info.isDark)
+            '&source-color=' +
+            encodeURIComponent(info.color) +
+            '&contrast-level=' +
+            encodeURIComponent(info.contrastLevel) +
+            '&is-dark=' +
+            encodeURIComponent(info.isDark),
         );
       };
       this.keycloak = newKeycloak;

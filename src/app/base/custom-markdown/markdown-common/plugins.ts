@@ -9,10 +9,7 @@ import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell';
 import umlPlugin, {
   PluginOptions as UmlOptions,
 } from '@toast-ui/editor-plugin-uml';
-import {
-  CustomHTMLRenderer,
-  EditorPlugin,
-} from '@toast-ui/editor/types/editor';
+import { CustomHTMLRenderer, EditorPlugin } from '@toast-ui/editor';
 import { PluginOptions as KatexOptions, katexPlugin } from './katex-plugin';
 import { dsgvoMediaPlugin } from './dsgvo-media-plugin';
 import { KatexDisplay } from './katex-display';

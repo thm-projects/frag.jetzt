@@ -55,6 +55,8 @@ export default [{
             style: "camelCase",
         }],
 
+        "@angular-eslint/prefer-standalone": "off",
+
         "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/dot-notation": "off",
 

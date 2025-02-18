@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JoyrideService } from 'ngx-joyride';
+import { JoyrideService, StepActionType } from 'ngx-joyride';
 import { EventService } from './event.service';
 import { Router } from '@angular/router';
 import { DataStoreService } from './data-store.service';
@@ -9,7 +9,6 @@ import {
   OnboardingTour,
   OnboardingTourStepInteraction,
 } from './onboarding.tours';
-import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class';
 import { NotificationService } from './notification.service';
 import { RoomService } from '../http/room.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +20,13 @@ import { SessionService } from './session.service';
 import { AccountStateService } from '../state/account-state.service';
 import { DeviceStateService } from '../state/device-state.service';
 import { forceLogin } from 'app/user/state/user';
+
+interface JoyrideStepInfo {
+  number: number;
+  name: string;
+  route: string;
+  actionType: StepActionType;
+}
 
 @Injectable({
   providedIn: 'root',

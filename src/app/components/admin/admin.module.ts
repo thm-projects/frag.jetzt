@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
@@ -50,7 +50,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     }),
     ArsModule,
     MatRippleModule,
-    QRCodeModule,
+    QRCodeComponent,
     MatDatepickerModule,
     MatTimepickerModule,
   ],

@@ -16,7 +16,7 @@ import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
 import { MatRippleModule } from '@angular/material/core';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
@@ -162,7 +162,7 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     SharedRoutingModule,
     MatRippleModule,
     ArsModule,
-    QRCodeModule,
+    QRCodeComponent,
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),

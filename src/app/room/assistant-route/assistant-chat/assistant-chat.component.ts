@@ -73,7 +73,7 @@ interface FileInfo extends AssistantFile {
   styleUrl: './assistant-chat.component.scss',
 })
 export class AssistantChatComponent implements AfterViewInit {
-  onSubmit = output<SubmitEvent>();
+  messageSend = output<SubmitEvent>();
   text = model<string>('');
   isSending = input.required<boolean>();
   minHeight = input.required<number>();
@@ -145,7 +145,7 @@ export class AssistantChatComponent implements AfterViewInit {
 
   protected send() {
     if (this.isSending()) return;
-    this.onSubmit.emit({
+    this.messageSend.emit({
       text: this.text(),
       files: this.uploadedFiles()
         .filter((e) => e.status() === 'uploaded')

@@ -23,7 +23,7 @@ export class GdprBuilder {
     ref.setInput('style', style);
     ref.setInput('dummy', dummy);
     ref.setInput('iframe', iframe);
-    ref.instance.onSubmit.subscribe(() => {
+    ref.instance.verified.subscribe(() => {
       if (source === GdprSource.ExternalUntrusted) {
         window.open(url, '_blank').focus();
         return;

@@ -15,7 +15,7 @@
               [minHeight]="96"
               [isSending]="!canSend()"
               [text]="defaultText()"
-              (onSubmit)="sendMessage($event)"></app-assistant-chat>
+              (messageSend)="sendMessage($event)"></app-assistant-chat>
           </div>
 
           <div class="topics">
@@ -131,7 +131,7 @@
             <app-assistant-chat
               [minHeight]="0"
               [isSending]="!canSend()"
-              (onSubmit)="sendMessage($event)"></app-assistant-chat>
+              (messageSend)="sendMessage($event)"></app-assistant-chat>
           </div>
         }
       </div>
