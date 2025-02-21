@@ -24,6 +24,6 @@ const i18n = I18nLoader.load(rawI18n);
 })
 export class DonationComponent {
   protected readonly i18n = i18n;
-  url = 'https://www.paypal.com/ncp/payment/UREAZTAECLMLA';
+  url = 'https://www.paypal.com/ncp/payment/4KQYM3Z6NRRCS';
   qrCodeSize: number = 200;
 }
