@@ -24,6 +24,6 @@ const i18n = I18nLoader.load(rawI18n);
 })
 export class DonationComponent {
   protected readonly i18n = i18n;
-  url = 'https://www.sandbox.paypal.com/ncp/payment/J4AV5JU5RMLU6';
+  url = 'https://www.paypal.com/ncp/payment/UREAZTAECLMLA';
   qrCodeSize: number = 200;
 }
