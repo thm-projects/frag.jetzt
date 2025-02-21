@@ -141,6 +141,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
               {
                 value: 'with-global',
                 label: 'ml-room-create.a-p2-with-global',
+                helpText: i18n().helpTextGlobal,
               },
               {
                 value: 'voucher',

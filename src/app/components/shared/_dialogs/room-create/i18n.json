@@ -1,16 +1,19 @@
 {
   "key": "room-create",
   "de": {
+    "helpTextGlobal": "Mit diesem Freibetrag kannst du dir Antworten mit Millionen Wörtern generieren lassen.",
     "helpTextAPIKey": "Ein API-Key ist eine Art Passwort, das verwendet wird, um den Zugriff auf eine API zu authentifizieren und zu steuern. Deinen API-Key findest du auf der Webseite deines API-Anbieters.",
     "helpTextVoucher": "Ein Voucher ist ein Code, den man bei frag.jetzt anfordern und einlösen kann, um Zugriff auf eine API zu erhalten."
   },
 
   "en": {
+    "helpTextGlobal": "With this allowance you can generate answers with millions of words.",
     "helpTextAPIKey": "An API key is a type of password that is used to authenticate and control access to an API. You can find your API key on the website of your API provider.",
     "helpTextVoucher": "A voucher is a code that you can request and redeem at frag.jetzt to gain access to an API."
   },
 
   "fr": {
+    "helpTextGlobal": "Avec cette franchise, tu peux faire générer des réponses de plusieurs millions de mots.",
     "helpTextAPIKey": "Une clé API est une sorte de mot de passe qui est utilisé pour authentifier et contrôler l'accès à une API. Tu trouveras ta clé API sur le site web de ton fournisseur d'API.",
     "helpTextVoucher": "Un voucher est un code que l'on peut demander à frag.jetzt et utiliser pour avoir accès à une API."
    }
