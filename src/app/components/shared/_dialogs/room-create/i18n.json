@@ -1,9 +1,9 @@
 {
   "key": "room-create",
   "de": {
-    "helpTextGlobal": "Mit diesem Freibetrag kannst du dir Antworten mit Millionen Wörtern generieren lassen.",
-    "helpTextAPIKey": "Ein API-Key ist eine Art Passwort, das verwendet wird, um den Zugriff auf eine API zu authentifizieren und zu steuern. Deinen API-Key findest du auf der Webseite deines API-Anbieters.",
-    "helpTextVoucher": "Ein Voucher ist ein Code, den man bei frag.jetzt anfordern und einlösen kann, um Zugriff auf eine API zu erhalten."
+    "helpTextGlobal": "DeepSeek-R1 (Distilled 14B) unterstützt komplexe Aufgaben. Ausführliche Infos unten rechts.",
+    "helpTextAPIKey": "Nutze deine eigenen API-Keys, um KI-Modelle nach Wahl zu verwenden. Ausführliche Infos unten rechts.",
+    "helpTextVoucher": "Nur für Lehrkräfte, die eine KI-Evaluation im Unterricht durchführen. Ausführliche Infos unten rechts."
   },
 
   "en": {
