@@ -424,7 +424,7 @@
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern.",
     "guest-login": "Anmelden als Gast",
     "guest-login-description": "Als Gast anmelden",
-    "guest-login-tooltip": "Als Gast kannst du nur Räume ohne ChatGPT-Nutzung einrichten. Beachte: Deine Räume sind an diesen Browser gebunden. Als registrierter User kannst du deine ChatGPT-Räume in jedem beliebigen Browser öffnen. Denk daran, dass die Räume nach 180 Tagen Inaktivität automatisch gelöscht werden.",
+    "guest-login-tooltip": "Als Gast sind deine Räume nur in diesem Browser verfügbar. Mit einem registrierten Account kannst du sie von überall aus öffnen. Beachte, dass inaktive Räume nach 180 Tagen automatisch gelöscht werden.",
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",

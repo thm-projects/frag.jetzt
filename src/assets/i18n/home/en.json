@@ -412,7 +412,7 @@
   },
   "login": {
     "default-keycloak-name": "Register or log in",
-    "default-keycloak-description": "Register with frag.jetzt to access content across sessions and devices.",
+    "default-keycloak-description": "Sign up for frag.jetzt to access content across sessions and devices.",
     "not-authorized": "You're not authorized to view this page.",
     "activation-key": "Activation code …",
     "cancel": "Cancel",
@@ -424,7 +424,7 @@
     "feedback-aria": "Please use the following link to offer the developers bugs, features, praise and blame",
     "guest-login": "Sign in as a guest",
     "guest-login-description": "Sign in as a guest",
-    "guest-login-tooltip": "As a guest, you can only create rooms without using ChatGPT. Note: Your rooms will be bound to this browser. As a registered user, you can open your ChatGPT rooms in any browser. Remember that rooms are automatically deleted after 180 days of inactivity.",
+    "guest-login-tooltip": "As a guest, your rooms are only available in this browser. With a registered account, you can access them from anywhere. Please note that inactive rooms are automatically deleted after 180 days.",
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",

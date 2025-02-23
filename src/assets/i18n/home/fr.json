@@ -412,7 +412,7 @@
   },
   "login": {
     "default-keycloak-name": "S'inscrire ou se connecter",
-    "default-keycloak-description": "Inscris-toi sur frag.jetzt pour profiter du contenu sur toutes les sessions et tous les appareils.",
+    "default-keycloak-description": "Inscris-toi sur frag.jetzt pour accéder aux contenus sur plusieurs sessions et appareils.",
     "not-authorized": "Tu n'es pas autorisé à voir cette page.",
     "activation-key": "Code d'activation …",
     "cancel": "Annuler",
@@ -424,7 +424,7 @@
     "feedback-aria": "Baggs, fonctionnalités, éloges et reproches peuvent être exprimés via ce lien dans notre colonne de commentaires.",
     "guest-login": "S'inscrire en tant qu'invité",
     "guest-login-description": "Se connecter en tant qu'invité",
-    "guest-login-tooltip": "En tant qu'invité, tu peux uniquement créer des salles sans utiliser ChatGPT. Remarque : tes salles sont associées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles ChatGPT dans n'importe quel navigateur. N'oublie pas que les salles sont automatiquement supprimées après 180 jours d'inactivité.",
+    "guest-login-tooltip": "En tant qu'invité, tes salles ne sont disponibles que dans ce navigateur. Avec un compte enregistré, tu peux y accéder de partout. Note que les salles inactives sont automatiquement supprimées après 180 jours.",
     "header": "Se connecter",
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
     "login": "Se connecter avec un compte",
