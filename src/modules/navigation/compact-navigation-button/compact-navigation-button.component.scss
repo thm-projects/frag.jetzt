@@ -34,6 +34,7 @@
     word-break: break-word;
     text-align: center;
     @include m3-typescale.typescale(body, small);
+    hyphens: auto;
   }
 }
 
