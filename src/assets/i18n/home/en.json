@@ -324,7 +324,7 @@
   "gpt-chat": {
     "optin-accept": "Accept",
     "optin-reject": "Decline",
-    "privacy-policy": "ChatGPT  Privacy Policy"
+    "privacy-policy": "AI Privacy Policy"
   },
   "help": {
     "cancel": "Close",
