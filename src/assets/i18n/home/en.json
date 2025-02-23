@@ -502,7 +502,7 @@
   "ml-room-create": {
     "title": "Create a Room",
     "q-p1-header": "Activate AI Assistant",
-    "q-p1-title": "Sign up and enter your OpenAI access key. For teachers, we are offering vouchers as part of our study »ChatGPT in Teaching & Learning«. Click on »Next« for a room without ChatGPT.",
+    "q-p1-title": "Sign in to frag.jetzt or click »Next« to create a room without AI.",
     "q-p2-header": "Activate ChatGPT",
     "q-p2-title": "How would you like to activate the AI assistant in your room?",
     "q-p2-short": "Activation type",

@@ -502,7 +502,7 @@
   "ml-room-create": {
     "title": "Raum erstellen",
     "q-p1-header": "KI-Assistenz aktivieren",
-    "q-p1-title": "Melde dich mit deinem Konto auf frag.jetzt an. Klicke auf »Weiter« für einen Raum ohne KI.",
+    "q-p1-title": "Melde dich bei frag.jetzt an oder klicke auf »Weiter«, um einen Raum ohne KI zu erstellen.",
     "q-p2-header": "KI aktivieren",
     "q-p2-title": "Wie möchtest du den KI-Assistenten in deinem Raum aktivieren?",
     "q-p2-short": "Aktivierungsart",

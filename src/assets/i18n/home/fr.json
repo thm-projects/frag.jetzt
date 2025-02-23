@@ -502,7 +502,7 @@
   "ml-room-create": {
     "title": "Créer une salle",
     "q-p1-header": "Activer ChatGPT",
-    "q-p1-title": "Inscris-toi et entre ta clé d'accès OpenAI. Pour les enseignants, nous offrons des vouchers dans le cadre de notre étude « ChatGPT dans l'enseignement & les études ». Clique sur « Suivant » pour une salle sans ChatGPT.",
+    "q-p1-title": "Connecte-toi à frag.jetzt ou clique sur « Suivant » pour créer une salle sans IA.",
     "q-p2-header": "Activer ChatGPT",
     "q-p2-title": "Comment souhaites-tu activer l'assistant IA dans ta salle ?",
     "q-p2-short": "Type d'activation",
