@@ -116,12 +116,6 @@ export class RoomPageComponent {
       translation: () => i18n().creator,
     },
     {
-      icon: 'co_present',
-      svgIcon: 'fj_robot',
-      value: () => 0,
-      translation: () => i18n().chatGpt,
-    },
-    {
       icon: 'star',
       value: () => 0,
       translation: () => i18n().bonus,

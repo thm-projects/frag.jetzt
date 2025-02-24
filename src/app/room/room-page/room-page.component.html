@@ -70,23 +70,6 @@
             row-gap: 20px;
             align-items: flex-end;
           ">
-          <span style="display: flex; flex-direction: row">
-            @if (room.chatGptActive) {
-              <span class="row items-center gap-medium">
-                <mat-icon svgIcon="fj_robot"></mat-icon>
-                <span class="label-medium">{{ i18n().tokensLeft }} 0</span>
-              </span>
-              @if (isCreator()) {
-                <button
-                  mat-stroked-button
-                  style="margin-left: 1.25em"
-                  routerLink="/purchase">
-                  <mat-icon>shopping_cart</mat-icon>
-                  {{ i18n().purchase }}
-                </button>
-              }
-            }
-          </span>
           <span>
             @if (isPrivileged() && !room.directSend) {
               <button
