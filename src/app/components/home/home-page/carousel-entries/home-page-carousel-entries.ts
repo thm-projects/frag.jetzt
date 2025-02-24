@@ -611,9 +611,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Le Prix ?',
       },
       description: {
-        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit of 5 dollars or even 20 dollars if you participate in our study as a teacher. In return, the chatbot generates tens of millions of words! If that's not enough, you can continue with your own API key.",
-        de: 'frag.jetzt ist Open Source und wird als kostenlose Software-as-a-Service angeboten. Für jeden Raum gibt es ein ChatGPT-Guthaben von 5 Dollar oder sogar 20 Dollar, wenn du als Lehrkraft an unserer Studie teilnimmst. Im Gegenzug generiert der Chatbot zig Millionen Wörter! Wenn dir das nicht reicht, kannst du mit deinem eigenen API- Key weitermachen.',
-        fr: "frag.jetzt est open source et proposé comme un logiciel libre en tant que service. Chaque salle dispose d'un crédit ChatGPT de 5 dollars ou même de 20 dollars si tu participes à notre étude en tant qu'enseignant. En retour, le chatbot génère des dizaines de millions de mots ! Si cela ne suffit pas, tu peux continuer avec ta propre clé API.",
+        en: 'frag.jetzt is open source and offered as a free software-as-a-service. You can use DeepSeek-R1 for free. Teachers participating in our study receive exclusive access to OpenAI. If you prefer, you can use your own API key instead or deactivate AI entirely.',
+        de: 'frag.jetzt ist Open Source und wird als kostenlose Software-as-a-Service angeboten. Du kannst DeepSeek-R1 kostenlos nutzen. Lehrkräfte, die an unserer Studie teilnehmen, erhalten exklusiven Zugang zu OpenAI. Alternativ kannst du deinen eigenen API-Key nutzen oder die KI-Funktionen deaktivieren.',
+        fr: "frag.jetzt est open source et proposé comme un logiciel libre en tant que service. Tu peux utiliser DeepSeek-R1 gratuitement. Les enseignants participant à notre étude bénéficient d'un accès exclusif à OpenAI. Sinon, tu peux utiliser ta propre clé API ou désactiver les fonctions d'IA.",
       },
       image: {
         url: '/assets/background/dollars.svg',
