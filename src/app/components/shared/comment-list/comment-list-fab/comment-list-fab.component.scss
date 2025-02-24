@@ -18,10 +18,8 @@ $fab-size: 56px;
 
   &.stacked {
     left: calc(
-      100% - #{$padding} - #{$fab-size-small + math.div(
-          $fab-size - $fab-size-small,
-          2
-        )}
+      100% - #{$padding} - #{$fab-size-small +
+        math.div($fab-size - $fab-size-small, 2)}
     );
     bottom: calc(#{2 * $padding} + #{$footer-height} + #{$fab-size});
   }

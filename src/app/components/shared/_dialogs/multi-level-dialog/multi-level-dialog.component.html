@@ -58,7 +58,9 @@
             }
             <div class="button-container">
               @if (isFirst) {
-                <div class="logged-in-info" *ngIf="isLoggedIn">
+                <div
+                  class="logged-in-info"
+                  *ngIf="isLoggedIn">
                   <p>{{ getLoggedInText() }}</p>
                 </div>
                 <button
@@ -118,7 +120,7 @@
               | context
                 : {
                     start: offsetIndex + windowSize + 1,
-                    end: dialogStepper.elements.length
+                    end: dialogStepper.elements.length,
                   }
           }}
         </ng-template>

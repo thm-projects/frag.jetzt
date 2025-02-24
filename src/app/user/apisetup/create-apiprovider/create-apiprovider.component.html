@@ -230,7 +230,7 @@
         }
       }
       @default {
-        @if (typeof type === 'object') {
+        @if (typeof type === "object") {
           <div class="add-info">
             <h3>{{ i18n().name[name] }}</h3>
             @for (item of type | keyvalue; track item.key) {

@@ -139,7 +139,7 @@
                 option;
                 context: {
                   i: i,
-                  symbol: symbol
+                  symbol: symbol,
                 }
               "></ng-container>
           </ng-container>
@@ -152,7 +152,7 @@
                 option;
                 context: {
                   i: i,
-                  symbol: i
+                  symbol: i,
                 }
               "></ng-container>
           </ng-container>
@@ -257,7 +257,7 @@
     [class.vote-text]="true"
     [disabled]="isPaused"
     [ngStyle]="{
-      order: i * (template.reverse ? -1 : 1)
+      order: i * (template.reverse ? -1 : 1),
     }"
     (click)="vote(i)">
     <ng-container

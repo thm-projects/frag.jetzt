@@ -52,8 +52,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             tag: 'setupType',
             label: 'ml-gpt-room-settings.gpt-setup-item-two-label',
             defaultValue:
-              previousState?.get('setupType')?.value ??
-              data.GPTSettings.apiKeys.some((v) => v.voucherId)
+              (previousState?.get('setupType')?.value ??
+              data.GPTSettings.apiKeys.some((v) => v.voucherId))
                 ? 'apiVoucher'
                 : 'apiCode',
             options: [

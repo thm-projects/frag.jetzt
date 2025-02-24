@@ -27,7 +27,7 @@
       *ngIf="location.accessible"
       [ngClass]="{
         'active-nav-button': location.active,
-        outside: location.outside
+        outside: location.outside,
       }"
       (click)="navigateToPage(location)"
       mat-menu-item

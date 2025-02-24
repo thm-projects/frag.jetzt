@@ -87,7 +87,7 @@
             *matCellDef="let bonusToken"
             (click)="navToComment(bonusToken.commentId)"
             [ngClass]="{
-              selected: selection.isSelected(bonusToken.token)
+              selected: selection.isSelected(bonusToken.token),
             }">
             {{ bonusToken.token }}
           </td>

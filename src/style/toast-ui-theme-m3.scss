@@ -328,7 +328,8 @@ div.toastui-editor-fragjetzt {
               --mdc-icon-button-icon-size,
               24px
             )
-        ) / 2
+        ) /
+        2
     );
     font-size: var(--mdc-icon-button-icon-size);
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -465,7 +466,8 @@ div.toastui-editor-fragjetzt {
                 --mdc-icon-button-icon-size,
                 24px
               )
-          ) / 2
+          ) /
+          2
       );
       font-size: var(--mdc-icon-button-icon-size);
       color: var(--mdc-icon-button-icon-color);
@@ -542,8 +544,10 @@ div.toastui-editor-fragjetzt {
           (
               var(--mdc-switch-track-height) - var(
                   --mat-switch-track-outline-width
-                ) * 2 - var(--mat-switch-with-icon-handle-size)
-            ) / 2
+                ) *
+                2 - var(--mat-switch-with-icon-handle-size)
+            ) /
+            2
         );
       }
 
