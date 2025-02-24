@@ -1,52 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
+import { Component, Input, computed } from '@angular/core';
 import { RatingResult } from '../../../../models/rating-result';
-import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
+import { language } from 'app/base/language/language';
 
 @Component({
   selector: 'app-app-rating-pop-up',
   templateUrl: './app-rating-pop-up.component.html',
   styleUrls: ['./app-rating-pop-up.component.scss'],
+  standalone: false,
 })
-export class AppRatingPopUpComponent implements OnInit {
+export class AppRatingPopUpComponent {
   @Input()
   result: RatingResult;
-  rating: string = '?';
-  people: string = '?';
+  protected rating = computed(() => {
+    return (
+      this.result?.rating?.toLocaleString(language(), {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      }) || '?'
+    );
+  });
+  protected people = computed(() => {
+    return this.result?.people?.toLocaleString(language()) || '?';
+  });
+  protected readonly i18n = i18n;
 
-  constructor(private appState: AppStateService) {}
+  constructor() {}
 
-  static openDialogAt(
-    dialog: MatDialog,
-    ref: HTMLElement,
-    result: RatingResult,
-    below: boolean,
-  ) {
-    const rect = ref.getBoundingClientRect();
+  static openDialogAt(dialog: MatDialog, result: RatingResult) {
     dialog.open(AppRatingPopUpComponent, {
-      position: {
-        left: '50%',
-        top: '50vh',
-      },
       width: '90vw',
       maxWidth: '500px',
-      panelClass: 'ratingContainer' + (below ? '-below' : ''),
       minWidth: 'min(90vw, 500px)',
       autoFocus: false,
     }).componentInstance.result = result;
-  }
-
-  ngOnInit(): void {
-    this.rating = this.result.rating.toLocaleString(
-      this.appState.getCurrentLanguage(),
-      {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      },
-    );
-    this.people = this.result.people.toLocaleString(
-      this.appState.getCurrentLanguage(),
-    );
   }
 
   getIconAccumulated(index: number) {

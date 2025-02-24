@@ -10,9 +10,9 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-gptconversation-overview',
   templateUrl: './gptconversation-overview.component.html',
   styleUrls: ['./gptconversation-overview.component.scss'],
+  standalone: false,
 })
 export class GPTConversationOverviewComponent implements OnInit {
-  close = this.onClose.bind(this);
   roomConversations: GPTConversation[] = [];
   otherConversations: GPTConversation[] = [];
   displayedColumns: string[] = [
@@ -22,6 +22,10 @@ export class GPTConversationOverviewComponent implements OnInit {
     'delete',
   ];
   currentId: string;
+  protected iteration: [string, GPTConversation[]][] = [
+    ['gptconversation-overview.this-room', this.roomConversations],
+    ['gptconversation-overview.other-room', this.otherConversations],
+  ];
   private conversations: GPTConversation[];
   private roomId: string;
 
@@ -95,9 +99,5 @@ export class GPTConversationOverviewComponent implements OnInit {
     let index = str.indexOf('.');
     index = index < 0 ? str.length : index + 1 > bounds ? bounds : index + 1;
     return str.substring(0, index) + (index < str.length ? ' …' : '');
-  }
-
-  private onClose() {
-    this.ref.close();
   }
 }

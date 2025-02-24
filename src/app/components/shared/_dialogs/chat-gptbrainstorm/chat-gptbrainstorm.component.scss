@@ -1,23 +1,7 @@
-.primary-btn {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-  width: 100%;
-  margin-top: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+.mdc-dialog__content > :last-child {
+  margin-bottom: 0.5em;
 }
 
-.generator {
-  display: flex;
-  gap: 2em;
-  align-items: center;
-
-  > mat-form-field {
-    width: 100%;
-    margin-top: 1.34375em;
-  }
+.mdc-dialog__content > :first-child {
+  margin-top: 0.5em;
 }

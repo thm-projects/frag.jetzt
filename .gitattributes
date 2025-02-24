@@ -1,5 +1,3 @@
-# set line endings to lf
-*.txt text eol=lf
-*.[jtJT][sS] text eol=lf
-*.html text eol=lf
-*.scss text eol=lf
+* text=auto
+*.sh text eol=lf
+*.bat text eol=crlf

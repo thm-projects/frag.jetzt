@@ -1,0 +1,254 @@
+@use "sass:math";
+$header-size: 56px;
+$margin: 15px;
+
+#idea-select {
+  z-index: 2;
+  width: 90vw;
+  max-width: 10rem;
+  left: 50%;
+  top: 88%;
+  transform: translate(-50%, 0);
+  border-radius: 5px;
+  position: absolute;
+}
+
+ars-fill {
+  width: calc(100% - #{2 * $margin});
+  height: calc(100% - #{2 * $margin});
+  margin: $margin;
+}
+
+mat-drawer-container {
+  height: 100%;
+  width: 100%;
+}
+
+mat-drawer-content {
+  overflow: hidden;
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+app-tag-cloud-pop-up {
+  width: max-content;
+  height: max-content;
+}
+
+::ng-deep .spacyTagCloud span {
+  user-select: none !important;
+}
+
+::ng-deep .spacyTagCloud span:hover {
+  cursor: pointer;
+}
+
+$padding: 1em;
+$footer-height: 80px;
+$fab-size-small: 40px;
+$fab-size: 56px;
+
+.start_introduction {
+  position: fixed;
+  right: calc(#{$padding});
+  bottom: $padding;
+  z-index: 2;
+  // small secondary fab
+  --mat-fab-foreground-color: var(--mat-sys-secondary);
+  --mdc-fab-container-color: var(--mat-sys-secondary-container);
+  --mdc-fab-container-shape: 12px;
+  width: 40px;
+  height: 40px;
+
+  &.stacked {
+    right: calc(#{$padding} + #{math.div($fab-size - $fab-size-small, 2)});
+    bottom: calc(#{2 * $padding} + #{$footer-height} + #{$fab-size});
+  }
+}
+
+.fab_add_comment {
+  position: fixed;
+  left: calc(50% + var(--nav-drawer-width) / 2);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  &.center_screen {
+    position: absolute;
+    right: calc(50% - 20px);
+    bottom: calc(50% - 20px);
+  }
+
+  & ::ng-deep .mdc-button__label {
+    position: absolute;
+    top: calc(100% + 1em);
+    width: max-content;
+    font-size: 1.35em;
+  }
+
+  &.mobile {
+    animation: moveRightDown 1.5s ease-in-out 1s forwards;
+  }
+
+  &.desktop {
+    animation: moveLeftUp 1.5s ease-in-out 1s forwards;
+  }
+}
+
+@keyframes moveRightDown {
+  to {
+    left: calc(100% - #{math.div($fab-size, 2)} - #{$padding});
+    top: calc(
+      100% - #{math.div($fab-size, 2)} - #{$padding} - #{$footer-height}
+    );
+  }
+}
+
+@keyframes moveLeftUp {
+  to {
+    left: calc(
+      var(--nav-drawer-width) + #{math.div($fab-size, 2)} + #{$padding}
+    );
+    top: 108px;
+  }
+}
+
+.tag-cloud-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.tag-cloud-brainstorming-question {
+  color: var(--primary) !important;
+  font-weight: bold;
+  font-style: var(--tag-cloud-font-style, normal);
+  font-family: var(--tag-cloud-font-family, "sans-serif");
+  font-size: 2em !important;
+  line-height: unset;
+  padding: 0 0.5em;
+  transition: inset 0.5s ease;
+  hyphens: auto;
+}
+
+/* abril-fatface-regular - latin-ext */
+@font-face {
+  font-family: "Abril Fatface";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/abril-fatface-v19-latin-ext-regular.woff2")
+      format("woff2"),
+    url("/assets/fonts/abril-fatface-v19-latin-ext-regular.woff") format("woff");
+  unicode-range:
+    U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* abril-fatface-regular - latin */
+@font-face {
+  font-family: "Abril Fatface";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/abril-fatface-v19-latin-regular.woff2") format("woff2"),
+    url("/assets/fonts/abril-fatface-v19-latin-regular.woff") format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+
+/* dancing-script-regular - vietnamese */
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/dancing-script-v24-vietnamese-regular.woff2")
+      format("woff2"),
+    url("/assets/fonts/dancing-script-v24-vietnamese-regular.woff")
+      format("woff");
+  unicode-range:
+    U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+    U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+
+/* dancing-script-regular - latin-ext */
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/dancing-script-v24-latin-ext-regular.woff2")
+      format("woff2"),
+    url("/assets/fonts/dancing-script-v24-latin-ext-regular.woff")
+      format("woff");
+  unicode-range:
+    U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* dancing-script-regular - latin */
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/dancing-script-v24-latin-regular.woff2") format("woff2"),
+    url("/assets/fonts/dancing-script-v24-latin-regular.woff") format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+
+/* indie-flower-regular - latin */
+@font-face {
+  font-family: "Indie Flower";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/indie-flower-v17-latin-regular.woff2") format("woff2"),
+    url("/assets/fonts/indie-flower-v17-latin-regular.woff") format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+
+/* permanent-marker-regular - latin */
+@font-face {
+  font-family: "Permanent Marker";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local(""),
+    url("/assets/fonts/permanent-marker-v16-latin-regular.woff2")
+      format("woff2"),
+    url("/assets/fonts/permanent-marker-v16-latin-regular.woff") format("woff");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}

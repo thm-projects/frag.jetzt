@@ -1,0 +1,60 @@
+{
+  "key": "comment-list-fab",
+  "de": {
+    "write": "Stell eine Frage",
+    "scrollTop": "Nach oben",
+    "creator": {
+      "askQuestion": "Motivier dein Publikum!"
+    },
+    "participant": {
+      "askQuestion": "Stell die erste Frage!"
+    },
+    "ple": {
+      "write": "Thema hinzufügen",
+      "creator": {
+        "askQuestion": "Motivier deine Gruppe!"
+      },
+      "participant": {
+        "askQuestion": "Schreib den ersten Beitrag!"
+      }
+    }
+  },
+  "en": {
+    "write": "Ask a question",
+    "scrollTop": "Go to top",
+    "creator": {
+      "askQuestion": "Motivate your audience!"
+    },
+    "participant": {
+      "askQuestion": "Be the first to ask!"
+    },
+    "ple": {
+      "write": "Add a topic",
+      "creator": {
+        "askQuestion": "Motivate your group!"
+      },
+      "participant": {
+        "askQuestion": "Write the first post!"
+      }
+    }
+  },
+  "fr": {
+    "write": "Pose une question",
+    "scrollTop": "Haut de page",
+    "creator": {
+      "askQuestion": "Motives ton public !"
+    },
+    "participant": {
+      "askQuestion": "Pose la première question !"
+    },
+    "ple": {
+      "write": "Ajoute un sujet",
+      "creator": {
+        "askQuestion": "Motives ton groupe !"
+      },
+      "participant": {
+        "askQuestion": "Écris le premier message !"
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@if (featureState) {
+  <div
+    class="row content-start items-center gap-medium"
+    style="margin-bottom: 16px">
+    <button
+      mat-icon-button
+      (click)="this.self.toggleFeatureState()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>back to home</span>
+  </div>
+}
+@if (carouselWindow.rowHeight === 0) {
+  @for (tile of carousel.entries; track tile) {
+    <ng-container
+      *ngTemplateOutlet="
+        card;
+        context: { tile: tile, cls: 'fit-tile filled-card' }
+      "></ng-container>
+  }
+} @else {
+  <mat-grid-list
+    [gutterSize]="'12px'"
+    [cols]="carouselWindow.cols"
+    [rowHeight]="carouselWindow.rowHeight">
+    @for (tile of carousel.entries; track tile) {
+      <mat-grid-tile
+        [colspan]="
+          Math.min(
+            tile.window[windowClass()]?.colspan ||
+              carousel.defaultEntryWindow.colspan,
+            carouselWindow.cols
+          )
+        "
+        [rowspan]="
+          Math.min(
+            tile.window[windowClass()]?.rowspan ||
+              carousel.defaultEntryWindow.rowspan,
+            carouselWindow.cols
+          )
+        ">
+        <ng-container
+          *ngTemplateOutlet="
+            card;
+            context: { tile: tile, cls: 'grid-tile filled-card' }
+          "></ng-container>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+}
+
+<ng-template
+  #card
+  let-tile="tile"
+  let-cls="cls">
+  <mat-card [ngClass]="cls">
+    <div
+      style="
+        flex-grow: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      ">
+      @if (tile.content.image.url) {
+        <img
+          mat-card-image
+          src="{{ tile.content.image.url }}"
+          alt="{{ tile.content.image.alt }}" />
+      } @else {
+        <mat-icon
+          class="image-icon"
+          mat-card-image
+          [svgIcon]="tile.content.image.svgIcon"></mat-icon>
+      }
+    </div>
+    <mat-card-header>
+      <mat-card-title>
+        {{ tile.content.title[language()] }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <span>{{ tile.content.description[language()] }}</span>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

@@ -1,62 +1,111 @@
 {
   "common": {
-    "live": "Live",
-    "option-archive": "Archive",
-    "archive-noname": "Unnamed Flash Poll",
-    "archive-finished": "Finished",
-    "create-dialog-title": "Create flash poll",
-    "dialog-title": "Flash poll",
-    "option-select-title": "Your question…",
-    "dialog-preview-title": "Preview from participant view:",
-    "create": "Start poll",
-    "participants": "Room Participants",
-    "user": "Active Live Poll Users",
-    "close": "Close",
-    "cancel": "Cancel",
-    "save": "Send changes to all",
-    "new": "New poll",
-    "vote-make": "Your vote has been counted.",
-    "vote-delete": "Your vote has been reset.",
-    "peerInstruction-end": "End Peer Instruction",
-    "peerInstruction-start-phase-2":"Start 2nd Phase",
-    "peerInstruction-comparison-results-1": "1st Phase",
-    "peerInstruction-comparison-results-2":"2nd Phase",
-    "peerInstruction-comparison-title": "Peer Instruction - Results",
-    "peerInstruction-button":"Peer Instruction",
-    "peerInstruction-phase-2-marker": "2nd Phase",
-    "peerInstruction-title-1":"Peer Instruction",
-    "peerInstruction-title-2": "Peer Instruction",
-    "peerInstruction-description-phase-1":"Evidence-based, interactive teaching method. Create a second survey and compare the results.",
-    "peerInstruction-description-phase-2": "You can end the live survey. The comparison is displayed in a dialogue.",
-    "dialog-confirm-peerInstruction-show1stStageResults-description": "Are you sure you want to end the current poll and start the 2nd Phase of Peer Instruction?",
-    "dialog-confirm-peerInstruction-show1stStageResults-title": "Starting 2nd Phase of Peer Instruction",
-    "dialog-confirm-create-new-description": "Are you sure you want to end the current poll and start a new one?",
-    "dialog-confirm-create-new-title": "New poll",
-    "dialog-confirm-delete-description": "Are you sure you want to end the poll? The poll result will still be displayed. However, it will be deleted when you exit the poll.",
-    "dialog-confirm-delete-title": "End poll",
-    "dialog-confirm-resetResults-description": "Are you sure you want to reset the poll?",
-    "dialog-confirm-resetResults-title": "Reset poll",
-    "votes": "Votes:",
-    "confirm-yes": "Yes",
-    "confirm-cancel":"Cancel",
-    "confirm-accept": "Accept",
-    "confirm-continue":"Continue",
-    "confirm-no":"No",
-    "creator-settings": "Flash options…",
-    "creator-settings-icon": "flash_on",
-    "creator-settings-delete": "End poll",
-    "creator-settings-pause": "Pause poll",
-    "creator-settings-continue": "Resume poll",
-    "creator-settings-open-editor": "Editor",
-    "settings-resetResults": "Reset",
+    "title": "Flash Poll",
+    "create": {
+      "title": "Create Flash Poll",
+      "select-template": {
+          "label": "Select a template…"
+      }
+    },
+    "peer-instruction": {
+      "second-round": "2nd Poll Round",
+      "name": "Peer Instruction",
+      "result-statistics": {
+        "title": "Result",
+        "result-1": "First Poll",
+        "result-2": "Second Poll",
+        "start-next": "Start 2nd Phase",
+        "end": "End Peer Instruction"
+      }
+    },
+    "edit": {
+      "view-as-participant": "Preview from Participant's Perspective:",
+      "reset": "Reset",
+      "pause": "Pause",
+      "delete": "Delete",
+      "continue": "Resume",
+      "close": "Close",
+      "new": "New Poll",
+      "cancel": "Cancel",
+      "start": "Start Poll"
+    },
+    "settings": {
+      "name": "Flash Options",
+      "option": {
+        "result-visibility": {
+          "text":"Poll results live visible",
+          "tooltip": "Show poll results in real-time for everyone in the room"
+        },
+        "user-count-visibility": {
+          "text": "Participation live visible",
+          "tooltip": "Show participation in real-time for everyone in the room"
+        },
+        "question": {
+          "label": "Your Question…"
+        },
+        "editor": "Editor",
+        "save": "Send Changes to All"
+      }
+    },
+    "statistics": {
+      "active-user-count": {
+        "tooltip": "Active Live Poll Participants"
+      },
+      "room-user-count": {
+        "tooltip": "Participants in Room"
+      },
+      "vote-count": {
+        "text": "Votes"
+      }
+    },
+    "confirmation-dialog": {
+      "common": {
+        "yes": "Yes",
+        "cancel": "Cancel",
+        "accept": "Yes",
+        "continue": "Continue",
+        "no": "No"
+      },
+      "entries": {
+        "new": {
+          "title": "New Poll",
+          "description": "Do you really want to end the current poll and start a new one?"
+        },
+        "delete": {
+          "title": "Delete",
+          "description": "Do you really want to end the poll? The voting results will still be displayed, but will be deleted upon leaving the poll."
+        },
+        "reset": {
+          "title": "Reset Poll",
+          "description": "Do you really want to reset the poll?"
+        },
+        "change-peer-instruction-stage": {
+          "title": "Start 2nd Poll Round",
+          "description": "Are you sure you want to end the current poll and start the 2nd poll round?"
+        },
+        "create-peer-instruction": {
+          "title": "2nd Poll Round",
+          "description": "With the start of the second poll round, you can now observe the development of group opinion. This round allows for the comparison of collective responses of the participants with those from the first round. It helps understand how discussions and exchanges can influence the overall group perspectives."
+        },
+        "change-peer-instruction-stage-2": {
+          "title": "2nd Poll Round",
+          "description": "You can end the live poll. The comparison of the polls will be displayed in a dialog."
+        }
+      }
+    },
+    "snack-bar": {
+      "vote": {
+        "make": "Your vote has been counted.",
+        "delete": "Your vote has been reset."
+      }
+    },
+    "misc": {
+      "live": "LIVE",
+      "paused": "PAUSED"
+    },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
     "template-name-symbol": "Mood",
-    "option-select-result-visibility": "Poll results live visible",
-    "tooltip-option-select-result-visibility": "Show poll results in real-time for everyone in the room",
-    "option-select-views-visibility": "Participation live visible",
-    "tooltip-option-select-views-visibility": "Show participation in real-time for everyone in the room",
-    "option-select-template": "Select a template…",
     "template-name-agree-multi": "Agreement",
     "option-agree-multi": [
       "strongly agree",
@@ -66,7 +115,12 @@
       "strongly disagree"
     ],
     "template-name-frequency-multi": "Frequency",
-    "option-frequency-multi": ["never", "rarely", "sometimes", "always"],
+    "option-frequency-multi": [
+      "never",
+      "rarely",
+      "sometimes",
+      "always"
+    ],
     "template-name-quality-multi": "Quality",
     "option-quality-multi": [
       "excellent",
@@ -109,13 +163,6 @@
       "custom": "Custom",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Question mark",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    }
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Question mark"
   }
 }

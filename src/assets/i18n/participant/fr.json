@@ -55,7 +55,7 @@
     "comment-stream-stopped": "Le flux de questions a été stoppé.",
     "correct": "Affirmatif",
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
-    "counter-description": "Compteur de questions (Q), de réponses (A), de questions ou de réponses dans la modération (M)",
+    "counter-description": "Questions (Q), de réponses (R), de questions ou de réponses dans la modération (M)",
     "favorite": "Question bonus",
     "filter-answered-creator": "Créateur de salle",
     "filter-answered-moderator": "Modérateur",
@@ -77,6 +77,7 @@
     "filter-approved": "Réponses vérifiées",
     "filter-chatgpt": "Réponses ChatGPT",
     "filter-wrong": "Questions négatives",
+    "hits": "Résultats : ",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",
@@ -85,7 +86,6 @@
     "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Hé, tu as reçu une étoile pour une bonne question !",
     "read": "Discuté par le conférencier",
-    "really-delete": "Tu veux vraiment supprimer ce post ?",
     "search": "Rechercher …",
     "select-All": "Illimité dans le temps",
     "select-FromNow": "À partir de maintenant",
@@ -112,7 +112,23 @@
     "unread": "Non discuté par le conférencier",
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
-    "wrong": "Négatif"
+    "wrong": "Négatif",
+    "ple":{
+      "ask-question-empty": "Ajouter de nouveaux sujets",
+      "filter-comments": "Filtrer les sujets",
+      "sort-comments": "Trier les sujets",
+      "pause-comments": "Met en pause l'affichage pour lire ou présenter les sujets en toute tranquillité. Les sujets peuvent toujours être ajoutés et évalués. L'affichage est mis à jour à nouveau en cliquant sur le bouton.",
+      "play-comments": "Afficher à nouveau les nouveaux sujets et les évaluations",
+      "add-comment": "Ajouter un nouveau sujet !",
+      "select-All": "Illimité dans le temps",
+      "select-FromNow": "À partir de maintenant",
+      "select-OneDay": "Dernières 24 heures",
+      "select-OneHour": "Dernière heure",
+      "select-OneWeek": "Derniers 7 jours",
+      "select-ThreeHours": "Dernières 2 heures",
+      "select-TwoWeeks": "Derniers 14 jours",
+      "filter-owner": "Mes sujets"
+    }
   },
   "comment-notification": {
     "close": "Fermer",
@@ -236,7 +252,7 @@
     "preview-in-mock": "Aperçu sur un smartphone",
     "questioner-name": "Nom auto-attribué",
     "reply-comment-button": "Écrire une réponse",
-    "reply-AI": "Laisser le ChatGPT répondre",
+    "reply-AI": "Laisser IA répondre",
     "save-answer": "Enregistrer",
     "search-box-input-description": "Ici, tu peux rechercher des questions.",
     "send": "Envoyer",
@@ -280,23 +296,6 @@
     "read-less": "Lire moins",
     "read-more": "Lire plus"
   },
-  "dsgvo": {
-    "external-source": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "external-source-button-text": "Ouvrir ici …",
-    "external-source-title": "Source externe intégrée",
-    "external-source-untrusted": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché dans un nouvel onglet ?",
-    "external-source-untrusted-button-text": "Ouvrir dans un nouvel onglet …",
-    "external-source-untrusted-title": "Source externe",
-    "unknown-source": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <br><br>{{url}}<br><br> doit être consulté ?",
-    "unknown-source-button-text": "Consulter",
-    "unknown-source-title": "Source inconnue ou interne",
-    "vimeo-video": "Le contenu renvoie à une vidéo de Vimeo. La vidéo <br><br>{{url}}<br><br> doit-elle être lue ?",
-    "vimeo-video-button-text": "Lire",
-    "vimeo-video-title": "Vidéo de Vimeo",
-    "youtube-video": "Le contenu renvoie à une vidéo de YouTube. L'URL a été adapté à l'URL conforme à la protection des données. <br><br>La vidéo <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "youtube-video-button-text": "Voir la vidéo",
-    "youtube-video-title": "Vidéo de Youtube"
-  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum ! Provident similique accusantium nemo autem.",
     "close": "Fermer",
@@ -318,16 +317,14 @@
     "optin-reject": "Refuser",
     "model-select": "Sélection de modèles",
     "model-placeholder": "Choisir un modèle de langage de l'IA …",
-    "model-gpt-3.5-turbo-1106": "GPT-3.5 »Turbo« (Updated)",
-    "model-description-gpt-3.5-turbo-1106": "Modèle efficace avec environ 16.000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
     "model-gpt-3.5-turbo": "GPT-3.5 « Turbo »",
-    "model-description-gpt-3.5-turbo": "Modèle efficace avec environ 4.000 caractères Contexte",
-    "model-gpt-3.5-turbo-16k": "GPT-3.5 « Turbo » 16K",
-    "model-description-gpt-3.5-turbo-16k": "Modèle efficace avec environ 16.000 caractères Contexte",
+    "model-description-gpt-3.5-turbo": "Modèle efficace avec environ 16.000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
     "model-gpt-4": "GPT-4",
     "model-description-gpt-4": "Modèle le plus récent et le plus puissant avec environ 8 000 caractères Contexte",
-    "model-gpt-4-1106-preview": "GPT-4 »Turbo«",
-    "model-description-gpt-4-1106-preview": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
+    "model-gpt-4-turbo": "GPT-4 »Turbo«",
+    "model-description-gpt-4-turbo": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
+    "model-gpt-4o": "GPT-4o",
+    "model-description-gpt-4o": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
     "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
     "title-answer": "ChatGPT répond …",
     "interrupt": "Arrêter la sortie",
@@ -455,7 +452,7 @@
     "tag-cloud": "Radar à questions",
     "brainstorming": "Brainstorming",
     "quiz-now": "Rallye quiz",
-    "back-to-room": "Réception",
+    "back-to-room": "Entrée",
     "my-sessions": "Mes salles",
     "user-bonus-token": "Mes étoiles de bonus",
     "room-qr": "Code QR",
@@ -463,7 +460,31 @@
     "feedback": "Salle de feedback",
     "logout": "Se déconnecter",
     "livepoll": "Sondage flash",
-    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants.",
+    "ple": {
+      "questionwall": "Focus sur les questions",
+      "back-to-questionboard": "Forum du sujet",
+      "tag-cloud": "Radar du sujet",
+      "question-focus-button": "Focus sur les questions",
+      "create-question": "Ajouter un sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
+    }
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
+    "label-refresh-keywords-start": "Démarrer",
+    "current-filter": "Questions filtrées",
+    "current-filter-short": "Questions filtrées",
+    "all-questions-and-answers": "Toutes les questions avec réponses",
+    "all-questions-and-answers-short": "Toutes les questions avec réponses",
+    "only-questions": "Seulement les questions",
+    "only-questions-short": "Seulement les questions",
+    "from-now": "Questions à partir de maintenant",
+    "from-now-short": "Questions à partir de maintenant",
+    "create": "Continuer",
+    "cancel": "Annuler",
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "home-page": {
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
@@ -484,7 +505,10 @@
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "prompt-explanation": "Prompts en bref",
-    "tooltip-button": "Comment écris-je de bons prompts ?"
+    "tooltip-button": "Comment écris-je de bons prompts ?",
+    "ple": {
+      "tag-cloud-title": "Cas d'utilisation du radar à sujets"
+    }
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -503,6 +527,17 @@
     "chatGPTTitle": "Travailler avec ChatGPT",
     "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
+  },
+  "multi-level-dialog": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Soumettre",
+    "complete": "Terminer",
+    "complete-text": "Clique sur « Soumettre » pour enregistrer la configuration de la salle.",
+    "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}"
   },
   "question-wall": {
     "auto-renew-off": "Arrêter la mise au point automatique pour les nouvelles questions",
@@ -566,7 +601,17 @@
     "sort-time": "Heure",
     "time-period": "Période",
     "user-lbl": "Ouvrir le menu utilisateur",
-    "users-online": "Utilisateurs actuellement connectés"
+    "users-online": "Utilisateurs actuellement connectés",
+    "ple":{
+      "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
+      "intro-title": "Focus sur le sujet",
+      "auto-renew-on": "Démarrer la mise au point automatique pour les nouveaux sujets",
+      "auto-renew-off": "Arrêter la mise au point automatique pour les nouveaux sujets",
+      "next-comment": "Sujet suivant",
+      "prev-comment": "Sujet précédent",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
+    }
   },
   "quill": {
     "cancel": "Annuler",
@@ -650,10 +695,15 @@
     "session-id-lq-x": "« ",
     "session-id-rq": " »",
     "sure": "Tu en es sûr ?",
-    "update": "Enregistrer"
+    "update": "Enregistrer",
+    "ple": {
+      "create-comment": "Créer des sujets !",
+      "create-comment-and-answer": "Vers le forum des sujets"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
+    "manually-title": "Mots-clés",
     "analysis-bad-spelled": "Remarque : Le texte n'est pas adapté à la génération de mots-clés.",
     "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
@@ -849,7 +899,10 @@
     "word": "mot",
     "word-is-not-profanity": "Le mot n'est pas profane.",
     "word-is-profanity": "Le mot est profane.",
-    "words-in-profanity": "Mots profanes"
+    "words-in-profanity": "Mots profanes",
+    "ple": {
+      "keywords": "Radar à sujets"
+    }
   },
   "user-bonus-token": {
     "bonus-token-body1": " du ",
@@ -895,7 +948,7 @@
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-    "questioner-name": "Ton nom, si tu veux …"
+    "questioner-name": "Surnom"
   },
   "gpt-user-description": {
     "save": "Enregistrer",
@@ -906,7 +959,20 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscris-toi et crée toi-même une salle pour utiliser ChatGPT.\n\nCommence dès maintenant avec un crédit de 5 $. Avec ce crédit, tu peux consommer plusieurs millions de tokens pour des demandes ChatGPT (1 token correspond à environ 5-7 caractères).",
-    "cancel": "Fermer"
+    "blocked-title": "Accès ChatGPT bloqué",
+    "blocked-description": "Ton accès à ChatGPT a été bloqué en raison de violations des politiques. Contacte notre support pour plus d'informations et d'assistance.",
+    "noGlobalQuotaAvailable-title": "Limite globale de tokens",
+    "noGlobalQuotaAvailable-description": "L'accès à ChatGPT est actuellement indisponible, car la limite globale de tokens a été atteinte. Nous recommandons de réessayer ultérieurement.",
+    "NoApiKey-title": "Clé API nécessaire",
+    "NoApiKey-description": "Une clé API valide d'OpenAI est nécessaire pour accéder à ChatGPT. Visite le site d'OpenAI pour générer une clé et saisis-la dans le dialogue de création de salle.",
+    "roomDisabled-title": "Accès à la salle temp. bloqué",
+    "roomDisabled-description": "L'accès à cette salle ChatGPT a été temporairement désactivé car la limite de tokens pour la salle a été atteinte. Nous recommandons de réessayer ultérieurement.",
+    "moderatorDisabled-title": "Accès modérateur bloqué",
+    "moderatorDisabled-description": "L'accès modérateur à ChatGPT a été temporairement suspendu, car la limite de tokens pour les modérateurs de cette salle a été atteinte. Veuillez réessayer ultérieurement.",
+    "participantDisabled-title": "Accès participant bloqué",
+    "participantDisabled-description": "L'accès des participants à ChatGPT dans cette salle a été temporairement désactivé en raison de l'atteinte de la limite de tokens. Nous recommandons de réessayer ultérieurement.",
+    "usageTimeOver-title": "Durée max d'utilisation excédée",
+    "usageTimeOver-description": "La durée d'utilisation autorisée pour ChatGPT dans cette salle a été dépassée. Veuillez réessayer ultérieurement.",
+    "cancel": "Annuler"
   }
 }

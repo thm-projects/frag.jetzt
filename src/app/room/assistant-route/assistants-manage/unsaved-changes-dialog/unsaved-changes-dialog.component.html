@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ i18n().unsavedChangesTitle }}</h2>
+<mat-dialog-content>
+  <p>{{ i18n().unsavedChangesMessage }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close
+    cdkFocusInitial>
+    {{ i18n().cancel }}
+  </button>
+  <button
+    mat-button
+    (click)="onDiscard()">
+    {{ i18n().discard }}
+  </button>
+</mat-dialog-actions>

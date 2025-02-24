@@ -1,3 +1,18 @@
+<p
+  style="
+    font-size: 20px;
+    color: var(--mat-sys-red);
+    font-weight: 500;
+    hyphens: auto;
+    justify-content: center;
+    display: flex;
+    padding: 0 16px;
+  ">
+  {{ "comment-list.moderation-title" | translate }}
+  {{ "room-page.session-id-lq-x" | translate }}{{ room?.name
+  }}{{ "room-page.session-id-rq" | translate }}
+</p>
+
 <div
   fxLayout="row"
   *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
@@ -25,7 +40,7 @@
     [ngClass]="{
       'desktop-input': !isMobile,
       'mobile-input': isMobile && !search,
-      'mobile-input-2': isMobile && search
+      'mobile-input-2': isMobile && search,
     }"
     (input)="searchComments()"
     [(ngModel)]="searchString"
@@ -122,8 +137,15 @@
         (click)="setTimePeriod(periodItem)"
         class="period"
         [ngClass]="{ selected: periodItem === period }"
-        aria-labelledby="{{ periodItem }}">
-        <span>{{ "comment-list.select-" + periodItem | translate }}</span>
+        attr.aria-labelledby="{{ periodItem }}">
+        <span>
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "select-" +
+              periodItem | translate
+          }}
+        </span>
       </button>
     </div>
   </mat-menu>
@@ -369,18 +391,8 @@
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of comments"
-    [isRemoved]="current?.removed"
-    [comment]="current"
-    [userRole]="userRole"
-    [parseVote]="{}"
-    [moderator]="true"
-    [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-    [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
-    [isFromOwner]="room.ownerId === current.creatorId"
-    [user]="user"
-    (clickedOnTag)="applyFilterByKey('Tag', $event)"
-    (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
-    (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"></app-comment>
+    [inputComment]="current"
+    (filterSelect)="selectFilter($event)"></app-comment>
 </div>
 <ars-mat-paginator
   *ngIf="comments.length > 0"
@@ -450,4 +462,14 @@
   <div id="select-time-all">
     {{ "comment-list.a11y-select-time-all" | translate }}
   </div>
+</div>
+
+<div
+  *ngIf="comments.length === 0 && !filterType && !search"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="no-comments">
+  <p>
+    <strong>{{ i18n().empty }}</strong>
+  </p>
 </div>

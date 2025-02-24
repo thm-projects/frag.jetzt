@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+<mat-dialog-content>
+  <span *ngFor="let line of i18n().message.split('\n')">
+    {{ line }}
+    <br />
+  </span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close
+    (click)="onCancel()"
+    cdkFocusInitial>
+    {{ i18n().cancel }}
+  </button>
+  <button
+    mat-button
+    (click)="onDeleteAssistant()">
+    {{ i18n().delete }}
+  </button>
+</mat-dialog-actions>

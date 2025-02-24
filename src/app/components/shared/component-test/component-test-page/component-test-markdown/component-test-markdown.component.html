@@ -1,0 +1,9 @@
+<app-markdown-editor
+  [(data)]="markdownSignal"
+  [additionalInfo]="countInfo"></app-markdown-editor>
+<br />
+<app-markdown-viewer [data]="markdownSignal()"></app-markdown-viewer>
+
+<ng-template #countInfo>
+  <span style="float: right; margin: 0.75em">Count: {{ count() }} / 500</span>
+</ng-template>

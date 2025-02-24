@@ -1,0 +1,16 @@
+<img
+  (click)="isAccepted = true"
+  *ngIf="!isAccepted"
+  [src]="imageSrc"
+  alt="" />
+<iframe
+  *ngIf="isAccepted"
+  (window:resize)="onResize()"
+  (load)="onResize()"
+  #scaledIframe
+  allowfullscreen
+  tabindex="0"
+  frameborder="0"
+  data-verified="true"
+  title=""
+  [src]="iframeSrc"></iframe>

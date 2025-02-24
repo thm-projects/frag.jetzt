@@ -1,0 +1,14 @@
+<span mat-dialog-title>{{ i18n().title }}</span>
+
+<mat-dialog-content>
+  <app-feature-grid [isDialog]="true"></app-feature-grid>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

@@ -1,0 +1,217 @@
+@use "sass:map";
+
+$_window-class: (
+  compact: (
+    width: (
+      min: 0,
+      max: 600,
+    ),
+    panes: (
+      1,
+    ),
+    spacing: (
+      pane: 16,
+    ),
+    /// https://m3.material.io/foundations/layout/applying-layout/medium#06c4914a-5ca6-4d91-a3ca-a6b494623189
+    reachability-offset: 25,
+    preferred-pane: 1,
+  ),
+  medium: (
+    width: (
+      min: 600,
+      max: 840,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    reachability-offset: 25,
+    spacing: (
+      pane: 24,
+    ),
+    preferred-pane: 1,
+  ),
+  expanded: (
+    width: (
+      min: 840,
+      max: 1200,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    reachability-offset: 25,
+    spacing: (
+      pane: 24,
+    ),
+    preferred-pane: 2,
+  ),
+  large: (
+    width: (
+      min: 1200,
+      max: 1600,
+    ),
+    panes: (
+      1,
+      2,
+    ),
+    reachability-offset: 25,
+    spacing: (
+      pane: 24,
+    ),
+    preferred-pane: 2,
+  ),
+  extra-large: (
+    width: (
+      min: 1600,
+      max: 1900,
+    ),
+    panes: (
+      1,
+      2,
+      3,
+    ),
+    reachability-offset: 25,
+    spacing: (
+      pane: 24,
+    ),
+    preferred-pane: 1,
+  ),
+  /// unoffical
+  ultra-large: (
+      width: (
+        min: 1900,
+      ),
+      panes: (
+        1,
+        2,
+        3,
+      ),
+      reachability-offset: 25,
+      spacing: (
+        pane: 24,
+      ),
+      preferred-pane: 1,
+    ),
+);
+
+$_window-class-enum: (
+  0: compact,
+  1: medium,
+  2: expanded,
+  3: large,
+  4: extra-large,
+  // unofficial
+  5: ultra-large,
+);
+
+@function _validate-existence($window-class-key) {
+  $has-key: map.has-key($_window-class, $window-class-key);
+  @if $has-key {
+    @return false;
+  } @else {
+    @return $window-class-key;
+  }
+}
+
+@function _validate-bounds($from, $to) {
+  $from-min: map.get($from, width, min);
+  $to-min: map.get($to, width, min);
+  @if $from-min > $to-min {
+    @return "from-class higher than to-class";
+  } @else {
+    @return false;
+  }
+}
+
+@mixin to-large() {
+  @include explicit-range(compact, large) {
+    @content;
+  }
+}
+
+@mixin to-expanded() {
+  @include explicit-range(compact, expanded) {
+    @content;
+  }
+}
+
+@mixin to-medium() {
+  @include explicit-range(compact, medium) {
+    @content;
+  }
+}
+
+@mixin compact() {
+  @include explicit-range(compact, compact) {
+    @content;
+  }
+}
+
+///
+/// creates a media-query based on window-classes
+/// min value from $from-window-class
+/// max value from $to-window-class
+/// example usage:
+///
+/// .my-class {
+///   height: var(--mat-toolbar-standard-height);
+///   padding:0 16px;
+///   @include layout.to-expanded {
+///     padding:0 8px;
+///     height: var(--mat-toolbar-mobile-height);
+///   }
+/// }
+///
+/// @param {string} from-window-class
+/// @param {string} to-window-class
+@mixin explicit-range($from-window-class, $to-window-class: ultra-large) {
+  $err-exists: _validate-existence($from-window-class);
+  @if $err-exists {
+    $_err-keys: map.keys($_window-class);
+    @error ('#{$err-exists} is not a known window-class. allowed window-classes: #{$_err-keys}');
+  }
+  $_from: map.get($_window-class, $from-window-class);
+  $_to: map.get($_window-class, $to-window-class);
+  $err-from-to-bound: _validate-bounds($_from, $_to);
+  @if $err-from-to-bound {
+    @error ($err-from-to-bound);
+  }
+  @if map.has-key(map.get($_to, width), max) {
+    @media (#{map.get($_from, width, min)}px <= width < #{map.get($_to, width, max)}px) {
+      @content;
+    }
+  } @else {
+    @media (min-width: #{map.get($_from, width, min)}px) {
+      @content;
+    }
+  }
+}
+
+@mixin all-layout-token() {
+  @each $key, $value in $_window-class {
+    @include explicit-range(#{$key}, #{$key}) {
+      --m3-sys-layout-spacing-pane: #{map.get($value, spacing, pane)}px;
+      --m3-sys-layout-reachability-offset: #{map.get(
+          $value,
+          reachability-offset
+        )}px;
+    }
+  }
+  @for $i from 1 through 3 {
+    $window-class-name: map.get($_window-class-enum, $i);
+    .m3-window-class-to-#{$window-class-name} {
+      @include explicit-range(
+        map.get($_window-class-enum, $i + 1),
+        extra-large
+      ) {
+        display: none;
+      }
+    }
+    .m3-window-class-from-#{$window-class-name} {
+      @include explicit-range(compact, map.get($_window-class-enum, $i - 1)) {
+        display: none;
+      }
+    }
+  }
+}

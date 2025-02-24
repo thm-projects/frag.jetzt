@@ -4,7 +4,8 @@ import { FrameType } from '../../layout/frame/FrameType';
 
 
 @Directive({
-  selector: '[ars-btn-wrp]'
+    selector: '[ars-btn-wrp]',
+    standalone: false
 })
 export class ButtonWrapperDirective implements OnInit, AfterViewInit {
 

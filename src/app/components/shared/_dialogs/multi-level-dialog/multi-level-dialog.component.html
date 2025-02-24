@@ -1,0 +1,209 @@
+<h1 mat-dialog-title>
+  {{ i18n().title }}
+</h1>
+
+<mat-dialog-content (window:keydown)="onKeyDown($event)">
+  <mat-progress-bar
+    mode="determinate"
+    [value]="dialogStepper.progress"></mat-progress-bar>
+  <mat-stepper
+    (selectionChange)="onChange($event)"
+    orientation="vertical"
+    [linear]="true"
+    [selectedIndex]="currentStepperIndex"
+    #stepper>
+    <!-- Question back stepper -->
+    @if (showBackOption) {
+      <mat-step
+        state="back"
+        [optional]="true"
+        [completed]="false">
+        <ng-template
+          matStepLabel
+          *ngIf="offsetIndex > 1; else firstStepLabel">
+          {{ i18n().range | context: { start: 1, end: offsetIndex } }}
+        </ng-template>
+        <ng-template
+          matStepLabel
+          #firstStepLabel>
+          {{ i18n().single | context: { number: 1 } }}
+        </ng-template>
+      </mat-step>
+    }
+    <!-- Dialog steps -->
+    @for (
+      elem of currentElements;
+      track elem;
+      let isFirst = $first;
+      let i = $index
+    ) {
+      @if (elem.group) {
+        <mat-step
+          [stepControl]="elem.group"
+          [completed]="
+            (i + offsetIndex <= dialogStepper.highestIndex || defaultTouched) &&
+            currentStepperIndex !== i + +showBackOption
+          "
+          [editable]="true">
+          <form [formGroup]="elem.group">
+            <ng-template matStepLabel>
+              {{ elem.title | translate }}
+            </ng-template>
+            @for (input of elem.config; track input) {
+              <ng-container
+                *ngComponentOutlet="
+                  input.component;
+                  injector: input.injector
+                "></ng-container>
+            }
+            <div class="button-container">
+              @if (isFirst) {
+                <div
+                  class="logged-in-info"
+                  *ngIf="isLoggedIn">
+                  <p>{{ getLoggedInText() }}</p>
+                </div>
+                <button
+                  *ngIf="!isLoggedIn"
+                  mat-flat-button
+                  class="secondary login-button"
+                  [attr.aria-label]="i18n().a11yLogin"
+                  (click)="onLoginClick()">
+                  <mat-icon>login</mat-icon>
+                  {{ i18n().login }}
+                </button>
+                <button
+                  *ngIf="isLoggedIn"
+                  mat-flat-button
+                  class="secondary logout-button"
+                  [attr.aria-label]="i18n().a11yLogout"
+                  (click)="onLogoutClick()">
+                  <mat-icon>logout</mat-icon>
+                  {{ i18n().logout }}
+                </button>
+              }
+              @if (!isFirst || showBackOption) {
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  [attr.aria-label]="i18n().a11yPrevious"
+                  matStepperPrevious>
+                  {{ i18n().previous }}
+                </button>
+              }
+              <button
+                mat-flat-button
+                class="primary"
+                [attr.aria-label]="i18n().a11yNext"
+                (click)="next(i + offsetIndex)">
+                <mat-icon>arrow_forward_ios</mat-icon>
+                {{ i18n().next }}
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      }
+    }
+    <!-- Question forward stepper -->
+    @if (showForwardOption) {
+      <mat-step
+        state="forward"
+        [completed]="false">
+        <ng-template
+          matStepLabel
+          *ngIf="
+            dialogStepper.elements.length > offsetIndex + windowSize + 1;
+            else lastStepLabel
+          ">
+          {{
+            i18n().range
+              | context
+                : {
+                    start: offsetIndex + windowSize + 1,
+                    end: dialogStepper.elements.length,
+                  }
+          }}
+        </ng-template>
+        <ng-template
+          matStepLabel
+          #lastStepLabel>
+          {{
+            i18n().single | context: { number: dialogStepper.elements.length }
+          }}
+        </ng-template>
+      </mat-step>
+    } @else {
+      <!-- Summary -->
+      <mat-step
+        state="summary"
+        [editable]="false"
+        [completed]="false">
+        <ng-template matStepLabel>
+          {{ i18n().global.submit }}
+        </ng-template>
+        <p>{{ i18n().completeText }}</p>
+        <div class="button-container">
+          <button
+            mat-button
+            matStepperPrevious>
+            {{ i18n().previous }}
+          </button>
+          <button
+            class="error-button"
+            mat-button
+            (click)="reset()">
+            {{ i18n().resetAll }}
+          </button>
+          <span style="flex: 1"></span>
+          <button
+            class="primary-button"
+            mat-flat-button
+            (click)="submit()">
+            {{ i18n().confirm }}
+            @if (sending) {
+              <mat-icon>
+                <app-mat-spinner-overlay
+                  [diameter]="20"
+                  [strokeWidth]="2"
+                  [color]="'primary'"></app-mat-spinner-overlay>
+              </mat-icon>
+            }
+          </button>
+        </div>
+      </mat-step>
+    }
+
+    <!-- Icons -->
+    <ng-template matStepperIcon="summary">
+      <mat-icon>done_all</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="back">
+      <mat-icon>arrow_back</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="forward">
+      <mat-icon>arrow_forward</mat-icon>
+    </ng-template>
+    <ng-template
+      matStepperIcon="number"
+      let-index="index">
+      {{ index + offsetIndex + +!showBackOption }}
+    </ng-template>
+  </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  @if (currentQuestion?.stepHelp) {
+    <button
+      mat-button
+      (click)="openHelp()">
+      {{ i18n().global.explain }}
+      <mat-icon>question_mark</mat-icon>
+    </button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,88 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+
+<mat-dialog-content>
+  <h3>{{ i18n().oldSystemSettings }}</h3>
+  <mat-slide-toggle
+    class="full-width"
+    style="margin-bottom: 1em"
+    [formControl]="partialControl">
+    {{ i18n().partialWords }}
+  </mat-slide-toggle>
+  <mat-form-field
+    class="full-width"
+    ppearance="outline">
+    <mat-label>{{ i18n().languageSpecific }}</mat-label>
+    <mat-select [formControl]="languageControl">
+      <mat-option [value]="false">
+        <i>{{ i18n().no }}</i>
+      </mat-option>
+      @for (lang of AVAILABLE_LANGS; track lang) {
+        <mat-option [value]="lang">{{ lang }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <h3>{{ i18n().newSystemSettings }}</h3>
+  <mat-slide-toggle
+    class="full-width"
+    [formControl]="slideControl">
+    {{ i18n().allowOpenai }}
+  </mat-slide-toggle>
+  <h3>{{ i18n().textInput }}</h3>
+  <mat-form-field
+    appearance="outline"
+    class="full-width">
+    <mat-label>{{ i18n().text }}</mat-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      [cdkAutosizeMinRows]="3"
+      [formControl]="textControl"
+      (keydown)="onKeydown($event)"></textarea>
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="checkModeration()">
+      <mat-icon>readiness_score</mat-icon>
+    </button>
+  </mat-form-field>
+  <h3>{{ i18n().oldResults }}</h3>
+  @if (oldModerationResult(); as old) {
+    <p>{{ i18n().flagged | context: { flag: old[1] } }}</p>
+    <p>{{ old[0] }}</p>
+  }
+  <h3>{{ i18n().newResults }}</h3>
+  <p>{{ i18n().flagged | context: { flag: moderationResultFlagged() } }}</p>
+  @if (moderationResult(); as summaries) {
+    @for (summary of summaries; track $index) {
+      <h3>{{ summary.title }}</h3>
+      <div class="grid-display">
+        @for (elem of summary.options; track $index) {
+          <span>{{ elem.key }}</span>
+          <span>
+            @switch (typeof elem.value) {
+              @case ("number") {
+                <mat-progress-bar [value]="elem.value * 100"></mat-progress-bar>
+              }
+              @case ("boolean") {
+                <mat-progress-bar
+                  [value]="+elem.value * 100"></mat-progress-bar>
+              }
+              @default {
+                {{ elem.value }}
+              }
+            }
+          </span>
+        }
+      </div>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

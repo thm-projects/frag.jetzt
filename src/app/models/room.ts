@@ -1,5 +1,4 @@
 import { BrainstormingSession } from './brainstorming-session';
-import { ImmutableStandardDelta } from '../utils/quill-utils';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { LivepollSession } from './livepoll-session';
 
@@ -8,7 +7,7 @@ export class Room {
   ownerId: UUID;
   shortId: string;
   name: string;
-  description: ImmutableStandardDelta;
+  description: string;
   closed: boolean;
   bonusArchiveActive: boolean;
   directSend: boolean;
@@ -28,6 +27,10 @@ export class Room {
   language: string;
   livepollActive: boolean;
   keywordExtractionActive: boolean;
+  radarActive: boolean;
+  focusActive: boolean;
+  chatGptActive: boolean;
+  mode: 'ARS' | 'PLE';
   // transient fields
   tags: string[];
   brainstormingSession: BrainstormingSession;
@@ -38,7 +41,7 @@ export class Room {
     ownerId = null,
     shortId = null,
     name = null,
-    description = { ops: [] },
+    description = '',
     closed = false,
     bonusArchiveActive = false,
     directSend = false,
@@ -58,6 +61,10 @@ export class Room {
     language = null,
     livepollActive = true,
     keywordExtractionActive = true,
+    radarActive = true,
+    focusActive = true,
+    chatGptActive = true,
+    mode = 'ARS',
     // transient fields
     tags = [],
     brainstormingSession = null,
@@ -94,6 +101,10 @@ export class Room {
       brainstormingSession,
     );
     this.livepollSession = verifyInstance(LivepollSession, livepollSession);
+    this.radarActive = radarActive;
+    this.focusActive = focusActive;
+    this.chatGptActive = chatGptActive;
+    this.mode = mode;
   }
 }
 

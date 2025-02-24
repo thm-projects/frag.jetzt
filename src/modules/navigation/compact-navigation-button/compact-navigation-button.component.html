@@ -1,0 +1,30 @@
+<div class="button-label-container">
+  @if (active()) {
+    <button
+      mat-flat-button
+      [ngClass]="{ 'hightlight-on-small-badge': shouldBeHighlighted }">
+      <mat-icon
+        [svgIcon]="svgIcon()"
+        [matBadge]="badgeCount() | truncateBadge: 999"
+        [matBadgeSize]="badgeSize()"
+        [matBadgeOverlap]="badgeOverlap()"
+        aria-hidden="false">
+        {{ icon() }}
+      </mat-icon>
+    </button>
+  } @else {
+    <button
+      mat-button
+      [ngClass]="{ 'hightlight-on-small-badge': shouldBeHighlighted }">
+      <mat-icon
+        [svgIcon]="svgIcon()"
+        [matBadge]="badgeCount() | truncateBadge: 999"
+        [matBadgeSize]="badgeSize()"
+        [matBadgeOverlap]="badgeOverlap()"
+        aria-hidden="false">
+        {{ icon() }}
+      </mat-icon>
+    </button>
+  }
+  <span class="button-caption">{{ title() }}</span>
+</div>

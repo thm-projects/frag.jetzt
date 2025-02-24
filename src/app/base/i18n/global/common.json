@@ -1,0 +1,42 @@
+{
+  "key": "common",
+  "de": {
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "confirm": "Löschen",
+    "abort": "Abbrechen",
+    "submit": "Abschicken",
+    "explain": "Erklären",
+    "changeSuccessful": "Änderungen gespeichert",
+    "changesGoneWrong": "Etwas ist schief gelaufen!",
+    "saveAndClose": "Speichern",
+    "reset": "Reset"
+  },
+  "en": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "confirm": "Delete",
+    "abort": "Cancel",
+    "submit": "Submit",
+    "explain": "Explain",
+    "changeSuccessful": "Successfully updated",
+    "changesGoneWrong": "Something has gone wrong!",
+    "saveAndClose": "Save",
+    "reset": "Reset"
+  },
+  "fr": {
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "confirm": "Supprimer",
+    "abort": "Annuler",
+    "submit": "Envoyer",
+    "explain": "Expliquer",
+    "changeSuccessful": "Modifications enregistrées",
+    "changesGoneWrong": "Quelque chose a mal tourné !",
+    "saveAndClose": "Enregistrer",
+    "reset": "Reset"
+  }
+}

@@ -1,0 +1,9 @@
+<app-help-room-create-de *ngIf="language === 'de'"></app-help-room-create-de>
+<app-help-room-create-en *ngIf="language === 'en'"></app-help-room-create-en>
+<app-help-room-create-fr *ngIf="language === 'fr'"></app-help-room-create-fr>
+
+<mat-dialog-actions class="align-left">
+  <app-dialog-action-buttons
+    [buttonsLabelSection]="'multi-level-dialog'"
+    [cancelButtonClickAction]="onClose"></app-dialog-action-buttons>
+</mat-dialog-actions>

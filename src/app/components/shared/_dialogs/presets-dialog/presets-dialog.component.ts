@@ -4,8 +4,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 export enum PresetsDialogType {
   CONTEXT = 'CONTEXT',
-  PERSONA = 'PERSONA',
-  TOPIC = 'TOPIC',
   ROLE_INSTRUCTION = 'ROLE_INSTRUCTION',
 }
 
@@ -13,6 +11,7 @@ export enum PresetsDialogType {
   selector: 'app-presets-dialog',
   templateUrl: './presets-dialog.component.html',
   styleUrls: ['./presets-dialog.component.scss'],
+  standalone: false,
 })
 export class PresetsDialogComponent implements OnInit {
   @Input() type: PresetsDialogType;
@@ -62,20 +61,6 @@ export class PresetsDialogComponent implements OnInit {
         this.labels[0] = 'presets-dialog.context-label';
         this.placeholders[0] = 'presets-dialog.context-placeholder';
         break;
-      case PresetsDialogType.PERSONA:
-        this.title[0] = 'presets-dialog.persona-title';
-        this.labels[0] = 'presets-dialog.persona-moderator-label';
-        this.labels[1] = 'presets-dialog.persona-user-label';
-        this.labels[2] = 'presets-dialog.persona-creator-label';
-        this.placeholders[0] = 'presets-dialog.persona-moderator-placeholder';
-        this.placeholders[1] = 'presets-dialog.persona-user-placeholder';
-        this.placeholders[2] = 'presets-dialog.persona-creator-placeholder';
-        break;
-      case PresetsDialogType.TOPIC:
-        this.title[0] = 'presets-dialog.topic-title';
-        this.labels[0] = 'presets-dialog.topic-label';
-        this.placeholders[0] = 'presets-dialog.topic-placeholder';
-        break;
       case PresetsDialogType.ROLE_INSTRUCTION:
         this.title[0] = 'presets-dialog.role-instruction-title';
         this.labels[0] = 'presets-dialog.role-instruction-label';
@@ -84,25 +69,19 @@ export class PresetsDialogComponent implements OnInit {
     }
   }
 
-  buildConfirmAction() {
+  confirm() {
     if (this.isLoading) {
-      return undefined;
+      return;
     }
-    return () => {
-      if (!this.formControls.every((control) => control.valid)) {
-        return;
-      }
-      this.formControls.forEach(
-        (control, index) => (this.data[index] = control.value),
-      );
-      this.dialogRef.close(this.data);
-    };
+    if (!this.formControls.every((control) => control.valid)) {
+      return;
+    }
+    this.formControls.forEach(
+      (control, index) => (this.data[index] = control.value),
+    );
+    this.dialogRef.close(this.data);
   }
-  buildCancelAction() {
-    return () => {
-      this.dialogRef.close();
-    };
-  }
+
   clear(index: number) {
     this.formControls[index].setValue('');
   }

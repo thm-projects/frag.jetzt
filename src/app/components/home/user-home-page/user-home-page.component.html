@@ -1,0 +1,26 @@
+<m3-body-pane [center-single-pane]="true">
+  <m3-supporting-pane class="content-pane">
+    <div class="column gap-medium flex-container">
+      <ng-container *ngIf="!loadingRatings">
+        <app-app-rating
+          class="flex-item"
+          [onSuccess]="onRate.bind(this)"
+          [ratingResults]="accumulatedRatings"></app-app-rating>
+      </ng-container>
+      <div
+        class="flex-item"
+        fxLayout="row"
+        fxLayoutAlign="flex-start center">
+        <app-new-landing></app-new-landing>
+      </div>
+    </div>
+    <app-room-list></app-room-list>
+    <button
+      id="live_announcer-button"
+      tabIndex="-1"
+      (click)="announce()"
+      class="visually-hidden">
+      {{ "home-page.live-announcer-user" | translate }}
+    </button>
+  </m3-supporting-pane>
+</m3-body-pane>

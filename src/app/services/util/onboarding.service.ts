@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JoyrideService } from 'ngx-joyride';
+import { JoyrideService, StepActionType } from 'ngx-joyride';
 import { EventService } from './event.service';
 import { Router } from '@angular/router';
 import { DataStoreService } from './data-store.service';
@@ -9,7 +9,6 @@ import {
   OnboardingTour,
   OnboardingTourStepInteraction,
 } from './onboarding.tours';
-import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class';
 import { NotificationService } from './notification.service';
 import { RoomService } from '../http/room.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +19,14 @@ import {
 import { SessionService } from './session.service';
 import { AccountStateService } from '../state/account-state.service';
 import { DeviceStateService } from '../state/device-state.service';
+import { forceLogin } from 'app/user/state/user';
+
+interface JoyrideStepInfo {
+  number: number;
+  name: string;
+  route: string;
+  actionType: StepActionType;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -50,12 +57,12 @@ export class OnboardingService {
     return obj && obj.state !== 'running';
   }
 
-  onFinishTour(name = 'default'): Observable<any> {
+  onFinishTour(name = 'default'): Observable<unknown> {
     const obj = JSON.parse(this.dataStoreService.get('onboarding_' + name));
     if (obj && obj.state !== 'running') {
       return of(obj.state);
     }
-    return new Observable<any>((e) => {
+    return new Observable<unknown>((e) => {
       const subscription = this._finishedTours.subscribe((tours) => {
         if (tours.includes(name)) {
           e.next(true);
@@ -68,11 +75,7 @@ export class OnboardingService {
 
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
-      initDefaultTour(
-        this.dataStoreService,
-        this.roomService,
-        this.accountState,
-      ),
+      initDefaultTour(this.dataStoreService, this.roomService),
       ignoreDone,
     );
   }
@@ -97,7 +100,9 @@ export class OnboardingService {
     if (previous.length < current.length || previous[1] !== current[1]) {
       //Route gets switched
       const name = this._activeTour.name;
+
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
+      const activeTour = this._activeTour;
       this.cleanup();
       this.joyrideService.closeTour();
       this.dataStoreService.set(
@@ -107,7 +112,9 @@ export class OnboardingService {
           step: this._currentStep + stepDirection,
         }),
       );
-      this.tryNavigate(name, current[1], routeChecker);
+      this.tryNavigate(name, current[1], routeChecker, () =>
+        this.startOnboardingTour(activeTour),
+      );
       return true;
     }
     return false;
@@ -141,6 +148,7 @@ export class OnboardingService {
         tour.name,
         firstStepRoute[1],
         tour.checkIfRouteCanBeAccessed,
+        () => this.startOnboardingTour(tour),
       );
       return false;
     }
@@ -198,11 +206,14 @@ export class OnboardingService {
     tourName: string,
     route: string,
     routeChecker: (string) => Observable<boolean>,
+    onDone: () => void,
   ) {
     if (routeChecker) {
       routeChecker(route).subscribe((canAccess) => {
         if (canAccess) {
-          this.router.navigate([route]);
+          this.router.navigate([route]).then(() => {
+            onDone();
+          });
         } else {
           this.dataStoreService.set(
             'onboarding_' + tourName,
@@ -216,7 +227,9 @@ export class OnboardingService {
         }
       });
     } else {
-      this.router.navigate([route]);
+      this.router.navigate([route]).then(() => {
+        onDone();
+      });
     }
   }
 
@@ -267,9 +280,7 @@ export class OnboardingService {
       window.removeEventListener('keyup', this._keyUpWrapper);
       this.dataStoreService.remove(redirectKey);
       if (SessionService.needsUser(redirect)) {
-        this.accountState
-          .forceLogin()
-          .subscribe(() => this.router.navigate([redirect]));
+        forceLogin().subscribe(() => this.router.navigate([redirect]));
       } else {
         this.router.navigate([redirect]);
       }

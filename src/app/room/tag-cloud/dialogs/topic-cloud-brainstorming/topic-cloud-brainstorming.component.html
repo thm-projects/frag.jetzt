@@ -1,0 +1,248 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+
+<mat-dialog-content>
+  @if (isLoading) {
+    <app-mat-spinner-overlay></app-mat-spinner-overlay>
+  } @else {
+    @if (userRole > 0 && !brainstormingData?.active) {
+      <mat-card appearance="raised">
+        <mat-card-header>
+          <mat-card-title>
+            {{ isMobile ? i18n().newSessionMobile : i18n().newSession }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>
+              {{ i18n().question }}
+            </mat-label>
+            <input
+              matInput
+              autofocus
+              autocomplete="off"
+              type="text"
+              appAccessibilityEscapedInput
+              (keyup)="checkForEnter($event)"
+              [(ngModel)]="question" />
+            <button
+              *ngIf="question"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="question = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>
+              {{ i18n().wordCount }}
+            </mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              type="number"
+              appAccessibilityEscapedInput
+              [min]="maxWordCountMin"
+              [max]="maxWordCountMax"
+              [formControl]="maxWordCount" />
+            <mat-hint>
+              {{
+                i18n().rangeHint
+                  | context: { min: maxWordCountMin, max: maxWordCountMax }
+              }}
+            </mat-hint>
+            <mat-error *ngIf="maxWordCount.hasError('required')">
+              {{ i18n().fieldRequired }}
+            </mat-error>
+            <mat-error *ngIf="maxWordCount.hasError('min')">
+              {{ i18n().fieldTooLow | context: { min: maxWordCountMin } }}
+            </mat-error>
+            <mat-error *ngIf="maxWordCount.hasError('max')">
+              {{ i18n().fieldTooHigh | context: { max: maxWordCountMax } }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>
+              {{ i18n().wordLength | translate }}
+            </mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              type="number"
+              appAccessibilityEscapedInput
+              [min]="maxWordLengthMin"
+              [max]="maxWordLengthMax"
+              [formControl]="maxWordLength" />
+            <mat-hint>
+              {{
+                i18n().rangeHint
+                  | context: { min: maxWordLengthMin, max: maxWordLengthMax }
+              }}
+            </mat-hint>
+            <mat-error *ngIf="maxWordLength.hasError('required')">
+              {{ i18n().fieldRequired }}
+            </mat-error>
+            <mat-error *ngIf="maxWordLength.hasError('min')">
+              {{ i18n().fieldTooLow | context: { min: maxWordLengthMin } }}
+            </mat-error>
+            <mat-error *ngIf="maxWordLength.hasError('max')">
+              {{ i18n().fieldTooHigh | context: { max: maxWordLengthMax } }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>
+              {{ i18n().lang.title }}
+            </mat-label>
+            <mat-select [formControl]="language">
+              <mat-option
+                *ngFor="let lang of languages"
+                [value]="lang">
+                {{ i18n().lang[lang] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="language.hasError('required')">
+              {{ i18n().fieldRequired }}
+            </mat-error>
+          </mat-form-field>
+          <mat-label>
+            {{ i18n().duration | context: { duration: getDuration() } }}
+          </mat-label>
+          <mat-slider
+            [min]="5"
+            [max]="45"
+            [step]="5"
+            discrete
+            [(ngModel)]="brainstormingDuration"
+            [displayWith]="displayMin"
+            showTickMarks>
+            <input matSliderThumb />
+            <input matSliderThumb />
+          </mat-slider>
+          <br />
+          <mat-slide-toggle [(ngModel)]="brainstormingAllowIdeas">
+            {{ i18n().allowIdeas }}
+          </mat-slide-toggle>
+          <br />
+          <mat-slide-toggle [(ngModel)]="brainstormingAllowRating">
+            {{ i18n().allowRating }}
+          </mat-slide-toggle>
+          <p>{{ i18n().noteChangeSettings }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-stroked-button
+            [disabled]="!canCreate()"
+            (click)="openNew()">
+            {{ i18n().start }}
+            <app-mat-spinner-overlay
+              *ngIf="isCreating"
+              [diameter]="20"
+              [strokeWidth]="2"
+              [color]="'on-primary'"></app-mat-spinner-overlay>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+    @if (brainstormingData) {
+      <mat-card appearance="raised">
+        @if (!brainstormingData?.active) {
+          <mat-card-header>
+            <mat-card-title>
+              {{
+                isMobile
+                  ? i18n().oldSession.titleMobile
+                  : i18n().oldSession.title
+              }}
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            {{ i18n().oldSession.info | context: brainstormingData }}
+          </mat-card-content>
+
+          <mat-card-actions>
+            @if (userRole > 0) {
+              <button
+                mat-button
+                class="error-button"
+                (click)="deleteSession()">
+                {{ i18n().oldSession.delete }}
+                <app-mat-spinner-overlay
+                  *ngIf="isDeleting"
+                  [diameter]="20"
+                  [strokeWidth]="2"
+                  [color]="'on-secondary'"></app-mat-spinner-overlay>
+              </button>
+            }
+            <button
+              mat-flat-button
+              class="secondary"
+              (click)="open()">
+              {{ i18n().oldSession.show }}
+            </button>
+          </mat-card-actions>
+        } @else {
+          <mat-card-header>
+            <mat-card-title>
+              {{
+                isMobile
+                  ? i18n().joinSession.titleMobile
+                  : i18n().joinSession.title
+              }}
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            {{ i18n().joinSession.info | context: brainstormingData }}
+          </mat-card-content>
+
+          <mat-card-actions>
+            @if (userRole > 0) {
+              <button
+                mat-button
+                (click)="closeSession()">
+                {{ i18n().joinSession.close }}
+                <app-mat-spinner-overlay
+                  *ngIf="isClosing"
+                  [diameter]="20"
+                  [strokeWidth]="2"
+                  [color]="'on-secondary'"></app-mat-spinner-overlay>
+              </button>
+            }
+
+            <button
+              mat-flat-button
+              class="secondary"
+              (click)="open()">
+              {{ i18n().joinSession.join }}
+            </button>
+          </mat-card-actions>
+        }
+      </mat-card>
+    }
+
+    @if (userRole === 0 && !this.brainstormingData) {
+      <mat-card appearance="raised">
+        <mat-card-content>
+          {{ i18n().noSession }}
+        </mat-card-content>
+      </mat-card>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close="abort">
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    (click)="openHelp()">
+    {{ i18n().global.explain }}
+  </button>
+</mat-dialog-actions>

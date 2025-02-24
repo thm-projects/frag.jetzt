@@ -1,52 +1,10 @@
-:host {
-  display: flex;
-  height: inherit;
-  flex-direction: column;
-
-  .align-center-y {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  .container {
-    width: 100%;
-    height: 100%;
-    max-height: unset; // Fix for current settings
-
-    .message {
-      app-motd-message {
-        margin-bottom: 20px;
-      }
-
-      :last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    &-title {
-      font-weight: normal;
-    }
-  }
-
-  mat-dialog-content {
-    hyphens: auto;
-    overflow-wrap: break-word;
-  }
-
-  mat-dialog-container {
-    padding: 0 !important;
-  }
+mat-dialog-content {
+  // Will be capped by max-height (always use max height)
+  height: 100vh;
 }
 
-.mat-flat-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-  margin: 20px 10px 10px 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+.empty {
+  text-align: center;
+  font-size: 1.5rem;
+  padding-top: 1em;
 }

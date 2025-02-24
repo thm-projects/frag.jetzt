@@ -1,0 +1,14 @@
+@if (this.self.session) {
+  <mat-icon>remove</mat-icon>
+  <mat-slider
+    [step]="sliderConfig.step"
+    [min]="sliderConfig.min"
+    [max]="sliderConfig.max"
+    (input)="this.self.session.focusScale.next($event.target['value'])"
+    [showTickMarks]="true">
+    <input
+      matSliderThumb
+      [value]="this.self.session.focusScale.value" />
+  </mat-slider>
+  <mat-icon>add</mat-icon>
+}

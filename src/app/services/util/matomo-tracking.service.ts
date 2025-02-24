@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
-import { MatomoInjector, MatomoTracker } from 'ngx-matomo-v9';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AccountStateService } from '../state/account-state.service';
 import { RoomStateService } from '../state/room-state.service';
+import { user$ } from 'app/user/state/user';
 
 @Injectable({
   providedIn: 'root',
@@ -14,111 +14,78 @@ export class MatomoTrackingService {
     [
       /^\/quiz$/,
       () => {
-        this.matomoTracker.setDocumentTitle('Quizzing');
+        this.setDocumentTitle('Quizzing');
       },
     ],
     [
-      /^\/(creator|moderator)\/room\/([^\/]+)\/moderator\/comments$/,
+      /^\/(creator|moderator)\/room\/([^/]+)\/moderator\/comments$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Moderation page');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Moderation page');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Room page');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Room page');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Q&A');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Q&A');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/tagcloud$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/tagcloud$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Keyword word cloud');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Keyword word cloud');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/brainstorming$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/brainstorming$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Brainstorming');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Brainstorming');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/questionwall$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/questionwall$/,
       (exp: RegExpMatchArray) => {
-        this.matomoTracker.setDocumentTitle('Question focus');
-        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-        this.matomoTracker.setCustomVariable(
-          2,
-          'UserRole',
-          this.getUserRoleString(),
-          'page',
-        );
-        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+        this.setDocumentTitle('Question focus');
+        this.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.setCustomVariable(2, 'UserRole', this.getUserRoleString(), 'page');
+        this.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
       },
     ],
   ] as const;
 
   constructor(
-    private matomoInjector: MatomoInjector,
-    private matomoTracker: MatomoTracker,
     private router: Router,
-    private accountState: AccountStateService,
     private roomState: RoomStateService,
   ) {
-    if (environment.name !== 'prod') {
+    if (!environment.production) {
       return;
     }
-    this.matomoInjector.init('/matomo/', 6);
-    this.accountState.user$.subscribe((user) => {
+    //TODO: INIT
+    user$.subscribe((user) => {
       if (user?.id) {
-        this.matomoTracker.setUserId(user.id);
+        this.setUserId(user.id);
       } else {
-        this.matomoTracker.resetUserId();
+        this.resetUserId();
       }
     });
     this.router.events.subscribe((e) => {
@@ -138,15 +105,52 @@ export class MatomoTrackingService {
     for (const [key, operation] of this.CONFIG) {
       const match = url.match(key);
       if (match) {
-        this.matomoTracker.setReferrerUrl(this.lastUrl);
+        this.setReferrerUrl(this.lastUrl);
         this.lastUrl = url;
-        this.matomoTracker.setCustomUrl(url);
-        this.matomoTracker.deleteCustomVariables('page');
+        this.setCustomUrl(url);
+        this.deleteCustomVariables('page');
         operation(match);
-        this.matomoTracker.trackPageView();
+        this.trackPageView();
         return;
       }
     }
     this.lastUrl = url;
+  }
+
+  private setDocumentTitle(title: string) {
+    //TODO
+  }
+
+  private setCustomVariable(
+    slot: number,
+    name: string,
+    value: string,
+    scope: 'page' | 'visit' | 'event' | 'action',
+  ) {
+    //TODO
+  }
+
+  private setReferrerUrl(url: string) {
+    //TODO
+  }
+
+  private setCustomUrl(url: string) {
+    //TODO
+  }
+
+  private deleteCustomVariables(scope: 'page' | 'visit' | 'event' | 'action') {
+    //TODO
+  }
+
+  private trackPageView() {
+    //TODO
+  }
+
+  private setUserId(userId: string) {
+    //TODO
+  }
+
+  private resetUserId() {
+    //TODO
   }
 }

@@ -1,0 +1,90 @@
+{
+  "key": "room-page",
+  "de": {
+    "name": "{{name}}",
+    "shortId": "Raum-Code: {{shortId}}",
+    "shortQuestions": "F {{number}}",
+    "shortAnswers": "A {{number}}",
+    "ple": {
+      "join": "Q&A"
+    },
+    "ars": {
+      "join": "Q&A"
+    },
+    "copySuccessful": "Link zum Raum in die Zwischenablage kopiert",
+    "copyFailed": "Fehler: Link konnte nicht in die Zwischenablage kopiert werden",
+    "tooltipModerator": "Code für Gast-Moderation oder Dauer-Moderation",
+    "tooltipCopy": "Teilnehmer-Link kopieren",
+    "tooltipEdit": "Titel ändern",
+    "tooltipOptions": "Mehr Optionen",
+    "editDescription": "Beschreibung ändern",
+    "moderatorAccess": "Moderationszugang",
+    "participant": "Teilnehmende",
+    "creator": "Raumersteller*in",
+    "chatGpt": "KI-Antworten",
+    "bonus": "Mit Bonus-Stern",
+    "moderators": "Moderation",
+    "roomPropertiesTitle": "Beiträge",
+    "purchase": "Token kaufen",
+    "tokensLeft": "Rest-Token:",
+    "defaultRoomDescription": "🎉 Willkommen!\n\nEgal ob du alleine lernst, im Austausch mit anderen bist oder den Raum für eine Veranstaltung einrichtest – mit aktivierter KI stehen dir spannende Funktionen zur Verfügung:\n\n- 🎓 Expertenrollen erstellen: Definiere Rollen, damit die KI präzise und fundiert auf deine Fragen antwortet.\n\n- 📁 Dokumente hochladen: Lade wichtige Unterlagen hoch, damit die KI sie analysiert und dir oder der Gruppe relevante Informationen bereitstellt.\n\n- 💬 Chats speichern: Sichere wertvolle Erkenntnisse und greife jederzeit wieder darauf zurück."
+  },
+  "en": {
+        "name": "{{name}}",
+        "shortId": "Key code: {{shortId}}",
+        "shortQuestions": "Q {{number}}",
+        "shortAnswers": "A {{number}}",
+        "ple": {
+            "join": "Q&A"
+        },
+        "ars": {
+            "join": "Q&A"
+        },
+        "copySuccessful": "The link to this room was copied to the clipboard",
+        "copyFailed": "Error: The link to this room could not be copied to the clipboard",
+        "tooltipModerator": "Code for guest or permanent moderation",
+        "tooltipCopy": "Copy participant link",
+        "tooltipEdit": "Edit title",
+        "tooltipOptions": "More options",
+        "editDescription": "Edit description",
+        "moderatorAccess": "Moderator access",
+        "participant": "Participants",
+        "creator": "Room creator",
+        "chatGpt": "AI answers",
+        "bonus": "With bonus star",
+        "moderators": "Moderation",
+        "roomPropertiesTitle": "Posts",
+        "purchase": "Buy tokens",
+        "tokensLeft": "Tokens left:",
+        "defaultRoomDescription": "🎉 Welcome!\n\nWhether you're learning solo, collaborating with others, or setting up the room for an event – with AI enabled, you have access to exciting features:\n\n- 🎓 Create Expert Roles: Define specific roles so AI provides precise and targeted answers for particular topics and questions.\n\n- 📁 Upload Documents: Share important documents for AI analysis, making relevant information readily available to you or the group.\n\n- 💬 Save Chats: Store valuable insights and refer back to them anytime to stay organized."
+    },
+    "fr": {
+        "name": "{{name}}",
+        "shortId": "Code de la salle : {{shortId}}",
+        "shortQuestions": "Q {{number}}",
+        "shortAnswers": "R {{number}}",
+        "ple": {
+            "join": "Q&R"
+        },
+        "ars": {
+            "join": "Q&R"
+        },
+        "copySuccessful": "Lien vers ca salle copié dans le presse-papiers",
+        "copyFailed": "Erreur : Le lien n'a pas pu être copié dans le presse-papierse",
+        "tooltipModerator": "Code pour modération temporaire ou permanente",
+        "tooltipCopy": "Copier le lien participant",
+        "tooltipEdit": "Modifier le titre",
+        "tooltipOptions": "Plus d'options",
+        "editDescription": "Modifier la description",
+        "moderatorAccess": "Accès modérateur",
+        "participant": "Participants",
+        "creator": "Créateur de la salle",
+        "chatGpt": "Réponses IA",
+        "bonus": "Avec étoile bonus ",
+        "moderators": "Modération",
+        "roomPropertiesTitle": "Publications",
+        "purchase": "Acheter des tokens",
+        "tokensLeft": "Tokens restants :",
+        "defaultRoomDescription": "🎉 Bienvenue !\n\nQue tu apprennes en solo, collabores avec d'autres ou prépares la salle pour un événement, avec l'IA activée, tu as accès à des fonctionnalités passionnantes :\n\n- 🎓 Crée des rôles d'experts : Définis des rôles spécifiques pour que l'IA fournisse des réponses précises et ciblées sur des sujets et questions particuliers.\n\n- 📁 Télécharge des documents : Partage des documents importants pour que l'IA les analyse et rende les informations pertinentes facilement accessibles pour toi ou ton groupe.\n\n- 💬 Enregistre les discussions : Conserve des idées précieuses et reviens-y à tout moment pour rester organisé."
+    }
+}

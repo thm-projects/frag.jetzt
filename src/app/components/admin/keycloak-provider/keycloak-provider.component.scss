@@ -6,10 +6,10 @@
   flex-direction: column;
 }
 
-button.mat-flat-button {
+button.mat-mdc-unelevated-button {
   background-color: transparent;
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
   font-size: 16px;
   width: 100%;
   margin-top: 20px;
@@ -20,8 +20,8 @@ button.mat-flat-button {
   }
 }
 
-.mat-form-field,
-.mat-card {
+.mat-mdc-form-field,
+.mat-mdc-card {
   background-color: var(--dialog);
   border-radius: 10px;
   margin: 10px;
@@ -54,7 +54,7 @@ button.mat-flat-button {
   }
 }
 
-.mat-card-title {
+.mat-mdc-card-title {
   border-bottom: 1px dashed currentColor;
 }
 

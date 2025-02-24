@@ -1,12 +1,9 @@
-$good-color: #4caf50;
-$bad-color: #f44336;
-
 .good-icon {
-  color: $good-color;
+  color: var(--custom-good);
 }
 
 .bad-icon {
-  color: $bad-color;
+  color: var(--custom-bad);
 }
 
 .good-icon,

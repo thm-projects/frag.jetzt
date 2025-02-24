@@ -7,16 +7,17 @@ stages:
   - codequality
   - build
   - deploy
+  - push_manifest
   - deploy_servers
 
 install:
   stage: install
   tags:
     - angular
-  image: local-angular:13
+  image: angular:19
   allow_failure: false
   script:
-    - npm ci
+    - npm ci --legacy-peer-deps
   artifacts:
     paths:
       - node_modules/
@@ -27,20 +28,20 @@ eslint:
   stage: codequality
   tags:
     - angular
-  image: local-angular:13
+  image: angular:19
   allow_failure: false
   dependencies:
     - install
   needs:
     - install
   script:
-    - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
+    - npx eslint src
 
 unit_tests:
   stage: test
   tags:
     - angular
-  image: local-angular:13
+  image: angular:19
   allow_failure: true
   dependencies:
     - install
@@ -56,7 +57,7 @@ unit_tests:
   stage: test
   tags:
     - angular
-  image: local-angular:13
+  image: angular:19
   allow_failure: true
   variables:
     TEST_USER_MAIL: $E2E_TEST_USER_MAIL
@@ -84,7 +85,7 @@ sonar:
     - staging
   tags:
     - sonar-cli
-  allow_failure: false
+  allow_failure: true
   dependencies:
     - unit_tests
     - install
@@ -92,13 +93,13 @@ sonar:
     - unit_tests
     - install
   script:
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
+    - sonar-scanner -Dsonar.token="$SONAR_TOKEN" -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.qualitygate.wait=true -Dsonar.projectKey=frag.jetzt-frontend
 
 ngbuild:
   stage: build
   tags:
     - angular
-  image: local-angular:13
+  image: angular:19
   allow_failure: false
   dependencies:
     - install
@@ -106,6 +107,17 @@ ngbuild:
     - install
   script:
     - ng build --configuration production --aot
+    - mv dist dist2
+    - mv dist2/fragjetzt/browser/ dist/
+    - mv dist2/fragjetzt/3rdpartylicenses.txt dist/
+    - rm -rf dist2/
+    - |
+      echo "Package: @shopware-ag/meteor-icon-kit" >> dist/3rdpartylicenses.txt
+    - |
+      echo "LICENSE: \"$(jq .license node_modules/@shopware-ag/meteor-icon-kit/package.json)\"" >> dist/3rdpartylicenses.txt
+    - cat node_modules/@shopware-ag/meteor-icon-kit/LICENSE.md >> dist/3rdpartylicenses.txt
+    - echo "" >> dist/3rdpartylicenses.txt
+    - echo "--------------------------------------------------------------------------------" >> dist/3rdpartylicenses.txt
   artifacts:
     paths:
       - "$BUILD_DIR"
@@ -115,11 +127,7 @@ deploy_staging:
   only:
     - staging
   tags:
-    - ssh
-  dependencies:
-    - build_image
-  needs:
-    - build_image
+    - common
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -132,7 +140,7 @@ deploy_production:
   only:
     - master
   tags:
-    - ssh
+    - common
   dependencies:
     - ngbuild
   script:
@@ -147,10 +155,7 @@ deploy_frag_thm:
   only:
     - master
   tags:
-    - ssh
-  needs:
-    - job: build_image
-      artifacts: false
+    - common
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
@@ -169,17 +174,58 @@ deploy_frag_thm:
     - sed -i '/^dist$/d' .dockerignore
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - echo "$CI_REGISTRY" "$IMAGE"
     - /kaniko/executor
-      --context     "$CI_PROJECT_DIR"
-      --dockerfile  "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
-      --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-      --build-arg   "BUILD_DIR=$BUILD_DIR"
+      --custom-platform "$PLATFORM"
+      --context         "$CI_PROJECT_DIR"
+      --dockerfile      "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
+      --build-arg       "BUILD_DIR=$BUILD_DIR"
+      --build-arg       "TARGETPLATFORM=$PLATFORM"
+      --destination     "$IMAGE"
 
-build_image:
+.manifest:
+  stage: push_manifest
+  only:
+    - staging
+    - master
+  tags:
+    - common
+  before_script:
+    - PROJECT_URL="https://github.com/estesp/manifest-tool"
+    - VERSION="v2.1.9"
+    - ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
+    - URL="$PROJECT_URL/releases/download/$VERSION/$ARTIFACT"
+    - curl -L -o manifest-tool.tar.gz $URL
+    - tar -zxvf manifest-tool.tar.gz manifest-tool-linux-$(dpkg --print-architecture)
+    - rm manifest-tool.tar.gz
+    - mv manifest-tool-linux-$(dpkg --print-architecture) manifest-tool
+    - chmod +x manifest-tool
+
+build_image_amd64:
   extends: .build_image_template
   only:
     - staging
     - master
+  variables:
+    PLATFORM: linux/amd64
+    IMAGE: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
+
+build_image_arm64:
+  extends: .build_image_template
+  only:
+    - staging
+    - master
+  variables:
+    PLATFORM: linux/arm64
+    IMAGE: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
+
+gitlab_registry_manifest:
+  extends: .manifest
+  script:
+    - ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-args
+      --platforms linux/arm64,linux/amd64
+      --template "${CI_REGISTRY_IMAGE}:ARCH-${CI_COMMIT_REF_SLUG}"
+      --target "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
 
 build_image_manual:
   extends: .build_image_template

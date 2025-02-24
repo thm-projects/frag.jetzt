@@ -1,0 +1,44 @@
+<div class="button-label-container">
+  @if (active()) {
+    <button
+      mat-flat-button
+      [ngClass]="{ 'hightlight-on-small-badge': shouldBeHighlighted }">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  } @else {
+    <button
+      mat-button
+      [ngClass]="{ 'hightlight-on-small-badge': shouldBeHighlighted }">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+</div>
+
+<ng-template #content>
+  <div class="button-content">
+    <mat-icon [svgIcon]="svgIcon()">
+      {{ icon() }}
+    </mat-icon>
+    <div class="overflow-cage">
+      <span class="button-caption">
+        {{ title() }}
+      </span>
+    </div>
+    <span
+      [matBadge]="badgeCount() | truncateBadge: 999"
+      [matBadgeSize]="badgeSize()"
+      [matBadgeOverlap]="false">
+      &nbsp;
+    </span>
+    @if (endIcon(); as icon) {
+      <span class="right-align">
+        <mat-icon>{{ icon }}</mat-icon>
+      </span>
+    }
+    @if (endSwitch() !== undefined) {
+      <span class="right-align">
+        <mat-slide-toggle [checked]="endSwitch()"></mat-slide-toggle>
+      </span>
+    }
+  </div>
+</ng-template>

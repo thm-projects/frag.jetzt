@@ -31,7 +31,7 @@ $_outline-width: 1px;
   }
 
   &:focus-within {
-    outline: $color solid 3px;
+    outline: $color solid 2px;
   }
 
   &:active {
@@ -59,7 +59,7 @@ button {
     margin-left: 4px;
   }
 
-  &.mat-flat-button {
+  &.mat-mdc-unelevated-button {
     &[_color*="primary"] {
       @include mix-default(primary);
     }
@@ -73,7 +73,7 @@ button {
       color: var(--on-dialog);
 
       &:hover {
-        outline: var(--cancel) solid 3px;
+        outline: var(--cancel) solid 2px;
       }
 
       .mat-icon {

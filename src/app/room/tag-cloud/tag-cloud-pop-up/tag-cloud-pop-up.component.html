@@ -1,0 +1,264 @@
+<div
+  #popupContainer
+  class="popupContainer"
+  (focusout)="onFocusOut()"
+  tabindex="0">
+  <div>
+    <div class="info-container">
+      @if (isBrainstorming) {
+        <ng-container [ngTemplateOutlet]="brainstormingFirstRow"></ng-container>
+      } @else {
+        <ng-container [ngTemplateOutlet]="normalFirstRow"></ng-container>
+      }
+      <button
+        *ngIf="userRole > 0 && isBlacklistActive"
+        mat-icon-button
+        (click)="addBlacklistWord()">
+        <mat-icon matTooltip="{{ 'tag-cloud.blacklist-topic' | translate }}">
+          gavel
+        </mat-icon>
+      </button>
+    </div>
+    <div
+      style="margin-top: 10px"
+      *ngIf="
+        (isBrainstorming && isBrainstormingActive && isRatingAllowed) ||
+        !isBrainstorming
+      ">
+      @if (isBrainstorming) {
+        @if (getOwnVote() === 1) {
+          <button
+            mat-flat-button
+            class="vote-button"
+            (click)="onBrainstormVote(true)">
+            <ng-container [ngTemplateOutlet]="upvotes"></ng-container>
+          </button>
+        } @else {
+          <button
+            mat-button
+            class="vote-button"
+            (click)="onBrainstormVote(true)">
+            <ng-container [ngTemplateOutlet]="upvotes"></ng-container>
+          </button>
+        }
+      } @else {
+        <ng-container [ngTemplateOutlet]="upvotes"></ng-container>
+      }
+      @if (isBrainstorming) {
+        @if (getOwnVote() === -1) {
+          <button
+            mat-flat-button
+            class="vote-button"
+            (click)="onBrainstormVote(false)">
+            <ng-container [ngTemplateOutlet]="downvotes"></ng-container>
+          </button>
+        } @else {
+          <button
+            mat-button
+            class="vote-button"
+            (click)="onBrainstormVote(false)">
+            <ng-container [ngTemplateOutlet]="downvotes"></ng-container>
+          </button>
+        }
+      } @else {
+        <ng-container [ngTemplateOutlet]="downvotes"></ng-container>
+      }
+    </div>
+    <div
+      style="margin-top: 15px"
+      *ngIf="timePeriodText">
+      <span>
+        <mat-icon
+          class="material-icons-outlined"
+          matTooltip="{{ 'tag-cloud.period-since-first-comment' | translate }}">
+          date_range
+        </mat-icon>
+        <p>
+          {{ timePeriodText }}
+        </p>
+      </span>
+    </div>
+    <div style="margin: 20px 5px 5px 5px">
+      <button
+        mat-flat-button
+        class="open-button"
+        (click)="openTag()">
+        @if (isBrainstorming) {
+          {{ "tag-cloud.open-in-q-and-a" | translate }}
+          <span
+            [matBadge]="brainstormingData?.responseCount || null"
+            matBadgeSize="medium"
+            matBadgeOverlap="false"></span>
+        } @else {
+          {{ "tag-cloud.show-comments-by-topic" | translate }}
+          <span
+            [matBadge]="tagData?.responseCount || null"
+            matBadgeSize="medium"
+            matBadgeOverlap="false"></span>
+        }
+      </button>
+    </div>
+    <div
+      class="selectContainer"
+      *ngIf="userRole > 0 && isBrainstorming">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          {{ "comment-page.select-brainstorm-category" | translate }}
+        </mat-label>
+        <mat-select
+          [(value)]="selectedCategory"
+          (selectionChange)="updateCategory($event.value)">
+          <mat-option>
+            <em>
+              {{ "comment-page.select-brainstorm-category-none" | translate }}
+            </em>
+          </mat-option>
+          <mat-option
+            *ngFor="let item of possibleCategories"
+            [value]="item.id">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="userRole > 0">
+      <mat-form-field *ngIf="isBrainstorming">
+        <mat-label>
+          {{ "tag-cloud-popup.tag-correction-placeholder" | translate }}
+        </mat-label>
+        <input
+          type="text"
+          attr.aria-label="{{
+            'tag-cloud-popup.tag-correction-placeholder' | translate
+          }}"
+          matInput
+          appAccessibilityEscapedInput
+          (keyup)="checkEnter($event)"
+          [formControl]="replacementInput" />
+      </mat-form-field>
+      <mat-form-field *ngIf="!isBrainstorming">
+        <mat-label>
+          {{ "tag-cloud-popup.tag-correction-placeholder" | translate }}
+        </mat-label>
+        <input
+          type="text"
+          attr.aria-label="{{
+            'tag-cloud-popup.tag-correction-placeholder' | translate
+          }}"
+          matInput
+          appAccessibilityEscapedInput
+          (keyup)="checkEnter($event)"
+          [formControl]="replacementInput"
+          [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let data of spellingData"
+            [value]="data">
+            {{ data }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br />
+      <button
+        mat-flat-button
+        class="replace-button"
+        [disabled]="!isNewTagReady()"
+        (click)="updateTag()">
+        {{ "comment-page.send" | translate }}
+      </button>
+    </div>
+    <div *ngIf="categories && categories.length">
+      <p style="padding-bottom: 8px">
+        {{ "comment-page.category" | translate }}
+      </p>
+      <ul>
+        <li *ngFor="let category of categories">{{ category }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<ng-template #upvotes>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ getTooltip('tag-cloud.upvote-topic') | translate }}">
+      thumb_up
+    </mat-icon>
+    @if (!isBrainstorming) {
+      <p class="inner-text">{{ tagData?.cachedUpVotes }}</p>
+    }
+  </span>
+</ng-template>
+
+<ng-template #downvotes>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ getTooltip('tag-cloud.downvote-topic') | translate }}">
+      thumb_down
+    </mat-icon>
+    @if (!isBrainstorming) {
+      <p class="inner-text">{{ tagData?.cachedDownVotes }}</p>
+    }
+  </span>
+</ng-template>
+
+<ng-template #normalFirstRow>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.overview-question-topic-tooltip' | translate
+      }}">
+      comment
+    </mat-icon>
+    <p class="inner-text">{{ tagData && tagData.comments.length }}</p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ 'tag-cloud.responses-to-keyword' | translate }}">
+      forum
+    </mat-icon>
+    <p class="inner-text">{{ tagData && tagData.responseCount }}</p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.overview-questioners-topic-tooltip' | translate
+      }}">
+      person
+    </mat-icon>
+    <p class="inner-text">{{ tagData && tagData.distinctUsers.size }}</p>
+  </span>
+</ng-template>
+
+<ng-template #brainstormingFirstRow>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.overview-question-topic-tooltip' | translate
+      }}">
+      comment
+    </mat-icon>
+    <p class="inner-text">{{ brainstormingData?.countedComments?.size }}</p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.ups-downs-difference'
+          | translate
+            : {
+                upvotes: getBrainstormingUpvotes(),
+                downvotes: getBrainstormingDownvotes(),
+              }
+      }}">
+      thumbs_up_down
+    </mat-icon>
+    <p class="inner-text">{{ getBrainstormingVotes() }}</p>
+  </span>
+</ng-template>

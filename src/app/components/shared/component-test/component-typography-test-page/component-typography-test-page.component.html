@@ -1,0 +1,108 @@
+<m3-body-pane>
+  <m3-supporting-pane
+    [type]="'fixed'"
+    [priority]="'secondary'">
+    <h1>Typography</h1>
+    <h3>Settings</h3>
+    <mat-form-field>
+      <input
+        matInput
+        [(ngModel)]="exampleText" />
+    </mat-form-field>
+  </m3-supporting-pane>
+  <m3-supporting-pane [type]="'flexible'">
+    <h2>selectors</h2>
+    <table>
+      <thead>
+        <tr>
+          <td>Selector</td>
+          <td>Example</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>h1</td>
+          <td>
+            <h1>{{ exampleText }}</h1>
+          </td>
+        </tr>
+        <tr>
+          <td>h2</td>
+          <td>
+            <h2>{{ exampleText }}</h2>
+          </td>
+        </tr>
+        <tr>
+          <td>h3</td>
+          <td>
+            <h3>{{ exampleText }}</h3>
+          </td>
+        </tr>
+        <tr>
+          <td>h4</td>
+          <td>
+            <h4>{{ exampleText }}</h4>
+          </td>
+        </tr>
+        <tr>
+          <td>h5</td>
+          <td>
+            <h5>{{ exampleText }}</h5>
+          </td>
+        </tr>
+        <tr>
+          <td>h6</td>
+          <td>
+            <h6>{{ exampleText }}</h6>
+          </td>
+        </tr>
+        <tr>
+          <td>p</td>
+          <td>
+            <p>{{ exampleText }}</p>
+          </td>
+        </tr>
+        <tr>
+          <td>span</td>
+          <td>
+            <span>{{ exampleText }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </m3-supporting-pane>
+  <m3-supporting-pane [type]="'flexible'">
+    <h2>m3 typography token</h2>
+    <table>
+      <thead>
+        <tr>
+          <td colspan="2">Token</td>
+          <td rowspan="2">Example</td>
+          <td rowspan="2">css-selector</td>
+        </tr>
+        <tr>
+          <td>section</td>
+          <td>size</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (section of sections; track section) {
+          @for (size of sizes; track size) {
+            <tr>
+              <td
+                *ngIf="size === sizes[0]"
+                rowspan="3">
+                {{ section }}
+              </td>
+              <td>{{ size }}</td>
+              <td>
+                <span [ngClass]="section + '-' + size">{{ exampleText }}</span>
+              </td>
+              <td>{{ "." + section + "-" + size }}</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </m3-supporting-pane>
+</m3-body-pane>

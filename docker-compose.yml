@@ -1,12 +1,10 @@
-version: '3.6'
-
 services:
   frontend:
     image: local-fragjetzt-prod
     build:
       context: .
       dockerfile: Dockerfile
-      target: SERVE
+      target: serve
     hostname: fragjetzt-frontend
     container_name: fragjetzt-frontend
     networks:

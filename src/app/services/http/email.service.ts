@@ -4,7 +4,6 @@ import { Observable, catchError, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
@@ -18,7 +17,7 @@ export class EmailService extends BaseHttpService {
 
   sendEmailToAll(subject: string, message: string): Observable<void> {
     return this.httpClient
-      .post(
+      .post<void>(
         '/api/admin-email/send',
         {
           properties: { subject, message },
@@ -27,8 +26,8 @@ export class EmailService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap((_) => ''),
-        catchError(this.handleError<any>('sendEmailToAll')),
+        tap(() => ''),
+        catchError(this.handleError<void>('sendEmailToAll')),
       );
   }
 }

@@ -7,11 +7,13 @@ import { ModeratorService } from '../../../services/http/moderator.service';
 import { map } from 'rxjs/operators';
 import { UserRole } from '../../../models/user-roles.enum';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { forceLogin, user } from 'app/user/state/user';
 
 @Component({
   selector: 'app-moderator-join',
   templateUrl: './moderator-join.component.html',
   styleUrls: ['./moderator-join.component.scss'],
+  standalone: false,
 })
 export class ModeratorJoinComponent implements OnInit {
   room: Room;
@@ -26,19 +28,15 @@ export class ModeratorJoinComponent implements OnInit {
     private accountState: AccountStateService,
   ) {}
 
-  get user() {
-    return this.accountState.getCurrentUser();
-  }
-
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.accountState.forceLogin().subscribe((result) => {
-        if (result === null || result === undefined) {
+      forceLogin().subscribe((result) => {
+        if (!result) {
           this.router.navigate(['/']);
           return;
         }
         this.roomService
-          .getErrorHandledRoomByShortId(params.shortId, () => {
+          .getErrorHandledRoomByShortId(params['shortId'], () => {
             this.router.navigate(['/']);
           })
           .subscribe((room) => {
@@ -89,14 +87,15 @@ export class ModeratorJoinComponent implements OnInit {
         .get(modRoom.moderatorRoomReference)
         .pipe(map((mods) => new Set(mods.map((m) => m.accountId)))),
     ]).subscribe(([room, mods]) => {
-      if (room.ownerId === this.user.id) {
+      const id = user()?.id;
+      if (room.ownerId === id) {
         this.accountState
           .setAccess(room.shortId, room.id, UserRole.CREATOR)
           .subscribe();
         this.router.navigate([`/creator/room/${room.shortId}/comments`]);
         return;
       }
-      if (mods.has(this.user.id)) {
+      if (mods.has(id)) {
         this.roomService.addToHistory(room.id);
         this.accountState
           .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)

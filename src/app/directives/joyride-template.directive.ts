@@ -5,6 +5,7 @@ import { EventService } from '../services/util/event.service';
 
 @Directive({
   selector: '[appJoyrideTemplate]',
+  standalone: false,
 })
 export class JoyrideTemplateDirective implements OnInit {
   constructor(
@@ -18,11 +19,12 @@ export class JoyrideTemplateDirective implements OnInit {
       JoyrideTemplateComponent,
     );
     templates.instance.name = this.joyrideDirective.name;
+    this.joyrideDirective.title = templates.instance.title$;
+    this.joyrideDirective.text = templates.instance.text$;
     this.joyrideDirective.doneTemplate = templates.instance.doneButton;
     this.joyrideDirective.nextTemplate = templates.instance.nextButton;
     this.joyrideDirective.prevTemplate = templates.instance.prevButton;
     this.joyrideDirective.counterTemplate = templates.instance.counter;
-    this.joyrideDirective.stepContent = templates.instance.translateText;
     this.joyrideDirective.done.subscribe(() => {
       this.eventService.broadcast('onboarding', 'canceled');
     });

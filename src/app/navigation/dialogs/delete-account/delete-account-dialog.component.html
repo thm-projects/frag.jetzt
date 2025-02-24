@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+<mat-dialog-content>
+  <p>{{ i18n().text }}</p>
+
+  <div *ngIf="data.ownedRooms.length > 0">
+    <h3>{{ i18n().rooms }}</h3>
+    <mat-list>
+      <div *ngFor="let room of data.ownedRooms">
+        <mat-list-item>
+          <div class="flex align-center">
+            <mat-icon class="mr-3">meeting_room</mat-icon>
+            {{
+              room.name.length > 20 ? room.name.slice(0, 20) + "..." : room.name
+            }}
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-list>
+  </div>
+
+  <div *ngIf="Object.keys(data.tokenCounts).length > 0">
+    <h3>{{ i18n().tokens }}</h3>
+    <mat-list>
+      <div *ngFor="let roomTokens of data.tokenCounts">
+        <mat-list-item>
+          <div class="flex align-center">
+            <mat-icon class="mr-3">grade</mat-icon>
+            {{
+              roomTokens.roomName.length > 20
+                ? roomTokens.roomName.slice(0, 20) + "..."
+                : roomTokens.roomName
+            }}: {{ roomTokens.tokenCount }}
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-list>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex justify-between">
+  <button
+    mat-flat-button
+    class="secondary"
+    (click)="onDiscard()">
+    {{ i18n().global.cancel }}
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="onDelete(data.authService)">
+    {{ i18n().global.confirm }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,64 @@
+@use "sass:math";
+$container-size: 3em;
+
+.container {
+  background: linear-gradient(
+    to right,
+    red,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+  height: $container-size;
+  position: relative;
+  border-radius: 10px;
+}
+
+$dot-size: 1.5em;
+$border-width: 0.2em;
+
+.dot {
+  border-radius: 100%;
+  position: absolute;
+  height: $dot-size;
+  width: $dot-size;
+  left: 0;
+  top: #{math.div($container-size, 2) - math.div($dot-size, 2) - math.div(
+      $border-width,
+      2
+    )};
+  translate: -50% 0%;
+  border: $border-width solid var(--mat-sys-outline);
+  background: var(--mat-sys-surface-container-high);
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  padding-block: 0.3em;
+  padding: 1.5em 0;
+}
+
+mat-dialog-content.custom {
+  padding-block: 1em;
+  padding-top: 1.5em;
+}
+
+.fab-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+
+.filled-card {
+  cursor: default;
+}
+
+.scrollable-dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 16px; /* Adds padding to prevent overflow hiding */
+}

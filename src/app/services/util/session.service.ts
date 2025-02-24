@@ -15,9 +15,7 @@ import { RoomService } from '../http/room.service';
 import { WsRoomService } from '../websockets/ws-room.service';
 import { ModeratorService } from '../http/moderator.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { filter, map, mergeMap, take } from 'rxjs/operators';
-import { WsConnectorService } from '../websockets/ws-connector.service';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
+import { filter, map, take } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
@@ -30,6 +28,23 @@ import { WsGlobalService } from '../websockets/ws-global.service';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 import { AccountStateService } from '../state/account-state.service';
 import { RoomStateService } from '../state/room-state.service';
+import { UUID } from 'app/utils/ts-utils';
+import { forceLogin, user } from 'app/user/state/user';
+
+interface Message {
+  type: string;
+  payload: {
+    sessionId: UUID;
+    id: UUID;
+    changes?: Record<string, unknown>;
+    name: string;
+    correctedWord: string;
+    wordId: UUID;
+    upvotes: number;
+    downvotes: number;
+    livepoll: LivepollSession;
+  };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +74,6 @@ export class SessionService {
     private roomService: RoomService,
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
-    private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
     private livepollService: LivepollService,
@@ -199,13 +213,13 @@ export class SessionService {
       !this._initialized || this.accountState.hasAccess(shortId, urlRole);
     this.loadRoom(shortId);
     this.onReady.subscribe(() => {
-      const user = this.accountState.getCurrentUser();
-      if (!user) {
+      const account = user();
+      if (!account) {
         previous = false;
         onRevalidate(previous);
         return;
       }
-      this.ensureRole(user.id).subscribe((role) => {
+      this.ensureRole(account.id).subscribe((role) => {
         if (role >= urlRole) {
           previous = true;
           onRevalidate(previous);
@@ -224,13 +238,7 @@ export class SessionService {
   updateCurrentRoom(room: Partial<Room>): void {
     const current = this._currentRoom.getValue();
     for (const key of Object.keys(room)) {
-      if (key === 'description') {
-        current[key] = QuillUtils.deserializeDelta(
-          room[key] as unknown as SerializedDelta,
-        );
-      } else {
-        current[key] = room[key];
-      }
+      current[key] = room[key];
     }
   }
 
@@ -266,11 +274,11 @@ export class SessionService {
   }
 
   private onNavigate() {
-    const segments = this.router.parseUrl(this.router.url).root.children.primary
-      ?.segments;
+    const segments = this.router.parseUrl(this.router.url).root.children[
+      'primary'
+    ]?.segments;
     if (!segments || segments.length < 3) {
       this.clearRoom();
-      this.checkUser();
       return;
     }
     switch (segments[0].path) {
@@ -280,7 +288,6 @@ export class SessionService {
         break;
       default:
         this.clearRoom();
-        this.checkUser();
         return;
     }
     if (segments[1].path === 'room') {
@@ -321,21 +328,14 @@ export class SessionService {
     this.clearRoom();
     this._currentLoadingShortId = shortId;
     this._initFinished.pipe(take(1)).subscribe(() => {
-      this.accountState
-        .forceLogin()
+      forceLogin()
         .pipe(
           map((data) => {
             this.accountState.updateAccess(shortId);
             return data;
           }),
-          mergeMap((_) =>
-            this.wsConnectorService.connected$.pipe(
-              filter((v) => !!v),
-              take(1),
-            ),
-          ),
         )
-        .subscribe((_) => this.fetchRoom(shortId));
+        .subscribe(() => this.fetchRoom(shortId));
     });
   }
 
@@ -366,7 +366,7 @@ export class SessionService {
           }
         }
       });
-      this.receiveRoomUpdates().subscribe((x) => {
+      this.receiveRoomUpdates().subscribe(() => {
         if (_beforeActive.value !== !!this.currentLivepoll?.active) {
           _beforeActive.next(!!this.currentLivepoll?.active);
         }
@@ -379,7 +379,7 @@ export class SessionService {
     });
   }
 
-  private receiveMessage(msg: any, room: Room) {
+  private receiveMessage(msg: { body: string }, room: Room) {
     const message = JSON.parse(msg.body);
     if (message.roomId && message.roomId !== room.id) {
       console.error('Wrong room!', message);
@@ -427,7 +427,7 @@ export class SessionService {
     }
   }
 
-  private onBrainstormingCategorizationReset(message: any, room: Room) {
+  private onBrainstormingCategorizationReset(message: Message, room: Room) {
     const id = room.brainstormingSession?.id;
     if (id !== message.payload.sessionId) {
       return;
@@ -438,7 +438,7 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingPatched(message: any, room: Room) {
+  private onBrainstormingPatched(message: Message, room: Room) {
     const id = room.brainstormingSession?.id;
     if (id !== message.payload.id) {
       return;
@@ -447,7 +447,7 @@ export class SessionService {
     Object.keys(message.payload.changes).forEach((key) => {
       const change = message.payload.changes[key];
       if (key === 'ideasEndTimestamp' && change) {
-        room.brainstormingSession[key] = new Date(change);
+        room.brainstormingSession[key] = new Date(change as Date);
       } else {
         room.brainstormingSession[key] = change;
       }
@@ -455,7 +455,7 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingVoteReset(message: any, room: Room) {
+  private onBrainstormingVoteReset(message: Message, room: Room) {
     const id = room.brainstormingSession?.id;
     if (id !== message.payload.sessionId) {
       return;
@@ -470,7 +470,7 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingWordPatched(message: any, room: Room) {
+  private onBrainstormingWordPatched(message: Message, room: Room) {
     const wordId = message.payload.id;
     const entry = room.brainstormingSession?.wordsWithMeta?.[wordId];
     if (!entry) {
@@ -484,8 +484,8 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingWordCreated(message: any, room: Room) {
-    const word = new BrainstormingWord({} as any);
+  private onBrainstormingWordCreated(message: Message, room: Room) {
+    const word = new BrainstormingWord({} as BrainstormingWord);
     word.id = message.payload.id;
     word.sessionId = message.payload.sessionId;
     word.word = message.payload.name;
@@ -513,7 +513,7 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingVoteUpdated(message: any, room: Room) {
+  private onBrainstormingVoteUpdated(message: Message, room: Room) {
     const wordId = message.payload.wordId;
     const upvotes = message.payload.upvotes;
     const downvotes = message.payload.downvotes;
@@ -527,16 +527,7 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private checkUser() {
-    if (!SessionService.needsUser(decodeURI(this.router.url))) {
-      return;
-    } else {
-      return;
-    }
-    this.accountState.forceLogin().subscribe();
-  }
-
-  private onLivepollCreated(message: any, room: Room) {
+  private onLivepollCreated(message: Message, room: Room) {
     this._beforeRoomUpdates.next(room);
     const livepollSessionObject = new LivepollSession(message.payload.livepoll);
     this._currentLivepollSession.next(livepollSessionObject);
@@ -551,7 +542,7 @@ export class SessionService {
     );
   }
 
-  private onLivepollPatched(message: any, room: Room) {
+  private onLivepollPatched(message: Message, room: Room) {
     const id = room.livepollSession?.id;
     if (id !== message.payload.id) {
       // skip
@@ -559,8 +550,8 @@ export class SessionService {
     }
     this._beforeRoomUpdates.next(room);
     const changes = message.payload.changes;
-    if (typeof changes.active !== 'undefined') {
-      if (!changes.active) {
+    if (typeof changes['active'] !== 'undefined') {
+      if (!changes['active']) {
         room.livepollSession = null;
         const cached = this.currentLivepoll;
         this._currentLivepollSession.next(null);

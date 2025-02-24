@@ -9,9 +9,11 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountStateService } from 'app/services/state/account-state.service';
+import { user } from 'app/user/state/user';
+import { room } from 'app/room/state/room';
 
 const AUTH_HEADER_KEY = 'Authorization';
+const ROOM_HEADER_KEY = 'Room-Id';
 const AUTH_SCHEME = 'Bearer';
 
 @Injectable()
@@ -27,20 +29,24 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         /^\/api\/motds\/all(\/|$)/g,
       ],
     },
+    {
+      allow: /^\/ai(\/|$)/g,
+      blacklist: [],
+    },
   ];
 
-  constructor(private accountState: AccountStateService) {}
+  constructor() {}
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler,
-  ): Observable<HttpEvent<any>> {
-    const user = this.accountState.getCurrentUser();
-    if (!user) {
+  ): Observable<HttpEvent<unknown>> {
+    const account = user();
+    if (!account) {
       return next.handle(req);
     }
 
-    const token = user.token;
+    const token = account.token;
     if (!token) {
       return next.handle(req);
     }
@@ -54,18 +60,21 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if (!needsAuthentication) {
       return next.handle(req);
     }
+    const roomId = room.value()?.id || '';
     const cloned = req.clone({
-      headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`),
+      headers: req.headers
+        .set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
+        .set(ROOM_HEADER_KEY, roomId),
     });
 
     return next.handle(cloned).pipe(
       tap({
-        next: (event: HttpEvent<any>) => {
+        next: (event: HttpEvent<unknown>) => {
           if (event instanceof HttpResponse) {
             // Possible to do something with the response here
           }
         },
-        error: (err: any) => {
+        error: (err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             // Possible to do something with the response here
           }

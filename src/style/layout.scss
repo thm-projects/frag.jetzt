@@ -1,0 +1,41 @@
+@use "layout-variables.scss";
+
+body {
+  scrollbar-width: none;
+}
+
+:root {
+  --mdc-plain-tooltip-container-shape: 0.625rem;
+}
+
+.mat-expansion-panel-header-title {
+  white-space: nowrap;
+}
+
+.mdc-button__label {
+  white-space: nowrap;
+}
+
+.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  display: flex;
+  align-items: center;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 1.5em;
+}
+
+.mat-mdc-tooltip .mdc-tooltip__surface {
+  padding: 1em;
+  border: 0.25em solid #fff7e9;
+  max-width: 18rem;
+  overflow: hidden;
+}
+
+.mat-mdc-snack-bar-container {
+  margin: 1.5em !important;
+  margin-bottom: 3.125em !important;
+  max-width: 33vw;
+  min-width: 22rem;
+  min-height: 3em;
+}

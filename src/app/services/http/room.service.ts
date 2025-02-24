@@ -5,21 +5,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
-import { EventService } from '../util/event.service';
 import { NotificationService } from '../util/notification.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from '../state/account-state.service';
+import { user } from 'app/user/state/user';
 
 const httpOptions = {
   headers: new HttpHeaders({}),
 };
 
 export type RoomAPI = Omit<Room, 'description'> & {
-  description: SerializedDelta;
+  description: string;
 };
 
 export type RoomPatch = Partial<
@@ -32,6 +31,8 @@ export type RoomPatch = Partial<
     | 'lastVisitCreator'
     | 'brainstormingSession'
     | 'moderatorRoomReference'
+    | 'livepollSession'
+    | 'mode'
   >
 >;
 
@@ -100,37 +101,28 @@ export class RoomService extends BaseHttpService {
   addRoom(room: Room, exc?: () => void): Observable<Room> {
     delete room.id;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
-    room.ownerId = this.accountState.getCurrentUser().id;
-    return this.http
-      .post<RoomAPI>(
-        connectionUrl,
-        {
-          ...room,
-          description: QuillUtils.serializeDelta(room.description),
-        },
-        httpOptions,
-      )
-      .pipe(
-        map((r) => this.parseRoom(r)),
-        tap((returnedRoom) => {
-          this.accountState
-            .setAccess(
-              returnedRoom.shortId,
-              returnedRoom.id,
-              UserRole.PARTICIPANT,
-            )
-            .subscribe();
-        }),
-        catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
-      );
+    room.ownerId = user().id;
+    return this.http.post<RoomAPI>(connectionUrl, room, httpOptions).pipe(
+      map((r) => this.parseRoom(r)),
+      tap((returnedRoom) => {
+        this.accountState
+          .setAccess(
+            returnedRoom.shortId,
+            returnedRoom.id,
+            UserRole.PARTICIPANT,
+          )
+          .subscribe();
+      }),
+      catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
+    );
   }
 
   getRoom(id: string): Observable<Room> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${id}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
-      catchError(this.handleRoomError<Room>(`getRoom keyword=${id}`)),
+      tap(() => ''),
+      catchError(this.handleRoomError<Room>()),
     );
   }
 
@@ -138,8 +130,8 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
-      catchError(this.handleRoomError<Room>(`getRoom shortId=${shortId}`)),
+      tap(() => ''),
+      catchError(this.handleRoomError<Room>()),
     );
   }
 
@@ -150,7 +142,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(
         this.buildErrorExecutionCallback(`getRoom shortId=${shortId}`, err),
       ),
@@ -159,14 +151,14 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
-      this.accountState.getCurrentUser().id
+      user().id
     }/roomHistory`;
     this.http.post(connectionUrl, { roomId }, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<void> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
-      this.accountState.getCurrentUser().id
+      user().id
     }/roomHistory/${roomId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
@@ -183,23 +175,14 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  updateRoom(updatedRoom: Room): Observable<Room> {
+  updateRoom(updatedRoom: Room): Observable<RoomAPI> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${
       updatedRoom.shortId
     }`;
-    return this.http
-      .put<RoomAPI>(
-        connectionUrl,
-        {
-          ...updatedRoom,
-          description: QuillUtils.serializeDelta(updatedRoom.description),
-        },
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<any>('updateRoom')),
-      );
+    return this.http.put<RoomAPI>(connectionUrl, updatedRoom, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<RoomAPI>('updateRoom')),
+    );
   }
 
   deleteRoom(roomId: string): Observable<void> {
@@ -231,10 +214,10 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  handleRoomError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  handleRoomError<T>() {
+    return (error: object): Observable<T> => {
       console.error(error);
-      if (error.status === 404) {
+      if ('status' in error && error.status === 404) {
         this.translateService
           .get('room-list.room-not-exist')
           .subscribe((msg) => {
@@ -247,8 +230,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private parseRoom(room: RoomAPI): Room {
-    const newRoom = room as unknown as Room;
-    newRoom.description = QuillUtils.deserializeDelta(room.description, true);
+    const newRoom = new Room(room as unknown as Room);
     if (newRoom.brainstormingSession?.ideasEndTimestamp) {
       newRoom.brainstormingSession.ideasEndTimestamp = new Date(
         newRoom.brainstormingSession.ideasEndTimestamp,
@@ -261,7 +243,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private buildErrorExecutionCallback(data: string, exc: () => void) {
-    return (error: any) => {
+    return (error: object) => {
       if (exc) {
         exc();
       }

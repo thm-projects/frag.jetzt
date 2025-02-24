@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AVAILABLE_LANGUAGES } from 'app/base/language/language';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import {
   KeycloakProviderAPI,
   KeycloakProviderService,
 } from 'app/services/http/keycloak-provider.service';
-import {
-  AVAILABLE_LANGUAGES,
-  AppStateService,
-} from 'app/services/state/app-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { KeycloakService } from 'app/services/util/keycloak.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
@@ -36,6 +34,7 @@ type IpType = IpSingle | IpRange | IpSubnet;
   selector: 'app-keycloak-provider',
   templateUrl: './keycloak-provider.component.html',
   styleUrls: ['./keycloak-provider.component.scss'],
+  standalone: false,
 })
 export class KeycloakProviderComponent implements OnInit, OnDestroy {
   readonly languages = AVAILABLE_LANGUAGES;
@@ -280,7 +279,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       );
   }
 
-  private formatProvider(provider: any) {
+  private formatProvider(provider: KeycloakProvider) {
     const lang = this.appState.getCurrentLanguage() || 'en';
     const access = 'name' + lang[0].toUpperCase() + lang.slice(1);
     if (!provider) {

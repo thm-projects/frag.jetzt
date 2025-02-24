@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -19,7 +18,6 @@ import {
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
-import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
@@ -30,11 +28,15 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { afterUpdate, uiComments } from 'app/room/state/comment-updates';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-topic-cloud-administration',
   templateUrl: './topic-cloud-administration.component.html',
   styleUrls: ['./topic-cloud-administration.component.scss'],
+  standalone: false,
 })
 export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
@@ -42,8 +44,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
   profanitywordlist: string[] = [];
-  profanitylistSubscription = undefined;
-  commentServiceSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -88,9 +88,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   testProfanityLanguage = 'de';
   blacklistKeywords = [];
   isMobile = false;
-  private subscriptionRoom = null;
+  isPle = false;
   private topicCloudAdminData: TopicCloudAdminData;
   private destroyer = new ReplaySubject(1);
+  private comments$ = toObservable(uiComments);
 
   constructor(
     public cloudDialogRef: MatDialogRef<TopicCloudAdministrationComponent>,
@@ -100,7 +101,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private topicCloudAdminService: TopicCloudAdminService,
     private sessionService: SessionService,
     private commentService: CommentService,
-    private roomDataService: RoomDataService,
     private profanityFilterService: ProfanityFilterService,
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
@@ -111,6 +111,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
       .subscribe((m) => (this.isMobile = m));
+    roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
+      this.isPle = room?.mode === 'PLE';
+    });
   }
 
   ngOnInit(): void {
@@ -124,8 +127,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.setDefaultAdminData(room);
       this.initializeKeywords();
-      this.subscriptionRoom = this.sessionService
+      this.sessionService
         .receiveRoomUpdates()
+        .pipe(takeUntil(this.destroyer))
         .subscribe((_room) => {
           this.blacklistIsActive = room.blacklistActive;
           this.blacklist = _room.blacklist ? JSON.parse(_room.blacklist) : [];
@@ -134,8 +138,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
     this.profanitywordlist =
       this.profanityFilterService.getProfanityListFromStorage();
-    this.profanitylistSubscription = this.profanityFilterService
+    this.profanityFilterService
       .getCustomProfanityList()
+      .pipe(takeUntil(this.destroyer))
       .subscribe((list) => {
         this.profanitywordlist = list;
         this.refreshKeywords();
@@ -154,7 +159,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeFromKeywords(comment: Comment) {
-    for (const [_, keyword] of this.keywords.entries()) {
+    for (const [, keyword] of this.keywords.entries()) {
       const index = keyword.comments.findIndex((c) => c.id === comment.id);
       if (index >= 0) {
         keyword.comments.splice(index, 1);
@@ -166,11 +171,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   refreshKeywords() {
     this.blacklistKeywords = [];
     this.keywords = new Map<string, Keyword>();
-    this.roomDataService.dataAccessor
-      .currentRawComments()
-      .forEach((comment) => {
-        this.pushInKeywords(comment);
-      });
+    uiComments().rawComments.forEach((comment) => {
+      this.pushInKeywords(comment.comment);
+    });
     if (this.searchMode) {
       this.searchKeyword();
     }
@@ -207,87 +210,37 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.ngOnDestroy();
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildSaveActionCallback(): () => void {
-    return () => this.save();
-  }
-
   ngOnDestroy() {
     this.destroyer.next(true);
     this.destroyer.complete();
-    this.profanitylistSubscription?.unsubscribe();
-    this.subscriptionRoom?.unsubscribe();
-    this.cloudDialogRef.close();
   }
 
   save() {
     this.setAdminData();
-    this.ngOnDestroy();
+    this.cloudDialogRef.close();
   }
 
   initializeKeywords() {
-    this.roomDataService.dataAccessor
-      .getRawComments(false)
-      .subscribe((comments) => {
-        this.keywords = new Map<string, Keyword>();
-        comments.forEach((comment) => {
-          this.pushInKeywords(comment);
-        });
-        this.sortQuestions();
-        this.isLoading = false;
+    this.comments$.subscribe((comments) => {
+      this.keywords = new Map<string, Keyword>();
+      comments.rawComments.forEach((comment) => {
+        this.pushInKeywords(comment.comment);
       });
-    this.commentServiceSubscription = this.roomDataService.dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentDeleted' },
-        { type: 'CommentPatched', finished: true, updates: ['score'] },
-        { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
-        { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromSpacy'],
-        },
-        {
-          type: 'CommentPatched',
-          finished: true,
-          updates: ['keywordsFromQuestioner'],
-        },
-        { type: 'CommentPatched', finished: true, updates: ['ack'] },
-        { type: 'CommentPatched', finished: true, updates: ['tag'] },
-        { type: 'CommentPatched', subtype: 'ack' },
-        { finished: true },
-      ])
-      .subscribe((update) => {
-        if (update.type === 'CommentCreated') {
-          this.pushInKeywords(update.comment);
-        } else if (update.type === 'CommentDeleted') {
-          this.removeFromKeywords(update.comment);
-        } else if (
-          update.type === 'CommentPatched' &&
-          update.finished === false &&
-          update.subtype === 'ack'
-        ) {
-          if (!update.comment.ack) {
-            this.removeFromKeywords(update.comment);
-          }
+      this.sortQuestions();
+      this.isLoading = false;
+    });
+    afterUpdate.pipe(takeUntil(this.destroyer)).subscribe((e) => {
+      if (e.type === 'CommentCreated') {
+        this.pushInKeywords(e.comment);
+      } else if (e.type === 'CommentDeleted') {
+        this.removeFromKeywords(e.comment);
+      } else {
+        if (this.searchMode) {
+          this.searchKeyword();
         }
-        if (update.finished) {
-          if (this.searchMode) {
-            this.searchKeyword();
-          }
-          this.refreshKeywords();
-        }
-      });
+        this.refreshKeywords();
+      }
+    });
   }
 
   blacklistIncludesKeyword(keyword: string) {
@@ -400,12 +353,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         entries.sort(([a], [b]) => a.localeCompare(b));
         break;
       case 'questionsCount':
-        entries.sort(
-          ([_, a], [__, b]) => b.comments.length - a.comments.length,
-        );
+        entries.sort(([, a], [, b]) => b.comments.length - a.comments.length);
         break;
       case 'voteCount':
-        entries.sort(([_, a], [__, b]) => b.vote - a.vote);
+        entries.sort(([, a], [, b]) => b.vote - a.vote);
         break;
     }
     this.keywords = new Map(entries);
@@ -433,7 +384,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   deleteKeyword(key: Keyword, message?: string): void {
     key.comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       let keywords = comment.keywordsFromQuestioner;
       keywords.splice(
         keywords.findIndex((e) => e.text === key.keyword),
@@ -456,7 +407,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   updateComment(
     updatedComment: Comment,
-    changes: TSMap<string, any>,
+    changes: TSMap<string, unknown>,
     messageTranslate?: string,
   ) {
     this.commentService.patchComment(updatedComment, changes).subscribe({
@@ -469,7 +420,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
             });
         }
       },
-      error: (error) => {
+      error: () => {
         this.translateService
           .get('topic-cloud-dialog.changes-gone-wrong')
           .subscribe((msg) => {
@@ -537,7 +488,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       if (this.selectedTabIndex === 0) {
         const entries = [...this.keywords.entries()];
         this.filteredKeywords = entries
-          .filter(([_, keyword]) =>
+          .filter(([, keyword]) =>
             keyword.keyword
               .toLowerCase()
               .includes(this.searchedKeyword.toLowerCase()),
@@ -558,7 +509,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (key1 !== undefined && key2 !== undefined) {
       key1.comments = key1.comments.filter((comment) => {
         if (this.checkIfCommentExists(key2.comments, comment.id)) {
-          const changes = new TSMap<string, any>();
+          const changes = new TSMap<string, unknown>();
           const lowerKey1 = key1.keyword.toLowerCase();
 
           let keywords = comment.keywordsFromQuestioner;
@@ -673,7 +624,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getFilteredProfanity(): string {
     if (this.testProfanityWord) {
-      // eslint-disable-next-line max-len
       return this.profanityFilterService.filterProfanityWords(
         this.testProfanityWord,
         this.censorPartialWordsCheck,
@@ -713,7 +663,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   private renameKeyword(comments: Comment[], lowerCaseKeyword: string) {
     comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       let keywords = comment.keywordsFromQuestioner;
       for (const keyword of keywords) {
         if (keyword.text.toLowerCase() === lowerCaseKeyword) {

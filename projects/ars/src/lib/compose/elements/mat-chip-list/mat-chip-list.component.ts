@@ -3,9 +3,10 @@ import { ARS_MAT_CHIP_LIST_CONFIG, ArsMatChipConfig, ArsMatChipListConfig } from
 import { ArsAnchor } from '../../../models/util/ars-observer';
 
 @Component({
-  selector:'app-mat-chip-list',
-  templateUrl:'./mat-chip-list.component.html',
-  styleUrls:['./mat-chip-list.component.scss']
+    selector: 'app-mat-chip-list',
+    templateUrl: './mat-chip-list.component.html',
+    styleUrls: ['./mat-chip-list.component.scss'],
+    standalone: false
 })
 export class MatChipListComponent implements OnInit{
 

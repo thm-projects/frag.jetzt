@@ -1,0 +1,13 @@
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  @include m3-typescale.font-size(display, large);
+
+  > .material-symbols-outlined {
+    @include m3-typescale.font-size(display, large);
+  }
+}

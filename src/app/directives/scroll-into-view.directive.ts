@@ -3,6 +3,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Directive({
   selector: '[appScrollIntoView]',
+  standalone: false,
 })
 export class ScrollIntoViewDirective {
   constructor(

@@ -1,5 +1,5 @@
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { ForumComment } from 'app/utils/data-accessor';
+import { UIComment } from 'app/room/state/comment-updates';
 
 export class BrainstormingTopic {
   constructor(
@@ -17,7 +17,7 @@ export class BrainstormingTopic {
     public commentsByModerators = 0,
     public responseCount = 0,
     public answerCount = 0,
-    public questionChildren = new Map<string, ForumComment[]>(),
+    public questionChildren = new Map<string, UIComment[]>(),
   ) {}
 }
 
@@ -48,13 +48,13 @@ export class BrainstormingDataBuilder {
     this.users.clear();
   }
 
-  addComments(comments: ForumComment[], allowBanned = false): void {
+  addComments(comments: UIComment[], allowBanned = false): void {
     for (const comment of comments) {
-      if (comment.brainstormingSessionId === null) {
+      if (comment.comment.brainstormingSessionId === null) {
         continue;
       }
       const word =
-        this.session.wordsWithMeta[comment.brainstormingWordId]?.word;
+        this.session.wordsWithMeta[comment.comment.brainstormingWordId]?.word;
       if (!word) {
         console.error('Unknown brainstorming entry:', comment);
         continue;
@@ -79,11 +79,15 @@ export class BrainstormingDataBuilder {
           topic.categories.add(word.categoryId);
         }
       }
-      topic.distinctUsers.add(comment.creatorId);
+      topic.distinctUsers.add(comment.comment.creatorId);
       this.addResponseAndAnswerCount(topic, comment);
-      topic.commentsByCreator += Number(comment.creatorId === this.roomOwner);
-      topic.commentsByModerators += Number(this.mods.has(comment.creatorId));
-      this.users.add(comment.creatorId);
+      topic.commentsByCreator += Number(
+        comment.comment.creatorId === this.roomOwner,
+      );
+      topic.commentsByModerators += Number(
+        this.mods.has(comment.comment.creatorId),
+      );
+      this.users.add(comment.comment.creatorId);
     }
   }
 
@@ -99,31 +103,33 @@ export class BrainstormingDataBuilder {
 
   private addResponseAndAnswerCount(
     data: BrainstormingTopic,
-    comment: ForumComment,
+    comment: UIComment,
   ) {
-    data.countedComments.add(comment.id);
+    data.countedComments.add(comment.comment.id);
     let lastCommentId;
     for (
       let parentComment = comment.parent;
       parentComment;
       parentComment = parentComment.parent
     ) {
-      if (data.countedComments.has(parentComment.id)) {
+      if (data.countedComments.has(parentComment.comment.id)) {
         // when parent counted, this comment already counted.
         return;
       }
-      lastCommentId = parentComment.id;
+      lastCommentId = parentComment.comment.id;
     }
     this.removeChildrenCounts(data, comment, lastCommentId);
-    data.responseCount += comment.totalAnswerCounts.accumulated;
+    data.responseCount +=
+      comment.totalAnswerCount.participants +
+      comment.totalAnswerCount.moderators +
+      comment.totalAnswerCount.creator;
     data.answerCount +=
-      comment.totalAnswerCounts.fromCreator +
-      comment.totalAnswerCounts.fromModerators;
+      comment.totalAnswerCount.creator + comment.totalAnswerCount.moderators;
   }
 
   private removeChildrenCounts(
     data: BrainstormingTopic,
-    comment: ForumComment,
+    comment: UIComment,
     lastCommentId: string,
   ) {
     const referenced =
@@ -135,11 +141,14 @@ export class BrainstormingDataBuilder {
         parentComment;
         parentComment = parentComment.parent
       ) {
-        if (parentComment.id === comment.id) {
-          data.responseCount += comment.totalAnswerCounts.accumulated;
+        if (parentComment.comment.id === comment.comment.id) {
+          data.responseCount +=
+            comment.totalAnswerCount.participants +
+            comment.totalAnswerCount.moderators +
+            comment.answerCount.creator;
           data.answerCount +=
-            comment.totalAnswerCounts.fromCreator +
-            comment.totalAnswerCounts.fromModerators;
+            comment.totalAnswerCount.creator +
+            comment.totalAnswerCount.moderators;
           return false;
         }
       }

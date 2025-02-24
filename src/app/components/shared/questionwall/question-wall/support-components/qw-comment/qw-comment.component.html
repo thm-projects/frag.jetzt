@@ -1,0 +1,33 @@
+@if (data) {
+  <div class="background-container">
+    <div class="background">
+      <qw-running-number-background
+        [commentIdentifier]="data.comment.comment.number"
+        [marker]="
+          data.session.userContext[data.comment.comment.creatorId]?.marker
+        "></qw-running-number-background>
+    </div>
+  </div>
+  <div class="header">
+    <ars-date-formatter
+      [formatter]="dateFormatter"
+      [date]="data.comment.comment.createdAt"></ars-date-formatter>
+    <div class="grow"></div>
+  </div>
+  <div
+    class="content"
+    #content>
+    <div
+      class="content-size"
+      #contentSize>
+      <app-markdown-viewer
+        [data]="data.comment.comment.body"></app-markdown-viewer>
+    </div>
+  </div>
+  @if (contentSize.offsetHeight > content.offsetHeight) {
+    <div class="overflow-container">
+      <div class="overflow"></div>
+    </div>
+  }
+  <qw-comment-footer [comment]="data.comment"></qw-comment-footer>
+}

@@ -1,5 +1,5 @@
 /*
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteCommentComponent } from './delete-comments.component';
 

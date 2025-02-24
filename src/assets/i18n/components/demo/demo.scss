@@ -1,44 +1,15 @@
 .slogan {
   text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  padding-top: 25px;
-  color: var(--primary);
-}
-
-h2 {
-  font-size: 20px;
-  padding-top: 25px;
-}
-
-p {
-  hyphens: auto;
-  padding-bottom: 10px;
-  line-height: 1.5;
-}
-
-ol {
-  padding-left: 1em;
-  line-height: 1.5;
-}
-
-li {
-  padding-bottom: 10px;
-  line-height: 1.5;
+  margin-bottom: 1em;
 }
 
 .screenshot {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   max-width: 100%;
   height: auto;
   outline: none;
   border-radius: 8px;
-}
-
-a {
-  text-decoration: underline;
-  hyphens: manual;
 }

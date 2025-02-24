@@ -10,6 +10,7 @@ export class User {
   loginId: string;
   type: 'guest' | 'registered';
   token: string;
+  keycloakProviderId: UUID;
   keycloakToken: string;
   keycloakRefreshToken: string;
   isGuest: boolean;
@@ -20,6 +21,7 @@ export class User {
     loginId = null,
     type = 'guest',
     token = null,
+    keycloakProviderId = null,
     keycloakToken = null,
     keycloakRefreshToken = null,
     keycloakRoles = [],
@@ -29,6 +31,7 @@ export class User {
     this.loginId = loginId;
     this.type = type;
     this.token = token;
+    this.keycloakProviderId = keycloakProviderId;
     this.keycloakToken = keycloakToken;
     this.keycloakRefreshToken = keycloakRefreshToken;
     this.keycloakRoles = keycloakRoles;

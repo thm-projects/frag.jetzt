@@ -1,23 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
+import { TagCloudComponent } from '../../../../room/tag-cloud/tag-cloud.component';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
-import { CloudParameters, CloudTextStyle, TEXT_STYLES } from '../../../../utils/cloud-parameters';
-import { AppComponent } from '../../../../app.component';
+import {
+  CloudParameters,
+  CloudTextStyle,
+  TEXT_STYLES,
+} from '../../../../utils/cloud-parameters';
 import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-cloud-configuration',
   templateUrl: './cloud-configuration.component.html',
   styleUrls: ['./cloud-configuration.component.scss'],
+  standalone: false,
 })
 export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
   countPerWeight: TagCloudMetaDataCount;
-  extendedView: boolean;
-  cleanUpView: boolean;
   automaticSpelling: boolean;
   lowerCase: boolean;
   capitalization: boolean;
@@ -32,85 +34,86 @@ export class CloudConfigurationComponent implements OnInit {
       tagColor: '#8800ff',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 20,
       tagColor: '#ff00ff',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 17,
       tagColor: '#ffea00',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 15,
       tagColor: '#00CC99',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 12,
       tagColor: '#00CC66',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 10,
       tagColor: '#0033FF',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 8,
       tagColor: '#CC0099',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 7,
       tagColor: '#FF3399',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 6,
       tagColor: '#FFFF00',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
     {
       maxTagNumber: 5,
       tagColor: '#FF0000',
       actualTagNumber: 5,
       rotationAngle: 0,
-      allowManualTagNumber: false
+      allowManualTagNumber: false,
     },
   ];
   minFont: number;
   maxFont: number;
   isTestCloud = false;
 
-  constructor(
-    private sessionService: SessionService,
-  ) {
-  }
+  constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
     this.sessionService.onReady.subscribe(() => {
-      this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-      this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+      this.cloudParameters = new CloudParameters(
+        this.parent.currentCloudParameters,
+      );
+      this.defaultCloudParameters = new CloudParameters(
+        this.parent.currentCloudParameters,
+      );
       this.defaultCloudParameters.sortAlphabetically = false;
       this.cloudParameters.sortAlphabetically = false;
       this.parent.dataManager.getMetaData().subscribe((value) => {
@@ -120,8 +123,6 @@ export class CloudConfigurationComponent implements OnInit {
         this.countPerWeight = value.countPerWeight;
         this.parseArrayToJsonWeightClasses();
       });
-      this.extendedView = false;
-      this.cleanUpView = false;
       this.automaticSpelling = true;
       this.lowerCase = true;
       this.capitalization = false;
@@ -148,22 +149,27 @@ export class CloudConfigurationComponent implements OnInit {
       this.weightClasses[i].tagColor = element.color;
       this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
       this.weightClasses[i].rotationAngle = element.rotation;
-      this.weightClasses[i].maxTagNumber = (element.maxVisibleElements === -1 || element.maxVisibleElements === 0) ?
-        this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+      this.weightClasses[i].maxTagNumber =
+        element.maxVisibleElements === -1 || element.maxVisibleElements === 0
+          ? this.weightClasses[i].actualTagNumber
+          : element.maxVisibleElements;
       this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
     });
   }
 
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber = element.allowManualTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber =
+        element.allowManualTagNumber;
       if (element.allowManualTagNumber) {
-        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber === 0 ? -1 : element.maxTagNumber;
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements =
+          element.maxTagNumber === 0 ? -1 : element.maxTagNumber;
       } else {
         this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = -1;
       }
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
-      this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
+      this.cloudParameters.cloudWeightSettings[i].rotation =
+        element.rotationAngle;
     });
   }
 
@@ -176,17 +182,6 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.demoActive = false;
     this.parent.drawer.close();
     this.readMaxFont();
-    const defaultScale = AppComponent.rescale.getInitialScale();
-    if (defaultScale !== 1) {
-      AppComponent.rescale.setDefaultScale(defaultScale);
-      this.parent.updateTagCloud();
-    }
-  }
-
-  openPanel() {
-    if (AppComponent.rescale.getInitialScale() !== 1) {
-      AppComponent.rescale.setDefaultScale(1);
-    }
   }
 
   cancel() {
@@ -201,16 +196,6 @@ export class CloudConfigurationComponent implements OnInit {
     this.defaultCloudParameters = new CloudParameters(this.cloudParameters);
     this.setStep(0);
     this.closePanel();
-  }
-
-  toggleExtendedView() {
-    this.cleanUpView = false;
-    this.extendedView = !this.extendedView;
-  }
-
-  toggleCleanupView() {
-    this.cleanUpView = !this.cleanUpView;
-    this.extendedView = false;
   }
 
   weightColorChanged(index: number, event: string): void {
@@ -241,17 +226,23 @@ export class CloudConfigurationComponent implements OnInit {
 
   reset() {
     this.parent.resetColorsToTheme();
-    this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+    this.cloudParameters = new CloudParameters(
+      this.parent.currentCloudParameters,
+    );
+    this.defaultCloudParameters = new CloudParameters(
+      this.parent.currentCloudParameters,
+    );
   }
 
   italicChecked(event) {
-    this.cloudParameters.fontStyle = event.checked === true ? 'italic' : 'normal';
+    this.cloudParameters.fontStyle =
+      event.checked === true ? 'italic' : 'normal';
     this.valueChanged();
   }
 
   boldChecked(event) {
-    this.cloudParameters.fontWeight = event.checked === true ? 'bold' : 'normal';
+    this.cloudParameters.fontWeight =
+      event.checked === true ? 'bold' : 'normal';
     this.valueChanged();
   }
 
@@ -273,7 +264,8 @@ export class CloudConfigurationComponent implements OnInit {
       this.valueChanged();
     }
     if (setMin) {
-      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.maxFont;
+      this.cloudParameters.fontSizeMax =
+        this.cloudParameters.fontSizeMin * this.maxFont;
       this.valueChanged();
     }
   }

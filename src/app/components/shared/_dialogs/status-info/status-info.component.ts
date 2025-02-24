@@ -1,10 +1,12 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 
 @Component({
@@ -12,15 +14,13 @@ import { GlobalCountChanged } from 'app/models/global-count-changed';
   templateUrl: './status-info.component.html',
   styleUrls: ['./status-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class StatusInfoComponent implements OnInit {
+export class StatusInfoComponent {
   protected status: GlobalCountChanged;
-  protected readonly onConfirm = this.confirm.bind(this);
+  protected readonly i18n = i18n;
 
-  constructor(
-    private dialogRef: MatDialogRef<StatusInfoComponent>,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public static open(dialog: MatDialog, data: GlobalCountChanged) {
     const ref = dialog.open(StatusInfoComponent);
@@ -28,14 +28,8 @@ export class StatusInfoComponent implements OnInit {
     return ref;
   }
 
-  ngOnInit(): void {}
-
   updateStatus(status: GlobalCountChanged) {
     this.status = status;
     this.changeDetector.detectChanges();
-  }
-
-  private confirm() {
-    this.dialogRef.close();
   }
 }

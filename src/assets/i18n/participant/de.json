@@ -55,7 +55,7 @@
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "correct": "Bejaht",
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
-    "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
+    "counter-description": "Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Bonus-Frage",
     "filter-answered-creator": "Raumersteller*in",
     "filter-answered-moderator": "Moderator*in",
@@ -77,6 +77,7 @@
     "filter-approved": "Geprüfte Antworten",
     "filter-chatgpt": "ChatGPT-Antworten",
     "filter-wrong": "Verneinte Fragen",
+    "hits": "Ergebnisse: ",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
@@ -85,7 +86,6 @@
     "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Hey, du hast einen Stern für eine gute Frage bekommen!",
     "read": "Vom Vortragenden besprochen",
-    "really-delete": "Willst du den Beitrag wirklich löschen?",
     "search": "Suchen …",
     "select-All": "Zeitlich unbegrenzt",
     "select-FromNow": "Fragen ab jetzt anzeigen",
@@ -112,7 +112,23 @@
     "unread": "Nicht vom Vortragenden besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Verneint"
+    "wrong": "Verneint",
+    "ple":{
+      "ask-question-empty": "Neue Topics hinzufügen",
+      "filter-comments": "Topics filtern",
+      "sort-comments": "Topics sortieren",
+      "pause-comments": "Friert die Anzeige ein, um die Topics in Ruhe zu lesen oder zu präsentieren. Topics können weiterhin hinzugefügt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
+      "play-comments": "Neue Topics und Bewertungen wieder anzeigen",
+      "add-comment": "Füge ein neues Topic hinzu!",
+      "select-All": "Zeitlich unbegrenzt",
+      "select-FromNow": "Topics ab jetzt anzeigen",
+      "select-OneDay": "Letzte 24 Stunden",
+      "select-OneHour": "Letzte Stunde",
+      "select-OneWeek": "Letzte 7 Tage",
+      "select-ThreeHours": "Letzte 2 Stunden",
+      "select-TwoWeeks": "Letzte 14 Tage",
+      "filter-owner": "Meine Topics"
+    }
   },
   "comment-notification": {
     "close": "Schließen",
@@ -204,7 +220,7 @@
     "enter-comment": "Gib deine Frage ein …",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
-    "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht.",
+    "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht. Hast du eine andere Idee?",
     "error-comment": "Bitte gib deinen Beitrag ein.",
     "error-comment-brainstorming": "Diese Brainstorming-Sitzung erlaubt nur eine Wortanzahl von {{maxWordCount}}.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
@@ -237,7 +253,7 @@
     "preview-in-mock": "Smartphone-Vorschau",
     "questioner-name": "Selbst vergebener Name",
     "reply-comment-button": "Antwort schreiben",
-    "reply-AI": "ChatGPT antworten lassen",
+    "reply-AI": "KI antworten lassen",
     "save-answer": "Speichern",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Abschicken",
@@ -281,23 +297,6 @@
     "read-less": "Weniger lesen",
     "read-more": "Mehr lesen"
   },
-  "dsgvo": {
-    "external-source": "Soll der externe Inhalt <br><br>{{url}}<br><br> aufgerufen werden?",
-    "external-source-button-text": "Hier öffnen …",
-    "external-source-title": "Eingebetteter externer Inhalt",
-    "external-source-untrusted": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
-    "external-source-untrusted-button-text": "In neuem Tab öffnen …",
-    "external-source-untrusted-title": "Externer Inhalt",
-    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
-    "unknown-source-button-text": "Aufrufen",
-    "unknown-source-title": "Unbekannte oder interne Quelle",
-    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "vimeo-video-button-text": "Abspielen",
-    "vimeo-video-title": "Vimeo Video",
-    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Die URL wurde an die datenschutzkonforme URL angepasst. <br><br>Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
-    "youtube-video-button-text": "Abspielen",
-    "youtube-video-title": "Youtube Video"
-  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
     "close": "Schließen",
@@ -319,16 +318,14 @@
     "optin-reject": "Ablehnen",
     "model-select": "Modell-Auswahl",
     "model-placeholder": "KI-Sprachmodell wählen …",
-    "model-gpt-3.5-turbo-1106": "GPT-3.5 »Turbo« (Updated)",
-    "model-description-gpt-3.5-turbo-1106": "Effektives Modell mit ca. 16.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
     "model-gpt-3.5-turbo": "GPT-3.5 »Turbo«",
-    "model-description-gpt-3.5-turbo": "Effektives Modell mit ca. 4.000 Zeichen Kontext",
-    "model-gpt-3.5-turbo-16k": "GPT-3.5 »Turbo« 16K",
-    "model-description-gpt-3.5-turbo-16k": "Effektives Modell mit ca. 16.000 Zeichen Kontext",
+    "model-description-gpt-3.5-turbo": "Effektives Modell mit ca. 16.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
     "model-gpt-4": "GPT-4",
     "model-description-gpt-4": "Neuestes und stärkstes Modell mit rund 8.000 Zeichen Kontext",
-    "model-gpt-4-1106-preview": "GPT-4 »Turbo«",
-    "model-description-gpt-4-1106-preview": "Neuestes und stärkstes Modell mit rund 128.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
+    "model-gpt-4-turbo": "GPT-4 »Turbo«",
+    "model-description-gpt-4-turbo": "Neuestes und stärkstes Modell mit rund 128.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
+    "model-gpt-4o": "GPT-4o",
+    "model-description-gpt-4o": "Neuestes und stärkstes Modell mit rund 128.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
     "title-free": "ChatGPT | Freies Fragen ohne Prompt-Vorgaben",
     "title-answer": "ChatGPT antwortet …",
     "interrupt": "Ausgabe stoppen",
@@ -462,7 +459,7 @@
     "tag-cloud": "Fragen-Radar",
     "brainstorming": "Brainstorming",
     "quiz-now": "Quiz-Rallye",
-    "back-to-room": "Empfang",
+    "back-to-room": "Eingang",
     "my-sessions": "Meine Räume",
     "user-bonus-token": "Meine Bonus-Sterne",
     "room-qr": "QR-Code",
@@ -470,7 +467,31 @@
     "feedback": "Feedback-Raum",
     "logout": "Abmelden",
     "livepoll": "Blitzumfrage",
-    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
+    "ple": {
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
+      "tag-cloud": "Topic-Radar",
+      "question-focus-button": "Topic-Fokus",
+      "create-question": "Topic hinzufügen",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
+    }
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
+    "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
+    "current-filter-short": "Gefilterte Fragen",
+    "all-questions-and-answers": "Alle Fragen mit Antworten",
+    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
+    "only-questions": "Nur Fragen",
+    "only-questions-short": "Nur Fragen",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Nur Fragen ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -491,7 +512,10 @@
     "tag-cloud-title": "Use Cases des Fragen-Radars",
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
     "prompt-explanation": "Prompts kurz erklärt",
-    "tooltip-button": "Wie schreibe ich gute Prompts?"
+    "tooltip-button": "Wie schreibe ich gute Prompts?",
+    "ple": {
+      "tag-cloud-title": "Use Cases des Topic-Radars"
+    }
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -499,7 +523,7 @@
     "commentUserNumber": "Ein Klick auf das Pin-Icon und es werden dir alle Fragen dieses Users angezeigt.",
     "commentUserNumberTitle": "Fragen eines Users finden",
     "createQuestion": "Mit dem Plus-Button rufst du den Editor auf. Eine KI schlägt dir Stichwörter für deine Frage vor. Diese dienen dem Erstellen einer Wortwolke aus den Stichwörtern aller Fragen der Veranstaltung.",
-    "createQuestionTitle": "Du bist jetzt im Feedback-Raum",
+    "createQuestionTitle": "Feedback-Raum",
     "done": "Fertig",
     "next": "Weiter",
     "prev": "Zurück",
@@ -510,6 +534,17 @@
     "chatGPTTitle": "Mit ChatGPT arbeiten",
     "navigationButton": "Die Navigation ist auf allen Seiten verfügbar. Hier kannst du zu allen Features der Plattform wechseln.",
     "navigationButtonTitle": "Navigation in der App"
+  },
+  "multi-level-dialog": {
+    "next": "Weiter",
+    "previous": "Zurück",
+    "cancel": "Abbrechen",
+    "confirm": "Absenden",
+    "complete": "Abschließen",
+    "complete-text": "Klicke auf »Absenden«, um die Raum-Konfiguration zu speichern.",
+    "complete-reset": "Alles zurücksetzen",
+    "single": "Frage {{number}}",
+    "range": "Fragen {{start}} bis {{end}}"
   },
   "question-wall": {
     "auto-renew-off": "Autofokus für neue Fragen beenden",
@@ -573,7 +608,17 @@
     "sort-time": "Zeit",
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
-    "users-online": "Aktuell eingeloggte User"
+    "users-online": "Aktuell eingeloggte User",
+    "ple":{
+      "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
+      "intro-title": "Topic-Fokus",
+      "auto-renew-on": "Autofokus für neue Topics starten",
+      "auto-renew-off": "Autofokus für neue Topics beenden",
+      "next-comment": "Nächstes Topic",
+      "prev-comment": "Vorheriges Topic",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
+    }
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -639,11 +684,11 @@
   "room-page": {
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
-    "bonus-token": "Tokens für Bonuspunkte",
+    "bonus-token": "Token für Bonuspunkte",
     "cancel": "Abbrechen",
     "comments": "Fragen",
     "create-comment": "Stell deine Fragen!",
-    "create-comment-and-answer": "Zum Q&A-Forum",
+    "create-comment-and-answer": "Q&A-Forum",
     "default-content-group": "Standard",
     "delete": "Frage löschen",
     "description": "Beschreibung der Sitzung",
@@ -657,10 +702,15 @@
     "session-id-lq-x": "»",
     "session-id-rq": "«",
     "sure": "Bist du sicher?",
-    "update": "Speichern"
+    "update": "Speichern",
+    "ple": {
+      "create-comment": "Topics erstellen!",
+      "create-comment-and-answer": "Zum Topic-Forum"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
+    "manually-title": "Stichwörter",
     "analysis-bad-spelled": "Hinweis: Der Text eignet sich nicht zur Generierung von Stichwörtern.",
     "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
     "auto": "auto",
@@ -856,7 +906,10 @@
     "word": "Wort",
     "word-is-not-profanity": "Wort ist nicht profan.",
     "word-is-profanity": "Wort ist profan.",
-    "words-in-profanity": "Profane Wörter"
+    "words-in-profanity": "Profane Wörter",
+    "ple": {
+      "keywords": "Topic-Radar"
+    }
   },
   "user-bonus-token": {
     "bonus-token-body1": " vom ",
@@ -866,9 +919,9 @@
     "copy-clipboard-notification": "In Zwischenablage kopiert",
     "email-not-set": "\nKeine Email hinterlegt",
     "header": "Sterne für Bonuspunkte einlösen",
-    "mail-body1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n",
+    "mail-body1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Token erhalten:\n",
     "mail-body2": "\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
-    "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+    "mail-subject": "Bitte um Einlösung meiner Token aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
     "moderator-emails": "\n\nE-Mail der Moderatoren",
     "no-bonus": "Du hast noch keinen Stern für eine »gute« Frage erhalten.",
     "owner-email": "\n\nE-Mail des Raumerstellers",
@@ -902,7 +955,7 @@
   "write-comment": {
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
-    "questioner-name": "Dein Name, wenn du willst …"
+    "questioner-name": "Spitzname"
   },
   "gpt-user-description": {
     "save": "Speichern",
@@ -913,7 +966,20 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT ist nur in Räumen verfügbar, die von einem registrierten User erstellt wurden. Dieser Raum wurde von einem Gast erstellt. Registriere dich und erstelle selbst einen Raum, um ChatGPT zu nutzen.\n\nStarte jetzt mit einem Guthaben von 5 $. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
-    "cancel": "Schließen"
+    "blocked-title": "ChatGPT-Zugriff blockiert",
+    "blocked-description": "Dein Zugang zu ChatGPT wurde aufgrund von Richtlinienverletzungen gesperrt. Bitte kontaktiere unseren Support für weitere Informationen und Unterstützung.",
+    "noGlobalQuotaAvailable-title": "Globales Tokenlimit erreicht",
+    "noGlobalQuotaAvailable-description": "Der Zugriff auf ChatGPT ist momentan nicht möglich, da das globale Token-Limit erreicht wurde. Wir empfehlen, es zu einem späteren Zeitpunkt erneut zu versuchen.",
+    "NoApiKey-title": "API-Schlüssel erforderlich",
+    "NoApiKey-description": "Ein gültiger API-Schlüssel von OpenAI ist erforderlich, um auf ChatGPT zugreifen zu können. Bitte besuche die OpenAI-Website, um einen API-Schlüssel zu generieren, und gib diesen im Raumerstellungs-Dialog ein.",
+    "roomDisabled-title": "Raumzugang temporär gesperrt",
+    "roomDisabled-description": "Der Zugang zu diesem ChatGPT-Raum wurde vorübergehend deaktiviert, da das festgelegte Token-Limit für den Raum erreicht wurde. Wir empfehlen, es später erneut zu versuchen.",
+    "moderatorDisabled-title": "Moderatorzugang gesperrt",
+    "moderatorDisabled-description": "Der Zugang für Moderatoren zu ChatGPT wurde temporär ausgesetzt, da das Token-Limit für Moderatoren in diesem Raum erreicht wurde. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
+    "participantDisabled-title": "Teilnehmerzugang gesperrt",
+    "participantDisabled-description": "Der Zugang für Teilnehmer zu ChatGPT in diesem Raum wurde aufgrund der Erreichung des Token-Limits vorübergehend deaktiviert. Wir empfehlen, es später erneut zu versuchen.",
+    "usageTimeOver-title": "Maximale Nutzungsdauer überschritten",
+    "usageTimeOver-description": "Die erlaubte Nutzungsdauer für ChatGPT in diesem Raum wurde überschritten. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
+    "cancel": "Abbrechen"
   }
 }

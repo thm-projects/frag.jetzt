@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Room } from '../../models/room';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LivepollSession } from 'app/models/livepoll-session';
@@ -18,6 +18,12 @@ export interface GlobalCount {
   creatorCount: number;
 }
 
+export interface RoomCountChanged {
+  participantCount: number;
+  moderatorCount: number;
+  creatorCount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,27 +32,34 @@ export class ActiveUserService extends BaseHttpService {
     super();
   }
 
-  public getActiveUser(room: Room): Observable<any> {
-    const url = '/gateway-api/roomsubscription/usercount?ids=' + room.id;
-    return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('getActiveUser')),
-    );
+  public getActiveUsers(...rooms: Room[]): Observable<RoomCountChanged[]> {
+    const url =
+      '/gateway-api/roomsubscription/room-count?ids=' +
+      rooms.map((r) => r.id).join(',');
+    return this.http
+      .get<{ RoomCountChanged: RoomCountChanged }[]>(url, httpOptions)
+      .pipe(
+        tap(() => ''),
+        map((x) => x.map((e) => e?.RoomCountChanged || null)),
+        catchError(this.handleError<RoomCountChanged[]>('getActiveUsers')),
+      );
   }
 
-  public getActiveLivepollUser(livepoll: LivepollSession): Observable<any> {
+  public getActiveLivepollUser(
+    livepoll: LivepollSession,
+  ): Observable<number[]> {
     const url =
       '/gateway-api/livepollsubscription/usercount?ids=' + livepoll.id;
-    return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('getActiveLivepollUser')),
+    return this.http.get<number[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<number[]>('getActiveLivepollUser')),
     );
   }
 
   public getGlobal(): Observable<GlobalCount> {
     const url = '/gateway-api/stats';
     return this.http.get<GlobalCount>(url, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<GlobalCount>('getGlobal')),
     );
   }

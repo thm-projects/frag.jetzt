@@ -1,14 +1,25 @@
-<div mat-dialog-content>
-  <h2 class="oldtypo-h2"
-      tabindex="0">{{ 'header.sure' | translate }}</h2>
-  <p class="oldtypo-p"
-     tabindex="0">{{ (role < 3 ? 'room-list.really-remove' : 'room-list.really-delete') | translate }}<strong>{{roomName}}</strong>{{ (role < 3 ? 'room-list.really-remove-2' : 'room-list.really-delete-2') | translate }}
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+
+<mat-dialog-content>
+  <p tabindex="0">
+    <app-markdown-viewer
+      [data]="
+        i18n().description | context: { name: roomName() }
+      "></app-markdown-viewer>
   </p>
-  <app-dialog-action-buttons
-    buttonsLabelSection="delete-account"
-    confirmButtonLabel="delete"
-    [confirmButtonType]=confirmButtonType
-    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-    [confirmButtonClickAction]="buildDeleteAccountActionCallback()"
-  ></app-dialog-action-buttons>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    cdk-initial-focus
+    mat-dialog-close="remove">
+    {{ i18n().delete }}
+  </button>
+</mat-dialog-actions>

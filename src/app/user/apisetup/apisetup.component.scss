@@ -1,0 +1,27 @@
+.content-pane {
+  display: flex;
+  gap: 1.5em;
+  flex-direction: column;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.setting-wrapper {
+  display: flex;
+  gap: 1.5em;
+  flex-wrap: wrap;
+
+  > mat-card {
+    width: 20em;
+    max-width: 100%;
+
+    > mat-card-content {
+      min-height: 5em;
+      flex: 1;
+    }
+  }
+}
+
+.btn-add {
+  margin-top: 1.5em;
+}

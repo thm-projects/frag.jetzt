@@ -1,0 +1,310 @@
+<div class="button-row">
+  <mat-form-field [appearance]="'outline'">
+    <input
+      matInput
+      [(ngModel)]="buttonText" />
+    <mat-label>Text</mat-label>
+  </mat-form-field>
+  <mat-form-field [appearance]="'outline'">
+    <input
+      matInput
+      [(ngModel)]="iconText" />
+    <mat-label>Icon</mat-label>
+  </mat-form-field>
+</div>
+<div class="column">
+  <h2>Filled buttons</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-flat-button
+              class="{{ variant }}">
+              {{ buttonText }}
+            </button>
+            <button
+              mat-flat-button
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+            <button
+              mat-flat-button
+              class="{{ variant }}"
+              disabled>
+              {{ buttonText }}
+            </button>
+            <button
+              mat-flat-button
+              class="{{ variant }}"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Elevated buttons</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-raised-button
+              class="{{ variant }}">
+              {{ buttonText }}
+            </button>
+            <button
+              mat-raised-button
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-raised-button
+              disabled>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-raised-button
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Outlined buttons</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-stroked-button
+              class="{{ variant }}">
+              {{ buttonText }}
+            </button>
+            <button
+              mat-stroked-button
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-stroked-button
+              disabled>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-stroked-button
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Text buttons</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-button
+              class="{{ variant }}">
+              {{ buttonText }}
+            </button>
+            <button
+              mat-button
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-button
+              disabled>
+              {{ buttonText }}
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-button
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Icon Buttons</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr>
+        <td>default</td>
+        <td>
+          <div class="row gap-medium">
+            <button mat-icon-button>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-icon-button
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="{{ variant }} filled">
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="{{ variant }}"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="{{ variant }} filled"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Floating action buttons (FAB)</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-fab
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-fab
+              [extended]="true"
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+            <button
+              mat-fab
+              class="{{ variant }}"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              mat-fab
+              [extended]="true"
+              class="{{ variant }}"
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+              {{ buttonText }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="column">
+  <h2>Mini FAB</h2>
+  <div class="column">
+    <table>
+      <tr>
+        <td>variant</td>
+        <td>components</td>
+      </tr>
+      <tr *ngFor="let variant of allVariants">
+        <td>{{ variant }}</td>
+        <td>
+          <div class="row gap-medium">
+            <button
+              mat-mini-fab
+              class="{{ variant }}">
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+            <button
+              class="{{ variant }}"
+              mat-mini-fab
+              disabled>
+              <mat-icon>{{ iconText }}</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,5 +1,8 @@
 @use "sass:math";
-@import "../livepoll-common";
+@use "../livepoll-common";
+:host {
+  padding: 16px;
+}
 
 .result-container {
   display: flex;
@@ -46,6 +49,7 @@
   .right {
     display: flex;
     flex-grow: 1;
+    margin-left: 16px;
 
     > .container {
       height: $height;
@@ -56,16 +60,13 @@
         height: $height;
         flex-direction: row;
         justify-content: flex-start;
-        box-shadow: inset 0 0 0 2px var(--surface);
-        border-radius: #{$border-radius}px;
         box-sizing: border-box;
-        padding: 4px;
 
         > .bar {
           min-width: 1px;
           width: 10px;
-          background-color: var(--livepoll-secondary);
-          border-radius: #{$border-radius - math.div($border-radius, 2)}px;
+          background-color: var(--mat-sys-primary);
+          border-radius: 2px;
           transition: width 100ms ease-in-out;
           overflow: hidden;
 
@@ -74,11 +75,12 @@
 
             > span {
               position: absolute;
-              top: 2px;
               font-weight: bold;
-              left: 9px;
-              z-index: 10;
-              color: var(--on-livepoll-secondary);
+              top: 8px;
+              border-radius: 2px;
+              left: 13px;
+              color: var(--mat-sys-on-primary);
+              z-index: 100;
             }
           }
         }
@@ -89,16 +91,23 @@
         display: flex;
         justify-content: flex-start;
         position: relative;
+        border-radius: 2px;
         top: -$height;
 
         span {
           position: absolute;
-          top: 6px;
           font-weight: bold;
+          color: var(--mat-sys-on-surface);
+          top: 8px;
+          border-radius: 2px;
           left: 13px;
-          color: var(--livepoll-secondary);
         }
       }
     }
   }
+}
+
+.option-icon,
+.option-plain {
+  color: var(--mat-sys-on-surface);
 }

@@ -20,4 +20,4 @@ while true; do
   esac
 done
 
-[ -z ${PROD} ] && ln -fs "$(pwd)/docker-compose.override.dev.yml" ../docker-compose.override.yml || rm -f ../docker-compose.override.yml
+[ -z ${PROD} ] && cp docker-compose.override.dev.yml ../docker-compose.override.yml || rm -f ../docker-compose.override.yml

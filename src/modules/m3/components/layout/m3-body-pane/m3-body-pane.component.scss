@@ -1,0 +1,10 @@
+@use "modules/m3/style/m3-layout" as m3-layout;
+:host {
+  display: flex;
+}
+
+:host(.m3-body-pane-center-single-pane) {
+  @include m3-layout.explicit-range(compact, medium) {
+    justify-content: center;
+  }
+}

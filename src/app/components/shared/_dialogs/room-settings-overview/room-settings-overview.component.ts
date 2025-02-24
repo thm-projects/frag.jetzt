@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { RoomPatch, RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-room-settings-overview',
   templateUrl: './room-settings-overview.component.html',
   styleUrls: ['./room-settings-overview.component.scss'],
+  standalone: false,
 })
 export class RoomSettingsOverviewComponent implements OnInit {
   @Input() room: Readonly<Room>;
@@ -22,6 +23,9 @@ export class RoomSettingsOverviewComponent implements OnInit {
   brainstormingEnabled: boolean;
   livepollEnabled: boolean;
   keywordExtrationEnabled: boolean;
+  aiEnabled: boolean;
+  focusEnabled: boolean;
+  radarEnabled: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<RoomSettingsOverviewComponent>,
@@ -40,9 +44,13 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.brainstormingEnabled = this.room.brainstormingActive;
     this.livepollEnabled = this.room.livepollActive;
     this.keywordExtrationEnabled = this.room.keywordExtractionActive;
+    this.aiEnabled = this.room.chatGptActive;
+    this.focusEnabled = this.room.focusActive;
+    this.radarEnabled = this.room.radarActive;
   }
 
-  onConfirm() {
+  confirm() {
+    // chatGptActive, focusActive, radarActive
     const update: RoomPatch = {
       directSend: this.directSend,
       conversationDepth: this.conversationEnabled ? 7 : 0,
@@ -52,6 +60,9 @@ export class RoomSettingsOverviewComponent implements OnInit {
       brainstormingActive: this.brainstormingEnabled,
       livepollActive: this.livepollEnabled,
       keywordExtractionActive: this.keywordExtrationEnabled,
+      chatGptActive: this.aiEnabled,
+      focusActive: this.focusEnabled,
+      radarActive: this.radarEnabled,
     };
     this.roomService.patchRoom(this.room.id, update).subscribe({
       next: () => {
@@ -74,10 +85,6 @@ export class RoomSettingsOverviewComponent implements OnInit {
     if (!this.awaitComplete) {
       this.dialogRef.close(update);
     }
-  }
-
-  onCancel() {
-    this.dialogRef.close();
   }
 
   toggleProfanityFilter(event: Event) {

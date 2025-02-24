@@ -1,30 +1,34 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { WriteCommentComponent } from '../../write-comment/write-comment.component';
-import { UserRole } from '../../../../models/user-roles.enum';
+import { Component, inject, input } from '@angular/core';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Comment } from 'app/models/comment';
 
 @Component({
   selector: 'app-submit-comment',
   templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.scss']
+  styleUrls: ['./create-comment.component.scss'],
+  standalone: false,
 })
-export class CreateCommentComponent implements OnInit {
+export class CreateCommentComponent {
+  brainstormingData = input<BrainstormingSession>(null);
+  private dialogRef = inject(MatDialogRef);
 
-  @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
-  @Input() userRole: UserRole;
-  @Input() tags: string[];
-  @Input() brainstormingData: BrainstormingSession;
-
-  constructor(
-    public dialogRef: MatDialogRef<CreateCommentComponent>,
-  ) {
+  static open(
+    dialog: MatDialog,
+    brainstormingData: BrainstormingSession,
+  ): MatDialogRef<CreateCommentComponent> {
+    const ref = dialog.open(CreateCommentComponent, {
+      disableClose: true,
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc(100vh - 20px)',
+      autoFocus: false,
+    });
+    ref.componentRef.setInput('brainstormingData', brainstormingData);
+    return ref;
   }
 
-  ngOnInit() {
-  }
-
-  onNoClick(comment?: Comment): void {
+  forward(comment?: Comment): void {
     this.dialogRef.close(comment);
   }
 }

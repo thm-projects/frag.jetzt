@@ -1,10 +1,14 @@
 $joyrideElementPadding: 5px;
 
+span.divider {
+  padding-left: 3em;
+}
+
 .inline-count-badge {
-  margin-top: 1.75em;
+  margin-top: 1em;
   width: 1.75em;
   position: absolute;
-  right: 1.2em;
+  right: 2.5em;
 }
 
 .number-icon-button {
@@ -18,12 +22,7 @@ $joyrideElementPadding: 5px;
   }
 }
 
-app-comment {
-  overflow: auto;
-  overflow-wrap: break-word;
-}
-
-.mat-form-field {
+.mat-mdc-form-field {
   float: left;
   padding-left: 5px;
 }
@@ -68,24 +67,27 @@ app-comment {
   z-index: 1;
 }
 
+.icon-button {
+  --mdc-icon-button-icon-size: 3rem;
+  --mdc-icon-button-state-layer-size: 1.25em;
+
+  mat-icon {
+    font-size: var(--mdc-icon-button-icon-size);
+    width: 1em;
+    height: 1em;
+  }
+}
+
 .search-icon {
   padding: 10px 0 10px 0;
   color: var(--on-surface);
-}
-
-.searchBarButton {
-  width: 45px !important;
-  height: 45px !important;
-  text-align: center;
-  margin: 1% 2% 1% 1%;
-  color: var(--secondary);
 }
 
 .red {
   color: var(--red) !important;
 
   &:hover {
-    outline: var(--red) solid 3px;
+    outline: var(--red) solid 2px;
     border-radius: 23px;
   }
 }
@@ -96,37 +98,13 @@ app-comment {
   background-color: var(--primary);
 }
 
-.freezeButton {
-  width: 45px;
-  height: 45px;
-  background-color: var(--background);
-}
-
 .actionIcon {
   transform: scale(1.2);
   color: var(--secondary);
 }
 
-.freezeIcon {
-  transform: scale(1.7);
-  color: var(--secondary);
-}
-
-.playIcon {
-  transform: scale(1.7);
-  color: var(--red);
-}
-
 .close {
   margin: 7px 0 5px 0;
-}
-
-.searchBarIcon {
-  font-size: 45px;
-  height: 45px;
-  width: 45px;
-  line-height: 100% !important;
-  color: var(--secondary);
 }
 
 .button-bar.joyrideActive {
@@ -164,9 +142,7 @@ app-comment {
 }
 
 .chatgpt-robot-icon {
-  margin-bottom: -10px;
-  margin-right: 10px;
-  margin-left: -2px;
+  color: var(--primary);
 }
 
 .favorite-icon {
@@ -216,8 +192,8 @@ app-comment {
 
 .counter-filtered {
   font-size: 18px;
-  color: var(--red);
-  font-weight: bold;
+  color: var(--mat-sys-green);
+  font-weight: 700;
 }
 
 .timesort {
@@ -263,56 +239,6 @@ app-comment {
   margin-right: 4%;
   margin-left: 4%;
   color: var(--on-primary);
-}
-
-.scrollTop {
-  position: fixed;
-  left: 20px;
-  @media (min-width: 960px) {
-    left: calc(50% - 480px);
-  }
-  bottom: 65px;
-  transform: scale(0);
-  z-index: 1;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-  transition: 0.1s;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--secondary);
-    outline: var(--secondary) solid 3px;
-  }
-}
-
-.fab_add_comment {
-  position: fixed;
-  right: 20px;
-  @media (min-width: 960px) {
-    right: calc(50% - 460px);
-  }
-  bottom: 65px;
-  z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
-  transform: scale(1.4);
-  transition: all 0.5s ease-in-out;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
-  }
-
-  &.center_screen {
-    right: calc(50% - 20px);
-    bottom: calc(50% - 20px);
-  }
-
-  p {
-    position: absolute;
-    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
-  }
 }
 
 #createCommentJoyrideWrapper {

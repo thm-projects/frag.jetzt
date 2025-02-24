@@ -1,0 +1,14 @@
+{"key": "pwa-install-snackbar",
+"de": {
+    "installPrompt": "Installiere die App!",
+    "installButton": "Installieren"
+},
+"en": {
+    "installPrompt": "Install the app!",
+    "installButton": "Install"
+},
+"fr": {
+    "installPrompt": "Installe l'application!",
+    "installButton": "Installer"
+}
+}

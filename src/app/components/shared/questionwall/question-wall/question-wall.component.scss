@@ -1,525 +1,65 @@
 :host {
-  .userActivityIcon {
-    display: inline-block;
-    /*width: 25px;
-    height: 25px;
-    margin-bottom: -5px;*/
-    background-color: currentColor;
-    -webkit-mask-image: url("../../../../../assets/icons/activity.svg");
-    mask-image: url("../../../../../assets/icons/activity.svg");
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: 100% 100%;
-  }
-
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    padding: 0;
-    margin: 0;
-  }
-
-  button.selected > * {
-    color: var(--red);
-  }
-
-  button:hover > * {
-    color: white;
-  }
-
-  .test {
-    width: 100%;
-    height: 250px;
-    box-shadow: inset 0 0 0 1px black;
-  }
-
-  .icon-svg {
-    color: var(--ars-header-color);
-    height: 18px;
-    width: 18px;
-  }
-
-  .pseudo-button {
-    cursor: default;
-
-    > * {
-      cursor: default;
-    }
-
-    &:hover * {
-      color: white;
-    }
-  }
-
-  .questionwall {
-    &-icon {
-      font-family: "Material Icons", serif;
-      font-weight: normal;
-      font-style: normal;
-      font-size: 22px;
-      line-height: 18px;
-      padding: 0;
-      color: darkorange;
-      margin-right: -3px;
-    }
-
-    &-header {
-      background-color: var(--ars-foreground-color);
-      border-bottom: solid 1px var(--ars-border-color);
-      transition: all 0.2s ease-in-out;
-      z-index: 4;
-    }
-
-    &-footer {
-      background-color: var(--ars-foreground-color);
-      border-top: solid 1px var(--ars-border-color);
-      transition: all 0.2s ease-in-out;
-      z-index: 54;
-
-      > * {
-        height: 100%;
-        float: left;
-      }
-    }
-
-    &-comment {
-      &-meta {
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-      }
-
-      &-border {
-        &-on {
-          box-shadow: inset 0px 0px 0px 1px var(--ars-button-color-light);
-        }
-
-        &-off {
-          box-shadow: inset 0px 0px 0px 0px var(--ars-button-color-light);
-        }
-      }
-
-      &-timestamp {
-        color: var(--ars-paragraph-color);
-        font-size: 14px;
-        line-height: 18px;
-      }
-
-      &-user {
-        color: var(--ars-header-color);
-        font-size: 14px;
-        padding-right: 8px;
-        line-height: 18px;
-      }
-
-      &-body {
-        hyphens: auto;
-        word-break: break-word;
-        color: var(--ars-header-color);
-        line-height: 22px;
-        white-space: normal;
-
-        hr {
-          border: 1px solid var(--ars-header-color);
-        }
-      }
-
-      &-btn {
-        > button > * {
-          color: darkorange;
-        }
-      }
-
-      &-notification {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        line-height: 18px;
-        font-weight: 600;
-        color: #cc4244;
-      }
-
-      &-number {
-        font-size: 30px;
-        padding-right: 20px;
-        font-weight: bold;
-        color: rgba(255, 255, 255, 0.2);
-
-        > mat-icon {
-          font-size: 45px;
-          width: 45px;
-          height: 100%;
-          vertical-align: text-bottom;
-        }
-      }
-    }
-
-    &-list {
-      box-sizing: border-box;
-      border-left: solid 1px var(--ars-border-color);
-
-      &-filter {
-        border-top: solid 1px var(--ars-border-color);
-        border-bottom: solid 1px var(--ars-border-color);
-      }
-
-      &-border-bottom {
-        border-bottom: solid 1px var(--ars-border-color);
-      }
-
-      &-hide {
-        background-color: orange;
-      }
-
-      &-scroll {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        background-color: orange;
-      }
-    }
-
-    &-present {
-      font-size: 45px;
-      padding: 16px 32px 16px 32px;
-      color: var(--ars-header-color);
-      hyphens: auto;
-      word-break: break-word;
-
-      &-options {
-        &-outer {
-          width: 0;
-          height: 0;
-          position: relative;
-        }
-
-        &-inner {
-          width: 180px;
-          height: 50px;
-          position: relative;
-          top: 16px;
-          left: -212px;
-        }
-
-        &-slider {
-          display: flex;
-          flex-grow: 1;
-          overflow: visible;
-        }
-      }
-
-      &-box {
-        &-outer {
-          display: flex;
-          flex-direction: row;
-          justify-content: left;
-          hyphens: auto;
-          word-break: break-word;
-          color: darkorange;
-          overflow-x: visible;
-          overflow-y: scroll;
-          max-height: calc(100vh - 100px);
-        }
-
-        &-inner {
-          width: 80%;
-          margin-left: 200px;
-          flex-shrink: 1;
-        }
-      }
-
-      &-meta {
-        padding-top: 16px;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-
-        &-left {
-          padding-left: 32px;
-        }
-
-        &-icon {
-          font-size: 22px;
-          margin-right: -3px;
-        }
-
-        &-user {
-          font-size: 18px;
-          padding-left: 4px;
-          padding-right: 16px;
-          color: var(--ars-header-color);
-        }
-
-        &-timestamp {
-          font-size: 18px;
-          font-weight: 400;
-          color: var(--ars-paragraph-color);
-        }
-
-        &-number {
-          padding-right: 0.4em;
-          font-size: 50px;
-          padding-left: 16px;
-          font-weight: bold;
-          color: rgba(255, 255, 255, 0.2);
-
-          > mat-icon {
-            font-size: 70px;
-            width: 70px;
-            height: 100%;
-            vertical-align: text-bottom;
-          }
-        }
-      }
-
-      &-introduction {
-        &-title {
-          font-size: 35px;
-          padding: 32px 32px 0 32px;
-          color: darkorange;
-        }
-
-        &-desc {
-          font-size: 18px;
-          padding: 16px 32px 0 32px;
-          color: var(--ars-paragraph-color);
-        }
-      }
-    }
-
-    &-screen {
-      background-color: var(--ars-background-color);
-    }
-
-    &-text {
-      &-color {
-        color: var(--ars-paragraph-color);
-      }
-    }
-  }
-
-  .bound img {
-    max-width: 100%;
-  }
-
-  .flex {
-    &-column {
-      &-center {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-    }
-  }
-
-  .icon-color {
-    color: darkorange;
-
-    &-yellow {
-      color: darkorange;
-      transform: scale(1.5);
-    }
-  }
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-:host ::ng-deep {
-  .questionwall-present-markdown {
-    max-width: 100%;
-    color: darkorange;
-
-    hr {
-      border: 1px solid darkorange;
-    }
-  }
-
-  .side-list-numbers {
-    border-radius: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-
-    > p {
-      text-align: center;
-      color: #ffffff;
-    }
-
-    &-indicator {
-      width: 10px;
-      height: 10px;
-      background-color: #ffffff;
-      border-radius: 2px;
-      position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      transition: all 0.1s ease-in-out;
-    }
-  }
-
-  .sln-indicator {
-    &-on {
-      width: 20px;
-      height: 20px;
-      background-color: darkorange;
-    }
-
-    &-off {
-      width: 10px;
-      height: 10px;
-    }
-  }
-
-  .sln {
-    &-on {
-      cursor: default;
-    }
-
-    &-off {
-      cursor: pointer;
-    }
-  }
-
-  .side-list {
-    transition: width ease-in-out 0.1s;
-  }
-
-  .qr-overlay {
-    position: fixed;
-    left: 32px;
-    bottom: 64px;
-    width: 200px;
-    height: 200px;
-    animation: popin-qr-overlay 0.2s cubic-bezier(0, 0.04, 0, 1) both;
-  }
-
-  @keyframes popin-qr-overlay {
-    0% {
-      transform: scale(0);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  @for $i from 1 through 100 {
-    .qw-fade-animation:nth-child(#{$i}n) {
-      animation-delay: #{$i * 0.1}s;
-    }
-  }
-
-  @for $i from 1 through 100 {
-    .qw-comment-fade-animation:nth-child(#{$i}n) {
-      animation-delay: #{$i * 0.1}s;
-    }
-  }
-
-  @for $i from 1 through 100 {
-    .qw-opening-fade-animation:nth-child(#{$i}n) {
-      animation-delay: #{$i * 0.1}s;
-    }
-  }
-
-  .qw-comment-fade-animation {
-    animation: qw-comment-fade 0.2s ease-in-out both;
-  }
-
-  .qw-opening-fade-animation {
-    animation: qw-opening-fade 0.1s ease-in-out both;
-  }
-
-  .qw-fade-animation {
-    animation: qw-fade 0.2s ease-in-out both;
-  }
-
-  @keyframes qw-fade {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes qw-opening-fade {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes qw-comment-fade {
-    0% {
-      opacity: 0;
-      margin-top: 32px;
-    }
-    100% {
-      opacity: 1;
-      margin-top: 0px;
-    }
-  }
-
-  .qw-loading {
-    width: 640px;
-    height: 360px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-  }
-
-  .qw-center-text {
-    text-align: center;
-  }
-
-  .qw-mat-button-wrapper {
-    box-sizing: border-box;
-    padding: 16px;
-
-    > button > span > mat-icon {
-      margin-right: 8px;
-    }
-
-    > * {
-      color: var(--ars-header-color);
-    }
-  }
-
-  .qw-text-heading {
-    color: var(--ars-header-color);
-  }
-
-  .qw-text-paragraph {
-    color: var(--ars-header-color);
-  }
+.top-bar {
+  height: 60px;
 }
 
-.selected {
-  font-weight: bold;
+.side-bar-container {
+  width: var(--m3-comp-supporting-pane-fixed-width);
+  flex-shrink: 0;
 }
 
-h2 {
-  color: var(--red);
-  font-weight: normal !important;
-  padding-top: 10px !important;
+.side-bar-footer {
 }
 
-button > mat-icon {
-  color: darkorange;
-  height: unset;
+.clock {
+  max-height: 200px;
+  align-self: center;
 }
 
-ars-mat-paginator {
-  display: block;
-  float: left;
-  ::ng-deep {
-    * {
-      color: var(--ars-paragraph-color);
-    }
-  }
+.view-comment-container {
+  width: 1600px;
+  max-width: 100%;
+  display: flex;
+  overflow: auto;
+  padding: 0 5em 5em;
+  justify-content: flex-start;
+}
+
+.view-comment {
+  width: 100%;
+  max-width: 1600px;
+  height: 0;
+  flex-shrink: 1;
+  padding: 5em 0;
+}
+
+.view-placeholder {
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
+  flex-shrink: 1;
+  padding: 64px 0;
+  display: flex;
+  align-items: center;
+}
+
+.side-bar-content {
+  height: 0;
+  overflow: auto;
+}
+
+.side-bar-container {
+}
+
+/**/
+
+.qr-overlay {
+  position: fixed;
+  bottom: 64px;
+  left: 120px;
 }

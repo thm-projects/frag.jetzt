@@ -1,0 +1,210 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+
+$_font-family: "Roboto Flex";
+$_typescale: (
+  display: (
+    large: (
+      font: $_font_family,
+      weight: 400,
+      size: 57,
+      tracking: -0.25,
+      line-height: 64,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 45,
+      tracking: 0,
+      line-height: 52,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 36,
+      tracking: 0,
+      line-height: 44,
+    ),
+  ),
+  headline: (
+    large: (
+      weight: 400,
+      font: $_font_family,
+      size: 32,
+      tracking: 0,
+      line-height: 40,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 28,
+      tracking: 0,
+      line-height: 36,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 24,
+      tracking: 0,
+      line-height: 32,
+    ),
+  ),
+  title: (
+    large: (
+      font: $_font_family,
+      weight: 400,
+      size: 22,
+      tracking: 0,
+      line-height: 28,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 500,
+      size: 16,
+      tracking: 0.15,
+      line-height: 24,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 500,
+      size: 14,
+      tracking: 0.1,
+      line-height: 20,
+    ),
+  ),
+  body: (
+    large: (
+      font: $_font_family,
+      weight: 400,
+      size: 16,
+      tracking: 0.5,
+      line-height: 24,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 400,
+      size: 14,
+      tracking: 0.25,
+      line-height: 20,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 400,
+      size: 12,
+      tracking: 0.4,
+      line-height: 16,
+    ),
+  ),
+  label: (
+    large: (
+      font: $_font_family,
+      weight: 500,
+      size: 14,
+      tracking: 0.1,
+      line-height: 20,
+    ),
+    medium: (
+      font: $_font_family,
+      weight: 500,
+      size: 12,
+      tracking: 0.5,
+      line-height: 16,
+    ),
+    small: (
+      font: $_font_family,
+      weight: 500,
+      size: 11,
+      tracking: 0.5,
+      line-height: 16,
+    ),
+  ),
+);
+
+$valid-units: px, em;
+$valid-types: #{map.keys($_typescale)};
+$valid-scales: large, medium, small;
+
+@function _convert-px-to-unit($value, $unit) {
+  @if $unit == px {
+    @return #{$value};
+  } @else if $unit == em {
+    @if $value == 0 {
+      @return 0;
+    } @else {
+      @return math.div($value, 16);
+    }
+  } @else {
+    @error "internal: #{$unit} not in [#{$valid-units}]";
+  }
+}
+
+@function _validate-unit($unit: px) {
+  @if not list.index($valid-units, $unit) {
+    @error "#{$unit} is not a valid unit. use #{$valid-units} instead (default: px)";
+  }
+  @return null;
+}
+
+@mixin font-size($type, $scale, $unit: px) {
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{$unit};
+}
+
+@mixin inverted-font-size($type, $scale, $unit: px) {
+  font-size: #{math.div(
+      1,
+      _convert-px-to-unit(map.get($_typescale, $type, $scale, size), $unit)
+    )}#{$unit};
+}
+
+@function _validate-type($type) {
+  @if map.get($_typescale, $type) == null {
+    @error "#{$type} is not a valid type. #{$valid-types}";
+  }
+  @return null;
+}
+
+@function _validate-scale($scale) {
+  @if $scale == large or $scale == medium or $scale == small {
+    @return null;
+  } @else {
+    @error "#{$scale} is not a valid scale. use #{$valid-scales}";
+  }
+}
+
+@mixin typescale($type, $scale, $unit: px) {
+  $err-unit: _validate-unit(#{$unit});
+  $err-type: _validate-type(#{$type});
+  $err-scale: _validate-scale(#{$scale});
+  font-family: #{map.get($_typescale, $type, $scale, font)};
+  font-weight: #{map.get($_typescale, $type, $scale, weight)};
+  font-size: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, size),
+      $unit
+    )}#{$unit};
+  line-height: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, line-height),
+      $unit
+    )}#{$unit};
+  letter-spacing: #{_convert-px-to-unit(
+      map.get($_typescale, $type, $scale, tracking),
+      $unit
+    )}#{$unit};
+}
+
+@mixin all-typescale($unit: px) {
+  $err-unit: _validate-unit($unit);
+  --md-ref-typeface-weight-regular: 400;
+  --md-ref-typeface-weight-medium: 500;
+  --md-ref-typeface-plain: #{$_font-family};
+  @each $type, $_value in $_typescale {
+    @each $scale, $_config in $_value {
+      .#{$type}-#{$scale} {
+        @include typescale($type, $scale);
+      }
+    }
+  }
+}

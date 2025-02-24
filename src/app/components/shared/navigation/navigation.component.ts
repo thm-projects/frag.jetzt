@@ -7,7 +7,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
@@ -18,8 +17,8 @@ import { SessionService } from 'app/services/util/session.service';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TopicCloudBrainstormingComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudFilterComponent } from '../../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
@@ -29,6 +28,8 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
+import { logout, user, user$ } from 'app/user/state/user';
 
 interface LocationData {
   id: string;
@@ -108,6 +109,7 @@ export const navigateBrainstorming = (
 ) => {
   const confirmDialogRef = dialog.open(TopicCloudBrainstormingComponent, {
     autoFocus: false,
+    disableClose: true,
   });
   confirmDialogRef.componentInstance.target = getBrainstormingURL(
     getCurrentLocation(router),
@@ -144,10 +146,15 @@ export const livepollNavigationAccessOnRoute = (
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  /**
+   * @deprecated
+   */
   @Input() isQuestionWall = false;
   @Input() showText = true;
+  isPLE = true;
   isMobile = false;
   readonly possibleLocations: AppLocation[] = [
     {
@@ -170,7 +177,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
       icon: 'forum',
       class: 'material-icons-outlined',
       isCurrentRoute: (route) => COMMENTS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isPLE,
+      navigate: (route) => {
+        const data = route.match(ROOM_REGEX);
+        this.router.navigate([`${data[1]}/room/${data[2]}/comments`]);
+      },
+    },
+    {
+      id: 'forum',
+      accessible: false,
+      active: false,
+      i18n: 'header.ple.back-to-questionboard',
+      icon: 'forum',
+      class: 'material-icons-outlined',
+      isCurrentRoute: (route) => COMMENTS_REGEX.test(route),
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && this.isPLE,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([`${data[1]}/room/${data[2]}/comments`]);
@@ -185,6 +206,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-round',
       isCurrentRoute: (route) => MODERATION_REGEX.test(route),
       canBeAccessedOnRoute: (route) =>
+        !this.isPLE &&
         ROOM_REGEX.test(route) &&
         ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
           UserRole.PARTICIPANT,
@@ -200,11 +222,28 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isMobile,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && !this.isMobile && !this.isPLE,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
-          `participant/room/${data[2]}/comments/questionwall`,
+          `${data[1]}/room/${data[2]}/comments/questionwall`,
+        ]);
+      },
+    },
+    {
+      id: 'focus',
+      accessible: false,
+      active: false,
+      i18n: 'header.ple.questionwall',
+      svgIcon: 'beamer',
+      isCurrentRoute: (route) => FOCUS_REGEX.test(route),
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && !this.isMobile && this.isPLE,
+      navigate: (route) => {
+        const data = route.match(ROOM_REGEX);
+        this.router.navigate([
+          `${data[1]}/room/${data[2]}/comments/questionwall`,
         ]);
       },
     },
@@ -220,9 +259,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
           route,
           this.sessionService.currentRoom,
           this.roomState,
-        ),
-      navigate: (route) => this.livepollService.open(this.sessionService),
-      isCurrentRoute: (route) => false,
+        ) && !this.isPLE,
+      navigate: () => this.livepollService.open(this.sessionService),
+      isCurrentRoute: () => false,
     },
     {
       id: 'radar',
@@ -231,7 +270,24 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.tag-cloud',
       icon: 'radar',
       isCurrentRoute: (route) => RADAR_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isPLE,
+      navigate: () => {
+        navigateTopicCloud(
+          this.router,
+          this.eventService,
+          this.dialog,
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()],
+        );
+      },
+    },
+    {
+      id: 'radar',
+      accessible: false,
+      active: false,
+      i18n: 'header.ple.tag-cloud',
+      icon: 'radar',
+      isCurrentRoute: (route) => RADAR_REGEX.test(route),
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && this.isPLE,
       navigate: () => {
         navigateTopicCloud(
           this.router,
@@ -280,7 +336,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.quiz-now',
       icon: 'rocket_launch',
       isCurrentRoute: (route) => QUIZ_REGEX.test(route),
-      canBeAccessedOnRoute: () => this.sessionService.currentRoom?.quizActive,
+      canBeAccessedOnRoute: () =>
+        this.sessionService.currentRoom?.quizActive && !this.isPLE,
       navigate: () => {
         this.router.navigate(['/quiz']);
       },
@@ -291,7 +348,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.room-qr',
       icon: 'qr_code',
-      isCurrentRoute: (route) => false,
+      isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
       navigate: () => {
         this.showQRDialog();
@@ -346,7 +403,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: (route) => USER_REGEX.test(route),
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.router.navigate(['/user']);
       },
@@ -361,15 +418,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
       outside: true,
       isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) =>
-        Boolean(this.accountState.getCurrentUser()) &&
+        Boolean(user()) &&
         (!ROOM_REGEX.test(route) ||
           ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
-            UserRole.PARTICIPANT),
+            UserRole.PARTICIPANT) &&
+        !this.isPLE,
       navigate: () => {
-        UserBonusTokenComponent.openDialog(
-          this.dialog,
-          this.accountState.getCurrentUser()?.id,
-        );
+        UserBonusTokenComponent.openDialog(this.dialog, user()?.id);
       },
     },
     {
@@ -385,7 +440,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
         ROOM_REGEX.test(route) &&
         ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
           UserRole.PARTICIPANT &&
-        this.sessionService.currentRoom?.bonusArchiveActive,
+        this.sessionService.currentRoom?.bonusArchiveActive &&
+        !this.isPLE,
       navigate: () => {
         const dialogRef = this.dialog.open(BonusTokenComponent, {
           width: '400px',
@@ -398,11 +454,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
       accessible: false,
       active: false,
       i18n: 'header.feedback',
-      icon: 'rate_review',
+      icon: 'meeting_room',
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.router.navigate(['/participant/room/Feedback']);
       },
@@ -416,7 +472,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
         this.appState.openMotdDialog();
       },
@@ -430,9 +486,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'btn-red',
       outside: true,
       isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
+      canBeAccessedOnRoute: () => Boolean(user()),
       navigate: () => {
-        this.accountState.logout().subscribe();
+        logout().subscribe();
       },
     },
   ];
@@ -473,7 +529,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         filter((e) => e instanceof NavigationEnd),
       )
       .subscribe(observer);
-    this.accountState.user$.pipe(takeUntil(this.destroyer)).subscribe(observer);
+    user$.pipe(takeUntil(this.destroyer)).subscribe(observer);
     this.deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
@@ -482,6 +538,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.refreshLocations();
       });
+    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe(observer);
   }
 
   ngOnDestroy(): void {
@@ -494,6 +551,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   refreshLocations() {
+    this.isPLE = this.roomState.getCurrentRoom()?.mode === 'PLE';
     const url = getCurrentLocation(this.router);
     this.currentLocation = null;
     let anyTrue = false;
@@ -529,7 +587,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     const room = this.sessionService.currentRoom;
     dialogRef.componentInstance.data = `${location.origin}/participant/room/${room?.shortId}`;
     dialogRef.componentInstance.key = room?.shortId;
-    dialogRef.afterClosed().subscribe((res) => {
+    dialogRef.afterClosed().subscribe(() => {
       Rescale.exitFullscreen();
     });
   }

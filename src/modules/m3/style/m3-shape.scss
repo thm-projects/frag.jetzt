@@ -1,0 +1,6 @@
+/// @see https://m3.material.io/styles/shape/shape-scale-tokens#59b6f73a-6ef2-45a6-ab48-611d07635661
+@mixin all-shape-token() {
+  --md-sys-shape-corner-large-end: 0 16px 16px 0;
+  --md-sys-shape-corner-large: 16px 16px 16px 16px;
+  --md-sys-shape-corner-extra-small: 4px 4px 4px 4px;
+}

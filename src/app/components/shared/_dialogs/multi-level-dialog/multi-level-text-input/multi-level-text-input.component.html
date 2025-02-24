@@ -1,0 +1,30 @@
+<mat-form-field appearance="outline">
+  <mat-label *ngIf="data.label">{{ data.label | translate }}</mat-label>
+  <input
+    appAccessibilityEscapedInput
+    autofocus
+    matInput
+    [type]="hidden ? 'password' : 'text'"
+    [placeholder]="data.placeholder | translate"
+    [formControl]="data.control" />
+  <button
+    *ngIf="initialHidden"
+    mat-icon-button
+    matSuffix
+    (click)="hidden = !hidden"
+    [attr.aria-pressed]="hidden">
+    <mat-icon>{{ hidden ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
+  <mat-hint *ngIf="data.hint && !data.control.invalid">
+    {{ data.hint | translate }}
+  </mat-hint>
+  <mat-error>
+    @if (data.control.errors | keyvalue; as controlErrors) {
+      @if (data.errorStates; as errorStrings) {
+        @if (errorStrings[controlErrors[0].key]; as info) {
+          {{ info | translate }}
+        }
+      }
+    }
+  </mat-error>
+</mat-form-field>

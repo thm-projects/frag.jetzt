@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, Rendere
 import { FrameType } from '../FrameType';
 
 @Component({
-  selector: 'ars-row',
-  templateUrl: './row.component.html',
-  styleUrls: ['./row.component.scss'],
-  providers: [FrameType.provide(RowComponent)],
+    selector: 'ars-row',
+    templateUrl: './row.component.html',
+    styleUrls: ['./row.component.scss'],
+    providers: [FrameType.provide(RowComponent)],
+    standalone: false
 })
 export class RowComponent extends FrameType implements OnInit, AfterViewInit, OnDestroy {
 

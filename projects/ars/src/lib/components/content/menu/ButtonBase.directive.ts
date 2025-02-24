@@ -2,7 +2,8 @@ import { AfterViewInit, Directive, ElementRef, OnInit, Renderer2 } from '@angula
 
 
 @Directive({
-  selector: '[ars-btn]'
+    selector: '[ars-btn]',
+    standalone: false
 })
 export class ButtonBaseDirective implements OnInit, AfterViewInit {
 

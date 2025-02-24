@@ -1,13 +1,19 @@
-<h3 matDialogTitle>{{ "update-info.title" | translate }}</h3>
+<h3 matDialogTitle>{{ i18n().title }}</h3>
 
 <mat-dialog-content>
-  <div
-    markdown
-    [data]="'update-info.description' | translate"></div>
+  <app-markdown-viewer [data]="i18n().description"></app-markdown-viewer>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'update-info'"
-  [confirmButtonLabel]="'install'"
-  [confirmButtonClickAction]="onSubmit"
-  [cancelButtonClickAction]="onCancel"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    [mat-dialog-close]="false">
+    {{ i18n().global.close }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    (click)="install()">
+    {{ i18n().install }}
+  </button>
+</mat-dialog-actions>

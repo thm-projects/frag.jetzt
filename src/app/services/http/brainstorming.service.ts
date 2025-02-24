@@ -15,7 +15,6 @@ export interface BrainstormingVote {
 }
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
@@ -61,7 +60,6 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .post<BrainstormingSession>(connectionUrl, session, httpOptions)
       .pipe(
-        tap((_) => ''),
         catchError(this.handleError<BrainstormingSession>('createSession')),
       );
   }
@@ -74,18 +72,15 @@ export class BrainstormingService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
     return this.http
       .patch<BrainstormingSession>(connectionUrl, sessionChanges, httpOptions)
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<BrainstormingSession>('patchSession')),
-      );
+      .pipe(catchError(this.handleError<BrainstormingSession>('patchSession')));
   }
 
-  deleteSession(sessionId: string): Observable<any> {
+  deleteSession(sessionId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
-    return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError('deleteSession')),
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteSession')),
     );
   }
 
@@ -102,7 +97,7 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .post<BrainstormingWord>(connectionUrl, { text: word }, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<BrainstormingWord>('createWord')),
       );
   }
@@ -122,7 +117,7 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .patch<BrainstormingWord>(connectionUrl, changes, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<BrainstormingWord>('patchWord')),
       );
   }
@@ -137,21 +132,21 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .post<BrainstormingVote>(connectionUrl, null, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<BrainstormingVote>('createVote')),
       );
   }
 
-  deleteVote(wordId: string): Observable<any> {
+  deleteVote(wordId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.brainstorming +
       '/' +
       wordId +
       this.apiUrl.resetVote;
-    return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError('deleteVote')),
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteVote')),
     );
   }
 
@@ -165,7 +160,7 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .get<BrainstormingCategory[]>(connectionUrl, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<BrainstormingCategory[]>('getCategories')),
       );
   }
@@ -184,36 +179,36 @@ export class BrainstormingService extends BaseHttpService {
     return this.http
       .post<BrainstormingCategory[]>(connectionUrl, categories, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(
           this.handleError<BrainstormingCategory[]>('updateCategories'),
         ),
       );
   }
 
-  deleteAllVotes(sessionId: string): Observable<any> {
+  deleteAllVotes(sessionId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.brainstorming +
       '/' +
       sessionId +
       this.apiUrl.resetRating;
-    return this.http.post<any>(connectionUrl, null, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('deleteAllVotes')),
+    return this.http.post<void>(connectionUrl, null, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteAllVotes')),
     );
   }
 
-  deleteAllCategoryAssignments(sessionId: string): Observable<any> {
+  deleteAllCategoryAssignments(sessionId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.brainstorming +
       '/' +
       sessionId +
       this.apiUrl.resetCategorization;
-    return this.http.post<any>(connectionUrl, null, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('deleteAllCategoryAssignments')),
+    return this.http.post<void>(connectionUrl, null, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteAllCategoryAssignments')),
     );
   }
 }

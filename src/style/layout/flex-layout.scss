@@ -1,0 +1,85 @@
+@function _get-default-token() {
+  @return (
+    gap: (
+      small: 8px,
+      medium: 12px,
+      large: 24px,
+      extra-large: 64px,
+    )
+  );
+}
+
+@function _get-gap-direction($direction) {
+  @if $direction == row {
+    @return left;
+  } @else {
+    @return top;
+  }
+}
+
+@mixin _generate-flex-layout-classes($direction) {
+  $token: _get-default-token();
+  display: flex;
+  flex-direction: #{$direction};
+  &.gap {
+    $gap-direction: _get-gap-direction($direction);
+    $keys: map-keys(map-get($token, gap));
+    @each $key in $keys {
+      &-#{$key} {
+        > * + * {
+          margin-#{$gap-direction}: map-get($token, gap, $key);
+        }
+      }
+    }
+  }
+  &.content {
+    &-center {
+      justify-content: center;
+    }
+
+    &-start {
+      justify-content: flex-start;
+    }
+
+    &-end {
+      justify-content: flex-end;
+    }
+
+    &-space-between {
+      justify-content: space-between;
+    }
+  }
+  &.items {
+    &-center {
+      align-items: center;
+    }
+
+    &-start {
+      align-items: flex-start;
+    }
+
+    &-end {
+      align-items: flex-end;
+    }
+  }
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.row {
+  @include _generate-flex-layout-classes(row);
+}
+
+.column {
+  @include _generate-flex-layout-classes(column);
+}
+
+.flex-100 {
+  flex: 1 0 0;
+}
+
+.flex-010 {
+  flex: 0 1 0;
+}

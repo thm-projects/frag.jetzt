@@ -1,0 +1,34 @@
+@use "../../../style/m3-layout" as m3-layout;
+
+:host {
+  --padding-inline: 1.5rem;
+  padding-inline: var(--padding-inline);
+}
+
+:host-context(.type-flexible) {
+  max-width: 1600px;
+  flex-grow: 1;
+}
+
+:host-context(.elevation-1) {
+  padding: 0 var(--padding-inline) 1.5rem;
+}
+
+:host-context(.type-fixed) {
+  width: var(--m3-comp-supporting-pane-fixed-width);
+  flex-shrink: 0;
+}
+
+:host-context(.priority-secondary) {
+  display: none;
+  @include m3-layout.explicit-range(expanded) {
+    display: block;
+  }
+}
+
+:host-context(.priority-tertiary) {
+  display: none;
+  @include m3-layout.explicit-range(extra-large) {
+    display: block;
+  }
+}

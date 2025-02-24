@@ -1,0 +1,144 @@
+<div class="grow"></div>
+<div class="row items-center gap-large">
+  <div
+    class="text-icon"
+    [matTooltip]="'question-wall.overview-question-tooltip' | translate">
+    <mat-icon>comment</mat-icon>
+    {{ session?.commentsCountQuestions }}
+  </div>
+  <div
+    class="text-icon"
+    [matTooltip]="'question-wall.overview-questioners-tooltip' | translate">
+    <mat-icon>person</mat-icon>
+    {{ session?.commentsCountUsers }}
+  </div>
+</div>
+<div class="row items-center">
+  <button
+    mat-button
+    [matMenuTriggerFor]="matSortMenu">
+    <mat-icon>sort</mat-icon>
+    {{
+      i18n().action.sort.title
+        | context: { currentOption: i18n().action.sort.options[currentOption] }
+    }}
+    <mat-menu #matSortMenu>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Time, false)">
+        {{ i18n().action.sort.options.newest }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Time, true)">
+        {{ i18n().action.sort.options.oldest }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Score, false)">
+        {{ i18n().action.sort.options.score }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.sort(SortType.Controversy, false)">
+        {{ i18n().action.sort.options.controversy }}
+      </button>
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matTimeFilterMenu">
+    <mat-icon>schedule</mat-icon>
+    {{ i18n().action.timeFilter.title }}
+    <mat-menu #matTimeFilterMenu>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('FromNow')">
+        {{ i18n().action.timeFilter.options.now }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneHour')">
+        {{ i18n().action.timeFilter.options.hour.single }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneHour')">
+        {{
+          i18n().action.timeFilter.options.hour.plural | context: { time: 2 }
+        }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneDay')">
+        {{
+          i18n().action.timeFilter.options.hour.plural | context: { time: 24 }
+        }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('OneWeek')">
+        {{ i18n().action.timeFilter.options.day.plural | context: { time: 7 } }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('TwoWeeks')">
+        {{
+          i18n().action.timeFilter.options.day.plural | context: { time: 14 }
+        }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.setTimePeriod('All')">
+        {{ i18n().action.timeFilter.options.all }}
+      </button>
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matFilterMenu">
+    <mat-icon>filter_alt</mat-icon>
+    {{ i18n().action.filter.title }}
+    <mat-menu #matFilterMenu>
+      <button
+        mat-menu-item
+        (click)="session?.filter.filterFavorites()">
+        <mat-icon>star</mat-icon>
+        {{ i18n().action.filter.options.bonus }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="session?.filter.filterBookmark()">
+        <mat-icon>bookmark</mat-icon>
+        {{ i18n().action.filter.options.bookmark }}
+      </button>
+      @if (session?.filter.hasFilter) {
+        <button
+          mat-menu-item
+          (click)="session?.filter.deactivateFilter()">
+          <mat-icon>undo</mat-icon>
+          {{ i18n().action.reset }}
+        </button>
+      }
+    </mat-menu>
+  </button>
+  <button
+    mat-button
+    [matMenuTriggerFor]="matCategoryMenu">
+    <mat-icon>category</mat-icon>
+    {{ i18n().action.category.title }}
+    <mat-menu #matCategoryMenu>
+      @for (category of session?.room?.tags; track category) {
+        <button mat-menu-item>
+          {{ category }}
+        </button>
+      } @empty {
+        <div class="column grow items-center">
+          <span class="label-small label-text-override">
+            {{ i18n().info.noCategories }}
+          </span>
+        </div>
+      }
+    </mat-menu>
+  </button>
+</div>

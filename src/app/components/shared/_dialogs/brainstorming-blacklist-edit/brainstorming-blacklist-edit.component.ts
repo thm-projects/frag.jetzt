@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
@@ -9,6 +8,7 @@ import { switchMap } from 'rxjs';
   selector: 'app-brainstorming-blacklist-edit',
   templateUrl: './brainstorming-blacklist-edit.component.html',
   styleUrls: ['./brainstorming-blacklist-edit.component.scss'],
+  standalone: false,
 })
 export class BrainstormingBlacklistEditComponent implements OnInit {
   @Input() room: Room;
@@ -16,10 +16,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
   showBlacklistWordList = false;
   newBlacklistWord: string;
 
-  constructor(
-    private _dialogRef: MatDialogRef<BrainstormingBlacklistEditComponent>,
-    private _brainstormingService: BrainstormingService,
-  ) {}
+  constructor(private _brainstormingService: BrainstormingService) {}
 
   ngOnInit(): void {
     const obj = this.room.brainstormingSession.wordsWithMeta;
@@ -31,10 +28,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
 
   addBlacklistWord() {
     this._brainstormingService
-      .createWord(
-        this.room.brainstormingSession.id,
-        this.newBlacklistWord,
-      )
+      .createWord(this.room.brainstormingSession.id, this.newBlacklistWord)
       .pipe(
         switchMap((word) =>
           this._brainstormingService.patchWord(word.id, { banned: true }),
@@ -60,18 +54,6 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
       .subscribe(() => {
         this.blacklist.splice(index, 1);
       });
-  }
-
-  buildCloseDialogActionCallback() {
-    return () => {
-      this._dialogRef.close();
-    };
-  }
-
-  buildSaveActionCallback() {
-    return () => {
-      this._dialogRef.close(this.blacklist);
-    };
   }
 
   private sort() {

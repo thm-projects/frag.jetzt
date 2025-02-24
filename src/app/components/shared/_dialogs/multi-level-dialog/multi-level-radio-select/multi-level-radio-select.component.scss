@@ -1,0 +1,30 @@
+mat-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.7em;
+}
+
+.container {
+  padding-block: 1em;
+}
+
+.mat-mdc-radio-button {
+  display: block;
+
+  &:has(+ .mat-mdc-radio-button) {
+    padding-bottom: 0.7em;
+  }
+}
+
+mat-error {
+  height: 3em;
+  transition: height 500ms var(--mat-sys-easing-emphasized);
+
+  &:empty {
+    height: 0;
+  }
+}
+
+.hoverable-icon {
+  cursor: pointer;
+}

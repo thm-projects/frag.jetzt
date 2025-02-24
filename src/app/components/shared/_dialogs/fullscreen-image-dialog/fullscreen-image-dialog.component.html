@@ -1,3 +1,5 @@
+<!-- TODO Test and/or rework -->
+
 <ars-screen
   (mousemove)="move($event)"
   (wheel)="wheelEvent($event)"
@@ -14,9 +16,21 @@
       close
     </mat-icon>
     <div class="action-buttons">
-      <mat-icon class="material-icons-outlined" (click)="scalePicture(0.2)">zoom_in</mat-icon>
-      <mat-icon class="material-icons-outlined" (click)="scalePicture(-0.2)">zoom_out</mat-icon>
-      <mat-icon class="material-icons-outlined" (click)="reset()">crop_free</mat-icon>
+      <mat-icon
+        class="material-icons-outlined"
+        (click)="scalePicture(0.2)">
+        zoom_in
+      </mat-icon>
+      <mat-icon
+        class="material-icons-outlined"
+        (click)="scalePicture(-0.2)">
+        zoom_out
+      </mat-icon>
+      <mat-icon
+        class="material-icons-outlined"
+        (click)="reset()">
+        crop_free
+      </mat-icon>
     </div>
     <img
       alt="Fullscreen"

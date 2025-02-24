@@ -1,62 +1,111 @@
 {
   "common": {
-    "live": "Live",
-    "option-archive": "Archive",
-    "archive-noname": "Unbenannte Blitzumfrage",
-    "archive-finished": "Beendet",
-    "create-dialog-title": "Blitzumfrage erstellen",
-    "dialog-title": "Blitzumfrage",
-    "option-select-title": "Deine Frage …",
-    "dialog-preview-title": "Vorschau aus Teilnehmersicht:",
-    "create": "Umfrage starten",
-    "participants": "Teilnehmer im Raum",
-    "user": "Aktive Live Poll Teilnehmer",
-    "close": "Schließen",
-    "cancel": "Abbrechen",
-    "save": "Änderungen an alle senden",
-    "new": "Neue Umfrage",
-    "vote-make": "Deine Stimme wurde gezählt.",
-    "vote-delete": "Deine Abstimmung wurde zurückgesetzt.",
-    "peerInstruction-end": "End Peer Instruction",
-    "peerInstruction-start-phase-2":"Starte Phase 2",
-    "peerInstruction-comparison-results-1": "Erste Umfrage",
-    "peerInstruction-comparison-results-2":"Zweite Umfrage",
-    "peerInstruction-comparison-title": "Peer Instruction - Ergebnisse",
-    "peerInstruction-button":"Peer Instruction",
-    "peerInstruction-phase-2-marker": "Phase 2",
-    "peerInstruction-title-1":"Peer Instruction",
-    "peerInstruction-title-2": "Peer Instruction",
-    "peerInstruction-description-phase-1":"Evidenzbasierte, interaktive Lehrmethode. Erstellen Sie eine zweite Live-Umfrage und vergleichen Sie die Ergebnisse.",
-    "peerInstruction-description-phase-2": "Sie können die Live-Umfrage beenden. Der Vergleich der Umfragen wird in einem Dialog angezeigt.",
-    "dialog-confirm-peerInstruction-show1stStageResults-description": "Sind Sie sicher, dass Sie die aktuelle Umfrage beenden und die 2. Phase der Peer Instruction beginnen möchten?",
-    "dialog-confirm-peerInstruction-show1stStageResults-title": "Beginn der 2. Phase des Peer-Instruction",
-    "dialog-confirm-create-new-description": "Willst du wirklich die aktuelle Umfrage beenden und eine neue starten?",
-    "dialog-confirm-create-new-title": "Neue Umfrage",
-    "dialog-confirm-delete-description": "Willst du wirklich die Umfrage beenden? Das Abstimmungsergebnis wird dir weiterhin angezeigt, aber beim Verlassen der Umfrage gelöscht. ",
-    "dialog-confirm-delete-title": "Umfrage beenden",
-    "dialog-confirm-resetResults-description": "Willst du wirklich die Umfrage zurücksetzen?",
-    "dialog-confirm-resetResults-title": "Umfrage zurücksetzen",
-    "votes": "Stimmen:",
-    "confirm-yes": "Ja",
-    "confirm-cancel":"Cancel",
-    "confirm-accept": "Accept",
-    "confirm-continue":"Continue",
-    "confirm-no":"No",
-    "creator-settings": "Blitzoptionen …",
-    "creator-settings-icon": "flash_on",
-    "creator-settings-delete": "Umfrage beenden",
-    "creator-settings-pause": "Umfrage pausieren",
-    "creator-settings-continue": "Umfrage fortsetzen",
-    "creator-settings-open-editor": "Editor",
-    "settings-resetResults": "Reset",
+    "title": "Blitzumfrage",
+    "create": {
+      "title": "Blitzumfrage erstellen",
+      "select-template": {
+        "label": "Wähle eine Vorlage…"
+      }
+    },
+    "peer-instruction": {
+      "second-round": "2. Umfragerunde",
+      "name": "»Peer Instruction«",
+      "result-statistics": {
+        "title": "Vergleich - »Peer Instruction«",
+        "result-1": "Erste Umfrage",
+        "result-2": "Zweite Umfrage",
+        "start-next": "Starte 2. Umfragerunde",
+        "end": "Beenden"
+      }
+    },
+    "edit": {
+      "view-as-participant": "Vorschau aus Teilnehmersicht:",
+      "reset": "Reset",
+      "pause": "Pausieren",
+      "delete": "Löschen",
+      "continue": "Fortsetzen",
+      "close": "Schließen",
+      "new": "Neue Umfrage",
+      "cancel": "Abbrechen",
+      "start": "Umfrage starten"
+    },
+    "settings": {
+      "name": "Blitzoptionen…",
+      "option": {
+        "result-visibility": {
+          "text": "Abstimmung live sichtbar",
+          "tooltip": "Abstimmung für alle im Raum in Echtzeit anzeigen"
+        },
+        "user-count-visibility": {
+          "text": "Beteiligung live sichtbar",
+          "tooltip": "Beteiligung für alle im Raum in Echtzeit anzeigen"
+        },
+        "question": {
+          "label": "Deine Frage…"
+        },
+        "editor": "Editor",
+        "save": "Änderungen an alle senden"
+      }
+    },
+    "statistics": {
+      "active-user-count": {
+        "tooltip": "Aktive Live Poll Teilnehmer"
+      },
+      "room-user-count": {
+        "tooltip": "Teilnehmer im Raum"
+      },
+      "vote-count": {
+        "text": "Stimmen"
+      }
+    },
+    "confirmation-dialog": {
+      "common": {
+        "yes": "Ja",
+        "cancel": "Abbrechen",
+        "accept": "Ja",
+        "continue": "Weiter",
+        "no": "Nein"
+      },
+      "entries": {
+        "new": {
+          "title": "Neue Umfrage",
+          "description": "Willst du wirklich die aktuelle Umfrage beenden und eine neue starten?"
+        },
+        "delete": {
+          "title": "Umfrage beenden",
+          "description": "Willst du wirklich die Umfrage beenden? Das Abstimmungsergebnis wird dir weiterhin angezeigt, aber beim Verlassen der Umfrage gelöscht."
+        },
+        "reset": {
+          "title": "Umfrage zurücksetzen",
+          "description": "Willst du wirklich die Umfrage zurücksetzen?"
+        },
+        "change-peer-instruction-stage": {
+          "title": "Starte 2. Umfragerunde",
+          "description": "Bist du sicher, dass du die aktuelle Umfrage beenden und die 2. Umfragerunde beginnen möchtest?"
+        },
+        "create-peer-instruction": {
+          "title": "2. Umfragerunde",
+          "description": "Mit dem Start der zweiten Umfragerunde kannst du nun die Entwicklung der Gruppenmeinung beobachten. Diese Runde ermöglicht es, die kollektiven Antworten der Teilnehmer mit denen aus der ersten Runde zu vergleichen. Dies fördert ein Verständnis dafür, wie Diskussionen und Austausch die Gesamtansichten der Gruppe beeinflussen können."
+        },
+        "change-peer-instruction-stage-2": {
+          "title": "2. Umfragerunde",
+          "description": "Du kannst die Live-Umfrage beenden. Der Vergleich der Umfragen wird in einem Dialog angezeigt."
+        }
+      }
+    },
+    "snack-bar": {
+      "vote": {
+        "make": "Deine Stimme wurde gezählt.",
+        "delete": "Deine Abstimmung wurde zurückgesetzt."
+      }
+    },
+    "misc": {
+      "live": "Aktiv",
+      "paused": "Pausiert"
+    },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
     "template-name-symbol": "Stimmung",
-    "option-select-result-visibility": "Abstimmung live sichtbar",
-    "tooltip-option-select-result-visibility": "Abstimmung für alle im Raum in Echtzeit anzeigen",
-    "option-select-views-visibility": "Beteiligung live sichtbar",
-    "tooltip-option-select-views-visibility": "Beteiligung für alle im Raum in Echtzeit anzeigen",
-    "option-select-template": "Wähle eine Vorlage …",
     "template-name-agree-multi": "Zustimmung",
     "option-agree-multi": [
       "ich stimme voll und ganz zu",
@@ -66,7 +115,12 @@
       "ich bin entschieden dagegen"
     ],
     "template-name-frequency-multi": "Häufigkeit",
-    "option-frequency-multi": ["nie", "selten", "öfters", "immer"],
+    "option-frequency-multi": [
+      "nie",
+      "selten",
+      "öfters",
+      "immer"
+    ],
     "template-name-quality-multi": "Qualität",
     "option-quality-multi": [
       "sehr gut",
@@ -102,16 +156,9 @@
       "weiter so"
     ],
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    },
     "template-name-agree-tertiary": "Daumen hoch | Daumen runter | Neutral | Fragezeichen",
     "group-label": {
-      "multiplechoice": "AB …",
+      "multiplechoice": "AB…",
       "likertscale": "Bewertung",
       "mood": "Emojis",
       "feedback": "Feedback",

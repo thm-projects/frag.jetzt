@@ -1,0 +1,131 @@
+<div class="layout-container">
+  <div class="header">
+    <div class="options">
+      @if (isMobile()) {
+        <button
+          mat-icon-button
+          (click)="drawer.toggle()"
+          class="primary">
+          <mat-icon
+            style="
+              font-size: 1.125rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
+          </mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-button
+          (click)="drawer.toggle()">
+          <mat-icon>
+            {{ drawer.opened ? "left_panel_close" : "left_panel_open" }}
+          </mat-icon>
+          <span *ngIf="!isMobile()">
+            {{ drawer.opened ? i18n().close : i18n().open }}
+          </span>
+        </button>
+      }
+
+      <button
+        mat-button
+        (click)="selectedThread.set(null)">
+        <mat-icon>edit_square</mat-icon>
+        {{ i18n().newChat }}
+      </button>
+    </div>
+    <div
+      class="options"
+      [ngClass]="{ 'no-delete-button': selectedThread() === null }">
+      <button
+        [matMenuTriggerFor]="assistantMenu"
+        mat-button>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        {{ selectedAssistant()?.assistant?.name }}
+      </button>
+      @if (isMobile()) {
+        <button
+          *ngIf="selectedThread() !== null"
+          mat-icon-button
+          class="primary"
+          (click)="deleteThread()">
+          <mat-icon
+            style="
+              font-size: 1.125rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            delete
+          </mat-icon>
+        </button>
+      } @else {
+        <button
+          *ngIf="selectedThread() !== null"
+          mat-button
+          (click)="deleteThread()">
+          <mat-icon>delete</mat-icon>
+          {{ i18n().delete }}
+        </button>
+      }
+    </div>
+  </div>
+  <mat-drawer-container class="content">
+    <mat-drawer
+      #drawer
+      mode="over"
+      class="history-container">
+      <ng-container *ngFor="let group of threadGroups()">
+        <ng-container *ngIf="group.threads.length > 0">
+          <div class="group">
+            <div class="group-header">
+              <span>{{ getDynamicI18n(group.label) }}</span>
+              <div class="group-number">{{ group.threads.length }}</div>
+            </div>
+            <mat-action-list *ngFor="let entry of group.threads">
+              <button
+                mat-list-item
+                [activated]="selectedThread() === entry"
+                (click)="openThread(entry)">
+                {{ entry.headLine }}
+              </button>
+            </mat-action-list>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-drawer>
+    <app-ai-chat
+      [messages]="currentMessages()"
+      [canSend]="state() === 'ready'"
+      [overrideMessage]="overrideMessage()"
+      [isPrivileged]="isPrivileged()"
+      [onNewClick]="onNewClick.bind(this)"
+      [onSend]="onSend"
+      (deleteThread)="deleteThread()"
+      [defaultText]="owningComment?.comment.body"
+      [selectedThread]="selectedThread()"></app-ai-chat>
+  </mat-drawer-container>
+</div>
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of sortedAssistRefs(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry === selectedAssistant()"
+      (click)="selectAssistant(entry.assistant.id)">
+      {{ entry.assistant.name }}
+      @if (entry === selectedAssistant()) {
+        <mat-icon>check</mat-icon>
+      }
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()">
+      <em>{{ i18n().createAssistant }}</em>
+    </button>
+  }
+</mat-menu>

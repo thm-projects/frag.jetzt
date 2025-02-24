@@ -1,228 +1,39 @@
-h2 {
-  color: var(--on-dialog);
-  font-size: 1.7rem;
-}
-
-.expansion-title {
-  color: var(--primary);
-  padding-bottom: 6px;
-  font-size: 1.2rem;
-}
-
-#commentSlider {
-  width: 100%;
-}
-
-div {
-  margin: 4px 0;
-}
-
-.delete {
-  margin-bottom: 20px;
-  min-width: 220px;
-  background-color: var(--red);
-  color: var(--white);
-}
-
-.export {
-  margin-bottom: 20px;
-  min-width: 220px;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-}
-
-.tag-config-button {
-  min-width: 135px;
-}
-
-.close-btn mat-icon {
-  font-size: 20px;
-  margin-top: 2px;
-}
-
-mat-icon {
-  margin-right: 10px;
-}
-
-.abort {
-  background-color: var(--cancel);
-  color: var(--on-cancel);
-}
-
-.update {
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.submit {
-  margin-top: 20px;
-}
-
-.color-box {
-  flex: 1 1 100%;
-  box-sizing: border-box;
-  height: 30px;
-  width: 20px;
-  bottom: 8px;
-  margin-top: 13px;
-  margin-bottom: 10px;
-  transform: translateY(-4px);
-  display: block;
-  position: relative;
-  right: 40px;
-  pointer-events: none;
-}
-
-::ng-deep .mat-form-field-label {
-  color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
-  color: var(--on-surface);
-}
-
-::ng-deep .mat-select-value-text {
-  color: var(--on-surface);
-}
-
-::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: var(--primary);
-}
-
-.primary {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
-}
-
-.secondary {
-  background-color: transparent;
-  color: var(--on-dialog);
-  margin-right: 15px;
-
-  &:hover {
-    outline: var(--cancel) solid 3px;
-  }
-}
-
 .button-row {
-  width: 100%;
-  margin: auto auto 20px auto;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.reset {
-  width: 100%;
-  margin: 25px auto auto auto;
-  background-color: transparent;
-  color: var(--secondary);
-  outline: var(--secondary) solid 3px;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
+.save-or-cancel {
+  margin-top: 1.5em;
 }
 
-.cloud-configuration-form {
-  width: min-content;
-  margin-top: 40px;
+mat-accordion {
+  margin-block: 0.5em;
+}
+
+mat-slider {
+  display: block;
 }
 
 .drawer-container {
-  color: var(--on-dialog) !important;
-  margin: 20px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  gap: 0.25em;
+  margin: 1.25em;
+  margin-top: 3.75em;
+}
+
+.weight-class-setting + .weight-class-setting {
+  padding-top: 1.25em;
 }
 
 .custom-color-picker {
   display: none;
 }
 
-.custom-color-picker-text {
-  position: absolute;
-  top: 25px;
-  transform: translateY(-35px);
-}
-
-.settings-heading {
-  margin-left: 0;
-  margin-right: auto;
-}
-
-::ng-deep .mat-drawer-backdrop {
-  opacity: 0;
-}
-
-::ng-deep.mat-slider-track-background {
-  background-color: var(--primary);
-  opacity: 0.2;
-}
-
-.weight-class-setting-content {
-  padding-top: 20px;
-  padding-bottom: 15px;
-}
-
-.weight-class-heading {
-  color: var(--on-dialog);
-}
-
-#extendedViewButton {
-  margin-right: 10px;
-}
-
-#accordion {
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.weight-class-buttons {
-  margin-bottom: 0;
-}
-
-.special-settings {
-  padding: 10px 0;
-  margin: 20px 30px 0px 30px;
-}
-
-#rotation {
-  margin-top: 10px;
-}
-
-.matExpansionPanel {
-  background-color: var(--dialog);
-  color: var(--on-dialog) !important;
-  margin: 2px;
-  padding: 5px;
-}
-
-.firstElementOfExpansionPanel {
-  padding-top: 10px;
-}
-
-.firstElementOfWeightClass {
-  margin-top: 10px;
-  padding-bottom: 10px;
-}
-
-.save-or-cancel {
-  width: max-content;
-}
-
-.alphabetical-sorting {
-  margin-left: 0;
+:host ::ng-deep .mat-expansion-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

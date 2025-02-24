@@ -2,6 +2,7 @@ import {
   Component,
   ComponentRef,
   ElementRef,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -9,7 +10,6 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
@@ -18,17 +18,9 @@ import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { NotificationService } from '../../../services/util/notification.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { PageEvent } from '@angular/material/paginator';
-import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
-import { forkJoin, ReplaySubject, Subscription, takeUntil } from 'rxjs';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { HeaderService } from '../../../services/util/header.service';
+import { first, forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   FilterType,
   FilterTypeKey,
@@ -38,20 +30,30 @@ import {
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { ForumComment } from '../../../utils/data-accessor';
-import { Palette } from '../../../../theme/Theme';
 import { DeleteModerationCommentsComponent } from '../../creator/_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { PageEvent } from '@angular/material/paginator';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { user$ } from 'app/user/state/user';
+
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { Filter } from 'app/room/comment/comment/comment.component';
+import { UIComment, uiModeratedComments } from 'app/room/state/comment-updates';
+
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-moderator-comment-list',
   templateUrl: './moderator-comment-list.component.html',
   styleUrls: ['./moderator-comment-list.component.scss'],
+  standalone: false,
 })
 export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
@@ -59,7 +61,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   user: User;
   roomId: string;
   AppComponent = AppComponent;
-  comments: ForumComment[] = [];
+  comments: UIComment[] = [];
   commentsFilteredByTimeLength: number;
   isMobile: boolean;
   room: Room;
@@ -97,9 +99,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   questionNumberOptions: string[] = [];
   private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private destroyer = new ReplaySubject(1);
+  protected readonly i18n = i18n;
 
   constructor(
     private commentService: CommentService,
@@ -109,14 +112,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     private router: Router,
     private notificationService: NotificationService,
-    private bonusTokenService: BonusTokenService,
     private sessionService: SessionService,
-    private accountState: AccountStateService,
     private deviceState: DeviceStateService,
-    private composeService: ArsComposeService,
-    private headerService: HeaderService,
-    private roomDataService: RoomDataService,
     private roomState: RoomStateService,
+    injector: Injector,
   ) {
     this.deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
@@ -129,7 +128,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this._filterObject = FilteredDataAccess.buildModeratedAccess(
       sessionService,
-      roomDataService,
+      injector,
       true,
       'moderatorList',
     );
@@ -149,28 +148,26 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initNavigation();
-    this.accountState.user$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((user) => {
-        if (!user) {
-          return;
-        }
-        this.user = user;
-      });
+    user$.pipe(takeUntil(this.destroyer)).subscribe((user) => {
+      if (!user) {
+        return;
+      }
+      this.user = user;
+    });
     this.roomState.assignedRole$.subscribe((role) => {
       this.userRole = ROOM_ROLE_MAPPER[role] ?? null;
     });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
-    ]).subscribe(([room, mods]) => {
+      user$.pipe(first(Boolean)),
+    ]).subscribe(([room, mods, user]) => {
       this.room = room;
       this.moderatorAccountIds = new Set<string>(mods.map((m) => m.accountId));
       this._filterObject.attach({
         ownerId: room.ownerId,
         roomId: room.id,
-        userId: this.user.id,
+        userId: user.id,
         threshold: room.threshold,
         moderatorIds: this.moderatorAccountIds,
       });
@@ -232,9 +229,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
     }
     const allComments = [...this._filterObject.getSourceData()];
-    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    allComments.sort((a, b) =>
+      numberSorter(a.comment.number, b.comment.number),
+    );
     this._allQuestionNumberOptions = allComments.map((c) =>
-      Comment.computePrettyCommentNumber(this.translateService, c).join(' '),
+      Comment.computePrettyCommentNumber(this.translateService, c.comment).join(
+        ' ',
+      ),
     );
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter((e) =>
@@ -242,12 +243,12 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     );
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
-      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      let set = this.commentsWrittenByUsers.get(comment.comment.creatorId);
       if (!set) {
         set = new Set<string>();
-        this.commentsWrittenByUsers.set(comment.creatorId, set);
+        this.commentsWrittenByUsers.set(comment.comment.creatorId, set);
       }
-      set.add(comment.id);
+      set.add(comment.comment.id);
     }
     const filter = this._filterObject.dataFilter;
     this.filterType = filter.filterType;
@@ -256,7 +257,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.period = filter.period;
   }
 
-  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
     this.pageIndex = 0;
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];
@@ -306,6 +307,16 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.applyFilterByKey('Number', +questionNumber.value);
   }
 
+  protected selectFilter(filter: Filter) {
+    if (filter.type === 'tag') {
+      this.applyFilterByKey('Tag', filter.option);
+    } else if (filter.type === 'keyword') {
+      this.applyFilterByKey('Keyword', filter.option);
+    } else if (filter.type === 'user') {
+      this.applyFilterByKey('CreatorId', filter.option);
+    }
+  }
+
   private deleteQuestions() {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(DeleteModerationCommentsComponent, {
@@ -319,9 +330,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
           .subscribe((msg) => {
             this.notificationService.show(msg);
           });
-        const data = this.roomDataService.moderatorDataAccessor
-          .currentRawComments()
-          ?.map((c) => c.id);
+        const data = uiModeratedComments()?.rawComments.map(
+          (e) => e.comment.id,
+        );
         if (!data || data.length === 0) {
           return;
         }
@@ -330,51 +341,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initNavigation() {
-    this._list = this.composeService.builder(
-      this.headerService.getHost(),
-      (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'file_download',
-          class: 'material-icons-outlined',
-          text: 'header.export-questions',
-          callback: () => {
-            exportRoom(
-              this.translateService,
-              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
-                UserRole.PARTICIPANT,
-              this.notificationService,
-              this.bonusTokenService,
-              this.commentService,
-              'room-export',
-              this.user,
-              this.room,
-              this.moderatorAccountIds,
-            ).subscribe((text) => {
-              copyCSVString(
-                text[0],
-                this.room.name +
-                  '-' +
-                  this.room.shortId +
-                  '-' +
-                  text[1] +
-                  '.csv',
-              );
-            });
-          },
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'delete_sweep',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          text: 'header.delete-moderation-questions',
-          callback: () => this.deleteQuestions(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-      },
-    );
+  getEmptyMessage(): string {
+    if (this.comments.length === 0) {
+      return this.i18n().empty;
+    }
+    return '';
   }
 }

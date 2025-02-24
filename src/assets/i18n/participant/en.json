@@ -55,7 +55,7 @@
     "comment-stream-stopped": "Question stream has been stopped.",
     "correct": "Marked as correct",
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
-    "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
+    "counter-description": "Questions (Q), Answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
     "filter-answered-creator": "Room creator",
     "filter-answered-moderator": "Moderator",
@@ -77,6 +77,7 @@
     "filter-approved": "Checked answers",
     "filter-chatgpt": "ChatGPT answers",
     "filter-wrong": "Negated questions",
+    "hits": "Results: ",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
@@ -85,7 +86,6 @@
     "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Hey, you got a star for a good question!",
     "read": "Discussed by the presenter",
-    "really-delete": "Do you really want to delete this contribution?",
     "search": "Search …",
     "select-All": "Unlimited in time",
     "select-FromNow": "Display questions from now on",
@@ -112,7 +112,23 @@
     "unread": "Not yet discussed",
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
-    "wrong": "Marked as wrong"
+    "wrong": "Marked as wrong",
+    "ple":{
+      "ask-question-empty": "Add new topics",
+      "filter-comments": "Filter Topics",
+      "sort-comments": "Sort Topics",
+      "pause-comments": "Freezes the display to read or present the topics at rest. Topics can still be added and rated. The display is only updated again by clicking the button.",
+      "play-comments": "Show new topics and ratings again",
+      "add-comment": "Add a new topic!",
+      "select-All": "Unlimited in time",
+      "select-FromNow": "Display topics from now on",
+      "select-OneDay": "Last 24 hours",
+      "select-OneHour": "Last hour",
+      "select-OneWeek": "Last 7 days",
+      "select-ThreeHours": "Last 2 hours",
+      "select-TwoWeeks": "Last 14 days",
+      "filter-owner": "My topics"
+    }
   },
   "comment-notification": {
     "close": "Close",
@@ -236,7 +252,7 @@
     "preview-in-mock": "Smartphone preview",
     "questioner-name": "Self assigned name",
     "reply-comment-button": "Write reply",
-    "reply-AI": "Let ChatGPT answer",
+    "reply-AI": "Let AI answer",
     "save-answer": "Save",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
@@ -280,23 +296,6 @@
     "read-less": "Read less",
     "read-more": "Read more"
   },
-  "dsgvo": {
-    "external-source": "The content is an external source. <br><br>Should <br><br>{{url}}<br><br> be called?",
-    "external-source-button-text": "Open here …",
-    "external-source-title": "Embedded External source",
-    "external-source-untrusted": "The content is an external source. <br><br>Do you want <br><br>{{url}}<br><br> to open in a new tab?",
-    "external-source-untrusted-button-text": "Open in new tab …",
-    "external-source-untrusted-title": "External source",
-    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <br><br>{{url}}<br><br> be called?",
-    "unknown-source-button-text": "Call up",
-    "unknown-source-title": "Unknown or internal source",
-    "vimeo-video": "The content links to a video from Vimeo. Should the video <br><br>{{url}}<br><br> be played?",
-    "vimeo-video-button-text": "Play",
-    "vimeo-video-title": "Vimeo video",
-    "youtube-video": "The content links to a video from YouTube. The URL has been adapted to the privacy-compliant URL. <br><br>Should the video <br><br>{{url}}<br><br> be played?",
-    "youtube-video-button-text": "Play",
-    "youtube-video-title": "Youtube video"
-  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
     "close": "Close",
@@ -318,16 +317,14 @@
     "optin-reject": "Reject",
     "model-select": "Model selection",
     "model-placeholder": "Select AI language model …",
-    "model-gpt-3.5-turbo-1106": "GPT-3.5 »Turbo« (Updated)",
-    "model-description-gpt-3.5-turbo-1106": "Effective model with about 16,000 characters context (Output up to approx. 4,000 characters)",
     "model-gpt-3.5-turbo": "GPT-3.5 »Turbo«",
-    "model-description-gpt-3.5-turbo": "Effective model with about 4,000 characters context",
-    "model-gpt-3.5-turbo-16k": "GPT-3.5 »Turbo« 16K",
-    "model-description-gpt-3.5-turbo-16k": "Effective model with about 16,000 characters context",
+    "model-description-gpt-3.5-turbo": "Effective model with about 16,000 characters context (Output up to approx. 4,000 characters)",
     "model-gpt-4": "GPT-4",
     "model-description-gpt-4": "Latest and strongest model with about 8,000 characters context",
-    "model-gpt-4-1106-preview": "GPT-4 »Turbo«",
-    "model-description-gpt-4-1106-preview": "Latest and strongest model with about 128,000 characters context (Output up to approx. 4,000 characters)",
+    "model-gpt-4-turbo": "GPT-4 »Turbo«",
+    "model-description-gpt-4-turbo": "Latest and strongest model with about 128,000 characters context (Output up to approx. 4,000 characters)",
+    "model-gpt-4o": "GPT-4o",
+    "model-description-gpt-4o": "Latest and strongest model with about 128,000 characters context (Output up to approx. 4,000 characters)",
     "title-free": "ChatGPT | Free asking without prompt presets",
     "title-answer": "ChatGPT answers …",
     "interrupt": "Stop output",
@@ -455,7 +452,7 @@
     "tag-cloud": "Question radar",
     "brainstorming": "Brainstorming",
     "quiz-now": "Quiz rally",
-    "back-to-room": "Reception",
+    "back-to-room": "Entrance",
     "my-sessions": "My rooms",
     "user-bonus-token": "My bonus stars",
     "room-qr": "QR code",
@@ -463,7 +460,31 @@
     "feedback": "Feedback Room",
     "logout": "Log out",
     "livepoll": "Flash Poll",
-    "livepoll-button": "Create surveys and automatically notify all participants."
+    "livepoll-button": "Create surveys and automatically notify all participants.",
+    "ple": {
+      "questionwall": "Topic Focus",
+      "back-to-questionboard": "Topic Forum",
+      "tag-cloud": "Topic Radar",
+      "question-focus-button": "Topic Focus",
+      "create-question": "Add Topics",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
+    }
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
+    "label-refresh-keywords-start": "Start",
+    "create": "Next",
+    "cancel": "Cancel",
+    "current-filter": "Filtered questions",
+    "current-filter-short": "Filtered questions",
+    "all-questions-and-answers": "All questions with answers",
+    "all-questions-and-answers-short": "All questions with answers",
+    "only-questions": "Questions only",
+    "only-questions-short": "Questions only",
+    "from-now": "Only questions from now on",
+    "from-now-short": "Only questions from now on",
+    "questions-title": "Which questions do you want on the radar?"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -484,7 +505,10 @@
     "tag-cloud-title": "Use cases of the question radar",
     "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
     "prompt-explanation": "Prompts briefly explained",
-    "tooltip-button": "How do I write good prompts?"
+    "tooltip-button": "How do I write good prompts?",
+    "ple": {
+      "tag-cloud-title": "Use cases of the topic radar"
+    }
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -503,6 +527,17 @@
     "chatGPTTitle": "Work with ChatGPT",
     "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
+  },
+  "multi-level-dialog": {
+    "next": "Next",
+    "previous": "Previous",
+    "cancel": "Cancel",
+    "confirm": "Submit",
+    "complete": "Complete",
+    "complete-text": "Click »Submit« to save the room configuration.",
+    "complete-reset": "Reset everything",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} to {{end}}"
   },
   "question-wall": {
     "auto-renew-off": "Exit autofocus for new questions",
@@ -566,7 +601,17 @@
     "sort-time": "Time",
     "time-period": "Time Period",
     "user-lbl": "Open user menu",
-    "users-online": "Currently logged-in users"
+    "users-online": "Currently logged-in users",
+    "ple":{
+      "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
+      "intro-title": "Topic Focus",
+      "auto-renew-on": "Start autofocus for new topics",
+      "auto-renew-off": "Stop autofocus for new topics",
+      "next-comment": "Next topic",
+      "prev-comment": "Previous topic",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
+    }
   },
   "quill": {
     "cancel": "Cancel",
@@ -636,7 +681,7 @@
     "cancel": "Cancel",
     "comments": "Questions",
     "create-comment": "Ask your questions!",
-    "create-comment-and-answer": "To the Q&A forum",
+    "create-comment-and-answer": "Q&A forum",
     "default-content-group": "Default",
     "delete": "Delete question",
     "description": "Description",
@@ -650,10 +695,15 @@
     "session-id-lq-x": "»",
     "session-id-rq": "«",
     "sure": "Are you sure?",
-    "update": "Save"
+    "update": "Save",
+    "ple": {
+      "create-comment": "Create topics!",
+      "create-comment-and-answer": "Go to the Topic Forum"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "manually-title": "Keywords",
     "analysis-bad-spelled": "Note: The text is not suitable for keyword generation.",
     "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
@@ -849,7 +899,10 @@
     "word": "word",
     "word-is-not-profanity": "Word is not profane",
     "word-is-profanity": "Word is profane",
-    "words-in-profanity": "Words in profanity filter"
+    "words-in-profanity": "Words in profanity filter",
+    "ple": {
+      "keywords": "Topic radar"
+    }
   },
   "user-bonus-token": {
     "bonus-token-body1": " from ",
@@ -895,7 +948,7 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …"
+    "questioner-name": "Nickname"
   },
   "gpt-user-description": {
     "save": "Save",
@@ -906,7 +959,20 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is available only in rooms created by a registered user. A guest created this room. Register and create a room yourself to use ChatGPT.\n\nStart now with a credit of $5. With this credit, you can spend several million tokens on ChatGPT requests (1 token is about 5-7 characters).",
-    "cancel": "Close"
+    "blocked-title": "ChatGPT Access Blocked",
+    "blocked-description": "Your access to ChatGPT has been blocked due to policy violations. Please contact our support team for more information and assistance.",
+    "noGlobalQuotaAvailable-title": "Global Token Limit Reached",
+    "noGlobalQuotaAvailable-description": "Access to ChatGPT is currently unavailable due to the global token limit being reached. We recommend trying again later.",
+    "NoApiKey-title": "API Key Required",
+    "NoApiKey-description": "A valid OpenAI API key is required to access ChatGPT. Please visit the OpenAI website to generate an API key, and enter it in the room creation dialog.",
+    "roomDisabled-title": "Room Access Temporarily Blocked",
+    "roomDisabled-description": "Access to this ChatGPT room has been temporarily disabled as the token limit for the room has been reached. We recommend trying again later.",
+    "moderatorDisabled-title": "Moderator Access Blocked",
+    "moderatorDisabled-description": "Moderator access to ChatGPT has been temporarily suspended as the token limit for moderators in this room has been reached. Please try again later.",
+    "participantDisabled-title": "Participant Access Blocked",
+    "participantDisabled-description": "Participant access to ChatGPT in this room has been temporarily disabled due to reaching the token limit. We recommend trying again later.",
+    "usageTimeOver-title": "Max Usage Duration Exceeded",
+    "usageTimeOver-description": "The permitted usage duration for ChatGPT in this room has been exceeded. Please try again later.",
+    "cancel": "Cancel"
   }
 }

@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,8 +14,7 @@ import {
   exportBonusArchive,
 } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Sort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { EventService } from '../../../../services/util/event.service';
@@ -30,29 +27,38 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+
+import i18nRaw from './bonus-token.i18n.json';
+import { i18nContext } from 'app/base/i18n/i18n-context';
+const i18n = I18nLoader.load(i18nRaw);
 
 @Component({
   selector: 'app-bonus-token',
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss'],
+  standalone: false,
 })
 export class BonusTokenComponent implements OnInit, OnDestroy {
-  value: any = '';
+  value: string = '';
   valid = false;
   room: Room;
   bonusTokens: BonusToken[] = [];
   isLoading = true;
   sub: Subscription;
+  protected readonly i18n = i18n;
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
-
+  @ViewChild(MatSort) sort: MatSort;
   currentSort: Sort = {
     direction: 'asc',
     active: 'name',
   };
 
-  private selection = new SelectionModel<string>(false, []);
+  protected selection = new SelectionModel<string>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;
@@ -63,7 +69,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     public dialog: MatDialog,
     protected router: Router,
-    private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    private dialogRef: MatDialogRef<BonusTokenComponent>,
     private commentService: CommentService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
@@ -74,15 +80,21 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTokens();
+    this.updateTable(false);
+    this.tableDataSource.filterPredicate = function (
+      data,
+      filter: string,
+    ): boolean {
+      return data.token.toLowerCase().includes(filter);
+    };
     this.sub = this.eventService
-      .on<any>('BonusTokenDeleted')
+      .on<{ token: string }>('BonusTokenDeleted')
       .subscribe((payload) => {
         this.bonusTokens = this.bonusTokens.filter(
           (bt) => bt.token !== payload.token,
         );
         this.updateTable(false);
       });
-    this.sortData({ active: 'questionNumber', direction: 'asc' });
   }
 
   getTokens(): void {
@@ -119,7 +131,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.commentService
       .getComment(bonusToken.commentId)
       .subscribe((comment) => {
-        this.commentService.toggleFavorite(comment).subscribe((_) => {
+        this.commentService.toggleFavorite(comment).subscribe(() => {
           const event = new BonusTokenDeleted(bonusToken.token);
           this.eventService.broadcast(event.type, event.payload);
         });
@@ -155,11 +167,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.translateService
-        .get('token-validator.cant-find-comment')
-        .subscribe((msg) => {
-          this.notificationService.show(msg);
-        });
+      this.translateService.get(i18n().cantFindComment).subscribe((msg) => {
+        this.notificationService.show(msg);
+      });
     }
   }
 
@@ -170,17 +180,17 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     return () => this.dialogRef.close();
   }
 
-  inputChanged(event: any) {
+  inputChanged(event: Event) {
     event.cancelBubble = true;
-    this.value = event.target.value;
-    this.modelChanged.next(event);
+    this.value = (event.target as HTMLInputElement).value;
+    this.modelChanged.next(this.value);
     this.selection.clear();
   }
 
   inputToken() {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
-      this.translateService.get('token-validator.valid').subscribe((msg) => {
+      this.translateService.get(i18n().valid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -190,7 +200,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       this.valid = true;
     } else {
-      this.translateService.get('token-validator.invalid').subscribe((msg) => {
+      this.translateService.get(i18n().invalid).subscribe((msg) => {
         this.notificationService.show(
           msg,
           undefined,
@@ -202,7 +212,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateTokenInput(input: any): boolean {
+  validateTokenInput(input: string): boolean {
     let res = false;
     if (input.length === 8 && this.isNumeric(input)) {
       this.bonusTokens.forEach((bonusToken) => {
@@ -225,7 +235,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     );
     this.subscription = this.modelChanged
       .pipe(debounceTime(this.debounceTime))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.inputToken();
       });
     this.isLoading = false;
@@ -267,7 +277,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(filterValue: string): void {
-    this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+
+    this.tableDataSource.filterPredicate = (
+      bonusToken: BonusToken,
+      filter: string,
+    ) => {
+      const transformedFilter = filter.trim().toLowerCase();
+      return bonusToken.token.startsWith(transformedFilter);
+    };
+
+    this.tableDataSource.filter = filterValue;
   }
 
   openHelp() {
@@ -286,12 +307,13 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.moderatorService,
       this.room,
     ).subscribe((text) => {
-      this.translateService
-        .get('bonus-archive-export.file-name', {
+      copyCSVString(
+        text[0],
+        i18nContext(i18n().fileName, {
           roomName: this.room.name,
           date: text[1],
-        })
-        .subscribe((trans) => copyCSVString(text[0], trans));
+        }),
+      );
     });
   }
 
@@ -300,19 +322,22 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   getFormattedDate(date: Date) {
-    return new Date(date).toLocaleDateString(
-      this.appState.getCurrentLanguage(),
-      {
+    const d = new Date(date);
+    return (
+      d.toLocaleDateString(this.appState.getCurrentLanguage(), {
         day: '2-digit',
         month: '2-digit',
         year: '2-digit',
-      },
+      }) +
+      ' ' +
+      d.toLocaleTimeString(this.appState.getCurrentLanguage(), {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
     );
   }
 
   private isNumeric(msg: string): boolean {
-    // @ts-ignore
-    // eslint-disable-next-line eqeqeq
-    return +msg == msg;
+    return /^\d+$/.test(msg);
   }
 }

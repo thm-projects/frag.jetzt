@@ -1,0 +1,21 @@
+{
+  "key": "room-join",
+  "de": {
+    "id": "Raum-Code …",
+    "empty": "Welcher Raum?",
+    "a11yJoinInput": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
+    "a11yJoinButton": "Betritt die Sitzung, deren Code du eingegeben hast."
+  },
+  "en": {
+    "id": "Key code …",
+    "empty": "Which room?",
+    "a11yJoinInput": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
+    "a11yJoinButton": "Enter the session with the specified session key."
+  },
+  "fr": {
+    "id": "Code de salle …",
+    "empty": "Quelle salle ?",
+    "a11yJoinInput": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
+    "a11yJoinButton": "Rejoins la session dont tu as saisi le code."
+  }
+}

@@ -1,12 +1,29 @@
-<div mat-dialog-content
-     *ngIf="editRoom">
-  <h2 class="oldtypo-h2">{{ 'room-page.description' | translate }}</h2>
-  <app-write-comment [isModerator]="true"
-                     [allowEmpty]="true"
-                     [onlyText]="true"
-                     [placeholder]="''"
-                     [onClose]="this.save.bind(this)"
-                     [i18nSection]="'room-page'"
-                     [confirmLabel]="'update'">
-  </app-write-comment>
-</div>
+<h2 mat-dialog-title>
+  {{ i18n().description }}
+</h2>
+
+<mat-dialog-content>
+  <app-markdown-editor [(data)]="data"></app-markdown-editor>
+</mat-dialog-content>
+<mat-hint
+  class="char-hint"
+  [ngClass]="{ 'hint-error': data().length > max }">
+  <span
+    aria-hidden="true"
+    class="label-medium">
+    {{ i18n().chars | context: { max, count: data().length } }}
+  </span>
+</mat-hint>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    (click)="save()">
+    {{ i18n().save }}
+  </button>
+</mat-dialog-actions>

@@ -35,6 +35,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-livepoll-create',
   templateUrl: './livepoll-create.component.html',
   styleUrls: ['./livepoll-create.component.scss', '../livepoll-common.scss'],
+  standalone: false,
 })
 export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   @ViewChild('viewContainerRef', { read: ViewContainerRef, static: true })
@@ -71,7 +72,7 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.templateSelection.statusChanges.subscribe((changed) => {
+    this.templateSelection.statusChanges.subscribe(() => {
       this.livepollConfiguration.template = this.templateSelection.value.kind;
       if (this._dialogInjection.value) {
         this._dialogInjection.value.onDestroy(() =>

@@ -7,7 +7,6 @@ import {
   RoomDataFilter,
   SortType,
 } from './data-filter-object.lib';
-import { DataAccessor, ForumComment } from './data-accessor';
 import {
   BehaviorSubject,
   Observable,
@@ -16,14 +15,22 @@ import {
   Subscription,
   takeUntil,
 } from 'rxjs';
-import { RoomDataService } from '../services/util/room-data.service';
 import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from '../models/correct-wrong.enum';
 import { Comment } from '../models/comment';
 import { SessionService } from '../services/util/session.service';
 import { Room } from '../models/room';
-import { filter } from 'rxjs/operators';
-import { QuillUtils } from './quill-utils';
+import { filter, map, take } from 'rxjs/operators';
+import {
+  afterUpdate,
+  afterUpdateModerated,
+  CommentUpdate,
+  UIComment,
+  uiComments,
+  uiModeratedComments,
+} from 'app/room/state/comment-updates';
+import { EventEmitter, Injector } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 interface AttachOptions {
   roomId: string;
@@ -42,10 +49,10 @@ const STAGE_SORT_SEARCH = 1 << 4;
 const STAGE_SORT_FILTER = 1 << 5;
 
 // Period definitions
-type PeriodCache = { [key in Period]: ForumComment[] };
+type PeriodCache = { [key in Period]: UIComment[] };
 export type PeriodCounts = { [key in Period]: number };
 type PeriodFunctions = {
-  [key in Period]: (currentTime: number, comment: ForumComment) => boolean;
+  [key in Period]: (currentTime: number, comment: UIComment) => boolean;
 };
 const hourInSeconds = 3_600_000;
 const threeHoursInSeconds = 3 * hourInSeconds;
@@ -53,24 +60,25 @@ const oneDayInSeconds = 24 * hourInSeconds;
 const oneWeekInSeconds = 7 * oneDayInSeconds;
 const twoWeekInSeconds = 2 * oneWeekInSeconds;
 const periodFunctions: PeriodFunctions = {
-  [Period.FromNow]: (time, c) => new Date(c.createdAt).getTime() >= time,
+  [Period.FromNow]: (time, c) =>
+    new Date(c.comment.createdAt).getTime() >= time,
   [Period.OneHour]: (time, c) =>
-    new Date(c.createdAt).getTime() >= time - hourInSeconds,
+    new Date(c.comment.createdAt).getTime() >= time - hourInSeconds,
   [Period.ThreeHours]: (time, c) =>
-    new Date(c.createdAt).getTime() >= time - threeHoursInSeconds,
+    new Date(c.comment.createdAt).getTime() >= time - threeHoursInSeconds,
   [Period.OneDay]: (time, c) =>
-    new Date(c.createdAt).getTime() >= time - oneDayInSeconds,
+    new Date(c.comment.createdAt).getTime() >= time - oneDayInSeconds,
   [Period.OneWeek]: (time, c) =>
-    new Date(c.createdAt).getTime() >= time - oneWeekInSeconds,
+    new Date(c.comment.createdAt).getTime() >= time - oneWeekInSeconds,
   [Period.TwoWeeks]: (time, c) =>
-    new Date(c.createdAt).getTime() >= time - twoWeekInSeconds,
+    new Date(c.comment.createdAt).getTime() >= time - twoWeekInSeconds,
   [Period.All]: () => true,
 };
 
 // Filter definitions
-type FilterTypeCache = { [key in FilterType]: ForumComment[] };
+type FilterTypeCache = { [key in FilterType]: UIComment[] };
 export type FilterTypeCounts = { [key in FilterType]: number };
-type FilterFunction = (c: ForumComment, compareValue?: any) => boolean;
+type FilterFunction = (c: UIComment, compareValue?: unknown) => boolean;
 type FilterFunctionObject = {
   [key in FilterType]?: FilterFunction;
 };
@@ -84,7 +92,7 @@ const needFilterCompare: Set<FilterType> = new Set<FilterType>([
 
 // Sort definitions
 type SortFunctionsObject = {
-  [key in SortType]?: (a: ForumComment, b: ForumComment) => number;
+  [key in SortType]?: (a: UIComment, b: UIComment) => number;
 };
 
 export const calculateControversy = (
@@ -103,22 +111,32 @@ export const calculateControversy = (
 };
 
 const sortFunctions: SortFunctionsObject = {
-  [SortType.Score]: (a, b) => b.score - a.score,
+  [SortType.Score]: (a, b) => b.comment.score - a.comment.score,
   [SortType.Time]: (a, b) =>
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    new Date(b.comment.createdAt).getTime() -
+    new Date(a.comment.createdAt).getTime(),
   [SortType.Controversy]: (a, b) =>
     calculateControversy(
-      b.upvotes,
-      b.downvotes,
-      b.totalAnswerCounts.accumulated,
+      b.comment.upvotes,
+      b.comment.downvotes,
+      b.totalAnswerCount.participants +
+        b.totalAnswerCount.moderators +
+        b.totalAnswerCount.creator,
     ) -
     calculateControversy(
-      a.upvotes,
-      a.downvotes,
-      a.totalAnswerCounts.accumulated,
+      a.comment.upvotes,
+      a.comment.downvotes,
+      a.totalAnswerCount.participants +
+        a.totalAnswerCount.moderators +
+        a.totalAnswerCount.creator,
     ),
   [SortType.Commented]: (a, b) =>
-    b.totalAnswerCounts.accumulated - a.totalAnswerCounts.accumulated,
+    b.totalAnswerCount.participants +
+    b.totalAnswerCount.moderators +
+    b.totalAnswerCount.creator -
+    a.totalAnswerCount.participants +
+    a.totalAnswerCount.moderators +
+    a.totalAnswerCount.creator,
 };
 
 const getCommentRoleValue = (
@@ -135,14 +153,14 @@ const getCommentRoleValue = (
 };
 
 export const getMultiLevelFilterParent = (
-  parentComment: ForumComment,
+  parentComment: UIComment,
   func: FilterFunction,
-  compareValue?: any,
-): [level: number, parent: ForumComment] => {
+  compareValue?: unknown,
+): [level: number, parent: UIComment] => {
   const getHighestElement = (
-    comment: ForumComment,
+    comment: UIComment,
     i = 1,
-  ): [level: number, parent: ForumComment] => {
+  ): [level: number, parent: UIComment] => {
     for (const child of comment.children) {
       if (func(child, compareValue)) {
         return [i, comment];
@@ -184,78 +202,84 @@ export const getMultiLevelFilterParent = (
 
 export const hasKeyword: FilterFunction = (c, value) =>
   Boolean(
-    c.keywordsFromQuestioner?.find((keyword) => keyword.text === value) ||
-      c.keywordsFromSpacy?.find((keyword) => keyword.text === value),
+    c.comment.keywordsFromQuestioner?.find(
+      (keyword) => keyword.text === value,
+    ) || c.comment.keywordsFromSpacy?.find((keyword) => keyword.text === value),
   );
 
 export class FilteredDataAccess {
   private readonly filterFunctions: FilterFunctionObject = {
-    [FilterType.Correct]: (c) => c.correct === CorrectWrong.CORRECT,
-    [FilterType.Wrong]: (c) => c.correct === CorrectWrong.WRONG,
-    [FilterType.Favorite]: (c) => Boolean(c.favorite),
-    [FilterType.Bookmark]: (c) => Boolean(c.bookmark),
-    [FilterType.NotBookmarked]: (c) => !c.bookmark,
-    [FilterType.Read]: (c) => Boolean(c.read),
-    [FilterType.Unread]: (c) => !c.read,
-    [FilterType.Tag]: (c, value) => c.tag === value,
-    [FilterType.CreatorId]: (c, value) => c.creatorId === value,
+    [FilterType.Correct]: (c) => c.comment.correct === CorrectWrong.CORRECT,
+    [FilterType.Wrong]: (c) => c.comment.correct === CorrectWrong.WRONG,
+    [FilterType.Favorite]: (c) => Boolean(c.comment.favorite),
+    [FilterType.Bookmark]: (c) => Boolean(c.comment.bookmark),
+    [FilterType.NotBookmarked]: (c) => !c.comment.bookmark,
+    [FilterType.Read]: (c) => Boolean(c.comment.read),
+    [FilterType.Unread]: (c) => !c.comment.read,
+    [FilterType.Tag]: (c, value) => c.comment.tag === value,
+    [FilterType.CreatorId]: (c, value) => c.comment.creatorId === value,
     [FilterType.Keyword]: (c, value) =>
       hasKeyword(c, value) ||
       (!this._isRaw
         ? getMultiLevelFilterParent(c, hasKeyword, value) !== null
         : false),
-    [FilterType.AnsweredCreator]: (c) => c.totalAnswerCounts.fromCreator > 0,
-    [FilterType.AnsweredModerator]: (c) =>
-      c.totalAnswerCounts.fromModerators > 0,
+    [FilterType.AnsweredCreator]: (c) => c.totalAnswerCount.creator > 0,
+    [FilterType.AnsweredModerator]: (c) => c.totalAnswerCount.moderators > 0,
     [FilterType.Unanswered]: (c) =>
-      c.totalAnswerCounts.fromCreator < 1 &&
-      c.totalAnswerCounts.fromModerators < 1,
-    [FilterType.Owner]: (c) => c.creatorId === this._settings.userId,
+      c.totalAnswerCount.creator < 1 && c.totalAnswerCount.moderators < 1,
+    [FilterType.Owner]: (c) => c.comment.creatorId === this._settings.userId,
     [FilterType.Moderator]: (c) =>
-      this._settings.moderatorIds.has(c.creatorId) ||
-      c.creatorId === this._settings.ownerId,
-    [FilterType.Number]: (c, value) => c.number === value,
+      this._settings.moderatorIds.has(c.comment.creatorId) ||
+      c.comment.creatorId === this._settings.ownerId,
+    [FilterType.Number]: (c, value) => c.comment.number === value,
     [FilterType.Censored]: (c) => this._profanityChecker(c),
-    [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
+    [FilterType.Conversation]: (c) =>
+      c.totalAnswerCount.participants +
+        c.totalAnswerCount.moderators +
+        c.totalAnswerCount.creator >
+      0,
     [FilterType.BrainstormingIdea]: (c, value) =>
-      value?.includes?.(c.brainstormingWordId),
+      Array.isArray(value) && value?.includes?.(c.comment.brainstormingWordId),
     [FilterType.Approved]: (c) =>
-      c.approved ||
-      (!this._isRaw
-        ? getMultiLevelFilterParent(c, (comment) => comment.approved) !== null
-        : false),
-    [FilterType.ChatGPT]: (c) =>
-      c.gptWriterState > 0 ||
+      c.comment.approved ||
       (!this._isRaw
         ? getMultiLevelFilterParent(
             c,
-            (comment) => comment.gptWriterState > 0,
+            (comment) => comment.comment.approved,
+          ) !== null
+        : false),
+    [FilterType.ChatGPT]: (c) =>
+      c.comment.gptWriterState > 0 ||
+      (!this._isRaw
+        ? getMultiLevelFilterParent(
+            c,
+            (comment) => comment.comment.gptWriterState > 0,
           ) !== null
         : false),
   } as const;
   // general properties
   private _settings: AttachOptions = null;
-  private _destroyNotifier: Subject<any>;
+  private _destroyNotifier: Subject<unknown>;
   private _dataSubscription: Subscription;
   // stage caches
-  private _tempData: ForumComment[];
-  private _preFilteredData: ForumComment[];
+  private _tempData: UIComment[];
+  private _preFilteredData: UIComment[];
   private _periodCache: PeriodCache;
-  private _searchData: ForumComment[];
-  private _sortedSearchData: ForumComment[];
+  private _searchData: UIComment[];
+  private _sortedSearchData: UIComment[];
   private _filterTypeCache: FilterTypeCache;
-  private _sortedFilteredData: ForumComment[];
+  private _sortedFilteredData: UIComment[];
   // current data
-  private _currentData: BehaviorSubject<Readonly<ForumComment[]>>;
+  private _currentData: BehaviorSubject<Readonly<UIComment[]>>;
 
   private constructor(
     public readonly dataAccessFunction: (
       frozen: boolean,
-    ) => Observable<ForumComment[]>,
+    ) => Observable<UIComment[]>,
     private _isRaw: boolean,
     private _filter: RoomDataFilter,
-    private _profanityChecker: (comment: ForumComment) => boolean,
-    private readonly _onAttach?: (destroyer: Subject<any>) => void,
+    private _profanityChecker: (comment: UIComment) => boolean,
+    private readonly _onAttach?: (destroyer: Subject<unknown>) => void,
   ) {}
 
   get dataFilter() {
@@ -270,14 +294,15 @@ export class FilteredDataAccess {
 
   static buildChildrenAccess(
     sessionService: SessionService,
-    dataService: RoomDataService,
     commentId: string,
   ): FilteredDataAccess {
-    let dataAccessor = dataService.dataAccessor;
-    let data = dataAccessor.getDataById(commentId);
+    let dataAccessor = uiComments;
+    let data = dataAccessor().fastAccess[commentId];
+    let after = afterUpdate;
     if (data === null) {
-      dataAccessor = dataService.moderatorDataAccessor;
-      data = dataAccessor.getDataById(commentId);
+      dataAccessor = uiModeratedComments;
+      data = dataAccessor().fastAccess[commentId];
+      after = afterUpdateModerated;
     }
     if (data == null) {
       return null;
@@ -286,17 +311,12 @@ export class FilteredDataAccess {
       () => of([...data.comment.children]),
       false,
       RoomDataFilter.loadFilter('children'),
-      (c) => dataAccessor.getDataById(c.id).hasProfanity,
+      () => false,
       (destroyer) => {
-        this.constructAttachment(
-          destroyer,
-          sessionService,
-          dataAccessor,
-          access,
-        );
+        this.constructAttachment(destroyer, sessionService, after, access);
         this.constructChildrenAttachment(
           destroyer,
-          dataAccessor,
+          after,
           data.comment,
           access,
         );
@@ -307,23 +327,38 @@ export class FilteredDataAccess {
 
   static buildModeratedAccess(
     sessionService: SessionService,
-    dataService: RoomDataService,
+    injector: Injector,
     raw: boolean,
     name: FilterTypes,
   ): FilteredDataAccess {
-    const dataAccessor = dataService.moderatorDataAccessor;
     const access = new FilteredDataAccess(
       raw
-        ? dataAccessor.getRawComments.bind(dataAccessor)
-        : dataAccessor.getForumComments.bind(dataAccessor),
+        ? (frozen) => {
+            return toObservable(uiModeratedComments, {
+              injector: injector,
+            }).pipe(
+              filter(Boolean),
+              take(frozen ? 1 : Number.MAX_SAFE_INTEGER),
+              map((e) => e.rawComments),
+            );
+          }
+        : (frozen) => {
+            return toObservable(uiModeratedComments, {
+              injector: injector,
+            }).pipe(
+              filter(Boolean),
+              take(frozen ? 1 : Number.MAX_SAFE_INTEGER),
+              map((e) => e.forumComments),
+            );
+          },
       raw,
       RoomDataFilter.loadFilter(name),
-      (comment) => dataAccessor.getDataById(comment.id).hasProfanity,
+      () => false,
       (destroyer) =>
         this.constructAttachment(
           destroyer,
           sessionService,
-          dataAccessor,
+          afterUpdateModerated,
           access,
         ),
     );
@@ -332,7 +367,7 @@ export class FilteredDataAccess {
 
   static buildNormalAccess(
     sessionService: SessionService,
-    dataService: RoomDataService,
+    injector: Injector,
     raw: boolean,
     name: FilterTypes,
     forceOptions?: Partial<RoomDataFilter>,
@@ -341,19 +376,34 @@ export class FilteredDataAccess {
     if (forceOptions) {
       roomDataFilter.applyOptions(forceOptions);
     }
-    const dataAccessor = dataService.dataAccessor;
     const access = new FilteredDataAccess(
       raw
-        ? dataAccessor.getRawComments.bind(dataAccessor)
-        : dataAccessor.getForumComments.bind(dataAccessor),
+        ? (frozen) => {
+            return toObservable(uiComments, {
+              injector: injector,
+            }).pipe(
+              filter(Boolean),
+              take(frozen ? 1 : Number.MAX_SAFE_INTEGER),
+              map((e) => e.rawComments),
+            );
+          }
+        : (frozen) => {
+            return toObservable(uiComments, {
+              injector: injector,
+            }).pipe(
+              filter(Boolean),
+              take(frozen ? 1 : Number.MAX_SAFE_INTEGER),
+              map((e) => e.forumComments),
+            );
+          },
       raw,
       roomDataFilter,
-      (comment) => dataAccessor.getDataById(comment.id).hasProfanity,
+      () => false,
       (destroyer) =>
         this.constructAttachment(
           destroyer,
           sessionService,
-          dataAccessor,
+          afterUpdate,
           access,
         ),
     );
@@ -361,57 +411,48 @@ export class FilteredDataAccess {
   }
 
   private static constructChildrenAttachment(
-    destroyer: Subject<any>,
-    dataAccessor: DataAccessor,
-    comment: ForumComment,
+    destroyer: Subject<unknown>,
+    afterUpdate: EventEmitter<CommentUpdate>,
+    comment: UIComment,
     access: FilteredDataAccess,
   ) {
-    const changes = new Set<string>();
-    dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentDeleted', finished: false },
-      ])
-      .pipe(takeUntil(destroyer))
+    afterUpdate
+      .pipe(
+        filter(
+          (e) => e.type === 'CommentCreated' || e.type === 'CommentDeleted',
+        ),
+        takeUntil(destroyer),
+      )
       .subscribe((info) => {
-        if (
-          info.type === 'CommentCreated' &&
-          comment.children.has(info.comment)
-        ) {
-          access.updateDataSubscription();
-        } else if (
-          info.type === 'CommentDeleted' &&
-          comment.children.has(info.comment)
-        ) {
-          changes.add(info.comment.id);
-        }
-      });
-    dataAccessor
-      .receiveUpdates([{ type: 'CommentDeleted', finished: true }])
-      .pipe(takeUntil(destroyer))
-      .subscribe((info) => {
-        if (changes.delete(info.comment.id)) {
-          access.updateDataSubscription();
-        }
+        const found = Array.from(comment.children.values()).find(
+          (e) => e.comment.id === info.comment.id,
+        );
+        if (!found) return;
+        access.updateDataSubscription();
       });
   }
 
   private static constructAttachment(
-    destroyer: Subject<any>,
+    destroyer: Subject<unknown>,
     sessionService: SessionService,
-    dataAccessor: DataAccessor,
+    afterUpdate: EventEmitter<CommentUpdate>,
     access: FilteredDataAccess,
   ) {
-    dataAccessor
-      .receiveUpdates([{ type: 'CommentPatched', finished: true }])
-      .pipe(takeUntil(destroyer))
+    afterUpdate
+      .pipe(
+        filter((e) => e.type === 'CommentPatched'),
+        takeUntil(destroyer),
+      )
       .subscribe((info) => {
-        if (info.type === 'CommentPatched' && info.finished) {
+        if (info.type === 'CommentPatched') {
           const filterType = access._filter.filterType;
           if (
-            access._tempData.find((e) => e.id === info.comment.id) !==
+            access._tempData.find((e) => e.comment.id === info.id) !==
               undefined &&
-            this.hasChanges(filterType, info.updates)
+            this.hasChanges(
+              filterType,
+              Object.keys(info.changes) as (keyof Comment)[],
+            )
           ) {
             access.updateStages(STAGE_FILTER & STAGE_SORT_FILTER);
           }
@@ -480,19 +521,19 @@ export class FilteredDataAccess {
     ];
   }
 
-  getFilteredData(): Observable<Readonly<ForumComment[]>> {
+  getFilteredData(): Observable<Readonly<UIComment[]>> {
     if (this._settings == null) {
       throw new Error('FilteredDataAccess not initialized!');
     }
     return this._currentData.pipe(filter((v) => Boolean(v)));
   }
 
-  getCurrentData(): Readonly<ForumComment[]> {
+  getCurrentData(): Readonly<UIComment[]> {
     return this._currentData.value;
   }
 
-  getSourceData(): Readonly<ForumComment[]> {
-    return this._tempData;
+  getSourceData(): Readonly<UIComment[]> {
+    return this._tempData || [];
   }
 
   getCurrentPeriodCount() {
@@ -688,19 +729,19 @@ export class FilteredDataAccess {
     );
   }
 
-  private preFilterData(data: ForumComment[]) {
+  private preFilterData(data: UIComment[]) {
     if (this._filter.sourceFilterAcknowledgement !== null) {
       const onlyAck =
         this._filter.sourceFilterAcknowledgement ===
         AcknowledgementFilter.OnlyAcknowledged;
-      data = data.filter((c) => c.ack === onlyAck);
+      data = data.filter((c) => c.comment.ack === onlyAck);
     }
     if (this._filter.sourceFilterBrainstorming !== null) {
       const onlyBrain =
         this._filter.sourceFilterBrainstorming ===
         BrainstormingFilter.OnlyBrainstorming;
       data = data.filter(
-        (c) => (c.brainstormingSessionId !== null) === onlyBrain,
+        (c) => (c.comment.brainstormingSessionId !== null) === onlyBrain,
       );
     }
     if (this._filter.ignoreThreshold) {
@@ -709,14 +750,16 @@ export class FilteredDataAccess {
     }
     const threshold = this._settings.threshold;
     this._preFilteredData =
-      threshold !== 0 ? data.filter((c) => c.score >= threshold) : [...data];
+      threshold !== 0
+        ? data.filter((c) => c.comment.score >= threshold)
+        : [...data];
   }
 
-  private buildPeriodCache(data: ForumComment[]) {
+  private buildPeriodCache(data: UIComment[]) {
     const frozenAt = this._filter.frozenAt;
     this._filter.timeFilterStart = this._filter.timeFilterStart || Date.now();
-    const additional = Boolean(frozenAt)
-      ? (c: ForumComment) => new Date(c.createdAt).getTime() <= frozenAt
+    const additional = frozenAt
+      ? (c: UIComment) => new Date(c.comment.createdAt).getTime() <= frozenAt
       : () => true;
     this._periodCache = {} as PeriodCache;
     for (const periodKey of FilteredDataAccess.periodKeys()) {
@@ -739,10 +782,10 @@ export class FilteredDataAccess {
       e.text.toLowerCase().includes(search);
     this._searchData = data.filter(
       (c) =>
-        QuillUtils.getTextFromDelta(c.body).toLowerCase().includes(search) ||
-        c.keywordsFromSpacy?.some(keywordFinder) ||
-        c.keywordsFromQuestioner?.some(keywordFinder) ||
-        c.questionerName?.toLowerCase().includes(search),
+        c.comment.body.toLowerCase().includes(search) ||
+        c.comment.keywordsFromSpacy?.some(keywordFinder) ||
+        c.comment.keywordsFromQuestioner?.some(keywordFinder) ||
+        c.comment.questionerName?.toLowerCase().includes(search),
     );
   }
 
@@ -766,7 +809,7 @@ export class FilteredDataAccess {
     }
   }
 
-  private sortData(comments: ForumComment[]): ForumComment[] {
+  private sortData(comments: UIComment[]): UIComment[] {
     const factor = this._filter.sortReverse ? -1 : 1;
     const ownerId = this._settings.ownerId;
     const mods = this._settings.moderatorIds;

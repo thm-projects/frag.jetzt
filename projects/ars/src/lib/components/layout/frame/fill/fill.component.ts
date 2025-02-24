@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
-  selector: 'ars-fill',
-  templateUrl: './fill.component.html',
-  styleUrls: ['./fill.component.scss']
+    selector: 'ars-fill',
+    templateUrl: './fill.component.html',
+    styleUrls: ['./fill.component.scss'],
+    standalone: false
 })
 export class FillComponent implements OnInit, AfterViewInit {
 

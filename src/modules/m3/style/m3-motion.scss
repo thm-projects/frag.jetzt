@@ -1,0 +1,19 @@
+@mixin all-motion-token() {
+  --md-sys-motion-duration-1000: 1000ms;
+  --md-sys-motion-duration-900: 900ms;
+  --md-sys-motion-duration-800: 800ms;
+  --md-sys-motion-duration-700: 700ms;
+  --md-sys-motion-duration-600: 600ms;
+  --md-sys-motion-duration-550: 550ms;
+  --md-sys-motion-duration-500: 500ms;
+  --md-sys-motion-duration-450: 450ms;
+  --md-sys-motion-duration-400: 400ms;
+  --md-sys-motion-duration-350: 350ms;
+  --md-sys-motion-duration-300: 300ms;
+  --md-sys-motion-duration-250: 250ms;
+  --md-sys-motion-duration-200: 200ms;
+  --md-sys-motion-duration-150: 150ms;
+  --md-sys-motion-duration-100: 100ms;
+  --md-sys-motion-duration-50: 50ms;
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+}

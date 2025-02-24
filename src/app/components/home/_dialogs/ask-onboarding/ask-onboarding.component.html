@@ -1,14 +1,25 @@
-<mat-dialog-content tabindex="-1">
-  <app-ask-onboarding-de
-    *ngIf="currentLanguage === 'de'"></app-ask-onboarding-de>
-  <app-ask-onboarding-en
-    *ngIf="currentLanguage === 'en'"></app-ask-onboarding-en>
-  <app-ask-onboarding-fr
-    *ngIf="currentLanguage === 'fr'"></app-ask-onboarding-fr>
-</mat-dialog-content>
+@switch (lang()) {
+  @case ("de") {
+    <app-ask-onboarding-de></app-ask-onboarding-de>
+  }
+  @case ("fr") {
+    <app-ask-onboarding-fr></app-ask-onboarding-fr>
+  }
+  @default {
+    <app-ask-onboarding-en></app-ask-onboarding-en>
+  }
+}
 
-<app-dialog-action-buttons
-  buttonsLabelSection="ask-onboarding"
-  confirmButtonLabel="start"
-  [cancelButtonClickAction]="onCancel"
-  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    [mat-dialog-close]="false">
+    {{ "ask-onboarding.cancel" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    [mat-dialog-close]="true">
+    {{ "ask-onboarding.start" | translate }}
+  </button>
+</mat-dialog-actions>

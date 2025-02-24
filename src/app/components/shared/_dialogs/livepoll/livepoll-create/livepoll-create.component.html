@@ -1,10 +1,12 @@
 <h1 mat-dialog-title>
-  {{ translateKey + ".create-dialog-title" | translate }}
+  {{ translateKey + ".create.title" | translate }}
 </h1>
-<mat-dialog-content class="content livepoll-component">
-  <mat-form-field appearance="outline">
+<mat-dialog-content>
+  <mat-form-field
+    appearance="outline"
+    style="margin-top: 8px; width: 100%">
     <mat-label>
-      {{ translateKey + ".option-select-template" | translate }}
+      {{ translateKey + ".create.select-template.label" | translate }}
     </mat-label>
     <mat-select
       [formControl]="templateSelection"
@@ -25,18 +27,17 @@
   <ng-container #viewContainerRef></ng-container>
 </mat-dialog-content>
 
-<mat-dialog-actions style="display: flex; justify-content: flex-end">
+<mat-dialog-actions [class.no-pad]="true">
   <button
-    mat-flat-button
-    class="button-cancel"
+    mat-button
     (click)="dialogRef.close()">
-    <span>{{ translateKey + ".cancel" | translate }}</span>
+    <span>{{ translateKey + ".edit.cancel" | translate }}</span>
   </button>
+  <span style="flex: 1"></span>
   <button
     (click)="create()"
-    mat-flat-button
-    class="button-primary">
+    mat-flat-button>
     <mat-icon>rocket_launch</mat-icon>
-    <span>{{ translateKey + ".create" | translate }}</span>
+    <span>{{ translateKey + ".edit.start" | translate }}</span>
   </button>
 </mat-dialog-actions>

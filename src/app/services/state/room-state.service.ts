@@ -15,20 +15,19 @@ import {
 } from 'rxjs';
 import { AccountStateService } from './account-state.service';
 import { OnlineStateService } from './online-state.service';
-import { DbRoomService } from '../persistence/lg/db-room.service';
 import { RoomService } from '../http/room.service';
 import { ModeratorService } from '../http/moderator.service';
-import { DbModeratorService } from '../persistence/lg/db-moderator.service';
-import { DbCommentService } from '../persistence/lg/db-comment.service';
 import { CommentService } from '../http/comment.service';
 import { Comment } from 'app/models/comment';
+import { LocationStateService } from './location-state.service';
+import { Router } from '@angular/router';
 import {
   ROOM_ROLE_ORDER,
   RoomAccessRole,
-} from '../persistence/lg/db-room-acces.model';
-import { Moderator } from '../persistence/lg/db-moderator.model';
-import { LocationStateService } from './location-state.service';
-import { Router } from '@angular/router';
+} from 'app/base/db/models/db-room-access.model';
+import { dataService } from 'app/base/db/data-service';
+import { Moderator } from 'app/base/db/models/db-moderator';
+import { user$ } from 'app/user/state/user';
 
 export const ROOM_ROLE_MAPPER: { [Key in RoomAccessRole]: UserRole } = {
   Participant: UserRole.PARTICIPANT,
@@ -56,11 +55,8 @@ export class RoomStateService {
   constructor(
     private accountState: AccountStateService,
     private onlineState: OnlineStateService,
-    private dbRoom: DbRoomService,
     private roomService: RoomService,
     private moderatorService: ModeratorService,
-    private dbModerator: DbModeratorService,
-    private dbComment: DbCommentService,
     private commentService: CommentService,
     private router: Router,
     locationState: LocationStateService,
@@ -81,7 +77,7 @@ export class RoomStateService {
       startWith(null),
       switchMap((shortId) =>
         combineLatest([
-          accountState.user$.pipe(filter((v) => Boolean(v))),
+          user$.pipe(filter((v) => Boolean(v))),
           accountState.access$.pipe(filter((v) => Boolean(v))),
         ]).pipe(
           map(
@@ -94,19 +90,24 @@ export class RoomStateService {
       ),
       shareReplay(1),
     );
-    this.room$ = this.roomShortId$.pipe(
-      startWith(null),
-      switchMap((shortId) => {
+    this.room$ = combineLatest([
+      this.roomShortId$,
+      user$.pipe(filter((v) => Boolean(v))),
+    ]).pipe(
+      startWith([null, null]),
+      switchMap(([shortId]) => {
         if (!shortId) {
           return of(null);
         }
         return onlineState
           .refreshWhenReachable(
-            this.dbRoom.getByIndex('short-id', shortId),
+            dataService.room.getByIndex('short-id', shortId),
             this.roomService
               .getRoomByShortId(shortId)
               .pipe(
-                tap((room) => this.dbRoom.createOrUpdate(room).subscribe()),
+                tap((room) =>
+                  dataService.room.createOrUpdate(room).subscribe(),
+                ),
               ),
           )
           .pipe(startWith(null));
@@ -122,13 +123,13 @@ export class RoomStateService {
         }
         return onlineState
           .refreshWhenReachable(
-            this.dbModerator
+            dataService.moderator
               .getAllByIndex('room-id', room.id)
               .pipe(map((mods) => new Set(mods.map((m) => m.accountId)))),
             this.moderatorService.get(room.id).pipe(
               map((mods) => new Set(mods.map((m) => m.accountId))),
               tap((modsSet) =>
-                this.dbModerator
+                dataService.moderator
                   .createOrUpdateMany(
                     [...modsSet].map((accountId) => ({
                       value: new Moderator({ roomId: room.id, accountId }),
@@ -151,12 +152,12 @@ export class RoomStateService {
         }
         return onlineState
           .refreshWhenReachable(
-            this.dbComment.getAllByIndex('room-id', room.id),
+            dataService.comment.getAllByIndex('room-id', room.id),
             this.commentService
               .getComments(room.id)
               .pipe(
                 tap((data) =>
-                  this.dbComment
+                  dataService.comment
                     .createOrUpdateMany(data.map((value) => ({ value })))
                     .subscribe(),
                 ),

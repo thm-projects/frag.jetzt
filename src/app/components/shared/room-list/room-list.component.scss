@@ -1,139 +1,20 @@
-button {
-  color: var(--on-primary-secondary);
-}
-
-.filterWrapper {
-  width: 100%;
-}
-
-.filter {
-  color: var(--on-surface) !important;
-}
-
-table, th, tr, td {
-  background-color: var(--primary-variant) !important;
-  color: var(--on-primary-variant) !important;
-  hyphens: auto;
-}
-
-th, tr {
-  font-size: small !important;
-}
-
-.tableOverflow {
-  height: 20rem;
-  overflow: auto;
-}
-
-.sessionName {
-  width: 8%;
-  min-width: 50px;
-  color: var(--on-surface) !important;
-}
-
-.sessionId {
-  width: 8%;
-  min-width: 50px;
-  color: var(--on-surface) !important;
-}
-
-.roleName {
-  color: var(--on-surface) !important;
-  width: 5%;
-}
-
-.buttonName {
-  color: var(--on-surface) !important;
-  width: 5%;
-  display: flex;
-  place-content: stretch flex-end;
-}
-
-.noRoomHistory {
-  padding-top: 100px;
-  color: var(--on-surface);
-  font-weight: normal;
-  text-align: center;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  left: -10000px;
-}
-
-.mat-badge-content {
-  top: -2px;
-  background: var(--secondary);
-  color: var(--on-secondary);
-  font-weight: normal;
-}
-
 .table-container {
-  height: 45vh;
-  overflow: auto;
+  max-width: 90dvw;
+  overflow-x: auto;
+  padding-bottom: 1em;
 }
 
-::ng-deep .table-container .mat-sort-header-arrow {
-  color: unset;
+.mat-column-name .mat-badge-content {
+  right: auto;
+  left: -3px;
+  top: -2px;
 }
 
-.fill-space {
-  height: 20px;
-}
-
-.delete {
-  color: var(--red) !important;
-  margin-right: 10px;
-}
-
-.export {
-  color: var(--green) !important;
-  margin-right: 10px;
-}
-
-.notification {
-  color: var(--yellow) !important;
-  margin-right: 10px;
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 18px;
 }
 
 .clickable {
   cursor: pointer;
-  overflow-wrap: anywhere;
-  padding-right: 10px;
-}
-
-.list-entries {
-  width: 100%;
-}
-
-.warn {
-  color: var(--red) !important;
-  padding-left: 3px;
-}
-
-th.mat-header-cell:first-of-type {
-  padding-left: 10px;
-}
-
-.responseCountBadge {
-  width: 0;
-
-  > .mat-badge-content {
-    background-color: var(--primary);
-    color: var(--on-primary);
-    left: -20px !important;
-    top: 14px !important;
-    font-weight: normal;
-  }
-}
-
-.mat-badge-small.mat-badge-before .mat-badge-content {
-  left: -20px !important;
-}
-
-.mat-sort-header-content {
-  text-align: left !important;
 }

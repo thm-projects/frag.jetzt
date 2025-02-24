@@ -1,14 +1,16 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { HeaderService } from '../../../../services/util/header.service';
-import { RoomDataService } from '../../../../services/util/room-data.service';
-import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { map, ReplaySubject, takeUntil } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { roomCount } from 'app/room/state/comment-updates';
 
 @Component({
   selector: 'app-active-user',
   templateUrl: './active-user.component.html',
   styleUrls: ['./active-user.component.scss'],
+  standalone: false,
 })
 export class ActiveUserComponent implements OnInit, OnDestroy {
   @Input() room: Room;
@@ -22,10 +24,14 @@ export class ActiveUserComponent implements OnInit, OnDestroy {
   activeUser = '?';
   showByComponent: boolean;
   private destroyer = new ReplaySubject(1);
+  private userCount$ = toObservable(roomCount).pipe(
+    map((x) =>
+      x ? String(x.participantCount + x.moderatorCount + x.creatorCount) : '?',
+    ),
+  );
 
   constructor(
     private headerService: HeaderService,
-    private roomDataService: RoomDataService,
     private deviceState: DeviceStateService,
   ) {}
 
@@ -36,13 +42,10 @@ export class ActiveUserComponent implements OnInit, OnDestroy {
         this.showByComponent = !(mobile || this.alwaysShowInHeader);
         this.headerService.toggleCurrentUserActivity(!this.showByComponent);
       });
-    this.roomDataService
-      .observeUserCount()
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((value) => {
-        this.activeUser = value;
-        this.headerService.setCurrentUserActivity(value);
-      });
+    this.userCount$.pipe(takeUntil(this.destroyer)).subscribe((value) => {
+      this.activeUser = value;
+      this.headerService.setCurrentUserActivity(value);
+    });
   }
 
   ngOnDestroy() {

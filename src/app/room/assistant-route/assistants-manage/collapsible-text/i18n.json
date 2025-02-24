@@ -1,0 +1,15 @@
+{
+  "key": "collapsible-text",
+  "de": {
+    "expand": "Mehr",
+    "collapse": "Weniger"
+  },
+  "en": {
+    "expand": "More",
+    "collapse": "Less"
+  },
+  "fr": {
+    "expand": "Plus",
+    "collapse": "Moins"
+  }
+}

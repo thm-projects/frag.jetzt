@@ -1,0 +1,18 @@
+<h2
+  mat-dialog-title
+  style="font-weight: bold">
+  {{ i18n().explanationTitle }}
+</h2>
+
+<mat-dialog-content>
+  <app-markdown-viewer [data]="i18n().explanation"></app-markdown-viewer>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().close }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

@@ -1,10 +1,14 @@
-<app-mat-spinner-overlay *ngIf="isLoading || isURLLoading" overlay="true"></app-mat-spinner-overlay>
-<div *ngIf="!isURLLoading" class="container">
-  <iframe class="responsive-iframe"
-          title="antworte.jetzt"
-          [src]="urlSafe"
-          loading="lazy"
-          (load)="isLoading = false"
-          (error)="isLoading = false">
-  </iframe>
+<app-mat-spinner-overlay
+  *ngIf="isLoading || isURLLoading"
+  [overlay]="true"></app-mat-spinner-overlay>
+<div
+  *ngIf="!isURLLoading"
+  class="container">
+  <iframe
+    class="responsive-iframe"
+    title="arsnova.click"
+    [src]="urlSafe"
+    loading="lazy"
+    (load)="isLoading = false"
+    (error)="isLoading = false"></iframe>
 </div>

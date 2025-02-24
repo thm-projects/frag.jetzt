@@ -1,11 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -15,6 +10,11 @@ import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { Subject, take, takeUntil } from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -34,9 +34,10 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: false,
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  redirectUrl = null;
+  wasInactive = false;
   matcher = new LoginErrorStateMatcher();
   name = '';
   hide = true;
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public notificationService: NotificationService,
     public dialog: MatDialog,
     private keycloak: KeycloakService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
     private accountState: AccountStateService,
     private dialogRef: MatDialogRef<LoginComponent>,
   ) {}
@@ -114,18 +115,5 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   buildCloseDialogActionCallback(): void {
     this.dialog.closeAll();
-  }
-
-  private checkLogin() {
-    this.translationService.get('login.guest-expired').subscribe((message) => {
-      this.notificationService.show(message);
-    });
-    this.translationService
-      .get('login.login-error-unknown', { code: '??' })
-      .subscribe((message) => {
-        this.notificationService.show(message);
-      });
-    this.dialog.closeAll();
-    this.router.navigate([this.redirectUrl ?? 'user']);
   }
 }

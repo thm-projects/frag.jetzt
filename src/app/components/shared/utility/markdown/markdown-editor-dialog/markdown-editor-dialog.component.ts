@@ -1,9 +1,12 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, signal } from '@angular/core';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 
 export interface MarkdownEditorDialogData {
   data: string | undefined;
@@ -14,10 +17,12 @@ export interface MarkdownEditorDialogData {
   selector: 'app-markdown-editor-dialog',
   templateUrl: './markdown-editor-dialog.component.html',
   styleUrls: ['./markdown-editor-dialog.component.scss'],
+  standalone: false,
 })
 export class MarkdownEditorDialogComponent implements OnDestroy {
-  public data: string;
+  public data = signal('');
   private readonly _destroyer = new ReplaySubject(1);
+  protected readonly i18n = i18n;
 
   constructor(
     readonly appState: AppStateService,
@@ -27,7 +32,7 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
     @Inject(MAT_DIALOG_DATA)
     public readonly injection: MarkdownEditorDialogData,
   ) {
-    this.data = injection.data;
+    this.data.set(injection.data);
     appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
       translationService.use(lang);
       http
@@ -41,7 +46,7 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
                 this.data = data;
               });
           } else {
-            this.data = injection.data;
+            this.data.set(injection.data);
           }
         });
     });
@@ -51,7 +56,10 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
     this._destroyer.next(0);
   }
 
-  close(data: string) {
-    this.dialogRef.close(data);
+  save() {
+    this.dialogRef.close(this.data);
+  }
+  close() {
+    this.dialogRef.close();
   }
 }

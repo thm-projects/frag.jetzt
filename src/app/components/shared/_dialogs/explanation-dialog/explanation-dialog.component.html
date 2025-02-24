@@ -1,7 +1,14 @@
-<div mat-dialog-content>
-  <app-custom-markdown [data]="data"></app-custom-markdown>
-</div>
-<app-dialog-action-buttons [buttonsLabelSection]="'explanation'"
-                           [confirmButtonLabel]="'close'"
-                           [confirmButtonClickAction]="buildConfirmAction()">
-</app-dialog-action-buttons>
+<!-- TODO Add string for title -->
+
+<mat-dialog-content>
+  <app-markdown-viewer [data]="data"></app-markdown-viewer>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ "explanation.close" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+</mat-dialog-actions>

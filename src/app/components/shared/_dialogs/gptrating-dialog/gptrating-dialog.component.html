@@ -1,17 +1,18 @@
-<h3>{{ "gptrating.title" | translate }}</h3>
+<h2 mat-dialog-title>{{ "gptrating.title" | translate }}</h2>
 
 <mat-dialog-content>
   <div
     (mouseleave)="onMouseLeave()"
     class="star-container">
-    <mat-icon
-      *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined interactive"
-      [ngClass]="getIcon(index)"
-      (click)="onClick(index, $event)"
-      (mousemove)="onMouseMove(index, $event)">
-      {{ getIcon(index) }}
-    </mat-icon>
+    @for (index of [0, 1, 2, 3, 4]; track index) {
+      <mat-icon
+        class="material-icons-outlined interactive"
+        [ngClass]="getIcon(index)"
+        (click)="onClick(index, $event)"
+        (mousemove)="onMouseMove(index, $event)">
+        {{ getIcon(index) }}
+      </mat-icon>
+    }
   </div>
   <mat-form-field style="width: 100%">
     <mat-label>{{ "gptrating.input" | translate }}</mat-label>
@@ -22,8 +23,17 @@
   </mat-form-field>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gptrating'"
-  [confirmButtonLabel]="'send'"
-  [cancelButtonClickAction]="onCancel"
-  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close
+    class="secondary-button">
+    {{ "gptrating.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="submit()">
+    {{ "gptrating.send" | translate }}
+  </button>
+</mat-dialog-actions>

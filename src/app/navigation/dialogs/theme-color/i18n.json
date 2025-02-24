@@ -1,0 +1,21 @@
+{
+  "key": "theme-color",
+  "de": {
+    "switchLight": "Hell",
+    "switchDark": "Dunkel",
+    "examples": "So sieht's aus ...",
+    "cardContent": "»Der Weg ist das Ziel.« – Konfuzius"
+  },
+  "en": {
+    "switchLight": "Light",
+    "switchDark": "Dark",
+    "examples": "Here's how it looks ...",
+    "cardContent": "»The journey is the reward.« – Confucius"
+  },
+  "fr": {
+    "switchLight": "Clair",
+    "switchDark": "Sombre",
+    "examples": "Voici à quoi ça ressemble ...",
+    "cardContent": "« Le chemin est la récompense. » – Confucius"
+  }
+}

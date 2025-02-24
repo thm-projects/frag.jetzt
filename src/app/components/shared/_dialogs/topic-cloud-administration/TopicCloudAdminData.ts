@@ -3,12 +3,22 @@ export interface TopicCloudAdminDataScoring {
 }
 
 export const TopicCloudAdminDataScoringKey = [
-  'countComments', 'countUsers', 'countSelectedByQuestioner', 'countKeywordByModerator', 'countKeywordByCreator',
-  'summedUpvotes', 'summedDownvotes', 'summedVotes', 'cappedSummedVotes', 'controversy', 'responseCount', 'answerCount'
+  'countComments',
+  'countUsers',
+  'countSelectedByQuestioner',
+  'countKeywordByModerator',
+  'countKeywordByCreator',
+  'summedUpvotes',
+  'summedDownvotes',
+  'summedVotes',
+  'cappedSummedVotes',
+  'controversy',
+  'responseCount',
+  'answerCount',
 ] as const;
 
 export type TopicCloudAdminDataScoringObject = {
-  [key in typeof TopicCloudAdminDataScoringKey[number]]: TopicCloudAdminDataScoring;
+  [key in (typeof TopicCloudAdminDataScoringKey)[number]]: TopicCloudAdminDataScoring;
 };
 
 export interface TopicCloudAdminData {
@@ -39,12 +49,12 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
       case 'cappedSummedVotes':
       case 'responseCount':
         data.scorings[option] = {
-          score: 0.1
+          score: 0.1,
         };
         break;
       case 'countUsers':
         data.scorings[option] = {
-          score: 0.5
+          score: 0.5,
         };
         break;
       case 'countKeywordByCreator':
@@ -52,12 +62,12 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
       case 'countSelectedByQuestioner':
       case 'answerCount':
         data.scorings[option] = {
-          score: 1
+          score: 1,
         };
         break;
       default:
         data.scorings[option] = {
-          score: 0
+          score: 0,
         };
         break;
     }
@@ -65,9 +75,10 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
 };
 
 export type TopicCloudAdminDataScoringPreset = {
-  [key in typeof TopicCloudAdminDataScoringKey[number]]: {
+  [key in (typeof TopicCloudAdminDataScoringKey)[number]]: {
     min: number;
     max: number;
+    score?: number;
   };
 };
 
@@ -89,7 +100,7 @@ export const keywordsScoringMinMax: TopicCloudAdminDataScoringPreset = {
 export enum KeywordOrFulltext {
   Keyword,
   Fulltext,
-  Both
+  Both,
 }
 
 export interface Label {
@@ -123,7 +134,7 @@ const deLabels: Label[] = [
   { tag: 'nk', label: 'Nomen Kernelement', enabledByDefault: false },
   { tag: 'mo', label: 'Modifikator', enabledByDefault: false },
   { tag: 'cj', label: 'Konjunktor', enabledByDefault: false },
-  { tag: 'par', label: 'Klammerzusatz', enabledByDefault: false }
+  { tag: 'par', label: 'Klammerzusatz', enabledByDefault: false },
 ];
 
 const enLabels: Label[] = [
@@ -131,13 +142,21 @@ const enLabels: Label[] = [
   { tag: 'pobj', label: 'Object of preposition', enabledByDefault: true },
   { tag: 'dobj', label: 'Direct object', enabledByDefault: true },
   { tag: 'compound', label: 'Compound', enabledByDefault: true },
-  { tag: 'nsubjpass', label: 'Passive nominal subject', enabledByDefault: true },
+  {
+    tag: 'nsubjpass',
+    label: 'Passive nominal subject',
+    enabledByDefault: true,
+  },
   { tag: 'ROOT', label: 'Sentence kernel element', enabledByDefault: true },
   { tag: 'nummod', label: 'Numeric modifier', enabledByDefault: false },
   { tag: 'amod', label: 'Adjectival modifier', enabledByDefault: false },
-  { tag: 'npadvmod', label: 'Noun phrase as adverbial modifier', enabledByDefault: false },
+  {
+    tag: 'npadvmod',
+    label: 'Noun phrase as adverbial modifier',
+    enabledByDefault: false,
+  },
   { tag: 'conj', label: 'Conjunct', enabledByDefault: false },
-  { tag: 'intj', label: 'Interjection', enabledByDefault: false }
+  { tag: 'intj', label: 'Interjection', enabledByDefault: false },
 ];
 
 const frLabels: Label[] = [
@@ -146,20 +165,48 @@ const frLabels: Label[] = [
   { tag: 'obj', label: 'Objet', enabledByDefault: true },
   { tag: 'obj:mod', label: 'Objet', enabledByDefault: true },
   { tag: 'obj:agent', label: 'Objet', enabledByDefault: true },
-  { tag: 'ROOT', label: 'Élément du noyau de la phrase', enabledByDefault: true },
+  {
+    tag: 'ROOT',
+    label: 'Élément du noyau de la phrase',
+    enabledByDefault: true,
+  },
   { tag: 'xcomp', label: 'Complément clausal ouvert', enabledByDefault: true },
   { tag: 'ccomp', label: 'Complément clausal', enabledByDefault: true },
-  { tag: 'acl', label: 'Modificateur clausal du nom (clause adjectivale)', enabledByDefault: false },
-  { tag: 'acl:relcl', label: 'Modificateur clausal du nom (clause adjectivale)', enabledByDefault: false },
+  {
+    tag: 'acl',
+    label: 'Modificateur clausal du nom (clause adjectivale)',
+    enabledByDefault: false,
+  },
+  {
+    tag: 'acl:relcl',
+    label: 'Modificateur clausal du nom (clause adjectivale)',
+    enabledByDefault: false,
+  },
   { tag: 'amod', label: 'Modificateur adjectival', enabledByDefault: false },
   { tag: 'advmod', label: 'Modificateur adverbial', enabledByDefault: false },
   { tag: 'nmod', label: 'Modificateur du nominal', enabledByDefault: false },
   { tag: 'conj', label: 'Conjonction', enabledByDefault: false },
-  { tag: 'appos', label: 'Modificateur appositionnel', enabledByDefault: false },
+  {
+    tag: 'appos',
+    label: 'Modificateur appositionnel',
+    enabledByDefault: false,
+  },
   { tag: 'dep', label: 'Non classifié dépendant', enabledByDefault: false },
-  { tag: 'aux:tense', label: 'Auxiliaire forme temporelle', enabledByDefault: false },
-  { tag: 'flat:name', label: 'Expression plate de plusieurs mots', enabledByDefault: false },
-  { tag: 'obl:arg', label: 'Argument nominal oblique', enabledByDefault: false },
+  {
+    tag: 'aux:tense',
+    label: 'Auxiliaire forme temporelle',
+    enabledByDefault: false,
+  },
+  {
+    tag: 'flat:name',
+    label: 'Expression plate de plusieurs mots',
+    enabledByDefault: false,
+  },
+  {
+    tag: 'obl:arg',
+    label: 'Argument nominal oblique',
+    enabledByDefault: false,
+  },
 ];
 
 export const spacyLabels = new Labels(deLabels, enLabels, frLabels);

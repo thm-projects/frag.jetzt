@@ -1,40 +1,32 @@
-<div class="dialog-header">
-  <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
-    <span>{{ "common.peerInstruction-title-2" | translate }}</span>
-  </ng-container>
-  <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
-    <span>{{ "common.peerInstruction-title-1" | translate }}</span>
-  </ng-container>
-</div>
+<span mat-dialog-title>
+  {{ this.title | translate }}
+</span>
 <mat-dialog-content>
-  <span *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
-    {{ "common.peerInstruction-description-phase-1" | translate }}
-  </span>
-  <span *ngIf="data.windowContext.is2ndPhasePeerInstruction">
-    {{ "common.peerInstruction-description-phase-2" | translate }}
+  <span>
+    {{ this.description | translate }}
   </span>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions
+  [class.no-pad]="true"
+  [class.flex-row]="true"
+  [class.align-content-right]="true">
   <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
     <button
       mat-flat-button
-      (click)="matDialogRef.close(false)"
-      class="button-cancel">
-      <span>{{ "common.confirm-cancel" | translate }}</span>
+      (click)="matDialogRef.close(false)">
+      <span>{{ "common.confirmation-dialog.common.cancel" | translate }}</span>
     </button>
   </ng-container>
   <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
     <button
-      mat-flat-button
-      (click)="matDialogRef.close(false)"
-      class="button-cancel">
-      <span>{{ "common.confirm-cancel" | translate }}</span>
+      mat-button
+      (click)="matDialogRef.close(false)">
+      <span>{{ "common.confirmation-dialog.common.cancel" | translate }}</span>
     </button>
     <button
       mat-flat-button
-      (click)="nextPeerInstructionStep()"
-      class="button-primary-filled">
-      <span>{{ "common.confirm-continue" | translate }}</span>
+      (click)="nextPeerInstructionStep()">
+      {{ "common.confirmation-dialog.common.continue" | translate }}
     </button>
   </ng-container>
 </mat-dialog-actions>

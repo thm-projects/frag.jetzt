@@ -1,0 +1,24 @@
+{
+  "key": "assistant-chat",
+  "de": {
+    "send": "Senden",
+    "assistent": "Assistent",
+    "create": "Neuer Assistent",
+    "attach": "Datei anhängen",
+    "followUpQuestions": "Folgefragen..."
+  },
+  "en": {
+    "send": "Send",
+    "assistent": "Assistant",
+    "create": "New Assistant",
+    "attach": "Attach Files",
+    "followUpQuestions": "Follow up questions..."
+  },
+  "fr": {
+    "send": "Envoyer",
+    "assistent": "Assistant",
+    "create": "Nouvel Assistant",
+    "attach": "Joindre des fichiers",
+    "followUpQuestions": "Questions de suivi..."
+  }
+}

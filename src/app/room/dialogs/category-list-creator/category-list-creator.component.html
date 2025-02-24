@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+
+<mat-dialog-content>
+  <mat-form-field
+    style="margin-top: 0.5em"
+    appearance="outline"
+    class="full-width">
+    <mat-label>{{ i18n().categoryAddHeader }}</mat-label>
+    <input
+      matInput
+      (keydown)="onKeydown($event)"
+      [formControl]="inputControl" />
+    <button
+      mat-icon-button
+      [disabled]="
+        inputControl.invalid || this.processing() || !inputControl.value
+      "
+      [matTooltip]="i18n().categoryAddButton"
+      (click)="submit()"
+      matSuffix>
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    @if (
+      inputControl.hasError("minlength") || inputControl.hasError("maxlength")
+    ) {
+      <mat-error>{{ i18n().error | context: { min, max } }}</mat-error>
+    }
+    <mat-hint align="end">
+      {{
+        i18n().charCount
+          | context: { char: inputControl.value.trim().length, total: max }
+      }}
+    </mat-hint>
+  </mat-form-field>
+  <mat-list>
+    @for (item of items(); track item; let isOdd = $odd, i = $index) {
+      <mat-list-item [class.odd]="isOdd">
+        <span matListItemTitle>{{ item }}</span>
+        <button
+          mat-icon-button
+          matListItemMeta
+          (click)="remove(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    } @empty {
+      <p style="text-align: center">{{ i18n().noItems }}</p>
+    }
+  </mat-list>
+  <button
+    mat-flat-button
+    style="margin-block: 1em"
+    [disabled]="processing()"
+    (click)="createWithAI()"
+    class="full-width secondary">
+    {{ i18n().categoryByAI }}
+    @if (processing() === "AI") {
+      <mat-spinner class="spinner"></mat-spinner>
+    }
+  </button>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    [disabled]="processing()"
+    (click)="save()">
+    {{ i18n().global.saveAndClose }}
+    @if (processing() === "save") {
+      <mat-spinner class="spinner"></mat-spinner>
+    }
+  </button>
+</mat-dialog-actions>

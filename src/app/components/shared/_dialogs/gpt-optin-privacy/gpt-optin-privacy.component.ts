@@ -1,41 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  AppStateService,
-  Language,
-} from 'app/services/state/app-state.service';
+import { Component, OnDestroy } from '@angular/core';
+import { Language } from 'app/base/language/language';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-gpt-optin-privacy',
   templateUrl: './gpt-optin-privacy.component.html',
   styleUrls: ['./gpt-optin-privacy.component.scss'],
+  standalone: false,
 })
-export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
+export class GptOptInPrivacyComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
-  constructor(
-    private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
-    appState: AppStateService,
-  ) {
+  constructor(appState: AppStateService) {
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
   }
 
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
-  }
-
-  onDecline(): void {
-    this.dialogRef.close(false);
-  }
-
-  onAccept(): void {
-    this.dialogRef.close(true);
   }
 }

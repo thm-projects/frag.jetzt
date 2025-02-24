@@ -1,0 +1,15 @@
+{
+  "key": "status-info",
+  "de": {
+    "title": "Verbindungsstatus",
+    "message": "Die Lampenfarbe zeigt die Auslastung an: Grün bedeutet eine niedrige, Gelb eine moderate und Rot eine hohe Auslastung.\n\nAktive Verbindungen: {{sessionCount}}\nRaumersteller\\*innen: {{creatorCount}}\nModerator\\*innen: {{moderatorCount}}\nTeilnehmer\\*innen: {{participantCount}}\nRäume mit aktiver Veranstaltung: {{activeRoomCount}}\nLaufende Blitzumfragen: {{activeLivepollCount}}\n\nDie Plattform ist für ca. 1.000 gleichzeitig aktive Verbindungen ausgelegt."
+  },
+  "en": {
+    "title": "Connection status",
+    "message": "The lamp color indicates the load: Green means low, Yellow moderate, and Red high load.\n\nActive connections: {{sessionCount}}\nRoom creators: {{creatorCount}}\nModerators: {{moderatorCount}}\nParticipants: {{participantCount}}\nRooms with active sessions: {{activeRoomCount}}\nOngoing live polls: {{activeLivepollCount}}\n\nThe platform is designed for approximately 1,000 simultaneous active connections."
+  },
+  "fr": {
+    "title": "État de la connexion",
+    "message": "La couleur de la lampe indique le niveau d'utilisation : Vert signifie faible, Jaune modérée et Rouge élevée.\n\nConnexions actives : {{sessionCount}}\nCréateurs de salle : {{creatorCount}}\nModérateurs : {{moderatorCount}}\nParticipants : {{participantCount}}\nSalles avec session active : {{activeRoomCount}}\nSondages en direct en cours : {{activeLivepollCount}}\n\nLa plateforme est conçue pour environ 1 000 connexions actives simultanées."
+  }
+}

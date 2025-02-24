@@ -70,6 +70,15 @@ export class AuthenticationService extends BaseHttpService {
       );
   }
 
+  delete(accountId: string): Observable<void> {
+    const connectionUrl: string =
+      this.apiUrl.base + this.apiUrl.user + '/' + accountId;
+    return this.http.delete<void>(connectionUrl, this.httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('delete')),
+    );
+  }
+
   private getTokenHeader(token: string) {
     return {
       headers: new HttpHeaders({

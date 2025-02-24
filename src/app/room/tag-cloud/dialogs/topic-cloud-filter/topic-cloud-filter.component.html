@@ -1,0 +1,99 @@
+<h2 mat-dialog-title>
+  {{ room?.mode === "ARS" ? i18n().title : i18n().ple.title }}
+</h2>
+
+<mat-dialog-content>
+  @if (isTopicRequirementActive) {
+    <span style="margin-bottom: 1em; display: block">
+      <mat-icon
+        [inline]="true"
+        class="error-icon">
+        tag
+      </mat-icon>
+      {{ i18n().thresholdActive }}
+    </span>
+  }
+
+  <mat-radio-group
+    class="spaced-radio-buttons"
+    [(ngModel)]="continueFilter"
+    aria-label="Select an option">
+    <ng-container *ngFor="let radioTyp of filterTypes(); let i = index">
+      <mat-radio-button
+        *ngIf="filterInfos[radioTyp].active"
+        [value]="radioTyp">
+        <div>
+          {{
+            room?.mode === "ARS"
+              ? i18n().filter[radioTyp]
+              : i18n().ple.filter[radioTyp]
+          }}
+          @if (filterInfos[radioTyp].count; as count) {
+            <div class="radio-button-counts">
+              <mat-icon
+                [inline]="true"
+                matTooltip="{{
+                  room?.mode === 'PLE'
+                    ? i18n().ple.tooltipQuestion
+                    : i18n().tooltipQuestion
+                }}">
+                comment
+              </mat-icon>
+              {{ count.comments }}
+              <mat-icon
+                [inline]="true"
+                matTooltip="{{
+                  room?.mode === 'PLE'
+                    ? i18n().ple.tooltipQuestioners
+                    : i18n().tooltipQuestioners
+                }}">
+                person
+              </mat-icon>
+              {{ count.users }}
+              <mat-icon matTooltip="{{ i18n().tooltipKeywords }}">tag</mat-icon>
+              {{ count.keywords }}
+            </div>
+          }
+        </div>
+      </mat-radio-button>
+    </ng-container>
+  </mat-radio-group>
+
+  @if (hasNoKeywords) {
+    <mat-card appearance="raised">
+      <mat-card-content>
+        {{ i18n().infoNoKeywords }}
+      </mat-card-content>
+
+      <mat-card-actions style="justify-content: center">
+        <button
+          mat-flat-button
+          class="secondary"
+          (click)="onKeywordRefreshClick()">
+          {{ i18n().start }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  <app-worker-dialog [inlined]="true"></app-worker-dialog>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close="abort">
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    (click)="openHelp()">
+    {{ i18n().global.explain }}
+  </button>
+  <button
+    mat-flat-button
+    (click)="confirm()">
+    {{ i18n().global.continue }}
+  </button>
+</mat-dialog-actions>

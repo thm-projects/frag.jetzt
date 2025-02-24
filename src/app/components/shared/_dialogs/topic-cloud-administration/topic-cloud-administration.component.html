@@ -1,87 +1,79 @@
 <mat-dialog-content>
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    fxFill>
-    <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
-  </div>
-  <div *ngIf="!isLoading">
+  @if (isLoading) {
+    <app-mat-spinner-overlay></app-mat-spinner-overlay>
+  } @else {
     <mat-accordion hideToggle>
-      <mat-expansion-panel class="color-surface">
-        <mat-expansion-panel-header class="color-surface">
-          <mat-icon class="color-on-surface">settings</mat-icon>
+      <!-- AI Settings -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-icon>settings</mat-icon>
           <mat-panel-title>
             {{ "topic-cloud-dialog.settings" | translate }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-card style="background: none; margin-bottom: 10px">
-          <mat-label class="color-on-surface">
+        <mat-card appearance="outlined">
+          <mat-label>
             {{ "topic-cloud-dialog.select-choice" | translate }}
           </mat-label>
           <mat-radio-group
-            class="radio-button-group"
             (change)="refreshKeywords()"
             [(ngModel)]="keywordORfulltext">
             <mat-radio-button
               checked="true"
-              [value]="keywordOrFulltextENUM[0]"
-              class="radio-button-item">
+              [value]="keywordOrFulltextENUM[0]">
               {{ "topic-cloud-dialog.keyword" | translate }}
             </mat-radio-button>
-            <mat-radio-button
-              [value]="keywordOrFulltextENUM[1]"
-              class="radio-button-item">
+            <mat-radio-button [value]="keywordOrFulltextENUM[1]">
               {{ "topic-cloud-dialog.full-text" | translate }}
             </mat-radio-button>
-            <mat-radio-button
-              [value]="keywordOrFulltextENUM[2]"
-              class="color-on-surface">
+            <mat-radio-button [value]="keywordOrFulltextENUM[2]">
               {{ "topic-cloud-dialog.both" | translate }}
             </mat-radio-button>
           </mat-radio-group>
         </mat-card>
 
         <mat-accordion>
-          <mat-expansion-panel
-            class="color-background margin-top margin-bottom keyword-scoring">
-            <mat-expansion-panel-header class="color-background">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
               <mat-panel-title>
                 {{ "topic-cloud-dialog.keyword-scoring-header" | translate }}
                 <mat-icon
-                  class="help-explanation"
-                  matTooltip="{{
+                  [matTooltip]="
                     'topic-cloud-dialog.keyword-scoring-header-info' | translate
-                  }}">
+                  ">
                   help
                 </mat-icon>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <ng-container *ngFor="let option of scoringOptions">
-              <ars-row fxLayout="row">
-                <label id="keyword-scoring-{{ option }}">
-                  {{
-                    "topic-cloud-dialog.keyword-scoring-" + option | translate
-                  }}
-                </label>
-                <mat-icon
-                  class="help-explanation"
-                  matTooltip="{{
-                    'topic-cloud-dialog.keyword-scoring-' + option + '-info'
-                      | translate
-                  }}">
-                  help
-                </mat-icon>
-                <ars-fill></ars-fill>
-                <label>{{ scorings[option].score }}</label>
-              </ars-row>
-              <mat-slider
-                [min]="scoringMinMax[option].min"
-                [max]="scoringMinMax[option].max"
-                [(ngModel)]="scorings[option].score"
-                [step]="0.1"
-                [thumbLabel]="true"
-                aria-labelledby="keyword-scoring-{{ option }}"></mat-slider>
-            </ng-container>
+            @for (option of scoringOptions; track option) {
+              @if (scoringMinMax[option]; as scoring) {
+                <div>
+                  <label id="keyword-scoring-{{ option }}">
+                    {{
+                      "topic-cloud-dialog.keyword-scoring-" + option | translate
+                    }}
+                  </label>
+                  <mat-icon
+                    [matTooltip]="
+                      'topic-cloud-dialog.keyword-scoring-' + option + '-info'
+                        | translate
+                    ">
+                    help
+                  </mat-icon>
+                  <span style="flex: 1"></span>
+                  <label>{{ scoring.score }}</label>
+                </div>
+                <mat-slider
+                  [min]="scoring.min"
+                  [max]="scoring.max"
+                  [step]="0.1"
+                  attr.aria-labelledby="keyword-scoring-{{ option }}">
+                  <input
+                    [(ngModel)]="scoring.score"
+                    matSliderThumb />
+                </mat-slider>
+              }
+            }
             <button
               mat-button
               class="themeRequirementInput reset"
@@ -93,7 +85,7 @@
         </mat-accordion>
 
         <div *ngIf="isCreatorOrMod">
-          <mat-card style="background: none; margin-bottom: 10px">
+          <mat-card appearance="outlined">
             <mat-slide-toggle
               (change)="
                 showMessage('words-will-be-overwritten', $event.checked)
@@ -123,9 +115,8 @@
 
             <mat-accordion>
               <mat-expansion-panel
-                class="color-background"
                 (opened)="focusInput('test-profanity-input')">
-                <mat-expansion-panel-header class="color-background">
+                <mat-expansion-panel-header>
                   <mat-panel-title>
                     {{ "topic-cloud-dialog.test-profanity" | translate }}
                   </mat-panel-title>
@@ -165,19 +156,18 @@
               </mat-expansion-panel>
             </mat-accordion>
           </mat-card>
-          <mat-card style="background: none; margin-bottom: 10px">
+          <mat-card
+            appearance="outlined"
+            style="background: none; margin-bottom: 10px">
             <mat-slide-toggle [(ngModel)]="blacklistIsActive">
               {{ "topic-cloud-dialog.hide-blacklist-words" | translate }}
             </mat-slide-toggle>
           </mat-card>
         </div>
 
-        <mat-accordion
-          class="new-profanity-word"
-          multi>
+        <mat-accordion multi>
           <div *ngIf="isCreatorOrMod">
             <mat-expansion-panel
-              class="color-background"
               (opened)="enterProfanityWord = true; focusInput('bad-word-input')"
               (closed)="enterProfanityWord = false">
               <mat-form-field>
@@ -192,19 +182,17 @@
 
               <button
                 mat-stroked-button
-                class="margin-left color-on-background"
                 (click)="addProfanityWord()">
                 {{ "topic-cloud-dialog.add-word" | translate }}
               </button>
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              class="color-background margin-bottom"
               (opened)="
                 enterBlacklistWord = true; focusInput('blacklist-word-input')
               "
               (closed)="enterBlacklistWord = false">
-              <mat-expansion-panel-header class="color-background">
+              <mat-expansion-panel-header>
                 <mat-panel-title>
                   {{ "topic-cloud-dialog.edit-blacklist-list" | translate }}
                 </mat-panel-title>
@@ -222,30 +210,21 @@
 
               <button
                 mat-stroked-button
-                class="margin-left color-on-background"
                 (click)="addBlacklistWord()">
                 {{ "topic-cloud-dialog.add-word" | translate }}
               </button>
               <mat-list
                 role="list"
-                *ngIf="showBlacklistWordList && blacklist.length > 0"
-                class="margin-bottom">
+                *ngIf="showBlacklistWordList && blacklist.length > 0">
                 <mat-list-item
-                  class="color-on-surface"
                   *ngFor="let word of blacklist"
                   role="listitem">
                   {{ word }}
                   <button
-                    style="margin-left: auto"
+                    class="error-button"
                     mat-icon-button
-                    class="red"
                     (click)="removeWordFromBlacklist(word)">
-                    <mat-icon
-                      class="material-icons-outlined"
-                      mat-list-icon
-                      style="margin-bottom: 6px">
-                      delete_sweep
-                    </mat-icon>
+                    <mat-icon mat-list-icon>delete_sweep</mat-icon>
                   </button>
                 </mat-list-item>
               </mat-list>
@@ -253,7 +232,6 @@
               <div>
                 <button
                   mat-raised-button
-                  class="primaryBackground"
                   *ngIf="blacklist.length > 0"
                   (click)="showBlacklistWordList = !showBlacklistWordList">
                   {{
@@ -265,8 +243,8 @@
               </div>
             </mat-expansion-panel>
           </div>
-          <mat-expansion-panel class="color-background margin-bottom">
-            <mat-expansion-panel-header class="color-background">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
               <mat-panel-title>
                 {{ "topic-cloud-dialog.spacy-labels" | translate }}
               </mat-panel-title>
@@ -280,10 +258,8 @@
                 <mat-selection-list
                   *ngIf="wantedLabels"
                   [(ngModel)]="wantedLabels.de">
-                  <mat-option
-                    class="color-on-surface"
-                    (click)="selectAllDE()">
-                    <mat-label class="color-on-surface">
+                  <mat-option (click)="selectAllDE()">
+                    <mat-label>
                       <mat-icon>checklist_rtl</mat-icon>
                       {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
@@ -297,7 +273,6 @@
 
                   <mat-list-option
                     [value]="label.tag"
-                    class="color-on-surface"
                     *ngFor="let label of spacyLabels.de">
                     {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
@@ -307,10 +282,8 @@
                 <mat-selection-list
                   *ngIf="wantedLabels"
                   [(ngModel)]="wantedLabels.en">
-                  <mat-option
-                    class="color-on-surface"
-                    (click)="selectAllEN()">
-                    <mat-label class="color-on-surface">
+                  <mat-option (click)="selectAllEN()">
+                    <mat-label>
                       <mat-icon>checklist_rtl</mat-icon>
                       {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
@@ -324,7 +297,6 @@
 
                   <mat-list-option
                     [value]="label.tag"
-                    class="color-on-surface"
                     *ngFor="let label of spacyLabels.en">
                     {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
@@ -334,10 +306,8 @@
                 <mat-selection-list
                   *ngIf="wantedLabels"
                   [(ngModel)]="wantedLabels.fr">
-                  <mat-option
-                    class="color-on-surface"
-                    (click)="selectAllFR()">
-                    <mat-label class="color-on-surface">
+                  <mat-option (click)="selectAllFR()">
+                    <mat-label>
                       <mat-icon>checklist_rtl</mat-icon>
                       {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
@@ -351,7 +321,6 @@
 
                   <mat-list-option
                     [value]="label.tag"
-                    class="color-on-surface"
                     *ngFor="let label of spacyLabels.fr">
                     {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
@@ -362,16 +331,14 @@
         </mat-accordion>
 
         <mat-accordion>
-          <mat-expansion-panel class="color-background margin-top">
-            <mat-expansion-panel-header class="color-background">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
               <mat-panel-title
                 [ngClass]="{ 'animation-blink': isTopicRequirementActive() }">
                 {{ "topic-cloud-dialog.topic-requirement-title" | translate }}
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-form-field
-              class="themeRequirementInput"
-              appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>
                 {{
                   "topic-cloud-dialog.topic-requirement-questions" | translate
@@ -391,9 +358,7 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field
-              class="themeRequirementInput"
-              appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>
                 {{
                   "topic-cloud-dialog.topic-requirement-questioners" | translate
@@ -413,9 +378,7 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field
-              class="themeRequirementInput"
-              appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>
                 {{ "topic-cloud-dialog.topic-requirement-upvotes" | translate }}
               </mat-label>
@@ -433,9 +396,7 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field
-              class="themeRequirementInput"
-              appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>
                 {{
                   "topic-cloud-dialog.topic-requirement-begin-datetime"
@@ -455,9 +416,7 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field
-              class="themeRequirementInput"
-              appearance="fill">
+            <mat-form-field appearance="fill">
               <mat-label>
                 {{
                   "topic-cloud-dialog.topic-requirement-end-datetime"
@@ -479,7 +438,6 @@
             </mat-form-field>
             <button
               mat-button
-              class="themeRequirementInput reset"
               [disabled]="!isTopicRequirementActive()"
               (click)="
                 minQuestioners = '1';
@@ -495,16 +453,14 @@
       </mat-expansion-panel>
     </mat-accordion>
 
-    <div fxLayout="row">
-      <mat-label fxLayoutAlign="center center">
+    <div>
+      <mat-label>
         <mat-icon>search</mat-icon>
       </mat-label>
       <div style="margin-left: 10px; margin-top: 6px">
-        <mat-form-field
-          [ngClass]="{ search: searchMode, smallerInput: isMobile }">
+        <mat-form-field>
           <input
             #searchBox
-            class="searchBox"
             (input)="searchKeyword()"
             [(ngModel)]="searchedKeyword"
             matInput
@@ -524,12 +480,9 @@
         </mat-form-field>
       </div>
 
-      <div
-        fxLayoutAlign="center center"
-        style="margin-left: auto; font-weight: bold">
+      <div>
         <mat-icon
           [ngClass]="{ 'animation-blink': searchMode }"
-          class="oldtypo-h2 comment_tag-icon"
           matTooltip="{{ 'topic-cloud-dialog.keyword-counter' | translate }}">
           tag
         </mat-icon>
@@ -540,12 +493,12 @@
             searchMode
               ? filteredKeywords.length
               : selectedTabIndex === 0
-              ? keywords.size
-              : blacklistKeywords.length
+                ? keywords.size
+                : blacklistKeywords.length
           }}
         </p>
       </div>
-      <div class="margin-left vertical-center">
+      <div>
         <button
           [ngClass]="{ 'animation-blink': sortMode !== 'alphabetic' }"
           mat-icon-button
@@ -557,47 +510,24 @@
       </div>
     </div>
 
-    <mat-menu #sortMenu>
-      <button
-        [ngClass]="{ 'animation-blink': sortMode === 'alphabetic' }"
-        mat-menu-item
-        (click)="sortQuestions('alphabetic')">
-        <mat-icon>sort_by_alpha</mat-icon>
-        {{ "topic-cloud-dialog.sort-alpha" | translate }}
-      </button>
-      <button
-        [ngClass]="{ 'animation-blink': sortMode === 'questionsCount' }"
-        mat-menu-item
-        (click)="sortQuestions('questionsCount')">
-        <mat-icon>comment</mat-icon>
-        {{ "topic-cloud-dialog.sort-count" | translate }}
-      </button>
-      <button
-        [ngClass]="{ 'animation-blink': sortMode === 'voteCount' }"
-        mat-menu-item
-        (click)="sortQuestions('voteCount')">
-        <mat-icon class="material-icons-outlined">thumb_up</mat-icon>
-        {{ "topic-cloud-dialog.sort-vote" | translate }}
-      </button>
-    </mat-menu>
-
     <mat-tab-group
       [selectedIndex]="selectedTabIndex"
       (selectedIndexChange)="changeTabIndex()"
       animationDuration="0ms"
       mat-stretch-tabs
       mat-align-tabs="center">
-      <mat-tab label="{{ 'topic-cloud-dialog.keywords' | translate }}">
+      <mat-tab
+        label="{{
+          'topic-cloud-dialog.' + (isPle ? 'ple.' : '') + 'keywords' | translate
+        }}">
         <mat-card
-          class="color-surface"
+          appearance="outlined"
           *ngIf="
             (keywords.size === 0 ||
               (searchMode && filteredKeywords.length === 0)) &&
             !isLoading
           ">
-          <p
-            class="color-on-surface"
-            fxLayoutAlign="center">
+          <p>
             {{ "topic-cloud-dialog.no-keywords-note" | translate }}
           </p>
         </mat-card>
@@ -608,7 +538,6 @@
               let i = index
             ">
             <mat-expansion-panel
-              class="color-surface"
               (opened)="panelOpenState = true"
               (closed)="panelOpenState = edit = false"
               [attr.data-index]="i"
@@ -621,10 +550,10 @@
                   (keyword.keywordType === 2
                     ? 'Keyword-from-both'
                     : keyword.keywordType === 0
-                    ? 'keyword-from-spacy'
-                    : 'keyword-from-questioner') | translate
+                      ? 'keyword-from-spacy'
+                      : 'keyword-from-questioner') | translate
               }}">
-              <mat-expansion-panel-header class="color-surface">
+              <mat-expansion-panel-header>
                 <mat-panel-title>
                   {{
                     profanityFilter
@@ -658,28 +587,23 @@
                   *ngIf="!edit"
                   style="text-align: end">
                   <button
-                    class="margin-right"
                     mat-icon-button
                     style="align-self: flex-end"
                     (click)="editKeyword(i)">
                     <mat-icon
-                      class="primary"
                       matTooltip="{{ 'topic-cloud-dialog.edit' | translate }}">
                       edit
                     </mat-icon>
                   </button>
                   <button
-                    class="margin-right"
                     mat-icon-button
                     style="align-self: flex-end"
                     (click)="
                       openConfirmDialog('delete-message', 'delete', keyword)
                     ">
                     <mat-icon
-                      class="red material-icons-outlined"
-                      matTooltip="{{
-                        'topic-cloud-dialog.delete' | translate
-                      }}">
+                      class="material-icons-outlined"
+                      [matTooltip]="'topic-cloud-dialog.delete' | translate">
                       delete_sweep
                     </mat-icon>
                   </button>
@@ -699,13 +623,11 @@
                   <div style="text-align: end">
                     <button
                       mat-raised-button
-                      class="redBackground margin-right"
                       (click)="cancelEdit()">
                       {{ "topic-cloud-dialog.cancel" | translate }}
                     </button>
                     <button
                       mat-raised-button
-                      class="primaryBackground"
                       [disabled]="
                         !newKeyword ||
                         newKeyword.toLowerCase() ===
@@ -726,24 +648,22 @@
         <ng-template mat-tab-label>
           <label
             [ngClass]="{ 'animation-blink': blacklistIsActive }"
-            matTooltip="{{
+            [matTooltip]="
               'topic-cloud-dialog.blacklist-is' +
                 (blacklistIsActive ? '' : '-not') +
                 '-active' | translate
-            }}">
+            ">
             Blacklist
           </label>
         </ng-template>
         <mat-card
-          class="color-surface"
+          appearance="outlined"
           *ngIf="
             (blacklistKeywords.length === 0 ||
               (searchMode && filteredKeywords.length === 0)) &&
             !isLoading
           ">
-          <p
-            class="color-on-surface"
-            fxLayoutAlign="center">
+          <p>
             {{ "topic-cloud-dialog.no-keywords-note" | translate }}
           </p>
         </mat-card>
@@ -754,7 +674,6 @@
               let i = index
             ">
             <mat-expansion-panel
-              class="color-surface"
               (opened)="panelOpenState = true"
               (closed)="panelOpenState = edit = false"
               [attr.data-index]="i"
@@ -763,10 +682,10 @@
                   (keyword.keywordType === 2
                     ? 'Keyword-from-both'
                     : keyword.keywordType === 0
-                    ? 'keyword-from-spacy'
-                    : 'keyword-from-questioner') | translate
+                      ? 'keyword-from-spacy'
+                      : 'keyword-from-questioner') | translate
               }}">
-              <mat-expansion-panel-header class="color-surface">
+              <mat-expansion-panel-header>
                 <mat-panel-title>
                   {{ keyword.keyword }}
                 </mat-panel-title>
@@ -795,28 +714,23 @@
                   *ngIf="!edit"
                   style="text-align: end">
                   <button
-                    class="margin-right"
                     mat-icon-button
                     style="align-self: flex-end"
                     (click)="editKeyword(i)">
                     <mat-icon
-                      class="primary"
                       matTooltip="{{ 'topic-cloud-dialog.edit' | translate }}">
                       edit
                     </mat-icon>
                   </button>
                   <button
-                    class="margin-right"
                     mat-icon-button
                     style="align-self: flex-end"
                     (click)="
                       openConfirmDialog('delete-message', 'delete', keyword)
                     ">
                     <mat-icon
-                      class="red material-icons-outlined"
-                      matTooltip="{{
-                        'topic-cloud-dialog.delete' | translate
-                      }}">
+                      class="material-icons-outlined"
+                      [matTooltip]="'topic-cloud-dialog.delete' | translate">
                       delete_sweep
                     </mat-icon>
                   </button>
@@ -837,13 +751,11 @@
                   <div style="text-align: end">
                     <button
                       mat-raised-button
-                      class="redBackground margin-right"
                       (click)="cancelEdit()">
                       {{ "topic-cloud-dialog.cancel" | translate }}
                     </button>
                     <button
                       mat-raised-button
-                      class="primaryBackground"
                       (click)="confirmEdit(keyword)">
                       {{ "topic-cloud-dialog.save" | translate }}
                     </button>
@@ -855,30 +767,52 @@
         </mat-accordion>
       </mat-tab>
     </mat-tab-group>
-  </div>
+  }
 </mat-dialog-content>
 
-<ars-row
-  ars-flex-box
-  class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ "explanation.label" | translate }}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      buttonsLabelSection="topic-cloud-dialog"
-      confirmButtonLabel="save"
-      [showDivider]="false"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="
-        buildSaveActionCallback()
-      "></app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    class="secondary-button"
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "topic-cloud-dialog.cancel" | translate }}
+  </button>
+  <button
+    mat-button
+    class="primary-button"
+    (click)="save()">
+    {{ "topic-cloud-dialog.save" | translate }}
+  </button>
+</mat-dialog-actions>
+
+<mat-menu #sortMenu>
+  <button
+    [ngClass]="{ 'animation-blink': sortMode === 'alphabetic' }"
+    mat-menu-item
+    (click)="sortQuestions('alphabetic')">
+    <mat-icon>sort_by_alpha</mat-icon>
+    {{ "topic-cloud-dialog.sort-alpha" | translate }}
+  </button>
+  <button
+    [ngClass]="{ 'animation-blink': sortMode === 'questionsCount' }"
+    mat-menu-item
+    (click)="sortQuestions('questionsCount')">
+    <mat-icon>comment</mat-icon>
+    {{ "topic-cloud-dialog.sort-count" | translate }}
+  </button>
+  <button
+    [ngClass]="{ 'animation-blink': sortMode === 'voteCount' }"
+    mat-menu-item
+    (click)="sortQuestions('voteCount')">
+    <mat-icon class="material-icons-outlined">thumb_up</mat-icon>
+    {{ "topic-cloud-dialog.sort-vote" | translate }}
+  </button>
+</mat-menu>

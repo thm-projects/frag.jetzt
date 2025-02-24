@@ -1,51 +1,78 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import {
   Component,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChildren,
+  computed,
+  input,
+  model,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
 import { RatingService } from '../../../services/http/rating.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
+import {
+  Observable,
+  ReplaySubject,
+  filter,
+  first,
+  forkJoin,
+  map,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { language } from 'app/base/language/language';
+import { user, user$ } from 'app/user/state/user';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
-import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-app-rating',
   templateUrl: './app-rating.component.html',
   styleUrls: ['./app-rating.component.scss'],
+  standalone: false,
 })
-export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
+export class AppRatingComponent implements OnInit, OnDestroy {
   @Input() rating: Rating = undefined;
   @Input() onSuccess: (r: Rating) => void;
-  @Input() ratingResults: RatingResult = undefined;
+  mode = model<'dialog' | 'rating' | 'show'>('show');
+  ratingResults = input<RatingResult>();
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
-  @Input() popUpBelow = false;
-  people: string = '?';
+  protected people = computed(() => {
+    const result = this.ratingResults();
+    if (!result) {
+      return '?';
+    }
+    return result.people.toLocaleString(language());
+  });
+  protected readonly i18n = i18n;
   private isSaving = false;
   private visibleRating = 0;
   private listeningToMove = true;
   private changedBySubscription = false;
   private destroyer = new ReplaySubject(1);
+  private hasAccess: Observable<boolean>;
 
   constructor(
     private notificationService: NotificationService,
-    private translateService: TranslateService,
-    private readonly accountState: AccountStateService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
-    private appState: AppStateService,
-  ) {}
+    accountState: AccountStateService,
+  ) {
+    const hasWritten = localStorage.getItem('comment-created') === 'true';
+    this.hasAccess = accountState.access$.pipe(
+      first((e) => Boolean(e)),
+      map((e) => Boolean(e.length && hasWritten)),
+    );
+  }
 
   getIcon(index: number) {
     if (this.visibleRating >= index + 1) {
@@ -55,7 +82,9 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getIconAccumulated(index: number) {
-    const rating = Math.round(this.visibleRating * 2) / 2;
+    const r = this.ratingResults();
+    if (!r) return 'star_border';
+    const rating = Math.round(r.rating * 2) / 2;
     if (rating >= index + 1) {
       return 'star_full';
     }
@@ -63,26 +92,26 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.canSubmit()) {
-      return;
-    }
-    this.accountState.user$
+    user$
       .pipe(
-        filter((v) => Boolean(v)),
+        filter(Boolean),
         take(1),
-        switchMap((user) => this.ratingService.getByAccountId(user.id)),
+        switchMap((user) =>
+          forkJoin([
+            this.ratingService.getByAccountId(user.id),
+            this.hasAccess,
+          ]),
+        ),
         takeUntil(this.destroyer),
       )
-      .subscribe((r) => {
+      .subscribe(([r, access]) => {
         if (r !== undefined && r !== null) {
           this.visibleRating = r.rating;
           this.changedBySubscription = true;
+        } else {
+          this.mode.set(access ? 'rating' : 'show');
         }
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.canSubmit();
   }
 
   ngOnDestroy(): void {
@@ -92,6 +121,7 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
 
   onClick(index: number, event: MouseEvent) {
     const elem = this.children.get(index)._elementRef.nativeElement;
+    this.changedBySubscription = false;
     if (
       this.listeningToMove ||
       this.visibleRating < index ||
@@ -130,13 +160,8 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
     this.listeningToMove = true;
   }
 
-  openPopup(target: HTMLElement) {
-    AppRatingPopUpComponent.openDialogAt(
-      this.dialog,
-      target,
-      this.ratingResults,
-      this.popUpBelow,
-    );
+  openPopup() {
+    AppRatingPopUpComponent.openDialogAt(this.dialog, this.ratingResults());
   }
 
   save() {
@@ -144,44 +169,22 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     if (this.changedBySubscription) {
-      this.translateService
-        .get('app-rating.retry')
-        .subscribe((msg) => this.notificationService.show(msg));
+      this.notificationService.show(i18n().retry);
       return;
     }
     this.isSaving = true;
-    this.ratingService
-      .create(this.accountState.getCurrentUser().id, this.visibleRating)
-      .subscribe({
-        next: (r: Rating) => {
-          this.translateService
-            .get('app-rating.success')
-            .subscribe((msg) => this.notificationService.show(msg));
-          this.onSuccess?.(r);
-          this.isSaving = false;
-        },
-        error: () => {
-          this.translateService
-            .get('app-rating.error')
-            .subscribe((msg) => this.notificationService.show(msg));
-          this.isSaving = false;
-        },
-      });
-  }
-
-  private canSubmit(): boolean {
-    if (this.rating !== undefined) {
-      this.visibleRating = this.rating?.rating || 0;
-      this.changedBySubscription = this.rating !== null;
-      return false;
-    }
-    if (this.ratingResults !== undefined) {
-      this.visibleRating = this.ratingResults.rating;
-      this.people = this.ratingResults.people.toLocaleString(
-        this.appState.getCurrentLanguage() ?? undefined,
-      );
-      return false;
-    }
-    return true;
+    this.ratingService.create(user().id, this.visibleRating).subscribe({
+      next: (r: Rating) => {
+        this.notificationService.show(i18n().success);
+        this.onSuccess?.(r);
+        this.isSaving = false;
+        this.rating = r;
+        this.mode.set('show');
+      },
+      error: () => {
+        this.notificationService.show(i18n().error);
+        this.isSaving = false;
+      },
+    });
   }
 }

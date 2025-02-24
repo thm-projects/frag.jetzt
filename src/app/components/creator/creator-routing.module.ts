@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
-import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
+import { RoomPageComponent } from 'app/room/room-page/room-page.component';
 
 const routes: Routes = [
   {
     path: 'room/:shortId',
-    component: RoomCreatorPageComponent,
+    component: RoomPageComponent,
     canActivate: [AuthenticationGuard],
     data: {
       roles: [
@@ -18,6 +18,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
+    title: 'room',
   },
   {
     path: 'room/:shortId/comments',
@@ -30,6 +31,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
+    title: 'comments',
   },
   {
     path: 'room/:shortId/comment/:commentId',
@@ -42,6 +44,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
+    title: 'comment',
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
@@ -54,6 +57,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
+    title: 'conversation',
   },
 ];
 

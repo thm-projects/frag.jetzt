@@ -1,0 +1,120 @@
+div.joyride-step__container {
+  display: flex;
+  transition: transform var(--mat-dialog-transition-duration, 0ms) 0ms
+    cubic-bezier(0, 0, 0.2, 1);
+  border-radius: var(--mdc-dialog-container-shape, 4px);
+  box-shadow: var(
+    --mdc-dialog-container-elevation,
+    0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0px 9px 46px 8px rgba(0, 0, 0, 0.12)
+  ) !important;
+  background-color: var(--mdc-dialog-container-color, white) !important;
+  width: 80dvw;
+  max-width: 600px !important;
+}
+
+div.joyride-arrow__top {
+  border-bottom-color: var(--mdc-dialog-container-color, white) !important;
+}
+
+.joyride-arrow__bottom {
+  border-top-color: var(--mdc-dialog-container-color, white) !important;
+}
+
+.joyride-arrow__right {
+  border-left-color: var(--mdc-dialog-container-color, white) !important;
+}
+
+.joyride-arrow__left {
+  border-right-color: var(--mdc-dialog-container-color, white) !important;
+}
+
+div.joyride-step__title {
+  color: var(--mdc-dialog-subhead-color, rgba(0, 0, 0, 0.87)) !important;
+  font-size: var(--mdc-dialog-subhead-size, 1rem) !important;
+  font-weight: var(--mdc-dialog-subhead-weight, 400) !important;
+}
+
+div.joyride-step__header {
+  color: var(--mdc-dialog-subhead-color, rgba(0, 0, 0, 0.87));
+  font-family: var(--mdc-dialog-subhead-font, Roboto, sans-serif);
+  line-height: var(--mdc-dialog-subhead-line-height, 1.5rem);
+  font-size: var(--mdc-dialog-subhead-size, 1rem);
+  font-weight: var(--mdc-dialog-subhead-weight, 400);
+  letter-spacing: var(--mdc-dialog-subhead-tracking, 0.03125em);
+  padding: var(--mat-dialog-headline-padding, 0 24px 9px);
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0 0 1px;
+}
+
+div.joyride-step__body {
+  padding: var(--mat-dialog-content-padding, 20px 24px);
+  padding-top: 0;
+  color: var(--mdc-dialog-supporting-text-color, rgba(0, 0, 0, 0.6));
+  font-family: var(--mdc-dialog-supporting-text-font, Roboto, sans-serif);
+  line-height: var(--mdc-dialog-supporting-text-line-height, 1.5rem);
+  font-size: var(--mdc-dialog-supporting-text-size, 1rem);
+  font-weight: var(--mdc-dialog-supporting-text-weight, 400);
+  letter-spacing: var(--mdc-dialog-supporting-text-tracking, 0.03125em);
+  display: block;
+  max-height: 65vh;
+  flex-grow: 1;
+  box-sizing: border-box;
+  margin: 0;
+  overflow: auto;
+  hyphens: auto;
+}
+
+div.joyride-step__footer {
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 52px;
+  margin: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0);
+  padding: var(--mat-dialog-actions-padding, 8px);
+  justify-content: var(--mat-dialog-actions-alignment, start);
+}
+
+div.joyride-step__counter-container {
+  flex: 1;
+  color: var(--mat-app-text-color, inherit);
+}
+
+.joyride-backdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+joy-close-button.joyride-step__close {
+  z-index: 1;
+  top: 10px !important;
+  right: 10px !important;
+  padding: var(--mat-dialog-headline-padding, 0 24px 9px);
+  font-size: var(--mdc-dialog-subhead-line-height, 1.5rem);
+  font-weight: var(--mdc-dialog-subhead-weight, 400);
+  color: var(--mdc-outlined-button-label-text-color);
+  width: 1em;
+  height: 1em;
+
+  svg {
+    width: 0.6em;
+    height: 0.6em;
+    padding: 0.2em;
+    border-radius: 100%;
+
+    &:hover {
+      outline: currentColor solid 1px;
+    }
+  }
+
+  line {
+    stroke: currentColor;
+  }
+}

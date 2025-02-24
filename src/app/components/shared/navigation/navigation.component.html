@@ -1,5 +1,4 @@
 <button
-  class="navigation-button"
   appJoyrideTemplate
   [joyrideStep]="'navigationButton'"
   [stepPosition]="'center'"
@@ -8,17 +7,16 @@
   *ngIf="!possibleLocationsEmpty"
   (click)="refreshLocations()"
   [matMenuTriggerFor]="locationMenu">
-  <div class="label-icon">
-    <mat-icon>place</mat-icon>
-    <h2 *ngIf="!isMobile && showText">
-      {{
-        (currentLocation?.i18n
-          ? "header.navigation"
-          : "header.navigation-no-target"
-        ) | translate : { loc: currentLocation?.i18n || "" | translate }
-      }}
-    </h2>
-  </div>
+  <mat-icon>place</mat-icon>
+  <ng-container *ngIf="!isMobile && showText">
+    <!-- TODO -->
+    {{
+      (currentLocation?.i18n
+        ? "header.navigation"
+        : "header.navigation-no-target"
+      ) | translate: { loc: currentLocation?.i18n || "" | translate }
+    }}
+  </ng-container>
 </button>
 
 <mat-menu
@@ -29,7 +27,7 @@
       *ngIf="location.accessible"
       [ngClass]="{
         'active-nav-button': location.active,
-        outside: location.outside
+        outside: location.outside,
       }"
       (click)="navigateToPage(location)"
       mat-menu-item
@@ -43,7 +41,7 @@
         *ngIf="location.svgIcon"
         [ngClass]="location.class"
         [svgIcon]="location.svgIcon"></mat-icon>
-      <span>{{ location.i18n | translate }}</span>
+      {{ location.i18n | translate }}
     </button>
   </ng-container>
 </mat-menu>

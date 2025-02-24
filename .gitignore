@@ -3,6 +3,9 @@
 # host specific environments
 .env
 docker-compose.override.yml
+/dependencies
+/install/lang.txt
+/frag_jetzt
 
 # compiled output
 /dist
@@ -43,7 +46,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-.eslintcache
 
 # e2e
 /e2e/*.js

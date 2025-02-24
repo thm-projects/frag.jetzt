@@ -1,58 +1,61 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, input } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
-import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';
-import { QuillUtils } from 'app/utils/quill-utils';
 import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-edit-question',
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.scss'],
+  standalone: false,
 })
-export class EditQuestionComponent implements OnInit {
-  @Input() comment: Comment;
-  @Input() tags: string[];
-  @Input() userRole: UserRole;
+export class EditQuestionComponent {
+  comment = input<Comment>(null);
 
   constructor(
     private ref: MatDialogRef<EditQuestionComponent>,
     private commentService: CommentService,
   ) {}
 
-  ngOnInit(): void {}
+  static open(
+    dialog: MatDialog,
+    comment: Comment,
+  ): MatDialogRef<EditQuestionComponent> {
+    const ref = dialog.open(EditQuestionComponent);
+    ref.componentRef.setInput('comment', comment);
+    return ref;
+  }
 
-  createClick() {
-    return (newComment) => {
-      this.ref.close();
-      if (!newComment) {
-        return;
-      }
-      const changes = new TSMap<keyof Comment, any>();
-      const newBody = QuillUtils.serializeDelta(newComment.body);
-      if (newBody !== QuillUtils.serializeDelta(this.comment.body)) {
-        changes.set('body', newBody);
-      }
-      if (newComment.language !== this.comment.language) {
-        changes.set('language', newComment.language);
-      }
-      const newKeyQuestioner = JSON.stringify(
-        newComment.keywordsFromQuestioner,
-      );
-      if (
-        newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromQuestioner)
-      ) {
-        changes.set('keywordsFromQuestioner', newKeyQuestioner);
-      }
-      const newKeySpaCy = JSON.stringify(newComment.keywordsFromSpacy);
-      if (newKeyQuestioner !== JSON.stringify(this.comment.keywordsFromSpacy)) {
-        changes.set('keywordsFromSpacy', newKeySpaCy);
-      }
-      if (changes.size() === 0) {
-        return;
-      }
-      this.commentService.patchComment(this.comment, changes).subscribe();
-    };
+  create(c: Comment) {
+    this.ref.close();
+    if (!c) {
+      return;
+    }
+    const changes = new TSMap<keyof Comment, unknown>();
+    const newBody = c.body;
+    if (newBody !== this.comment().body) {
+      changes.set('body', newBody);
+    }
+    if (c.language !== this.comment().language) {
+      changes.set('language', c.language);
+    }
+    const newKeyQuestioner = JSON.stringify(c.keywordsFromQuestioner);
+    if (c.tag !== this.comment().tag) {
+      changes.set('tag', c.tag);
+    }
+    if (
+      newKeyQuestioner !== JSON.stringify(this.comment().keywordsFromQuestioner)
+    ) {
+      changes.set('keywordsFromQuestioner', newKeyQuestioner);
+    }
+    const newKeySpaCy = JSON.stringify(c.keywordsFromSpacy);
+    if (newKeyQuestioner !== JSON.stringify(this.comment().keywordsFromSpacy)) {
+      changes.set('keywordsFromSpacy', newKeySpaCy);
+    }
+    if (changes.size() === 0) {
+      return;
+    }
+    this.commentService.patchComment(this.comment(), changes).subscribe();
   }
 }

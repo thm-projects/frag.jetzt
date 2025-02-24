@@ -1,0 +1,16 @@
+@if (isRadar) {
+  <mat-icon
+    class="custom-background"
+    svgIcon="fj_radar"></mat-icon>
+} @else {
+  <div
+    class="background-image"
+    [class.dark]="isDark()"></div>
+}
+<div
+  #wordCloud
+  class="word-cloud"
+  (window:resize)="redraw()"
+  (document:mouseover)="onMouseEvent($event)"
+  (document:mouseout)="onMouseEvent($event)"
+  (document:click)="onMouseEvent($event)"></div>

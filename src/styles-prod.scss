@@ -1,0 +1,449 @@
+@use "sass:math";
+@use "@angular/material" as mat;
+@use "modules/m3/style/m3-initializer" as m3-init;
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+@use "modules/m3/style/m3-layout" as m3-layout;
+@use "style/joyride-theme.scss";
+@use "style/toast-ui-theme-m3.scss";
+@use "style/fonts.scss";
+
+@include mat.core();
+
+$my-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$violet-palette,
+      tertiary: mat.$cyan-palette,
+      use-system-variables: true,
+      //system-variables-prefix: 'md-sys',
+    ),
+    typography: (
+      brand-family: "Roboto Flex",
+      plain-family: "Roboto Flex",
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 400,
+      //use-system-variables: true,
+       //system-variables-prefix: 'md-sys',
+    ),
+    density: (
+      scale: -1,
+      // allowed scale vaues: (0, -1, -2, -3, -4, -5, minimum, maximum)
+    ),
+  )
+);
+
+html {
+  // TODO: Remove
+  --m3-comp-supporting-pane-fixed-width: 360px;
+  --m3-comp-nav-pane-transition: all 500ms var(--mat-sys-easing-emphasized);
+  // material design
+  --mat-sys-primary: rgb(170 199 255);
+  --mat-sys-surface-tint: rgb(170 199 255);
+  --mat-sys-on-primary: rgb(10 48 95);
+  --mat-sys-primary-container: rgb(40 71 119);
+  --mat-sys-on-primary-container: rgb(214 227 255);
+  --mat-sys-secondary: rgb(190 198 220);
+  --mat-sys-on-secondary: rgb(40 49 65);
+  --mat-sys-secondary-container: rgb(62 71 89);
+  --mat-sys-on-secondary-container: rgb(218 226 249);
+  --mat-sys-tertiary: rgb(221 188 224);
+  --mat-sys-on-tertiary: rgb(63 40 68);
+  --mat-sys-tertiary-container: rgb(87 62 92);
+  --mat-sys-on-tertiary-container: rgb(250 216 253);
+  --mat-sys-error: rgb(255 180 171);
+  --mat-sys-on-error: rgb(105 0 5);
+  --mat-sys-error-container: rgb(147 0 10);
+  --mat-sys-on-error-container: rgb(255 218 214);
+  --mat-sys-background: rgb(17 19 24);
+  --mat-sys-on-background: rgb(226 226 233);
+  --mat-sys-surface: rgb(17 19 24);
+  --mat-sys-on-surface: rgb(226 226 233);
+  --mat-sys-surface-variant: rgb(68 71 78);
+  --mat-sys-on-surface-variant: rgb(196 198 208);
+  --mat-sys-outline: rgb(142 144 153);
+  --mat-sys-outline-variant: rgb(68 71 78);
+  --mat-sys-shadow: rgb(0 0 0);
+  --mat-sys-scrim: rgb(0 0 0);
+  --mat-sys-inverse-surface: rgb(226 226 233);
+  --mat-sys-inverse-on-surface: rgb(46 48 54);
+  --mat-sys-inverse-primary: rgb(65 95 145);
+  --mat-sys-primary-fixed: rgb(214 227 255);
+  --mat-sys-on-primary-fixed: rgb(0 27 62);
+  --mat-sys-primary-fixed-dim: rgb(170 199 255);
+  --mat-sys-on-primary-fixed-variant: rgb(40 71 119);
+  --mat-sys-secondary-fixed: rgb(218 226 249);
+  --mat-sys-on-secondary-fixed: rgb(19 28 43);
+  --mat-sys-secondary-fixed-dim: rgb(190 198 220);
+  --mat-sys-on-secondary-fixed-variant: rgb(62 71 89);
+  --mat-sys-tertiary-fixed: rgb(250 216 253);
+  --mat-sys-on-tertiary-fixed: rgb(40 19 46);
+  --mat-sys-tertiary-fixed-dim: rgb(221 188 224);
+  --mat-sys-on-tertiary-fixed-variant: rgb(87 62 92);
+  --mat-sys-surface-dim: rgb(17 19 24);
+  --mat-sys-surface-bright: rgb(55 57 62);
+  --mat-sys-surface-container-lowest: rgb(12 14 19);
+  --mat-sys-surface-container-low: rgb(25 28 32);
+  --mat-sys-surface-container: rgb(29 32 36);
+  --mat-sys-surface-container-high: rgb(40 42 47);
+  --mat-sys-surface-container-highest: rgb(51 53 58);
+  // font
+  // motion
+  --mat-sys-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  @include m3-layout.all-layout-token();
+  @include mat.all-component-themes($my-theme);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: "Roboto Flex", serif;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}
+
+$replacement: rgba(196, 188, 29, 0.5);
+$deprecated-theme-override: (
+  "--primary": "#{$replacement}",
+  "--primary-variant": "#{$replacement}",
+  "--secondary": "#{$replacement}",
+  "--secondary-variant": "#{$replacement}",
+  "--background": "#{$replacement}",
+  "--surface": "#{$replacement}",
+  "--dialog": "#{$replacement}",
+  "--cancel": "#{$replacement}",
+  "--alt-surface": "#{$replacement}",
+  "--alt-dialog": "#{$replacement}",
+  "--on-primary": "#{$replacement}",
+  "--on-secondary": "#{$replacement}",
+  "--on-primary-variant": "#{$replacement}",
+  "--on-background": "#{$replacement}",
+  "--on-surface": "#{$replacement}",
+  "--on-dialog": "#{$replacement}",
+  "--on-cancel": "#{$replacement}",
+  "--green": "#{$replacement}",
+  "--red": "#{$replacement}",
+  "--white": "#{$replacement}",
+  "--yellow": "#{$replacement}",
+  "--blue": "#{$replacement}",
+  "--purple": "#{$replacement}",
+  "--magenta": "#{$replacement}",
+  "--light-green": "#{$replacement}",
+  "--grey": "#{$replacement}",
+  "--grey-light": "#{$replacement}",
+  "--black": "#{$replacement}",
+  "--moderator": "#{$replacement}",
+  "--questionwall-intro-primary": "#{$replacement}",
+  "--questionwall-intro-secondary": "#{$replacement}",
+  "--questionwall-intro-background": "#{$replacement}",
+  "--livepoll-primary": "#{$replacement}",
+  "--livepoll-primary--disabled": "#{$replacement}",
+  "--livepoll-primary--hover": "#{$replacement}",
+  "--on-livepoll-primary": "#{$replacement}",
+  "--on-livepoll-primary--disabled": "#{$replacement}",
+  "--on-livepoll-primary--hover": "#{$replacement}",
+  "--livepoll-secondary": "#{$replacement}",
+  "--livepoll-secondary--disabled": "#{$replacement}",
+  "--livepoll-secondary--hover": "#{$replacement}",
+  "--on-livepoll-secondary": "#{$replacement}",
+  "--on-livepoll-secondary--disabled": "#{$replacement}",
+  "--on-livepoll-secondary--hover": "#{$replacement}",
+);
+
+:root {
+  &.theme-target {
+    &.debug {
+      @each $key, $value in $deprecated-theme-override {
+        #{$key}: #{$value};
+      }
+    }
+  }
+}
+
+body {
+  &.border {
+    * {
+      $border-width: 0.1;
+      box-shadow:
+        inset -#{$border-width}px 0 0 0 rgba(255, 255, 0, 0.3),
+        inset #{$border-width}px 0 0 0 rgba(255, 255, 0, 0.3),
+        inset 0 -#{$border-width}px 0 0 rgba(0, 255, 255, 0.3),
+        inset 0 #{$border-width}px 0 0 rgba(0, 255, 255, 0.3);
+    }
+  }
+}
+
+.default-typescale {
+  h1 {
+    @include m3-typescale.typescale(title, large);
+  }
+  h2 {
+    @include m3-typescale.typescale(title, medium);
+    padding-top: 1em;
+  }
+  h3 {
+    @include m3-typescale.typescale(title, medium);
+    padding-top: 1em;
+  }
+  h4 {
+    @include m3-typescale.typescale(title, small);
+  }
+  h5 {
+    @include m3-typescale.typescale(title, small);
+  }
+  h6 {
+    @include m3-typescale.typescale(title, small);
+  }
+  p {
+    @include m3-typescale.typescale(body, medium);
+    hyphens: auto;
+    line-height: 1.5;
+  }
+  /*
+span {
+    @include m3-typescale.typescale(body, small);
+  }
+  */
+}
+
+/* common layout */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > div {
+    width: 800px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+}
+
+.videoWrapper {
+  aspect-ratio: 16 / 9;
+
+  * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+a {
+  text-decoration: underline;
+  hyphens: manual;
+  color: currentColor;
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}
+
+/* MDC Overrides */
+$min-width: 360px;
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  --mat-dialog-container-min-width: #{$min-width};
+
+  &.toastui-panel {
+    width: 60rem;
+    max-width: calc(100dvw - 2em);
+  }
+}
+
+@media (max-width: 599px) {
+  .cdk-overlay-pane.mat-mdc-dialog-panel {
+    --mat-dialog-container-min-width: min(
+      #{$min-width},
+      var(--mat-dialog-container-small-max-width, 80vw)
+    );
+  }
+}
+
+.error-text {
+  color: var(--mat-sys-error);
+}
+
+// Make large badges bigger
+.mat-badge-large span.mat-badge-content {
+  overflow: visible;
+  width: auto;
+}
+
+.mat-badge-above .mat-badge-content {
+  bottom: unset !important;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--mat-sys-outline) var(--mat-sys-surface-dim);
+}
+
+$scrollbar-width: 8px;
+@supports selector(::-webkit-scrollbar) {
+  @property --scrollbar-color {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+  }
+
+  * {
+    scrollbar-width: unset;
+    scrollbar-color: unset;
+    transition: --scrollbar-color 500ms var(--mat-sys-easing-emphasized);
+    --scrollbar-color: transparent;
+  }
+
+  :hover,
+  :focus-within,
+  :focus {
+    --scrollbar-color: var(--mat-sys-outline);
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: #{$scrollbar-width};
+    height: #{$scrollbar-width};
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0 #{math.div($scrollbar-width, 2) + 1px}
+      var(--scrollbar-color);
+    border-radius: #{math.div($scrollbar-width, 2)};
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+  padding-bottom: 0.3em;
+}
+
+ol,
+ul {
+  hyphens: auto;
+}
+
+.fillable-icon {
+  transition: font-variation-settings 250ms var(--mat-sys-easing-emphasized);
+  --fill-state: 0;
+  font-variation-settings: "FILL" var(--fill-state, 0);
+}
+
+.filled {
+  --fill-state: 1;
+}
+
+// Icons
+.contained-icon-filled.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--mat-sys-primary);
+  --mdc-icon-button-button-color: var(--mat-sys-surface-container-highest);
+  background-color: var(--mdc-icon-button-button-color);
+
+  &.selected {
+    --mdc-icon-button-icon-color: var(--mat-sys-on-primary);
+    --mdc-icon-button-button-color: var(--mat-sys-primary);
+  }
+}
+
+.contained-icon-filled-tonal.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--mat-sys-on-surface-variant);
+  --mdc-icon-button-button-color: var(--mat-sys-surface-container-highest);
+  background-color: var(--mdc-icon-button-button-color);
+
+  &.selected {
+    --mdc-icon-button-icon-color: var(--mat-sys-on-secondary-container);
+    --mdc-icon-button-button-color: var(--mat-sys-secondary-container);
+  }
+}
+
+.contained-icon-outlined.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--mat-sys-on-surface-variant);
+  --border-size: 1px;
+  border: var(--border-size) solid var(--mat-sys-outline);
+  padding: calc(
+    calc(
+        var(--mdc-icon-button-state-layer-size, 48px) - var(
+            --mdc-icon-button-icon-size,
+            24px
+          ) -
+          2 * var(--border-size, 0px)
+      ) /
+      2
+  );
+
+  &.selected {
+    --mdc-icon-button-icon-color: var(--mat-sys-inverse-on-surface);
+    --border-size: 0px;
+    background-color: var(--mat-sys-inverse-surface);
+  }
+}
+
+// cards
+
+.filled-card {
+  --mdc-elevated-card-container-color: var(--mat-sys-surface-container-highest);
+  color: var(--mat-sys-on-surface);
+  --mdc-elevated-card-container-elevation: var(
+    --mdc-outlined-card-container-elevation
+  );
+}
+
+// buttons
+.mat-mdc-unelevated-button:not(:disabled) {
+  &.secondary {
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-secondary);
+    --mdc-filled-button-container-color: var(--mat-sys-secondary);
+  }
+  &.tertiary {
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-tertiary);
+    --mdc-filled-button-container-color: var(--mat-sys-tertiary);
+  }
+  &.error {
+    --mdc-filled-button-label-text-color: var(--mat-sys-on-error);
+    --mdc-filled-button-container-color: var(--mat-sys-error);
+  }
+}
+
+// dialogs
+
+.full-screen-dialog {
+  --mat-dialog-container-small-max-width: 100dvw;
+  --mat-dialog-container-max-width: 100dvw;
+  --mat-dialog-container-min-width: 100dvw;
+  --mat-dialog-container-max-height: 100dvh;
+  --mdc-dialog-container-shape: 0;
+
+  & .mat-mdc-dialog-content {
+    max-height: 100%;
+  }
+}
+
+// toggle and radio buttons
+
+.mat-internal-form-field > label {
+  padding-left: 16px !important;
+}

@@ -1,44 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AppStateService } from 'app/services/state/app-state.service';
-import { ReplaySubject, takeUntil } from 'rxjs';
-import { Language } from 'app/services/http/languagetool.service';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
+import { Component } from '@angular/core';
+import { language } from 'app/base/language/language';
 
 @Component({
   selector: 'app-data-protection',
   templateUrl: './data-protection.component.html',
   styleUrls: ['./data-protection.component.scss'],
+  standalone: false,
 })
-export class DataProtectionComponent implements OnInit, OnDestroy {
-  confirmButtonType: DialogConfirmActionButtonType;
-  currentLanguage: Language;
-  private destroyer = new ReplaySubject(1);
-
-  constructor(
-    private router: Router,
-    private dialogRef: MatDialogRef<DataProtectionComponent>,
-    appState: AppStateService,
-  ) {
-    appState.language$
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((lang) => (this.currentLanguage = lang));
-    this.confirmButtonType = DialogConfirmActionButtonType.Primary;
-  }
-
-  ngOnInit() {}
-
-  ngOnDestroy(): void {
-    this.destroyer.next(true);
-    this.destroyer.complete();
-  }
-
-  buildDeclineActionCallback(): () => void {
-    return () => this.dialogRef.close(false);
-  }
-
-  buildConfirmActionCallback(): () => void {
-    return () => this.dialogRef.close(true);
-  }
+export class DataProtectionComponent {
+  protected readonly lang = language;
+  protected readonly i18n = i18n;
 }

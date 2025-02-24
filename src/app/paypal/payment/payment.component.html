@@ -1,0 +1,60 @@
+<div class="pricing-plan-container">
+  <h1 class="pricing-title mat-display-large">
+    {{ i18n().title }}
+    <button
+      mat-icon-button
+      (click)="openExplanationDialog()">
+      <mat-icon>help_outline</mat-icon>
+    </button>
+  </h1>
+
+  <mat-card class="token-card">
+    @if (isRegisteredUser()) {
+      <mat-icon class="token-icon-align">shopping_cart</mat-icon>
+      {{ i18n().yourTokens }} {{ tokens() }}
+    } @else if (user()?.isGuest) {
+      {{ i18n().guestLogin }}
+    } @else {
+      <app-markdown-viewer [data]="i18n().signup"></app-markdown-viewer>
+    }
+    @if (!isRegisteredUser()) {
+      <button
+        style="margin: auto; display: block; margin-top: 20px"
+        mat-flat-button
+        (click)="loginPage()">
+        {{ i18n().register }}
+      </button>
+    }
+  </mat-card>
+
+  <div class="pricing-cards">
+    @for (plan of plans; track plan) {
+      <mat-card
+        class="pricing-card mat-card-hover"
+        [ngClass]="{
+          purchased: isRegisteredUser() && plan.price === 0,
+          suggested: plan.isSuggested,
+        }">
+        <mat-card-header class="full-width">
+          <mat-card-title>
+            {{ plan.title }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <app-markdown-viewer [data]="plan.content"></app-markdown-viewer>
+          <h2 class="price">{{ plan.priceContent }}</h2>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button
+            mat-flat-button
+            [disabled]="!isRegisteredUser() || plan.price === 0"
+            (click)="openDialog(plan.price)">
+            {{ plan.price === 0 ? i18n().selectFreePlan : i18n().buy }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
+</div>

@@ -1,0 +1,12 @@
+{
+  "key": "comment-vote",
+  "de": {
+    "tooltip": "👍 {{upvotes}} - 👎 {{downvotes}}"
+  },
+  "en": {
+    "tooltip": "👍 {{upvotes}} - 👎 {{downvotes}}"
+  },
+  "fr": {
+    "tooltip": "👍 {{upvotes}} - 👎 {{downvotes}}"
+  }
+}

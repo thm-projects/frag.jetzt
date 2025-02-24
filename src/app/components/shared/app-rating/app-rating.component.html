@@ -1,39 +1,79 @@
-<ng-container *ngIf="!ratingResults; else stars">
-  <h2 class="oldtypo-h2">{{ "app-rating.title" | translate }}</h2>
-  <div (mouseleave)="onMouseLeave()">
-    <mat-icon
-      *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined interactive"
-      [ngClass]="getIcon(index)"
-      (click)="onClick(index, $event)"
-      (mousemove)="onMouseMove(index, $event)">
-      {{ getIcon(index) }}
-    </mat-icon>
-  </div>
-  <button
-    mat-flat-button
-    (click)="save()">
-    {{ "app-rating.save" | translate }}
-  </button>
-</ng-container>
-
-<ng-template #stars>
+@if (mode() !== "show") {
+  <h2
+    [class.center]="mode() === 'rating'"
+    mat-dialog-title>
+    {{ i18n().title }}
+  </h2>
+  @if (mode() === "dialog") {
+    <mat-dialog-content
+      (mouseleave)="onMouseLeave()"
+      style="text-align: center">
+      <mat-icon
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="interactive"
+        [ngClass]="getIcon(index)"
+        (click)="onClick(index, $event)"
+        (mousemove)="onMouseMove(index, $event)">
+        {{ getIcon(index) }}
+      </mat-icon>
+    </mat-dialog-content>
+  } @else {
+    <div
+      (mouseleave)="onMouseLeave()"
+      style="text-align: center">
+      <mat-icon
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="interactive"
+        [ngClass]="getIcon(index)"
+        (click)="onClick(index, $event)"
+        (mousemove)="onMouseMove(index, $event)">
+        {{ getIcon(index) }}
+      </mat-icon>
+    </div>
+  }
+  @if (mode() === "dialog") {
+    <mat-dialog-actions>
+      <button
+        mat-flat-button
+        class="primary"
+        (click)="save()">
+        {{ i18n().save | translate }}
+      </button>
+    </mat-dialog-actions>
+  } @else {
+    <button
+      mat-flat-button
+      class="secondary full-width"
+      (click)="save()"
+      style="margin-bottom: 20px; margin-top: 10px">
+      {{ i18n().save | translate }}
+    </button>
+  }
+} @else {
   <span
     #spanRef
-    (click)="openPopup(spanRef)"
-    class="star-preview">
-    <mat-icon
-      style="cursor: pointer"
-      *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined star"
-      [ngClass]="getIconAccumulated(index)">
-      {{ getIconAccumulated(index) }}
-    </mat-icon>
-    <mat-icon style="cursor: pointer">expand_more</mat-icon>
-    {{ people }}
-    <span
-      *ngIf="indicator.status"
-      style="margin-inline: 0.75em"></span>
-    <app-global-status-indicator #indicator></app-global-status-indicator>
+    (click)="openPopup()"
+    class="star-preview flex-container"
+    [ngStyle]="{
+      justifyContent: indicator.status ? 'space-between' : 'center',
+    }">
+    <span class="flex-container">
+      <mat-icon
+        style="cursor: pointer"
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="star flex-item"
+        [ngClass]="getIconAccumulated(index)">
+        {{ getIconAccumulated(index) }}
+      </mat-icon>
+      <mat-icon
+        class="flex-item"
+        style="cursor: pointer">
+        expand_more
+      </mat-icon>
+      {{ people() }}
+    </span>
+    <app-global-status-indicator
+      class="flex-item"
+      #indicator></app-global-status-indicator>
   </span>
-</ng-template>
+}
