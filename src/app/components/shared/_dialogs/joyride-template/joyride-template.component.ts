@@ -30,8 +30,6 @@ export class JoyrideTemplateComponent implements OnInit, OnDestroy {
 
   private destroyer = new ReplaySubject<void>(1);
 
-  private destroyer = new ReplaySubject(1);
-
   constructor(
     private eventService: EventService,
     private translateService: TranslateService,
