@@ -122,46 +122,35 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-deploy_staging:
+.deploy_server:
   stage: deploy_servers
+  tags:
+    - common
+  dependencies: []
+  script:
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh
+    - ssh-keyscan "${SSH_CMD#*@}" >> ~/.ssh/known_hosts
+    - ssh-add <(echo "$SSH_KEY")
+    - ssh "${SSH_CMD}"
+
+deploy_staging:
+  extends: .deploy_server
   only:
     - staging
-  tags:
-    - common
-  script:
-    - eval $(ssh-agent -s)
-    - mkdir ~/.ssh
-    - ssh-keyscan "$STAGING_SERVER_URL" >> ~/.ssh/known_hosts
-    - ssh-add <(echo "$STAGING_KEY")
-    - ssh "$STAGING_SSH_URL"
+  variables:
+    SSH_CMD: "$STAGING_SSH_URL"
+    SSH_KEY: "$STAGING_KEY"
 
 deploy_production:
-  stage: deploy_servers
+  extends: .deploy_server
   only:
     - master
-  tags:
-    - common
   dependencies:
     - ngbuild
-  script:
-    - eval $(ssh-agent -s)
-    - mkdir ~/.ssh
-    - ssh-keyscan "$PROD_SERVER_URL" >> ~/.ssh/known_hosts
-    - ssh-add <(echo "$PROD_KEY")
-    - ssh "$PROD_SSH_URL"
-
-deploy_frag_thm:
-  stage: deploy_servers
-  only:
-    - master
-  tags:
-    - common
-  script:
-    - eval $(ssh-agent -s)
-    - mkdir ~/.ssh
-    - ssh-keyscan "$SSH_FRAG_THM_SERVER_URL" >> ~/.ssh/known_hosts
-    - ssh-add <(echo "$SSH_FRAG_THM_PRIVATE_KEY")
-    - ssh "$SSH_FRAG_THM_USER"
+  variables:
+    SSH_CMD: "$PROD_SSH_URL"
+    SSH_KEY: "$PROD_KEY"
 
 .build_image_template:
   stage: deploy
