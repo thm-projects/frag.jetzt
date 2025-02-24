@@ -241,9 +241,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Modération',
       },
       description: {
-        en: "Want to review posts before they are published? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
-        de: 'Du möchtest Beiträge vor ihrer Veröffentlichung prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
-        fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
+        en: 'Want to check posts before they go live? Use manual or AI moderation. AI flags toxic language and hate speech. Negative ratings can move posts to moderation. This way, the group helps keep discussions respectful.',
+        de: 'Du willst Beiträge vor der Veröffentlichung prüfen? Nutze manuelle oder KI-Moderation. Die KI erkennt toxische Sprache und Hate Speech. Negative Bewertungen können Beiträge in die Moderation verschieben. So sorgt die Gruppe für respektvolle Diskussionen.',
+        fr: 'Tu veux vérifier les posts avant publication ? Utilise la modération manuelle ou par IA. L’IA détecte le langage toxique et les discours haineux. Les avis négatifs peuvent déplacer les posts en modération. Ainsi, le groupe garantit des échanges respectueux.',
       },
       image: {
         url: '/assets/background/moderation-2.svg',
@@ -259,9 +259,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Catégories',
       },
       description: {
-        en: 'Create questions and assign them »labels«. This way, you can categorize your questions. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to bundle the questions from the audience',
-        de: 'Erstelle Fragen und gib ihnen »Labels«. So kannst du deine Fragen kategorisieren. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um die Fragen aus dem Publikum zu bündeln.',
-        fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour grouper les questions du public.",
+        en: 'Use »labels« to categorize questions and filter by topic. In lectures, try »Clarification« or »Exam Prep«. At conferences, use »Keynote« or »Technical Discussion«. AI-generated keywords from posts also help with filtering, making it easier to find relevant contributions quickly.',
+        de: 'Nutze »Labels«, um Fragen zu kategorisieren und nach Themen zu filtern. In Vorlesungen eignen sich »Klärung« oder »Prüfungsvorbereitung«, in Konferenzen »Keynote« oder »Fachdiskussion«. Auch KI-Stichwörter helfen beim Filtern und erleichtern das schnelle Auffinden relevanter Beiträge.',
+        fr: 'Utilise des « labels » pour classer et filtrer les questions. En cours, choisis « Clarification » ou « Préparation aux examens ». En conférence, « Keynote » ou « Discussion technique ». Les mots-clés IA facilitent aussi le filtrage et permettent de retrouver rapidement les contributions pertinentes.',
       },
       image: {
         url: '/assets/background/folders.svg',
