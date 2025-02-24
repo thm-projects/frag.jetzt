@@ -51,7 +51,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -77,9 +77,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'AI StudyBuddy',
-        de: 'KI StudyBuddy',
-        fr: 'StudyBuddy IA',
+        en: 'AI Assistants',
+        de: 'KI-Assistenten',
+        fr: 'Assistants IA',
       },
       description: {
         en: 'Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your feedback with us: Are AI assistants the future? Contact us via the imprint.',
@@ -139,7 +139,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -174,7 +174,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -209,46 +209,12 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
   },
-  {
-    content: {
-      title: {
-        en: 'Performance',
-        de: 'Performance',
-        fr: 'Performance',
-      },
-      description: {
-        en: 'Free yourself from the traffic on the OpenAI website! We directly query the OpenAI API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
-        de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die OpenAI-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
-        fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API OpenAI. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
-      },
-      image: {
-        url: '/assets/background/porsche.svg',
-      },
-    },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 3,
-        rowspan: 2,
-      },
-    },
-  },
+
   {
     content: {
       title: {
@@ -270,49 +236,14 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'frag.jetzt vs. ARSnova',
-        de: 'frag.jetzt vs. ARSnova',
-        fr: 'frag.jetzt vs. ARSnova',
-      },
-      description: {
-        en: 'frag.jetzt is the new ARSnova among audience response systems: Anyone can rate all questions to signal a collective interest in answering them. Tutors can rate the quality of contributions, whether they are right, wrong or particularly good. And finally, AI assistants can provide individual feedback and patiently answer all comprehension questions.',
-        de: 'frag.jetzt ist das neue ARSnova unter den Audience-Response-Systemen: Jeder kann alle Fragen bewerten, um ein kollektives Interesse an deren Beantwortung zu signalisieren. Tutoren können die Qualität der Beiträge bewerten, ob sie richtig, falsch oder besonders gut sind. Und schließlich können KI-Assistenten individuelles Feedback geben und geduldig alle Verständnisfragen beantworten.',
-        fr: "frag. jetzt est la nouvelle ARSnova parmi les systèmes de réponse de l'audience : Tout le monde peut évaluer toutes les questions pour signaler un intérêt collectif à y répondre. Les tuteurs peuvent évaluer la qualité des contributions, si elles sont correctes, incorrectes ou particulièrement bonnes. Et enfin, les assistants IA peuvent donner un feedback individuel et répondre patiemment à toutes les questions de compréhension.",
-      },
-      image: {
-        url: '/assets/background/supernova.svg',
-      },
-    },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-  },
-  {
-    content: {
-      title: {
         en: 'Moderation',
         de: 'Moderation',
         fr: 'Modération',
       },
       description: {
-        en: "Want to review posts before they are published? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
-        de: 'Du möchtest Beiträge vor ihrer Veröffentlichung prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
-        fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
+        en: 'Want to check posts before they go live? Use manual or AI moderation. AI flags toxic language and hate speech. Negative ratings can move posts to moderation. This way, the group helps keep discussions respectful.',
+        de: 'Du willst Beiträge vor der Veröffentlichung prüfen? Nutze manuelle oder KI-Moderation. Die KI erkennt toxische Sprache und Hate Speech. Negative Bewertungen können Beiträge in die Moderation verschieben. So sorgt die Gruppe für respektvolle Diskussionen.',
+        fr: 'Tu veux vérifier les posts avant publication ? Utilise la modération manuelle ou par IA. L’IA détecte le langage toxique et les discours haineux. Les avis négatifs peuvent déplacer les posts en modération. Ainsi, le groupe garantit des échanges respectueux.',
       },
       image: {
         url: '/assets/background/moderation-2.svg',
@@ -328,9 +259,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Catégories',
       },
       description: {
-        en: 'Create questions and assign them »labels«. This way, you can categorize your questions. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to bundle the questions from the audience',
-        de: 'Erstelle Fragen und gib ihnen »Labels«. So kannst du deine Fragen kategorisieren. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um die Fragen aus dem Publikum zu bündeln.',
-        fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour grouper les questions du public.",
+        en: 'Use »labels« to categorize questions and filter by topic. In lectures, try »Clarification« or »Exam Prep«. At conferences, use »Keynote« or »Technical Discussion«. AI-generated keywords from posts also help with filtering, making it easier to find relevant contributions quickly.',
+        de: 'Nutze »Labels«, um Fragen zu kategorisieren und nach Themen zu filtern. In Vorlesungen eignen sich »Klärung« oder »Prüfungsvorbereitung«, in Konferenzen »Keynote« oder »Fachdiskussion«. Auch KI-Stichwörter helfen beim Filtern und erleichtern das schnelle Auffinden relevanter Beiträge.',
+        fr: 'Utilise des « labels » pour classer et filtrer les questions. En cours, choisis « Clarification » ou « Préparation aux examens ». En conférence, « Keynote » ou « Discussion technique ». Les mots-clés IA facilitent aussi le filtrage et permettent de retrouver rapidement les contributions pertinentes.',
       },
       image: {
         url: '/assets/background/folders.svg',
@@ -376,6 +307,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
+        en: 'Peer Instruction',
+        de: 'Peer Instruction',
+        fr: 'Peer Instruction',
+      },
+      description: {
+        en: 'Let the AI assistant explain the evidence-based teaching method of peer instruction to you. frag.jetzt supports you in its application: students answer concept questions and discuss their answers with the person sitting next to them. They argue their answers and thus develop a deeper understanding of the material. With frag.jetzt, peer instruction becomes an integral part of your lecture!',
+        de: 'Lass dir vom KI-Assistenten die evidenzbasierte Lehrmethode Peer Instruction erklären. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit frag.jetzt wird Peer Instruction zum festen Bestandteil deiner Vorlesung!',
+        fr: "Laisse l'assistant IA t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec frag.jetzt, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
+      },
+      image: {
+        url: '/assets/background/Peer-Instruction.webp',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
         en: 'Quiz Rally',
         de: 'Quiz-Rallye',
         fr: 'Rallye quiz',
@@ -399,12 +348,12 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
-        rowspan: 2,
+        colspan: 1,
+        rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 3,
-        rowspan: 3,
+        colspan: 1,
+        rowspan: 1,
       },
     },
   },
@@ -438,7 +387,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -509,28 +458,10 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
-  },
-  {
-    content: {
-      title: {
-        en: 'Peer Instruction',
-        de: 'Peer Instruction',
-        fr: 'Peer Instruction',
-      },
-      description: {
-        en: 'Let the AI assistant explain the evidence-based teaching method of peer instruction to you. frag.jetzt supports you in its application: students answer concept questions and discuss their answers with the person sitting next to them. They argue their answers and thus develop a deeper understanding of the material. With frag.jetzt, peer instruction becomes an integral part of your lecture!',
-        de: 'Lass dir vom KI-Assistenten die evidenzbasierte Lehrmethode Peer Instruction erklären. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit frag.jetzt wird Peer Instruction zum festen Bestandteil deiner Vorlesung!',
-        fr: "Laisse l'assistant IA t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec frag.jetzt, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
-      },
-      image: {
-        url: '/assets/background/Peer-Instruction.webp',
-      },
-    },
-    window: _1x1windowSize,
   },
   {
     content: {
@@ -571,41 +502,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
   {
     content: {
       title: {
-        en: 'Quota Management',
-        de: 'Quota-Management',
-        fr: 'Gestion des quotas',
-      },
-      description: {
-        en: 'Optimize the costs of AI. Use our quota management for token limits by room, month, day, time period and user role. Take part in our study as a teacher and receive a monthly bonus of 20 dollars. You can generate tens of millions of words.',
-        de: 'Optimiere die Kosten der KI. Nutze unser Kontingentmanagement für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Damit kannst du zig Millionen Wörter generieren.',
-        fr: "Optimise les coûts de l'IA. Utilise notre gestion des quotas pour les limites de jetons par salle, par mois, par jour, par période et par rôle d'utilisateur. Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Tu peux générer des dizaines de millions de mots.",
-      },
-      image: {
-        url: '/assets/background/traffic-light.svg',
-      },
-    },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-  },
-  {
-    content: {
-      title: {
         en: 'Price?',
         de: 'Der Preis?',
         fr: 'Le Prix ?',
@@ -633,7 +529,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
+        colspan: 1,
         rowspan: 1,
       },
     },
@@ -664,9 +560,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'RGPD',
       },
       description: {
-        en: "frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
-        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Beachte: Die Nutzung von ChatGPT erfordert die Annahme der Datenschutzerklärung von OpenAI.',
-        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
+        en: 'frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of AI assistance may require acceptance of additional privacy policies from third-party providers.',
+        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Beachte: Die Nutzung von KI-Assistenzsystemen kann die Zustimmung zu zusätzlichen Datenschutzrichtlinien externer Anbieter erfordern.',
+        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation des assistants IA peut nécessiter l'acceptation de politiques de confidentialité supplémentaires de fournisseurs tiers.",
       },
       image: {
         url: '/assets/background/europa.svg',
