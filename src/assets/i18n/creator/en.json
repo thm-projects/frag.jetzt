@@ -1151,7 +1151,7 @@
     "tooltip-profanity-toggle-active": "Vulgar words in posts are overwritten with ★★★★.",
     "tooltip-profanity-toggle-all": "You can filter vulgar words in many languages.",
     "tooltip-profanity-toggle-word": "You can enable filtering within words, by default only whole words are filtered.",
-    "tooltip-quiz-enabled": "You can use the quiz app https://antworte.jetzt in your room.",
+    "tooltip-quiz-enabled": "You can use the quiz app https://arsnova.click in your room.",
     "tooltip-settings-direct-send": "Every question will be published immediately. Turn this option off if you want to publish each question individually. You can also give this task to moderators."
   },
   "session": {

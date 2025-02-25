@@ -25,12 +25,12 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug"
   },
-  "/antworte-jetzt": {
+  "/arsnova-click": {
     "target": "https://arsnova.click",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/antworte-jetzt": ""
+      "^/arsnova-click": ""
     },
     "logLevel": "debug",
     "onProxyRes": function (proxyRes) {

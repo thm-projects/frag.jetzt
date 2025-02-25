@@ -117,9 +117,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Apprends avec l'IA",
       },
       description: {
-        en: 'Create your own rooms: one room per course. Ask the AI questions about your lectures and save the answers in the Q&A forum. Give the AI assistant your transcript and let it generate learning materials from it: from Anki flashcards to exam questions. Be quizzed before the exam: face the quiz duel with the AI!',
-        de: 'Erstelle deine eigenen Räume: ein Raum pro Kurs. Stelle der KI Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem KI-Assistenten deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Anki-Flashcards bis hin zu Prüfungsfragen. Lass dich vor der Prüfung abfragen: Stell dich dem Quizduell mit der KI!',
-        fr: "Crée tes propres salles : une salle par cours. Pose à l'IA des questions sur tes cours et enregistre les réponses dans le forum de questions-réponses. Donne ta transcription à l'assistant IA et laisse-le générer des supports d'apprentissage à partir de celle-ci : des flashcards Anki aux questions d'examen. Sois interrogé avant l'examen : affronte le duel de quiz avec l'IA !",
+        en: 'Create your own rooms: one room per course. Ask the AI questions about your lectures. Give the AI assistant your transcript and let it generate learning materials from it: from Anki flashcards to exam questions. Be quizzed before the exam: face the quiz duel with the AI!',
+        de: 'Erstelle deine eigenen Räume: ein Raum pro Kurs. Stelle der KI Fragen zu deinen Vorlesungen. Gib dem KI-Assistenten deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Anki-Flashcards bis hin zu Prüfungsfragen. Lass dich vor der Prüfung abfragen: Stell dich dem Quizduell mit der KI!',
+        fr: "Crée tes propres salles : une salle par cours. Pose à l'IA des questions sur tes cours. Donne ta transcription à l'assistant IA et laisse-le générer des supports d'apprentissage à partir de celle-ci : des flashcards Anki aux questions d'examen. Sois interrogé avant l'examen : affronte le duel de quiz avec l'IA !",
       },
       image: {
         url: '/assets/background/learning.svg',
@@ -400,9 +400,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Brainstorming',
       },
       description: {
-        en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask the focus question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, ChatGPT generates as many ideas as you need!',
-        de: 'Wecke die Kreativität deiner Gruppe! Mit einem Brainstorming wird es gelingen! Stelle die Fokusfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert ChatGPT beliebig viele Ideen zu jedem Thema!',
-        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif  Pose la question de focus et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
+        en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask the focus question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, AI generates as many ideas as you need!',
+        de: 'Wecke die Kreativität deiner Gruppe! Mit einem Brainstorming wird es gelingen! Stelle die Fokusfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert die KI beliebig viele Ideen zu jedem Thema!',
+        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif  Pose la question de focus et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, l'IA génère autant d'idées que tu en as besoin !",
       },
       image: {
         url: '/assets/background/brainstorming.svg',

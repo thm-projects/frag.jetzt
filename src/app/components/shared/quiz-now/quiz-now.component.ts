@@ -87,7 +87,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
         xhr.abort();
       }
     };
-    xhr.open('OPTIONS', '/antworte-jetzt');
+    xhr.open('OPTIONS', '/arsnova-click');
     xhr.send();
   }
 }
