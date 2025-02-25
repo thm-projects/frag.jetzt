@@ -1077,7 +1077,7 @@
     "tooltip-profanity-toggle-active": "Les mots vulgaires sont remplacés par ★★★★.",
     "tooltip-profanity-toggle-all": "Tu peux censurer les mots vulgaires en plusieurs langues.",
     "tooltip-profanity-toggle-word": "Tu peux activer le filtrage au sein des mots, par défaut seuls les mots entiers sont censurés.",
-    "tooltip-quiz-enabled": "Tu peux utiliser l'application de quiz https://antworte.jetzt dans ta salle.",
+    "tooltip-quiz-enabled": "Tu peux utiliser l'application de quiz https://arsnova.click dans ta salle.",
     "tooltip-settings-direct-send": "Chaque question est publiée immédiatement. Désactive cette option si tu veux partager chaque question individuellement. Tu peux également confier cette tâche à des modérateurs."
   },
   "session": {
