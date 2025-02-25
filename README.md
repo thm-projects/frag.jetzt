@@ -24,7 +24,7 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. There are four roles in the app: "Room creator", "Moderator", "Participant" and "Administrator". Each role allows the creation of any number of rooms. The moderator role can be assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In any role with access to a given room, posts can be made anonymously and others' posts can be read. Only the administrator can compose and publish messages for all users of the app.
 
-1. When creating a room, the room creator can choose whether all questions should be moderated or published directly, whether a profanity filter should be active, whether the quiz app "antworte.jetzt", the bonus option or the brainstorming option should be activated.
+1. When creating a room, the room creator can choose whether all questions should be moderated or published directly, whether a profanity filter should be active, whether the quiz app "arsnova.click", the bonus option or the brainstorming option should be activated.
 
 1. After entering the room key or by scanning the QR code, participants can ask their questions and rate others' questions with +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatic publication of a question, i.e., at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 rating points.
 
