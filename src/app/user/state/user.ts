@@ -195,10 +195,9 @@ const loadKeycloakAccount = (
           refreshToken,
         ),
         of(injector),
-        of(user),
       ]);
     }),
-    switchMap(([keycloakData, injector, user]) => {
+    switchMap(([keycloakData, injector]) => {
       if (!keycloakData) {
         return of(null);
       }
@@ -218,11 +217,9 @@ const loadKeycloakAccount = (
           catchError((e) => {
             // TODO: Find all possible errors
             console.error(e);
-            return user?.keycloakProviderId === keycloakData.keycloakId
-              ? dataService.config
-                  .delete('account-registered')
-                  .pipe(map(() => null))
-              : of(null);
+            return dataService.config
+              .delete('account-registered')
+              .pipe(map(() => null));
           }),
         );
     }),
@@ -262,8 +259,9 @@ export const loginKeycloak = (id: UUID): Observable<User> => {
 
 // logout method
 
-export const logout = (): Observable<void> => {
-  if (userSignal() === undefined) {
+export const logout = (removeUser: boolean = true): Observable<void> => {
+  const user = userSignal();
+  if (user === undefined) {
     return throwError(() => 'logout: User not loaded / initialized');
   }
   return getInjector().pipe(
@@ -271,8 +269,14 @@ export const logout = (): Observable<void> => {
     switchMap(() =>
       dataService.config.createOrUpdate({ key: 'logged-in', value: 'false' }),
     ),
+    switchMap((v) => {
+      if (removeUser && user.keycloakProviderId) {
+        return dataService.config.delete('account-registered');
+      }
+      return of(v);
+    }),
     tap(() => userSignal.set(null)),
-    switchMap(() => of(void 0)),
+    switchMap(() => of(undefined)),
   );
 };
 
