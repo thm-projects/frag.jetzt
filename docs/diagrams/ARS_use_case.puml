@@ -64,9 +64,9 @@ rectangle "frag.jetzt | Use Case Diagram" {
       using DeepL, LanguageTool, spaCy"
       usecase "Rate the app" as UC14
       usecase UC15 as "Create a quiz rally
-      using antworte.jetzt"
+      using arsnova.click"
       usecase UC16 as "Participate in a quiz rally
-      using antworte.jetzt"
+      using arsnova.click"
       usecase "Export all published posts" as UC17
       usecase "Redeem bonus token" as UC18
     }

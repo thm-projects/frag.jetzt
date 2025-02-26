@@ -122,7 +122,7 @@
     "empty-conversation": "Verlauf leeren",
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "privacy-policy": "KI-Datenschutzerklärung",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "cancel": "Schließen",

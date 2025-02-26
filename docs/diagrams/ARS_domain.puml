@@ -90,7 +90,7 @@ package "frag.jetzt | ARS domain diagram" <<Rectangle>> {
   }
 
   class QuizRallye <<webService>> {
-    [[https://antworte.jetzt {game-based quiz app} Link to Website]]
+    [[https://arsnova.click {game-based quiz app} Link to Website]]
   }
 
   class User {
