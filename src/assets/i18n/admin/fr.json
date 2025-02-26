@@ -119,7 +119,7 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
+    "privacy-policy": "Politique de confidentialité de l'IA",
     "enter-conversation-text": "Chat avec ChatGPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

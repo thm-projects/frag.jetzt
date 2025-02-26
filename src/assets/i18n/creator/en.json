@@ -421,7 +421,7 @@
     "temperature-tooltip-balanced": "Balanced answers can change, but are often very well matched to the question.",
     "temperature-precise": "[More] Precise",
     "temperature-tooltip-precise": "Allows virtually no leeway. The answers are almost identical and thus partially deterministic.",
-    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "privacy-policy": "AI Privacy Policy",
     "enter-conversation-text": "Chat with ChatGPT",
     "context-context": "Context: {{value}}.",
     "context-topic": "Topic: {{value}}.",
