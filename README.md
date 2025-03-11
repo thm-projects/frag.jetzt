@@ -6,6 +6,10 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 # Developer Onboarding Guide
 
+🎉 Welcome to the frag.jetzt community!
+
+Your contributions are invaluable to continuously improving our interactive educational tools. Let's innovate together! 🎉 🌍 👩‍💻
+
 ## Introduction
 
 **frag.jetzt** is an open-source Progressive Web Application (PWA) developed by Technische Hochschule Mittelhessen (THM) to facilitate interactive Q&A sessions and enhance audience engagement in educational settings. The platform supports collaborative educational interactions through moderated, real-time, multilingual dialogue and incorporates advanced AI-driven features. It adheres strictly to ethical frameworks and data protection standards, including GDPR compliance.
@@ -46,11 +50,11 @@ nano ~/.docker/config.json
 
 Change `"credsStore": "desktop"` to `"credsStore": "osxkeychain"`.
 
-## frag.jetzt development with dependencies
+## frag.jetzt Development with Dependencies
 
 frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
 
-### Running locally
+### Running Locally
 
 If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with five options:
 
@@ -78,7 +82,7 @@ If you did not change any ports, the application is now available under [localho
 
 All emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
 
-## Code style analysis
+## Static Code Analysis
 
 To run a local code style check with sonarqube, follow these steps:
 
@@ -114,14 +118,7 @@ To run a local code style check with sonarqube, follow these steps:
 - **Commit Standards:** Follow concise, descriptive commit messages in imperative mood and adhere to project style standards (ESLint, Prettier).
 - **Testing Protocol:** Consistently write and run unit tests (Karma) and end-to-end tests (Cypress).
 
-## Further Resources
-
-- **Live Application:** [frag.jetzt](https://frag.jetzt)
-- **Source Repository:** [arsnova/frag.jetzt](https://gitlab.arsnova.eu/arsnova/frag.jetzt)
-- **Docker Setup:** [Docker Orchestration Repository](https://gitlab.arsnova.eu/arsnova/frag.jetzt-docker-orchestration)
-- **Documentation:** Extensive project documentation, including architecture diagrams and data models, is available in the repository.
-
-We look forward to your valuable contributions to the frag.jetzt project—join us in advancing interactive and intelligent educational tools.
+# Project History
 
 ## Vision Statement (2023)
 
