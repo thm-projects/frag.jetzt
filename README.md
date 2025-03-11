@@ -4,7 +4,7 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
-# frag.jetzt Developer Onboarding Guide
+# Developer Onboarding Guide
 
 ## Introduction
 
@@ -14,9 +14,9 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 frag.jetzt employs a modular architecture comprising:
 
-- **Frontend Layer:** Developed using Angular and TypeScript, optimized as a responsive Progressive Web Application (PWA) ensuring accessibility, cross-platform compatibility, and enhanced user experience.
+- **Frontend Layer:** Developed using Angular and TypeScript, optimized as a Progressive Web Application (PWA) ensuring accessibility, cross-platform compatibility, and enhanced user experience.
 - **Backend Layer:** Provides core functions such as managing Q&A sessions, moderating content, and supporting multilingual processing.
-- **AI Integration:** Incorporates cutting-edge Natural Language Processing (NLP) technologies like GPT-based LLMs, vector embeddings, and Retrieval-Augmented Generation (RAG), enhancing content moderation and user interactions.
+- **AI Integration:** Incorporates cutting-edge Natural Language Processing (NLP) technologies like GPT-based Large Language Models (LLMs), vector embeddings, and Retrieval-Augmented Generation (RAG), enhancing content moderation and user interactions.
 
 ## Setting Up the Development Environment
 
@@ -32,7 +32,7 @@ Before starting, ensure the following software components are installed:
 
   _Note_: Using Windows Subsystem for Linux 2 (WSL2) is possible but may have limitations, such as handling file events.
 
-- **Node.js**: Install Node.js, preferably managed via a version manager like NVM.
+- **Node.js**: Install Node.js, preferably managed via a version manager like [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating).
 
 - **Docker and Docker Compose**: Required for orchestrating the necessary backend services and dependencies.
 
@@ -50,36 +50,22 @@ Change `"credsStore": "desktop"` to `"credsStore": "osxkeychain"`.
 
 frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
 
-### Prerequisite
-
-The following software has to be installed on your computer:
-
-1. GNU/Linux compliant operating system, for example:
-   1. Debian based: Debian, Ubuntu, Mint, ...
-   2. Arch based: Arch, Manjaro, ...
-   3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
-   4. ...
-   5. WSL 2 at your own risk (sometimes e.g. file events are not supported)
-2. Node
-   - It is recommended to install a Version Manager for Node.
-   - For example: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
-3. Docker (Docker Compose shipped with Docker)
-   - You can either install Docker Desktop or Docker Engine.
-   - Docker Desktop is easier for beginners.
-   - The script will warn you if you do not have installed some dependencies.
-4. For Mac users: If the script displays an error message with `ERROR: failed to solve: error getting credentials - err: exit status 1, out:`, check your Docker configuration (`cat ~/.docker/config.json`) and change your "credsStore" from "desktop" to "osxkeychain" (You could use `nano ~/.docker/config.json`).
-
 ### Running locally
 
-If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with some options.
-Click `1` to start or fully update all dependencies. Click `2` for subsequent starts in development. Click `3` to stop all containers. Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
-Click on `5` to delete all Docker data from your system.
+If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with five options:
+
+- Click `1` to start or fully update all dependencies.
+- Click `2` for subsequent starts in development.
+- Click `3` to stop all containers.
+- Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
+- Click on `5` to delete all Docker data from your system.
 
 An admin account is available with email `admin@admin` and password of `admin`.
 
 ### Running with Staging Server
 
-If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running staging version. (This version is only recommended for frontend development).
+If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running [staging version](https://staging.frag.jetzt). This way is only recommended for frontend development.
+
 You can do this by executing `npm run staging`.
 
 There is no admin account available and you must log in with a guest account.
