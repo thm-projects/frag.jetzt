@@ -4,7 +4,140 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
-## Current Vision Statement
+# frag.jetzt Developer Onboarding Guide
+
+## Introduction
+
+**frag.jetzt** is an open-source Progressive Web Application (PWA) developed by Technische Hochschule Mittelhessen (THM) to facilitate interactive Q&A sessions and enhance audience engagement in educational settings. The platform supports collaborative educational interactions through moderated, real-time, multilingual dialogue and incorporates advanced AI-driven features. It adheres strictly to ethical frameworks and data protection standards, including GDPR compliance.
+
+## Project Architecture
+
+frag.jetzt employs a modular architecture comprising:
+
+- **Frontend Layer:** Developed using Angular and TypeScript, optimized as a responsive Progressive Web Application (PWA) ensuring accessibility, cross-platform compatibility, and enhanced user experience.
+- **Backend Layer:** Provides core functions such as managing Q&A sessions, moderating content, and supporting multilingual processing.
+- **AI Integration:** Incorporates cutting-edge Natural Language Processing (NLP) technologies like GPT-based LLMs, vector embeddings, and Retrieval-Augmented Generation (RAG), enhancing content moderation and user interactions.
+
+## Setting Up the Development Environment
+
+### Required Software
+
+Before starting, ensure the following software components are installed:
+
+- **Operating System**: Recommended to use GNU/Linux distributions:
+
+  - Debian-based (Debian, Ubuntu, Mint)
+  - Arch-based (Arch Linux, Manjaro)
+  - Red Hat-based systems (RHEL, Fedora, CentOS)
+
+  _Note_: Using Windows Subsystem for Linux 2 (WSL2) is possible but may have limitations, such as handling file events.
+
+- **Node.js**: Install Node.js, preferably managed via a version manager like NVM.
+
+- **Docker and Docker Compose**: Required for orchestrating the necessary backend services and dependencies.
+
+### macOS Specific Instructions
+
+If Docker credential errors arise (`ERROR: failed to solve: error getting credentials - err: exit status 1`), adjust your Docker configuration as follows:
+
+```bash
+nano ~/.docker/config.json
+```
+
+Change `"credsStore": "desktop"` to `"credsStore": "osxkeychain"`.
+
+## frag.jetzt development with dependencies
+
+frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
+
+### Prerequisite
+
+The following software has to be installed on your computer:
+
+1. GNU/Linux compliant operating system, for example:
+   1. Debian based: Debian, Ubuntu, Mint, ...
+   2. Arch based: Arch, Manjaro, ...
+   3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
+   4. ...
+   5. WSL 2 at your own risk (sometimes e.g. file events are not supported)
+2. Node
+   - It is recommended to install a Version Manager for Node.
+   - For example: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+3. Docker (Docker Compose shipped with Docker)
+   - You can either install Docker Desktop or Docker Engine.
+   - Docker Desktop is easier for beginners.
+   - The script will warn you if you do not have installed some dependencies.
+4. For Mac users: If the script displays an error message with `ERROR: failed to solve: error getting credentials - err: exit status 1, out:`, check your Docker configuration (`cat ~/.docker/config.json`) and change your "credsStore" from "desktop" to "osxkeychain" (You could use `nano ~/.docker/config.json`).
+
+### Running locally
+
+If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with some options.
+Click `1` to start or fully update all dependencies. Click `2` for subsequent starts in development. Click `3` to stop all containers. Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
+Click on `5` to delete all Docker data from your system.
+
+An admin account is available with email `admin@admin` and password of `admin`.
+
+### Running with Staging Server
+
+If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running staging version. (This version is only recommended for frontend development).
+You can do this by executing `npm run staging`.
+
+There is no admin account available and you must log in with a guest account.
+This process runs directly on your terminal, so you do not need to explicitly view the logs or terminate the process.
+You can simply cancel the process to end it (usually with <kbd>Ctrl + C</kbd>).
+
+## Access frag.jetzt
+
+If you did not change any ports, the application is now available under [localhost:4200](http://localhost:4200).
+
+All emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
+
+## Code style analysis
+
+To run a local code style check with sonarqube, follow these steps:
+
+1. switch into the analysis folder  
+   `cd analysis`
+2. start the sonarqube server  
+   `docker-compose up -d sonarqube`
+3. when sonarqube has started, you may run analysis whenever you want with  
+   `docker-compose run --rm analysis`
+
+## Core Functionalities
+
+### AI-Based Moderation
+
+- Advanced moderation using AI and contextual pipelines, effectively managing inappropriate content.
+
+### Interactive Keyword Cloud
+
+- Real-time thematic visualizations using NLP technologies for improved navigation and interaction.
+
+### Multilingual Support and Compliance
+
+- Comprehensive multilingual functionality combined with stringent ethical and data protection compliance.
+
+### Retrieval-Augmented Generation (RAG)
+
+- Enhances AI-generated content, providing accurate and contextually relevant interactions.
+
+## Contribution and Collaboration Guidelines
+
+- **Issue Tracking:** Document bugs or feature requests clearly in GitLab.
+- **Branch Management:** Branch from the `staging` branch for features and bug fixes.
+- **Commit Standards:** Follow concise, descriptive commit messages in imperative mood and adhere to project style standards (ESLint, Prettier).
+- **Testing Protocol:** Consistently write and run unit tests (Karma) and end-to-end tests (Cypress).
+
+## Further Resources
+
+- **Live Application:** [frag.jetzt](https://frag.jetzt)
+- **Source Repository:** [arsnova/frag.jetzt](https://gitlab.arsnova.eu/arsnova/frag.jetzt)
+- **Docker Setup:** [Docker Orchestration Repository](https://gitlab.arsnova.eu/arsnova/frag.jetzt-docker-orchestration)
+- **Documentation:** Extensive project documentation, including architecture diagrams and data models, is available in the repository.
+
+We look forward to your valuable contributions to the frag.jetzt project—join us in advancing interactive and intelligent educational tools.
+
+## Vision Statement (2023)
 
 **Dual-Mode Learning Platform: The Evolution of frag.jetzt from ARS to PLE**
 
@@ -14,11 +147,9 @@ The core of the next release is the comprehensive refactoring of frag.jetzt from
 
 ---
 
-## Old Vision Statement
+## Vision Statement (2022)
 
 With our innovative product "frag.jetzt" we want to conquer the market of audience response systems. With "frag.jetzt," we are addressing teachers at schools and universities. With "frag.jetzt," we offer a browser-based, privacy-compliant Q&A app for anonymous, silent questioning. The unique selling point is the option to award "good questions" for earning bonuses. Studies show that active participation in class is significantly boosted by silent questions. Bonuses for good questions as extrinsic learning motivation reinforce this effect.
-
-![Start page](https://arsnova-uploads.mni.thm.de/frag.jetzt_home%28iPad%20Air%29.png)
 
 ## Features
 
@@ -77,64 +208,3 @@ See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_bonus_option
 ## Activity Diagram for Brainstorming
 
 See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_brainstorming.svg)
-
-## frag.jetzt development with dependencies
-
-frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
-
-### Prerequisite
-
-The following software has to be installed on your computer:
-
-1. GNU/Linux compliant operating system, for example:
-   1. Debian based: Debian, Ubuntu, Mint, ...
-   2. Arch based: Arch, Manjaro, ...
-   3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
-   4. ...
-   5. WSL 2 at your own risk (sometimes e.g. file events are not supported)
-2. Node
-   - It is recommended to install a Version Manager for Node.
-   - For example: [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
-3. Docker (Docker Compose shipped with Docker)
-   - You can either install Docker Desktop or Docker Engine.
-   - Docker Desktop is easier for beginners.
-   - The script will warn you if you do not have installed some dependencies.
-4. For Mac users: If the script displays an error message with `ERROR: failed to solve: error getting credentials - err: exit status 1, out:`, check your Docker configuration (`cat ~/.docker/config.json`) and change your "credsStore" from "desktop" to "osxkeychain" (You could use `nano ~/.docker/config.json`).
-
-### Running locally
-
-If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with some options.
-Click `1` to start or fully update all dependencies. Click `2` for subsequent starts in development. Click `3` to stop all containers. Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
-Click on `5` to delete all Docker data from your system.
-
-An admin account is available with email `admin@admin` and password of `admin`.
-
-### Running with Staging
-
-If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running staging version. (This version is only recommended for frontend development).
-You can do this by executing `npm run staging`.
-
-There is no admin account available and you must log in with an guest account.
-This process runs directly on your terminal, so you do not need to explicitly view the logs or terminate the process.
-You can simply cancel the process to end it (usually with <kbd>Ctrl + C</kbd>).
-
-## Access frag.jetzt
-
-If you did not change any ports, the application is now available under [localhost:4200](http://localhost:4200).
-
-All emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
-
-## Code style analysis
-
-To run a local code style check with sonarqube, follow these steps:
-
-1. switch into the analysis folder  
-   `cd analysis`
-2. start the sonarqube server  
-   `docker-compose up -d sonarqube`
-3. when sonarqube has started, you may run analysis whenever you want with  
-   `docker-compose run --rm analysis`
-
-## Credits
-
-frag.jetzt is powered by Technische Hochschule Mittelhessen | University of Applied Sciences.
