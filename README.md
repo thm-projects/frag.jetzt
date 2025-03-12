@@ -1,28 +1,21 @@
-# frag.jetzt
+# Developer Onboarding Guide
 
-Nomen est omen: The app's name says it all (German for »ask.now«): It stands for both the app's main purpose and its web address <https://frag.jetzt>
-
-[![Quality gate](https://sonar.arsnova.eu/api/project_badges/quality_gate?project=frag.jetzt-frontend&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
-
-[![Lines of Code](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=ncloc&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
-(Angular frontend)
+Nomen est omen: The app's name »frag.jetzt« says it all (German for »ask.now«): It stands for both the app's main purpose and its web address <https://frag.jetzt>
 
 ## 📚 Table of Contents
 
-- [🚀 Developer Onboarding Guide](#developer-onboarding-guide)
-- [👨‍🏫 Mentoring & Support](#mentoring--support)
-- [📝 Introduction](#introduction)
-- [⚙️ Core Functionalities](#core-functionalities)
-- [🏗️ Project Architecture](#project-architecture)
-- [💻 Setting Up the Development Environment](#setting-up-the-development-environment)
-- [💻 Understanding the Codebase](#understanding-the-codebase)
-- [🤝 Contribution and Collaboration Guidelines](#contribution-and-collaboration-guidelines)
-- [✅ Definition of Done Checklist](#definition-of-done-checklist-for-user-stories)
-- [📜 Project History](#project-history)
-- [📋 Project Documentation](#project-documentation)
-- [❓ Troubleshooting FAQ](#troubleshooting-faq)
-
-# Developer Onboarding Guide
+1. [👨‍🏫 Mentoring & Support](#mentoring--support)
+1. [📝 Introduction](#introduction)
+1. [⚙️ Core Functionalities](#core-functionalities)
+1. [🏗️ Project Architecture](#project-architecture)
+1. [💻 Setting Up the Development Environment](#setting-up-the-development-environment)
+1. [🔍 Static Code Analysis of the Angular Frontend](#static-code-analysis-of-the-angular-frontend)
+1. [💻 Understanding the Codebase](#understanding-the-codebase)
+1. [🤝 Contribution and Collaboration Guidelines](#contribution-and-collaboration-guidelines)
+1. [✅ Definition of Done Checklist](#definition-of-done-checklist-for-user-stories)
+1. [📜 Project History](#project-history)
+1. [📋 Project Documentation](#project-documentation)
+1. [❓ Troubleshooting FAQ](#troubleshooting-faq)
 
 🎉 Welcome to the frag.jetzt dev community!
 
@@ -132,9 +125,15 @@ If you did not change any ports, the application is now available under [localho
 
 All emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
 
-### Static Code Analysis
+## Static Code Analysis of the Angular Frontend
 
-To run a local statuc code check with [SonaQube](https://www.sonarsource.com/), follow these steps:
+To ensure high-quality code and maintainability, we use [SonarQube](https://www.sonarsource.com/) for static code analysis of the Angular frontend:
+
+[![Quality gate](https://sonar.arsnova.eu/api/project_badges/quality_gate?project=frag.jetzt-frontend&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
+
+[![Lines of Code](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=ncloc&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
+
+To run a local analysis, follow these steps:
 
 1. switch into the analysis folder  
    `cd analysis`
