@@ -1,12 +1,12 @@
 # frag.jetzt
 
-Nomen est omen: The app's name says it all: it stands for both the app's main purpose and its web address <https://frag.jetzt>
+Nomen est omen: The app's name says it all (German for »ask.now«): It stands for both the app's main purpose and its web address <https://frag.jetzt>
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
 # Developer Onboarding Guide
 
-🎉 Welcome to the frag.jetzt community!
+🎉 Welcome to the frag.jetzt dev community!
 
 Your contributions are invaluable to continuously improving our interactive educational tools. Let's innovate together! 🎉 🌍 👩‍💻
 
@@ -58,13 +58,13 @@ frag.jetzt consists of a large number of backend services. To simplify the proce
 
 If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with five options:
 
-- Click `1` to start or fully update all dependencies.
-- Click `2` for subsequent starts in development.
-- Click `3` to stop all containers.
-- Click on `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
-- Click on `5` to delete all Docker data from your system.
+- `1` to start or fully update all dependencies.
+- `2` for subsequent starts in development.
+- `3` to stop all containers.
+- `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
+- `5` to delete all Docker data from your system.
 
-An admin account is available with email `admin@admin` and password of `admin`.
+An admin account is available with email `admin@admin` and password `admin`.
 
 ### Running with Staging Server
 
@@ -84,7 +84,7 @@ All emails from the system are intercepted and can be viewed in the Mailhog inte
 
 ## Static Code Analysis
 
-To run a local code style check with sonarqube, follow these steps:
+To run a local statuc code check with [SonaQube](https://www.sonarsource.com/), follow these steps:
 
 1. switch into the analysis folder  
    `cd analysis`
@@ -117,6 +117,51 @@ To run a local code style check with sonarqube, follow these steps:
 - **Branch Management:** Branch from the `staging` branch for features and bug fixes.
 - **Commit Standards:** Follow concise, descriptive commit messages in imperative mood and adhere to project style standards (ESLint, Prettier).
 - **Testing Protocol:** Consistently write and run unit tests (Karma) and end-to-end tests (Cypress).
+
+Here's the optimized standalone markdown for the "Definition of Done" (DoD) checklist, refined for clarity and readability:
+
+### ✅ »Definition of Done« Checklist for User Stories
+
+Ensure each completed User Story meets the following criteria:
+
+1. **Cross-browser Compatibility:**  
+   The feature is tested against all acceptance criteria in Chrome, Firefox, and Safari.
+
+2. **Performance Analysis:**  
+   The feature does not regress in any category of the [Lighthouse Analysis](https://developer.chrome.com/docs/lighthouse/overview/), except possibly »Performance«.
+
+3. **Responsive Design:**  
+   The feature is fully responsive on all screens, from small smartphones to large 4K displays.
+
+4. **Accessibility:**  
+   The feature is accessible and fully usable on all supported devices and screen sizes.
+
+5. **Multilingual Support:**  
+   The feature is available in all supported languages (English, French, and German). Translations must be completed using [DeepL](https://www.deepl.com/translator).
+
+6. **Tooltips:**  
+   All icons and toggle buttons include descriptive tooltips.
+
+7. **Theme Compatibility:**  
+   The feature maintains visual consistency and usability across all available themes.
+
+8. **Branch Integration:**  
+   The feature branch has been successfully merged with the `staging` branch.
+
+9. **Merge Request:**  
+   A merge request to the `staging` branch has been created and clearly documented.
+
+10. **Conflict Resolution:**  
+    The merge request has no conflicts and merges cleanly into `staging`.
+
+11. **Peer Code Review:**  
+    The code has been reviewed and approved by at least one developer external to the original development team.
+
+12. **Product Owner Approval:**  
+    The product owner has been assigned and has reviewed the merge request.
+
+13. **Technical Debt Assessment:**  
+    Code quality and technical debt have been assessed with [SonarQube](https://sonar.arsnova.eu). Ensure technical debt has not significantly increased due to recent commits.
 
 # Project History
 
