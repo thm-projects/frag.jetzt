@@ -2,7 +2,10 @@
 
 Nomen est omen: The app's name says it all (German for »ask.now«): It stands for both the app's main purpose and its web address <https://frag.jetzt>
 
-[![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
+[![Quality gate](https://sonar.arsnova.eu/api/project_badges/quality_gate?project=frag.jetzt-frontend&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
+
+[![Lines of Code](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=ncloc&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
+(Angular frontend)
 
 ## 📚 Table of Contents
 
