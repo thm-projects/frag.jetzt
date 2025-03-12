@@ -1,6 +1,8 @@
 # Developer Onboarding Guide
 
-Nomen est omen: The app's name »frag.jetzt« says it all (German for »ask.now«): It stands for both the app's main purpose and its web address <https://frag.jetzt>
+**Nomen est omen:** The app's name, _frag.jetzt_ (German for "ask.now"), says it all—highlighting both its main purpose and its web address, <https://frag.jetzt>.
+
+![Screenshot of frag.jetzt](src/assets/images/startpage.webp "The frag.jetzt application in action")
 
 ## 📚 Table of Contents
 
