@@ -1,0 +1,15 @@
+:root {
+  font-family:
+    system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    "Helvetica Neue", sans-serif;
+  --mdc-plain-tooltip-supporting-text-size: 0.875em;
+  --mdc-plain-tooltip-supporting-text-line-height: 1.5;
+  --mdc-snackbar-supporting-text-size: 0.875em;
+  --mat-form-field-subscript-text-size: 0.875em;
+}
+
+.mat-mdc-tooltip .mdc-tooltip__surface {
+  hyphens: auto;
+  white-space: pre-line;
+  text-overflow: ellipsis;
+}

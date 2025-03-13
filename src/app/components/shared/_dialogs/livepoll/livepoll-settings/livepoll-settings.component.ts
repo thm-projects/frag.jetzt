@@ -16,6 +16,7 @@ import { DeviceStateService } from 'app/services/state/device-state.service';
     './livepoll-settings.component.scss',
     '../livepoll-common.scss',
   ],
+  standalone: false,
 })
 export class LivepollSettingsComponent implements OnDestroy {
   @Input() parent!: LivepollDialogComponent;
@@ -39,6 +40,7 @@ export class LivepollSettingsComponent implements OnDestroy {
   openMarkdownEditor() {
     const dialog = this.dialog.open(MarkdownEditorDialogComponent, {
       width: '500px',
+      disableClose: true,
       data: {
         data: this.parent.livepollSession.title || '',
         useTemplate: true,

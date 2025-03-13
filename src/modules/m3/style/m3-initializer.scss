@@ -1,0 +1,56 @@
+@use "sass:map";
+@use "../../../../node_modules/@angular/material/index" as mat;
+@use "../style/m3-components" as m3-components;
+@use "../style/m3-token-map" as m3-map;
+@use "../style/m3-typescale" as m3-typescale;
+@use "../style/m3-motion" as m3-motion;
+@use "../style/m3-shape" as m3-shape;
+@use "../style/m3-fix" as m3-fix;
+@use "../style/m3-layout" as m3-layout;
+@use "style/layout/flex-layout";
+
+$base-theme: mat.define-theme(
+  (
+    color: (
+      primary: mat.$magenta-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: (
+      brand-family: "Roboto Flex",
+      plain-family: "Roboto Flex",
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+
+@mixin load() {
+  @include mat.core();
+  body,
+  .light {
+    @include mat.all-component-themes(map.get($base-theme, light));
+    @include m3-map.make-components-dynamic(light);
+    @include m3-components.all-components();
+    @include m3-motion.all-motion-token();
+    @include m3-shape.all-shape-token();
+    @include m3-typescale.all-typescale();
+    @include m3-layout.all-layout-token();
+    @include m3-fix.fix-all();
+
+    //--custom-stars: #caca28;
+    //--custom-good: rgb(37, 188, 37);
+    //--custom-bad: rgb(186, 31, 31);
+  }
+
+  .dark {
+    @include mat.all-component-colors(map.get($base-theme, dark));
+    @include m3-map.make-components-dynamic(dark);
+    //--custom-stars: #caca28;
+    //--custom-good: rgb(37, 188, 37);
+    //--custom-bad: rgb(186, 31, 31);
+  }
+}

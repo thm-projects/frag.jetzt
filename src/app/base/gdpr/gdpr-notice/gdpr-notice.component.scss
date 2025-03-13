@@ -1,0 +1,14 @@
+mat-card {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+h2 {
+  border: unset;
+  padding: unset;
+  margin: unset;
+}
+
+mat-card-actions {
+  justify-content: center;
+}

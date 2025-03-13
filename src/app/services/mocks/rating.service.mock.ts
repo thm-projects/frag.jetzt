@@ -5,12 +5,11 @@ import { RatingResult } from '../../models/rating-result';
 
 @Injectable()
 export class RatingServiceMock extends RatingService {
-
   constructor() {
     super(null);
   }
 
-  getRatings(): Observable<RatingResult> {
+  override getRatings(): Observable<RatingResult> {
     return of({
       rating: 0,
       fiveStarPercent: 0,
@@ -18,7 +17,7 @@ export class RatingServiceMock extends RatingService {
       threeStarPercent: 0,
       twoStarPercent: 0,
       oneStarPercent: 0,
-      people: 0
+      people: 0,
     });
   }
 }

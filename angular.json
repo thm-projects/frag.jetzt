@@ -3,158 +3,153 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "arsnova-angular-frontend": {
+    "fragjetzt": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/fragjetzt",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/manifest.webmanifest"
             ],
-            "allowedCommonJsDependencies": [
-              "qrcode",
-              "quill-emoji/dist/quill-emoji.js",
-              "@stomp/rx-stomp"
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
-            ],
-            "scripts": [
-              "node_modules/marked/marked.min.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": false,
-            "optimization": false,
-            "namedChunks": true
+            "styles": ["src/styles-prod.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/", "src/"]
+            },
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": false,
+            "ssr": {
+              "entry": "server.ts"
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
+                  "type": "initial",
+                  "maximumWarning": "5mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "10kb"
                 }
               ],
-              "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "serviceWorker": "ngsw-config.json"
+            },
+            "appDeploy": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/environments/paypal.config.ts",
+                  "with": "src/environments/paypal.config.app.ts"
+                }
+              ],
+              "serviceWorker": "ngsw-config.json"
+            },
+            "development": {
+              "prerender": false,
+              "ssr": false,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "arsnova-angular-frontend:build",
             "proxyConfig": "proxy.conf.js"
           },
           "configurations": {
             "production": {
-              "browserTarget": "arsnova-angular-frontend:build:production"
+              "buildTarget": "fragjetzt:build:production"
+            },
+            "development": {
+              "buildTarget": "fragjetzt:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "arsnova-angular-frontend:build"
+            "buildTarget": "fragjetzt:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/marked/marked.min.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
               "src/favicon.ico",
               "src/manifest.webmanifest"
-            ]
+            ],
+            "styles": ["src/styles-prod.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/", "src/"]
+            },
+            "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "eslintConfig": "./eslint.config.mjs",
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "cypress-run": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "arsnova-angular-frontend:serve"
+            "devServerTarget": "fragjetzt:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "arsnova-angular-frontend:serve:production"
+              "devServerTarget": "fragjetzt:serve:production"
             }
           }
         },
@@ -168,69 +163,19 @@
         "e2e": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "arsnova-angular-frontend:serve",
+            "devServerTarget": "fragjetzt:serve",
             "watch": true,
             "headless": false
           },
           "configurations": {
             "production": {
-              "devServerTarget": "arsnova-angular-frontend:serve:production"
+              "devServerTarget": "fragjetzt:serve:production"
             }
-          }
-        }
-      }
-    },
-    "arsnova-angular-frontend-e2e": {
-      "root": "e2e",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@cypress/schematic:cypress",
-          "options": {
-            "devServerTarget": "arsnova-angular-frontend-e2e:serve",
-            "watch": true,
-            "headless": false
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "arsnova-angular-frontend-e2e:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "e2e/**/*.ts",
-              "e2e/**/*.html"
-            ]
-          }
-        },
-        "cypress-run": {
-          "builder": "@cypress/schematic:cypress",
-          "options": {
-            "devServerTarget": "arsnova-angular-frontend-e2e:serve",
-            "configFile": "e2e/cypress.json"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "arsnova-angular-frontend-e2e:serve:production"
-            }
-          }
-        },
-        "cypress-open": {
-          "builder": "@cypress/schematic:cypress",
-          "options": {
-            "watch": true,
-            "headless": false,
-            "configFile": "e2e/cypress.json"
           }
         }
       }
     }
   },
-  "defaultProject": "arsnova-angular-frontend",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
@@ -238,10 +183,16 @@
     },
     "@schematics/angular:directive": {
       "prefix": "app"
+    },
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   },
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

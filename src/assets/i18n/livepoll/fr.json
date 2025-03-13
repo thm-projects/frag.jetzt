@@ -1,62 +1,111 @@
 {
   "common": {
-    "live": "Live",
-    "option-archive": "Archive",
-    "archive-noname": "Sondage sans nom",
-    "archive-finished": "Ends",
-    "create-dialog-title": "Créer un sondage rapide",
-    "dialog-title": "Sondage rapide",
-    "option-select-title": "Ta question …",
-    "dialog-preview-title": "Aperçu du participant :",
-    "create": "Lancer le sondage",
-    "participants": "Participants de la salle",
-    "user": "Utilisateurs actifs de Live Poll",
-    "close": "Fermer",
-    "cancel": "Annuler",
-    "save": "Envoyer les modifications à tous",
-    "new": "Nouveau sondage",
-    "vote-make": "Ton vote a été comptabilisé.",
-    "vote-delete": "Ton vote a été supprimé.",
-    "peerInstruction-end": "Quitter Peer Instruction",
-    "peerInstruction-start-phase-2":"Début de la deuxième phase",
-    "peerInstruction-comparison-results-1": "Premier sondage",
-    "peerInstruction-comparison-results-2":"Second sondage",
-    "peerInstruction-comparison-title": "Peer Instruction - Résultats",
-    "peerInstruction-button":"Peer Instruction",
-    "peerInstruction-phase-2-marker": "Second sondage",
-    "peerInstruction-title-1":"Peer Instruction",
-    "peerInstruction-title-2": "Peer Instruction",
-    "peerInstruction-description-phase-1":"Méthode d'enseignement interactive fondée sur des données probantes. Créez un deuxième sondage en direct et comparez les résultats.",
-    "peerInstruction-description-phase-2": "Vous pouvez mettre fin au sondage en direct. La comparaison des enquêtes s'affiche dans une boîte de dialogue.",
-    "dialog-confirm-peerInstruction-show1stStageResults-description": "Êtes-vous sûr de vouloir mettre fin au sondage actuel et commencer la deuxième phase de Peer Instruction?",
-    "dialog-confirm-peerInstruction-show1stStageResults-title": "Démarrage de la deuxième phase des Peer Instruction",
-    "dialog-confirm-create-new-description": "Veux-tu vraiment arrêter le sondage en cours et en lancer un nouveau ?",
-    "dialog-confirm-create-new-title": "Nouveau sondage",
-    "dialog-confirm-delete-description": "Veux-tu vraiment arrêter le sondage ? Le résultat du sondage reste affiché. Toutefois, il sera supprimé lorsque tu quitteras le sondage.",
-    "dialog-confirm-delete-title": "Arrêter le sondage",
-    "dialog-confirm-resetResults-description": "Tu veux vraiment réinitialiser le sondage ?",
-    "dialog-confirm-resetResults-title": "Réinitialiser le sondage",
-    "votes": "Votes :",
-    "confirm-yes": "Oui",
-    "confirm-cancel":"Cancel",
-    "confirm-accept": "Accept",
-    "confirm-continue":"Continue",
-    "confirm-no":"No",
-    "creator-settings": "Options en direct …",
-    "creator-settings-icon": "flash_on",
-    "creator-settings-delete": "Arrêter le sondage",
-    "creator-settings-pause": "Suspendre le sondage",
-    "creator-settings-continue": "Continuer le sondage",
-    "creator-settings-open-editor": "Éditeur",
-    "settings-resetResults": "Reset",
+    "title": "Sondage Express",
+    "create": {
+      "title": "Créer un sondage express",
+      "select-template": {
+        "label": "Choisir un modèle…"
+      }
+    },
+    "peer-instruction": {
+      "second-round": "2ème tour du sondage",
+      "name": "»Peer Instruction«",
+      "result-statistics": {
+        "title": "Résultat",
+        "result-1": "Premier sondage",
+        "result-2": "Deuxième sondage",
+        "start-next": "Démarrer 2ème tour du sondage",
+        "end": "Terminer"
+      }
+    },
+    "edit": {
+      "view-as-participant": "Aperçu du point de vue du participant:",
+      "reset": "Reset",
+      "pause": "Mettre en pause",
+      "delete": "Supprimer",
+      "continue": "Continuer",
+      "close": "Fermer",
+      "new": "Nouveau sondage",
+      "cancel": "Annuler",
+      "start": "Lancer le sondage"
+    },
+    "settings": {
+      "name": "Options en direct…",
+      "option": {
+        "result-visibility": {
+          "text": "Vote visible en directe",
+          "tooltip": "Afficher les votes en temps réel pour tous les participants"
+        },
+        "user-count-visibility": {
+          "text": "Participation visible en direct",
+          "tooltip": "Afficher la participation en temps réel pour tous les participants"
+        },
+        "question": {
+          "label": "Ta question…"
+        },
+        "editor": "Éditeur",
+        "save": "Envoyer les changements à tous"
+      }
+    },
+    "statistics": {
+      "active-user-count": {
+        "tooltip": "Participants actifs au sondage en direct"
+      },
+      "room-user-count": {
+        "tooltip": "Participants dans la salle"
+      },
+      "vote-count": {
+        "text": "Votes:"
+      }
+    },
+    "confirmation-dialog": {
+      "common": {
+        "yes": "Oui",
+        "cancel": "Annuler",
+        "accept": "Oui",
+        "continue": "Continuer",
+        "no": "Non"
+      },
+      "entries": {
+        "new": {
+          "title": "Nouveau sondage",
+          "description": "Veux-tu vraiment terminer ce sondage et en commencer un nouveau?"
+        },
+        "delete": {
+          "title": "Terminer le sondage",
+          "description": "Es-tu sûr de vouloir terminer le sondage? Les résultats resteront visibles, mais seront supprimés en quittant."
+        },
+        "reset": {
+          "title": "Réinitialiser le sondage",
+          "description": "Veux-tu vraiment réinitialiser le sondage?"
+        },
+        "change-peer-instruction-stage": {
+          "title": "Démarrer 2ème tour du sondage",
+          "description": "Es-tu sûr de vouloir terminer le sondage actuel et commencer le 2ème tour?"
+        },
+        "create-peer-instruction": {
+          "title": "2ème tour du sondage",
+          "description": "En démarrant le 2ème tour, tu peux observer l'évolution des opinions du groupe. Ce tour permet de comparer les réponses collectives avec celles du premier tour."
+        },
+        "change-peer-instruction-stage-2": {
+          "title": "2ème tour du sondage",
+          "description": "Tu peux terminer le sondage en direct. La comparaison des sondages sera affichée dans un dialogue."
+        }
+      }
+    },
+    "snack-bar": {
+      "vote": {
+        "make": "Ton vote a été compté.",
+        "delete": "Ton vote a été réinitialisé."
+      }
+    },
+    "misc": {
+      "live": "LIVE",
+      "paused": "PAUSED"
+    },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
     "template-name-symbol": "Humeur",
-    "option-select-result-visibility": "Vote visible en directe",
-    "tooltip-option-select-result-visibility": "Afficher les votes en temps réel pour tous les participants",
-    "option-select-views-visibility": "Participation visible en direct",
-    "tooltip-option-select-views-visibility": "Afficher la participation en temps réel pour tous les participants",
-    "option-select-template": "Choisir un modèle …",
     "template-name-agree-multi": "Accord",
     "option-agree-multi": [
       "Je suis tout à fait d'accord",
@@ -66,7 +115,12 @@
       "Je suis totalement en désaccord"
     ],
     "template-name-frequency-multi": "Fréquence",
-    "option-frequency-multi": ["jamais", "rarement", "souvent", "toujours"],
+    "option-frequency-multi": [
+      "jamais",
+      "rarement",
+      "souvent",
+      "toujours"
+    ],
     "template-name-quality-multi": "Qualité",
     "option-quality-multi": [
       "très bien",
@@ -100,22 +154,15 @@
       "trop rapide",
       "trop lent",
       "continuer ainsi"
-      ],
+    ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
-      "multiplechoice": "AB …",
+      "multiplechoice": "AB…",
       "likertscale": "Évaluation",
       "mood": "Emojis",
       "custom": "Personnalisé",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    }
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation"
   }
 }

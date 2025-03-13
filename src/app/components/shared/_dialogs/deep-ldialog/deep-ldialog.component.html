@@ -1,53 +1,58 @@
-<h2>{{'deepl.header' | translate}}</h2>
-<div mat-dialog-content>
-  <label id="deepl-radio-group-label">{{'deepl.label' | translate}}</label>
-  <br>
+<h2 mat-dialog-title>{{ "deepl.header" | translate }}</h2>
+
+<mat-dialog-content>
+  <label id="deepl-radio-group-label">{{ "deepl.label" | translate }}</label>
+  <br />
   <mat-radio-group
     aria-labelledby="deepl-radio-group-label"
     [(ngModel)]="radioButtonValue">
     <mat-radio-button [value]="normalValue">
-      <small>{{'deepl.option-normal' | translate}}</small>
+      <small>{{ "deepl.option-normal" | translate }}</small>
     </mat-radio-button>
-    <app-view-comment-data #normal
-                           [maxTextCharacters]="data.maxTextCharacters"
-                           [maxDataCharacters]="data.maxDataCharacters"
-                           [isModerator]="data.isModerator"
-                           [isEditor]="true"
-                           [currentData]="normalValue.body"></app-view-comment-data>
-    <br>
+    <!-- TODO: <app-view-comment-data
+      #normal
+      [maxTextCharacters]="data.maxTextCharacters"
+      [maxDataCharacters]="data.maxDataCharacters"
+      [isModerator]="data.isModerator"
+      [isEditor]="true"
+      [currentData]="normalValue.body"></app-view-comment-data> -->
+    <br />
     <mat-radio-button [value]="improvedValue">
-      <small>{{'deepl.option-improved' | translate}}</small>
+      <small>{{ "deepl.option-improved" | translate }}</small>
     </mat-radio-button>
-    <app-view-comment-data #improved
-                           [maxTextCharacters]="data.maxTextCharacters"
-                           [maxDataCharacters]="data.maxDataCharacters"
-                           [isModerator]="data.isModerator"
-                           [isEditor]="true"
-                           [currentData]="improvedValue.body"
-                           [usesFormality]="supportsFormality"
-                           [formalityEmitter]="onFormalityChange.bind(this)"
-                           [selectedFormality]="formality"></app-view-comment-data>
+    <!-- TODO: <app-view-comment-data
+      #improved
+      [maxTextCharacters]="data.maxTextCharacters"
+      [maxDataCharacters]="data.maxDataCharacters"
+      [isModerator]="data.isModerator"
+      [isEditor]="true"
+      [currentData]="improvedValue.body"
+      [usesFormality]="supportsFormality"
+      [formalityEmitter]="onFormalityChange.bind(this)"
+      [selectedFormality]="formality"></app-view-comment-data> -->
   </mat-radio-group>
-</div>
+</mat-dialog-content>
 
-<ars-row ars-flex-box class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="openHelp()">
-      <mat-icon>question_mark</mat-icon>
-      {{ 'explanation.label' | translate}}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      [buttonsLabelSection]="'comment-page'"
-      [confirmButtonLabel]="'continue'"
-      [showDivider]="false"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildSubmitBodyActionCallback()">
-    </app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    style="align-self: flex-start"
+    mat-stroked-button
+    class="primary-button"
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "comment-page.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="submit()">
+    {{ "comment-page.continue" | translate }}
+  </button>
+</mat-dialog-actions>

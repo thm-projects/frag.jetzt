@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlSegment,
@@ -9,15 +8,27 @@ import {
 
 import { UserRole } from '../models/user-roles.enum';
 import { EventService } from 'app/services/util/event.service';
-import { Observable, filter, map, of, switchMap, take, tap } from 'rxjs';
+import {
+  Observable,
+  filter,
+  first,
+  forkJoin,
+  map,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
 import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
+import { RoomAccess } from 'app/base/db/models/db-room-access.model';
+import { enterRoom } from 'app/room/state/room';
+import { forceLogin, user$ } from 'app/user/state/user';
 
 @Injectable()
-export class AuthenticationGuard implements CanActivate {
+export class AuthenticationGuard {
   constructor(
     private router: Router,
     private eventService: EventService,
@@ -30,11 +41,11 @@ export class AuthenticationGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> {
-    this.accountState.forceLogin().subscribe();
-    const roomShortId = route.params.shortId;
+    const roomShortId = route.params['shortId'];
+    enterRoom(roomShortId);
     const url = decodeURI(state.url);
-    if (route.data.superAdmin) {
-      return this.accountState.user$.pipe(
+    if (route.data['superAdmin']) {
+      return user$.pipe(
         filter((v) => Boolean(v)),
         take(1),
         map((user) => user.hasRole(KeycloakRoles.AdminDashboard)),
@@ -43,15 +54,13 @@ export class AuthenticationGuard implements CanActivate {
     }
     const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
     const wantedRole = this.parseRole(url);
-    return this.accountState.access$.pipe(
-      filter((v) => Boolean(v)),
-      switchMap(() =>
-        this.accountState.user$.pipe(
-          take(1),
-          map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
-        ),
+    return forkJoin([
+      forceLogin().pipe(
+        map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
       ),
-      switchMap((isAdmin) => {
+      this.accountState.access$.pipe(first(Boolean)),
+    ]).pipe(
+      switchMap(([isAdmin]) => {
         const accessRole = isAdmin
           ? UserRole.CREATOR
           : this.parseRoomAccess(this.accountState.getAccess(roomShortId));

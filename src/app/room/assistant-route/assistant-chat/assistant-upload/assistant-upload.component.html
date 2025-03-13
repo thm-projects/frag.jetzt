@@ -1,0 +1,17 @@
+@if (state() === "uploading") {
+  <mat-progress-spinner [value]="progress()"></mat-progress-spinner>
+} @else if (state() === "processing") {
+  <mat-spinner></mat-spinner>
+} @else if (state() === "failed") {
+  <mat-icon>error</mat-icon>
+} @else {
+  <mat-icon>description</mat-icon>
+}
+<span>
+  {{ name() }}
+</span>
+<button
+  mat-icon-button
+  (click)="remove.emit()">
+  <mat-icon>close</mat-icon>
+</button>

@@ -8,9 +8,10 @@ import { ArsLifeCycleVisitor } from '../../../models/util/ars-life-cycle-visitor
 import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
-  selector: 'ars-date-formatter',
-  templateUrl: './date-formatter.component.html',
-  styleUrls: ['./date-formatter.component.scss'],
+    selector: 'ars-date-formatter',
+    templateUrl: './date-formatter.component.html',
+    styleUrls: ['./date-formatter.component.scss'],
+    standalone: false
 })
 export class DateFormatterComponent extends ArsLifeCycleVisitor {
   @Input() date: any;

@@ -3,14 +3,16 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../services/util/session.service';
-import { DsgvoBuilder } from '../../../utils/dsgvo-builder';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, take } from 'rxjs';
+import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
+import { user } from 'app/user/state/user';
 
 @Component({
   selector: 'app-quiz-now',
   templateUrl: './quiz-now.component.html',
   styleUrls: ['./quiz-now.component.scss'],
+  standalone: false,
 })
 export class QuizNowComponent implements OnInit, OnDestroy {
   urlSafe: SafeResourceUrl;
@@ -28,7 +30,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     private accountState: AccountStateService,
   ) {
     this.shortId = this.sessionService.getLastShortId();
-    const id = this.accountState.getCurrentUser()?.id;
+    const id = user()?.id;
     if (!id) {
       this.roleString = 'participant';
       return;
@@ -77,7 +79,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
-        DsgvoBuilder.trustURL(xhr.responseURL);
+        gdprWatcher.trustDomain(xhr.responseURL);
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(
           xhr.responseURL,
         );
@@ -85,7 +87,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
         xhr.abort();
       }
     };
-    xhr.open('OPTIONS', '/antworte-jetzt');
+    xhr.open('OPTIONS', '/arsnova-click');
     xhr.send();
   }
 }

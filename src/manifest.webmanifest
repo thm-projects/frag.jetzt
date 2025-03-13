@@ -1,0 +1,126 @@
+{
+  "name": "frag.jetzt",
+  "short_name": "frag.jetzt",
+  "description": "Revolutionizing the way we ask questions and receive AI-driven answers, »frag.jetzt« is an innovative platform designed for personalized learning and real-time audience engagement through AI chatbots",
+  "categories": [
+    "ChatGPT",
+    "AI Assistants",
+    "Education",
+    "Q&A",
+    "Feedback",
+    "Audience Response System",
+    "Personal Learning Environment"
+  ],
+  "lang": "de",
+  "icons": [
+    {
+      "src": "assets/icons/masked_icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/maskable_icon_x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/maskable_icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Feedback",
+      "url": "/participant/room/Feedback",
+      "description": "Submit feature requests, report bugs, and give general feedback",
+      "icons": [
+        {
+          "src": "/assets/images/frag-jetzt-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "ChatGPT",
+      "url": "/participant/room/ChatGPT",
+      "description": "Ask questions and receive AI-driven answers from ChatGPT",
+      "icons": [
+        {
+          "src": "/assets/images/ChatGPT.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "theme_color": "#fff8f4",
+  "background_color": "#018000",
+  "scope": "/",
+  "start_url": "/home",
+  "id": "/home",
+  "orientation": "any",
+  "display_override": ["window-controls-overlay"],
+  "display": "standalone",
+  "dir": "ltr",
+  "prefer_related_applications": true,
+  "_comment_related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de",
+      "id": "com.uninow.thm"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104",
+      "id": "1644060104"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://staging.frag.jetzt/manifest.webmanifest"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "scope_extensions": [],
+  "screenshots": [
+    {
+      "src": "/assets/images/frag.jetzt_startpage.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Startpage of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_Feedback_room.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Feedback Room of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_Q&A_forum.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Q&A Forum of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_ChatGPT_room.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "ChatGPT Room of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_startpage_wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Startpage of frag.jetzt on a wide screen"
+    }
+  ]
+}

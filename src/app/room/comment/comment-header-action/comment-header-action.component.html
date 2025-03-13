@@ -1,0 +1,67 @@
+@for (elem of seperatedElements()[0]; track elem.id) {
+  @switch (elem.type) {
+    @case ("info") {
+      <mat-icon
+        class="fillable-icon filled info-icon"
+        [matTooltip]="elem.description">
+        {{ elem.icon }}
+      </mat-icon>
+    }
+    @case ("action") {
+      <button
+        mat-icon-button
+        [matTooltip]="elem.description"
+        [disabled]="elem.disabled"
+        (click)="elem.action()"
+        [class.contained-icon-filled-tonal]="true"
+        [class.selected]="elem.active"
+        [class.filled]="elem.active">
+        <mat-icon
+          class="fillable-icon"
+          [class.filled]="elem.active">
+          {{ elem.icon }}
+        </mat-icon>
+      </button>
+    }
+  }
+}
+@if (seperatedElements()[1]; as more) {
+  @if (more.length) {
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="moreMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #moreMenu="matMenu">
+      @for (elem of more; track elem.id) {
+        @switch (elem.type) {
+          @case ("info") {
+            <button
+              mat-menu-item
+              [matTooltip]="elem.description"
+              disabled="true">
+              <mat-icon class="fillable-icon filled">
+                {{ elem.icon }}
+              </mat-icon>
+              {{ elem.label }}
+            </button>
+          }
+          @case ("action") {
+            <button
+              mat-menu-item
+              [matTooltip]="elem.description"
+              [disabled]="elem.disabled"
+              (click)="elem.action()">
+              <mat-icon
+                class="fillable-icon"
+                [class.filled]="elem.active">
+                {{ elem.icon }}
+              </mat-icon>
+              {{ elem.label }}
+            </button>
+          }
+        }
+      }
+    </mat-menu>
+  }
+}

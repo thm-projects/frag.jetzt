@@ -6,3 +6,6 @@ export WS_GATEWAY_HTTP_REWRITE=^/gateway-api
 export BACKEND_ADDRESS=https://staging.frag.jetzt/api
 export BACKEND_SECURE=true
 export BACKEND_CHANGE_ORIGIN=true
+export AI_ADDRESS=https://staging.frag.jetzt/ai
+export AI_SECURE=true
+export AI_CHANGE_ORIGIN=true

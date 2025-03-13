@@ -1,71 +1,141 @@
-<script src="models/rescale.ts"></script>
-<div
-  fxLayout="column"
-  fxFill
-  appTheme
-  id="outer_main_container">
-  <header
-    class="header"
-    id="header_rescale"
-    #headerElement>
-    <app-header #header></app-header>
-  </header>
-  <div id="rescale_screen">
-    <div
-      class="main_container"
-      id="scroll_container"
-      #scrollElement
-      (scroll)="onScroll()">
-      <div class="inner_main_container">
-        <main
-          fxFlex
-          class="app-component">
-          <router-outlet></router-outlet>
-        </main>
+<m3-navigation #nav>
+  <router-outlet (activate)="nav.onNavigate()"></router-outlet>
+</m3-navigation>
+
+<style>
+  #debugger {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 6px;
+    bottom: 6px;
+    z-index: 1000000;
+    background-color: #d6d3ce;
+    border-left: solid 3px #f4f4f3;
+    border-top: solid 3px #f4f4f3;
+    border-bottom: solid 3px #656365;
+    border-right: solid 3px #656365;
+    font-family: "Ubuntu", "Tahoma", "Geneva", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    .debugger-content {
+      padding: 4px;
+    }
+    button {
+      border-left: solid 2px #f4f4f3;
+      border-top: solid 2px #f4f4f3;
+      border-bottom: solid 2px #656365;
+      border-right: solid 2px #656365;
+      background-color: #d6d3ce;
+    }
+    button:active {
+      border-bottom: solid 2px #f4f4f3;
+      border-right: solid 2px #f4f4f3;
+      border-left: solid 2px #656365;
+      border-top: solid 2px #656365;
+    }
+    .debugger-header {
+      display: flex;
+      span {
+        font-family: "Dialog", "Tahoma", "Geneva", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .material-symbols-rounded {
+        padding: 0px;
+      }
+    }
+    .material-symbols-rounded {
+      font-size: 16px;
+      text-align: center;
+      margin: 0;
+      padding: 4px;
+    }
+    .debugger-options {
+      button {
+        font-family: "Dialog", "Tahoma", "Geneva", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+    .debugger-header-title {
+      height: 25px;
+      background: rgb(9, 9, 121);
+      background: linear-gradient(
+        90deg,
+        rgba(9, 9, 121, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      box-sizing: border-box;
+      flex-grow: 1;
+      > span {
+        color: white;
+      }
+    }
+
+    .debugger-header-options {
+      button {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  #debugger-state-button {
+    position: fixed;
+    z-index: 1000000;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    background-color: var(--mat-sys-surface-container);
+  }
+</style>
+@if (canUseDebugger()) {
+  <button
+    mat-icon-button
+    id="debugger-state-button"
+    *ngIf="!__debugger.isExtended"
+    (click)="__debugger.__options.toggleExtension()">
+    <mat-icon>arrow_left</mat-icon>
+  </button>
+  <div
+    cdkDrag
+    id="debugger"
+    *ngIf="__debugger.isExtended">
+    <div class="debugger-header">
+      <div class="debugger-header-title">
+        <span>{{ windowClass() }}</span>
+      </div>
+      <div class="debugger-header-options">
+        <button
+          (click)="__debugger.__options['disableExtension']()"
+          class="material-symbols-rounded">
+          delete
+        </button>
+        <button
+          (click)="__debugger.__options['toggleExtension']()"
+          class="material-symbols-rounded">
+          close
+        </button>
+      </div>
+    </div>
+    <div class="debugger-content column">
+      <div class="debugger-options column">
+        <button
+          *ngFor="let option of __debugger.self"
+          (click)="option[1]()">
+          {{ option[0] }}
+        </button>
       </div>
     </div>
   </div>
-  <footer
-    role="contentinfo"
-    class="footer"
-    id="footer_rescale"
-    #footerElement>
-    <app-footer></app-footer>
-  </footer>
-  <div
-    class="rescale_overlay"
-    id="overlay_rescale"
-    aria-hidden="true"
-    [ngClass]="{
-      'bottom-before': isMobile || router.url.endsWith('/brainstorming'),
-      bottom:
-        rescaleActive && (isMobile || router.url.endsWith('/brainstorming')),
-      above:
-        rescaleActive && !isMobile && !router.url.endsWith('/brainstorming')
-    }">
-    <button
-      mat-icon-button
-      (click)="getRescale().toggleState()"
-      matTooltip="{{ 'header.zoom-exit' | translate }}">
-      <mat-icon>close_fullscreen</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="getRescale().scaleUp()"
-      matTooltip="{{ 'header.zoom-plus' | translate }}">
-      <mat-icon>zoom_in</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="getRescale().scaleDown()"
-      matTooltip="{{ 'header.zoom-minus' | translate }}">
-      <mat-icon>zoom_out</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="getRescale().scaleUndo()"
-      matTooltip="{{ 'header.zoom-reset' | translate }}">
-      <mat-icon>undo</mat-icon>
-    </button>
-  </div>
-</div>
+}

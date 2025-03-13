@@ -1,48 +1,26 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { TranslateService } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-comment',
   templateUrl: './delete-comment.component.html',
-  styleUrls: ['./delete-comment.component.scss']
+  styleUrls: ['./delete-comment.component.scss'],
+  standalone: false,
 })
 export class DeleteCommentComponent implements OnInit {
-
-  /**
-   * The confirm button type of the dialog.
-   */
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  protected readonly i18n = i18n;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteCommentComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
     private liveAnnouncer: LiveAnnouncer,
-    private translationService: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.translationService.get('comment-list.really-delete').subscribe(msg => {
-      this.liveAnnouncer.announce(msg);
-    });
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildCommentDeleteActionCallback(): () => void {
-    return () => this.dialogRef.close('delete');
+    this.liveAnnouncer.announce(i18n().reallyDelete);
   }
 }

@@ -6,13 +6,13 @@ import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommentNotificationService extends BaseHttpService {
   private apiUrl = {
     base: '/api',
     commentNotification: '/comment-notification',
-    find: '/find'
+    find: '/find',
   };
 
   constructor(private http: HttpClient) {
@@ -20,37 +20,48 @@ export class CommentNotificationService extends BaseHttpService {
   }
 
   findByRoomId(roomId: string): Observable<CommentNotification[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.commentNotification + this.apiUrl.find;
-    return this.http.post<CommentNotification[]>(connectionUrl, {
-      properties: { roomId },
-      externalFilters: {}
-    }).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<CommentNotification[]>('findByRoomId'))
-    );
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.commentNotification + this.apiUrl.find;
+    return this.http
+      .post<CommentNotification[]>(connectionUrl, {
+        properties: { roomId },
+        externalFilters: {},
+      })
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<CommentNotification[]>('findByRoomId')),
+      );
   }
 
   getById(id: string): Observable<CommentNotification> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
     return this.http.get<CommentNotification>(connectionUrl).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<CommentNotification>('getById'))
+      tap(() => ''),
+      catchError(this.handleError<CommentNotification>('getById')),
     );
   }
 
-  createNotification(roomId: string, notificationSetting: number): Observable<CommentNotification> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.commentNotification + '/';
-    return this.http.post<CommentNotification>(connectionUrl, { roomId, notificationSetting }).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<CommentNotification>('createNotification'))
-    );
+  createNotification(
+    roomId: string,
+    notificationSetting: number,
+  ): Observable<CommentNotification> {
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.commentNotification + '/';
+    return this.http
+      .post<CommentNotification>(connectionUrl, { roomId, notificationSetting })
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<CommentNotification>('createNotification')),
+      );
   }
 
   deleteNotification(id: string): Observable<unknown> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
     return this.http.delete(connectionUrl).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<CommentNotification>('deleteNotification'))
+      tap(() => ''),
+      catchError(this.handleError<CommentNotification>('deleteNotification')),
     );
   }
 }

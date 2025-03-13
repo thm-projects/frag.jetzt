@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-ask-onboarding-de',
   templateUrl: './ask-onboarding-de.component.html',
   styleUrls: ['./ask-onboarding-de.component.scss'],
+  standalone: false,
 })
 export class AskOnboardingDEComponent implements OnInit {
   constructor() {}

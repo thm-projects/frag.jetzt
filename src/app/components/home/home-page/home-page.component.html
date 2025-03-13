@@ -3,171 +3,38 @@
   [joyrideStep]="'greeting'"
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
-
-<div
-  class="background-container"
-  *ngIf="
-    contentContainer.offsetWidth > mobileBoundaryWidth &&
-    contentContainer.offsetHeight > mobileBoundaryHeight
-  ">
-  <div
-    class="background-image"
-    *ngFor="let background of carousel; index as i"
-    [ngStyle]="getBackgroundStyleForEntry(i)">
+<m3-body-pane [center-single-pane]="true">
+  <m3-supporting-pane
+    class="input-pane"
+    *ngIf="!featureState">
     <div
-      *ngIf="contentContainer.offsetWidth > 1100"
-      class="foreground-container"
-      [ngStyle]="
-        getForegroundStyleForEntry(i, foregroundAnchor.offsetLeft)
-      "></div>
-  </div>
-</div>
-<div
-  *ngIf="
-    contentContainer.offsetWidth > mobileBoundaryWidth &&
-    contentContainer.offsetHeight > mobileBoundaryHeight
-  "
-  [ngClass]="
-    (contentContainer.offsetWidth < mobileBoundaryWidth ||
-    contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'mobile'
-      : 'desktop') +
-    ' ' +
-    (themeService.activeTheme?.key || 'undefined')
-  "></div>
-<div
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  class="content-container"
-  #contentContainer
-  [ngClass]="
-    (contentContainer.offsetWidth < mobileBoundaryWidth ||
-    contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'mobile'
-      : 'desktop') +
-    ' ' +
-    (themeService.activeTheme?.key || 'undefined') +
-    ' ' +
-    (contentContainer.offsetHeight < mobileBoundaryHeight
-      ? 'scroll-bound'
-      : ' ')
-  ">
-  <div
-    class="content"
-    fxLayoutGap="16px"
-    fxLayout="row">
-    <div
-      class="book-room-container"
-      fxLayout="column"
-      fxLayoutGap="32px">
+      class="flex-container book-room-container"
+      style="padding: 0 5em"
+      fxLayout="column">
+      <app-frag-jetzt-logo class="flex-item"></app-frag-jetzt-logo>
       <div
-        fxLayout="column"
-        fxLayoutGap="16px">
-        <span
-          class="main-heading-secondary"
-          aria-hidden="true">
-          {{ "login.welcome" | translate }}
-        </span>
-        <span class="main-heading-primary">
-          {{ "login.welcome-primary" | translate }}
-        </span>
-      </div>
-      <div
+        class="flex-item flex-container"
         data-nosnippet
-        fxLayout="row">
+        fxLayout="column">
         <app-app-rating
+          class="flex-item"
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
-      </div>
-      <div
-        fxLayout="row"
-        fxLayoutGap="16px"
-        fxLayoutAlign="flex-start center">
-        <app-new-landing></app-new-landing>
-      </div>
-      <div class="yt-video-wrapper">
-        <img
-          style="border-radius: 15px"
-          (click)="isAccepted = true"
-          *ngIf="!isAccepted"
-          [src]="imageSrc"
-          alt="" />
-        <iframe
-          style="border-radius: 15px"
-          *ngIf="isAccepted"
-          (window:resize)="onResize()"
-          (load)="onResize()"
-          #scaledIframe
-          allowfullscreen
-          tabindex="0"
-          data-verified="true"
-          title=""
-          [src]="iframeSrc"></iframe>
-      </div>
-    </div>
-    <div
-      class="carousel-container-ghost"
-      *ngIf="
-        contentContainer.offsetWidth > mobileBoundaryWidth &&
-        contentContainer.offsetHeight > mobileBoundaryHeight
-      ">
-      <div class="carousel-anchor">
-        <div class="carousel-transform">
-          <div
-            class="carousel-scroll"
-            [ngStyle]="carouselOffset"
-            #carouselScrollElement>
-            <ng-container *ngFor="let entry of carousel; index as i">
-              <div
-                class="carousel-entry"
-                *ngIf="getEntryKind(i) as kind"
-                [ngClass]="kind"
-                [ngStyle]="getStyleForEntry(i, kind)"
-                role="button"
-                #entryElement>
-                <div
-                  mat-ripple
-                  class="carousel-pointer"
-                  (click)="selectEntry(i, entryElement)"
-                  [ngStyle]="{ 'height.px': content.offsetHeight }">
-                  <div
-                    class="pointer"
-                    [ngClass]="getPositionClass(i)">
-                    <div class="point"></div>
-                  </div>
-                </div>
-                <div
-                  mat-ripple
-                  [matRippleColor]="'rgba(123,123,123,0.1)'"
-                  class="carousel-content"
-                  (click)="selectEntry(i, entryElement)"
-                  #content>
-                  <div
-                    fxLayout="row"
-                    fxLayoutAlign="space-between center">
-                    <span class="carousel-entry-title">
-                      {{ entry.title[currentLanguage] }}
-                    </span>
-                  </div>
-                  <span class="carousel-text">
-                    {{ entry.description[currentLanguage] }}
-                  </span>
-                </div>
-              </div>
-            </ng-container>
-          </div>
+        <div
+          class="flex-item"
+          fxLayout="row"
+          fxLayoutAlign="flex-start center">
+          <app-new-landing></app-new-landing>
         </div>
+        <app-yt-video-wrapper class="flex-item"></app-yt-video-wrapper>
       </div>
     </div>
-    <div #foregroundAnchor></div>
-  </div>
-</div>
-
-<div class="visually-hidden">
-  <div
-    data-nosnippet
-    id="feedback-aria"
-    style="display: none">
-    {{ "login.feedback-aria" | translate }}
-  </div>
-</div>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    class="grid-pane"
+    style="padding-left: 0"
+    [priority]="featureState ? 'primary' : 'secondary'"
+    type="flexible">
+    <app-feature-grid></app-feature-grid>
+  </m3-supporting-pane>
+</m3-body-pane>

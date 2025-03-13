@@ -1,472 +1,155 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import {
-  Language,
-  LanguagetoolResult,
-  LanguagetoolService,
-} from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
-import {
-  DeepLService,
-  FormalityType,
-  SourceLang,
-  TargetLang,
-} from '../../../services/http/deep-l.service';
-import {
-  DeepLDialogComponent,
-  ResultValue,
-} from '../_dialogs/deep-ldialog/deep-ldialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
-import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
-import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
-import { User } from '../../../models/user';
-import { StandardDelta } from '../../../utils/quill-utils';
+import { UUID } from 'app/utils/ts-utils';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { dataService } from 'app/base/db/data-service';
+import { room } from 'app/room/state/room';
+import { user } from 'app/user/state/user';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { KeycloakRoles } from 'app/models/user';
 import {
-  CommentCreateOptions,
-  KeywordExtractor,
-} from '../../../utils/keyword-extractor';
-import { ForumComment } from '../../../utils/data-accessor';
-import { forkJoin, of, switchMap, take } from 'rxjs';
-import { clone, UUID } from 'app/utils/ts-utils';
-import { AccountStateService } from 'app/services/state/account-state.service';
-import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
-import {
-  ROOM_ROLE_MAPPER,
-  RoomStateService,
-} from 'app/services/state/room-state.service';
+  CreateCommentOptions,
+  generateComment,
+} from 'app/room/comment/util/create-comment';
 
 @Component({
   selector: 'app-write-comment',
   templateUrl: './write-comment.component.html',
   styleUrls: ['./write-comment.component.scss'],
+  standalone: false,
 })
-export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
-  @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
-  @Input() isModerator = false;
-  @Input() tags: string[];
-  @Input() onClose: (comment?: Comment) => any;
-  @Input() disableCancelButton = false;
-  @Input() confirmLabel = 'save';
-  @Input() cancelLabel = 'cancel';
-  @Input() additionalTemplate: TemplateRef<any>;
-  @Input() enabled = true;
-  @Input() isCommentAnswer = false;
-  @Input() placeholder = 'comment-page.enter-comment';
-  @Input() i18nSection = 'comment-page';
-  @Input() isQuestionerNameEnabled = false;
-  @Input() brainstormingData: BrainstormingSession;
-  @Input() allowEmpty = false;
-  @Input() additionalMockOffset: number = 0;
-  @Input() commentReference: UUID = null;
-  @Input() onlyText = false;
-  @Input() rewriteCommentData: ForumComment = null;
-  isSubmittingComment = false;
-  selectedTag: string;
-  maxTextCharacters = 2500;
-  maxDataCharacters = 7500;
+export class WriteCommentComponent {
+  commentCreated = output<Comment | null>();
+  allowEmpty = input(false);
+  brainstormingData = input<BrainstormingSession>(null);
+  commentReference = input<UUID>(null);
+  canSelectTags = input(true);
+  rewriteCommentData = input<Comment>(null);
+  questionerNameEnabled = input(true);
+  private readonly roomState = inject(RoomStateService);
+  protected role = toSignal(this.roomState.assignedRole$, {
+    initialValue: null,
+  });
+  protected maxCharacters = computed(() => {
+    const role = this.role();
+    if (!role) return 0;
+    if (this.commentReference()) {
+      return role !== 'Participant' ? 35_000 : 20_000;
+    } else {
+      return role !== 'Participant' ? 100_000 : 20_000;
+    }
+  });
+  protected roleIcon = computed(() => {
+    if (user()?.hasRole(KeycloakRoles.AdminDashboard)) {
+      return 'admin_panel_settings';
+    }
+    const role = this.role();
+    if (role === 'Creator') return 'co_present';
+    if (role === 'Moderator') return 'support_agent';
+    return 'person';
+  });
+  protected readonly tags = computed(() => room.value()?.tags ?? []);
+  protected readonly i18n = i18n;
+  data = signal('');
+  protected readonly textData = signal('');
+  isSubmittingComment = signal(false);
+  selectedTag = signal<string | null>(null);
   // Grammarheck
-  selectedLang: Language = 'auto';
-  isSpellchecking = false;
-  hasSpellcheckConfidence = true;
-  brainstormingInfo: string;
-  userRole: UserRole;
-  user: User;
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
     Validators.minLength(this.questionerNameMin),
     Validators.maxLength(this.questionerNameMax),
   ]);
-  private _hadUsedDeepl = false;
-  private _mobileMockActive = false;
-  private _mobileMockTimeout;
-  private _mobileMockPossible = false;
-  private _mockMatcher: MediaQueryList;
-  private _keywordExtractor: KeywordExtractor;
-  private _currentData: ForumComment;
+  private injector = inject(Injector);
+  private sessionService = inject(SessionService);
+  private notification = inject(NotificationService);
 
-  constructor(
-    private notification: NotificationService,
-    private translateService: TranslateService,
-    public languagetoolService: LanguagetoolService,
-    private deeplService: DeepLService,
-    private dialog: MatDialog,
-    private sessionService: SessionService,
-    private accountState: AccountStateService,
-    private localRoomSeting: DbLocalRoomSettingService,
-    private roomState: RoomStateService,
-    injector: Injector,
-  ) {
-    this._keywordExtractor = new KeywordExtractor(injector);
-  }
-
-  get isMobileMockActive() {
-    return this._mobileMockActive;
-  }
-
-  get isMobileMockPossible() {
-    return this._mobileMockPossible;
-  }
-
-  ngOnInit(): void {
-    this._mockMatcher = window.matchMedia(
-      '(min-width: ' +
-        (1500 + this.additionalMockOffset * 2 * 0.8 + 10) +
-        'px)',
-    );
-    this._mobileMockPossible = this._mockMatcher.matches;
-    this._mockMatcher.addEventListener('change', (e) => {
-      this._mobileMockPossible = e.matches;
-      if (!this._mobileMockPossible) {
-        this._mobileMockActive = false;
+  constructor() {
+    effect((onCleanup) => {
+      const rewrite = this.rewriteCommentData();
+      if (rewrite) {
+        this.questionerNameFormControl.setValue(rewrite.questionerName);
+        this.questionerNameFormControl.disable();
+        this.data.set(rewrite.body);
+        this.selectedTag.set(
+          this.tags().includes(rewrite.tag) ? rewrite.tag : null,
+        );
+        return;
       }
-    });
-    if (this.brainstormingData) {
-      this.translateService
-        .get('comment-page.brainstorming-placeholder', this.brainstormingData)
-        .subscribe((msg) => (this.placeholder = msg));
-      this.translateService
-        .get(
-          this.brainstormingData.maxWordCount === 1
-            ? 'comment-page.brainstorming-info-single'
-            : 'comment-page.brainstorming-info-multiple',
-          this.brainstormingData,
-        )
-        .subscribe((msg) => (this.brainstormingInfo = msg));
-    }
-    if (this.isCommentAnswer) {
-      this.maxTextCharacters = 5000;
-    } else {
-      this.maxTextCharacters = this.isModerator ? 5000 : 2500;
-    }
-    this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
-    this.maxDataCharacters = this.isModerator
-      ? this.maxTextCharacters * 5
-      : this.maxTextCharacters * 3;
-    this.accountState.user$.subscribe((user) => (this.user = user));
-    if (this.rewriteCommentData) {
-      this.questionerNameFormControl.setValue(
-        this.rewriteCommentData?.questionerName,
-      );
-    } else {
-      forkJoin([
-        this.sessionService.getRoomOnce(),
-        this.accountState.user$.pipe(take(1)),
-      ])
-        .pipe(
-          switchMap(([room, user]) =>
-            this.localRoomSeting.get([room.id, user.id]),
-          ),
-        )
+      this.questionerNameFormControl.setValue('');
+      this.questionerNameFormControl.enable();
+      this.selectedTag.set(null);
+      const r = room.value();
+      const u = user();
+      if (!r || !u) return;
+
+      const sub = dataService.localRoomSetting
+        .get([r.id, u.id])
         .subscribe((data) => {
           this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
         });
-    }
-  }
-
-  ngAfterViewInit(): void {
-    if (this.rewriteCommentData) {
-      this.commentData.currentData = clone(this.rewriteCommentData.body);
-    }
-  }
-
-  ngOnDestroy() {
-    this._mockMatcher.removeAllListeners();
-  }
-
-  buildCloseDialogActionCallback(): () => void {
-    if (!this.onClose || this.disableCancelButton) {
-      return undefined;
-    }
-    return () => this.onClose();
-  }
-
-  buildCreateCommentActionCallback(): () => void {
-    return () => {
-      this.createComment();
-    };
-  }
-
-  checkGrammar() {
-    this.grammarCheck(this.commentData.currentText);
-  }
-
-  grammarCheck(rawText: string): void {
-    this.isSpellchecking = true;
-    this.hasSpellcheckConfidence = true;
-    this.checkSpellings(rawText).subscribe({
-      next: (wordsCheck) => {
-        if (!this.checkLanguageConfidence(wordsCheck)) {
-          this.hasSpellcheckConfidence = false;
-          this.isSpellchecking = false;
-          return;
-        }
-        if (wordsCheck.language.name.includes('German')) {
-          this.selectedLang = 'de-DE';
-        } else if (wordsCheck.language.name.includes('English')) {
-          this.selectedLang = 'en-US';
-        } else if (wordsCheck.language.name.includes('French')) {
-          this.selectedLang = 'fr';
-        } else {
-          this.selectedLang = 'auto';
-        }
-        const previous = this.commentData.currentData;
-        this.openDeeplDialog(
-          previous,
-          rawText,
-          wordsCheck,
-          (selected, submitted) => {
-            if (selected.view === this.commentData) {
-              this._hadUsedDeepl = false;
-              if (wordsCheck.matches.length === 0) {
-                this.translateService
-                  .get('deepl.no-optimization')
-                  .subscribe((msg) => this.notification.show(msg));
-              } else {
-                this.commentData.buildMarks(rawText, wordsCheck);
-              }
-            } else {
-              this._hadUsedDeepl = true;
-              this.commentData.currentData = selected.body;
-              this.commentData.copyMarks(selected.view);
-            }
-            if (submitted) {
-              this.createComment();
-            }
-          },
-        );
-      },
-      error: () => {
-        this.isSpellchecking = false;
-      },
+      onCleanup(() => sub.unsubscribe());
     });
   }
 
-  checkLanguageConfidence(wordsCheck: any) {
-    return this.selectedLang === 'auto'
-      ? wordsCheck.language.detectedLanguage.confidence >= 0.5
-      : true;
-  }
-
-  isSpellcheckingButtonDisabled(): boolean {
-    if (!this.commentData) {
-      return true;
-    }
-    const text = this.commentData.currentText;
-    return text.length < 5 || text.trim().split(/\s+/, 4).length < 4;
-  }
-
-  checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language);
-  }
-
-  getContent(): ForumComment {
-    const data = this.commentData.currentData;
-    if (
-      this._currentData &&
-      this._currentData.body === data &&
-      this._currentData.questionerName ===
-        this.questionerNameFormControl.value &&
-      this._currentData.tag === this.selectedTag
-    ) {
-      return this._currentData;
-    }
-    this._currentData = {
-      body: data,
-      number: '?',
-      upvotes: 0,
-      downvotes: 0,
-      score: 0,
-      createdAt: new Date(),
-      questionerName: this.questionerNameFormControl.value,
-      tag: this.selectedTag,
-      children: new Set<ForumComment>(),
-      totalAnswerCounts: {
-        accumulated: 0,
-        fromCreator: 0,
-        fromModerators: 0,
-        fromParticipants: 0,
-      },
-      answerCounts: {
-        accumulated: 0,
-        fromCreator: 0,
-        fromModerators: 0,
-        fromParticipants: 0,
-      },
-    } as unknown as ForumComment;
-    return this._currentData;
-  }
-
-  setMobileMockState(activate: boolean) {
-    clearTimeout(this._mobileMockTimeout);
-    if (activate) {
-      this._mobileMockActive = true;
-      this._mobileMockTimeout = setTimeout(() => {
-        const style = this.mobileMock?.nativeElement?.style;
-        if (!style) {
-          return;
-        }
-        style.setProperty('--current-position', 'var(--end-position)');
-        style.setProperty(
-          '--additional-padding',
-          this.additionalMockOffset === 0
-            ? '0'
-            : this.additionalMockOffset + 'px',
-        );
-        style.opacity = '1';
-      });
-    } else {
-      this._mobileMockTimeout = setTimeout(
-        () => (this._mobileMockActive = false),
-        500,
-      );
-      const style = this.mobileMock?.nativeElement?.style;
-      if (!style) {
-        return;
-      }
-      style.setProperty('--current-position', '');
-      style.opacity = '0';
-    }
-  }
-
-  private createComment() {
-    let allowed = true;
-    const data = this.commentData.currentData;
-    const text = this.commentData.currentText;
-    if (this.isQuestionerNameEnabled) {
+  protected createComment() {
+    if (this.questionerNameEnabled()) {
       this.questionerNameFormControl.setValue(
         (this.questionerNameFormControl.value || '').trim(),
       );
-      allowed =
-        !this.questionerNameFormControl.hasError('minlength') &&
-        !this.questionerNameFormControl.hasError('maxlength');
-    }
-    if (
-      this.brainstormingData &&
-      SharedTextFormatting.getWords(text).length >
-        this.brainstormingData.maxWordCount
-    ) {
-      this.translateService
-        .get('comment-page.error-comment-brainstorming', this.brainstormingData)
-        .subscribe((msg) => this.notification.show(msg));
-      allowed = false;
-    }
-    if (
-      this.allowEmpty ||
-      (ViewCommentDataComponent.checkInputData(
-        data,
-        text,
-        this.translateService,
-        this.notification,
-        this.maxTextCharacters,
-        this.maxDataCharacters,
-      ) &&
-        allowed)
-    ) {
-      const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      const options: CommentCreateOptions = {
-        userId: this.user.id,
-        brainstormingSessionId: this.brainstormingData?.id || null,
-        brainstormingLanguage: this.brainstormingData?.language || 'en',
-        body: realData,
-        tag: this.selectedTag,
-        questionerName: this.questionerNameFormControl.value,
-        callbackFinished: () => (this.isSubmittingComment = false),
-        isModerator: this.userRole > 0,
-        hadUsedDeepL: this._hadUsedDeepl,
-        selectedLanguage: this.selectedLang,
-        commentReference: this.commentReference,
-        keywordExtractionActive:
-          this.sessionService.currentRoom?.keywordExtractionActive,
-      };
-      if (this.onlyText) {
-        this.onClose(this._keywordExtractor.createPlainComment(options));
+      const errorMin = this.questionerNameFormControl.hasError('minlength');
+      const errorMax = this.questionerNameFormControl.hasError('maxlength');
+      if (errorMin || errorMax) {
+        this.notification.show(i18n().questionerNameError);
         return;
       }
-      this.isSubmittingComment = true;
-      this._keywordExtractor.createCommentInteractive(options).subscribe({
-        next: (comment) => {
-          localStorage.setItem('comment-created', String(true));
-          this.onClose(comment);
-        },
-        error: () => {
-          // Ignore
-        },
-      });
     }
-  }
+    const body = this.data().trim();
+    if (body.length <= 0 && !this.allowEmpty()) {
+      this.notification.show(i18n().emptyComment);
+      return;
+    } else if (body.length > this.maxCharacters()) {
+      this.notification.show(i18n().warning);
+      return;
+    }
+    if (this.isSubmittingComment()) return;
 
-  private openDeeplDialog(
-    body: StandardDelta,
-    text: string,
-    result: LanguagetoolResult,
-    onClose: (selected: ResultValue, submitted?: boolean) => void,
-  ) {
-    let target = TargetLang.EN_US;
-    const code = result.language.detectedLanguage.code
-      .toUpperCase()
-      .split('-')[0];
-    const source = code in SourceLang ? SourceLang[code] : null;
-    if (code.startsWith(SourceLang.EN)) {
-      target = TargetLang.DE;
-    }
-    forkJoin([
-      this.deeplService.improveDelta(body, target, FormalityType.Less),
-      of(FormalityType.Less),
-    ]).subscribe({
-      next: ([[improvedBody, improvedText], formality]) => {
-        this.isSpellchecking = false;
-        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-          this.translateService
-            .get('deepl.no-optimization')
-            .subscribe((msg) => this.notification.show(msg));
-          onClose({ body, text, view: this.commentData });
-          return;
-        }
-        const instance = this.dialog.open(DeepLDialogComponent, {
-          width: '900px',
-          maxWidth: '100%',
-          data: {
-            body,
-            text,
-            improvedBody,
-            improvedText,
-            maxTextCharacters: this.maxTextCharacters,
-            maxDataCharacters: this.maxDataCharacters,
-            isModerator: this.isModerator,
-            result,
-            onClose,
-            target: DeepLService.transformSourceToTarget(source),
-            usedTarget: target,
-            formality,
-          },
-        });
-        instance.afterClosed().subscribe((val) => {
-          if (!val) {
-            onClose({ body, text, view: this.commentData });
-          }
-        });
+    const options: CreateCommentOptions = {
+      body: body,
+      pureText: this.textData(),
+      tag: this.selectedTag(),
+      questionerName: this.questionerNameFormControl.value,
+      brainstormingSession: this.brainstormingData(),
+      selectedLanguage: 'AUTO' as Comment['language'],
+      commentReference: this.commentReference(),
+      injector: this.injector,
+    };
+    this.isSubmittingComment.set(true);
+    generateComment(options).subscribe({
+      next: (c) => {
+        this.isSubmittingComment.set(false);
+        localStorage.setItem('comment-created', String(true));
+        this.commentCreated.emit(c);
       },
-      error: (err) => {
-        console.error(err);
-        this.isSpellchecking = false;
-        onClose({ body, text, view: this.commentData });
+      error: () => {
+        this.isSubmittingComment.set(false);
       },
     });
   }

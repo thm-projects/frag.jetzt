@@ -1,0 +1,120 @@
+{
+  "key": "topic-cloud-brainstorming",
+  "de": {
+    "title": "Brainstorming",
+    "newSession": "Neue Brainstorming-Sitzung",
+    "newSessionMobile": "Neue Sitzung",
+    "question": "Thema oder Fokus-Frage …",
+    "wordCount": "Maximale Anzahl Wörter pro Idee",
+    "rangeHint": "Wert: {{min}} - {{max}}",
+    "fieldRequired": "Dieses Feld wird benötigt",
+    "fieldTooLow": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
+    "fieldTooHigh": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
+    "wordLength": "Maximale Anzahl Zeichen pro Idee",
+    "lang": {
+      "title": "Sprache der Teilnehmer*innen",
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch"
+    },
+    "duration": "Dauer nach Start: {{duration}} Minuten",
+    "allowIdeas": "Ideeneingabe von Anfang an zulassen",
+    "allowRating": "Ideenbewertung von Anfang an zulassen",
+    "noteChangeSettings": "Du kannst alle Einstellungen später noch ändern.",
+    "start": "Starte neue Sitzung",
+    "noSession": "Keine aktive Sitzung",
+    "oldSession": {
+      "title": "Letzte Sitzung",
+      "titleMobile": "Letzte Sitzung",
+      "info": "Das Thema lautet »{{title}}«.",
+      "show": "Anzeigen",
+      "delete": "Löschen"
+    },
+    "joinSession": {
+      "title": "An der laufenden Sitzung teilnehmen?",
+      "titleMobile": "Laufende Sitzung",
+      "info": "Thema: »{{title}}«",
+      "join": "Beitreten",
+      "close": "Schließen"
+    },
+    "moderationEnabled": "Eine Brainstorming-Session kann nicht gestartet werden, wenn die Moderation aktiv ist."
+  },
+  "en": {
+    "title": "Brainstorming",
+    "newSession": "New brainstorming session",
+    "newSessionMobile": "New session",
+    "question": "Topic or focus question …",
+    "wordCount": "Maximum number of words per idea",
+    "rangeHint": "Value: {{min}} - {{max}}",
+    "fieldRequired": "This field is required",
+    "fieldTooLow": "Your input is too short. It must be at least {{min}}.",
+    "fieldTooHigh": "Your input is too long. It may be at most {{max}}.",
+    "wordLength": "Maximum number of characters per idea",
+    "lang": {
+      "title": "Language of participants",
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "duration": "Duration after start: {{duration}} minutes",
+    "allowIdeas": "Allow idea input from the beginning",
+    "allowRating": "Allow idea evaluation from the beginning",
+    "noteChangeSettings": "You can change all settings later.",
+    "start": "Start new session",
+    "noSession": "No active session",
+    "oldSession": {
+      "title": "Last session",
+      "titleMobile": "Last session",
+      "info": "The topic is »{{title}}«.",
+      "show": "Show",
+      "delete": "Delete"
+    },
+    "joinSession": {
+      "title": "Join ongoing session?",
+      "titleMobile": "Ongoing session",
+      "info": "Topic: »{{title}}«",
+      "join": "Join",
+      "close": "Close"
+    },
+    "moderationEnabled": "Brainstorming cannot be started when moderation is active."
+  },
+  "fr": {
+    "title": "Brainstorming",
+    "newSession": "Nouvelle session de brainstorming",
+    "newSessionMobile": "Nouvelle session",
+    "question": "Sujet ou question focus …",
+    "wordCount": "Nombre maximal de mots par idée",
+    "rangeHint": "Valeur : {{min}} - {{max}}",
+    "fieldRequired": "Ce champ est nécessaire.",
+    "fieldTooLow": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
+    "fieldTooHigh": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
+    "wordLength": "Nombre maximal de caractères par idée",
+    "lang": {
+      "title": "Langue des participants",
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "duration": "Durée après le démarrage : {{duration}} minutes",
+    "allowIdeas": "Permettre l'entrée d'idées dès le début",
+    "allowRating": "Permettre l'évaluation des idées dès le début",
+    "noteChangeSettings": "Tu peux modifier tous les paramètres ultérieurement.",
+    "start": "Démarrer une nouvelle session",
+    "noSession": "Aucune session active",
+    "oldSession": {
+      "title": "Dernière session",
+      "titleMobile": "Dernière session",
+      "info": "Le sujet est « {{title}} ».",
+      "show": "Afficher",
+      "delete": "Supprimer"
+    },
+    "joinSession": {
+      "title": "Rejoindre la session en cours ?",
+      "titleMobile": "Session en cours",
+      "info": "Thème : « {{title}} »",
+      "join": "Rejoindre",
+      "close": "Fermer"
+    },
+    "moderationEnabled": "Une session de brainstorming ne peut pas être lancée si la modération est active."
+  }
+}

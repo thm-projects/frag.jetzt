@@ -1,0 +1,44 @@
+:host {
+  overflow-y: auto;
+  overflow-x: hidden;
+  hyphens: auto;
+  gap: 16px;
+}
+
+:host-context(.asDialog) {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-tile {
+  width: 100%;
+  height: 100%;
+
+  .mdc-card__media {
+    height: 100%;
+    object-fit: contain;
+    align-self: center;
+    transform: scale(0.9);
+  }
+}
+
+.fit-tile {
+  height: auto;
+
+  .mdc-card__media {
+    height: 160px;
+    object-fit: contain;
+    align-self: center;
+    transform: scale(0.9);
+  }
+}
+
+mat-grid-tile {
+  overflow: visible;
+}
+
+.image-icon {
+  aspect-ratio: 1 / 1;
+  width: auto;
+  color: var(--mat-sys-primary);
+}

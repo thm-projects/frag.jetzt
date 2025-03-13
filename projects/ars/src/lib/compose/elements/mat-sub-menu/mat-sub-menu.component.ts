@@ -1,15 +1,16 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ArsMatSubMenuConfig,
   ARS_MAT_SUB_MENU_DATA,
 } from './ars-mat-sub-menu-config';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
-  selector: 'ars-mat-sub-menu',
-  templateUrl: './mat-sub-menu.component.html',
-  styleUrls: ['./mat-sub-menu.component.scss'],
+    selector: 'ars-mat-sub-menu',
+    templateUrl: './mat-sub-menu.component.html',
+    styleUrls: ['./mat-sub-menu.component.scss'],
+    standalone: false
 })
 export class MatSubMenuComponent implements OnInit {
   @ViewChild(MatMenuTrigger) component: MatMenuTrigger;

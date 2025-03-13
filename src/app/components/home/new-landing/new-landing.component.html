@@ -1,22 +1,23 @@
-<div fxLayout="column"
-     fxLayoutAlign="center center"
-     fxlayoutgap="20px"
-     fxFill>
-  <app-room-join></app-room-join>
-  <button [joyrideStep]="'createRoom'"
-          appJoyrideTemplate
-          [stepPosition]="'top'"
-          [disabled]="!sessionService.isReady"
-          id="new_session-button"
-          mat-flat-button
-          class="new-session"
-          (click)="openCreateRoomDialog()"
-          aria-labelledby="create-label">
-    <mat-icon class="add">add</mat-icon>
-    {{'home-page.create-session' | translate}}
+<div class="column content-center items-center gap-medium grow flex-container">
+  <app-room-join class="flex-item"></app-room-join>
+  <button
+    class="flex-item"
+    [joyrideStep]="'createRoom'"
+    appJoyrideTemplate
+    [stepPosition]="'top'"
+    [disabled]="!sessionService.isReady"
+    id="new_session-button"
+    mat-flat-button
+    class="primary"
+    (click)="openCreateRoomDialog()"
+    aria-labelledby="create-label">
+    <mat-icon>add</mat-icon>
+    {{ i18n().createSession }}
   </button>
 
   <div class="visually-hidden">
-    <div id="create-label">{{ 'home-page.accessibility-create' | translate}}</div>
+    <div id="create-label">
+      {{ i18n().a11y }}
+    </div>
   </div>
 </div>

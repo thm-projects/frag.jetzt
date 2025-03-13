@@ -1,0 +1,85 @@
+{
+  "key": "purchase",
+  "de": {
+    "title": "Wähle deinen Plan",
+
+    "free": "Kostenlos",
+    "basic": "Basic",
+    "standard": "Standard",
+    "premium": "Premium",
+    "special": "Special",
+
+    "pay": "Wie wollen sie zahlen?",
+
+    "signup": "Noch kein konto? Jetzt anmelden und erhalten Sie Ihr kostenloses Willkommensgeschenk",
+
+    "tokens": "Token",
+    "words": "Wörter",
+
+    "register": "Einloggen",
+
+    "BasicTime": "Einmaliger Kauf",
+    "selectFreePlan": "Kostenloser Plan benutzt",
+    "purchased": "Gekauft",
+    "unlimitedPurchase": "Wiederholbarer Kauf",
+    "faqText": "Nicht sicher, wie Token funktionieren?",
+    "faqLink": "Erfahren Sie mehr über Token und Preise",
+    "yourTokens": "Ihre Token:",
+    "buy": "Deaktiviert"
+  },
+  "en": {
+    "title": "Choose Your Plan",
+
+    "free": "Free",
+    "basic": "Basic",
+    "standard": "Standard",
+    "premium": "Premium",
+    "special": "Special",
+
+    "pay": "How would you like to pay?",
+
+    "signup": "No account yet? Register now and receive your free welcome gift",
+
+    "tokens": "Tokens",
+    "words": "Words",
+
+    "register": "Login",
+
+    "BasicTime": "1-time purchase",
+    "selectFreePlan": "Free Plan used",
+    "purchased": "Purchased",
+    "unlimitedPurchase": "Repeatable purchase",
+    "faqText": "Not sure how tokens work?",
+    "faqLink": "Learn more about tokens and pricing",
+    "yourTokens": "Your Tokens:",
+    "buy": "Disabled"
+  },
+  "fr": {
+    "title": "Choisissez Votre Forfait",
+
+    "free": "Gratuit",
+    "basic": "Basique",
+    "standard": "Standard",
+    "premium": "Premium",
+    "special": "spécial",
+
+    "pay": "Comment vont-ils payer ?",
+
+    "signup": "Vous n'avez pas encore de compte ? Inscrivez-vous maintenant et recevez votre cadeau de bienvenue",
+
+    "tokens": "Jetons",
+    "words": "Mots",
+
+    "register": "Se connecter",
+
+    "BasicTime": "Achat unique",
+    "selectFreePlan": "Plan gratuit utilisé",
+    "purchased": "Acheté",
+    "unlimitedPurchase": "Achat répétitif",
+    "yourTokens": "Vos Tokens :",
+    "buy": "Désactivé",
+
+    "faqText": "Vous ne savez pas comment fonctionnent les tokens ?",
+    "faqLink": "En savoir plus sur les tokens et les tarifs"
+  }
+}

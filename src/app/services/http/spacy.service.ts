@@ -4,7 +4,12 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { DEFAULT_NOUN_LABELS, Model } from './spacy.interface';
-import { KeywordExtractor } from '../../utils/keyword-extractor';
+
+const isKeywordAcceptable = (keyword: string): boolean => {
+  const regex = /^[ -/:-@[-`{-~]+$/g;
+  // accept only if some normal characters are present
+  return keyword.match(regex) === null && keyword.length > 2;
+};
 
 export interface SpacyKeyword {
   text: string;
@@ -12,7 +17,6 @@ export interface SpacyKeyword {
 }
 
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
@@ -37,17 +41,15 @@ export class SpacyService extends BaseHttpService {
     return (
       this.checkCanSendRequest('getKeywords') ||
       this.http
-        .post<SpacyKeyword[]>(
-          url,
-          { text, model, brainstorming: String(brainstorming) },
-          httpOptions,
-        )
+        .post<
+          SpacyKeyword[]
+        >(url, { text, model, brainstorming: String(brainstorming) }, httpOptions)
         .pipe(
-          tap((_) => ''),
+          tap(() => ''),
           timeout(2500),
-          catchError(this.handleError<any>('getKeywords')),
+          catchError(this.handleError<SpacyKeyword[]>('getKeywords')),
           map((elem: SpacyKeyword[]) =>
-            elem.filter((e) => KeywordExtractor.isKeywordAcceptable(e.text)),
+            elem.filter((e) => isKeywordAcceptable(e.text)),
           ),
         )
     );
@@ -58,9 +60,9 @@ export class SpacyService extends BaseHttpService {
     return (
       this.checkCanSendRequest('getLemma') ||
       this.http.post<{ text: string }>(url, { text, model }, httpOptions).pipe(
-        tap((_) => ''),
+        tap(() => ''),
         timeout(2500),
-        catchError(this.handleError<any>('getLemma')),
+        catchError(this.handleError<{ text: string }>('getLemma')),
       )
     );
   }

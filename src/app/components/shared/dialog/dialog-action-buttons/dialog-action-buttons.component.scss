@@ -1,4 +1,5 @@
-.dialog-action-buttons:not(.no-spacing), .buttons {
+.dialog-action-buttons:not(.no-spacing),
+.buttons {
   margin: 10px;
   display: flex;
   flex-direction: row-reverse;
@@ -10,14 +11,14 @@
   color: var(--on-dialog);
 
   &:hover {
-    outline: var(--cancel) solid 3px;
+    outline: var(--cancel) solid 2px;
   }
 }
 
 .primary-confirm-button {
   background-color: transparent;
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
   margin-left: 15px !important;
 
   &:hover {
@@ -29,7 +30,7 @@
 .alert-confirm-button {
   background-color: transparent;
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
   margin-left: 15px !important;
 
   &:hover {

@@ -1,0 +1,68 @@
+@use "sass:math";
+@use "modules/m3/style/m3-typescale" as m3-typescale;
+
+:host ::ng-deep .mat-badge-content {
+  --mat-badge-small-size-container-size: 0.9rem;
+  box-shadow:
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.button-label-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+
+  button {
+    min-width: 56px;
+    width: 56px;
+    height: 32px;
+
+    mat-icon {
+      margin: 0px;
+      font-size: 24px;
+      width: 1em;
+      height: 1em;
+      min-width: 1em;
+    }
+  }
+
+  .button-caption {
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    @include m3-typescale.typescale(body, small);
+    hyphens: auto;
+  }
+}
+
+.hightlight-on-small-badge {
+  background-color: color-mix(
+    in srgb,
+    var(--mat-sys-on-surface-variant) 8%,
+    transparent
+  );
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  --mat-filled-button-state-layer-color: var(--mat-sys-on-secondary-container);
+  --mat-filled-button-ripple-color: color-mix(
+    in srgb,
+    var(--mat-filled-button-state-layer-color) 12%,
+    transparent
+  );
+}
+
+.mat-mdc-button:not(:disabled) {
+  color: var(--mat-sys-on-surface-variant);
+  --mat-text-button-state-layer-color: var(--mat-sys-on-surface-variant);
+  --mat-text-button-ripple-color: color-mix(
+    in srgb,
+    var(--mat-text-button-state-layer-color) 12%,
+    transparent
+  );
+}

@@ -1,0 +1,63 @@
+@use "sass:math";
+
+$padding: 1em;
+$footer-height: 80px;
+$fab-size-small: 40px;
+$fab-size: 56px;
+.scroll-top {
+  position: fixed;
+  left: calc(100% - #{$padding} - #{$fab-size-small});
+  bottom: $padding;
+  z-index: 1;
+  // small secondary fab
+  --mat-fab-foreground-color: var(--mat-sys-secondary);
+  --mdc-fab-container-color: var(--mat-sys-secondary-container);
+  --mdc-fab-container-shape: 12px;
+  width: 40px;
+  height: 40px;
+
+  &.stacked {
+    left: calc(
+      100% - #{$padding} - #{$fab-size-small +
+        math.div($fab-size - $fab-size-small, 2)}
+    );
+    bottom: calc(#{2 * $padding} + #{$footer-height} + #{$fab-size});
+  }
+}
+
+$container-size: 15em;
+.fab-container {
+  position: fixed;
+  left: calc(50% + var(--nav-drawer-width) / 2);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: $container-size;
+  text-align: center;
+  z-index: 1;
+
+  &.mobile {
+    animation: moveRightDown 1.5s ease-in-out 1s forwards;
+  }
+
+  &.desktop {
+    animation: moveLeftUp 1.5s ease-in-out 1s forwards;
+  }
+}
+
+@keyframes moveRightDown {
+  to {
+    left: calc(100% - #{math.div($fab-size, 2)} - #{$padding});
+    top: calc(
+      100% - #{math.div($fab-size, 2)} - #{$padding} - #{$footer-height}
+    );
+  }
+}
+
+@keyframes moveLeftUp {
+  to {
+    left: calc(
+      var(--nav-drawer-width) + #{math.div($fab-size, 2)} + #{$padding}
+    );
+    top: 108px;
+  }
+}

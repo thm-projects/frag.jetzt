@@ -90,7 +90,7 @@ export const ROUTES = {
   home: {
     regex: /^(\/|(\/home\/?))$/i,
   },
-} as const; // satisfies RouteMapping;
+} as const satisfies RouteMapping;
 
 export type URLShortNames = keyof typeof ROUTES | 'unknown';
 

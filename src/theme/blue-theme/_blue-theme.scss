@@ -1,9 +1,0 @@
-@use '@angular/material' as mat;
-@import './../../../node_modules/@angular/material/theming';
-
-$blue-primary: mat.define-palette(mat.$indigo-palette,500);
-$blue-accent: mat.define-palette(mat.$amber-palette, 200); //$mat-blue-gray, A200, A100, A400);
-
-$blue-warn: mat.define-palette(mat.$red-palette, A100);
-
-$blue-theme: mat.define-light-theme($blue-primary, $blue-accent, $blue-warn);

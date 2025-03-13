@@ -1,9 +1,20 @@
-<h3>{{ 'room-page.sure' | translate }}</h3>
-<p>{{ 'comment-list.really-delete' | translate }}</p>
-<app-dialog-action-buttons
-  buttonsLabelSection="content"
-  confirmButtonLabel="yes"
-  [confirmButtonType]=confirmButtonType
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
-></app-dialog-action-buttons>
+<h3 mat-dialog-title>{{ i18n().title }}</h3>
+
+<mat-dialog-content>
+  <p>{{ i18n().reallyDelete }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    class="secondary"
+    [mat-dialog-close]="'delete'">
+    {{ i18n().global.confirm }}
+  </button>
+</mat-dialog-actions>

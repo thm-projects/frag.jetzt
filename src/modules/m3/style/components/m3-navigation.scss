@@ -1,0 +1,371 @@
+@use "../../style/m3-typescale" as m3-typescale;
+@use "sass:map";
+
+$_m3-navigation-properties: (
+  drawer-like: (
+    label: (
+      width: 360,
+      height: 56,
+      padding: (),
+      margin: (),
+    ),
+    active-indicator: (
+      width: 336,
+      height: 56,
+      shape: 28,
+      padding: 12,
+    ),
+    icon: (
+      width: 24,
+      height: 24,
+      size: 24,
+    ),
+    button: (
+      padding: (
+        left: 28,
+        right: 28,
+      ),
+      space-between: (
+        left: 12,
+      ),
+    ),
+  ),
+  rail-like: (
+    label: (
+      width: 80,
+      height: 56,
+      padding: (
+        top: 12,
+        bottom: 12,
+      ),
+      margin: (
+        bottom: 12,
+      ),
+    ),
+    active-indicator: (
+      width: 56,
+      height: 32,
+      shape: 16,
+      padding: 12,
+    ),
+    icon: (
+      width: 56,
+      height: 32,
+      size: 24,
+    ),
+    button: (
+      padding: (
+        left: 12,
+        right: 12,
+      ),
+      space-between: (),
+    ),
+  ),
+);
+
+@mixin _collapse-shorthand($config, $keyword) {
+  $_config: map.merge(
+    (
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+    ),
+    $config
+  );
+  @if $keyword == "margin" {
+    margin: #{map.get($_config, top)}px
+      #{map.get($_config, right)}px
+      #{map.get($_config, bottom)}px
+      #{map.get($_config, left)}px;
+  } @else if $keyword == "padding" {
+    padding: #{map.get($_config, top)}px
+      #{map.get($_config, right)}px
+      #{map.get($_config, bottom)}px
+      #{map.get($_config, left)}px;
+  }
+}
+
+@mixin _m3-active-indicator($config) {
+  width: #{map.get($config, width)}px;
+  height: #{map.get($config, height)}px;
+  border-radius: #{map.get($config, shape)}px;
+  margin-left: #{map.get($config, padding)}px;
+  position: absolute;
+}
+
+@mixin _m3-label-button-content($config) {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  box-sizing: border-box;
+  @include _collapse-shorthand(map.get($config, padding), padding);
+
+  > * + * {
+    @include _collapse-shorthand(map.get($config, space-between), margin);
+  }
+}
+
+@mixin _m3-label-button($config) {
+  width: #{map.get($config, label, width)}px;
+  height: #{map.get($config, label, height)}px;
+  @include _collapse-shorthand(map.get($config, label, padding), padding);
+  @include _collapse-shorthand(map.get($config, label, margin), margin);
+
+  .m3-icon {
+    font-variation-settings:
+      "wght" 400,
+      "opsz" 24;
+    transition: font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
+  }
+
+  .m3-label {
+    @include m3-typescale.typescale(label, medium);
+    font-variation-settings:
+      "GRAD" 0,
+      "opsz" 17;
+    transition:
+      all 250ms var(--mat-sys-easing-emphasized),
+      font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
+    opacity: 1;
+    &.hide {
+      opacity: 0;
+      transition:
+        all 50ms var(--mat-sys-easing-emphasized),
+        font-variation-settings 0.1s var(--mat-sys-easing-emphasized);
+    }
+  }
+
+  .m3-label,
+  .m3-badge,
+  .m3-icon {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &.activated {
+    .m3-label-button-active-indicator {
+      background-color: var(--mat-sys-secondary-container);
+    }
+  }
+
+  &:active,
+  &.activated {
+    .m3-label,
+    .m3-badge,
+    .m3-icon {
+      color: var(--mat-sys-on-secondary-container);
+    }
+  }
+
+  &.activated {
+    .m3-icon {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 400,
+        "opsz" 24;
+    }
+
+    &:hover {
+      .m3-icon {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24;
+      }
+    }
+
+    &:active {
+      .m3-icon {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24;
+      }
+    }
+  }
+
+  &:hover {
+    .m3-icon {
+      font-variation-settings:
+        "wght" 600,
+        "opsz" 24;
+    }
+
+    .m3-label {
+      font-variation-settings:
+        "GRAD" 50,
+        "opsz" 17;
+    }
+  }
+
+  &:active {
+    .m3-icon {
+      font-variation-settings:
+        "wght" 300,
+        "opsz" 24;
+    }
+
+    .m3-label {
+      font-variation-settings:
+        "GRAD" -50,
+        "opsz" 17;
+    }
+  }
+
+  .mat-mdc-button-ripple,
+  .m3-label-button-active-indicator {
+    @include _m3-active-indicator(map.get($config, active-indicator));
+  }
+
+  .m3-icon {
+    @include _m3-icon(map.get($config, icon));
+  }
+
+  .m3-label-button-content {
+    position: relative;
+    width: 100%;
+    //@include _m3-label-button-content(map.get($config, button));
+  }
+}
+
+@mixin _m3-icon($config) {
+  width: #{map.get($config, width)}px;
+  height: #{map.get($config, height)}px;
+  font-size: #{map.get($config, size)}px;
+}
+
+@keyframes rail-label-button-content-animation {
+}
+
+@keyframes rail-label-animation-B {
+  0% {
+    opacity: 1;
+  }
+  1% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rail-label-animation-A {
+  0% {
+    opacity: 1;
+  }
+  1% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@mixin _m3-navigation-rail-labels() {
+  .m3-label-button {
+    @include _m3-label-button(map.get($_m3-navigation-properties, rail-like));
+
+    //.m3-icon {
+    //  margin-top: 4px;
+    //}
+
+    .m3-badge {
+      display: none;
+    }
+
+    .m3-label {
+      //animation: rail-label-animation 2000ms ease-in-out;
+    }
+
+    .m3-label-button-content {
+      //flex-direction: column;
+      > .m3-icon {
+        position: absolute;
+        left: 12px;
+        top: 4px;
+        transition: var(--m3-comp-nav-pane-transition);
+      }
+      > .m3-label {
+        width: 80px;
+        position: absolute;
+        left: 0px;
+        top: 36px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+@mixin _m3-navigation-drawer-labels() {
+  .m3-label-button {
+    @include _m3-label-button(map.get($_m3-navigation-properties, drawer-like));
+
+    //.m3-label {
+    //  @include m3-typescale.typescale(label, large);
+    //  align-self: center;
+    //
+    //  & + * {
+    //    margin-left: 14px;
+    //  }
+    //}
+
+    .m3-badge {
+      @include m3-typescale.typescale(label, large);
+      flex-grow: 1;
+      text-align: end;
+      align-self: center;
+    }
+
+    .m3-label-button-content {
+      > .m3-icon {
+        position: absolute;
+        left: 28px;
+        top: 16px;
+        transition: var(--m3-comp-nav-pane-transition);
+      }
+
+      > .m3-label {
+        position: absolute;
+        width: auto;
+        left: 62px;
+        top: 20px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+@mixin _m3-navigation-bar-labels() {
+  @include _m3-navigation-rail-labels();
+
+  .m3-label-button {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin component() {
+  /// https://m3.material.io/components/navigation-drawer/specs#25f67916-87fa-4cbb-b390-175096ae559b
+  .m3-navigation-bar-labels {
+    @include _m3-navigation-bar-labels();
+  }
+  .m3-navigation-rail-labels {
+    @include _m3-navigation-rail-labels();
+  }
+  .m3-navigation-drawer-labels {
+    @include _m3-navigation-drawer-labels();
+  }
+  .m3-label-button,
+  .m3-label-button-active-indicator,
+  .m3-label-button-container,
+  .m3-icon {
+    transition: var(--m3-comp-nav-pane-transition);
+  }
+}

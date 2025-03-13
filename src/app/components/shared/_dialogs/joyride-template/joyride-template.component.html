@@ -1,24 +1,28 @@
-<ng-template #translateText class="textContainer">
-  <div id="joyrideScrollContainer">
-    <h3 *ngIf="title">{{title}}</h3>
-    {{text}}
-  </div>
-</ng-template>
 <ng-template #nextButton>
-  <button mat-button class="joy-primary" (click)="handle($event, 1)">
-    {{'joyride.next' | translate}}
+  <button
+    mat-flat-button
+    class="secondary"
+    (click)="handle($event, 1)">
+    {{ "joyride.next" | translate }}
   </button>
 </ng-template>
 <ng-template #prevButton>
-  <button mat-button class="joy-secondary" (click)="handle($event, -1)">
-    {{'joyride.prev' | translate}}
+  <button
+    mat-button
+    (click)="handle($event, -1)">
+    {{ "joyride.prev" | translate }}
   </button>
 </ng-template>
 <ng-template #doneButton>
-  <button mat-button class="joy-primary" (click)="finish()">
-    {{'joyride.done' | translate}}
+  <button
+    mat-flat-button
+    (click)="finish()">
+    {{ "joyride.done" | translate }}
   </button>
 </ng-template>
-<ng-template #counter let-step="step" let-total="total">
-  {{'joyride.step' | translate: {step: step, total: total} }}
+<ng-template
+  #counter
+  let-step="step"
+  let-total="total">
+  {{ "joyride.step" | translate: { step: step, total: total } }}
 </ng-template>

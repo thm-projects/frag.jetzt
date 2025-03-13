@@ -1,0 +1,24 @@
+{
+  "key": "app-rating",
+  "de": {
+    "error": "Ein Fehler ist aufgetreten.",
+    "retry": "Dies ist deine alte Bewertung. Gib eine neue ein.",
+    "save": "Speichern",
+    "success": "Vielen Dank für deine Bewertung! Du möchtest dich mit den Entwicklern über Bugs und neue Features unterhalten? Dann besuche unseren »Feedback«-Raum.",
+    "title": "frag.jetzt bewerten"
+  },
+  "en": {
+    "error": "An error has occurred",
+    "retry": "This is your old rating. Enter a new one.",
+    "save": "Save",
+    "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room.",
+    "title": "App rating"
+  },
+  "fr": {
+    "error": "Une erreur s'est produite.",
+    "retry": "Ceci est ton ancienne évaluation. Saisis-en une nouvelle.",
+    "save": "Enregistrer",
+    "success": "Merci beaucoup pour ton évaluation ! Tu souhaites discuter avec les développeurs des bugs et des nouvelles fonctionnalités ? Alors visite notre salle « Feedback ».",
+    "title": "Évaluation de l'app"
+  }
+}

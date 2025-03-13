@@ -1,0 +1,33 @@
+{
+  "key": "app-rating-pop-up",
+  "de": {
+    "star": "0,5 - 1 Stern",
+    "stars2": "1,5 - 2 Sterne",
+    "stars3": "2,5 - 3 Sterne",
+    "stars4": "3,5 - 4 Sterne",
+    "stars5": "4,5 - 5 Sterne",
+    "from5": "{{rating}} von 5",
+    "people": "{{people}} Bewertungen",
+    "link": "Feedback-Raum"
+  },
+  "en": {
+    "star": "0.5 - 1 star",
+    "stars2": "1.5 - 2 stars",
+    "stars3": "2.5 - 3 stars",
+    "stars4": "3.5 - 4 stars",
+    "stars5": "4.5 - 5 stars",
+    "from5": "{{rating}} from 5",
+    "people": "{{people}} ratings",
+    "link": "Feedback Room"
+  },
+  "fr": {
+    "star": "0,5 - 1 étoile",
+    "stars2": "1,5 - 2 étoiles",
+    "stars3": "2,5 - 3 étoiles",
+    "stars4": "3,5 - 4 étoiles",
+    "stars5": "4,5 - 5 étoiles",
+    "from5": "{{rating}} sur 5",
+    "people": "{{people}} Évaluations",
+    "link": "Salle « Feedback »"
+  }
+}

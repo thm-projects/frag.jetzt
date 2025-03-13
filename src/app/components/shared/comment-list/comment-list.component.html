@@ -1,31 +1,38 @@
-<p style="font-size: 18px; hyphens: auto">
+<p
+  style="
+    font-size: 20px;
+    hyphens: auto;
+    justify-content: center;
+    display: flex;
+  ">
   {{ "room-page.session-id-lq-x" | translate }}{{ room?.name
   }}{{ "room-page.session-id-rq" | translate }}
 </p>
 
 <div
   *ngIf="
-    comments &&
+    comments() &&
     (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')
   ">
   <p
     class="counter"
     *ngIf="!filterType && !search">
     <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
-      {{ "comment-list.counter" | translate : getCommentInfo() }}
+      {{ "comment-list.counter" | translate: getCommentInfo() }}
     </span>
   </p>
   <p
     class="counter-filtered"
     *ngIf="filterType || search">
-    {{ comments.length }}
+    {{ "comment-list.hits" | translate }}
+    {{ comments().length }}
   </p>
 </div>
 
 <div
   fxLayout="row"
   *ngIf="
-    comments.length > 2 ||
+    comments().length > 2 ||
     filterType ||
     period !== 'All' ||
     search ||
@@ -37,11 +44,11 @@
   <button
     id="filter-close-button"
     mat-icon-button
-    class="searchBarButton"
+    class="icon-button"
     *ngIf="filterType || filterBrainstorming"
     (click)="resetFiltering()"
     aria-labelledby="close_filter">
-    <mat-icon class="searchBarIcon red">close</mat-icon>
+    <mat-icon class="red">close</mat-icon>
   </button>
   <mat-label
     *ngIf="!isMobile"
@@ -55,7 +62,7 @@
     [ngClass]="{
       'desktop-input': !isMobile,
       'mobile-input': isMobile && !search,
-      'mobile-input-2': isMobile && search
+      'mobile-input-2': isMobile && search,
     }"
     (input)="searchComments()"
     [(ngModel)]="searchString"
@@ -64,7 +71,7 @@
   <button
     id="search_close-button"
     mat-icon-button
-    class="searchBarButton close red"
+    class="icon-button close red"
     *ngIf="searchString || search"
     (click)="abortSearch()"
     aria-labelledby="close_search">
@@ -80,76 +87,94 @@
     fxLayoutAlign="center center">
     <button
       mat-icon-button
-      class="searchBarButton"
+      class="icon-button"
       (click)="resetFiltering(); activateSearch()"
-      *ngIf="isMobile && !search && comments && comments.length > 0">
-      <mat-icon class="searchBarIcon">search</mat-icon>
+      *ngIf="isMobile && !search && comments() && comments().length > 0">
+      <mat-icon>search</mat-icon>
     </button>
 
-    <button
-      id="sort-button"
-      mat-icon-button
-      class="searchBarButton"
-      aria-labelledby="swap_vert"
-      *ngIf="comments && comments.length > 2 && !search"
-      [matMenuTriggerFor]="sortMenu"
-      matTooltip="{{ 'comment-list.sort-comments' | translate }}">
-      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
-    </button>
+    @if (comments() && comments().length > 2 && !search) {
+      <button
+        id="sort-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="swap_vert"
+        [matMenuTriggerFor]="sortMenu"
+        [matTooltip]="
+          'comment-list.' +
+            (room?.mode === 'PLE' ? 'ple.' : '') +
+            'sort-comments' | translate
+        ">
+        <mat-icon>swap_vert</mat-icon>
+      </button>
+    }
 
-    <button
-      id="filter-button"
-      mat-icon-button
-      class="searchBarButton"
-      aria-labelledby="filter_list"
-      #filterMenuTrigger="matMenuTrigger"
-      *ngIf="
-        ((comments && commentsFilteredByTimeLength > 2) ||
-          filterBrainstorming) &&
-        !search
-      "
-      [matMenuTriggerFor]="filterMenu"
-      (menuOpened)="openFilterMenu()"
-      [ngClass]="{ 'active-filter': !!filterType }"
-      matTooltip="{{ 'comment-list.filter-comments' | translate }}">
-      <mat-icon class="searchBarIcon">filter_list</mat-icon>
-    </button>
+    @if (
+      !search &&
+      ((comments() && commentsFilteredByTimeLength > 2) || filterBrainstorming)
+    ) {
+      <button
+        id="filter-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="filter_list"
+        #filterMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="filterMenu"
+        (menuOpened)="openFilterMenu()"
+        [ngClass]="{ 'active-filter': !!filterType }"
+        matTooltip="{{
+          'comment-list.' +
+            (room?.mode === 'PLE' ? 'ple.' : '') +
+            'filter-comments' | translate
+        }}">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    }
 
-    <button
-      id="time-button"
-      mat-icon-button
-      class="searchBarButton"
-      aria-labelledby="time_settings"
-      *ngIf="comments && (comments.length > 0 || period !== 'All') && !search"
-      [matMenuTriggerFor]="timeMenu"
-      [ngClass]="{ 'active-filter': period !== 'All' }"
-      matTooltip="{{ 'comment-list.select-time' | translate }}">
-      <mat-icon class="searchBarIcon">history</mat-icon>
-    </button>
+    @if (!search && comments() && (comments().length > 0 || period !== "All")) {
+      <button
+        id="time-button"
+        mat-icon-button
+        class="icon-button"
+        aria-labelledby="time_settings"
+        [matMenuTriggerFor]="timeMenu"
+        [ngClass]="{ 'active-filter': period !== 'All' }"
+        [matTooltip]="'comment-list.select-time' | translate">
+        <mat-icon>history</mat-icon>
+      </button>
+    }
 
-    <button
-      id="pause-comments"
-      mat-icon-button
-      aria-labelledby="pause"
-      class="freezeButton"
-      *ngIf="!search && !freeze && comments.length > 0"
-      (click)="activateCommentStream(true)"
-      matTooltip="{{ 'comment-list.pause-comments' | translate }}">
-      <mat-icon class="freezeIcon material-icons-outlined">
-        stop_circle
-      </mat-icon>
-    </button>
-
-    <button
-      id="play-comments"
-      mat-icon-button
-      aria-labelledby="play"
-      class="freezeButton"
-      *ngIf="!search && freeze && comments.length > 0"
-      (click)="activateCommentStream(false)"
-      matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
-    </button>
+    @if (!search && comments().length > 0) {
+      @if (!freeze) {
+        <button
+          id="pause-comments"
+          mat-icon-button
+          aria-labelledby="pause"
+          class="icon-button"
+          (click)="activateCommentStream(true)"
+          matTooltip="{{
+            'comment-list.' +
+              (room?.mode === 'PLE' ? 'ple.' : '') +
+              'pause-comments' | translate
+          }}">
+          <mat-icon>stop_circle</mat-icon>
+        </button>
+      } @else {
+        <button
+          id="play-comments"
+          mat-icon-button
+          aria-labelledby="play"
+          class="icon-button"
+          (click)="activateCommentStream(false)"
+          matTooltip="{{
+            'comment-list.' +
+              (room?.mode === 'PLE' ? 'ple.' : '') +
+              'play-comments' | translate
+          }}">
+          <mat-icon>play_circle</mat-icon>
+        </button>
+      }
+    }
   </div>
 
   <mat-menu
@@ -160,15 +185,25 @@
         mat-menu-item
         (click)="setTimePeriod(periodItem)"
         class="period"
-        [ngClass]="{ selected: periodItem === period }"
-        aria-labelledby="{{ periodItem }}">
-        <span>{{ "comment-list.select-" + periodItem | translate }}</span>
+        attr.aria-labelledby="{{ periodItem }}">
+        @if (periodItem === period) {
+          <mat-icon>check</mat-icon>
+        }
+        <span>
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "select-" +
+              periodItem | translate
+          }}
+        </span>
+        <span class="divider"></span>
         <span
           class="inline-count-badge"
           *ngIf="periodItem !== 'FromNow'"
-          [matBadge]="periodCounts?.[periodItem] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(periodCounts?.[periodItem] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
     </div>
   </mat-menu>
@@ -251,15 +286,21 @@
         mat-menu-item
         (click)="applyFilterByKey('Owner')"
         aria-labelledby="comment">
-        <mat-icon class="owner-icon material-icons-filled">person</mat-icon>
+        <mat-icon class="owner-icon material-icons-filled">
+          account_circle
+        </mat-icon>
         <span [ngClass]="{ Owner: 'owner-icon' }[filterType]">
-          {{ "comment-list.filter-owner" | translate }}
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "filter-owner" | translate
+          }}
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Owner'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Owner'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -277,9 +318,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Bookmark'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -296,45 +337,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Favorite'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
-      </button>
-
-      <button
-        mat-menu-item
-        (click)="applyFilterByKey('ChatGPT')">
-        <span
-          class="chatgpt-robot-icon"
-          style="color: var(--primary)"
-          [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]"></span>
-        <span [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]">
-          {{ "comment-list.filter-chatgpt" | translate }}
-        </span>
-        <span
-          class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['ChatGPT'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
-      </button>
-
-      <button
-        mat-menu-item
-        (click)="applyFilterByKey('Approved')">
-        <mat-icon
-          class="material-icons-outlined"
-          style="color: var(--green)"
-          [ngClass]="{ Approved: 'approved-icon' }[filterType]">
-          fact_check
-        </mat-icon>
-        <span [ngClass]="{ Approved: 'approved-icon' }[filterType]">
-          {{ "comment-list.filter-approved" | translate }}
-        </span>
-        <span
-          class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Approved'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Favorite'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -349,9 +354,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Conversation'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Conversation'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -369,13 +374,16 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['AnsweredCreator'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="
+            (filterTypeCounts?.['AnsweredCreator'] | truncateBadge) || 0
+          "
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
         mat-menu-item
+        *ngIf="room?.mode !== 'PLE'"
         (click)="applyFilterByKey('AnsweredModerator')"
         aria-labelledby="comment">
         <mat-icon
@@ -389,9 +397,11 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['AnsweredModerator'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="
+            (filterTypeCounts?.['AnsweredModerator'] | truncateBadge) || 0
+          "
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -408,9 +418,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Unanswered'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -427,9 +437,9 @@
         </span>
         <span
           class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Censored'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
+          [matBadge]="(filterTypeCounts?.['Censored'] | truncateBadge) || 0"
+          matBadgeColor="accent"
+          matBadgeSize="large"></span>
       </button>
 
       <button
@@ -512,80 +522,42 @@
   </mat-menu>
 </div>
 
-<button
-  mat-fab
-  mat-icon-button
-  class="scrollTop"
-  [ngClass]="{ visible: isScrollButtonVisible() }"
-  (click)="AppComponent.scrollTop()">
-  <mat-icon>vertical_align_top</mat-icon>
-</button>
-
 <div
   id="createCommentJoyrideWrapper"
   [joyrideStep]="'createQuestion'"
   [stepPosition]="'center'"
   appJoyrideTemplate></div>
 
-<button
-  *ngIf="commentsEnabled"
-  mat-fab
-  mat-icon-button
-  [ngClass]="{
-    center_screen: isCommentListEmpty() || isStarting()
-  }"
-  aria-labelledby="add"
-  class="fab_add_comment"
-  (click)="writeComment()"
-  matTooltip="{{ 'comment-list.add-comment' | translate }}"
-  [matTooltipPosition]="'above'">
-  <mat-icon>add</mat-icon>
-  <p
-    class="oldtypo-p"
-    *ngIf="isCommentListEmpty()">
-    {{ "comment-list.ask-question-empty" | translate }}
-  </p>
-</button>
+<app-comment-list-fab
+  [commentsEnabled]="commentsEnabled"
+  [room]="room"
+  [isCommentListEmpty]="isCommentListEmpty()"
+  [writeComment]="writeCommentBound"
+  [commentLength]="comments()?.length"
+  [userRole]="userRole"></app-comment-list-fab>
 
 <app-mat-spinner-overlay
   *ngIf="isLoading"
-  overlay="true"></app-mat-spinner-overlay>
+  [overlay]="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment
-    *ngFor="let current of getSlicedComments(); let i = index"
-    [isRemoved]="current?.removed"
-    [appScrollIntoView]="current.id === focusCommentId"
-    [usesJoyride]="requestJoyride(current)"
-    [comment]="current"
-    [parseVote]="commentVoteMap"
-    [userRole]="userRole"
-    [moderator]="false"
-    [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
-    [isFromOwner]="room.ownerId === current.creatorId"
-    [user]="user"
-    [disabled]="!commentsEnabled"
-    [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-    [indentationPossible]="true"
-    [activeKeywordSearchString]="activeKeyword"
-    [canOpenGPT]="canOpenGPT"
-    [consentGPT]="consentGPT"
-    (editQuestionEmitter)="editQuestion(current)"
-    (clickedOnTag)="applyFilterByKey('Tag', $event)"
-    (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
-    (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"
-    (votedComment)="votedComment($event)"></app-comment>
+  @for (current of slicedComments(); track current.comment.id; let i = $index) {
+    <app-comment
+      [appScrollIntoView]="current.comment.id === focusCommentId"
+      [inputComment]="current"
+      (filterSelect)="selectFilter($event)"></app-comment>
+  }
   <ars-mat-paginator
-    *ngIf="comments.length > 0"
-    [pageSize]="this.pageSize"
+    *ngIf="comments().length > 0"
+    [pageSize]="pageSize()"
     (page)="handlePageEvent($event)"
     [showFirstLastButtons]="showFirstLastButtons"
     [pageSizeOptions]="pageSizeOptions"
-    [pageIndex]="pageIndex"
-    [length]="comments.length"></ars-mat-paginator>
+    [pageIndex]="pageIndex()"
+    [length]="comments().length"></ars-mat-paginator>
   <ars-row
     [height]="64"
-    *ngIf="comments.length > 0"></ars-row>
+    *ngIf="comments().length > 0"></ars-row>
 </div>
 <!-- Active User Overlay -->
 <app-active-user
@@ -604,12 +576,12 @@
 
 <div
   *ngIf="
-    (filterType && comments.length === 0) ||
-    (comments &&
+    (filterType && comments().length === 0) ||
+    (comments() &&
       commentsFilteredByTimeLength === 0 &&
       period !== 'All' &&
       !isLoading &&
-      comments.length > 0)
+      comments().length > 0)
   "
   fxLayout="row"
   fxLayoutAlign="center center"
@@ -623,8 +595,6 @@
     }}
   </p>
 </div>
-
-<app-comment-a11y-elements></app-comment-a11y-elements>
 
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
@@ -664,7 +634,7 @@
     {{ "comment-list.a11y-close_search" | translate }}
   </div>
   <div id="new-comment">
-    {{ "comment-page.new-comment" | translate : { comment: newestComment } }}
+    {{ "comment-page.new-comment" | translate: { comment: newestComment } }}
   </div>
   <div id="select-time">{{ "comment-list.a11y-select-time" | translate }}</div>
   <div id="select-time-1h">

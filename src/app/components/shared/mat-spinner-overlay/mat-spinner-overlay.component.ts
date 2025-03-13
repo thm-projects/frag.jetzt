@@ -22,6 +22,7 @@ export type SpinnerTheme =
   selector: 'app-mat-spinner-overlay',
   templateUrl: './mat-spinner-overlay.component.html',
   styleUrls: ['./mat-spinner-overlay.component.scss'],
+  standalone: false,
 })
 export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
   @ViewChild('containerRef') containerRef: ElementRef;

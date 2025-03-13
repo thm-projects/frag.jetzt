@@ -1,0 +1,9 @@
+.full-width {
+  width: 100%;
+}
+
+.grid-display {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.5em;
+}

@@ -1,0 +1,135 @@
+<m3-body-pane>
+  <m3-supporting-pane
+    [type]="'flexible'"
+    style="
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    ">
+    @if (room(); as room) {
+      <div class="row gap-large">
+        <span class="row items-center gap-small">
+          <span>
+            {{ i18n().shortId | context: room }}
+          </span>
+          <button
+            mat-icon-button
+            [matTooltip]="i18n().tooltipCopy"
+            (click)="copyShortId()">
+            <mat-icon>share</mat-icon>
+          </button>
+        </span>
+        @if (isPrivileged()) {
+          <span class="row items-center gap-small">
+            <span class="no-compact">{{ i18n().moderatorAccess }}</span>
+            <button
+              mat-icon-button
+              [matTooltip]="i18n().tooltipModerator"
+              (click)="showModeratorsDialog()">
+              <mat-icon>key</mat-icon>
+            </button>
+          </span>
+        }
+      </div>
+      <mat-card style="margin-top: 12px; max-width: 600px; width: 100%">
+        <mat-card-header>
+          <mat-card-title class="headline-large">
+            {{ i18n().name | context: { name: room.name } }}
+            @if (isPrivileged()) {
+              <button
+                mat-icon-button
+                [matTooltip]="i18n().tooltipEdit"
+                (click)="editSessionName()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="scrollable-content">
+            <app-markdown-viewer
+              [data]="
+                room.description || i18n().defaultRoomDescription
+              "></app-markdown-viewer>
+            <div>
+              @if (isPrivileged()) {
+                <button
+                  mat-icon-button
+                  (click)="editSessionDescription()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions
+          style="
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+            align-items: flex-end;
+          ">
+          <span>
+            @if (isPrivileged() && !room.directSend) {
+              <button
+                style="margin-right: 20px"
+                routerLink="moderator/comments"
+                mat-flat-button
+                class="secondary">
+                <mat-icon>gavel</mat-icon>
+                {{ i18n().moderators }}
+              </button>
+            }
+            <button
+              routerLink="comments"
+              mat-flat-button>
+              <mat-icon>
+                {{ room.conversationDepth ? "forum" : "forum" }}
+              </mat-icon>
+              {{ i18n()[mode()].join }}
+            </button>
+          </span>
+        </mat-card-actions>
+      </mat-card>
+    } @else {
+      <mat-progress-spinner
+        style="margin: auto"
+        mode="indeterminate"></mat-progress-spinner>
+    }
+    <div class="compact">
+      <ng-container *ngTemplateOutlet="statistics"></ng-container>
+    </div>
+  </m3-supporting-pane>
+  <m3-supporting-pane
+    [type]="'fixed'"
+    [priority]="'secondary'">
+    <ng-container *ngTemplateOutlet="statistics"></ng-container>
+  </m3-supporting-pane>
+</m3-body-pane>
+
+<ng-template #statistics>
+  <mat-list>
+    <div mat-subheader>{{ i18n().roomPropertiesTitle }}</div>
+    @for (entry of roomProperties; track entry) {
+      <mat-list-item>
+        <div class="row content-space-between">
+          <div class="row items-center gap-small">
+            <mat-icon [svgIcon]="entry.svgIcon">
+              {{ entry.icon }}
+            </mat-icon>
+            <span class="label-medium">
+              {{ entry.translation() }}
+            </span>
+          </div>
+          <span
+            class="label-large"
+            style="margin-left: 30px">
+            {{ entry.value() }}
+          </span>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    }
+  </mat-list>
+</ng-template>

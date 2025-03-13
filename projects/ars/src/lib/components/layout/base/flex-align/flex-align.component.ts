@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'ars-flex-align',
-  templateUrl: './flex-align.component.html',
-  styleUrls: ['./flex-align.component.scss']
+    selector: 'ars-flex-align',
+    templateUrl: './flex-align.component.html',
+    styleUrls: ['./flex-align.component.scss'],
+    standalone: false
 })
 export class FlexAlignComponent implements OnInit, AfterViewInit {
 

@@ -1,0 +1,15 @@
+{
+  "key": "status-info",
+  "de": {
+    "title": "Statusinformationen",
+    "message": "Die Signalstärke zeigt die aktuelle Auslastung an:\n- 🟢 niedrig\n- 🟡 moderat\n- 🔴 hoch\n\nAktuelle Statistik:\n- {{sessionCount}} aktive Verbindungen\n- {{creatorCount}} Raumersteller*innen\n- {{moderatorCount}} Moderator*innen\n- {{participantCount}} Teilnehmer*innen\n- {{activeRoomCount}} Räume mit aktiven Sitzungen\n\nDie Plattform unterstützt bis zu ca. 1.000 gleichzeitige Verbindungen.\n\nHinweis bei Nutzung von DeepSeek R1: Das Modell wird lokal ohne GPU gehostet und kann nur eine geringe Anfragelast von wenigen gleichzeitigen Usern verarbeiten."
+  },
+  "en": {
+    "title": "Status Information",
+    "message": "The signal strength indicates the load:\n- 🟢 low\n- 🟡 moderate\n- 🔴 high\n\nCurrent statistics:\n- {{sessionCount}} active connections\n- {{creatorCount}} room creators\n- {{moderatorCount}} moderators\n- {{participantCount}} participants\n- {{activeRoomCount}} rooms with active sessions\n\nThe platform supports up to approximately 1,000 simultaneous connections.\n\nNote for using DeepSeek R1: The model is hosted locally without GPU and can only handle a limited request load of a few simultaneous users."
+  },
+  "fr": {
+    "title": "Informations sur le statut",
+    "message": "La force du signal indique la charge actuelle :\n- 🟢 faible\n- 🟡 modérée\n- 🔴 élevée\n\nStatistiques actuelles :\n- {{sessionCount}} connexions actives\n- {{creatorCount}} créateurs de salle\n- {{moderatorCount}} modérateurs\n- {{participantCount}} participants\n- {{activeRoomCount}} salles avec session active\n\nLa plateforme prend en charge environ 1 000 connexions simultanées.\n\nRemarque pour l'utilisation de DeepSeek R1 : Le modèle est hébergé localement sans GPU et ne peut gérer qu'une charge limitée de quelques utilisateurs simultanés."
+  }
+}

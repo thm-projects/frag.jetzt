@@ -1,0 +1,223 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  Injector,
+  signal,
+} from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { M3BodyPaneComponent } from 'modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
+import { M3SupportingPaneComponent } from 'modules/m3/components/layout/m3-supporting-pane/m3-supporting-pane.component';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { filter, map } from 'rxjs';
+import { MatMenuModule } from '@angular/material/menu';
+import { CommentService } from 'app/services/http/comment.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RoomNameSettingsComponent } from 'app/components/creator/_dialogs/room-name-settings/room-name-settings.component';
+import { RoomDescriptionSettingsComponent } from 'app/components/creator/_dialogs/room-description-settings/room-description-settings.component';
+import { NotificationService } from 'app/services/util/notification.service';
+import { ModeratorsComponent } from 'app/components/shared/_dialogs/moderators/moderators.component';
+import { applyRoomNavigation } from 'app/navigation/room-navigation';
+import { RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { room } from '../state/room';
+import { afterUpdate as afterRoomUpdate } from '../state/room-updates';
+import { SessionService } from 'app/services/util/session.service';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  MatList,
+  MatListItem,
+  MatListSubheaderCssMatStyler,
+} from '@angular/material/list';
+import { NgTemplateOutlet } from '@angular/common';
+import { afterUpdate, roomCount } from '../state/comment-updates';
+
+const i18n = I18nLoader.load(rawI18n);
+
+@Component({
+  selector: 'app-room-page',
+  imports: [
+    M3BodyPaneComponent,
+    M3SupportingPaneComponent,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatBadgeModule,
+    ContextPipe,
+    CustomMarkdownModule,
+    MatMenuModule,
+    RouterModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatList,
+    MatListItem,
+    MatListSubheaderCssMatStyler,
+    NgTemplateOutlet,
+  ],
+  templateUrl: './room-page.component.html',
+  styleUrl: './room-page.component.scss',
+})
+export class RoomPageComponent {
+  protected readonly room = room.value;
+  protected readonly mode = computed(() => {
+    return this.room()?.mode === 'PLE' ? 'ple' : 'ars';
+  });
+  protected readonly isPrivileged = signal<boolean>(false);
+  protected readonly isCreator = signal<boolean>(false);
+  protected readonly i18n = i18n;
+  protected readonly commentCounter = signal<number>(0);
+  protected readonly answerCounter = signal<number>(0);
+  protected readonly moderatedCommentCounter = signal<number>(0);
+  protected readonly moderatedAnswerCounter = signal<number>(0);
+  protected readonly activeUsers = computed(() => {
+    const x = roomCount();
+    if (!x) return '?';
+    return String(x.participantCount + x.moderatorCount + x.creatorCount);
+  });
+  protected readonly moderatorCount = signal<number | string>('?');
+  private commentService = inject(CommentService);
+  private dialog = inject(MatDialog);
+  private notificationService = inject(NotificationService);
+  private roomState = inject(RoomStateService);
+  private changeDetector = inject(ChangeDetectorRef);
+  roomProperties: {
+    icon: string;
+    svgIcon?: string;
+    value: () => number;
+    translation: () => string;
+  }[] = [
+    {
+      icon: 'group',
+      value: () => this.commentCounter() + this.answerCounter(),
+      translation: () => i18n().participant,
+    },
+    {
+      icon: 'support_agent',
+      value: () => 0,
+      translation: () => i18n().moderators,
+    },
+    {
+      icon: 'co_present',
+      value: () => 0,
+      translation: () => i18n().creator,
+    },
+    {
+      icon: 'star',
+      value: () => 0,
+      translation: () => i18n().bonus,
+    },
+  ];
+
+  constructor() {
+    const updates = afterRoomUpdate.subscribe((u) => {
+      if (u.type === 'RoomPatched') {
+        this.changeDetector.detectChanges();
+      }
+    });
+    const sessionService = inject(SessionService);
+    const destroyRef = inject(DestroyRef);
+    const injector = inject(Injector);
+    const sub = applyRoomNavigation(injector).subscribe();
+    destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+      updates.unsubscribe();
+    });
+    effect((onCleanup) => {
+      const sub1 = this.roomState.assignedRole$
+        .pipe(map((role) => role !== 'Participant'))
+        .subscribe((privileged) => this.isPrivileged.set(privileged));
+      const sub4 = this.roomState.assignedRole$
+        .pipe(map((role) => role === 'Creator'))
+        .subscribe((creator) => this.isCreator.set(creator));
+      this.updateResponseCounter();
+      const sub2 = afterUpdate
+        .pipe(
+          filter(
+            (e) =>
+              e.type === 'CommentCreated' ||
+              e.type === 'CommentDeleted' ||
+              (e.type === 'CommentPatched' && 'ack' in e.changes),
+          ),
+        )
+        .subscribe(() => {
+          this.updateResponseCounter();
+        });
+      const sub3 = sessionService
+        .getModeratorsOnce()
+        .subscribe((moderators) => {
+          this.moderatorCount.set(moderators.length);
+        });
+      onCleanup(() => {
+        sub1.unsubscribe();
+        sub2.unsubscribe();
+        sub3.unsubscribe();
+        sub4.unsubscribe();
+      });
+    });
+  }
+
+  protected editSessionName() {
+    const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
+      disableClose: true,
+    });
+    dialogRef.componentInstance.editRoom = this.room();
+  }
+
+  protected editSessionDescription() {
+    RoomDescriptionSettingsComponent.open(this.dialog, this.room());
+  }
+
+  protected copyShortId(): void {
+    navigator.clipboard
+      .writeText(
+        `${window.location.protocol}//${window.location.host}/participant/room/${this.room().shortId}`,
+      )
+      .then(
+        () => {
+          this.notificationService.show(i18n().copySuccessful);
+        },
+        () => {
+          this.notificationService.show(i18n().copyFailed);
+        },
+      );
+  }
+
+  protected showModeratorsDialog(): void {
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px',
+    });
+    dialogRef.componentInstance.roomId = this.room().id;
+    dialogRef.componentInstance.isCreator =
+      this.roomState.getCurrentAssignedRole() === 'Creator';
+  }
+
+  private updateResponseCounter(): void {
+    const room = this.room();
+    if (!room) return;
+    this.commentService
+      .countByRoomId([
+        { roomId: room.id, ack: true },
+        { roomId: room.id, ack: false },
+      ])
+      .subscribe((commentCounter) => {
+        this.commentCounter.set(commentCounter[0].questionCount);
+        this.answerCounter.set(commentCounter[0].responseCount);
+        this.moderatedCommentCounter.set(commentCounter[1].questionCount);
+        this.moderatedAnswerCounter.set(commentCounter[1].responseCount);
+      });
+  }
+}

@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface);
+  padding: 0.5em;
+  border-radius: 1em;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.text-files-wrapper {
+  padding: 0.5em 0.5em 0 0.5em;
+}
+
+.files-wrapper {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  gap: 0.5em;
+  padding: 0.25em;
+}
+
+.text-input {
+  max-height: 25dvh;
+  width: 100%;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: auto;
+  padding: 0;
+}
+
+mat-spinner {
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  --mdc-circular-progress-active-indicator-color: currentColor;
+}

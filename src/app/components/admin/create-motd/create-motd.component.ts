@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -11,8 +11,9 @@ import { AppStateService } from 'app/services/state/app-state.service';
   selector: 'app-create-motd',
   templateUrl: './create-motd.component.html',
   styleUrls: ['./create-motd.component.scss'],
+  standalone: false,
 })
-export class CreateMotdComponent implements OnInit, OnDestroy {
+export class CreateMotdComponent implements OnDestroy {
   startDate: Date = new Date();
   endDate: Date = new Date(this.startDate.getTime() + 1_000 * 3_600 * 24 * 7);
   dateRange = new FormGroup({
@@ -25,7 +26,7 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
 
   constructor(
     private translateService: TranslateService,
-    private _adapter: DateAdapter<any>,
+    private _adapter: DateAdapter<unknown>,
     private motdService: MotdService,
     private notification: NotificationService,
     private appState: AppStateService,
@@ -36,8 +37,6 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
         this._adapter.setLocale(lang);
       });
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy() {
     this._destroyer.next(1);

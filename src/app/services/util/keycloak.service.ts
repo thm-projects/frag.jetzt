@@ -5,7 +5,6 @@ import {
   Observable,
   Subject,
   defer,
-  from,
   of,
   repeat,
   retry,
@@ -16,8 +15,9 @@ import {
 import { KeycloakProviderService } from '../http/keycloak-provider.service';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UUID } from 'app/utils/ts-utils';
-import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
 import { InitService } from './init.service';
+import { gdprWatcher } from 'app/base/gdpr/gdpr-watcher';
+import { keycloakInfo } from 'app/base/theme/apply-system-variables';
 
 export interface TokenReturn {
   token: string;
@@ -26,9 +26,7 @@ export interface TokenReturn {
   roles: string[];
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class KeycloakService {
   readonly providers$ = this.keycloakProvider.getAll();
   readonly activeProvider$ = new BehaviorSubject<KeycloakProvider>(null);
@@ -40,17 +38,14 @@ export class KeycloakService {
     private keycloakProvider: KeycloakProviderService,
     private initService: InitService,
   ) {
-    this.providers$ = keycloakProvider.getAll().pipe(
-      repeat({
-        delay: () => this.updateStream$,
-      }),
-      shareReplay(1),
-    );
+    this.providers$ = keycloakProvider
+      .getAll()
+      .pipe(repeat({ delay: () => this.updateStream$ }), shareReplay(1));
     this.initService.init$.pipe(take(1)).subscribe(() => {
       // side effects
       this.providers$.subscribe((providers) => {
         providers.forEach((provider) => {
-          DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+          gdprWatcher.trustDomain(this.adjustURL(provider.frontendUrl));
         });
       });
     });
@@ -60,14 +55,19 @@ export class KeycloakService {
     this.updateStream$.next(true);
   }
 
+  deleteAccount() {
+    const url = this.keycloak.createLoginUrl({
+      redirectUri: location.origin + '/home',
+    });
+    open(url + '&kc_action=delete_account');
+  }
+
   redirectAccountManagement() {
     this.keycloak.accountManagement();
   }
 
   redirectLogout() {
-    this.keycloak.logout({
-      redirectUri: location.origin + '/home',
-    });
+    this.keycloak.logout({ redirectUri: location.origin + '/home' });
   }
 
   doKeycloakLogin(
@@ -163,6 +163,20 @@ export class KeycloakService {
         realm: keycloakProvider.realm,
         clientId: keycloakProvider.clientId,
       });
+      const original = newKeycloak.createLoginUrl.bind(newKeycloak);
+      newKeycloak.createLoginUrl = async (options?) => {
+        const str = await original(options);
+        const info = keycloakInfo();
+        return (
+          str +
+          '&source-color=' +
+          encodeURIComponent(info.color) +
+          '&contrast-level=' +
+          encodeURIComponent(info.contrastLevel) +
+          '&is-dark=' +
+          encodeURIComponent(info.isDark)
+        );
+      };
       this.keycloak = newKeycloak;
       this.tokenUpdated = tokenUpdated;
       this.activeProvider$.next(keycloakProvider);

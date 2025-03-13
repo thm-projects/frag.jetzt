@@ -1,5 +1,8 @@
 import { AppComponent } from 'app/app.component';
 
+/**
+ * @deprecated
+ */
 export class Rescale {
   private static isFullscreen: boolean;
   private static isRescaleFullscreen: boolean;
@@ -116,8 +119,8 @@ export class Rescale {
   }
 
   private scaleUpdate() {
-    (document.getElementById('rescale_screen').style as any).zoom =
-      this.scale + '';
+    //(document.getElementById('rescale_screen').style as object)['zoom'] =
+    //  this.scale + '';
   }
 
   private toggleHeader(b: boolean) {

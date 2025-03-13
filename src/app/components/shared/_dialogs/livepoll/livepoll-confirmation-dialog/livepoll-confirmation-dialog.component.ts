@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export enum ConfirmDialogType {
   AcceptCancel,
@@ -20,13 +20,13 @@ export enum ConfirmDialogAction {
     './livepoll-confirmation-dialog.component.scss',
     '../livepoll-common.scss',
   ],
+  standalone: false,
 })
-export class LivepollConfirmationDialogComponent implements OnInit {
+export class LivepollConfirmationDialogComponent {
   public readonly translateKey: string = 'common';
-  public textRef: string;
-  public titleRef: string;
   protected readonly ConfirmDialogType = ConfirmDialogType;
   protected readonly ConfirmDialogAction = ConfirmDialogAction;
+  public confirmationDialogId: string | undefined;
 
   constructor(
     public readonly matDialogRef: MatDialogRef<
@@ -40,8 +40,6 @@ export class LivepollConfirmationDialogComponent implements OnInit {
       type: ConfirmDialogType.AcceptCancel,
     },
   ) {}
-
-  ngOnInit(): void {}
 
   protected emitAction(action: ConfirmDialogAction) {
     this.matDialogRef.close(action);

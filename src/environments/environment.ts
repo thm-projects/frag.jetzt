@@ -7,5 +7,6 @@ export const environment = {
   name: 'dev',
   production: false,
   stomp_debug: true,
-  db_migration: 'Trace'
+  db_migration: 'Trace',
+  matomo: {},
 };

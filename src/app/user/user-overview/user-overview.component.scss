@@ -1,0 +1,36 @@
+$padding: 1.5em;
+:host {
+  width: 100%;
+  min-height: calc(
+    100dvh - var(--header-height) - var(--footer-height) - #{2 * $padding}
+  );
+  height: max-content;
+  padding-block: $padding;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 3em;
+}
+
+.responsive-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30em;
+  height: 21.213em;
+  flex-wrap: wrap;
+}
+
+mat-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.large-icon {
+  transform: scale(2);
+}

@@ -2,7 +2,7 @@
 Styling for tag selection
  */
 
-label[for='tagSelect'] {
+label[for="tagSelect"] {
   margin-left: 12px;
 }
 
@@ -35,29 +35,38 @@ Styling for tag selection and language selection
  */
 
 :host ::ng-deep {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-arrow-wrapper .mat-select-arrow {
     color: var(--on-surface);
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-value {
     width: auto !important;
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-value-text {
     color: var(--on-surface);
     caret-color: var(--on-surface);
   }
-
-  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version.
+ */
+  .mat-primary .mat-mdc-option.mat-selected:not(.mat-option-disabled) {
     color: var(--primary);
   }
 
-  .mat-select-panel {
+  .mat-mdc-select-panel {
     background: var(--dialog);
   }
 }
 
-.mat-option {
+.mat-mdc-option {
   color: var(--on-surface);
 }
 
@@ -75,7 +84,7 @@ Styling for tag selection and language selection
 .dialog-button {
   background-color: transparent;
   color: var(--on-dialog);
-  outline: var(--secondary) solid 3px;
+  outline: var(--secondary) solid 2px;
   margin: 10px 10px 10px 3px;
 
   &:hover {

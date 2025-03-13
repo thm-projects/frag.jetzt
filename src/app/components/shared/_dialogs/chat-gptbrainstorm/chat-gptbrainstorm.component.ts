@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
@@ -18,10 +18,9 @@ interface SelectableIdea {
   selector: 'app-chat-gptbrainstorm',
   templateUrl: './chat-gptbrainstorm.component.html',
   styleUrls: ['./chat-gptbrainstorm.component.scss'],
+  standalone: false,
 })
-export class ChatGPTBrainstormComponent implements OnInit {
-  onCancel = this.abort.bind(this);
-  onConfirm = this.confirm.bind(this);
+export class ChatGPTBrainstormComponent {
   isSending = false;
   elements: SelectableIdea[] = [];
   private data: BrainstormingSession;
@@ -43,8 +42,6 @@ export class ChatGPTBrainstormComponent implements OnInit {
     ref.componentInstance.roomId = room.id;
     return ref;
   }
-
-  ngOnInit(): void {}
 
   generate(value: string) {
     this.translate
@@ -73,7 +70,7 @@ export class ChatGPTBrainstormComponent implements OnInit {
                 content: prompt,
               },
             ],
-            model: 'gpt-3.5-turbo-1106',
+            model: 'gpt-3.5-turbo',
             temperature: 1.0,
             roomId: this.roomId,
           })
@@ -109,6 +106,12 @@ export class ChatGPTBrainstormComponent implements OnInit {
       });
   }
 
+  protected confirm() {
+    this.dialogRef.close(
+      this.elements.filter((e) => e.selected).map((e) => e.text),
+    );
+  }
+
   private makeElements(finished: boolean) {
     const regex = finished
       ? /\s*(?:\d+\.|-)\s([^\n]*)(?:\n|$)/gm
@@ -122,15 +125,5 @@ export class ChatGPTBrainstormComponent implements OnInit {
       });
       this.lastIndex = m.index + m[0].length;
     }
-  }
-
-  private abort() {
-    this.dialogRef.close();
-  }
-
-  private confirm() {
-    this.dialogRef.close(
-      this.elements.filter((e) => e.selected).map((e) => e.text),
-    );
   }
 }

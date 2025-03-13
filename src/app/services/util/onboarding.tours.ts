@@ -1,7 +1,7 @@
 import { DataStoreService } from './data-store.service';
 import { RoomService } from '../http/room.service';
 import { Observable, of, Subject } from 'rxjs';
-import { AccountStateService } from '../state/account-state.service';
+import { forceLogin, logout, user } from 'app/user/state/user';
 
 export interface OnboardingTourStepInteraction {
   beforeLoad?: (isNext: boolean) => void;
@@ -44,24 +44,14 @@ const roomChecker = (
 export const initDefaultTour = (
   dataStoreService: DataStoreService,
   roomService: RoomService,
-  accountState: AccountStateService,
 ): OnboardingTour => ({
   name: 'default',
   tour: [
     'greeting@home',
-    'loginButtonHeader@home',
     'roomJoin@home',
     'createRoom@home',
-    'introduction@home',
-    'feedbackLink@home',
     'createQuestion@participant/room/Feedback/comments',
-    'voting@participant/room/Feedback/comments',
     'commentFilter@participant/room/Feedback/comments',
-    'commentUserNumber@participant/room/Feedback/comments',
-    'dashboard@participant/room/Feedback/comments',
-    'chatGPT@participant/room/Feedback/comments',
-    'navigationButton@participant/room/Feedback/comments',
-    'optionHeader@participant/room/Feedback/comments',
   ],
   tourActions: {
     feedbackLink: {
@@ -69,38 +59,35 @@ export const initDefaultTour = (
         if (
           isNext &&
           dataStoreService.get('onboarding-default-meta') === 'false' &&
-          !accountState.getCurrentUser()
+          !user()
         ) {
-          accountState.openGuestSession().subscribe();
+          forceLogin().subscribe();
         }
       },
       beforeUnload: (isNext: boolean) => {
         if (
           !isNext &&
           dataStoreService.get('onboarding-default-meta') === 'false' &&
-          accountState.getCurrentUser()
+          user()
         ) {
-          accountState.logout();
+          logout();
         }
       },
     },
     voting: {
       beforeLoad: () => {
-        document.getElementById('scroll_container').scrollTop = 0;
+        document.querySelector('.m3-nav-body').scrollTop = 0;
       },
     },
   },
-  doneAction: (_) => {
+  doneAction: () => {
     if (dataStoreService.get('onboarding-default-meta') === 'false') {
-      accountState.logout();
+      logout();
     }
     dataStoreService.remove('onboarding-default-meta');
   },
   startupAction: () => {
-    dataStoreService.set(
-      'onboarding-default-meta',
-      String(Boolean(accountState.getCurrentUser())),
-    );
+    dataStoreService.set('onboarding-default-meta', String(Boolean(user())));
   },
   checkIfRouteCanBeAccessed: (route: string) => {
     if (route.endsWith('home')) {

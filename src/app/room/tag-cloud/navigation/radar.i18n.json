@@ -1,0 +1,18 @@
+{
+  "key": "radar-navigation",
+  "de": {
+    "config": "Aussehen & Animation",
+    "admin": "KI-Einstellungen",
+    "updateKeywords": "Stichwörter extrahieren"
+  },
+  "en": {
+    "config": "Look & Animation",
+    "admin": "AI settings",
+    "updateKeywords": "Extract keywords"
+  },
+  "fr": {
+    "config": "Apparence & animation",
+    "admin": "Paramètres de l'IA",
+    "updateKeywords": "Extraire des mots-clés"
+  }
+}

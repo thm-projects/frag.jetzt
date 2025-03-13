@@ -7,15 +7,15 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { HeaderService } from '../../../services/util/header.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ThemeService } from '../../../../theme/theme.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { TimeoutHelper } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-minute-jump-clock',
   templateUrl: './minute-jump-clock.component.html',
   styleUrls: ['./minute-jump-clock.component.scss'],
+  standalone: false,
 })
 export class MinuteJumpClockComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -42,16 +42,12 @@ export class MinuteJumpClockComponent
   @ViewChild('clock')
   svgClock: ElementRef<HTMLElement>;
   visible: boolean = false;
-  private _timer: any = 0;
+  private _timer: TimeoutHelper = 0;
   private _initialized = false;
   private _destroyer = new Subject();
   private _matcher: MediaQueryList;
 
-  constructor(
-    private readonly headerService: HeaderService,
-    private readonly deviceState: DeviceStateService,
-    private readonly themeService: ThemeService,
-  ) {}
+  constructor(private readonly deviceState: DeviceStateService) {}
 
   ngOnInit(): void {
     this._matcher = window.matchMedia('(max-width: ' + this.minWidth + 'px)');
@@ -63,10 +59,7 @@ export class MinuteJumpClockComponent
     this._destroyer.subscribe(() =>
       this._matcher.removeEventListener('change', func),
     );
-    this.themeService
-      .getTheme()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe(func);
+    this.update();
   }
 
   ngAfterViewInit() {
@@ -83,7 +76,7 @@ export class MinuteJumpClockComponent
 
   calculateArc(): [string, string] {
     if (this.arcEnd === null) {
-      return;
+      return null;
     }
     const radius = 210;
     let startAngle;
@@ -173,8 +166,7 @@ export class MinuteJumpClockComponent
     this.visible =
       (this.ignoreTooLessSpace ||
         (!this.deviceState.isMobile() && !this._matcher.matches)) &&
-      !this.deviceState.isSafari &&
-      this.themeService.currentTheme?.key !== 'projector';
+      !this.deviceState.isSafari;
     if (!this._initialized) {
       return;
     }
@@ -190,7 +182,6 @@ export class MinuteJumpClockComponent
       return;
     }
     this.svgClock.nativeElement.style.display = '';
-    this.headerService.getHeaderComponent().registerClock();
     this.updatePresentationClock();
     this._timer = setInterval(this.updatePresentationClock.bind(this), 1_000);
   }
@@ -200,7 +191,6 @@ export class MinuteJumpClockComponent
       return;
     }
     this.svgClock.nativeElement.style.display = 'none';
-    this.headerService.getHeaderComponent().unregisterClock();
     clearInterval(this._timer);
     this._timer = 0;
   }

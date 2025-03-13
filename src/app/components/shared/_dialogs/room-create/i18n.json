@@ -1,0 +1,18 @@
+{
+  "key": "room-create",
+  "de": {
+    "helpTextGlobal": "DeepSeek-R1 (Distilled 14B) unterstützt komplexe Aufgaben. Ausführliche Infos unten rechts.",
+    "helpTextAPIKey": "Nutze deine eigenen API-Keys, um KI-Modelle nach Wahl zu verwenden. Ausführliche Infos unten rechts.",
+    "helpTextVoucher": "Nur für Lehrkräfte, die eine KI-Evaluation im Unterricht durchführen. Ausführliche Infos unten rechts."
+  },
+  "en": {
+    "helpTextGlobal": "DeepSeek-R1 (Distilled 14B) supports complex tasks. Full details at the bottom right.",
+    "helpTextAPIKey": "Use your own API keys to access AI models of your choice. Full details at the bottom right.",
+    "helpTextVoucher": "Only for teachers conducting an AI evaluation in class. Full details at the bottom right."
+  },
+  "fr": {
+    "helpTextGlobal": "DeepSeek-R1 (Distilled 14B) prend en charge des tâches complexes. Détails en bas à droite.",
+    "helpTextAPIKey": "Utilise tes propres clés API pour accéder aux modèles IA de ton choix. Détails en bas à droite.",
+    "helpTextVoucher": "Uniquement pour les enseignants menant une évaluation de l'IA en classe. Détails en bas à droite."
+  }
+}

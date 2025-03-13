@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  template: `
+    template: `
     <p>
       ars works!
     </p>
   `,
-  styles: []
+    styles: [],
+    standalone: false
 })
 // tslint:disable-next-line:directive-class-suffix
 export class ArsComponent implements OnInit {

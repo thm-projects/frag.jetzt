@@ -4,9 +4,10 @@ import { ARS_MAT_TOGGLE_CONFIG, ArsMatToggleConfig } from './ars-mat-toggle-conf
 import { ArsAnchor } from '../../../models/util/ars-observer';
 
 @Component({
-  selector:'ars-mat-toggle',
-  templateUrl:'./mat-toggle.component.html',
-  styleUrls:['./mat-toggle.component.scss']
+    selector: 'ars-mat-toggle',
+    templateUrl: './mat-toggle.component.html',
+    styleUrls: ['./mat-toggle.component.scss'],
+    standalone: false
 })
 export class MatToggleComponent implements OnInit{
 

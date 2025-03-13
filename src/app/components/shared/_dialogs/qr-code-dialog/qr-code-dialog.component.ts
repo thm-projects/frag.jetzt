@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -11,8 +6,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './qr-code-dialog.component.html',
   styleUrls: ['./qr-code-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
-export class QrCodeDialogComponent implements OnInit, AfterViewInit {
+export class QrCodeDialogComponent implements AfterViewInit {
   data: string;
   qrWidth: number;
   key: string;
@@ -22,8 +18,6 @@ export class QrCodeDialogComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<QrCodeDialogComponent>,
   ) {}
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     const minSize = Math.min(

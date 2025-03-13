@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.loadModule(rawI18n);
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
@@ -7,7 +10,6 @@ import { Moderator } from '../../../models/moderator';
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ReplaySubject } from 'rxjs';
 import {
   CommentService,
@@ -16,12 +18,11 @@ import {
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
-import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
@@ -29,6 +30,10 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { user$ } from 'app/user/state/user';
+import { RoomDeleteComponent } from 'app/components/creator/_dialogs/room-delete/room-delete.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -49,6 +54,7 @@ const generateMultiSortFunc =
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
   styleUrls: ['./room-list.component.scss'],
+  standalone: false,
 })
 export class RoomListComponent implements OnInit, OnDestroy {
   user: User;
@@ -67,6 +73,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name',
   };
+  protected readonly i18n = i18n;
   private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
   private destroyer = new ReplaySubject(1);
 
@@ -84,7 +91,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.accountState.user$
+    user$
       .pipe(
         takeUntil(this.destroyer),
         filter((user) => !!user),
@@ -95,7 +102,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.getRooms();
       });
     this.eventService
-      .on<any>('RoomDeleted')
+      .on<{ id: string }>('RoomDeleted')
       .pipe(takeUntil(this.destroyer))
       .subscribe((payload) => {
         this.rooms = this.rooms.filter((r) => r.id !== payload.id);
@@ -183,18 +190,22 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   removeSession(room: RoomRoleMixin) {
-    const dialogRef = this.dialog.open(RemoveFromHistoryComponent, {
-      width: '400px',
-    });
-    dialogRef.componentInstance.roomName = room.name;
-    dialogRef.componentInstance.role = room.role;
+    let dialogRef: MatDialogRef<
+      RemoveFromHistoryComponent | RoomDeleteComponent
+    >;
+    if (room.role !== UserRole.CREATOR) {
+      dialogRef = RemoveFromHistoryComponent.open(this.dialog, room.name);
+    } else {
+      dialogRef = RoomDeleteComponent.open(this.dialog, room.name);
+    }
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'remove') {
-        if (room.role < 3) {
-          this.removeFromHistory(room);
-        } else {
-          this.deleteRoom(room);
-        }
+      if (result === 'delete') {
+        this.deleteRoom(room);
+        this.rooms = this.rooms.filter((r) => r.id !== room.id);
+        this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== room.id);
+        this.updateTable();
+      } else if (result === 'remove') {
+        this.removeFromHistory(room);
         this.rooms = this.rooms.filter((r) => r.id !== room.id);
         this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== room.id);
         this.updateTable();
@@ -238,6 +249,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       case UserRole.EXECUTIVE_MODERATOR:
         return 'moderator';
     }
+    return 'N/A';
   }
 
   updateTable(): void {

@@ -1,0 +1,21 @@
+{
+  "key": "deletion-confirmation-dialog",
+  "de": {
+    "title": "Löschung bestätigen",
+    "message": "Bist du sicher, dass du diesen KI-Assistenten löschen möchtest?\nDiese Aktion kann nicht rückgängig gemacht werden.",
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
+  },
+  "en": {
+    "title": "Confirm Deletion",
+    "message": "Are you sure you want to delete this AI Assistant?\nThis action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "fr": {
+    "title": "Confirmer la suppression",
+    "message": "Es-tu sûr de vouloir supprimer cet assistant IA ?\nCette action est irréversible.",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+  }
+}

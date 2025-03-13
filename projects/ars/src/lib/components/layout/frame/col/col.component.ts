@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '
 import { FrameType } from '../FrameType';
 
 @Component({
-  selector: 'ars-col',
-  templateUrl: './col.component.html',
-  styleUrls: ['./col.component.scss'],
-  providers: [FrameType.provide(ColComponent)]
+    selector: 'ars-col',
+    templateUrl: './col.component.html',
+    styleUrls: ['./col.component.scss'],
+    providers: [FrameType.provide(ColComponent)],
+    standalone: false
 })
 export class ColComponent extends FrameType implements OnInit, AfterViewInit {
 

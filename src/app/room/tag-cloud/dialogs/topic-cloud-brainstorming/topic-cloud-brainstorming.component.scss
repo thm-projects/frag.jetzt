@@ -1,0 +1,23 @@
+mat-card-actions {
+  justify-content: space-around;
+  margin: 6px 0;
+}
+
+mat-dialog-content.mat-mdc-dialog-content.mdc-dialog__content {
+  padding: 0.5em 1.5em;
+}
+
+mat-card-content {
+  padding: 1em;
+  min-height: 5em;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card {
+  background-color: var(--mat-sys-surface-container-low);
+}
+
+mat-card + mat-card {
+  margin-top: 1.5em;
+}

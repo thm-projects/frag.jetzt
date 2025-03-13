@@ -1,141 +1,105 @@
 <ng-template
   #LiveIcon
   let-isPaused="isPaused">
-  <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
-    <mat-icon>fiber_manual_record</mat-icon>
-    <span>{{ translateKey + ".live" | translate }}</span>
+  <div
+    [class.live-icon]="true"
+    [class.live-icon-pause]="isPaused"
+    [class.live-icon-active]="!isPaused">
+    <div class="icon-container">
+      <mat-icon [class.hide]="isPaused">fiber_manual_record</mat-icon>
+      <mat-icon [class.hide]="!isPaused">pause</mat-icon>
+    </div>
+    <span>
+      {{ translateKey + ".misc." + (isPaused ? "paused" : "live") | translate }}
+    </span>
   </div>
 </ng-template>
 
 <div
-  class="dialog-header"
+  class="row items-start"
+  style="padding-top: 16px; padding-right: 16px"
   *ngIf="isProduction">
-  <div class="dialog-header-title">
-    <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
-  </div>
-  <div class="dialog-header-content">
-    <span style="padding-left: 8px"></span>
+  <span matDialogTitle>{{ translateKey + ".title" | translate }}</span>
+  <div [class.title-settings]="true">
     <ng-container
       *ngTemplateOutlet="
         LiveIcon;
         context: { isPaused: isPaused }
       "></ng-container>
-    <div class="fill"></div>
-    <div class="settings">
-      <span *ngIf="is2ndPhasePeerInstruction">
-        {{ translateKey + ".peerInstruction-phase-2-marker" | translate }}
+    <div [class.fill]="true"></div>
+    <div [class.title-settings-right]="true">
+      <span *ngIf="is2ndPhasePeerInstruction && !isMobile">
+        {{ translateKey + ".peer-instruction.second-round" | translate }}
       </span>
-      <button
-        mat-flat-button
-        *ngIf="currentRole"
-        (click)="openPeerInstruction()"
-        class="button-secondary">
-        <mat-icon>face</mat-icon>
-        <span>{{ translateKey + ".peerInstruction-button" | translate }}</span>
-      </button>
-      <button
-        mat-flat-button
-        [mat-menu-trigger-for]="archiveMenu"
-        class="button-primary"
-        *ngIf="currentRole"
-        (click)="openArchive()">
-        <mat-icon>archive</mat-icon>
-        <span>{{ translateKey + ".option-archive" | translate }}</span>
-      </button>
-      <mat-menu
-        #archiveMenu
-        [classList]="'livepoll-dialog-component-archive-menu'">
-        <ng-container *ngIf="archive">
-          <div
-            *ngFor="let entry of archive"
-            class="archive-menu-item">
-            <div class="header">
-              <span>
-                {{
-                  entry.title
-                    ? entry.title.length > 27
-                      ? entry.title.slice(0, 24) + "..."
-                      : entry.title
-                    : (translateKey + ".archive-noname" | translate)
-                }}
-              </span>
-              <ng-container *ngIf="entry.active">
-                <span style="padding-left: 4px"></span>
-                <ng-container
-                  *ngTemplateOutlet="
-                    LiveIcon;
-                    context: { isPaused: entry.paused }
-                  "></ng-container>
-              </ng-container>
-              <ng-container *ngIf="!entry.active">
-                <span style="padding-left: 8px">
-                  {{ translateKey + ".archive-finished" | translate }}
-                </span>
-              </ng-container>
-              <div class="fill"></div>
-              <span>{{ this.prettyPrintDate(entry.createdAt) }}</span>
-            </div>
-          </div>
+      <ng-container>
+        <ng-container *ngIf="isMobile">
+          <button
+            mat-icon-button
+            *ngIf="currentRole"
+            (click)="openPeerInstruction()">
+            <mat-icon>repeat</mat-icon>
+          </button>
         </ng-container>
-        <ng-container *ngIf="!archive">
-          <mat-spinner></mat-spinner>
+        <ng-container *ngIf="!isMobile">
+          <button
+            mat-flat-button
+            *ngIf="currentRole"
+            (click)="openPeerInstruction()">
+            <mat-icon>repeat</mat-icon>
+            {{ translateKey + ".peer-instruction.name" | translate }}
+          </button>
         </ng-container>
-      </mat-menu>
+      </ng-container>
     </div>
   </div>
 </div>
-<mat-dialog-content
-  class="content"
-  *ngIf="isProduction; else dialogContent">
+<mat-dialog-content *ngIf="isProduction; else dialogContent">
   <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
 </mat-dialog-content>
-<ng-template
-  #dialogContent
-  class="content">
+<ng-template #dialogContent>
   <ng-container *ngIf="livepollSession">
     <ng-container
       *ngIf="currentRole && livepollSession.active && !isConclusion">
       <app-livepoll-settings [parent]="this"></app-livepoll-settings>
     </ng-container>
 
-    <div class="title-container">
-      <p
-        class="preview-title"
-        *ngIf="!isProduction">
-        {{ translateKey + ".dialog-preview-title" | translate }}
+    <div>
+      <p *ngIf="!isProduction">
+        {{ translateKey + ".edit.view-as-participant" | translate }}
       </p>
     </div>
 
     <div
-      class="markdown-container"
+      [class.markdown-container]="true"
       #markdownContainer>
-      <markdown [data]="livepollSession.title"></markdown>
+      <!-- TODO: <markdown [data]="livepollSession.title"></markdown> -->
     </div>
 
-    <div class="statistics-settings-container">
-      <div class="statistics-options">
+    <div [class.statistics-settings-container]="true">
+      <div [class.statistics-options]="true">
         <button
-          mat-flat-button
+          mat-stroked-button
           *ngIf="isProduction && currentRole"
-          class="button-cancel"
           (click)="resetResults()">
-          <mat-icon style="margin-right: 4px">undo</mat-icon>
-          <span class="on-desktop">
-            {{ translateKey + ".settings-resetResults" | translate }}
-          </span>
+          <mat-icon>undo</mat-icon>
+          {{ translateKey + ".edit.reset" | translate }}
         </button>
       </div>
-      <div class="statistics-info">
+      <div [class.statistics-info]="true">
         <div
           @AnimateInOut
-          [matTooltip]="translateKey + '.user' | translate"
+          [matTooltip]="
+            translateKey + '.statistics.active-user-count.tooltip' | translate
+          "
           *ngIf="livepollSession.viewsVisible">
           <mat-icon>visibility</mat-icon>
           <span>{{ userCount }}</span>
         </div>
         <div
           @AnimateInOut
-          [matTooltip]="translateKey + '.participants' | translate"
+          [matTooltip]="
+            translateKey + '.statistics.room-user-count.tooltip' | translate
+          "
           *ngIf="livepollSession.viewsVisible">
           <mat-icon>people</mat-icon>
           <span>{{ participantCount }}</span>
@@ -143,7 +107,9 @@
         <div
           @AnimateInOut
           *ngIf="livepollSession.resultVisible">
-          <span>{{ translateKey + ".votes" | translate }}</span>
+          <span>
+            {{ translateKey + ".statistics.vote-count.text" | translate }}:
+          </span>
           <span>{{ totalVotes }}</span>
         </div>
       </div>
@@ -160,7 +126,7 @@
     </ng-container>
 
     <div
-      class="vote-container"
+      [class.grid-layout]="true"
       *ngIf="!isConclusion && livepollSession.active">
       <div
         [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
@@ -173,7 +139,7 @@
                 option;
                 context: {
                   i: i,
-                  symbol: symbol
+                  symbol: symbol,
                 }
               "></ng-container>
           </ng-container>
@@ -186,7 +152,7 @@
                 option;
                 context: {
                   i: i,
-                  symbol: i
+                  symbol: i,
                 }
               "></ng-container>
           </ng-container>
@@ -198,58 +164,79 @@
 
 <mat-dialog-actions
   *ngIf="isProduction"
-  class="actions-container"
+  [class.no-pad]="true"
   #dialogActions>
-  <div class="left-container">
-    <button
-      mat-flat-button
-      class="button-primary"
-      *ngIf="currentRole && !isConclusion"
-      (click)="isPaused ? play() : pause()">
-      <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
-      <span
-        *ngIf="!isMobile"
-        class="on-desktop">
-        {{
-          translateKey +
-            ".creator-settings-" +
-            (isPaused ? "continue" : "pause") | translate
-        }}
-      </span>
-    </button>
-    <button
-      mat-flat-button
-      class="button-cancel"
-      *ngIf="currentRole && isProduction && !isConclusion"
-      (click)="close('delete')">
-      <mat-icon style="color: var(--red)">stop_circle</mat-icon>
-      <span
-        *ngIf="!isMobile"
-        class="on-desktop">
-        {{ translateKey + ".creator-settings-delete" | translate }}
-      </span>
-    </button>
+  <div [class.left-container]="true">
+    <ng-container>
+      <ng-container *ngIf="isMobile">
+        <button
+          mat-icon-button
+          [class.__primary]="true"
+          *ngIf="currentRole && !isConclusion"
+          (click)="isPaused ? play() : pause()">
+          <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [class.__cancel]="true"
+          *ngIf="currentRole && isProduction && !isConclusion"
+          (click)="close('delete')">
+          <mat-icon>stop_circle</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <button
+          mat-flat-button
+          [class.__primary]="true"
+          *ngIf="currentRole && !isConclusion"
+          (click)="isPaused ? play() : pause()">
+          <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
+          <span>
+            {{
+              translateKey + ".edit." + (isPaused ? "continue" : "pause")
+                | translate
+            }}
+          </span>
+        </button>
+        <button
+          mat-button
+          *ngIf="currentRole && isProduction && !isConclusion"
+          (click)="close('delete')">
+          <mat-icon>stop_circle</mat-icon>
+          {{ translateKey + ".edit.delete" | translate }}
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
-  <div class="right-container">
+  <div [class.fill]="true"></div>
+  <div [class.right-container]="true">
     <button
-      mat-flat-button
-      class="button-cancel"
+      mat-button
       *ngIf="isProduction"
       (click)="close('close')">
-      <span>{{ translateKey + ".close" | translate }}</span>
+      {{ translateKey + ".edit.close" | translate }}
     </button>
-    <button
-      mat-flat-button
-      *ngIf="currentRole && (dialogActions.offsetWidth > 310 || isConclusion)"
-      (click)="close('reset')"
-      class="button-secondary">
-      <mat-icon>add_circle</mat-icon>
-      <span
-        *ngIf="!isMobile"
-        class="on-desktop">
-        {{ translateKey + ".new" | translate }}
-      </span>
-    </button>
+    <ng-container>
+      <ng-container *ngIf="isMobile">
+        <button
+          mat-icon-button
+          [class.__secondary]="true"
+          *ngIf="currentRole"
+          (click)="close('reset')">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <button
+          mat-flat-button
+          [class.__secondary]="true"
+          *ngIf="currentRole"
+          (click)="close('reset')">
+          <mat-icon>add_circle</mat-icon>
+          {{ translateKey + ".edit.new" | translate }}
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
 </mat-dialog-actions>
 
@@ -258,12 +245,19 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    [ngClass]="getVoteButtonClass(i)"
     mat-flat-button
-    class="vote-text"
+    class="secondary"
+    [class.secondary]="this.livepollVote?.voteIndex !== i"
+    [class.tertiary]="this.livepollVote?.voteIndex === i"
+    [class.translated-text]="this.template.translate && !this.template.isPlain"
+    [class.button-vote-text-as-icon]="
+      this.template.translate && this.template.isPlain
+    "
+    [class.button-vote-material-icons]="this.template.symbols"
+    [class.vote-text]="true"
     [disabled]="isPaused"
     [ngStyle]="{
-      order: i * (template.reverse ? -1 : 1)
+      order: i * (template.reverse ? -1 : 1),
     }"
     (click)="vote(i)">
     <ng-container
@@ -280,7 +274,7 @@
   let-symbol="symbol">
   <ng-container *ngIf="template.isPlain">
     <span
-      class="vote-plain-text"
+      [class.vote-plain-text]="true"
       [ngStyle]="
         template.translate ? template.style?.text : template.style?.plainIcon
       ">

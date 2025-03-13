@@ -6,16 +6,16 @@ import {
   FilteredDataAccess,
 } from 'app/utils/filtered-data-access';
 import { SmartDebounce } from 'app/utils/smart-debounce';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subscription } from 'rxjs';
 import { BrainstormingService } from '../http/brainstorming.service';
 import {
   BrainstormingDataBuilder,
   BrainstormingTopic,
 } from './brainstorming-data-builder';
-import { RoomDataService } from './room-data.service';
 import { SessionService } from './session.service';
 import { TagCloudMetaData } from './tag-cloud-data.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
+import { afterUpdate } from 'app/room/state/comment-updates';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,6 @@ export class BrainstormingDataService {
   private _adminData: TopicCloudAdminData = null;
 
   constructor(
-    private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private sessionService: SessionService,
     private tagCloudAdmin: TopicCloudAdminService,
@@ -115,11 +114,12 @@ export class BrainstormingDataService {
         this.onReceiveAdminData(adminData, true);
       },
     );
-    this._commentSubscription = this.roomDataService.dataAccessor
-      .receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentDeleted' },
-      ])
+    this._commentSubscription = afterUpdate
+      .pipe(
+        filter(
+          (e) => e.type === 'CommentCreated' || e.type === 'CommentDeleted',
+        ),
+      )
       .subscribe((e) => {
         if (e.comment.brainstormingSessionId !== null) {
           this.rebuildData();

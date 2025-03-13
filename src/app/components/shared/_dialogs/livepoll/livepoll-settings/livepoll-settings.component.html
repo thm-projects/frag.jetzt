@@ -1,74 +1,80 @@
-<mat-accordion class="accordion">
-  <mat-expansion-panel class="settings-expansion-panel">
+<mat-accordion>
+  <mat-expansion-panel
+    [class.mat-elevation-z0]="true"
+    [class.outlined]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="settings-panel-title">
-        {{ parent.translateKey + ".creator-settings" | translate }}
+      <mat-panel-title>
+        {{ parent.translateKey + ".settings.name" | translate }}
+        <mat-icon>flash_on</mat-icon>
       </mat-panel-title>
       <mat-panel-description
         [ngClass]="
           'settings-panel-description-' + (!isMobile ? 'desktop' : 'mobile')
-        ">
-        <mat-icon>
-          {{ parent.translateKey + ".creator-settings-icon" | translate }}
-        </mat-icon>
-      </mat-panel-description>
+        "></mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="settings-panel-container livepoll-component">
-      <div class="title-option-container">
+    <div [class.settings-content-container]="true">
+      <div [class.settings-question-container]="true">
         <mat-form-field
           appearance="outline"
+          [subscriptSizing]="'dynamic'"
+          [class.fill]="true"
           *ngIf="!isMobile">
           <mat-label>
-            {{ parent.translateKey + ".option-select-title" | translate }}
+            {{
+              parent.translateKey + ".settings.option.question.label"
+                | translate
+            }}
           </mat-label>
           <input
             matInput
             [(ngModel)]="parent.livepollSession.title" />
+          <button
+            [matTooltip]="
+              parent.translateKey + '.settings.option.editor' | translate
+            "
+            mat-icon-button
+            matSuffix
+            (click)="openMarkdownEditor()">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-form-field>
-        <button
-          [ngStyle]="{ 'flex-grow': !isMobile ? '0' : '1' }"
-          mat-flat-button
-          class="button-primary"
-          (click)="openMarkdownEditor()">
-          <mat-icon>edit</mat-icon>
-          <span>
-            {{
-              parent.translateKey + ".creator-settings-open-editor" | translate
-            }}
-          </span>
-        </button>
       </div>
       <mat-slide-toggle
         [matTooltip]="
-          parent.translateKey + '.tooltip-option-select-result-visibility'
+          parent.translateKey + '.settings.option.result-visibility.tooltip'
             | translate
         "
         [(ngModel)]="parent.livepollSession.resultVisible">
-        {{
-          parent.translateKey + ".option-select-result-visibility" | translate
-        }}
+        <!-- TODO remove label -->
+        <label style="margin-left: 8px">
+          {{
+            parent.translateKey + ".settings.option.result-visibility.text"
+              | translate
+          }}
+        </label>
       </mat-slide-toggle>
       <mat-slide-toggle
         [matTooltip]="
-          parent.translateKey + '.tooltip-option-select-views-visibility'
+          parent.translateKey + '.settings.option.user-count-visibility.tooltip'
             | translate
         "
         [(ngModel)]="parent.livepollSession.viewsVisible">
-        {{
-          parent.translateKey + ".option-select-views-visibility" | translate
-        }}
+        <!-- TODO remove label -->
+        <label style="margin-left: 8px">
+          {{
+            parent.translateKey + ".settings.option.user-count-visibility.text"
+              | translate
+          }}
+        </label>
       </mat-slide-toggle>
-    </div>
-    <div class="expansion-action-list">
       <button
         *ngIf="parent.isProduction"
-        class="button-save"
-        mat-flat-button
+        mat-stroked-button
+        class="primary"
+        [class.fill]="true"
         (click)="parent.save()">
-        <mat-icon class="force-corporate-design">flash_on</mat-icon>
-        <span class="force-corporate-design">
-          {{ parent.translateKey + ".save" | translate }}
-        </span>
+        <mat-icon>flash_on</mat-icon>
+        {{ parent.translateKey + ".settings.option.save" | translate }}
       </button>
     </div>
   </mat-expansion-panel>

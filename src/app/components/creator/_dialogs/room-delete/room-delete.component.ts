@@ -1,60 +1,40 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Room } from '../../../../models/room';
-import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.load(rawI18n);
+import { Component, input, OnInit } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { TranslateService } from '@ngx-translate/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { CustomMarkdownModule } from 'app/base/custom-markdown/custom-markdown.module';
+import { i18nContext } from 'app/base/i18n/i18n-context';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
 
 @Component({
   selector: 'app-room-delete',
   templateUrl: './room-delete.component.html',
-  styleUrls: ['./room-delete.component.scss']
+  styleUrls: ['./room-delete.component.scss'],
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    CustomMarkdownModule,
+    ContextPipe,
+  ],
 })
 export class RoomDeleteComponent implements OnInit {
-  room: Room;
+  name = input.required<string>();
+  protected readonly i18n = i18n;
 
-  /**
-   * The confirm button type of the dialog.
-   */
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  constructor(private liveAnnouncer: LiveAnnouncer) {}
 
-  constructor(
-    public dialogRef: MatDialogRef<RoomDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private liveAnnouncer: LiveAnnouncer,
-    private translationService: TranslateService
-  ) {
+  static open(dialog: MatDialog, name: string) {
+    const ref = dialog.open(RoomDeleteComponent);
+    ref.componentRef.setInput('name', name);
+    return ref;
   }
-
 
   ngOnInit() {
-    this.translationService.get('room-page.reallySession').subscribe(msg1 => {
-      this.translationService.get('room-page.really2').subscribe(msg2 => {
-        this.liveAnnouncer.announce(msg1 + this.room.name + msg2);
-      });
-    });
-  }
-
-  /**
-   * Closes the dialog on call.
-   */
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.closeDialog();
-  }
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildRoomDeleteActionCallback(): () => void {
-    return () => this.dialogRef.close('delete');
+    this.liveAnnouncer.announce(
+      i18nContext(i18n().description, { name: this.name() }),
+    );
   }
 }

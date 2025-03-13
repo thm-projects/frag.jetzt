@@ -1,0 +1,8 @@
+.button-spinner {
+  --mdc-circular-progress-active-indicator-color: currentColor;
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  margin-left: var(--mat-filled-button-icon-spacing, 8px);
+  margin-right: var(--mat-filled-button-icon-offset, -4px);
+}

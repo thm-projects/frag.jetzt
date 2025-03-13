@@ -1,0 +1,105 @@
+@use "sass:math";
+
+$comment-margin: 1em;
+:host {
+  width: 100%;
+  scroll-margin-top: 1em;
+  margin-block: $comment-margin;
+  display: block;
+}
+
+.comment-card {
+  max-width: min(800px, 100%);
+}
+
+.slim-title {
+  font-weight: 300;
+}
+
+.title {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.avatar {
+  font-weight: normal;
+  font-size: 40px;
+  border-radius: 0;
+}
+
+:host ::ng-deep .mat-mdc-card-header-text {
+  max-width: calc(100% - 40px);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-vote-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.content-wrapper {
+  flex: 1;
+  overflow: hidden;
+
+  > div {
+    // Custom size
+    position: relative;
+    height: var(--height, 10.5em);
+    overflow-y: clip;
+    transition: height 500ms var(--mat-sys-easing-emphasized);
+
+    &.cut::before {
+      $padding: 1em;
+      content: "";
+      position: absolute;
+      left: $padding;
+      bottom: 0;
+      width: calc(100% - #{$padding * 2});
+      pointer-events: none;
+      border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+      box-shadow: 0 0 1em 0.05em currentColor;
+    }
+  }
+}
+
+$ident-size: 2.5rem;
+$line-width: 0.15rem;
+$pad-plus-half-avatar-size: 36px;
+.children-container {
+  max-width: min(800px, 100%);
+
+  > * {
+    position: relative;
+    margin-left: $ident-size;
+    width: calc(100% - #{$ident-size});
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: calc(#{$pad-plus-half-avatar-size} + #{$comment-margin});
+      top: #{-$comment-margin};
+      left: #{-1 * math.div($ident-size + $line-width, 2)};
+      width: #{math.div($ident-size, 2) - $line-width};
+      border-left: $line-width solid currentColor;
+      border-bottom: $line-width solid currentColor;
+      border-bottom-left-radius: #{math.div(
+          math.div($ident-size, 2) - $line-width,
+          2
+        )};
+    }
+
+    &:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      height: calc(100% + #{$comment-margin});
+      top: #{-$comment-margin};
+      left: #{-1 * math.div($ident-size + $line-width, 2)};
+      border-left: $line-width solid currentColor;
+    }
+  }
+}

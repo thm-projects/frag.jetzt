@@ -1,0 +1,15 @@
+{
+  "key": "clipboard",
+  "de": {
+    "success": "Link zum Beitrag in die Zwischenablage kopiert",
+    "fail": "Fehler: Link konnte nicht in die Zwischenablage kopiert werden"
+  },
+  "en": {
+    "success": "The link to this post was copied to the clipboard",
+    "fail": "Error: The link to this post could not be copied to the clipboard"
+  },
+  "fr": {
+    "success": "Lien vers ce post copié dans le presse-papiers",
+    "fail": "Erreur : Le lien n'a pas pu être copié dans le presse-papiers"
+  }
+}

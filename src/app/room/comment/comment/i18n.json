@@ -1,0 +1,66 @@
+{
+  "key": "comment",
+  "de": {
+    "headline": {
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} von {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} von {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} von {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
+    "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
+    "subTitle": "{{date}}",
+    "subTitleTooltip": "Am {{date}} um {{time}}",
+    "fromModerator": "Dieser Post stammt von einer Moderatorin oder einem Moderator.",
+    "fromOwner": "Dieser Post stammt von der Raumerstellerin oder dem Raumersteller.",
+    "withAI": "Dieser Post wurde mit KI erstellt.",
+    "fromOwn": "Diesen Post hast du selbst geschrieben.",
+    "isBrainstorm": "Dieser Post ist eine Brainstorming-Idee.",
+    "fromParticipant": "Dieser Post stammt von einem Teilnehmer oder einer Teilnehmerin."
+  },
+  "en": {
+    "headline": {
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} by {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} by {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} by {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} L{{level}} A{{number}}",
+    "ideaShort": "I{{topLevelNumber}} L{{level}} A{{number}}",
+    "subTitle": "{{date}}",
+    "subTitleTooltip": "On {{date}} at {{time}}",
+    "fromModerator": "This question comes from a moderator.",
+    "fromOwner": "This question comes from the room creator.",
+    "withAI": "This question was created with AI.",
+    "fromOwn": "You wrote this question.",
+    "isBrainstorm": "This post is a brainstorming idea.",
+    "fromParticipant": "This post was written by a participant."
+  },
+  "fr": {
+    "headline": {
+      "question": "{{short}}",
+      "questionAuthor": "{{short}} par {{author}}",
+      "answer": "{{short}}",
+      "answerAuthor": "{{short}} par {{author}}",
+      "idea": "{{short}}",
+      "ideaAuthor": "{{short}} par {{author}}"
+    },
+    "questionShort": "Q{{number}}",
+    "answerShort": "Q{{topLevelNumber}} N{{level}} R{{number}}",
+    "ideaShort": "I{{topLevelNumber}} N{{level}} R{{number}}",
+    "subTitle": "{{date}}",
+    "subTitleTooltip": "Le {{date}} à {{time}}",
+    "fromModerator": "Ce message a été rédigé par un modérateur.",
+    "fromOwner": "Ce message a été envoyé par le créateur de la salle.",
+    "withAI": "Ce message a été créée avec l'IA.",
+    "fromOwn": "Vous avez écrit ce message vous-même.",
+    "isBrainstorm": "Ce post est une idée de brainstorming.",
+    "fromParticipant": "Ce post provient d'un participant."
+  }
+}

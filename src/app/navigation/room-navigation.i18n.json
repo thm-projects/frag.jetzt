@@ -1,0 +1,141 @@
+{
+  "key": "room-navigation",
+  "de": {
+    "mainMenu": "Hauptmenü",
+    "qaPseudonym": "Q&A-Pseudonym",
+    "features": {
+      "title": "Features",
+      "forum": "Q&A",
+      "livepoll": "Blitzumfrage",
+      "assistant": "KI-Assistent",
+      "focus": "Fragen-Fokus",
+      "radar": "Fragen-Radar",
+      "brainstorming": "Brainstorming",
+      "rallye": "Quiz-Rallye",
+      "moderation": "Moderation"
+    },
+    "reception": "Raumeingang",
+    "roomHome": "Aktueller Raum",
+    "options": {
+      "title": "Einstellungen",
+      "qa": {
+        "title": "Q&A",
+        "moderation": "Moderationsmodus",
+        "conversation": "Forumskonversation",
+        "categorys": "Fragenkategorien",
+        "bonusArchive": "Bonusarchiv",
+        "disableComments": "Fragen sperren",
+        "mail": "Per Mail benachrichtigen",
+        "export": "Q&A-Export",
+        "deleteQuestions": "Fragen löschen"
+      },
+      "room": {
+        "title": "Raum",
+        "qr": "QR-Code",
+        "features": "Features aktivieren",
+        "welcomeText": "Willkommenstext",
+        "moderators": "Moderationszugang",
+        "deleteRoom": "Raum löschen",
+        "testModeration": "Moderationscheck"
+      },
+      "ai": {
+        "title": "KI-Assistent",
+        "quota": "Quota-Management",
+        "selection": "Modellauswahl"
+      },
+      "switchView": "Teilnehmersicht"
+    }
+  },
+  "en": {
+    "mainMenu": "Main Menu",
+    "qaPseudonym": "Q&A Pseudonym",
+    "features": {
+      "title": "Features",
+      "forum": "Q&A",
+      "livepoll": "Flash Poll",
+      "assistant": "AI Assistant",
+      "focus": "Question Focus",
+      "radar": "Question Radar",
+      "brainstorming": "Brainstorming",
+      "rallye": "Quiz Rally",
+      "moderation": "Moderation"
+    },
+    "reception": "Room Entrance",
+    "roomHome": "Current Room",
+    "options": {
+      "title": "Settings",
+      "qa": {
+        "title": "Q&A",
+        "moderation": "Moderation Mode",
+        "conversation": "Forum Conversation",
+        "categorys": "Question Categories",
+        "bonusArchive": "Bonus Archive",
+        "disableComments": "Block questions",
+        "mail": "Mail Notification",
+        "export": "Q&A Export",
+        "deleteQuestions": "Delete Questions"
+      },
+      "room": {
+        "title": "Room",
+        "qr": "QR Code",
+        "features": "Activate Features",
+        "welcomeText": "Welcome Text",
+        "moderators": "Moderator Access",
+        "deleteRoom": "Delete Room",
+        "testModeration": "Moderation Test"
+      },
+      "ai": {
+        "title": "AI Assistant",
+        "quota": "Quota Management",
+        "selection": "Model Selection"
+      },
+      "switchView": "Participant View"
+    }
+  },
+  "fr": {
+    "mainMenu": "Menu Principal",
+    "qaPseudonym": "Pseudonyme Q&R",
+    "features": {
+      "title": "Fonctionnalités",
+      "forum": "Q&R",
+      "livepoll": "Sondage Éclair",
+      "assistant": "Assistant IA",
+      "focus": "Focus sur les Questions",
+      "radar": "Radar de Questions",
+      "brainstorming": "Brainstorming",
+      "rallye": "Rallye Quiz",
+      "moderation": "Modération"
+    },
+    "reception": "Entrée de la salle",
+    "roomHome": "Salle Actuelle",
+    "options": {
+      "title": "Options",
+      "qa": {
+        "title": "Q&A",
+        "moderation": "Mode de Modération",
+        "conversation": "Conversation du Forum",
+        "categorys": "Catégories de Questions",
+        "bonusArchive": "Archive Bonus",
+        "disableComments": "Bloquer les Questions",
+        "mail": "Notification par Mail",
+        "export": "Exportation Q&R",
+        "deleteQuestions": "Supprimer les Questions"
+      },
+      "room": {
+        "title": "Salle",
+        "qr": "Code QR",
+        "features": "Activer les Fonctionnalités",
+        "welcomeText": "Texte de Bienvenue",
+        "moderators": "Accès Modérateur",
+        "deleteRoom": "Supprimer la Salle",
+        "testModeration": "Test de Modération"
+      },
+      "ai": {
+        "title": "Assistants IA",
+        "quota": "Gestion des Quotas",
+        "selection": "Sélection du Modèle"
+      },
+      "switchView": "Vue participant"
+    }
+  }
+}

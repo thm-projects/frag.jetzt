@@ -1,0 +1,189 @@
+<m3-nav-drawer-rail #drawerRail>
+  <!-- Header -->
+  <mat-toolbar class="m3-nav-header">
+    <mat-toolbar-row>
+      <!-- Menu icon -->
+      @if (isSmall() && !drawerRail.drawerOpen()) {
+        <button
+          mat-icon-button
+          (click)="drawerRail.open()"
+          class="m3-nav-header-menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <!-- Header -->
+      @if (header(); as header) {
+        <span class="m3-nav-header-title title-large">
+          @if (isOnline) {
+            @if (headerSlogan(); as slogan) {
+              <ng-container
+                [ngComponentOutlet]="slogan"
+                [ngComponentOutletInputs]="{
+                  expanded: isExpanded(),
+                }"></ng-container>
+            } @else {
+              {{ isExpanded() ? header.slogan : "" }}
+            }
+          } @else {
+            <span
+              class="m3-nav-header-title title-large"
+              style="color: var(--mat-sys-error)">
+              {{ header.offline }}
+            </span>
+          }
+        </span>
+        <!-- Header Options -->
+        @if (header.options.length; as length) {
+          <span class="m3-nav-header-options">
+            <!-- More than 3 elements -->
+            @if (length > 3) {
+              @for (elem of header.options.slice(0, 2); track elem) {
+                <ng-container
+                  [ngTemplateOutlet]="renderItem"
+                  [ngTemplateOutletContext]="{ elem }"></ng-container>
+              }
+              <ng-container
+                [ngTemplateOutlet]="renderMore"
+                [ngTemplateOutletContext]="{
+                  elements: header.options.slice(2),
+                }"></ng-container>
+            } @else {
+              <!-- at most 3 elements -->
+              @for (elem of header.options; track elem) {
+                <ng-container
+                  [ngTemplateOutlet]="renderItem"
+                  [ngTemplateOutletContext]="{ elem }"></ng-container>
+              }
+            }
+          </span>
+        }
+      }
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <!-- Content -->
+  <div
+    class="m3-nav-body"
+    [class.bottom-bar]="!hideBottomBar()">
+    <ng-content></ng-content>
+  </div>
+  @if (isSmall() && fab(); as fab) {
+    <button
+      mat-fab
+      class="m3-nav-fab"
+      [class.move-up]="!hideBottomBar()"
+      (click)="fab.onClick()">
+      <mat-icon>{{ fab.icon }}</mat-icon>
+    </button>
+  }
+  <!-- Footer -->
+  <mat-toolbar
+    class="m3-nav-footer"
+    [class.hide]="hideBottomBar()">
+    <mat-toolbar-row>
+      @for (navArr of bottomBarData(); track navArr[1].id; let index = $index) {
+        <compact-navigation-button
+          class="m3-nav-footer-animated"
+          [active]="navArr[1].activated"
+          [style]="'--i: ' + index + ';'"
+          [class.show]="!hideBottomBar()"
+          (click)="this.forward(navArr[0], navArr[1])"
+          [icon]="navArr[1].icon"
+          [svgIcon]="navArr[1].svgIcon"
+          [title]="navArr[1].title"
+          [badgeSize]="navArr[1].badgeSize"
+          [badgeCount]="navArr[1].badgeCount"
+          [badgeOverlap]="navArr[1].badgeOverlap"></compact-navigation-button>
+      }
+    </mat-toolbar-row>
+  </mat-toolbar>
+</m3-nav-drawer-rail>
+
+<!-- Header Templates-->
+
+<ng-template
+  #renderMore
+  let-elements="elements">
+  <button
+    mat-icon-button
+    [matTooltip]="i18n().headerMore"
+    [matMenuTriggerFor]="more">
+    <mat-icon>format_color_fill</mat-icon>
+  </button>
+  <mat-menu #more>
+    @for (elem of elements; track elem) {
+      @if (elem.onClick) {
+        <button
+          mat-menu-item
+          [disabled]="elem.disabled"
+          (click)="elem.onClick()">
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+          {{ elem.title }}
+        </button>
+      } @else {
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="temp">
+          <mat-icon [svgIcon]="elem.svgIcon">{{ elem.icon }}</mat-icon>
+          {{ elem.title }}
+        </button>
+        <mat-menu #temp="matMenu">
+          @for (innerElem of elem.items; track innerElem) {
+            <button
+              mat-menu-item
+              [disabled]="elem.disabled"
+              (click)="innerElem.onClick()">
+              <mat-icon [svgIcon]="innerElem.svgIcon">
+                {{ innerElem.icon }}
+              </mat-icon>
+              {{ innerElem.title }}
+            </button>
+          }
+        </mat-menu>
+      }
+    }
+  </mat-menu>
+</ng-template>
+
+<ng-template
+  #renderItem
+  let-elem="elem">
+  @if (elem.onClick) {
+    <button
+      [matTooltip]="elem.title"
+      mat-icon-button
+      [disabled]="elem.disabled"
+      (click)="elem.onClick()">
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [ngClass]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
+    </button>
+  } @else {
+    <button
+      [matTooltip]="elem.title"
+      mat-icon-button
+      [matMenuTriggerFor]="temp">
+      <mat-icon
+        [svgIcon]="elem.svgIcon"
+        [ngClass]="elem.className">
+        {{ elem.icon }}
+      </mat-icon>
+    </button>
+    <mat-menu #temp="matMenu">
+      @for (innerElem of elem.items; track innerElem) {
+        <button
+          mat-menu-item
+          [disabled]="innerElem.disabled"
+          (click)="innerElem.onClick()">
+          <mat-icon
+            [svgIcon]="innerElem.svgIcon"
+            [ngClass]="elem.className">
+            {{ innerElem.icon }}
+          </mat-icon>
+          {{ innerElem.title }}
+        </button>
+      }
+    </mat-menu>
+  }
+</ng-template>

@@ -1,8 +1,6 @@
 .clock {
-  --second-color: var(--red);
-  --accent-color: var(--on-background);
-  position: fixed;
   transform: scale(0.75);
+  position: relative;
 
   &.background {
     border-radius: 100%;
@@ -24,41 +22,41 @@
     stroke-width: 15px;
 
     .duration-arc-passed {
-      stroke: var(--red);
+      stroke: var(--mat-sys-yellow);
     }
 
     .duration-arc {
-      stroke: var(--green);
+      stroke: var(--mat-sys-green);
     }
   }
 
   .mid-circle {
-    fill: var(--second-color);
-    stroke: var(--second-color);
+    fill: var(--mat-sys-on-surface);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .hour-marks {
     stroke-width: 9px;
     stroke-miterlimit: 10;
-    stroke: var(--accent-color);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .hour-arm {
     stroke-width: 17px;
     stroke-miterlimit: 10;
-    stroke: var(--accent-color);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .minute-arm {
     stroke-width: 11px;
     stroke-miterlimit: 10;
-    stroke: var(--accent-color);
+    stroke: var(--mat-sys-on-surface);
   }
 
   .second-arm {
     stroke-width: 4px;
     stroke-miterlimit: 10;
-    stroke: var(--second-color);
+    stroke: var(--mat-sys-red);
   }
 
   /* Transparent box ensuring arms center properly. */

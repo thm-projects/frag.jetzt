@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.sub-section-header {
+  margin-top: 32px;
+  &.subTitle {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    font-family: var(--mat-badge-text-font);
+    font-size: var(--mat-datepicker-calendar-header-text-size);
+    color: var(--mdc-checkbox-disabled-selected-icon-color);
+    font-weight: bold;
+  }
+}
+
+.sub-section-content {
+  margin-top: 8px;
+  display: flex;
+  &.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
+  }
+}

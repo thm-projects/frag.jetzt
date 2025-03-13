@@ -1,0 +1,114 @@
+<span matDialogTitle>{{ i18n().title }}</span>
+<mat-dialog-content class="column gap-small">
+  <div class="row items-center">
+    <span class="grow">
+      {{ i18n().join_code }} {{ isCodeHidden ? "••••••••" : shortIdCode }}
+    </span>
+    <button
+      mat-icon-button
+      *ngIf="moderatorShortId"
+      (click)="isCodeHidden = !isCodeHidden"
+      [matTooltip]="i18n().tooltipShowCode"
+      class="add">
+      <mat-icon>{{ isCodeHidden ? "visibility" : "visibility_off" }}</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      *ngIf="moderatorShortId"
+      (click)="copyShortIdLink()"
+      [matTooltip]="i18n().tooltipClipboard"
+      class="add">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      *ngIf="isCreator"
+      (click)="refreshCode()"
+      [matTooltip]="i18n().tooltipRecreate"
+      class="add">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+  <div class="column">
+    <mat-form-field class="grow">
+      <input
+        appAccessibilityEscapedInput
+        matInput
+        type="email"
+        #loginId
+        aria-labelledby="moderator-email"
+        [formControl]="usernameFormControl"
+        [placeholder]="i18n().email"
+        name="username"
+        (keyup.enter)="addModerator(loginId.value)" />
+      <button
+        mat-icon-button
+        matIconSuffix
+        [disabled]="!loginId.value"
+        (click)="addModerator(loginId.value)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-error *ngIf="usernameFormControl.hasError('email')">
+        {{ i18n().email_error }}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <span *ngIf="moderators.length === 0">
+    {{ i18n().empty }}
+  </span>
+  <button
+    *ngIf="__debug"
+    (click)="__debug_addMockModerators()">
+    add
+  </button>
+  <ng-container *ngIf="moderators.length > 0">
+    <mat-list>
+      <mat-list-item *ngFor="let moderator of moderators">
+        <mat-icon matListItemIcon>
+          {{ moderator.loginId ? "support_agent" : "person" }}
+        </mat-icon>
+        <div matListItemTitle>
+          {{ moderator.loginId ? i18n().moderator : i18n().guest }}
+        </div>
+        <div
+          matListItemLine
+          *ngIf="moderator.loginId">
+          {{ moderator.loginId }}
+        </div>
+        <div
+          matListItemMeta
+          style="display: flex; align-self: center">
+          <button
+            mat-icon-button
+            (click)="openDeleteRoomDialog(moderator)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="dialogRef.close(false)">
+    {{ i18n().close }}
+  </button>
+  <div class="grow"></div>
+  <button
+    mat-button
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ i18n().explain }}
+  </button>
+</mat-dialog-actions>
+
+<div class="visually-hidden">
+  <div id="moderator-email">
+    {{ i18n().ally_email }}
+  </div>
+  <div id="add-moderator">{{ i18n().ally_add }}</div>
+  <div id="delete-moderator">
+    {{ i18n().ally_delete }}
+  </div>
+</div>

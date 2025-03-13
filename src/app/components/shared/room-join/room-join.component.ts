@@ -1,3 +1,6 @@
+import rawI18n from './i18n.json';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+const i18n = I18nLoader.loadModule(rawI18n);
 import {
   Component,
   ElementRef,
@@ -25,6 +28,8 @@ import { ReplaySubject, forkJoin, takeUntil } from 'rxjs';
 import { SessionService } from '../../../services/util/session.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { forceLogin, user$ } from 'app/user/state/user';
+import { EventService } from 'app/services/util/event.service';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -44,6 +49,7 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-room-join',
   templateUrl: './room-join.component.html',
   styleUrls: ['./room-join.component.scss'],
+  standalone: false,
 })
 export class RoomJoinComponent implements OnInit, OnDestroy {
   @ViewChild('sessionCode') sessionCodeElement: ElementRef;
@@ -56,6 +62,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   ]);
 
   matcher = new CustomErrorStateMatcher();
+  protected readonly i18n = i18n;
   private destroyer = new ReplaySubject(1);
 
   constructor(
@@ -66,10 +73,11 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
     private moderatorService: ModeratorService,
     public sessionService: SessionService,
     private accountState: AccountStateService,
+    private eventService: EventService,
   ) {}
 
   ngOnInit() {
-    this.accountState.user$
+    user$
       .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => (this.user = newUser));
   }
@@ -90,7 +98,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
       this.getRoom(id);
       return;
     }
-    this.accountState.forceLogin().subscribe(() => {
+    forceLogin().subscribe(() => {
       this.getRoom(id);
     });
   }
@@ -152,6 +160,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
         this.addAndNavigate(parent, modSet);
         return;
       }
+      this.eventService.broadcast('roomJoined');
       this.router.navigate([`/moderator/join/${room.shortId}`]);
     });
   }
@@ -176,7 +185,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   }
 
   private guestLogin(room: Room, mods: Set<string>) {
-    this.accountState.forceLogin().subscribe((result) => {
+    forceLogin().subscribe((result) => {
       if (result !== null) {
         this.addAndNavigate(room, mods);
       }
@@ -184,6 +193,7 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
   }
 
   private addAndNavigate(room: Room, mods: Set<string>) {
+    this.eventService.broadcast('roomJoined');
     if (this.user.id === room.ownerId) {
       this.accountState
         .setAccess(room.shortId, room.id, UserRole.CREATOR)

@@ -1,0 +1,170 @@
+@use "@angular/material" as mat;
+@use "@angular/material-experimental" as matx;
+
+// @include mat.all-component-typographies();
+@include mat.core();
+//
+:root,
+html {
+  @include mat.all-component-themes($arsnova-theme);
+}
+
+//
+//:root,
+//.theme-target {
+//  --mdc-dialog-container-color: var(--dialog);
+//  --mdc-filled-text-field-container-color: var(--surface);
+//  --mat-menu-item-label-text-color: var(--on-surface);
+//  --mdc-filled-text-field-input-text-color: var(--on-surface);
+//  --mdc-filled-text-field-input-text-placeholder-color: var(--on-surface);
+//  --mdc-filled-text-field-label-text-color: var(--on-surface);
+//  --mat-option-label-text-color: var(--on-surface);
+//  --mdc-filled-text-field-caret-color: var(--on-surface);
+//  --mdc-dialog-supporting-text-color: var(--on-surface);
+//  --mdc-filled-text-field-active-indicator-color: var(--secondary);
+//  --mat-option-selected-state-label-text-color: var(--secondary);
+//  --mdc-filled-text-field-hover-active-indicator-color: var(--primary);
+//  --mdc-filled-text-field-focus-active-indicator-color: var(--primary);
+//  --mdc-filled-text-field-focus-label-text-color: var(--primary);
+//  --mat-select-focused-arrow-color: var(--primary);
+//  --mat-select-enabled-trigger-text-color: var(--on-surface);
+//  --mat-select-enabled-arrow-color: var(--on-surface);
+//  --mat-select-panel-background-color: var(--surface);
+//  --mdc-dialog-subhead-color: currentColor;
+//  --mat-menu-item-icon-color: currentColor;
+//  --mdc-plain-tooltip-container-color: var(--secondary);
+//  --mdc-plain-tooltip-supporting-text-color: var(--on-secondary);
+//  --mdc-snackbar-container-color: var(--secondary);
+//  --mdc-snackbar-supporting-text-color: var(--on-secondary);
+//  --mat-form-field-error-text-color: var(--red);
+//  // text field outlined
+//  --mdc-outlined-text-field-error-label-text-color: var(--red);
+//  --mdc-outlined-text-field-error-caret-color: var(--red);
+//  --mdc-outlined-text-field-error-focus-label-text-color: var(--red);
+//  --mdc-outlined-text-field-input-text-color: var(--on-surface);
+//  --mdc-outlined-text-field-outline-color: var(--on-surface);
+//  --mdc-outlined-text-field-hover-outline-color: var(--on-surface);
+//  --mdc-outlined-text-field-label-text-color: var(--on-surface);
+//  --mdc-outlined-text-field-caret-color: var(--secondary);
+//  --mdc-outlined-text-field-focus-outline-color: var(--secondary);
+//  --mdc-outlined-text-field-focus-label-text-color: var(--secondary);
+//  --mdc-filled-text-field-error-label-text-color: var(--red);
+//  --mdc-filled-text-field-error-caret-color: var(--red);
+//  --mdc-filled-text-field-error-focus-label-text-color: var(--red);
+//}
+//
+//.mat-mdc-radio-button.mat-accent {
+//  --mdc-radio-disabled-selected-icon-color: #000;
+//  --mdc-radio-disabled-unselected-icon-color: #000;
+//  --mdc-radio-unselected-hover-icon-color: var(--on-surface);
+//  --mdc-radio-unselected-icon-color: var(--on-surface);
+//  --mdc-radio-unselected-pressed-icon-color: var(--on-surface);
+//  --mdc-radio-selected-focus-icon-color: var(--secondary);
+//  --mdc-radio-selected-hover-icon-color: var(--secondary);
+//  --mdc-radio-selected-icon-color: var(--secondary);
+//  --mdc-radio-selected-pressed-icon-color: var(--secondary);
+//  --mat-radio-ripple-color: #000;
+//  --mat-radio-checked-ripple-color: var(--secondary);
+//  --mat-radio-disabled-label-color: rgba(0, 0, 0, 0.38);
+//  --mdc-radio-unselected-focus-icon-color: var(--secondary);
+//  --mdc-theme-text-primary-on-background: var(--on-surface);
+//}
+//
+//.mat-mdc-slide-toggle {
+//  // slider off state
+//  --mdc-switch-unselected-handle-color: var(--on-background);
+//  --mdc-switch-unselected-icon-color: var(--background);
+//  --mdc-switch-unselected-track-color: var(--background);
+//  --mdc-switch-unselected-focus-handle-color: var(--on-background);
+//  --mdc-switch-unselected-focus-icon-color: var(--background);
+//  --mdc-switch-unselected-focus-track-color: var(--background);
+//  --mdc-switch-unselected-focus-state-layer-color: var(--on-background);
+//  --mdc-switch-unselected-pressed-handle-color: var(--on-background);
+//  --mdc-switch-unselected-pressed-icon-color: var(--background);
+//  --mdc-switch-unselected-pressed-track-color: var(--background);
+//  --mdc-switch-unselected-pressed-state-layer-color: var(--on-background);
+//  --mdc-switch-unselected-hover-handle-color: var(--on-background);
+//  --mdc-switch-unselected-hover-icon-color: var(--background);
+//  --mdc-switch-unselected-hover-track-color: var(--background);
+//  --mdc-switch-unselected-hover-state-layer-color: var(--on-background);
+//  // slider on state
+//  --mdc-switch-selected-icon-color: var(--on-secondary);
+//  --mdc-theme-text-primary-on-background: var(--on-surface);
+//}
+//
+//.mat-mdc-slide-toggle.mat-accent {
+//  --mdc-switch-selected-focus-state-layer-color: var(--secondary);
+//  --mdc-switch-selected-handle-color: var(--secondary);
+//  --mdc-switch-selected-hover-state-layer-color: var(--secondary);
+//  --mdc-switch-selected-pressed-state-layer-color: var(--secondary);
+//  --mdc-switch-selected-focus-handle-color: var(--secondary);
+//  --mdc-switch-selected-hover-handle-color: var(--secondary);
+//  --mdc-switch-selected-pressed-handle-color: var(--secondary);
+//  --mdc-switch-selected-focus-track-color: var(--secondary);
+//  --mdc-switch-selected-hover-track-color: var(--secondary);
+//  --mdc-switch-selected-pressed-track-color: var(--secondary);
+//  --mdc-switch-selected-track-color: var(--secondary);
+//}
+//
+//// mat expansion panel
+//:root {
+//  --mat-expansion-container-background-color: var(--background);
+//  --mat-expansion-container-text-color: var(--on-background);
+//  --mat-expansion-actions-divider-color: var(--on-background);
+//  --mat-expansion-header-hover-state-layer-color: inherit;
+//  --mat-expansion-header-focus-state-layer-color: inherit;
+//  --mat-expansion-header-disabled-state-text-color: inherit;
+//  --mat-expansion-header-text-color: var(--on-background);
+//  --mat-expansion-header-description-color: var(--on-background);
+//  --mat-expansion-header-indicator-color: var(--on-background);
+//
+//  /**
+//  @description example:
+//    <mat-accordion>
+//      <mat-expansion-panel
+//        [class.mat-elevation-z0]="true"
+//        [class.outlined]="true">
+//      </mat-expansion-panel>
+//    </mat-accordion>
+//  @see livepoll-settings.component.html
+//   */
+//  .mat-expansion-panel {
+//    &.mat-elevation-z0 {
+//      &.outlined {
+//        --mat-expansion-container-background-color: transparent;
+//        border-color: var(--mdc-outlined-text-field-outline-color);
+//        border-width: var(--mdc-outlined-text-field-outline-width);
+//        border-style: solid;
+//      }
+//    }
+//  }
+//}
+
+//:root,
+//.dark_solarized {
+//  @each $key, $value in $dark-solarized-theme-map {
+//    #{$key}: #{$value};
+//  }
+//}
+//
+//.arsnova {
+//  @each $key, $value in $arsnova-theme-map {
+//    #{$key}: #{$value};
+//  }
+//}
+//
+//.highcontrast {
+//  @each $key, $value in $high-contrast-theme-map {
+//    #{$key}: #{$value};
+//  }
+//}
+
+.mat-primary {
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--secondary);
+}
+
+// Classes
+.mat-app-background {
+  background-color: var(--background);
+  color: var(--on-background);
+}

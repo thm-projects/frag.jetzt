@@ -1,0 +1,20 @@
+<mat-form-field floatLabel="always">
+  <input
+    matInput
+    class="hidden-control" />
+  <mat-slide-toggle [formControl]="data.control">
+    {{ data.label | translate }}
+  </mat-slide-toggle>
+  <mat-hint *ngIf="data.hint && !data.control.invalid">
+    {{ data.hint | translate }}
+  </mat-hint>
+  <mat-error>
+    @if (data.control.errors | keyvalue; as controlErrors) {
+      @if (data.errorStates; as errorStrings) {
+        @if (errorStrings[controlErrors[0].key]; as info) {
+          {{ info | translate }}
+        }
+      }
+    }
+  </mat-error>
+</mat-form-field>

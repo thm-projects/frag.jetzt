@@ -1,0 +1,51 @@
+{
+  "key": "comment-actions",
+  "de": {
+    "reply": "Antworten",
+    "replyDescription": "Eine Antwort schreiben",
+    "showAnswers": "Antworten zeigen",
+    "showAnswersDescription": "Antworten auf diese Frage anzeigen",
+    "hideAnswers": "Antworten verbergen",
+    "hideAnswersDescription": "Antworten auf diese Frage verbergen",
+    "oneLevelUp": "Vorheriger Post",
+    "oneLevelUpDescription": "Zum vorherigen Post springen",
+    "notification": "Benachrichtigen",
+    "notificationDescription": "Bei Änderungen, Aktionen oder neuen Antworten benachrichtigen",
+    "notificationOff": "Nicht mehr benachrichtigen",
+    "notificationOffDescription": "Benachrichtigt nicht mehr bei Änderungen, Aktionen oder neuen Antworten",
+    "ai": "An KI senden",
+    "aiDescription": "Diesen Post als Start für einen Chat mit der KI nehmen"
+  },
+  "en": {
+    "reply": "Reply",
+    "replyDescription": "Write an answer",
+    "showAnswers": "Show answers",
+    "showAnswersDescription": "Show answers to this question",
+    "hideAnswers": "Hide answers",
+    "hideAnswersDescription": "Hide answers to this question",
+    "oneLevelUp": "Previous Post",
+    "oneLevelUpDescription": "Jump to previous post",
+    "notification": "Notify",
+    "notificationDescription": "Notify me of changes, actions or new answers",
+    "notificationOff": "No more notifications",
+    "notificationOffDescription": "No longer notifies you of changes, actions or new replies",
+    "ai": "Send to AI",
+    "aiDescription": "Use this post as a start for a chat with the AI"
+  },
+  "fr": {
+    "reply": "Répondre",
+    "replyDescription": "Écrire une réponse",
+    "showAnswers": "Afficher les réponses",
+    "showAnswersDescription": "Afficher les réponses à cette question",
+    "hideAnswers": "Cacher les réponses",
+    "hideAnswersDescription": "Cacher les réponses à cette question",
+    "oneLevelUp": "Post précédent",
+    "oneLevelUpDescription": "Aller au post précédent",
+    "notification": "Avertir",
+    "notificationDescription": "Avertir en cas de modifications, d'actions ou de nouvelles réponses",
+    "notificationOff": "Ne plus avertir",
+    "notificationOffDescription": "Ne vous informe plus des modifications, des actions ou des nouvelles réponses",
+    "ai": "Envoyer à l'IA",
+    "aiDescription": "Utiliser ce post comme point de départ d'un chat avec l'IA"
+  }
+}

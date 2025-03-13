@@ -1,0 +1,39 @@
+@use "modules/m3/style/m3-layout" as m3-layout;
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer */
+
+  &::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, Opera, and Edge */
+  }
+}
+
+.compact {
+  display: none;
+  @include m3-layout.explicit-range(compact, medium) {
+    display: block;
+  }
+}
+
+.no-compact {
+  display: block;
+  @include m3-layout.explicit-range(compact, medium) {
+    display: none;
+  }
+}
+
+.mat-mdc-card {
+  background-color: var(--mat-sys-surface-container-highest);
+}
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+  padding: 16px 16px 16px 0;
+}
+
+.mat-mdc-card-actions {
+  padding: 1em;
+}

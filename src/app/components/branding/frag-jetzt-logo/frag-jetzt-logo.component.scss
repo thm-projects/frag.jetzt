@@ -1,0 +1,36 @@
+:host {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto Flex", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  flex-direction: column;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  font-size: 100%;
+}
+
+.title {
+  display: block;
+  font-size: 3.25em;
+  font-weight: 700;
+  color: var(--mat-sys-primary);
+  line-height: 1em;
+  letter-spacing: 2pt;
+  margin: 0.25em 0 0.25em;
+}
+
+.subtitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.9em;
+  font-weight: 400;
+  color: var(--mat-sys-secondary);
+  line-height: 1.5em;
+
+  > mat-icon {
+    color: var(--mat-sys-secondary);
+    width: 2em;
+    height: 2em;
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "key": "gdpr-notice",
+  "de": {
+    "external": {
+      "title": "Externer Inhalt",
+      "content": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
+      "button": "In neuem Tab öffnen …"
+    },
+    "embedded": {
+      "title": "Eingebetteter externer Inhalt",
+      "content": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
+      "button": "Hier öffnen …"
+    },
+    "unknown": {
+      "title": "Unbekannte oder interne Quelle",
+      "content": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
+      "button": "Aufrufen"
+    },
+    "vimeo": {
+      "title": "Vimeo Video",
+      "content": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
+      "button": "Abspielen"
+    },
+    "youtube": {
+      "title": "Youtube Video",
+      "content": "Der Inhalt verweist auf ein Video von YouTube. Die URL wurde an die datenschutzkonforme URL angepasst. <br><br>Soll das Video <br><br>{{url}}<br><br> abgespielt werden?",
+      "button": "Abspielen"
+    }
+  },
+  "en": {
+    "external": {
+      "title": "External source",
+      "content": "The content is an external source. <br><br>Do you want <br><br>{{url}}<br><br> to open in a new tab?",
+      "button": "Open in new tab …"
+    },
+    "embedded": {
+      "title": "Embedded External source",
+      "content": "The content is an external source. <br><br>Should <br><br>{{url}}<br><br> be called?",
+      "button": "Open here …"
+    },
+    "unknown": {
+      "title": "Unknown or internal source",
+      "content": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <br><br>{{url}}<br><br> be called?",
+      "button": "Call up"
+    },
+    "vimeo": {
+      "title": "Vimeo video",
+      "content": "The content links to a video from Vimeo. Should the video <br><br>{{url}}<br><br> be played?",
+      "button": "Play"
+    },
+    "youtube": {
+      "title": "Youtube video",
+      "content": "The content links to a video from YouTube. The URL has been adapted to the privacy-compliant URL. <br><br>Should the video <br><br>{{url}}<br><br> be played?",
+      "button": "Play"
+    }
+  },
+  "fr": {
+    "external": {
+      "title": "Source externe",
+      "content": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché dans un nouvel onglet ?",
+      "button": "Ouvrir dans un nouvel onglet …"
+    },
+    "embedded": {
+      "title": "Source externe intégrée",
+      "content": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché ?",
+      "button": "Ouvrir ici …"
+    },
+    "unknown": {
+      "title": "Source inconnue ou interne",
+      "content": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <br><br>{{url}}<br><br> doit être consulté ?",
+      "button": "Consulter"
+    },
+    "vimeo": {
+      "title": "Vidéo de Vimeo",
+      "content": "Le contenu renvoie à une vidéo de Vimeo. La vidéo <br><br>{{url}}<br><br> doit-elle être lue ?",
+      "button": "Lire"
+    },
+    "youtube": {
+      "title": "Vidéo de Youtube",
+      "content": "Le contenu renvoie à une vidéo de YouTube. L'URL a été adapté à l'URL conforme à la protection des données. <br><br>La vidéo <br><br>{{url}}<br><br> doit-il être affiché ?",
+      "button": "Voir la vidéo"
+    }
+  }
+}

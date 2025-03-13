@@ -1,0 +1,113 @@
+@use "sass:math";
+
+$color1: var(--mat-sys-primary-container);
+$color2: var(--mat-sys-primary-container);
+$color3: var(--mat-sys-primary-container);
+$color4: var(--mat-sys-on-primary-container);
+$color5: var(--mat-sys-on-primary);
+
+.custom-background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.5;
+
+  ::ng-deep {
+    .dot {
+      fill: $color1;
+    }
+
+    .rays {
+      stroke: $color2;
+      fill: $color3;
+    }
+
+    .circle {
+      stroke: $color2;
+    }
+
+    .pulse-1 {
+      stop-color: $color2;
+      stop-opacity: 0.2;
+    }
+
+    .pulse-2 {
+      stop-color: $color1;
+      stop-opacity: 0.2;
+    }
+
+    .pulse-3 {
+      stop-opacity: 0;
+    }
+
+    .swipe-1 {
+      stop-color: $color2;
+    }
+
+    .swipe-2 {
+      stop-color: $color1;
+    }
+
+    .dot-1 {
+      stop-color: $color4;
+    }
+
+    .dot-2 {
+      stop-color: $color1;
+    }
+
+    .outer {
+      stop-color: $color5;
+    }
+  }
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url("/assets/images/clouds.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  &.dark {
+    background-image: url("/assets/images/dark-theme-brainstorm.jpeg");
+  }
+}
+
+:host .word-cloud {
+  height: 100%;
+  font-size: var(--tag-cloud-font-size, unset);
+
+  > span {
+    position: absolute;
+    padding: 10px;
+    line-height: math.div(1, 1.2);
+    opacity: 0;
+    z-index: 0;
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px))
+      rotate(var(--rot, 0deg)) scale(var(--scale, 1))
+      scale(var(--offset-scale, 1));
+    user-select: none;
+    text-transform: var(--tag-cloud-transform, unset);
+    font-family: var(--tag-cloud-font-family, unset);
+    font-weight: var(--tag-cloud-font-weight, unset);
+    font-style: var(--tag-cloud-font-style, unset);
+
+    &.visible {
+      transition:
+        opacity ease var(--fadeInTime, 0ms),
+        transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
+      opacity: 1;
+      border-radius: 20px;
+    }
+
+    &:hover {
+      color: var(--tag-cloud-font-color, unset);
+      background-color: var(--tag-cloud-inverted-font-color, unset);
+      z-index: 1;
+      --scale: 1.1;
+    }
+  }
+}

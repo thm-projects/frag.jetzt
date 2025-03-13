@@ -2,7 +2,8 @@ import { AfterViewInit, Directive, ElementRef, OnInit, Renderer2 } from '@angula
 
 
 @Directive({
-  selector: '[ars-flex-box]'
+    selector: '[ars-flex-box]',
+    standalone: false
 })
 export class WrapperDirective implements OnInit, AfterViewInit {
 

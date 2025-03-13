@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { GPTRoomPresetTopic } from 'app/models/gpt-room-preset';
 
@@ -7,17 +7,14 @@ import { GPTRoomPresetTopic } from 'app/models/gpt-room-preset';
   selector: 'app-gptpreset-topics-dialog',
   templateUrl: './gptpreset-topics-dialog.component.html',
   styleUrls: ['./gptpreset-topics-dialog.component.scss'],
+  standalone: false,
 })
 export class GPTPresetTopicsDialogComponent implements OnInit {
   @Input()
   topics: GPTRoomPresetTopic[] = [];
   protected topicDescription: string = '';
-  protected onCancel = this.cancel.bind(this);
-  protected onSubmit = this.submit.bind(this);
 
-  constructor(
-    private dialogRef: MatDialogRef<GPTPresetTopicsDialogComponent>,
-  ) {}
+  constructor() {}
 
   static open(dialog: MatDialog, topics: GPTRoomPresetTopic[]) {
     const ref = dialog.open(GPTPresetTopicsDialogComponent);
@@ -58,13 +55,5 @@ export class GPTPresetTopicsDialogComponent implements OnInit {
     const changElem = change.options[0];
     const i = [...change.source.options].findIndex((e) => e === changElem);
     this.topics[i].active = changElem.selected;
-  }
-
-  private cancel() {
-    this.dialogRef.close();
-  }
-
-  private submit() {
-    this.dialogRef.close(this.topics);
   }
 }

@@ -1,10 +1,20 @@
-<h3>{{ "brainstorming-delete.title-" + type | translate }}</h3>
+<h2 mat-dialog-title>{{ "brainstorming-delete.title-" + type | translate }}</h2>
+
 <mat-dialog-content>
   <p>{{ "brainstorming-delete.you-sure-" + type | translate }}</p>
 </mat-dialog-content>
-<app-dialog-action-buttons
-  buttonsLabelSection="brainstorming-delete"
-  confirmButtonLabel="succeed"
-  [confirmButtonClickAction]="buildSaveActionCallback()"
-  [cancelButtonClickAction]="buildCancelActionCallback()"
-></app-dialog-action-buttons>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    class="secondary-button"
+    mat-dialog-close>
+    {{ "brainstorming-delete.cancel" | translate }}
+  </button>
+  <button
+    mat-stroked-button
+    class="primary-button"
+    (click)="save()">
+    {{ "brainstorming-delete.succeed" | translate }}
+  </button>
+</mat-dialog-actions>

@@ -1,50 +1,54 @@
-<ars-row>
-  <h2 tabindex="0"
-      style="padding:0;margin:0 0 20px 0;">
-    {{ 'footer.motd-title-main' | translate }}
-  </h2>
-</ars-row>
+<h2
+  tabindex="0"
+  mat-dialog-title>
+  {{ "footer.motd-title-main" | translate }}
+</h2>
 
-<mat-dialog-content class="container"
-                    ars-flex-box>
-  <ars-row ars-flex-box>
-    <ars-col>
-      <h4 class="container-title">{{ 'footer.motd-title-new' | translate }}</h4>
-    </ars-col>
-    <ars-fill></ars-fill>
-    <ars-col class="align-center-y">
-      <button mat-flat-button
-              class="mark_as_read"
-              (click)="markAllAsRead()">
-        <span>{{ 'footer.motd-mark-all-read' | translate }}</span>
-      </button>
-    </ars-col>
-  </ars-row>
-  <ars-row class="message"
-           ars-flex-box>
-    <ng-container *ngFor="let message of builtMotds">
-      <app-motd-message *ngIf="!message.isRead"
-                        [message]="message"></app-motd-message>
-    </ng-container>
-  </ars-row>
-  <ars-row>
-    <h4 class="container-title">{{ 'footer.motd-title-old' | translate }}</h4>
-  </ars-row>
-  <ars-row class="message"
-           ars-flex-box>
-    <ng-container *ngFor="let message of builtMotds">
-      <app-motd-message *ngIf="message.isRead"
-                        [message]="message"></app-motd-message>
-    </ng-container>
-  </ars-row>
-  <ars-row [height]="32"></ars-row>
-  <ars-fill></ars-fill>
+<mat-dialog-content>
+  <mat-tab-group>
+    <!-- Unread -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined">newspaper</mat-icon>
+        &nbsp;
+        {{ "footer.motd-title-new" | translate }}
+      </ng-template>
+      @for (message of unreadMotds; track message) {
+        <app-motd-message
+          (clickRead)="onSwitch($event)"
+          [message]="message"></app-motd-message>
+      } @empty {
+        <p class="empty">{{ "footer.motd-empty-new" | translate }}</p>
+      }
+    </mat-tab>
+    <!-- Read -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined">inventory_2</mat-icon>
+        &nbsp;
+        {{ "footer.motd-title-old" | translate }}
+      </ng-template>
+      @for (message of readMotds; track message) {
+        <app-motd-message
+          (clickRead)="onSwitch($event)"
+          [message]="message"></app-motd-message>
+      } @empty {
+        <p class="empty">{{ "footer.motd-empty-old" | translate }}</p>
+      }
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 
-<ars-row>
-  <app-dialog-action-buttons
-    buttonsLabelSection="imprint"
-    [cancelButtonClickAction]="buildDeclineActionCallback()"
-    [spacing]="false">
-  </app-dialog-action-buttons>
-</ars-row>
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ "imprint.cancel" | translate }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-button
+    (click)="markAllAsRead()">
+    {{ "footer.motd-mark-all-read" | translate }}
+  </button>
+</mat-dialog-actions>

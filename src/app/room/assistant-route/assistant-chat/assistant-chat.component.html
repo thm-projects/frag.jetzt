@@ -1,0 +1,75 @@
+@if (uploadedFiles().length) {
+  <div class="files-wrapper">
+    @for (file of uploadedFiles(); track $index) {
+      <app-assistant-upload
+        [name]="file.name"
+        [state]="file.status()"
+        [progress]="file.progress()"
+        (remove)="removeFile(file)"></app-assistant-upload>
+    }
+  </div>
+}
+<div class="text-files-wrapper">
+  <textarea
+    matInput
+    [(ngModel)]="text"
+    class="text-input"
+    (input)="resize(textArea)"
+    #textArea
+    placeholder="{{ i18n().followUpQuestions }}"
+    (keydown)="onKeyDown($event)"></textarea>
+</div>
+<div class="actions">
+  <button
+    mat-button
+    (click)="fileInput.click()">
+    <mat-icon>attach_file</mat-icon>
+    {{ i18n().attach }}
+  </button>
+  <input
+    (change)="onFileChange(fileInput.files)"
+    #fileInput
+    type="file"
+    multiple
+    accept=".c,.cs,.cpp,.doc,.docx,.html,.java,.json,.md,.pdf,.php,.pptx,.py,.rb,.tex,.txt,.css,.js,.sh,.ts"
+    style="display: none" />
+  <button
+    mat-button
+    [matMenuTriggerFor]="assistantMenu">
+    <mat-icon svgIcon="fj_robot"></mat-icon>
+    {{ i18n().assistent }}
+  </button>
+  <span style="flex: 1"></span>
+  <button
+    mat-icon-button
+    class="contained-icon-filled selected"
+    [matTooltip]="i18n().send"
+    (click)="send()">
+    @if (isSending()) {
+      <mat-spinner></mat-spinner>
+    } @else {
+      <mat-icon>arrow_upward</mat-icon>
+    }
+  </button>
+</div>
+
+<mat-menu #assistantMenu="matMenu">
+  @for (entry of sortedAssistants(); track entry) {
+    <button
+      mat-menu-item
+      [disabled]="entry === selectedAssistant()"
+      (click)="selectAssistant(entry.assistant.id)">
+      {{ entry.assistant.name }}
+      @if (entry === selectedAssistant()) {
+        <mat-icon>check</mat-icon>
+      }
+    </button>
+  }
+  @if (isPrivileged()) {
+    <button
+      mat-menu-item
+      (click)="onNewClick()">
+      <em>{{ i18n().create }}</em>
+    </button>
+  }
+</mat-menu>

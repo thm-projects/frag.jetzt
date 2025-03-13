@@ -9,16 +9,11 @@ import { UserRole } from '../models/user-roles.enum';
 import { CommentBonusTokenMixin } from '../models/comment-bonus-token-mixin';
 import { NotificationService } from '../services/util/notification.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
-import { QuillUtils, SerializedDelta } from './quill-utils';
 import { UUID } from './ts-utils';
-import {
-  ROOM_ROLE_MAPPER,
-  RoomStateService,
-} from 'app/services/state/room-state.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -106,7 +101,7 @@ export const uploadCSV = (): Observable<string> =>
     let hadData = false;
     input.addEventListener(
       'change',
-      (_) => {
+      () => {
         hadData = true;
         const reader = new FileReader();
         reader.addEventListener('load', (event) => {
@@ -117,7 +112,7 @@ export const uploadCSV = (): Observable<string> =>
       },
       { once: true },
     );
-    const func = (e) => {
+    const func = (e: Event) => {
       if (e.target === window) {
         window.addEventListener('focus', func, { once: true });
         return;
@@ -136,7 +131,7 @@ export const uploadCSV = (): Observable<string> =>
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  question: SerializedDelta;
+  question: string;
   bonusQuestionNumber: string;
   userLoginId: string;
 }
@@ -155,7 +150,7 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           valueMapper: {
             export: (config, k) => k.bonusQuestionNumber,
             import: (config, val) =>
-              ({ bonusQuestionNumber: val } as BonusArchiveEntry),
+              ({ bonusQuestionNumber: val }) as BonusArchiveEntry,
           },
         },
         {
@@ -170,14 +165,13 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
         },
         {
           languageKey: 'bonus-archive-export.entry-question',
-          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>(
-            'bonus-archive-export.empty',
-            (c) => c.question,
-            (val, c) => {
-              c.question = val as SerializedDelta;
-              return c;
+          valueMapper: {
+            export: (cfg, k) => k.question,
+            import: (cfg, val, prev) => {
+              prev.question = val;
+              return prev;
             },
-          ),
+          },
         },
         {
           languageKey: 'bonus-archive-export.entry-date',
@@ -233,7 +227,7 @@ export const exportBonusArchive = (
           );
           return moderatorService.getUserData([...filteredComments]).pipe(
             map((users) => {
-              const fastAccess = {} as any;
+              const fastAccess = {} as Record<string, string>;
               users.forEach((user) => {
                 if (user) {
                   fastAccess[user.id] = user['email'];
@@ -241,12 +235,15 @@ export const exportBonusArchive = (
               });
               return comments.map((c) => [fastAccess[c?.creatorId], c]);
             }),
+            catchError(() => {
+              return of(comments.map((c) => [undefined, c]));
+            }),
           );
         }),
         switchMap((arr: [userId: string, c: Comment][]) => {
-          arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
+          arr.sort(([, a], [, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
-            question: QuillUtils.serializeDelta(c?.body),
+            question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number,
@@ -306,11 +303,6 @@ const roomImportExport = (
     {
       type: 'value',
       languageKey: translatePath + '.room-welcome',
-      ...ImportExportManager.createQuillMapper<SerializedDelta>(
-        empty,
-        (e) => e,
-        (e) => e as SerializedDelta,
-      ),
     },
     {
       type: 'value',
@@ -318,7 +310,9 @@ const roomImportExport = (
       additionalLanguageKeys: [empty],
       valueMapper: {
         export: (cfg, val) =>
-          val?.length ? serializeStringArray(val) : cfg.additional[0],
+          (val as string[])?.length
+            ? serializeStringArray(val as string[])
+            : cfg.additional[0],
         import: (cfg, val) =>
           val === cfg.additional[0] ? [] : deserializeStringArray(val),
       },
@@ -348,14 +342,13 @@ const roomImportExport = (
         },
         {
           languageKey: translatePath + '.question',
-          ...ImportExportManager.createQuillMapper<Comment>(
-            empty,
-            (c) => QuillUtils.serializeDelta(c.body),
-            (str, c) => {
-              c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
-              return c;
+          valueMapper: {
+            export: (cfg, c) => c.body,
+            import: (cfg, val, prev) => {
+              prev.body = val;
+              return prev;
             },
-          ),
+          },
         },
         {
           languageKey: translatePath + '.chosen-category',
@@ -613,7 +606,7 @@ export const exportBrainstorming = (
               room.name,
               room.shortId,
               dateString,
-              QuillUtils.serializeDelta(room.description),
+              room.description,
               room.tags,
               comments,
             ])
@@ -679,7 +672,7 @@ export const exportRoom = (
               room.name,
               room.shortId,
               dateString,
-              QuillUtils.serializeDelta(room.description),
+              room.description,
               room.tags,
               comments,
             ])
@@ -693,7 +686,7 @@ export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
-  roomDescription: SerializedDelta,
+  roomDescription: string,
   roomTags: string[],
   comments: CommentBonusTokenMixin[],
 ];
@@ -707,7 +700,7 @@ const generateCommentCreatorIds = (
     mergeMap((value) => {
       value[5] = value[5].filter((c) => c.creatorId);
       const userSet = new Set<string>(value[5].map((c) => c.creatorId));
-      const fastAccess = {} as any;
+      const fastAccess = {} as Record<string, number>;
       [...userSet].forEach((user, index) => (fastAccess[user] = index));
       return roomService.createGuestsForImport(roomId, userSet.size).pipe(
         map((guestIds) => {
@@ -731,7 +724,7 @@ const importRoomSettings = (
       description: value[3],
       tags: value[4],
     })
-    .pipe(map((_) => value));
+    .pipe(map(() => value));
 
 const importComments = (
   comments: CommentBonusTokenMixin[],
@@ -766,6 +759,6 @@ export const importToRoom = (
   return generateCommentCreatorIds(result, roomService, roomId).pipe(
     mergeMap((value) => importRoomSettings(value, roomService, roomId)),
     mergeMap((value) => importComments(value[5], roomId, commentService)),
-    mergeMap((_) => result),
+    mergeMap(() => result),
   );
 };

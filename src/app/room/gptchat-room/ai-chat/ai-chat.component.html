@@ -1,0 +1,161 @@
+<div class="container">
+  @if (updatedMessages().length === 0) {
+    <div class="outer-container">
+      <div class="inner-container">
+        <div class="title-container">
+          <mat-icon
+            class="title-icon"
+            svgIcon="fj_robot"></mat-icon>
+          <div class="title">{{ i18n().title }}</div>
+        </div>
+
+        @if (!overrideMessage()) {
+          <div class="input-container-compact">
+            <app-assistant-chat
+              [minHeight]="96"
+              [isSending]="!canSend()"
+              [text]="defaultText()"
+              (messageSend)="sendMessage($event)"></app-assistant-chat>
+          </div>
+
+          <div class="topics">
+            @for (topic of exampleTopics(); track topic) {
+              <button
+                mat-button
+                class="topic"
+                (click)="buildSendMessage(topic.question)">
+                <mat-icon class="emoji">{{ topic.emoji }}</mat-icon>
+                <div class="question">{{ topic.question }}</div>
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="outer-container">
+      <div class="ai-chat-container">
+        <div
+          #scroll
+          class="messages-container">
+          @if (overrideMessage(); as message) {
+            <mat-card class="info">
+              <mat-card-content>
+                <app-markdown-viewer [data]="message"></app-markdown-viewer>
+              </mat-card-content>
+            </mat-card>
+          } @else {
+            @for (message of updatedMessages(); track message) {
+              @if (message.type === "human") {
+                <div class="message user-message">
+                  <div class="message-content">
+                    <div class="text-content">
+                      @for (messageContent of message.chunks; track $index) {
+                        <app-markdown-viewer
+                          [data]="messageContent"></app-markdown-viewer>
+                      }
+                    </div>
+                    <span class="message-icon user-icon">
+                      <mat-icon>person</mat-icon>
+                    </span>
+                  </div>
+                  @if (message.attached.length) {
+                    <div
+                      class="attachments"
+                      style="padding: 8px">
+                      @for (
+                        attachment of message.attached;
+                        track attachment[0] + attachment[1]
+                      ) {
+                        <div class="file-box">
+                          <mat-icon class="file-icon">description</mat-icon>
+                          <span class="file-name">
+                            {{
+                              i18n().ref
+                                | context
+                                  : { num: attachment[0], file: attachment[1] }
+                            }}
+                          </span>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="message ai-message">
+                  <div class="message-content">
+                    <span class="message-icon ai-icon">
+                      <mat-icon svgIcon="fj_robot"></mat-icon>
+                    </span>
+                    <div class="text-content">
+                      @for (messageContent of message.chunks; track $index) {
+                        <app-markdown-viewer
+                          [data]="messageContent"></app-markdown-viewer>
+                      }
+                      @if (message.references.length) {
+                        <h1>{{ i18n().foundRefs }}</h1>
+                        <div class="ref-content">
+                          @for (
+                            reference of message.references;
+                            track reference.id;
+                            let i = $index
+                          ) {
+                            <div class="ref-container">
+                              <h2>
+                                {{
+                                  i18n().foundRef
+                                    | context
+                                      : { num: i + 1, file: reference.name }
+                                }}
+                              </h2>
+                              @for (e of reference.additional_infos; track e) {
+                                <p>{{ e }}</p>
+                              }
+                              <p style="white-space: pre-line">
+                                {{ reference.text }}
+                              </p>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          }
+        </div>
+
+        @if (!overrideMessage()) {
+          <div class="input-container-compact">
+            <app-assistant-chat
+              [minHeight]="0"
+              [isSending]="!canSend()"
+              (messageSend)="sendMessage($event)"></app-assistant-chat>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <span
+    style="
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      text-align: center;
+      font-size: 10pt;
+    ">
+    {{ i18n().disclaimer }}
+  </span>
+</div>
+
+@if (updatedMessages().length) {
+  <button
+    mat-fab
+    [matTooltip]="follow() ? i18n().unfollow : i18n().follow"
+    class="scroll-top"
+    [class.stacked]="mobile()"
+    (click)="toggleFollow()">
+    <mat-icon>{{ follow() ? "block" : "vertical_align_bottom" }}</mat-icon>
+  </button>
+}

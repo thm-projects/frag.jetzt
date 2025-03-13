@@ -1,0 +1,8 @@
+.live-icon {
+  &-pause {
+    color: var(--mat-sys-secondary);
+  }
+  &-active {
+    color: var(--mat-sys-primary);
+  }
+}

@@ -1,8 +1,17 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
-  <div fxLayout="row" fxLayoutAlign="center">
+<m3-body-pane style="display: flex; justify-content: center">
+  <m3-supporting-pane
+    style="
+      display: flex;
+      justify-content: center;
+      width: calc(100% - 2 * var(--padding-inline));
+    ">
     <app-comment-list></app-comment-list>
-    <button id="live_announcer-button" tabIndex="-1" (click)="announce()"
-            class="visually-hidden">{{ 'comment-page.live-announcer' | translate }}</button>
-  </div>
-</div>
-
+    <button
+      id="live_announcer-button"
+      tabIndex="-1"
+      (click)="announce()"
+      class="visually-hidden">
+      {{ "comment-page.live-announcer" | translate }}
+    </button>
+  </m3-supporting-pane>
+</m3-body-pane>

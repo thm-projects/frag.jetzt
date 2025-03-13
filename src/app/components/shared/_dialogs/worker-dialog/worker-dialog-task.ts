@@ -1,19 +1,9 @@
 import { Room } from '../../../../models/room';
-import {
-  SpacyKeyword,
-} from '../../../../services/http/spacy.service';
+import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
-import {
-  Language as Lang,
-} from '../../../../services/http/languagetool.service';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  KeywordExtractor,
-  KeywordsResult,
-  KeywordsResultType,
-} from '../../../../utils/keyword-extractor';
 import { Injector } from '@angular/core';
 
 const concurrentCallsPerTask = 4;
@@ -29,7 +19,6 @@ export class WorkerDialogTask {
   };
   private readonly _comments: Comment[] = null;
   private readonly _running: boolean[] = null;
-  private readonly _keywordExtractor: KeywordExtractor;
 
   constructor(
     public readonly room: Room,
@@ -38,7 +27,6 @@ export class WorkerDialogTask {
     injector: Injector,
     private commentService: CommentService = injector.get(CommentService),
   ) {
-    this._keywordExtractor = new KeywordExtractor(injector);
     this._comments = comments;
     this.statistics.length = comments.length;
     this._running = new Array(concurrentCallsPerTask);
@@ -69,17 +57,18 @@ export class WorkerDialogTask {
       this.callSpacy(currentIndex + concurrentCallsPerTask);
       return;
     }
-    this._keywordExtractor
+    /*this._keywordExtractor
       .generateKeywords(
         currentComment.body,
         false,
         currentComment.language.toLowerCase() as Lang,
       )
-      .subscribe((result) => this.finishSpacyCall(currentIndex, result));
+      .subscribe((result) => this.finishSpacyCall(currentIndex, result));*/
   }
 
-  private finishSpacyCall(index: number, result: KeywordsResult): void {
-    let undo: () => any = () => '';
+  private finishSpacyCall(index: number, result): void {
+    let undo: () => unknown = () => '';
+    const KeywordsResultType = null;
     if (result.resultType === KeywordsResultType.BadSpelled) {
       this.statistics.badSpelled++;
       undo = () => this.statistics.badSpelled--;
@@ -100,7 +89,7 @@ export class WorkerDialogTask {
     tags: SpacyKeyword[],
     index: number,
     language: Language,
-    undo: () => any,
+    undo: () => unknown,
   ) {
     const changes = new TSMap<string, string>();
     changes.set('keywordsFromSpacy', JSON.stringify(tags));

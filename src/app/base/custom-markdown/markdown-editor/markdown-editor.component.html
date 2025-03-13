@@ -1,0 +1,166 @@
+<div #editorElem></div>
+<div
+  #additionalContent
+  class="toastui-editor-additional">
+  <ng-container *ngTemplateOutlet="additionalInfo()"></ng-container>
+</div>
+
+<ng-template #group1>
+  <button
+    role="button"
+    [class.active]="toolbarState()['heading']?.active"
+    [matMenuTriggerFor]="headingMenu"
+    [matTooltip]="i18n().heading"
+    mat-icon-button>
+    <mat-icon>title</mat-icon>
+  </button>
+  <mat-menu #headingMenu>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 1 })">
+      <mat-icon>format_h1</mat-icon>
+      {{ i18n().headingSize1 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 2 })">
+      <mat-icon>format_h2</mat-icon>
+      {{ i18n().headingSize2 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 3 })">
+      <mat-icon>format_h3</mat-icon>
+      {{ i18n().headingSize3 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 4 })">
+      <mat-icon>format_h4</mat-icon>
+      {{ i18n().headingSize4 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 5 })">
+      <mat-icon>format_h5</mat-icon>
+      {{ i18n().headingSize5 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 6 })">
+      <mat-icon>format_h6</mat-icon>
+      {{ i18n().headingSize6 }}
+    </button>
+    <button
+      mat-menu-item
+      (click)="editor.exec('heading', { level: 0 })">
+      <mat-icon>format_paragraph</mat-icon>
+      {{ i18n().headingSizeP }}
+    </button>
+  </mat-menu>
+  <button
+    role="button"
+    [class.active]="toolbarState()['strong']?.active"
+    [matTooltip]="i18n().bold"
+    (click)="editor.exec('bold')"
+    mat-icon-button>
+    <mat-icon>format_bold</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['emph']?.active"
+    [matTooltip]="i18n().italic"
+    (click)="editor.exec('italic')"
+    mat-icon-button>
+    <mat-icon>format_italic</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['strike']?.active"
+    [matTooltip]="i18n().strike"
+    (click)="editor.exec('strike')"
+    mat-icon-button>
+    <mat-icon>format_strikethrough</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #group2>
+  <button
+    role="button"
+    [class.active]="toolbarState()['thematicBreak']?.active"
+    [matTooltip]="i18n().hr"
+    (click)="editor.exec('hr')"
+    mat-icon-button>
+    <mat-icon>horizontal_rule</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['blockQuote']?.active"
+    [matTooltip]="i18n().quote"
+    (click)="editor.exec('blockQuote')"
+    mat-icon-button>
+    <mat-icon>format_quote</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #group3>
+  <button
+    role="button"
+    [class.active]="toolbarState()['bulletList']?.active"
+    [matTooltip]="i18n().ul"
+    (click)="editor.exec('bulletList')"
+    mat-icon-button>
+    <mat-icon>format_list_bulleted</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['orderedList']?.active"
+    [matTooltip]="i18n().ol"
+    (click)="editor.exec('orderedList')"
+    mat-icon-button>
+    <mat-icon>format_list_numbered</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['taskList']?.active"
+    [matTooltip]="i18n().task"
+    (click)="editor.exec('taskList')"
+    mat-icon-button>
+    <mat-icon>checklist</mat-icon>
+  </button>
+  <button
+    role="button"
+    [matTooltip]="i18n().indent"
+    (click)="editor.exec('indent')"
+    [disabled]="toolbarState()['indent']?.disabled"
+    mat-icon-button>
+    <mat-icon>format_indent_increase</mat-icon>
+  </button>
+  <button
+    role="button"
+    [matTooltip]="i18n().outdent"
+    (click)="editor.exec('outdent')"
+    [disabled]="toolbarState()['outdent']?.disabled"
+    mat-icon-button>
+    <mat-icon>format_indent_decrease</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #group5>
+  <button
+    role="button"
+    [class.active]="toolbarState()['code']?.active"
+    [matTooltip]="i18n().code"
+    (click)="editor.exec('code')"
+    mat-icon-button>
+    <mat-icon>code</mat-icon>
+  </button>
+  <button
+    role="button"
+    [class.active]="toolbarState()['codeBlock']?.active"
+    [matTooltip]="i18n().codeblock"
+    (click)="editor.exec('codeBlock')"
+    mat-icon-button>
+    <mat-icon>code_blocks</mat-icon>
+  </button>
+</ng-template>

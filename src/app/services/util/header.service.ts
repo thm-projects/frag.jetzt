@@ -1,37 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HeaderComponent } from '../../components/shared/header/header.component';
-import { TranslateService } from '@ngx-translate/core';
-import { NotificationService } from './notification.service';
-import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HeaderService {
-
   private userActivity: string;
   private userActivityListener: ((v: string) => void)[] = [];
   private userActivityToggle: boolean;
   private userActivityToggleListener: ((v: boolean) => void)[] = [];
-  private headerComponent: () => HeaderComponent;
-
-  constructor() {
-  }
-
-  public getHeaderComponent(): HeaderComponent {
-    return this.headerComponent();
-  }
-
-  public initHeader(headerComponent: () => HeaderComponent) {
-    this.headerComponent = headerComponent;
-  }
+  private readonly _isActive: BehaviorSubject<boolean> = new BehaviorSubject(
+    false,
+  );
 
   public setCurrentUserActivity(e: string) {
     if (this.userActivity === e) {
       return;
     }
     this.userActivity = e;
-    this.userActivityListener.forEach(f => f(this.userActivity));
+    this.userActivityListener.forEach((f) => f(this.userActivity));
   }
 
   public getCurrentUserActivity() {
@@ -43,7 +30,7 @@ export class HeaderService {
       return;
     }
     this.userActivityToggle = e;
-    this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
+    this.userActivityToggleListener.forEach((f) => f(this.userActivityToggle));
   }
 
   public isToggleCurrentUserActivity() {
@@ -58,16 +45,11 @@ export class HeaderService {
     this.userActivityToggleListener.push(f);
   }
 
-  public getTranslate(): TranslateService {
-    return this.headerComponent().translationService;
+  set isActive(value: boolean) {
+    this._isActive.next(value);
   }
 
-  public getNotificationService(): NotificationService {
-    return this.headerComponent().notificationService;
+  get isActive() {
+    return this._isActive.value;
   }
-
-  public getHost(): ArsComposeHostDirective {
-    return this.headerComponent().host;
-  }
-
 }

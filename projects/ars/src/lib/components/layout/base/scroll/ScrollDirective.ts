@@ -2,7 +2,8 @@ import { AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2 } from '
 
 
 @Directive({
-  selector: '[ars-scroll]'
+    selector: '[ars-scroll]',
+    standalone: false
 })
 export class ScrollDirective implements OnInit, AfterViewInit {
 

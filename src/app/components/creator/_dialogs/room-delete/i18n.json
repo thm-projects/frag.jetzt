@@ -1,0 +1,18 @@
+{
+  "key": "room-delete",
+  "de": {
+    "title": "Raum löschen?",
+    "description": "Willst du den Raum **»{{name}}«** wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Token überprüfen kannst.",
+    "delete": "Raum löschen"
+  },
+  "en": {
+    "title": "Delete room?",
+    "description": "Do you really want to delete the room **»{{name}}«**? This action cannot be undone. If you have given bonus stars, export all questions so that you can check submitted bonus codes.",
+    "delete": "Delete room"
+  },
+  "fr": {
+    "title": "Supprimer la salle?",
+    "description": "Veux-tu vraiment supprimer la salle **« {{name}} »** ? Cette action est irréversible. Si tu as attribué des bonus (étoiles), exporte toutes les questions afin de pouvoir vérifier les codes bonus soumis.",
+    "delete": "Supprimer la salle"
+  }
+}

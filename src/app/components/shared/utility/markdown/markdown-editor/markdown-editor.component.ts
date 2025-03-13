@@ -14,9 +14,10 @@ import { AppStateService } from 'app/services/state/app-state.service';
 export type MarkdownEditorTab = 'edit' | 'preview';
 
 @Component({
-  selector: 'app-markdown-editor',
+  selector: 'app-markdown-editor2',
   templateUrl: './markdown-editor.component.html',
   styleUrls: ['./markdown-editor.component.scss'],
+  standalone: false,
 })
 export class MarkdownEditorComponent implements OnDestroy {
   @Input() public data: string;

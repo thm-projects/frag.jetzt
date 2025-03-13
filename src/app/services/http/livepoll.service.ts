@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { RoomService } from './room.service';
 import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
@@ -19,6 +18,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from '../state/room-state.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -106,9 +106,8 @@ export class LivepollService extends BaseHttpService {
           parsed.map(([l, r]) => [l, new Map(r)]),
         );
         passed = true;
-      } else {
       }
-    } catch (e) {
+    } catch {
       console.warn('rebuild livepoll-peer-instruction');
     }
     if (!passed) {
@@ -121,7 +120,11 @@ export class LivepollService extends BaseHttpService {
     return this._dialogState.value > LivepollDialogState.Closed;
   }
 
-  get listener(): Observable<any> {
+  get listener(): Observable<{
+    session: LivepollSession;
+    changes: Partial<LivepollSession>;
+    type: LivepollEventType;
+  }> {
     return LivepollService.livepollEventEmitter;
   }
 
@@ -152,7 +155,6 @@ export class LivepollService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap(() => ''),
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('create')),
       );
@@ -173,7 +175,6 @@ export class LivepollService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap(() => ''),
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('update')),
       );
@@ -412,7 +413,7 @@ export class LivepollService extends BaseHttpService {
             }),
           ).subscribe((response) => {
             const dialogRef = response.dialogRef;
-            dialogRef.afterClosed().subscribe((response) => {
+            dialogRef.afterClosed().subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
             });
           });
