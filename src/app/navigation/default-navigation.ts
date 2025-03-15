@@ -171,7 +171,7 @@ export const getDefaultHeader = (
             ),
           },
           {
-            icon: 'format_color_fill',
+            icon: 'colors',
             title: i18n.header.theme,
             onClick: () => openThemeColor(injector),
           },
