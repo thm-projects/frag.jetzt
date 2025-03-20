@@ -77,6 +77,7 @@ class MultiLevelStepper {
   next(index: number): boolean {
     const group = this.elements[index].group;
     group.markAllAsTouched();
+    console.log(group);
     if (group.invalid) {
       return false;
     }

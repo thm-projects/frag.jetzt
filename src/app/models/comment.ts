@@ -1,15 +1,11 @@
-import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
-import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { map, Observable, of } from 'rxjs';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
-
-export interface AIGeneratedKeyword {
-  keywords: string[];
-  entities: string[];
-  special: string[];
-}
+import {
+  Keywords,
+  ModerationResult,
+} from 'app/room/assistant-route/services/simple-ai.service';
 
 export class Comment {
   id: UUID;
@@ -24,12 +20,11 @@ export class Comment {
   tag: string;
   createdAt: Date;
   bookmark: boolean;
-  keywordsFromQuestioner: SpacyKeyword[];
-  keywordsFromSpacy: SpacyKeyword[];
+  keywords: Keywords;
+  moderationData: ModerationResult;
   score: number;
   upvotes: number;
   downvotes: number;
-  language: Language;
   questionerName: string;
   updatedAt: Date;
   commentReference: UUID;
@@ -39,6 +34,7 @@ export class Comment {
   brainstormingWordId: UUID;
   approved: boolean;
   gptWriterState: number;
+  topic: string;
 
   constructor({
     id = null,
@@ -53,12 +49,11 @@ export class Comment {
     tag = null,
     createdAt = new Date(),
     bookmark = false,
-    keywordsFromQuestioner = [],
-    keywordsFromSpacy = [],
+    keywords = null,
+    moderationData = null,
     score = 0,
     upvotes = 0,
     downvotes = 0,
-    language = Language.AUTO,
     questionerName = null,
     updatedAt = null,
     commentReference = null,
@@ -68,6 +63,7 @@ export class Comment {
     brainstormingWordId = null,
     approved = false,
     gptWriterState = 0,
+    topic = null,
   }: Partial<FieldsOf<Comment>>) {
     this.id = id;
     this.roomId = roomId;
@@ -81,12 +77,11 @@ export class Comment {
     this.tag = tag;
     this.createdAt = verifyInstance(Date, createdAt);
     this.bookmark = bookmark;
-    this.keywordsFromQuestioner = keywordsFromQuestioner;
-    this.keywordsFromSpacy = keywordsFromSpacy;
+    this.keywords = keywords;
+    this.moderationData = moderationData;
     this.score = score;
     this.upvotes = upvotes;
     this.downvotes = downvotes;
-    this.language = language;
     this.questionerName = questionerName;
     this.updatedAt = verifyInstance(Date, updatedAt);
     this.commentReference = commentReference;
@@ -96,10 +91,7 @@ export class Comment {
     this.brainstormingWordId = brainstormingWordId;
     this.approved = approved;
     this.gptWriterState = gptWriterState;
-  }
-
-  static mapModelToLanguage(model: Model): Language {
-    return Language[model.toUpperCase()] || Language.AUTO;
+    this.topic = topic;
   }
 
   static getPrettyCommentNumber(
@@ -169,14 +161,3 @@ export const numberSorter = (a: string, b: string) => {
   }
   return arrB.length - arrA.length;
 };
-
-export enum Language {
-  DE = 'DE',
-  EN = 'EN',
-  FR = 'FR',
-  ES = 'ES',
-  IT = 'IT',
-  NL = 'NL',
-  PT = 'PT',
-  AUTO = 'AUTO',
-}

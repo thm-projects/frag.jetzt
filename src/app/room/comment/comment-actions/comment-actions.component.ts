@@ -20,7 +20,6 @@ import { ValueOption } from '../comment/comment.component';
 import { Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { EventService } from 'app/services/util/event.service';
-import { SessionService } from 'app/services/util/session.service';
 import { UIComment } from 'app/room/state/comment-updates';
 import { afterUpdate } from 'app/room/state/room-updates';
 
@@ -85,7 +84,7 @@ export class CommentActionsComponent {
   private router = inject(Router);
   private eventService = inject(EventService);
 
-  constructor(sessionService: SessionService) {
+  constructor() {
     effect(() => {
       const c = this.comment();
       if (!c) return;
@@ -100,9 +99,7 @@ export class CommentActionsComponent {
       });
       onCleanup(() => sub1.unsubscribe());
     });
-    sessionService
-      .getGPTStatusOnce()
-      .subscribe((v) => this.canOpenGPT.set(Boolean(v) && !v.restricted));
+    this.canOpenGPT.set(true);
   }
 
   protected navigateWriteAnswer() {

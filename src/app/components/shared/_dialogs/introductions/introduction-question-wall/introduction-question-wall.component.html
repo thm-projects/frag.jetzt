@@ -5,12 +5,17 @@
 </h2>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-question-wall-en
-    *ngIf="currentLanguage === 'en'"></app-introduction-question-wall-en>
-  <app-introduction-question-wall-de
-    *ngIf="currentLanguage === 'de'"></app-introduction-question-wall-de>
-  <app-introduction-question-wall-fr
-    *ngIf="currentLanguage === 'fr'"></app-introduction-question-wall-fr>
+  @switch (language()) {
+    @case ("de") {
+      <app-introduction-question-wall-de></app-introduction-question-wall-de>
+    }
+    @case ("fr") {
+      <app-introduction-question-wall-fr></app-introduction-question-wall-fr>
+    }
+    @default {
+      <app-introduction-question-wall-en></app-introduction-question-wall-en>
+    }
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>

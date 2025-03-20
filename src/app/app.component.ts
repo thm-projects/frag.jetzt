@@ -59,7 +59,7 @@ import { RoomService } from './services/http/room.service';
 import { UserService } from './services/http/user.service';
 import { Room } from './models/room';
 import { CommentService } from './services/http/comment.service';
-import { Comment, Language } from './models/comment';
+import { Comment } from './models/comment';
 import { generateConsequentlyUUID } from './utils/test-utils';
 import { CorrectWrong } from './models/correct-wrong.enum';
 import { dataService } from './base/db/data-service';
@@ -204,17 +204,10 @@ export class AppComponent implements OnInit {
           tag: 'Test',
           createdAt: new Date(),
           bookmark: true,
-          keywordsFromQuestioner: [],
-          keywordsFromSpacy: [
-            {
-              text: 'Hallo!',
-              dep: ['ROOT'],
-            },
-          ],
+          keywords: { entities: [], keywords: [], special: [] },
           score: 5,
           upvotes: 10,
           downvotes: 5,
-          language: Language.AUTO,
           questionerName: 'Test-Author',
           updatedAt: null,
           commentReference: null,
@@ -241,17 +234,10 @@ export class AppComponent implements OnInit {
                 tag: 'Test',
                 createdAt: new Date(),
                 bookmark: true,
-                keywordsFromQuestioner: [],
-                keywordsFromSpacy: [
-                  {
-                    text: 'Hallo!',
-                    dep: ['ROOT'],
-                  },
-                ],
+                keywords: { entities: [], keywords: [], special: [] },
                 score: 5,
                 upvotes: 10,
                 downvotes: 5,
-                language: Language.AUTO,
                 questionerName: 'Test-Author',
                 updatedAt: null,
                 commentReference: comment.id,

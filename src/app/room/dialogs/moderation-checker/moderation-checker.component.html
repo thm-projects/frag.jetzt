@@ -1,27 +1,7 @@
 <h2 mat-dialog-title>{{ i18n().title }}</h2>
 
 <mat-dialog-content>
-  <h3>{{ i18n().oldSystemSettings }}</h3>
-  <mat-slide-toggle
-    class="full-width"
-    style="margin-bottom: 1em"
-    [formControl]="partialControl">
-    {{ i18n().partialWords }}
-  </mat-slide-toggle>
-  <mat-form-field
-    class="full-width"
-    ppearance="outline">
-    <mat-label>{{ i18n().languageSpecific }}</mat-label>
-    <mat-select [formControl]="languageControl">
-      <mat-option [value]="false">
-        <i>{{ i18n().no }}</i>
-      </mat-option>
-      @for (lang of AVAILABLE_LANGS; track lang) {
-        <mat-option [value]="lang">{{ lang }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <h3>{{ i18n().newSystemSettings }}</h3>
+  <h3>{{ i18n().systemSettings }}</h3>
   <mat-slide-toggle
     class="full-width"
     [formControl]="slideControl">
@@ -45,12 +25,7 @@
       <mat-icon>readiness_score</mat-icon>
     </button>
   </mat-form-field>
-  <h3>{{ i18n().oldResults }}</h3>
-  @if (oldModerationResult(); as old) {
-    <p>{{ i18n().flagged | context: { flag: old[1] } }}</p>
-    <p>{{ old[0] }}</p>
-  }
-  <h3>{{ i18n().newResults }}</h3>
+  <h3>{{ i18n().results }}</h3>
   <p>{{ i18n().flagged | context: { flag: moderationResultFlagged() } }}</p>
   @if (moderationResult(); as summaries) {
     @for (summary of summaries; track $index) {

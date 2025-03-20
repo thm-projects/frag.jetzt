@@ -1,10 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { NgIf } from '@angular/common';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { AppStateService } from '../../../../services/state/app-state.service';
-import { Language } from '../../../../services/http/languagetool.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { LanguageKey } from '../home-page-types';
+import { language } from 'app/base/language/language';
 
 const LanguageKeyToImageURL: { [A in LanguageKey]: string } = {
   de: '/assets/images/youtube-start_de.webp',
@@ -24,24 +28,21 @@ const LanguageKeyToEmbedURL: { [A in LanguageKey]: string } = {
   styleUrl: './yt-video-wrapper.component.scss',
 })
 export class YtVideoWrapperComponent {
-  iframeSrc: SafeUrl;
-  imageSrc: string;
   isAccepted = false;
   @ViewChild('scaledIframe')
   scaledIframe: ElementRef<HTMLIFrameElement>;
-  currentLanguage: Language = 'en';
-  private readonly _destroyer: Subject<number> = new ReplaySubject(1);
-
-  constructor(sanitizer: DomSanitizer, appState: AppStateService) {
-    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
-      this.currentLanguage = lang;
-      this.isAccepted = false;
-      this.imageSrc = LanguageKeyToImageURL[this.currentLanguage];
-      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
-        LanguageKeyToEmbedURL[this.currentLanguage],
-      );
-    });
-  }
+  readonly imageSrc = computed(() => {
+    const lang = language();
+    this.isAccepted = false;
+    return LanguageKeyToImageURL[lang];
+  });
+  private readonly sanitizer = inject(DomSanitizer);
+  readonly iframeSrc = computed(() => {
+    const lang = language();
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      LanguageKeyToEmbedURL[lang],
+    );
+  });
 
   onResize() {
     const style = this.scaledIframe?.nativeElement;

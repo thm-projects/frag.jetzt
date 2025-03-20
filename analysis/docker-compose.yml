@@ -17,7 +17,7 @@ services:
       - ..:/frag
 
   sonarqube:
-    image: sonarqube:8.9.10-community
+    image: sonarqube:25.2.0.102705-community
     depends_on:
       - init
       - db

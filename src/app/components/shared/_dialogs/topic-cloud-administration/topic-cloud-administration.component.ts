@@ -4,13 +4,9 @@ import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import {
   ensureDefaultScorings,
-  KeywordOrFulltext,
   keywordsScoringMinMax,
-  Labels,
-  spacyLabels,
   TopicCloudAdminData,
   TopicCloudAdminDataScoringKey,
   TopicCloudAdminDataScoringObject,
@@ -20,7 +16,6 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
-import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -43,14 +38,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
-  profanitywordlist: string[] = [];
-  keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
-  enterProfanityWord = false;
   enterBlacklistWord = false;
-  newProfanityWord: string = undefined;
   newBlacklistWord: string = undefined;
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
@@ -59,15 +50,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showProfanityList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
-  keywordORfulltext: string = undefined;
   userRole: UserRole;
-  spacyLabels: Labels;
-  wantedLabels: {
-    de: string[];
-    en: string[];
-    fr: string[];
-  };
-  spacyLabelsAllSelectedDE = true;
   isLoading = true;
   minQuestions: string;
   minQuestioners: string;
@@ -84,8 +67,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   profanityFilter: boolean;
   censorPartialWordsCheck: boolean;
   censorLanguageSpecificCheck: boolean;
-  testProfanityWord: string = undefined;
-  testProfanityLanguage = 'de';
   blacklistKeywords = [];
   isMobile = false;
   isPle = false;
@@ -101,7 +82,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private topicCloudAdminService: TopicCloudAdminService,
     private sessionService: SessionService,
     private commentService: CommentService,
-    private profanityFilterService: ProfanityFilterService,
     private roomState: RoomStateService,
     deviceState: DeviceStateService,
   ) {
@@ -120,8 +100,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.isCreatorOrMod =
       (ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] || 0) >
       UserRole.PARTICIPANT;
-    this.spacyLabels = spacyLabels;
-    this.wantedLabels = undefined;
     this.sessionService.getRoomOnce().subscribe((room) => {
       this.blacklistIsActive = room.blacklistActive;
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
@@ -136,15 +114,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           this.refreshKeywords();
         });
     });
-    this.profanitywordlist =
-      this.profanityFilterService.getProfanityListFromStorage();
-    this.profanityFilterService
-      .getCustomProfanityList()
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((list) => {
-        this.profanitywordlist = list;
-        this.refreshKeywords();
-      });
   }
 
   changeTabIndex() {
@@ -180,33 +149,32 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   pushInKeywords(comment: Comment) {
-    let _keywordType = KeywordType.FromQuestioner;
-    let keywords = comment.keywordsFromQuestioner;
-    if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Both]) {
-      if (!keywords || !keywords.length) {
-        keywords = comment.keywordsFromSpacy;
-        _keywordType = KeywordType.FromSpacy;
-      }
-    } else if (
-      this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Fulltext]
-    ) {
-      keywords = comment.keywordsFromSpacy;
-      _keywordType = KeywordType.FromSpacy;
+    const keywords: string[] = [];
+    let temp = comment.keywords?.entities;
+    if (temp) {
+      keywords.push(...temp);
     }
-    if (!keywords) {
+    temp = comment.keywords?.keywords;
+    if (temp) {
+      keywords.push(...temp);
+    }
+    temp = comment.keywords?.special;
+    if (temp) {
+      keywords.push(...temp);
+    }
+    if (keywords.length < 1) {
       return;
     }
     keywords.forEach((_keyword) => {
-      const existingKey = this.checkIfKeywordExists(_keyword.text);
+      const existingKey = this.checkIfKeywordExists(_keyword);
       if (existingKey) {
         existingKey.vote += comment.score;
-        _keyword.dep.forEach((dep) => existingKey.keywordDeps.add(dep));
         if (this.checkIfCommentExists(existingKey.comments, comment.id)) {
           existingKey.comments.push(comment);
         }
         return;
       }
-      this.pushNewKeyword(comment, _keyword, _keywordType);
+      this.pushNewKeyword(comment, _keyword);
     });
   }
 
@@ -250,7 +218,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   checkIfCommentExists(comments: Comment[], id: string): boolean {
-    return comments.filter((comment) => comment.id === id).length === 0;
+    return comments.findIndex((comment) => comment.id === id) > -1;
   }
 
   isTopicRequirementActive(): boolean {
@@ -277,13 +245,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       minUpvotesVerified = 0;
     }
     this.topicCloudAdminData = {
-      wantedLabels: {
-        de: this.wantedLabels.de,
-        en: this.wantedLabels.en,
-        fr: this.wantedLabels.fr,
-      },
       considerVotes: this.considerVotes,
-      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
       minQuestioners: minQuestionersVerified,
       minQuestions: minQuestionsVerified,
       minUpvotes: minUpvotesVerified,
@@ -317,30 +279,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
     }
     this.blacklistIsActive = room.blacklistActive;
-    this.keywordORfulltext =
-      KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-    this.wantedLabels = {
-      de: this.topicCloudAdminData.wantedLabels.de,
-      en: this.topicCloudAdminData.wantedLabels.en,
-      fr:
-        this.topicCloudAdminData.wantedLabels.fr ??
-        TopicCloudAdminService.getDefaultSpacyTags('fr'),
-    };
     this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
     this.minQuestions = String(this.topicCloudAdminData.minQuestions);
     this.minUpvotes = String(this.topicCloudAdminData.minUpvotes);
     this.startDate = this.topicCloudAdminData.startDate || '';
     this.endDate = this.topicCloudAdminData.endDate || '';
     this.scorings = this.topicCloudAdminData.scorings;
-  }
-
-  getKeywordWithoutProfanity(keyword: string, lang: string): string {
-    return this.profanityFilterService.filterProfanityWords(
-      keyword,
-      this.censorPartialWordsCheck,
-      this.censorLanguageSpecificCheck,
-      lang,
-    )[0];
   }
 
   sortQuestions(sortMode?: string) {
@@ -385,19 +329,36 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   deleteKeyword(key: Keyword, message?: string): void {
     key.comments.forEach((comment) => {
       const changes = new TSMap<string, unknown>();
-      let keywords = comment.keywordsFromQuestioner;
-      keywords.splice(
-        keywords.findIndex((e) => e.text === key.keyword),
-        1,
-      );
-      changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
-      keywords = comment.keywordsFromSpacy;
-      keywords.splice(
-        keywords.findIndex((e) => e.text === key.keyword),
-        1,
-      );
-      changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-      this.updateComment(comment, changes, message);
+      if (comment.keywords) {
+        const keywords = comment.keywords;
+        let before = 0;
+        let after = 0;
+        if (keywords.entities) {
+          before += keywords.entities.length;
+          keywords.entities = keywords.entities.filter(
+            (e) => e !== key.keyword,
+          );
+          after += keywords.entities.length;
+        }
+        if (keywords.keywords) {
+          before += keywords.keywords.length;
+          keywords.keywords = keywords.keywords.filter(
+            (k) => k !== key.keyword,
+          );
+          after += keywords.keywords.length;
+        }
+        if (keywords.special) {
+          before += keywords.special.length;
+          keywords.special = keywords.special.filter((k) => k !== key.keyword);
+          after += keywords.special.length;
+        }
+        if (before !== after) {
+          changes.set('keywords', keywords);
+        }
+      }
+      if (changes.length > 0) {
+        this.updateComment(comment, changes, message);
+      }
     });
 
     if (this.searchMode === true) {
@@ -443,7 +404,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       }
       this.openConfirmDialog('merge-message', 'merge', key, key2);
     } else {
-      this.renameKeyword(key.comments, key.keyword.toLowerCase());
+      TopicCloudAdministrationComponent.renameKeyword(
+        key.comments,
+        key.keyword.toLowerCase(),
+        this.newKeyword,
+        this.commentService,
+      );
     }
 
     this.edit = false;
@@ -506,31 +472,55 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
-    if (key1 !== undefined && key2 !== undefined) {
-      key1.comments = key1.comments.filter((comment) => {
-        if (this.checkIfCommentExists(key2.comments, comment.id)) {
-          const changes = new TSMap<string, unknown>();
-          const lowerKey1 = key1.keyword.toLowerCase();
-
-          let keywords = comment.keywordsFromQuestioner;
-          let index = keywords.findIndex(
-            (k) => k.text.toLowerCase() === lowerKey1,
-          );
-          keywords[index].text = key2.keyword;
-          changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
-
-          keywords = comment.keywordsFromSpacy;
-          index = keywords.findIndex((k) => k.text.toLowerCase() === lowerKey1);
-          keywords[index].text = key2.keyword;
-          changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-
-          this.updateComment(comment, changes);
-          return false;
-        }
-        return true;
-      });
-      this.deleteKeyword(key1);
+    if (key1 === undefined || key2 === undefined) {
+      return;
     }
+    const lowerKey1 = key1.keyword.toLowerCase();
+    key1.comments = key1.comments.filter((comment) => {
+      if (!this.checkIfCommentExists(key2.comments, comment.id)) {
+        return true;
+      }
+      const changes = new TSMap<string, unknown>();
+      if (comment.keywords) {
+        const keywords = comment.keywords;
+        let updated = false;
+        if (keywords.entities && !keywords.entities.includes(key2.keyword)) {
+          keywords.entities = keywords.entities.map((e) => {
+            if (e.toLowerCase() === lowerKey1) {
+              updated = true;
+              return key2.keyword;
+            }
+            return e;
+          });
+        }
+        if (keywords.keywords && !keywords.keywords.includes(key2.keyword)) {
+          keywords.keywords = keywords.keywords.map((e) => {
+            if (e.toLowerCase() === lowerKey1) {
+              updated = true;
+              return key2.keyword;
+            }
+            return e;
+          });
+        }
+        if (keywords.special && !keywords.special.includes(key2.keyword)) {
+          keywords.special = keywords.special.map((e) => {
+            if (e.toLowerCase() === lowerKey1) {
+              updated = true;
+              return key2.keyword;
+            }
+            return e;
+          });
+        }
+        if (updated) {
+          changes.set('keywords', keywords);
+        }
+      }
+      if (changes.length > 0) {
+        this.updateComment(comment, changes);
+      }
+      return false;
+    });
+    this.deleteKeyword(key1);
   }
 
   checkIfKeywordExists(key: string): Keyword {
@@ -549,21 +539,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  addProfanityWord() {
-    this.profanityFilterService.addToProfanityList(this.newProfanityWord);
-    this.newProfanityWord = undefined;
-  }
-
   addBlacklistWord() {
     this.topicCloudAdminService.addWordToBlacklist(
       this.newBlacklistWord,
       this.sessionService.currentRoom,
     );
     this.newBlacklistWord = undefined;
-  }
-
-  removeWordFromProfanityList(word: string) {
-    this.profanityFilterService.removeFromProfanityList(word);
   }
 
   removeWordFromBlacklist(word: string) {
@@ -585,54 +566,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       }
     }
     this.refreshKeywords();
-  }
-
-  selectAllDE() {
-    if (this.wantedLabels.de.length < this.spacyLabels.de.length) {
-      this.wantedLabels.de = [];
-      this.spacyLabels.de.forEach((label) => {
-        this.wantedLabels.de.push(label.tag);
-      });
-      this.spacyLabelsAllSelectedDE = true;
-    } else {
-      this.wantedLabels.de = [];
-      this.spacyLabelsAllSelectedDE = false;
-    }
-  }
-
-  selectAllEN() {
-    if (this.wantedLabels.en.length < this.spacyLabels.en.length) {
-      this.wantedLabels.en = [];
-      this.spacyLabels.en.forEach((label) => {
-        this.wantedLabels.en.push(label.tag);
-      });
-    } else {
-      this.wantedLabels.en = [];
-    }
-  }
-
-  selectAllFR() {
-    if (this.wantedLabels.fr.length < this.spacyLabels.fr.length) {
-      this.wantedLabels.fr = [];
-      this.spacyLabels.fr.forEach((label) => {
-        this.wantedLabels.fr.push(label.tag);
-      });
-    } else {
-      this.wantedLabels.fr = [];
-    }
-  }
-
-  getFilteredProfanity(): string {
-    if (this.testProfanityWord) {
-      return this.profanityFilterService.filterProfanityWords(
-        this.testProfanityWord,
-        this.censorPartialWordsCheck,
-        this.censorLanguageSpecificCheck,
-        this.testProfanityLanguage,
-      )[0];
-    } else {
-      return '';
-    }
   }
 
   isDefaultScoring(): boolean {
@@ -661,63 +594,65 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     ref.componentInstance.translateKey = 'explanation.cloud-configuration';
   }
 
-  private renameKeyword(comments: Comment[], lowerCaseKeyword: string) {
+  public static renameKeyword(
+    comments: Comment[],
+    lowerCaseKeyword: string,
+    newKeyword: string,
+    commentService: CommentService,
+  ) {
+    const ref = newKeyword.trim();
     comments.forEach((comment) => {
       const changes = new TSMap<string, unknown>();
-      let keywords = comment.keywordsFromQuestioner;
-      for (const keyword of keywords) {
-        if (keyword.text.toLowerCase() === lowerCaseKeyword) {
-          keyword.text = this.newKeyword.trim();
+      if (comment.keywords) {
+        const keywords = comment.keywords;
+        let updated = false;
+        if (keywords.entities) {
+          keywords.entities = keywords.entities.map((e) => {
+            if (e.toLowerCase() === lowerCaseKeyword) {
+              updated = true;
+              return ref;
+            }
+            return e;
+          });
+        }
+        if (keywords.keywords) {
+          keywords.keywords = keywords.keywords.map((e) => {
+            if (e.toLowerCase() === lowerCaseKeyword) {
+              updated = true;
+              return ref;
+            }
+            return e;
+          });
+        }
+        if (keywords.special) {
+          keywords.special = keywords.special.map((e) => {
+            if (e.toLowerCase() === lowerCaseKeyword) {
+              updated = true;
+              return ref;
+            }
+            return e;
+          });
+        }
+        if (updated) {
+          changes.set('keywords', keywords);
         }
       }
-      changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
-      keywords = comment.keywordsFromSpacy;
-      for (const keyword of keywords) {
-        if (keyword.text.toLowerCase() === lowerCaseKeyword) {
-          keyword.text = this.newKeyword.trim();
-        }
+      if (changes.length > 0) {
+        commentService.patchComment(comment, changes).subscribe();
       }
-      changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-      this.updateComment(comment, changes, 'keyword-edit');
     });
   }
 
-  private pushNewKeyword(
-    comment: Comment,
-    keyword: SpacyKeyword,
-    keywordType: KeywordType,
-  ): void {
-    if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Both]) {
-      const includedFromQuestioner =
-        comment.keywordsFromQuestioner.findIndex(
-          (e) => e.text === keyword.text,
-        ) >= 0;
-      const includedFromSpacy =
-        comment.keywordsFromSpacy.findIndex((e) => e.text === keyword.text) >=
-        0;
-      if (includedFromQuestioner && includedFromSpacy) {
-        keywordType = KeywordType.FromBoth;
-      } else {
-        keywordType = includedFromQuestioner
-          ? KeywordType.FromQuestioner
-          : KeywordType.FromSpacy;
-      }
-    }
-    const entry = {
-      keyword: keyword.text,
-      keywordDeps: new Set<string>(keyword.dep),
-      keywordType,
-      keywordWithoutProfanity: this.getKeywordWithoutProfanity(
-        keyword.text,
-        comment.language,
-      ),
+  private pushNewKeyword(comment: Comment, keyword: string): void {
+    const entry: Keyword = {
+      keyword: keyword,
       comments: [comment],
       vote: comment.score,
     };
-    if (this.blacklistIncludesKeyword(keyword.text) && this.blacklistIsActive) {
+    if (this.blacklistIncludesKeyword(keyword) && this.blacklistIsActive) {
       this.blacklistKeywords.push(entry);
     } else {
-      this.keywords.set(keyword.text, entry as Keyword);
+      this.keywords.set(keyword, entry);
     }
   }
 
@@ -738,19 +673,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
 interface Keyword {
   keyword: string;
-  keywordDeps: Set<string>;
-  keywordType: KeywordType;
-  keywordWithoutProfanity: string;
   comments: Comment[];
   vote: number;
 }
 
 export interface Data {
   userRole: UserRole;
-}
-
-enum KeywordType {
-  FromSpacy = 0,
-  FromQuestioner = 1,
-  FromBoth = 2,
 }

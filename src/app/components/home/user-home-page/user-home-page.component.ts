@@ -19,13 +19,11 @@ import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { SessionService } from '../../../services/util/session.service';
-import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil } from 'rxjs';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 import { MatDialog } from '@angular/material/dialog';
-import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
-import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { ensureLoggedIn } from 'app/user/state/user';
 
@@ -56,8 +54,6 @@ export class UserHomePageComponent
     protected headerService: HeaderService,
     protected composeService: ArsComposeService,
     public sessionService: SessionService,
-    private keyService: GPTAPISettingService,
-    private voucherService: GPTVoucherService,
   ) {
     this.initM3Navigation();
   }
@@ -157,19 +153,15 @@ export class UserHomePageComponent
   }
 
   openCreateRoomDialog(): void {
-    forkJoin([
-      this.keyService.getKeys(),
-      this.voucherService.getVouchers(),
-    ]).subscribe(([apiKeys, vouchers]) => {
-      MultiLevelDialogComponent.open(
-        this.dialog,
-        MULTI_LEVEL_ROOM_CREATE,
-        generateRoom,
-        {
-          apiKeys,
-          vouchers,
-        },
-      );
-    });
+    // TODO: ADD API & Vouchers
+    MultiLevelDialogComponent.open(
+      this.dialog,
+      MULTI_LEVEL_ROOM_CREATE,
+      generateRoom,
+      {
+        apiKeys: [],
+        vouchers: [],
+      },
+    );
   }
 }

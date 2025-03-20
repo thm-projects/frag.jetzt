@@ -1,60 +1,19 @@
 <h2 mat-dialog-title>{{ i18n().title }}</h2>
 
 <mat-dialog-content>
-  @if (isCategoryAvailable()) {
-    <h3>{{ i18n().category }}</h3>
-    <mat-form-field class="full-width">
-      <mat-select [formControl]="selectedCategory">
-        <mat-option [value]="null">
-          <i>{{ i18n().noCategory }}</i>
-        </mat-option>
-        @for (category of availableCategories(); track category) {
-          <mat-option [value]="category">{{ category }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  }
-  @if (isKeywordAvailable()) {
-    <h3>{{ i18n().keywords }}</h3>
-    <mat-form-field class="full-width">
-      <mat-label>{{ i18n().newKeyword }}</mat-label>
-      <input
-        matInput
-        (keydown)="onKeydown($event)"
-        [formControl]="addKeyword" />
-      <button
-        mat-icon-button
-        matSuffix
-        [disabled]="!addKeyword.value || addKeyword.invalid"
-        [matTooltip]="i18n().addKeyword"
-        (click)="appendKeyword()">
-        <mat-icon>add_circle</mat-icon>
-      </button>
-      @if (addKeyword.hasError("minlength")) {
-        <mat-error>{{ i18n().noValidKeyword }}</mat-error>
+  <mat-form-field class="full-width">
+    <mat-label>{{ i18n().topic }}</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="contentTopic"
+      [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+      @for (option of filteredOptions(); track option) {
+        <mat-option [value]="option">{{ option }}</mat-option>
       }
-    </mat-form-field>
-    <mat-list>
-      @for (
-        keyword of keywords();
-        track keyword;
-        let i = $index, isOdd = $odd
-      ) {
-        <mat-list-item [class.odd]="isOdd">
-          <span matListItemTitle>{{ keyword }}</span>
-          <button
-            mat-icon-button
-            matListItemMeta
-            [matTooltip]="i18n().deleteKeyword"
-            (click)="removeAt(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-list-item>
-      } @empty {
-        <p style="text-align: center">{{ i18n().noKeywords }}</p>
-      }
-    </mat-list>
-  }
+    </mat-autocomplete>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>

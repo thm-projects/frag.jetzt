@@ -21,7 +21,6 @@ import {
   ModerationResult,
   SimpleAIService,
 } from 'app/room/assistant-route/services/simple-ai.service';
-import { ProfanityFilterService } from 'app/services/util/profanity-filter.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { windowWatcher } from 'modules/navigation/utils/window-watcher';
@@ -56,45 +55,12 @@ export class ModerationCheckerComponent {
   protected readonly i18n = i18n;
   protected readonly moderationResult = signal<Summary[]>([]);
   protected readonly moderationResultFlagged = signal<boolean>(false);
-  protected readonly oldModerationResult = signal<[string, boolean]>(null);
-  protected readonly AVAILABLE_LANGS = [
-    'ar',
-    'cs',
-    'da',
-    'de',
-    'en',
-    'eo',
-    'es',
-    'fa',
-    'fi',
-    'fil',
-    'fr',
-    'fr-CA-u-sd-caqc',
-    'hi',
-    'hu',
-    'it',
-    'ja',
-    'kab',
-    'ko',
-    'nl',
-    'no',
-    'pl',
-    'pt',
-    'ru',
-    'sv',
-    'th',
-    'tlh',
-    'tr',
-    'zh',
-  ] as const;
   protected readonly textControl = new FormControl('', [
     (control) => (control.value?.trim().length ? null : { error: true }),
   ]);
   protected readonly slideControl = new FormControl(false);
   protected readonly partialControl = new FormControl(false);
-  protected readonly languageControl = new FormControl<boolean | string>(false);
   private simpleAI = inject(SimpleAIService);
-  private profanityFilter = inject(ProfanityFilterService);
 
   static open(injector: Injector): MatDialogRef<ModerationCheckerComponent> {
     const ref = injector.get(MatDialog).open(ModerationCheckerComponent);
@@ -111,14 +77,6 @@ export class ModerationCheckerComponent {
         this.moderationResult.set(res[0]);
         this.moderationResultFlagged.set(res[1]);
       });
-    const lang = this.languageControl.value;
-    const filtered = this.profanityFilter.filterProfanityWords(
-      text,
-      this.partialControl.value,
-      Boolean(lang),
-      lang as string,
-    );
-    this.oldModerationResult.set(filtered);
   }
 
   protected onKeydown(event: KeyboardEvent) {
@@ -145,11 +103,6 @@ export class ModerationCheckerComponent {
       title: 'Celadon',
       options: [],
     };
-    for (const key in element.celadon) {
-      const value = element.celadon[key];
-      celadonSummary.options.push({ key, value });
-      if (value === 'Toxic') isFlagged = true;
-    }
     summary.push(celadonSummary);
     if ('openai' in element) {
       const openaiSummary: Summary = {

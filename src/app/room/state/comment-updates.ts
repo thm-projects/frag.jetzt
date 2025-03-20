@@ -265,8 +265,7 @@ const patchCommentValue = (
 ) => {
   const isAckChannel = type === 'normal';
   switch (changeKey) {
-    case 'keywordsFromSpacy':
-    case 'keywordsFromQuestioner':
+    case 'keywords':
       comment[changeKey] = JSON.parse(value as string);
       break;
     case 'ack':

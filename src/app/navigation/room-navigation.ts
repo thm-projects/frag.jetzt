@@ -14,16 +14,7 @@ import {
   M3NavigationTemplate,
   addAround,
 } from 'modules/navigation/m3-navigation.types';
-import {
-  Observable,
-  combineLatest,
-  filter,
-  forkJoin,
-  map,
-  of,
-  startWith,
-  switchMap,
-} from 'rxjs';
+import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { TopicCloudFilterComponent } from '../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
@@ -39,12 +30,6 @@ import { RoomDeleteComponent } from 'app/components/creator/_dialogs/room-delete
 import { RoomDeleted } from 'app/models/events/room-deleted';
 import { DeleteCommentsComponent } from 'app/components/creator/_dialogs/delete-comments/delete-comments.component';
 import { CommentService } from 'app/services/http/comment.service';
-import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { QuotaService } from 'app/services/http/quota.service';
-
-import { MultiLevelDialogComponent } from '../components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
-import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
-import { saveSettings } from '../components/shared/_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { copyCSVString, exportRoom } from 'app/utils/ImportExportMethods';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from 'app/models/user-roles.enum';
@@ -519,8 +504,7 @@ export const getRoomNavigation = (
                     title: i18n.options.ai.quota,
                     icon: 'payment',
                     onClick: () => {
-                      console.log('Quota clicked');
-                      openAISettings(room, injector);
+                      openAISettings();
                       return false;
                     },
                   },
@@ -529,7 +513,6 @@ export const getRoomNavigation = (
                     svgIcon: 'fj_robot',
                     title: i18n.options.ai.selection,
                     onClick: () => {
-                      console.log('Model clicked');
                       return false;
                     },
                   },
@@ -667,35 +650,22 @@ const showModeratorsDialog = (
   dialogRef.componentInstance.isCreator = assignedRole === 'Creator';
 };
 
-const openAISettings = (room: Room, injector: Injector) => {
-  const quotaService = injector.get(QuotaService);
-  injector
-    .get(GPTRoomService)
-    .getByRoomId(room.id)
-    .pipe(
-      switchMap((res) => {
-        return forkJoin([
-          of(res),
-          quotaService.get(res.roomQuotaId),
-          quotaService.get(res.moderatorQuotaId),
-          quotaService.get(res.participantQuotaId),
-        ]);
-      }),
-    )
-    .subscribe(([setting, roomQuota, moderatorQuota, participantQuota]) => {
-      MultiLevelDialogComponent.open(
-        injector.get(MatDialog),
-        MULTI_LEVEL_GPT_ROOM_SETTINGS,
-        saveSettings,
-        {
-          GPTSettings: setting,
-          roomQuota,
-          moderatorQuota,
-          participantQuota,
-          roomID: room.id,
-        },
-      );
-    });
+const openAISettings = () => {
+  // TODO: Update Settings!
+  /*
+  MultiLevelDialogComponent.open(
+    injector.get(MatDialog),
+    MULTI_LEVEL_GPT_ROOM_SETTINGS,
+    saveSettings,
+    {
+      GPTSettings: setting,
+      roomQuota: new Quota({}),
+      moderatorQuota,
+      participantQuota,
+      roomID: room.id,
+    },
+  );
+  */
 };
 
 const doExport = (user: User, room: Room, injector: Injector) => {

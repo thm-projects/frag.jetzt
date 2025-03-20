@@ -20,9 +20,18 @@ export class CommentFilterComponent {
   comment = input.required<Comment>();
   filterSelect = output<Filter>();
   protected keywords = computed(() => {
-    const keywords = this.comment().keywordsFromQuestioner;
-    if (keywords?.length) return keywords;
-    return this.comment().keywordsFromSpacy;
+    const keywords: string[] = [];
+    const temp = this.comment().keywords;
+    if (temp?.entities) {
+      keywords.push(...temp.entities);
+    }
+    if (temp?.keywords) {
+      keywords.push(...temp.keywords);
+    }
+    if (temp?.special) {
+      keywords.push(...temp.special);
+    }
+    return keywords;
   });
   protected readonly userCount = signal(0);
 

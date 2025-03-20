@@ -15,7 +15,6 @@ export interface Keywords {
 
 export interface ModerationResult {
   detoxify: { [key: string]: number };
-  celadon: { [key: string]: number | string };
   openai?: { [key: string]: number | boolean };
   sentiment: [positive: number, neutral: number, negative: number];
 }
@@ -35,6 +34,10 @@ export class SimpleAIService extends BaseHttpService {
     similarity: '/similarity',
     embed: '/embed',
     moderate: '/moderate',
+    topic: '/topic',
+    create: '/create',
+    brainstorming: '/brainstorming',
+    generate: '/generate',
   };
 
   constructor(private http: HttpClient) {
@@ -62,7 +65,7 @@ export class SimpleAIService extends BaseHttpService {
   getKeywords(text: string) {
     const url = `${this.apiUrl.base}${this.apiUrl.keyword}${this.apiUrl.invoke}`;
     return this.http
-      .post<Keywords>(
+      .post<{ output: Keywords }>(
         url,
         {
           input: {
@@ -78,7 +81,7 @@ export class SimpleAIService extends BaseHttpService {
       )
       .pipe(
         tap(() => ''),
-        map((x) => x['output']),
+        map((x) => x.output),
       );
   }
 
@@ -112,6 +115,47 @@ export class SimpleAIService extends BaseHttpService {
       .pipe(
         tap(() => ''),
         map((e) => e.category),
+      );
+  }
+
+  createTopic(topics: string[], text: string) {
+    const url = `${this.apiUrl.base}${this.apiUrl.topic}${this.apiUrl.create}`;
+    return this.http
+      .post<{ topic: string }>(
+        url,
+        {
+          topics,
+          text,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((e) => e.topic),
+      );
+  }
+
+  createBrainstormingIdeas(
+    topic: string,
+    count: number,
+    wordCount: number,
+    charCount: number,
+  ) {
+    const url = `${this.apiUrl.base}${this.apiUrl.brainstorming}${this.apiUrl.generate}`;
+    return this.http
+      .post<{ ideas: string[] }>(
+        url,
+        {
+          topic,
+          count,
+          wordCount,
+          charCount,
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((o) => o.ideas),
       );
   }
 

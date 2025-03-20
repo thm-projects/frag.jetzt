@@ -5,12 +5,17 @@
 </h2>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-prompt-guide-chatbot-en
-    *ngIf="currentLanguage === 'en'"></app-introduction-prompt-guide-chatbot-en>
-  <app-introduction-prompt-guide-chatbot-de
-    *ngIf="currentLanguage === 'de'"></app-introduction-prompt-guide-chatbot-de>
-  <app-introduction-prompt-guide-chatbot-fr
-    *ngIf="currentLanguage === 'fr'"></app-introduction-prompt-guide-chatbot-fr>
+  @switch (language()) {
+    @case ("de") {
+      <app-introduction-prompt-guide-chatbot-de></app-introduction-prompt-guide-chatbot-de>
+    }
+    @case ("fr") {
+      <app-introduction-prompt-guide-chatbot-fr></app-introduction-prompt-guide-chatbot-fr>
+    }
+    @default {
+      <app-introduction-prompt-guide-chatbot-en></app-introduction-prompt-guide-chatbot-en>
+    }
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>

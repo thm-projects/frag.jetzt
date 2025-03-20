@@ -131,11 +131,7 @@ export class CommentAnswerComponent
       .subscribe((state) => {
         this.consentGPT = state;
       });
-    this.sessionService
-      .getGPTStatusOnce()
-      .subscribe(
-        (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
-      );
+    this.canOpenGPT = true;
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     user$.pipe(takeUntil(this.destroyer)).subscribe((newUser) => {

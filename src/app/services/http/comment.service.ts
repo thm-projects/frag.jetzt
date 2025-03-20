@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AIGeneratedKeyword, Comment } from '../../models/comment';
+import { Comment } from '../../models/comment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
@@ -25,13 +25,8 @@ interface CountRequest {
   ack: boolean;
 }
 
-export type CommentAPI = Omit<
-  Comment,
-  'keywordsFromQuestioner' | 'keywordsFromSpacy' | 'body'
-> & {
-  keywordsFromQuestioner: JSONString;
-  keywordsFromSpacy: JSONString;
-  body: string;
+export type CommentAPI = Omit<Comment, 'keywords'> & {
+  keywords: JSONString;
 };
 
 @Injectable()
@@ -110,17 +105,14 @@ export class CommentService extends BaseHttpService {
           creatorId: comment.creatorId,
           body: comment.body,
           tag: comment.tag,
-          keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
-          keywordsFromQuestioner: JSON.stringify(
-            comment.keywordsFromQuestioner,
-          ),
-          language: comment.language,
+          keywords: JSON.stringify(comment.keywords),
           questionerName: comment.questionerName,
           brainstormingSessionId: comment.brainstormingSessionId,
           brainstormingWordId: comment.brainstormingWordId,
           commentReference: comment.commentReference,
           gptWriterState: comment.gptWriterState,
           approved: comment.approved,
+          topic: comment.topic,
         },
         httpOptions,
       )
@@ -138,10 +130,7 @@ export class CommentService extends BaseHttpService {
         c[field] = comment[field] as never;
       }
       c.body = comment.body;
-      c.keywordsFromSpacy = '[]' as JSONString;
-      c.keywordsFromQuestioner = JSON.stringify(
-        comment.keywordsFromQuestioner ?? [],
-      ) as JSONString;
+      c.keywords = '{}' as JSONString;
       return c;
     });
     const connectionUrl =
@@ -228,15 +217,6 @@ export class CommentService extends BaseHttpService {
       );
   }
 
-  updateComment(comment: Comment): Observable<unknown> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
-    return this.http.put(connectionUrl, comment, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<unknown>('updateComment')),
-    );
-  }
-
   patchComment(
     comment: Comment,
     changes: TSMap<string, unknown> | Partial<Comment>,
@@ -314,21 +294,7 @@ export class CommentService extends BaseHttpService {
     if (!comment) {
       return parsedComment;
     }
-    parsedComment.keywordsFromQuestioner = JSON.parse(
-      comment.keywordsFromQuestioner ?? null,
-    );
-    parsedComment.keywordsFromSpacy = JSON.parse(
-      comment.keywordsFromSpacy ?? null,
-    );
-    if ('entities' in parsedComment.keywordsFromSpacy) {
-      const keys =
-        parsedComment.keywordsFromSpacy as unknown as AIGeneratedKeyword;
-      parsedComment.keywordsFromSpacy = [
-        ...keys.keywords,
-        ...keys.entities,
-        ...keys.special,
-      ].map((e) => ({ text: e, dep: [] }));
-    }
+    parsedComment.keywords = JSON.parse(comment.keywords ?? null);
     return parsedComment;
   }
 

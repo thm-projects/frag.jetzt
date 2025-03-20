@@ -25,7 +25,6 @@ import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 import { TopicCloudFilterComponent } from '../../room/tag-cloud/dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from '../../room/tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -38,7 +37,6 @@ import { JoyrideTemplateDirective } from '../../directives/joyride-template.dire
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { WriteCommentComponent } from './write-comment/write-comment.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
-import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from '../../room/tag-cloud/word-cloud/word-cloud.component';
@@ -104,23 +102,18 @@ import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/liv
 import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
 import { GPTChatRoomComponent } from '../../room/gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
-import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
 import { LivepollConfirmationDialogComponent } from './_dialogs/livepoll/livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { LivepollStatisticComponent } from './_dialogs/livepoll/livepoll-statistic/livepoll-statistic.component';
 import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 import { MarkdownEditorComponent } from './utility/markdown/markdown-editor/markdown-editor.component';
 import { MarkdownEditorDialogComponent } from './utility/markdown/markdown-editor-dialog/markdown-editor-dialog.component';
-import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 import { GlobalStatusIndicatorComponent } from './global-status-indicator/global-status-indicator.component';
 import { StatusInfoComponent } from './_dialogs/status-info/status-info.component';
-import { GptPromptExplanationComponent } from './_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
 import { GptPromptExplanationDeComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-de';
 import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-en';
 import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
-import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-dialog.component';
 import { UtilityStyleTestComponent } from './utility/style/utility-style-test/utility-style-test.component';
 import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
-import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -134,7 +127,6 @@ import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-crea
 import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
 import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
 import { MultiLevelQuotaInputComponent } from './_dialogs/multi-level-dialog/multi-level-quota-input/multi-level-quota-input.component';
-import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
@@ -203,7 +195,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     TopicCloudAdministrationComponent,
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
-    SpacyDialogComponent,
     TagCloudComponent,
     TagCloudPopUpComponent,
     ActiveUserComponent,
@@ -214,7 +205,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     MatSpinnerOverlayComponent,
     WriteCommentComponent,
     ScrollIntoViewDirective,
-    DeepLDialogComponent,
     ExplanationDialogComponent,
     WorkerConfigDialogComponent,
     WordCloudComponent,
@@ -279,23 +269,18 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     GptPrivacyPolicyFrComponent,
     GPTChatRoomComponent,
     PresetsDialogComponent,
-    GPTChatInfoComponent,
     LivepollConfirmationDialogComponent,
     LivepollStatisticComponent,
     LivepollSummaryComponent,
     MarkdownEditorComponent,
     MarkdownEditorDialogComponent,
-    GPTPresetTopicsDialogComponent,
     GlobalStatusIndicatorComponent,
     StatusInfoComponent,
-    GptPromptExplanationComponent,
     GptPromptExplanationDeComponent,
     GptPromptExplanationEnComponent,
     GptPromptExplanationFrComponent,
-    GPTRatingDialogComponent,
     UtilityStyleTestComponent,
     ChatGPTBrainstormComponent,
-    GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
     LivepollPeerInstructionComparisonComponent,
     MultiLevelDialogComponent,
@@ -308,7 +293,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     HelpRoomCreateEnComponent,
     HelpRoomCreateFrComponent,
     MultiLevelQuotaInputComponent,
-    MultiLevelDateInputComponent,
     MultiLevelSelectInputComponent,
   ],
   exports: [

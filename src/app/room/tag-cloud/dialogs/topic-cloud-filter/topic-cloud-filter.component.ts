@@ -145,7 +145,12 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     let count = 0;
     let newCount = 0;
     comments.forEach((comment) => {
-      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
+      if (
+        comment.keywords &&
+        (comment.keywords.entities.length ||
+          comment.keywords.keywords.length ||
+          comment.keywords.special.length)
+      ) {
         newCount++;
       } else {
         count++;

@@ -1,16 +1,23 @@
 <h2
   tabindex="0"
   mat-dialog-title>
-  {{ "introductions." + (isPle ? "ple." : "") + "tag-cloud-title" | translate }}
+  {{
+    "introductions." + (isPle() ? "ple." : "") + "tag-cloud-title" | translate
+  }}
 </h2>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-tag-cloud-en
-    *ngIf="currentLanguage === 'en'"></app-introduction-tag-cloud-en>
-  <app-introduction-tag-cloud-de
-    *ngIf="currentLanguage === 'de'"></app-introduction-tag-cloud-de>
-  <app-introduction-tag-cloud-fr
-    *ngIf="currentLanguage === 'fr'"></app-introduction-tag-cloud-fr>
+  @switch (language()) {
+    @case ("de") {
+      <app-introduction-tag-cloud-de></app-introduction-tag-cloud-de>
+    }
+    @case ("fr") {
+      <app-introduction-tag-cloud-fr></app-introduction-tag-cloud-fr>
+    }
+    @default {
+      <app-introduction-tag-cloud-en></app-introduction-tag-cloud-en>
+    }
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>

@@ -2,7 +2,7 @@ import { Component, Injector, Input } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { TSMap } from 'typescript-map';
 import { WorkerDialogTask } from './worker-dialog-task';
-import { Comment, Language } from '../../../../models/comment';
+import { Comment } from '../../../../models/comment';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { uiComments } from 'app/room/state/comment-updates';
 
@@ -57,23 +57,11 @@ export class WorkerDialogComponent {
     if (onlyFailed) {
       comments = comments.filter((c) => {
         const isKeywordOkay =
-          c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
-        const isLanguageDefined = c.language !== Language.AUTO;
-        let isKeywordWellDefined = false;
-        if (isKeywordOkay) {
-          isKeywordWellDefined = c.keywordsFromSpacy.every((keyword) => {
-            const keys = Object.keys(keyword);
-            return (
-              keys.length === 2 &&
-              keys.indexOf('dep') >= 0 &&
-              keys.indexOf('text') >= 0 &&
-              Array.isArray(keyword.dep) &&
-              typeof keyword.text === 'string' &&
-              keyword.dep.every((str) => typeof str === 'string')
-            );
-          });
-        }
-        return !(isKeywordOkay && isKeywordWellDefined && isLanguageDefined);
+          c.keywords &&
+          (c.keywords.entities.length ||
+            c.keywords.keywords.length ||
+            c.keywords.special.length);
+        return !isKeywordOkay;
       });
     }
     this.dialogRef.componentInstance.appendRoom(room, [...comments]);

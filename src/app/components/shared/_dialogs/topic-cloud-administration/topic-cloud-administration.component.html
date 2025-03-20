@@ -11,26 +11,6 @@
             {{ "topic-cloud-dialog.settings" | translate }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-card appearance="outlined">
-          <mat-label>
-            {{ "topic-cloud-dialog.select-choice" | translate }}
-          </mat-label>
-          <mat-radio-group
-            (change)="refreshKeywords()"
-            [(ngModel)]="keywordORfulltext">
-            <mat-radio-button
-              checked="true"
-              [value]="keywordOrFulltextENUM[0]">
-              {{ "topic-cloud-dialog.keyword" | translate }}
-            </mat-radio-button>
-            <mat-radio-button [value]="keywordOrFulltextENUM[1]">
-              {{ "topic-cloud-dialog.full-text" | translate }}
-            </mat-radio-button>
-            <mat-radio-button [value]="keywordOrFulltextENUM[2]">
-              {{ "topic-cloud-dialog.both" | translate }}
-            </mat-radio-button>
-          </mat-radio-group>
-        </mat-card>
 
         <mat-accordion>
           <mat-expansion-panel>
@@ -112,49 +92,6 @@
               [(ngModel)]="censorPartialWordsCheck">
               {{ "topic-cloud-dialog.partial-words-filter" | translate }}
             </mat-slide-toggle>
-
-            <mat-accordion>
-              <mat-expansion-panel
-                (opened)="focusInput('test-profanity-input')">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    {{ "topic-cloud-dialog.test-profanity" | translate }}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <p>
-                  <mat-form-field *ngIf="censorLanguageSpecificCheck">
-                    <mat-label>
-                      {{ "topic-cloud-dialog.language" | translate }}
-                    </mat-label>
-                    <mat-select [(value)]="testProfanityLanguage">
-                      <mat-option value="en">English</mat-option>
-                      <mat-option value="de">German</mat-option>
-                      <mat-option value="fr">French</mat-option>
-                      <mat-option value="ar">Arabic</mat-option>
-                      <mat-option value="ru">Russian</mat-option>
-                      <mat-option value="es">Spanish</mat-option>
-                      <mat-option value="it">Italian</mat-option>
-                      <mat-option value="nl">Netherlandish</mat-option>
-                      <mat-option value="tr">Turkish</mat-option>
-                      <mat-option value="pt">Portuguese</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </p>
-                <p>
-                  <mat-form-field>
-                    <mat-label>
-                      {{ "topic-cloud-dialog.word" | translate }}
-                    </mat-label>
-                    <input
-                      id="test-profanity-input"
-                      matInput
-                      [(ngModel)]="testProfanityWord" />
-                  </mat-form-field>
-                </p>
-                <p>{{ "topic-cloud-dialog.preview" | translate }}:</p>
-                <p>{{ getFilteredProfanity() }}</p>
-              </mat-expansion-panel>
-            </mat-accordion>
           </mat-card>
           <mat-card
             appearance="outlined"
@@ -167,26 +104,6 @@
 
         <mat-accordion multi>
           <div *ngIf="isCreatorOrMod">
-            <mat-expansion-panel
-              (opened)="enterProfanityWord = true; focusInput('bad-word-input')"
-              (closed)="enterProfanityWord = false">
-              <mat-form-field>
-                <mat-label>
-                  {{ "topic-cloud-dialog.enter-word" | translate }}
-                </mat-label>
-                <input
-                  matInput
-                  id="bad-word-input"
-                  [(ngModel)]="newProfanityWord" />
-              </mat-form-field>
-
-              <button
-                mat-stroked-button
-                (click)="addProfanityWord()">
-                {{ "topic-cloud-dialog.add-word" | translate }}
-              </button>
-            </mat-expansion-panel>
-
             <mat-expansion-panel
               (opened)="
                 enterBlacklistWord = true; focusInput('blacklist-word-input')
@@ -243,91 +160,6 @@
               </div>
             </mat-expansion-panel>
           </div>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ "topic-cloud-dialog.spacy-labels" | translate }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <mat-tab-group
-              animationDuration="0ms"
-              mat-stretch-tabs
-              mat-align-tabs="center">
-              <mat-tab label="{{ 'topic-cloud-dialog.german' | translate }}">
-                <mat-selection-list
-                  *ngIf="wantedLabels"
-                  [(ngModel)]="wantedLabels.de">
-                  <mat-option (click)="selectAllDE()">
-                    <mat-label>
-                      <mat-icon>checklist_rtl</mat-icon>
-                      {{ "topic-cloud-dialog.select-all" | translate }}
-                    </mat-label>
-                    <mat-checkbox
-                      style="vertical-align: middle; float: right"
-                      [checked]="
-                        this.wantedLabels.de.length ===
-                        this.spacyLabels.de.length
-                      "></mat-checkbox>
-                  </mat-option>
-
-                  <mat-list-option
-                    [value]="label.tag"
-                    *ngFor="let label of spacyLabels.de">
-                    {{ label.label + " (" + label.tag + ")" }}
-                  </mat-list-option>
-                </mat-selection-list>
-              </mat-tab>
-              <mat-tab label="{{ 'topic-cloud-dialog.english' | translate }}">
-                <mat-selection-list
-                  *ngIf="wantedLabels"
-                  [(ngModel)]="wantedLabels.en">
-                  <mat-option (click)="selectAllEN()">
-                    <mat-label>
-                      <mat-icon>checklist_rtl</mat-icon>
-                      {{ "topic-cloud-dialog.select-all" | translate }}
-                    </mat-label>
-                    <mat-checkbox
-                      style="vertical-align: middle; float: right"
-                      [checked]="
-                        this.wantedLabels.en.length ===
-                        this.spacyLabels.en.length
-                      "></mat-checkbox>
-                  </mat-option>
-
-                  <mat-list-option
-                    [value]="label.tag"
-                    *ngFor="let label of spacyLabels.en">
-                    {{ label.label + " (" + label.tag + ")" }}
-                  </mat-list-option>
-                </mat-selection-list>
-              </mat-tab>
-              <mat-tab label="{{ 'topic-cloud-dialog.french' | translate }}">
-                <mat-selection-list
-                  *ngIf="wantedLabels"
-                  [(ngModel)]="wantedLabels.fr">
-                  <mat-option (click)="selectAllFR()">
-                    <mat-label>
-                      <mat-icon>checklist_rtl</mat-icon>
-                      {{ "topic-cloud-dialog.select-all" | translate }}
-                    </mat-label>
-                    <mat-checkbox
-                      style="vertical-align: middle; float: right"
-                      [checked]="
-                        this.wantedLabels.fr.length ===
-                        this.spacyLabels.fr.length
-                      "></mat-checkbox>
-                  </mat-option>
-
-                  <mat-list-option
-                    [value]="label.tag"
-                    *ngFor="let label of spacyLabels.fr">
-                    {{ label.label + " (" + label.tag + ")" }}
-                  </mat-list-option>
-                </mat-selection-list>
-              </mat-tab>
-            </mat-tab-group>
-          </mat-expansion-panel>
         </mat-accordion>
 
         <mat-accordion>
@@ -544,22 +376,10 @@
               *ngIf="
                 (blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) ||
                 !blacklistIncludesKeyword(keyword.keyword)
-              "
-              matTooltip="{{
-                'topic-cloud-dialog.' +
-                  (keyword.keywordType === 2
-                    ? 'Keyword-from-both'
-                    : keyword.keywordType === 0
-                      ? 'keyword-from-spacy'
-                      : 'keyword-from-questioner') | translate
-              }}">
+              ">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  {{
-                    profanityFilter
-                      ? keyword.keywordWithoutProfanity
-                      : keyword.keyword
-                  }}
+                  {{ keyword.keyword }}
                 </mat-panel-title>
                 <mat-panel-description>
                   {{ keyword.comments.length }}
@@ -575,10 +395,10 @@
                   [question]="question.body"
                   [keyword]="keyword.keyword"
                   [maxShowedCharachters]="140"
-                  [profanityFilter]="profanityFilter"
                   [languageSpecific]="censorLanguageSpecificCheck"
-                  [partialWords]="censorPartialWordsCheck"
-                  [language]="question.language"></app-topic-dialog-comment>
+                  [partialWords]="
+                    censorPartialWordsCheck
+                  "></app-topic-dialog-comment>
               </div>
 
               <div *ngIf="isCreatorOrMod">
@@ -703,10 +523,10 @@
                   [question]="question.body"
                   [keyword]="keyword.keyword"
                   [maxShowedCharachters]="140"
-                  [profanityFilter]="profanityFilter"
                   [languageSpecific]="censorLanguageSpecificCheck"
-                  [partialWords]="censorPartialWordsCheck"
-                  [language]="question.language"></app-topic-dialog-comment>
+                  [partialWords]="
+                    censorPartialWordsCheck
+                  "></app-topic-dialog-comment>
               </div>
               <div>
                 <!-- Only visible when not editing -->

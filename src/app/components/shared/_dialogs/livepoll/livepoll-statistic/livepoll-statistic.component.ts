@@ -3,10 +3,10 @@ import { LivepollTemplateContext } from '../../../../../models/livepoll-template
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { LivepollOptionEntry } from '../livepoll-dialog/livepoll-dialog.component';
-import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { language } from 'app/base/language/language';
 
 @Component({
   selector: 'app-livepoll-statistic',
@@ -22,7 +22,7 @@ export class LivepollStatisticComponent implements OnDestroy {
   @Input() translateKey: string;
   @Input() votes: number[] = [];
   @Input() totalVotes: number;
-  currentLanguage: Language;
+  protected readonly language = language;
   private readonly _destroyer = new ReplaySubject<unknown>(1);
 
   constructor(
@@ -30,9 +30,6 @@ export class LivepollStatisticComponent implements OnDestroy {
     public readonly http: HttpClient,
     appState: AppStateService,
   ) {
-    appState.language$
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => (this.currentLanguage = lang));
     LivepollComponentUtility.initLanguage(
       appState,
       this.translateService,

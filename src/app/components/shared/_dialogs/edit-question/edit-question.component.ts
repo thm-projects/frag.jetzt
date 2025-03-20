@@ -37,21 +37,12 @@ export class EditQuestionComponent {
     if (newBody !== this.comment().body) {
       changes.set('body', newBody);
     }
-    if (c.language !== this.comment().language) {
-      changes.set('language', c.language);
-    }
-    const newKeyQuestioner = JSON.stringify(c.keywordsFromQuestioner);
     if (c.tag !== this.comment().tag) {
       changes.set('tag', c.tag);
     }
-    if (
-      newKeyQuestioner !== JSON.stringify(this.comment().keywordsFromQuestioner)
-    ) {
-      changes.set('keywordsFromQuestioner', newKeyQuestioner);
-    }
-    const newKeySpaCy = JSON.stringify(c.keywordsFromSpacy);
-    if (newKeyQuestioner !== JSON.stringify(this.comment().keywordsFromSpacy)) {
-      changes.set('keywordsFromSpacy', newKeySpaCy);
+    const newKeywords = JSON.stringify(c.keywords);
+    if (newKeywords !== JSON.stringify(this.comment().keywords)) {
+      changes.set('keywords', newKeywords);
     }
     if (changes.size() === 0) {
       return;

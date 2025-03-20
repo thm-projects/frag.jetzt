@@ -14,7 +14,6 @@ import {
   tap,
 } from 'rxjs';
 import { UserRole } from 'app/models/user-roles.enum';
-import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
 import {
   MotdDialogRequest,
@@ -27,6 +26,7 @@ import { RoomAccess } from 'app/base/db/models/db-room-access.model';
 import { ReadMotd } from 'app/base/db/models/db-read-motd';
 import { dataService } from 'app/base/db/data-service';
 import { user, user$ } from 'app/user/state/user';
+import { ManageAiService } from 'app/room/assistant-route/services/manage-ai.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class AccountStateService {
   private readonly updateGptConsented$ = new Subject<boolean>();
 
   constructor(
-    private gptService: GptService,
+    private manageService: ManageAiService,
     private onlineState: OnlineStateService,
     private appState: AppStateService,
     private eventService: EventService,
@@ -102,7 +102,7 @@ export class AccountStateService {
         }
         return this.onlineState.refreshWhenReachable(
           of(null),
-          this.gptService.getConsentState(),
+          this.manageService.isConsented(),
         );
       }),
       distinctUntilChanged(),
@@ -253,8 +253,8 @@ export class AccountStateService {
   updateGPTConsentState(result: boolean) {
     const consentState = Boolean(result);
 
-    this.gptService
-      .updateConsentState(consentState)
+    this.manageService
+      .updateConsent(consentState)
       .pipe(tap((data) => this.updateGptConsented$.next(data)))
       .subscribe();
   }

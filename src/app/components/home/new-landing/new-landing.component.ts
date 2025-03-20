@@ -7,9 +7,7 @@ import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 import { MatDialog } from '@angular/material/dialog';
-import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
-import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import { forkJoin, of, switchMap, take } from 'rxjs';
+import { of, switchMap, take } from 'rxjs';
 import { user$ } from 'app/user/state/user';
 import { EventService } from 'app/services/util/event.service';
 
@@ -25,21 +23,15 @@ export class NewLandingComponent {
   constructor(
     public dialog: MatDialog,
     public sessionService: SessionService,
-    private keyService: GPTAPISettingService,
-    private voucherService: GPTVoucherService,
     private eventService: EventService,
   ) {}
 
   openCreateRoomDialog(): void {
+    // TODO: ADD API & Vouchers!
     user$
       .pipe(
         take(1),
-        switchMap((user) => {
-          return forkJoin([
-            user ? this.keyService.getKeys() : of([]),
-            user ? this.voucherService.getVouchers() : of([]),
-          ]);
-        }),
+        switchMap(() => of([[], []])),
       )
       .subscribe(([apiKeys, vouchers]) => {
         const dialogRef = MultiLevelDialogComponent.open(

@@ -148,15 +148,7 @@
           matInput
           appAccessibilityEscapedInput
           (keyup)="checkEnter($event)"
-          [formControl]="replacementInput"
-          [matAutocomplete]="auto" />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let data of spellingData"
-            [value]="data">
-            {{ data }}
-          </mat-option>
-        </mat-autocomplete>
+          [formControl]="replacementInput" />
       </mat-form-field>
       <br />
       <button

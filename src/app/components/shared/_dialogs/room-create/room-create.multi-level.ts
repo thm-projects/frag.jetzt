@@ -7,11 +7,6 @@ import {
 import { RoomService } from 'app/services/http/room.service';
 import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 import { HelpRoomCreateComponent } from './help-room-create/help-room-create.component';
-import { GPTAPIKey } from 'app/services/http/gptapisetting.service';
-import {
-  GPTVoucher,
-  GPTVoucherService,
-} from 'app/services/http/gptvoucher.service';
 import { forceLogin, user$ } from 'app/user/state/user';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
@@ -78,10 +73,11 @@ const buildValidator = (roomService: RoomService) => {
     );
 };
 
-const buildVoucherValidator = (voucherService: GPTVoucherService) => {
+const buildVoucherValidator = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (control: FormControl): Observable<{ voucherUsed: boolean }> =>
     forceLogin().pipe(
-      switchMap(() => voucherService.isClaimable(control.value)),
+      switchMap(() => of(false)),
       map((voucher) => {
         if (voucher) {
           return null;
@@ -93,8 +89,8 @@ const buildVoucherValidator = (voucherService: GPTVoucherService) => {
 };
 
 export interface RoomCreateState {
-  apiKeys: GPTAPIKey[];
-  vouchers: GPTVoucher[];
+  apiKeys: { apiKey: string; apiOrganization: string }[];
+  vouchers: { code: string }[];
 }
 
 export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
@@ -230,9 +226,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             defaultValue:
               previousState?.get('voucher')?.value ?? data.vouchers[0]?.code,
             validators: [Validators.required],
-            asyncValidators: [
-              buildVoucherValidator(injector.get(GPTVoucherService)),
-            ],
+            asyncValidators: [buildVoucherValidator()],
             errorStates: {
               required: 'ml-room-create.e-p4-required',
               voucherUsed: 'ml-room-create.e-p4-voucher-used',

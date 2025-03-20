@@ -137,7 +137,6 @@ export class WriteCommentComponent {
       tag: this.selectedTag(),
       questionerName: this.questionerNameFormControl.value,
       brainstormingSession: this.brainstormingData(),
-      selectedLanguage: 'AUTO' as Comment['language'],
       commentReference: this.commentReference(),
       injector: this.injector,
     };

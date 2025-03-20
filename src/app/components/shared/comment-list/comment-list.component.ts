@@ -173,11 +173,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     });
     this._matcher = matchMedia('(min-width: 1320px)');
-    this.sessionService
-      .getGPTStatusOnce()
-      .subscribe(
-        (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
-      );
+    this.canOpenGPT = true;
   }
 
   handlePageEvent(e: PageEvent) {

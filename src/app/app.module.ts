@@ -54,7 +54,6 @@ import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -213,7 +212,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ModeratorService,
     BonusTokenService,
     CustomIconService,
-    SpacyService,
     MatBottomSheet,
     DashboardNotificationService,
   ],

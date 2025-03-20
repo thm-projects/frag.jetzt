@@ -8,6 +8,7 @@ import {
   inject,
   Injector,
   input,
+  OnInit,
   signal,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -23,16 +24,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { Comment } from 'app/models/comment';
-import {
-  Keywords,
-  SimpleAIService,
-} from 'app/room/assistant-route/services/simple-ai.service';
+import { SimpleAIService } from 'app/room/assistant-route/services/simple-ai.service';
 import { room } from 'app/room/state/room';
-import { NotificationService } from 'app/services/util/notification.service';
-import { KeyboardUtils } from 'app/utils/keyboard';
-import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { Subscription } from 'rxjs';
+import { map, startWith } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-comment-info',
@@ -46,114 +42,78 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatInputModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './comment-info.component.html',
   styleUrl: './comment-info.component.scss',
 })
-export class CommentInfoComponent {
+export class CommentInfoComponent implements OnInit {
   comment = input.required<Comment>();
   protected readonly i18n = i18n;
-  protected readonly selectedCategory = new FormControl(null);
+  protected readonly contentTopic = new FormControl('');
   protected readonly availableCategories = computed(() => room.value().tags);
-  protected readonly keywords = signal<string[]>([]);
-  protected readonly addKeyword = new FormControl(null, [
-    (control) => {
-      if (!control.value) return null;
-      if (control.value.trim().length < 1) return { minlength: true };
-      return null;
-    },
-  ]);
-  protected isCategoryAvailable = computed(
-    () => !this.comment().tag && this.availableCategories()?.length,
-  );
-  protected isKeywordAvailable = computed(
-    () => room.value()?.keywordExtractionActive,
-  );
+  protected readonly filteredOptions = signal<string[]>([]);
   private dialogRef = inject(MatDialogRef);
-  private notification = inject(NotificationService);
   private simpleAI = inject(SimpleAIService);
-  private categorySub: Subscription = null;
+  private firstTopic: string = null;
 
   constructor() {
-    effect((onCleanup) => {
-      const sub = this.selectedCategory.valueChanges.subscribe(() =>
-        this.categorySub?.unsubscribe(),
-      );
-      onCleanup(() => sub.unsubscribe());
-    });
     effect(() => {
       const c = this.comment();
-      // Set Tags
-      this.selectedCategory.setValue(c.tag);
-      const tags = this.availableCategories();
-      if (tags?.length) {
-        this.categorySub = this.simpleAI
-          .selectCategory(tags, c.body)
-          .subscribe((v) => this.selectedCategory.setValue(v));
-      }
-      // Update keywords
-      const data = c.keywordsFromSpacy as unknown as Keywords;
-      const set = new Set([
-        ...data.keywords,
-        ...data.entities,
-        ...data.special,
-      ]);
-      this.keywords.set([...set]);
+      // update topic
+      this.firstTopic = null;
+      this.simpleAI.createTopic([], c.body).subscribe((v) => {
+        this.firstTopic = v;
+        this.contentTopic.setValue(v);
+      });
     });
   }
 
-  static shouldOpen(comment: Comment): boolean {
-    const r = room.value();
-    const isCategoryAvailable = Boolean(!comment.tag && r?.tags?.length);
-    const isKeywordAvailable = r?.keywordExtractionActive;
-    return isCategoryAvailable || isKeywordAvailable;
+  ngOnInit(): void {
+    this.contentTopic.valueChanges
+      .pipe(
+        startWith(''),
+        map((value) => this._filter(value || '')),
+      )
+      .subscribe((v) => this.filteredOptions.set(v));
   }
 
   static open(
     injector: Injector,
     comment: Comment,
   ): MatDialogRef<CommentInfoComponent> {
-    if (!this.shouldOpen(comment)) return null;
     const ref = injector.get(MatDialog).open(CommentInfoComponent);
     ref.componentRef.setInput('comment', comment);
-    const c = ref.componentInstance;
-    if (!c.isKeywordAvailable() && !c.isCategoryAvailable()) {
-      ref.close(comment);
-    }
     return ref;
-  }
-
-  protected removeAt(i: number) {
-    this.keywords.update((k) => k.filter((_, index) => index !== i));
-  }
-
-  protected onKeydown(event: KeyboardEvent) {
-    this.addKeyword.markAsTouched();
-    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Enter)) {
-      event.preventDefault();
-      this.appendKeyword();
-    }
-  }
-
-  protected appendKeyword() {
-    if (!this.addKeyword.value || this.addKeyword.invalid) return;
-    const newValue = this.addKeyword.value.trim();
-    const current = this.keywords();
-    if (current.includes(newValue)) {
-      this.notification.show(i18n().alreadyPresent);
-      return;
-    }
-    this.addKeyword.reset();
-    this.keywords.update((k) => [...k, newValue]);
   }
 
   protected submit() {
     const c = this.comment();
-    c.tag = this.selectedCategory.value;
-    c.keywordsFromQuestioner = this.keywords().map((s) => ({
-      text: s,
-      dep: [],
-    }));
+
     this.dialogRef.close(c);
+  }
+
+  private _filter(text: string) {
+    text = text.toLowerCase();
+    const keywords = this.comment().keywords;
+    const set = new Set<string>();
+    if (keywords?.entities) {
+      keywords.entities.forEach((e) => set.add(e));
+    }
+    if (keywords?.keywords) {
+      keywords.keywords.forEach((e) => set.add(e));
+    }
+    const start = Array.from(set).filter((option) =>
+      option.toLowerCase().includes(text),
+    );
+    start.sort();
+    if (this.firstTopic && this.firstTopic.toLowerCase().includes(text)) {
+      const index = start.indexOf(this.firstTopic);
+      if (index > -1) {
+        start.splice(index, 1);
+      }
+      start.unshift(this.firstTopic);
+    }
+    return start;
   }
 }

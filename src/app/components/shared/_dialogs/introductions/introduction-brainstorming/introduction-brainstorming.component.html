@@ -5,12 +5,17 @@
 </h2>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-brainstorming-en
-    *ngIf="currentLanguage === 'en'"></app-introduction-brainstorming-en>
-  <app-introduction-brainstorming-de
-    *ngIf="currentLanguage === 'de'"></app-introduction-brainstorming-de>
-  <app-introduction-brainstorming-fr
-    *ngIf="currentLanguage === 'fr'"></app-introduction-brainstorming-fr>
+  @switch (language()) {
+    @case ("de") {
+      <app-introduction-brainstorming-de></app-introduction-brainstorming-de>
+    }
+    @case ("fr") {
+      <app-introduction-brainstorming-fr></app-introduction-brainstorming-fr>
+    }
+    @default {
+      <app-introduction-brainstorming-en></app-introduction-brainstorming-en>
+    }
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>

@@ -1,5 +1,4 @@
 import { TagCloudData, TagCloudDataTagEntry } from './tag-cloud-data.service';
-import { SpacyKeyword } from '../http/spacy.service';
 import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
@@ -25,9 +24,8 @@ export const maskKeyword = (keyword: string): string =>
 
 interface CommentKeywordSourceInformation {
   comment: UIComment;
-  source: SpacyKeyword[];
+  source: string[];
   censored: boolean[];
-  fromQuestioner: boolean;
 }
 
 export class TagCloudDataBuilder {
@@ -62,9 +60,7 @@ export class TagCloudDataBuilder {
       if (comment.comment.brainstormingSessionId !== null) {
         continue;
       }
-      const wantedLabels =
-        this.adminData.wantedLabels[comment.comment.language.toLowerCase()];
-      this.approveKeywords(this.receiveSource(comment), wantedLabels);
+      this.approveKeywords(this.receiveSource(comment));
       this.users.add(comment.comment.creatorId);
     }
   }
@@ -82,50 +78,38 @@ export class TagCloudDataBuilder {
   }
 
   private receiveSource(comment: UIComment): CommentKeywordSourceInformation {
-    let keywords = comment.comment.keywordsFromQuestioner;
-    let fromQuestioner = true;
-    if (!keywords?.length) {
-      keywords = comment.comment.keywordsFromSpacy || [];
-      fromQuestioner = false;
+    const keywords = comment.comment.keywords;
+    const source: string[] = [];
+    if (keywords?.entities) {
+      source.push(...keywords.entities);
+    }
+    if (keywords?.keywords) {
+      source.push(...keywords.keywords);
     }
     return {
       comment: comment,
-      source: keywords,
-      censored: new Array(keywords.length).fill(false),
-      fromQuestioner,
+      source,
+      censored: new Array(source.length).fill(false),
     };
   }
 
-  private approveKeywords(
-    information: CommentKeywordSourceInformation,
-    wantedLabels: string[],
-  ) {
+  private approveKeywords(information: CommentKeywordSourceInformation) {
     if (!information) {
       return;
     }
     information.source.forEach((keyword, index) => {
-      if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
+      if (maskKeyword(keyword).length < 3 || information.censored[index]) {
         return;
       }
-      if (
-        wantedLabels?.length &&
-        !keyword.dep?.some((e) => wantedLabels.includes(e))
-      ) {
+      if (!this.passesBlacklist(keyword)) {
         return;
       }
-      if (!this.passesBlacklist(keyword.text)) {
-        return;
-      }
-      this.addToData(keyword, information.comment, information.fromQuestioner);
+      this.addToData(keyword, information.comment);
     });
   }
 
-  private addToData(
-    keyword: SpacyKeyword,
-    comment: UIComment,
-    isFromQuestioner: boolean,
-  ) {
-    let current: TagCloudDataTagEntry = this.data.get(keyword.text);
+  private addToData(keyword: string, comment: UIComment) {
+    let current: TagCloudDataTagEntry = this.data.get(keyword);
     const commentDate = new Date(comment.comment.createdAt);
     if (current === undefined) {
       current = {
@@ -137,10 +121,8 @@ export class TagCloudDataBuilder {
         adjustedWeight: 0,
         distinctUsers: new Set<string>(),
         categories: new Set<string>(),
-        dependencies: new Set<string>([...keyword.dep]),
         firstTimeStamp: commentDate,
         lastTimeStamp: commentDate,
-        generatedByQuestionerCount: 0,
         taggedCommentsCount: 0,
         commentsByCreator: 0,
         commentsByModerators: 0,
@@ -149,14 +131,12 @@ export class TagCloudDataBuilder {
         questionChildren: new Map<string, UIComment[]>(),
         countedComments: new Set<string>(),
       };
-      this.data.set(keyword.text, current);
+      this.data.set(keyword, current);
     }
-    keyword.dep.forEach((dependency) => current.dependencies.add(dependency));
     current.cachedVoteCount += comment.comment.score;
     current.cachedUpVotes += comment.comment.upvotes;
     current.cachedDownVotes += comment.comment.downvotes;
     current.distinctUsers.add(comment.comment.creatorId);
-    current.generatedByQuestionerCount += +isFromQuestioner;
     current.taggedCommentsCount += +!!comment.comment.tag;
     this.addResponseAndAnswerCount(current, comment);
     if (comment.comment.creatorId === this.roomOwner) {

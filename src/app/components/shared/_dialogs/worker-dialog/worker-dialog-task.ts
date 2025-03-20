@@ -1,7 +1,6 @@
 import { Room } from '../../../../models/room';
-import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { CommentService } from '../../../../services/http/comment.service';
-import { Comment, Language } from '../../../../models/comment';
+import { Comment } from '../../../../models/comment';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injector } from '@angular/core';
@@ -79,23 +78,12 @@ export class WorkerDialogTask {
       this.statistics.failed++;
       undo = () => this.statistics.failed--;
     }
-    if (result.language === Language.AUTO) {
-      result.language = null;
-    }
-    this.patchToServer(result.keywords, index, result.language, undo);
+    this.patchToServer(result.keywords, index, undo);
   }
 
-  private patchToServer(
-    tags: SpacyKeyword[],
-    index: number,
-    language: Language,
-    undo: () => unknown,
-  ) {
+  private patchToServer(tags: string[], index: number, undo: () => unknown) {
     const changes = new TSMap<string, string>();
     changes.set('keywordsFromSpacy', JSON.stringify(tags));
-    if (language !== null) {
-      changes.set('language', language);
-    }
 
     this.commentService.patchComment(this._comments[index], changes).subscribe({
       next: () => {

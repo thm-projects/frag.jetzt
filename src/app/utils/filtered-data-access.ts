@@ -15,7 +15,6 @@ import {
   Subscription,
   takeUntil,
 } from 'rxjs';
-import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from '../models/correct-wrong.enum';
 import { Comment } from '../models/comment';
 import { SessionService } from '../services/util/session.service';
@@ -200,12 +199,15 @@ export const getMultiLevelFilterParent = (
   return getHighestElement(parentComment);
 };
 
-export const hasKeyword: FilterFunction = (c, value) =>
-  Boolean(
-    c.comment.keywordsFromQuestioner?.find(
-      (keyword) => keyword.text === value,
-    ) || c.comment.keywordsFromSpacy?.find((keyword) => keyword.text === value),
+export const hasKeyword: FilterFunction = (c, value) => {
+  const keywords = c.comment.keywords;
+  return Boolean(
+    keywords &&
+      (keywords.keywords?.find((e) => e === value) ||
+        keywords.entities?.find((e) => e === value) ||
+        keywords.special?.find((e) => e === value)),
   );
+};
 
 export class FilteredDataAccess {
   private readonly filterFunctions: FilterFunctionObject = {
@@ -498,13 +500,10 @@ export class FilteredDataAccess {
       ([FilterType.Read, FilterType.Unread].includes(filterType) &&
         updates.includes('read')) ||
       (filterType === FilterType.Tag && updates.includes('tag')) ||
-      (filterType === FilterType.Keyword &&
-        (['keywordsFromQuestioner', 'keywordsFromSpacy'] as const).some((e) =>
-          updates.includes(e),
-        )) ||
+      (filterType === FilterType.Keyword && updates.includes('keywords')) ||
       (filterType === FilterType.Censored &&
-        (['keywordsFromQuestioner', 'keywordsFromSpacy', 'body'] as const).some(
-          (e) => updates.includes(e),
+        (['keywords', 'body', 'topic'] as const).some((e) =>
+          updates.includes(e),
         ))
     );
   }
@@ -778,13 +777,18 @@ export class FilteredDataAccess {
       return;
     }
     const search = this._filter.currentSearch.toLowerCase();
-    const keywordFinder = (e: SpacyKeyword) =>
-      e.text.toLowerCase().includes(search);
     this._searchData = data.filter(
       (c) =>
         c.comment.body.toLowerCase().includes(search) ||
-        c.comment.keywordsFromSpacy?.some(keywordFinder) ||
-        c.comment.keywordsFromQuestioner?.some(keywordFinder) ||
+        c.comment.keywords?.entities?.some((e) =>
+          e.toLowerCase().includes(search),
+        ) ||
+        c.comment.keywords?.keywords?.some((e) =>
+          e.toLowerCase().includes(search),
+        ) ||
+        c.comment.keywords?.special?.some((e) =>
+          e.toLowerCase().includes(search),
+        ) ||
         c.comment.questionerName?.toLowerCase().includes(search),
     );
   }

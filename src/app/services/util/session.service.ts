@@ -21,7 +21,6 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { GptService, RoomAccessInfo } from '../http/gpt.service';
 import { LivepollSession } from '../../models/livepoll-session';
 import { LivepollEventType, LivepollService } from '../http/livepoll.service';
 import { WsGlobalService } from '../websockets/ws-global.service';
@@ -56,9 +55,6 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
-  private readonly _currentGPTRoomStatus = new BehaviorSubject<RoomAccessInfo>(
-    null,
-  );
   private readonly _currentLivepollSession =
     new BehaviorSubject<LivepollSession>(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
@@ -75,7 +71,6 @@ export class SessionService {
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
     private brainstormingService: BrainstormingService,
-    private gptService: GptService,
     private livepollService: LivepollService,
     private wsGlobal: WsGlobalService,
     private accountState: AccountStateService,
@@ -180,23 +175,6 @@ export class SessionService {
       filter((v) => !!v),
       take(1),
     );
-  }
-
-  getGPTStatus(): Observable<RoomAccessInfo> {
-    return this._currentGPTRoomStatus;
-  }
-
-  getGPTStatusOnce(): Observable<RoomAccessInfo> {
-    return this._currentGPTRoomStatus.pipe(
-      filter((v) => Boolean(v)),
-      take(1),
-    );
-  }
-
-  updateStatus() {
-    this.gptService
-      .getStatusForRoom(this._currentRoom.value?.id)
-      .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
   }
 
   validateNewRoute(
@@ -309,9 +287,6 @@ export class SessionService {
     if (this._currentModerators.value) {
       this._currentModerators.next(null);
     }
-    if (this._currentGPTRoomStatus.value) {
-      this._currentGPTRoomStatus.next(null);
-    }
     if (this._currentBrainstormingCategories.value) {
       this._currentBrainstormingCategories.next(null);
     }
@@ -350,7 +325,6 @@ export class SessionService {
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
       this._currentLivepollSession.next(room.livepollSession);
-      this.updateStatus();
       this.moderatorService
         .get(room.id)
         .subscribe((moderators) => this._currentModerators.next(moderators));

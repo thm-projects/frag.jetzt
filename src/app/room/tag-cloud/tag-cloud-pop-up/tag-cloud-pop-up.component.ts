@@ -12,16 +12,10 @@ import {
   TagCloudDataService,
   TagCloudDataTagEntry,
 } from '../../../services/util/tag-cloud-data.service';
-import {
-  LanguagetoolResult,
-  LanguagetoolService,
-} from '../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
-import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { UserRole } from '../../../models/user-roles.enum';
-import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { Router } from '@angular/router';
 import { Room } from '../../../models/room';
 import { SessionService } from '../../../services/util/session.service';
@@ -35,6 +29,7 @@ import {
   RoomStateService,
 } from 'app/services/state/room-state.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { TopicCloudAdministrationComponent } from 'app/components/shared/_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 
 const CLOSE_TIME = 100;
 
@@ -60,7 +55,6 @@ export class TagCloudPopUpComponent
   categories: string[];
   // Normal
   tagData: TagCloudDataTagEntry;
-  spellingData: string[] = [];
   isBlacklistActive = true;
   // Brainstorming
   isBrainstorming = false;
@@ -78,7 +72,6 @@ export class TagCloudPopUpComponent
   constructor(
     private translateService: TranslateService,
     private tagCloudDataService: TagCloudDataService,
-    private languagetoolService: LanguagetoolService,
     private commentService: CommentService,
     private sessionService: SessionService,
     private router: Router,
@@ -170,7 +163,6 @@ export class TagCloudPopUpComponent
     if (!elem) {
       return;
     }
-    this.spellingData = [];
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
     this._hasLeft = true;
@@ -204,18 +196,6 @@ export class TagCloudPopUpComponent
   ): void {
     if (!elem) {
       return;
-    }
-    this.spellingData = [];
-    if (this.userRole > UserRole.PARTICIPANT) {
-      this.languagetoolService
-        .checkSpellings(tag, 'auto')
-        .subscribe((correction) => {
-          const langKey = correction.language.code.split('-')[0].toUpperCase();
-          if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
-            return;
-          }
-          this.fillSpellingData(correction);
-        });
     }
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
@@ -309,62 +289,12 @@ export class TagCloudPopUpComponent
       this.replacementInput.reset();
       return;
     }
-    const renameKeyword = (elem: SpacyKeyword) => {
-      if (elem.text === this.tag) {
-        elem.text = tagReplacementInput;
-      }
-    };
-    const tagReplacementInputLower = tagReplacementInput.toLowerCase();
-    this.tagData.comments.forEach((comment) => {
-      const changes = new TSMap<string, unknown>();
-      if (
-        comment.keywordsFromQuestioner.findIndex(
-          (e) => e.text.toLowerCase() === tagReplacementInputLower,
-        ) >= 0
-      ) {
-        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(
-          (e) => e.text !== this.tag,
-        );
-      } else {
-        comment.keywordsFromQuestioner.forEach(renameKeyword);
-      }
-      changes.set(
-        'keywordsFromQuestioner',
-        JSON.stringify(comment.keywordsFromQuestioner),
-      );
-      if (
-        comment.keywordsFromSpacy.findIndex(
-          (e) => e.text.toLowerCase() === tagReplacementInputLower,
-        ) >= 0
-      ) {
-        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(
-          (e) => e.text !== this.tag,
-        );
-      } else {
-        comment.keywordsFromSpacy.forEach(renameKeyword);
-      }
-      changes.set(
-        'keywordsFromSpacy',
-        JSON.stringify(comment.keywordsFromSpacy),
-      );
-
-      this.commentService.patchComment(comment, changes).subscribe({
-        next: () => {
-          this.translateService
-            .get('topic-cloud-dialog.keyword-edit')
-            .subscribe((msg) => {
-              this.notificationService.show(msg);
-            });
-        },
-        error: () => {
-          this.translateService
-            .get('topic-cloud-dialog.changes-gone-wrong')
-            .subscribe((msg) => {
-              this.notificationService.show(msg);
-            });
-        },
-      });
-    });
+    TopicCloudAdministrationComponent.renameKeyword(
+      this.tagData.comments,
+      this.tag.toLowerCase(),
+      tagReplacementInput,
+      this.commentService,
+    );
     this.close(false);
     this.replacementInput.reset();
     this.trigger.closePanel();
@@ -410,16 +340,6 @@ export class TagCloudPopUpComponent
         },
       });
     });
-  }
-
-  private fillSpellingData(correction: LanguagetoolResult): void {
-    for (const match of correction.matches) {
-      if (match.replacements != null && match.replacements.length > 0) {
-        for (const replacement of match.replacements) {
-          this.spellingData.push(replacement.value);
-        }
-      }
-    }
   }
 
   private setOwnVote(vote: number) {

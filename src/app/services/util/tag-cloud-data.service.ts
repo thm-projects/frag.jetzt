@@ -24,9 +24,7 @@ export interface TagCloudDataTagEntry {
   firstTimeStamp: Date;
   lastTimeStamp: Date;
   categories: Set<string>;
-  dependencies: Set<string>;
   comments: Comment[];
-  generatedByQuestionerCount: number;
   taggedCommentsCount: number;
   commentsByCreator: number;
   commentsByModerators: number;
@@ -224,8 +222,6 @@ export class TagCloudDataService {
     return (
       tagData.comments.length * scorings.countComments.score +
       tagData.distinctUsers.size * scorings.countUsers.score +
-      tagData.generatedByQuestionerCount *
-        scorings.countSelectedByQuestioner.score +
       tagData.commentsByModerators * scorings.countKeywordByModerator.score +
       tagData.commentsByCreator * scorings.countKeywordByCreator.score +
       tagData.cachedUpVotes * scorings.summedUpvotes.score +

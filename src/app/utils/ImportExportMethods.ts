@@ -267,7 +267,7 @@ export const ImportedCommentFields = [
   'createdAt',
   'body',
   'tag',
-  'keywordsFromQuestioner',
+  'keywords',
   'questionerName',
   'creatorId',
   'upvotes',
@@ -364,22 +364,31 @@ const roomImportExport = (
           languageKey: translatePath + '.chosen-keywords',
           additionalLanguageKeys: [empty],
           valueMapper: {
-            export: (cfg, val) =>
-              val.keywordsFromQuestioner?.length
-                ? serializeStringArray(
-                    val.keywordsFromQuestioner.map((word) => word.text),
-                  )
-                : cfg.additional[0],
+            export: (cfg, val) => {
+              const arr: string[] = [];
+              if (val.keywords?.entities) {
+                arr.push(...val.keywords.entities);
+              }
+              if (val.keywords?.keywords) {
+                arr.push(...val.keywords.keywords);
+              }
+              if (val.keywords?.special) {
+                arr.push(...val.keywords.special);
+              }
+              if (arr.length) {
+                return serializeStringArray(arr);
+              }
+              return cfg.additional[0];
+            },
             import: (cfg, val, c) => {
-              c.keywordsFromQuestioner =
+              c.keywords =
                 val === cfg.additional[0]
-                  ? []
-                  : deserializeStringArray(val).map((v) => {
-                      return {
-                        text: v,
-                        dep: ['ROOT'],
-                      };
-                    });
+                  ? { keywords: [], entities: [], special: [] }
+                  : {
+                      keywords: deserializeStringArray(val),
+                      entities: [],
+                      special: [],
+                    };
               return c;
             },
           },

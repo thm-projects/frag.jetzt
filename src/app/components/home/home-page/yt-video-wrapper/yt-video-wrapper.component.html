@@ -1,7 +1,7 @@
 <img
   (click)="isAccepted = true"
   *ngIf="!isAccepted"
-  [src]="imageSrc"
+  [src]="imageSrc()"
   alt="" />
 <iframe
   *ngIf="isAccepted"
@@ -13,4 +13,4 @@
   frameborder="0"
   data-verified="true"
   title=""
-  [src]="iframeSrc"></iframe>
+  [src]="iframeSrc()"></iframe>

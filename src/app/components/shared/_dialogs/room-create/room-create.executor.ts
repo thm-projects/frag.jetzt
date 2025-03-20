@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Observable, forkJoin, map, merge, of, switchMap, tap } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { ProfanityFilter, Room } from 'app/models/room';
@@ -11,15 +12,10 @@ import {
 } from './room-create.multi-level';
 import { RoomService } from 'app/services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
-import { GptService } from 'app/services/http/gpt.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { UserRole } from 'app/models/user-roles.enum';
 import { Router } from '@angular/router';
-import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
-import { GPTRoomKey } from 'app/models/gpt-room-setting';
-import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { forceLogin } from 'app/user/state/user';
 
 export const generateRoom = (
@@ -33,37 +29,15 @@ export const generateRoom = (
     defaultCategories.default;
   // gpt setup
   const gptSetup = answers['gptSetup']?.group?.value?.['setupType'];
-  let before: Observable<unknown> = of(null);
-  const roomKey = new GPTRoomKey({
-    index: 0,
-  });
+  const before: Observable<unknown> = of(null);
   if (gptSetup === 'apiCode') {
     const prevKey = data.apiKeys[0]?.apiKey;
     const newKey = answers['gptApiCode'].group.value['apiCode'];
     const prevOrg = data.apiKeys[0]?.apiOrganization;
     const newOrg = answers['gptApiCode'].group.value['organization'];
-    if (newKey !== prevKey || newOrg !== prevOrg) {
-      before = injector
-        .get(GPTAPISettingService)
-        .create({
-          apiKey: newKey,
-          apiOrganization: newOrg,
-        })
-        .pipe(map((key) => (roomKey.apiSettingId = key.id)));
-    } else if (prevKey) {
-      roomKey.apiSettingId = data.apiKeys[0].id;
-    }
   } else if (gptSetup === 'voucher') {
     const prevKey = data.vouchers[0]?.code;
     const newKey = answers['gptVoucher'].group.value['voucher'];
-    if (newKey !== prevKey) {
-      before = injector
-        .get(GPTVoucherService)
-        .claim(newKey)
-        .pipe(map((key) => (roomKey.voucherId = key.id)));
-    } else if (prevKey) {
-      roomKey.voucherId = data.vouchers[0].id;
-    }
   }
   // role
   const isTeacher = answers['role'].group?.value['role-select'] === 'teacher';
@@ -144,19 +118,7 @@ export const generateRoom = (
           .subscribe((msg) => notification.show(msg));
       });
     }),
-    switchMap((room) => {
-      if (roomKey.apiSettingId || roomKey.voucherId) {
-        return injector
-          .get(GPTRoomService)
-          .patchRoomSettings(room.id, {
-            apiKeys: [roomKey],
-          })
-          .pipe(map(() => room));
-      }
-      return of(room);
-    }),
     tap((room) => {
-      createDefaultTopic(injector, room.id).subscribe();
       translateService
         .get('ml-room-create.created' + (isTeacher ? '' : '-student'), {
           name,
@@ -173,29 +135,6 @@ export const generateRoom = (
           }),
         )
         .subscribe();
-    }),
-  );
-};
-
-const createDefaultTopic = (injector: Injector, roomId: string) => {
-  const translateService = injector.get(TranslateService);
-  const gptService = injector.get(GptService);
-  return translateService.get('home-page.gpt-topic-general').pipe(
-    switchMap((msg) => {
-      return merge(
-        gptService.getStatusForRoom(roomId).pipe(
-          switchMap(() =>
-            gptService.patchPreset(roomId, {
-              topics: [
-                {
-                  description: msg,
-                  active: true,
-                },
-              ],
-            }),
-          ),
-        ),
-      );
     }),
   );
 };

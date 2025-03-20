@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ensureDefaultScorings,
-  KeywordOrFulltext,
-  spacyLabels,
   TopicCloudAdminData,
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomPatch, RoomService } from '../http/room.service';
@@ -36,13 +34,7 @@ export class TopicCloudAdminService {
     );
     if (!data) {
       data = {
-        wantedLabels: {
-          de: this.getDefaultSpacyTags('de'),
-          en: this.getDefaultSpacyTags('en'),
-          fr: this.getDefaultSpacyTags('fr'),
-        },
         considerVotes: true,
-        keywordORfulltext: KeywordOrFulltext.Both,
         minQuestioners: 1,
         minQuestions: 1,
         minUpvotes: 0,
@@ -84,29 +76,6 @@ export class TopicCloudAdminService {
       data.startDate === null &&
       data.endDate === null
     );
-  }
-
-  static getDefaultSpacyTags(lang: string): string[] {
-    const tags: string[] = [];
-    let currentSpacyLabels = [];
-    switch (lang) {
-      case 'de':
-        currentSpacyLabels = spacyLabels.de;
-        break;
-      case 'en':
-        currentSpacyLabels = spacyLabels.en;
-        break;
-      case 'fr':
-        currentSpacyLabels = spacyLabels.fr;
-        break;
-      default:
-    }
-    currentSpacyLabels.forEach((label) => {
-      if (label.enabledByDefault) {
-        tags.push(label.tag);
-      }
-    });
-    return tags;
   }
 
   isTopicRequirementActive() {

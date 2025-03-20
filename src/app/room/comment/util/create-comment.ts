@@ -18,7 +18,10 @@ import {
   throwError,
 } from 'rxjs';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { SimpleAIService } from 'app/room/assistant-route/services/simple-ai.service';
+import {
+  Keywords,
+  SimpleAIService,
+} from 'app/room/assistant-route/services/simple-ai.service';
 import { language } from 'app/base/language/language';
 import { i18nContext } from 'app/base/i18n/i18n-context';
 import { MatDialog } from '@angular/material/dialog';
@@ -32,7 +35,6 @@ export interface CreateCommentOptions {
   tag: Comment['tag'];
   questionerName: Comment['questionerName'];
   commentReference: Comment['commentReference'];
-  selectedLanguage: Comment['language'];
   brainstormingSession: BrainstormingSession;
   injector: Injector;
 }
@@ -114,11 +116,7 @@ const generateBrainstormingComment = (
         commentReference: options.commentReference,
         brainstormingSessionId: sessionId,
         brainstormingWordId: word.id,
-        language: (
-          options.brainstormingSession.language || 'AUTO'
-        ).toUpperCase() as Comment['language'],
-        keywordsFromSpacy: [],
-        keywordsFromQuestioner: [],
+        keywords: { entities: [], keywords: [], special: [] },
       });
     }),
   );
@@ -154,15 +152,15 @@ export const generateComment = (
     commentReference: options.commentReference,
     brainstormingSessionId: null,
     brainstormingWordId: null,
-    keywordsFromSpacy: [],
-    keywordsFromQuestioner: [],
-    language: options.selectedLanguage,
+    keywords: { keywords: [], entities: [], special: [] },
   });
   const service = options.injector.get(SimpleAIService);
   return service.getKeywords(options.body).pipe(
-    catchError(() => of([])),
+    catchError(() =>
+      of({ entities: [], keywords: [], special: [] } as Keywords),
+    ),
     map((keywords) => {
-      c.keywordsFromSpacy = keywords;
+      c.keywords = keywords;
       return c;
     }),
     switchMap((c) => openCheck(options.injector, c)),

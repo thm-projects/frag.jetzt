@@ -12,10 +12,7 @@ import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.co
 import { Observable } from 'rxjs';
 import { ClassType } from 'app/utils/ts-utils';
 import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
-import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
-import { QuotaAccessTime } from 'app/services/http/quota.service';
-import { GPTModel } from 'app/services/http/gpt.service';
 
 export type AnsweredMultiLevelData = Record<
   string,
@@ -93,7 +90,7 @@ export interface SelectInputAction extends BaseAction {
   defaultValue?: string;
   placeholder?: string;
   hidden?: boolean;
-  options: GPTModel[];
+  options: { name: string }[];
 }
 
 export interface QuotaInputAction extends BaseAction {
@@ -108,15 +105,6 @@ export interface QuotaInputAction extends BaseAction {
   };
 }
 
-export interface DateInputAction extends BaseAction {
-  type: 'date-input';
-  defaultValue?: string;
-  placeholder?: string;
-  hidden?: boolean;
-  defaultValues?: QuotaAccessTime[];
-  labels: [string, string, string, string, string, string];
-}
-
 export interface TextAction {
   type: 'text';
   value: string;
@@ -128,7 +116,6 @@ export type MultiLevelAction =
   | SwitchAction
   | TextInputAction
   | QuotaInputAction
-  | DateInputAction
   | SelectInputAction;
 
 export type BuiltAction<T> = T & {
@@ -141,14 +128,23 @@ export const DYNAMIC_INPUT = new InjectionToken<BuiltAction<MultiLevelAction>>(
   'MultiLevelAction',
 );
 
-const MAPPER: { [key in MultiLevelAction['type']]: Type<unknown> } = {
-  'radio-select': MultiLevelRadioSelectComponent,
-  switch: MultiLevelSwitchComponent,
-  'text-input': MultiLevelTextInputComponent,
-  'quota-input': MultiLevelQuotaInputComponent,
-  'date-input': MultiLevelDateInputComponent,
-  'select-input': MultiLevelSelectInputComponent,
-  text: MultiLevelTextComponent,
+const mapToComponent = (action: MultiLevelAction['type']): Type<unknown> => {
+  switch (action) {
+    case 'text':
+      return MultiLevelTextComponent;
+    case 'radio-select':
+      return MultiLevelRadioSelectComponent;
+    case 'switch':
+      return MultiLevelSwitchComponent;
+    case 'text-input':
+      return MultiLevelTextInputComponent;
+    case 'quota-input':
+      return MultiLevelQuotaInputComponent;
+    case 'select-input':
+      return MultiLevelSelectInputComponent;
+    default:
+      throw new Error(`Unsupported action type: ${action}`);
+  }
 };
 
 export const buildInput = <T = unknown>(
@@ -172,7 +168,7 @@ export const buildInput = <T = unknown>(
     const built: BuiltAction<MultiLevelAction> = {
       ...action,
       control,
-      component: MAPPER[action.type],
+      component: mapToComponent(action.type),
       injector: null,
     };
     built.injector = Injector.create({
