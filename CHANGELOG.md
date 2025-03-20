@@ -1,53 +1,75 @@
 # Changelog
 
-## 1.2.1
-Bug Fixes:
-* Fix icons in room view for both roles
+All notable changes to this project will be documented in this file.
 
-**This version is brought to you by:**  
-Project management: Klaus Quibeldey-Cirkel  
-Lead programming: Tom "tekay" Käsler, Lukas Mauß  
+## Table of Contents
 
-## 1.2
-Features:  
-* Adds a counter for the comments  
-* Adds a badge in the comment view that counts comments / filtered comments  
-* Adds a guest login for speaker role  
+- [1.2.1](#121)
+- [1.2.0](#120)
+- [1.1.0](#110)
 
-Performance improvements:  
-* Enables Angular Ahead-of-Time compiler  
-* Improves loading strategy for Service Workers  
+## [1.2.1]
 
-General improvements:  
-* Optimizes dark theme for better readability  
-* Only shows the toolbar for the comments when there are more than 3 comments  
-* Pins the searchbar for the comments to the top  
-* Adds ID and local time to the header component in the comment view  
-* Improves overall wording  
+### Fixed
 
-Bug Fixes:  
-* Closes presentation view for comments on pressing ESC when in browser fullscreen  
-* Fixed not being able to scoll in room settings  
+- Icons in room view for both roles
 
-**This version is brought to you by:**  
-Project management: Klaus Quibeldey-Cirkel  
-Lead programming: Tom "tekay" Käsler, Lukas Mauß  
+### Contributors
 
-## 1.1
-Comment Feature:  
-* Interaction via WebSockets  
-* Voting on comments by participants  
-* New attributes: read, favorite, correct  
-* Search function  
-* Sorting and filtering  
-* Presentation mode with color indication for participants  
-* Threshold to hide negative comments from participant and lecturer  
+- Project management: Klaus Quibeldey-Cirkel
+- Lead programming: Tom "tekay" Käsler, Lukas Mauß
 
-Improvements:  
-* Add Progressive Web App functionality for a 'native app' feeling  
-* Theme Manager with 4 Themes to chose from  
-* Designimprovements  
+## [1.2.0]
 
-**This version is brought to you by:**  
-Project management: Klaus Quibeldey-Cirkel  
-Lead programming: Tom "tekay" Käsler, Lukas Mauß  
+### Added
+
+- Counter for comments
+- Badge in comment view counting comments / filtered comments
+- Guest login for speaker role
+
+### Improved
+
+- Enabled Angular Ahead-of-Time compiler
+- Improved loading strategy for Service Workers
+- Optimized dark theme for better readability
+- Pinned searchbar for comments to the top
+- Added ID and local time to header component in comment view
+- Improved overall wording
+
+### Changed
+
+- Toolbar for comments only shows when there are more than 3 comments
+
+### Fixed
+
+- Closing presentation view for comments on pressing ESC when in browser fullscreen
+- Scrolling in room settings
+
+### Contributors
+
+- Project management: Klaus Quibeldey-Cirkel
+- Lead programming: Tom "tekay" Käsler, Lukas Mauß
+
+## [1.1.0]
+
+### Added
+
+- Comment Feature:
+  - Interaction via WebSockets
+  - Voting on comments by participants
+  - New attributes: read, favorite, correct
+  - Search function
+  - Sorting and filtering
+  - Presentation mode with color indication for participants
+  - Threshold to hide negative comments from participant and lecturer
+- Progressive Web App functionality for a 'native app' feeling
+- Theme Manager with 4 Themes to choose from
+
+### Improved
+
+- Various design improvements
+
+### Contributors
+
+- Project management: Klaus Quibeldey-Cirkel
+- Lead programming: Tom "tekay" Käsler, Lukas Mauß

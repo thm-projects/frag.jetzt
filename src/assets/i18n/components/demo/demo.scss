@@ -13,3 +13,8 @@
   outline: none;
   border-radius: 8px;
 }
+
+:host {
+  display: block;
+  margin: 8px;
+}

@@ -1,4 +1,5 @@
 # The current data flow in frag.jetzt
+
 frag.jetzt is an application mainly for feedback.
 The application consists of rooms for each concern of a feedback topic, e.g. a module, a seminar, a lesson....
 You can join these rooms as a registered or unregistered user.
@@ -6,14 +7,16 @@ Note that unregistered users have only a certain lifetime, so some features migh
 E.g. owning rooms or redeeming bonus vouchers.
 
 Within a room, each user has a specific role. The roles are currently defined as follows:
+
 ```ts
 export enum UserRole {
   PARTICIPANT,
   EDITING_MODERATOR,
   EXECUTIVE_MODERATOR,
-  CREATOR
+  CREATOR,
 }
 ```
+
 Note that the enumeration `EDITING_MODERATOR` is currently unused.
 
 ## Data Flow Components
@@ -49,7 +52,3 @@ Here is an example of a moderator joining to the comment list:
 Here you can see that some information is already cached and retained even over the destruction of components.
 Here the user redirects out of the room section to other components that do not need room information.
 Therefore, the cache is cleared and the services are shut down.
-
-![Current Data Flow - Legend](./readme-diagrams/legend.png)
-
-
