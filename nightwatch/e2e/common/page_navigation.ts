@@ -1,18 +1,18 @@
-import { Given, When } from 'cypress-cucumber-preprocessor/steps';
-import { disableTour, ensureUserIsLoggedOut } from "../utils/utils";
+import { Given, When } from '@cucumber/cucumber';
+import { disableTour, ensureUserIsLoggedOut } from '../utils/utils';
 
-Given('I am on the home page', () => {
-  cy.visit('/home');
+Given('I am on the home page', async () => {
+  await browser.navigateTo('/home');
 });
 
 Given('I am on the home page and skipped dialogues', async () => {
-  disableTour();
-  cy.visit('/home');
+  await disableTour();
+  await browser.navigateTo('/home');
 });
 
 Given('I have accepted cookies', async () => {
   // confirm cookies
-  cy.get('app-cookies').find('button.primary-confirm-button').click()
+  cy.get('app-cookies').find('button.primary-confirm-button').click();
 });
 
 When('I click on the login menu button', () => {
@@ -31,5 +31,4 @@ Given('I am logged in as a guest', async () => {
   //login as guest
   cy.get('[aria-labelledby="guest-login-description"]').click();
   cy.wait(500);
-
 });

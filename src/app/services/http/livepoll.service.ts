@@ -292,11 +292,9 @@ export class LivepollService extends BaseHttpService {
       const subscription = LivepollService.livepollEventEmitter.subscribe(
         (data) => {
           if (data.type === type) {
-            if (data.type === type) {
-              subscriber.next();
-              subscription.unsubscribe();
-              subscriber.unsubscribe();
-            }
+            subscriber.next(undefined);
+            subscription.unsubscribe();
+            subscriber.unsubscribe();
           }
         },
       );

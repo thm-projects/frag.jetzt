@@ -5,7 +5,6 @@ import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { DeepLService } from '../../../services/http/deep-l.service';
-import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -42,7 +41,6 @@ describe('WriteCommentComponent', () => {
           useClass: CommentServiceMock,
         },
         DeepLService,
-        LanguagetoolService,
         NotificationService,
         RoomService,
         EventService,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CommentService } from '../http/comment.service';
 import { TSMap } from 'typescript-map';
-import { Comment, Language } from '../../models/comment';
+import { Comment } from '../../models/comment';
 import { generateConsequentlyUUID } from '../../utils/test-utils';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { map } from 'rxjs/operators';
@@ -39,17 +39,14 @@ export class CommentServiceMock extends CommentService {
         tag: 'Test',
         createdAt: new Date(),
         bookmark: true,
-        keywordsFromQuestioner: [],
-        keywordsFromSpacy: [
-          {
-            text: 'Hallo!',
-            dep: ['ROOT'],
-          },
-        ],
+        keywords: {
+          entities: [],
+          keywords: [],
+          special: [],
+        },
         score: 5,
         upvotes: 10,
         downvotes: 5,
-        language: Language.AUTO,
         questionerName: 'Test-Author',
         updatedAt: null,
         commentReference: null,

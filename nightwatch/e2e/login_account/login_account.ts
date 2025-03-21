@@ -1,10 +1,5 @@
-import { And, Then } from 'cypress-cucumber-preprocessor/steps';
+import { defineStep as And } from "@cucumber/cucumber";
 
-
-
-Then('I should see the login form', () => {
-  cy.get('.cdk-overlay-container').find("app-login").should('exist')
-});
 
 
 And('I should be able to login to my account', () => {

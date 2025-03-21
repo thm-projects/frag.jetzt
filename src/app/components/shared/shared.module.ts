@@ -20,7 +20,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerComponent } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
@@ -154,7 +154,7 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
     MatRippleModule,
     ArsModule,
     QRCodeComponent,
-    ColorPickerModule,
+    ColorPickerComponent,
     DragDropModule,
     JoyrideModule.forChild(),
     MatSliderModule,

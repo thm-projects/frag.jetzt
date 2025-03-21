@@ -1,4 +1,4 @@
-import { And, Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { defineStep as And, Then, When } from "@cucumber/cucumber";
 
 
 When('I open the session menu', () => {

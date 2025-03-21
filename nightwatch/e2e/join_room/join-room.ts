@@ -1,4 +1,8 @@
-import { When, Then, And } from 'cypress-cucumber-preprocessor/steps';
+import {
+  When,
+  Then,
+  defineStep as And,
+} from "@cucumber/cucumber";
 
 When('I enter the id of the test room', () => {
   cy.visit('/home');
@@ -14,6 +18,9 @@ When('I enter the id of the test room', () => {
 
 Then('I will navigate to its q&a-page as creator', () => {
   cy.get('@testRoomData').then((data) => {
-    cy.location('pathname').should('eq', '/creator/room/' + data['roomShortId'] + '/comments');
+    cy.location('pathname').should(
+      'eq',
+      '/creator/room/' + data['roomShortId'] + '/comments',
+    );
   });
 });

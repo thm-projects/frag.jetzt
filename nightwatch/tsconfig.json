@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/nightwatch",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es6",
+    "types": [
+      "node",
+      "nightwatch"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "e2e/**/*"
+  ]
+}

@@ -1,22 +1,13 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-
-Given('I am on the home page', () => {
-  cy.clearAllSessionStorage()
-  cy.clearAllCookies()
-  cy.clearAllLocalStorage()
-  cy.visit('/home');
-  cy.wait(500)
-});
+import { Given, When, Then } from "@cucumber/cucumber";
 
 
 Then('the tour guide pops up', () => {
   cy.get('app-ask-onboarding').should('be.visible');
 });
 
-Given('the tour guide is visible', () => {
-  cy.visit('/home');
-  cy.wait(500)
-  cy.get('app-ask-onboarding').should('exist')
+Given('the tour guide is visible', async () => {
+  await browser.navigateTo('/home');
+  await browser.waitForElementVisible('app-ask-onboarding');
 });
 
 

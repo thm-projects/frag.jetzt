@@ -4,7 +4,6 @@ import {
   ResourceRef,
   ResourceStatus,
   Signal,
-  WritableResource,
   WritableSignal,
   computed,
   linkedSignal,
@@ -167,7 +166,7 @@ export class WritableComputedResource<T>
     this.value = this.valueSignal;
   }
 
-  override hasValue(): this is WritableResource<Exclude<T, undefined>> {
+  override hasValue(): this is ResourceRef<Exclude<T, undefined>> {
     return Boolean(this.value());
   }
 

@@ -1,4 +1,4 @@
-import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
+import { defineStep as And, Given, Then, When } from "@cucumber/cucumber";
 
 export let roomData = {
   shortId: "",
@@ -14,7 +14,7 @@ Then('The room creation form should be visible', () => {
   cy.wait(300)
 });
 
-And('I should be able to create a new room called {string}', (testRoom) => {
+And('I should be able to create a new room called {string}', (testRoom: string) => {
   //fill form
   cy.get('[name="roomName"]').type(testRoom)
   cy.get('mat-slide-toggle').click();

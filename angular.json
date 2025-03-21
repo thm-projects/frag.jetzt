@@ -20,7 +20,9 @@
             "outputPath": "dist/fragjetzt",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -29,9 +31,14 @@
               "src/sitemap.xml",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles-prod.scss"],
+            "styles": [
+              "src/styles-prod.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/", "src/"]
+              "includePaths": [
+                "node_modules/",
+                "src/"
+              ]
             },
             "scripts": [],
             "server": "src/main.server.ts",
@@ -120,7 +127,10 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "karmaConfig": "./karma.conf.js",
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -128,9 +138,14 @@
               "src/favicon.ico",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles-prod.scss"],
+            "styles": [
+              "src/styles-prod.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/", "src/"]
+              "includePaths": [
+                "node_modules/",
+                "src/"
+              ]
             },
             "scripts": []
           }
@@ -139,13 +154,19 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "eslintConfig": "./eslint.config.mjs",
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
-        "cypress-run": {
-          "builder": "@cypress/schematic:cypress",
+        "nightwatch-run": {
+          "builder": "@nightwatch/schematics:nightwatch",
           "options": {
-            "devServerTarget": "fragjetzt:serve"
+            "devServerTarget": "fragjetzt:serve",
+            "tsConfig": "../nightwatch/tsconfig.e2e.json",
+            "config": "./nightwatch.conf.js",
+            "env": "chrome"
           },
           "configurations": {
             "production": {
@@ -153,19 +174,13 @@
             }
           }
         },
-        "cypress-open": {
-          "builder": "@cypress/schematic:cypress",
-          "options": {
-            "watch": true,
-            "headless": false
-          }
-        },
         "e2e": {
-          "builder": "@cypress/schematic:cypress",
+          "builder": "@nightwatch/schematics:nightwatch",
           "options": {
             "devServerTarget": "fragjetzt:serve",
-            "watch": true,
-            "headless": false
+            "tsConfig": "./nightwatch/tsconfig.json",
+            "config": "./nightwatch.conf.js",
+            "env": "chrome"
           },
           "configurations": {
             "production": {
@@ -193,6 +208,8 @@
   },
   "cli": {
     "analytics": false,
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
