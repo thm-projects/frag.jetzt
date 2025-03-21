@@ -135,14 +135,38 @@ To ensure high-quality code and maintainability, we use [SonarQube](https://www.
 
 [![Lines of Code](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=ncloc&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
 
-To run a local analysis, follow these steps:
+---
 
-1. switch into the analysis folder  
-   `cd analysis`
-2. start the SonaQube server  
-   `docker-compose up -d sonarqube`
-3. when SonaQube has started, you may run analysis whenever you want with  
-   `docker-compose run --rm analysis`
+**To run a local analysis, follow these steps:**
+
+1. **Navigate to the analysis directory:**
+
+   ```bash
+   cd analysis
+   ```
+
+2. **Remove previously running containers and volumes:**
+
+   ```bash
+   sudo docker compose down -v
+   ```
+
+3. **Pull the latest images:**
+
+   ```bash
+   sudo docker compose pull
+   ```
+
+4. **Start the SonarQube server:**
+
+   ```bash
+   sudo docker compose up -d sonarqube
+   ```
+
+5. **Run the analysis:**
+   ```bash
+   sudo docker compose run --rm analysis
+   ```
 
 ## Understanding the Codebase
 
