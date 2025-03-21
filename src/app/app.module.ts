@@ -76,7 +76,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ColorPickerComponent } from 'ngx-color-picker';
+import { ColorPickerComponent, ColorPickerDirective } from 'ngx-color-picker';
 import { FragJetztLogoComponent } from './components/branding/frag-jetzt-logo/frag-jetzt-logo.component';
 import { M3Module } from '../modules/m3/m3.module';
 import { M3BodyPaneComponent } from '../modules/m3/components/layout/m3-body-pane/m3-body-pane.component';
@@ -167,6 +167,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       registrationStrategy: 'registerWhenStable:30000',
     }),
     ColorPickerComponent,
+    ColorPickerDirective,
     FragJetztLogoComponent,
     M3BodyPaneComponent,
     M3SupportingPaneComponent,
