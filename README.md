@@ -198,7 +198,7 @@ Our codebase is organized into several key components that work together to deli
 - **Issue Tracking:** Document bugs or feature requests clearly in GitLab.
 - **Branch Management:** Branch from the `staging` branch for features and bug fixes.
 - **Commit Standards:** Follow concise, descriptive commit messages in imperative mood and adhere to project style standards (ESLint, Prettier).
-- **Testing Protocol:** Consistently write and run unit tests (Karma) and end-to-end tests (Cypress).
+- **Testing Protocol:** Consistently write and run unit tests and end-to-end tests.
 
 ### Definition of Done Checklist for User Stories
 
