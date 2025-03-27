@@ -251,16 +251,22 @@ if (hasRoot) {
 }
 
 // check node modules
-if (!existsSync(rootDir + "/node_modules")) {
-  console.log(langObj.installingNpmDeps);
-  process.chdir(rootDir);
+process.chdir(rootDir);
+console.log(langObj.installingNpmDeps);
+let installer = "npm";
+if (await checkProgram("bun")) {
+  installer = "bun";
+  await run("bun", ["install"]);
+} else if (!(await checkCmd("npm", ["ls"]))) {
   await run("npm", ["config", "set", "fund=false"]);
   await run("npm", ["config", "set", "legacy-peer-deps=true"]);
-  await run("npm", ["ci", "--no-audit", "--loglevel=error"]);
+  await run("npm", ["ci", "--no-audit", "--loglevel=error"], {
+    stdio: "inherit",
+  });
   await run("npm", ["config", "delete", "fund"]);
 }
 
-import { select, confirm } from "@inquirer/prompts";
+const { select, confirm } = await import("@inquirer/prompts");
 
 const canHaveDocker =
   totalmem() >= 8 * 1024 * 1024 * 1024 &&
@@ -290,7 +296,7 @@ const answer = await select({
 
 // Run with staging
 if (answer === "staging") {
-  await run("npm", ["run", "start"], {
+  await run(installer, ["run", "start"], {
     shell: true,
     stdio: "inherit",
     env: {
@@ -313,7 +319,7 @@ if (answer === "staging") {
 
 // Run with production
 if (answer === "prod") {
-  await run("npm", ["run", "start"], {
+  await run(installer, ["run", "start"], {
     shell: true,
     stdio: "inherit",
     env: {
