@@ -36,7 +36,7 @@ const lang = {
       "Führen Sie das Frontend lokal aus und verwenden Sie die Produktionsdienste (Backend, ai, ...) für die benötigten Dienste. In diesem Modus können nur Gastkonten erstellt werden",
     startDocker:
       "Führen Sie die gesamte Infrastruktur auf dem Rechner mit Docker aus.",
-    dockerNotAvailable: "(min. 8GiB RAM, min. 4,5GiB freier RAM, kein Windows)",
+    dockerNotAvailable: "(min. 8GiB RAM, kein Windows)",
     optionsHeader: "Was möchtest du tun?",
     optionUpdate: "Aktualisieren & Neustarten",
     optionUpdateDesc:
@@ -70,7 +70,7 @@ const lang = {
     startProd:
       "Run the frontend local and use the production services (backend, ai, ...) for the needed services. Only guest accounts can be created in this mode",
     startDocker: "Run the complete infrastructure on the machine with docker.",
-    dockerNotAvailable: "(min. 8GiB RAM, min. 4.5GiB free RAM, no Windows)",
+    dockerNotAvailable: "(min. 8GiB RAM, no Windows)",
     optionsHeader: "What would you like to do?",
     optionUpdate: "Update & Restart",
     optionUpdateDesc: "Update git and Docker images and then restart",
@@ -105,7 +105,7 @@ const lang = {
     startDocker:
       "Exécuter l'infrastructure complète sur la machine avec docker.",
     dockerNotAvailable:
-      "(min. 8GiB RAM, min. 4,5GiB RAM libre, pas de Windows)",
+      "(min. 8GiB RAM, pas de Windows)",
     optionsHeader: "Qu'est-ce que tu veux faire ?",
     optionUpdate: "Actualiser & redémarrer",
     optionUpdateDesc: "Mettre à jour git et les images Docker, puis redémarrer",
@@ -269,9 +269,7 @@ if (await checkProgram("bun")) {
 const { select, confirm } = await import("@inquirer/prompts");
 
 const canHaveDocker =
-  totalmem() >= 8 * 1024 * 1024 * 1024 &&
-  freemem() >= 4.5 * 1024 * 1024 * 1024 &&
-  process.platform !== "win32";
+  totalmem() >= 8 * 1024 * 1024 * 1024 && process.platform !== "win32";
 const answer = await select({
   message: langObj.howStart,
   choices: [
