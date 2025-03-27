@@ -7,6 +7,8 @@ services:
     build:
       context: ..
       dockerfile: analysis/Dockerfile
+      args:
+        ARCH: "${ARCH}"
     working_dir: /frag
     entrypoint: /frag/analysis/entrypoint.sh
     depends_on:

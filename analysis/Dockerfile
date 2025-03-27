@@ -10,4 +10,5 @@ RUN dnf update && dnf install -y flatpak && \
 
 USER scanner-cli
 
-ENV CHROME_BIN=/usr/bin/chromium-browser
+ARG ARCH
+ENV CHROME_BIN=/var/lib/flatpak/app/org.chromium.Chromium/${ARCH:-x86_64}/stable/active

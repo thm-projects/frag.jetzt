@@ -13,9 +13,7 @@
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
     "prepare": "husky install",
     "postinstall": "node ./install/post-install.js",
-    "docker": "node --trace-uncaught ./install/manage-dependency.mjs",
-    "staging": "node ./install/run-with-staging.mjs",
-    "production": "node ./install/run-with-production.mjs"
+    "app": "node --trace-uncaught ./install/manage-dependency.mjs"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +76,7 @@
     "@cypress/schematic": "^3.0.0",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",
+    "@inquirer/prompts": "^7.4.0",
     "@nightwatch/angular": "3.1.1",
     "@types/jasmine": "^5.1.7",
     "@types/jasminewd2": "^2.0.13",

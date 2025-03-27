@@ -73,19 +73,15 @@ frag.jetzt employs a modular architecture comprising:
 
 Before starting, ensure the following software components are installed:
 
-- **Operating System**: Recommended to use GNU/Linux distributions:
+- **Node.js**: Install Node.js, preferably managed via a version manager like [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) or [NVM-windows](https://github.com/coreybutler/nvm-windows?tab=readme-ov-file#install-nvm-windows) when using windows.
 
-  - Debian-based (Debian, Ubuntu, Mint)
-  - Arch-based (Arch Linux, Manjaro)
-  - Red Hat-based systems (RHEL, Fedora, CentOS)
+- _Operating System_ (only when using docker): Recommended to use GNU/Linux distributions.
 
   _Note_: Using Windows Subsystem for Linux 2 (WSL2) is possible but may have limitations, such as handling file events.
 
-- **Node.js**: Install Node.js, preferably managed via a version manager like [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating).
+- _Docker and Docker Compose_: Only required, when the full infrastructure is needed for development.
 
-- **Docker and Docker Compose**: Required for orchestrating the necessary backend services and dependencies.
-
-### macOS Specific Instructions
+### macOS Specific Docker Instructions
 
 If Docker credential errors arise (`ERROR: failed to solve: error getting credentials - err: exit status 1`), adjust your Docker configuration as follows:
 
@@ -97,26 +93,11 @@ Change `"credsStore": "desktop"` to `"credsStore": "osxkeychain"`.
 
 ## frag.jetzt Development with Dependencies
 
-frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run docker`.
+frag.jetzt consists of a large number of backend services. To simplify the process, a startup script is available via `npm run app`.
 
-### Running Locally
+When using docker, an admin account is available with email `admin@admin` and password `admin`.
 
-If you have installed all prerequisites (1. - 3.), you can run frag.jetzt with `npm run docker`. After the initial setup phase and some questions, you will be prompted with five options:
-
-- `1` to start or fully update all dependencies.
-- `2` for subsequent starts in development.
-- `3` to stop all containers.
-- `4` to see the current logs of the process (Important! It can be very helpful to see what is being compiled and where errors are).
-- `5` to delete all Docker data from your system.
-
-An admin account is available with email `admin@admin` and password `admin`.
-
-### Running with Staging Server
-
-If the resources of your computer are limited, you can also run only the frontend and use the resources of the currently running [staging version](https://staging.frag.jetzt). This way is only recommended for frontend development.
-
-You can do this by executing `npm run staging`.
-
+If you only want to change something at the frontend or you dont have enough resources, you can run the app via [staging](https://staging.frag.jetzt) or [production](https://frag.jetzt).
 There is no admin account available and you must log in with a guest account.
 This process runs directly on your terminal, so you do not need to explicitly view the logs or terminate the process.
 You can simply cancel the process to end it (usually with <kbd>Ctrl + C</kbd>).
@@ -125,7 +106,7 @@ You can simply cancel the process to end it (usually with <kbd>Ctrl + C</kbd>).
 
 If you did not change any ports, the application is now available under [localhost:4200](http://localhost:4200).
 
-All emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
+When you started with docker, all emails from the system are intercepted and can be viewed in the Mailhog interface at [localhost:8025](http://localhost:8025/).
 
 ## Static Code Analysis of the Angular Frontend
 
@@ -151,10 +132,11 @@ To ensure high-quality code and maintainability, we use [SonarQube](https://www.
    sudo docker compose down -v
    ```
 
-3. **Pull the latest images:**
+3. **Pull the latest images and update built images:**
 
    ```bash
    sudo docker compose pull
+   ARCH=$(uname -m) docker compose build
    ```
 
 4. **Start the SonarQube server:**
@@ -247,21 +229,34 @@ Ensure each completed User Story meets the following criteria:
 
 ### Vision Statement (version 2024)
 
-**AI-Enhanced Educational Interactions: Towards Next-Generation Learning**
-
+<details>
+<summary>
+  <strong>AI-Enhanced Educational Interactions: Towards Next-Generation Learning</strong>
+</summary>
+<br>
 In 2024, we successfully built upon the robust foundation and widespread adoption of frag.jetzt as a premier interactive platform by leveraging cutting-edge AI technologies, including Retrieval-Augmented Generation (RAG) and advanced Large Language Models (LLMs). Our primary focus was integrating these technologies to transform frag.jetzt from a conventional interactive platform into a sophisticated intelligent assistant. We successfully facilitated deeply adaptive and individualized learning paths, significantly enhancing educational outcomes and accessibility on a global scale. Through these strategic innovations, frag.jetzt solidified its position at the forefront of intelligent educational technology.
+
+</details>
 
 ### Vision Statement (version 2023)
 
-**Dual-Mode Learning Platform: The Evolution of frag.jetzt from ARS to PLE**
-
+<details>
+<summary>
+  <strong>Dual-Mode Learning Platform: The Evolution of frag.jetzt from ARS to PLE</strong>
+</summary>
+<br>
 In 2023, we set forth an ambitious plan to evolve frag.jetzt from its roots as a reliable Audience Response System (ARS) into an AI-supported Personal Learning Environment (PLE). Our goal was to attract a broader user base by offering customizable learning environments and seamless transitions between educator and learner roles. This transition significantly enriched user engagement, expanded our audience, and established a dynamic and diverse educational ecosystem.
+</details>
 
 ### Vision Statement (version 2022)
 
-**Pioneering Audience Engagement through Interactive and Gamified Learning**
-
+<details>
+<summary>
+  <strong>Pioneering Audience Engagement through Interactive and Gamified Learning</strong>
+</summary>
+<br>
 In 2022, our goal with the innovative platform frag.jetzt was to lead the market of audience response systems specifically designed for educational environments. Our browser-based, GDPR-compliant Q&A platform leveraged gamified incentives, such as bonus points for quality questions, to foster interactive and anonymous participation. This unique approach significantly boosted classroom engagement, laying a strong foundation for future innovations and growth.
+</details>
 
 ## Project Documentation
 
