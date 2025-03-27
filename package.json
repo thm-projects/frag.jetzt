@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
-    "prepare": "husky install",
+    "prepare": "husky",
     "postinstall": "node ./install/post-install.js",
     "app": "node --trace-uncaught ./install/manage-dependency.mjs"
   },
