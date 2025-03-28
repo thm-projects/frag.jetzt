@@ -37,6 +37,8 @@ const lang = {
     startDocker:
       "Führen Sie die gesamte Infrastruktur auf dem Rechner mit Docker aus.",
     dockerNotAvailable: "(min. 8GiB RAM, kein Windows)",
+    dockerIsRunning: "(Docker läuft bereits)",
+    frontendImageMissing: "(Sie müssen zuerst aktualisieren)",
     optionsHeader: "Was möchtest du tun?",
     optionUpdate: "Aktualisieren & Neustarten",
     optionUpdateDesc:
@@ -71,6 +73,8 @@ const lang = {
       "Run the frontend local and use the production services (backend, ai, ...) for the needed services. Only guest accounts can be created in this mode",
     startDocker: "Run the complete infrastructure on the machine with docker.",
     dockerNotAvailable: "(min. 8GiB RAM, no Windows)",
+    dockerIsRunning: "(Docker is already running)",
+    frontendImageMissing: "(You need to update first)",
     optionsHeader: "What would you like to do?",
     optionUpdate: "Update & Restart",
     optionUpdateDesc: "Update git and Docker images and then restart",
@@ -104,8 +108,9 @@ const lang = {
       "Exécutez le frontend en local et utilisez les services de production (backend, ai, ...) pour les services nécessaires. Seuls les comptes invités peuvent être créés dans ce mode",
     startDocker:
       "Exécuter l'infrastructure complète sur la machine avec docker.",
-    dockerNotAvailable:
-      "(min. 8GiB RAM, pas de Windows)",
+    dockerNotAvailable: "(min. 8GiB RAM, pas de Windows)",
+    dockerIsRunning: "(Docker fonctionne déjà)",
+    frontendImageMissing: "(Tu dois d'abord actualiser)",
     optionsHeader: "Qu'est-ce que tu veux faire ?",
     optionUpdate: "Actualiser & redémarrer",
     optionUpdateDesc: "Mettre à jour git et les images Docker, puis redémarrer",
@@ -239,6 +244,36 @@ async function getLanguage(langObj) {
   return langKey;
 }
 
+async function hasRunningContainers() {
+  if (!existsSync(rootDir + "/dependencies/frag.jetzt-docker-orchestration")) {
+    return false;
+  }
+  if (!(await checkCmd("docker"))) {
+    return false;
+  }
+  const output = await run("sudo", [
+    "docker",
+    "ps",
+    "-q",
+    "--no-trunc",
+    "--filter",
+    "label=com.docker.compose.project=fragjetzt-orchestration",
+  ]);
+  return output.toString().trim().length > 0;
+}
+
+async function hasFrontendImage() {
+  const output = await run("sudo", [
+    "docker",
+    "images",
+    "-q",
+    "--no-trunc",
+    "--filter",
+    "reference=local-fragjetzt-dev",
+  ]);
+  return output.toString().trim().length > 0;
+}
+
 printWelcome();
 
 const language = await getLanguage(lang);
@@ -268,6 +303,7 @@ if (await checkProgram("bun")) {
 
 const { select, confirm } = await import("@inquirer/prompts");
 
+const isDockerRunning = await hasRunningContainers();
 const canHaveDocker =
   totalmem() >= 8 * 1024 * 1024 * 1024 && process.platform !== "win32";
 const answer = await select({
@@ -277,17 +313,20 @@ const answer = await select({
       name: "Staging",
       value: "staging",
       description: langObj.startStaging,
+      disabled: isDockerRunning && langObj.dockerIsRunning,
     },
     {
       name: "Production",
       value: "prod",
       description: langObj.startProd,
+      disabled: isDockerRunning && langObj.dockerIsRunning,
     },
     {
       name: "Docker",
       value: "docker",
       description: langObj.startDocker,
-      disabled: !canHaveDocker && langObj.dockerNotAvailable,
+      disabled:
+        !isDockerRunning && !canHaveDocker && langObj.dockerNotAvailable,
     },
   ],
 });
@@ -374,6 +413,7 @@ if (!existsSync(newDir + "/frag.jetzt-docker-orchestration")) {
 
 // show manage options
 async function loop() {
+  const hasImage = await hasFrontendImage();
   const runAnswer = await select({
     message: langObj.optionsHeader,
     choices: [
@@ -386,6 +426,7 @@ async function loop() {
         name: langObj.optionStart,
         value: "start",
         description: langObj.optionStartDesc,
+        disabled: !hasImage && langObj.frontendImageMissing,
       },
       {
         name: langObj.optionStop,
@@ -420,12 +461,10 @@ async function loop() {
       execOptions,
     );
     await run("sudo", [...dockerCompose, "pull"], execOptions);
-    await run("sudo", [...dockerCompose, "build"], execOptions);
-    await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
+    await run("sudo", [...dockerCompose, "up", "-d", "--build"], execOptions);
     process.chdir(rootDir);
     await run("bash", ["./.docker/setup.sh"], execOptions);
-    await run("sudo", [...dockerCompose, "build"], execOptions);
-    await run("sudo", [...dockerCompose, "up", "-d"], execOptions);
+    await run("sudo", [...dockerCompose, "up", "-d", "--build"], execOptions);
     process.exit(0);
   }
 
@@ -461,7 +500,6 @@ async function loop() {
 
   if (runAnswer === "logs") {
     process.chdir(rootDir);
-    readline.close();
     await run("sudo", [...dockerCompose, "logs", "-f"], execOptions);
     process.exit(0);
   }
