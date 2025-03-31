@@ -223,8 +223,8 @@ async function isRoot() {
     const output = await run("id", ["-u"]);
     return output.toString().trim() === "0";
   } catch (ignore) {}
-  const output = await run("whoami", ["/groups", "/fo", "/csv", "/nh"]);
-  return output.toString().trim().includes('"S-1-16-12288"');
+  const output = await run("whoami", ["/groups"]);
+  return output.toString().trim().includes('S-1-16-12288');
 }
 
 async function getLanguage(langObj) {
