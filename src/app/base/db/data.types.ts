@@ -63,9 +63,9 @@ enum LogLevel {
 }
 
 const DEFAULT_LEVEL =
-  environment.db_migration === LogLevel.Trace
+  environment.db_migration === String(LogLevel.Trace)
     ? LogLevel.Trace
-    : environment.db_migration === LogLevel.Info
+    : environment.db_migration === String(LogLevel.Info)
       ? LogLevel.Info
       : LogLevel.Warn;
 
