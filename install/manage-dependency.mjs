@@ -305,7 +305,7 @@ const { select, confirm } = await import("@inquirer/prompts");
 
 const isDockerRunning = await hasRunningContainers();
 const canHaveDocker =
-  totalmem() >= 8 * 1024 * 1024 * 1024 && process.platform !== "win32";
+  totalmem() >= 7 * 1024 * 1024 * 1024 && process.platform !== "win32";
 const answer = await select({
   message: langObj.howStart,
   choices: [
