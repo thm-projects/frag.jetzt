@@ -1,3 +1,5 @@
+import { EnvironmentType } from './environment.type';
+
 export const environment = {
   name: 'prod',
   production: true,
@@ -11,12 +13,8 @@ export const environment = {
         siteId: 6,
       },
     ],
-    routeTracking: {
-      enable: true,
-    },
     trackLinks: true,
     requireConsent: false,
-    requireCookieConsent: false,
     skipTrackingInitialPageView: false,
   },
-};
+} satisfies EnvironmentType;
