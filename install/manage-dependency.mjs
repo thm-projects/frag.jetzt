@@ -405,7 +405,7 @@ if (!existsSync(newDir + "/frag.jetzt-docker-orchestration")) {
   process.chdir(newDir);
   await run("git", [
     "clone",
-    "git@gitlab.arsnova.eu:arsnova/frag.jetzt-docker-orchestration.git",
+    "git@git.thm.de:arsnova/frag.jetzt-docker-orchestration.git",
   ]);
   process.chdir("frag.jetzt-docker-orchestration");
   await run("chmod", ["u+x", "setup.sh"]);
