@@ -62,3 +62,6 @@ Thumbs.db
 
 # Ignore all Gource output videos
 gource_*.mp4
+
+# Ignore background music
+dont-talk.mp3
