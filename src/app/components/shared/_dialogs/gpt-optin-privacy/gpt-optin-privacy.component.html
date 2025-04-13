@@ -1,5 +1,4 @@
 <h2 mat-dialog-title>{{ "gpt-chat.privacy-policy" | translate }}</h2>
-
 <mat-dialog-content
   #policyContent
   tabindex="-1"
@@ -19,19 +18,18 @@
     <mat-icon class="mdc-icon-button__icon">keyboard_arrow_down</mat-icon>
   </button>
 </mat-dialog-content>
-
 <mat-dialog-actions>
   <button
     mat-button
-    [mat-dialog-close]="false">
+    (click)="onReject()">
     {{ "gpt-chat.optin-reject" | translate }}
   </button>
   <span style="flex: 1"></span>
   <button
     mat-flat-button
-    [mat-dialog-close]="true"
     [disabled]="!hasScrolledToEnd"
-    (click)="onAccept()">
+    (click)="onAccept()"
+    *ngIf="showAcceptButton">
     {{ "gpt-chat.optin-accept" | translate }}
   </button>
 </mat-dialog-actions>
