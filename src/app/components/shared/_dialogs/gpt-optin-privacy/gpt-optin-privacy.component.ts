@@ -1,8 +1,15 @@
-import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { Language } from 'app/base/language/language';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PrivacyConsentService } from 'app/services/state/privacy-consent.service';
 
 @Component({
   selector: 'app-gpt-optin-privacy',
@@ -10,19 +17,28 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./gpt-optin-privacy.component.scss'],
   standalone: false,
 })
-export class GptOptInPrivacyComponent implements OnDestroy {
+export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
   hasScrolledToEnd = false;
+  showAcceptButton = true;
+
   @ViewChild('policyContent') policyContent: ElementRef;
 
   constructor(
     appState: AppStateService,
     private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
+    private privacyConsentService: PrivacyConsentService,
   ) {
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
+  }
+
+  ngOnInit(): void {
+    // Check if the user has previously accepted the privacy policy
+    this.showAcceptButton =
+      !this.privacyConsentService.hasAcceptedPrivacyPolicy();
   }
 
   ngOnDestroy(): void {
@@ -46,8 +62,16 @@ export class GptOptInPrivacyComponent implements OnDestroy {
 
   onAccept(): void {
     if (this.hasScrolledToEnd) {
+      // Save the user's choice
+      this.privacyConsentService.acceptPrivacyPolicy();
       this.dialogRef.close(true);
     }
+  }
+
+  onReject(): void {
+    // Mark that the user has rejected the policy
+    this.privacyConsentService.rejectPrivacyPolicy();
+    this.dialogRef.close(false);
   }
 
   scrollToEnd(): void {
