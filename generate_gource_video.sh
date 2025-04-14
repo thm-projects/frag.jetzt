@@ -83,6 +83,7 @@ GOURCE_OPTIONS=(
 )
 
 GOURCE_OPTIONS+=(
+  --bloom-intensity 0.5
   --camera-mode "${CAMERA_MODE}"
   --file-idle-time 45
   --background-colour 1A1A1A
@@ -99,7 +100,17 @@ if [[ ! -f "$OUTPUT_PPM" ]]; then
   exit 1
 fi
 
-# === Step 2: ffmpeg conversion with styled overlays ===
+# === Step 2: ffmpeg -loglevel warning conversion with styled overlays ===
+
+# Check if output file already exists
+if [[ -f "$OUTPUT_MP4" ]]; then
+  read -p "⚠️ File '${OUTPUT_MP4}' already exists. Overwrite? [y/N]: " OVERWRITE_CONFIRM
+  if [[ ! "$OVERWRITE_CONFIRM" =~ ^[Yy]$ ]]; then
+    echo "❌ Aborted. Choose a different start date or delete the existing file."
+    rm -f "${OUTPUT_PPM}"  # Clean up temporary file
+    exit 1
+  fi
+fi
 echo "🎞️  Rendering video with styled text overlays..."
 FFMPEG_FLAGS=(-vcodec libx264 -preset medium -crf 18 -pix_fmt yuv420p)
 
@@ -149,4 +160,5 @@ open "${OUTPUT_MP4}"
 
 STYLE_UPPER="$(tr '[:lower:]' '[:upper:]' <<< ${STYLE_MODE:0:1})${STYLE_MODE:1}"
 echo "✅ Done! $STYLE_UPPER video created: ${OUTPUT_MP4}"
-echo "ℹ️  You can upload this video to YouTube or share it with your friends!"
+echo "ℹ️  Note: You can upload the video to YouTube for better quality."
+echo "ℹ️  If you encounter any issues, please report them on GitHub."

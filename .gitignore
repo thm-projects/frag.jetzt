@@ -60,6 +60,9 @@ Thumbs.db
 .lcov_output
 .scannerwork
 
+# Ignore all Gource output files
+gource_*.ppm
+
 # Ignore all Gource output videos
 gource_*.mp4
 
