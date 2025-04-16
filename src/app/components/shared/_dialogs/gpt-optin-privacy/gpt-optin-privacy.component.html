@@ -10,7 +10,7 @@
   <app-gptprivacypolicy-fr
     *ngIf="currentLanguage === 'fr'"></app-gptprivacypolicy-fr>
   <button
-    *ngIf="!hasScrolledToEnd"
+    *ngIf="!hasScrolledToEnd && showAcceptButton"
     mat-icon-button
     class="scroll-down-button"
     aria-label="Scroll down"
