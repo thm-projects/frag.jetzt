@@ -1,7 +1,7 @@
 {
-  "key": "pseudeonym-editor",
+  "key": "pseudonym-editor",
   "de": {
-    "name": "Wird beim Posten verwendet …",
+    "name": "Wird beim Posten verwendet",
     "title": "Mein Forumsname",
     "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
@@ -10,13 +10,13 @@
     "more": "Siezen",
     "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "global": {
-      "cancel": "Zurück",
+      "cancel": "Abbrechen",
       "saveAndClose": "Speichern",
       "delete": "Löschen"
     }
   },
   "en": {
-    "name": "Used when posting …",
+    "name": "Used when posting",
     "title": "My forum name",
     "default": "Default",
     "error": "The text could not be updated.",
@@ -25,13 +25,13 @@
     "more": "Formal",
     "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
     "global": {
-      "cancel": "Back",
+      "cancel": "Cancel",
       "saveAndClose": "Save",
       "delete": "Delete"
     }
   },
   "fr": {
-    "name": "Utilisé lors de la post …",
+    "name": "Utilisé lors de la publication",
     "title": "Mon nom de forum",
     "default": "Préréglage",
     "error": "Le texte n'a pas pu être mis à jour.",
@@ -40,7 +40,7 @@
     "more": "Formel",
     "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "global": {
-      "cancel": "Retour",
+      "cancel": "Annuler",
       "saveAndClose": "Enregistrer",
       "delete": "Suppr."
     }
