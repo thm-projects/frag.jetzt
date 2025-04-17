@@ -1,19 +1,23 @@
 import { FieldsOf } from 'app/utils/ts-utils';
 import { DbStore, ValidKey } from '../data.types';
+import { FormalityType } from 'app/services/http/deep-l.service';
 
 export class LocalRoomSetting {
   accountId: string;
   roomId: string;
   pseudonym: string;
+  formality?: FormalityType;
 
   constructor({
     accountId = null,
     roomId = null,
     pseudonym = null,
+    formality = FormalityType.Less,
   }: FieldsOf<LocalRoomSetting>) {
     this.accountId = accountId;
     this.roomId = roomId;
     this.pseudonym = pseudonym;
+    this.formality = formality;
   }
 }
 

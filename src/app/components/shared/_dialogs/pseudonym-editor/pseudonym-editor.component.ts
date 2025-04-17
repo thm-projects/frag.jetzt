@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { dataService } from 'app/base/db/data-service';
+import { switchMap } from 'rxjs/operators';
 import { FormalityType } from 'app/services/http/deep-l.service';
-import { switchMap } from 'rxjs';
-import rawI18n from './i18n.json';
+import { dataService } from 'app/base/db/data-service';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import rawI18n from './i18n.json';
+
 const i18n = I18nLoader.load(rawI18n);
 
 @Component({
@@ -22,10 +23,15 @@ export class PseudonymEditorComponent implements OnInit {
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
   protected readonly i18n = i18n;
-  questionerNameFormControl = new FormControl('', [
-    Validators.minLength(this.questionerNameMin),
-    Validators.maxLength(this.questionerNameMax),
-  ]);
+  questionerNameFormControl = new FormControl('', {
+    validators: [
+      Validators.required,
+      Validators.pattern(/\S/),
+      Validators.minLength(this.questionerNameMin),
+      Validators.maxLength(this.questionerNameMax),
+    ],
+    updateOn: 'change',
+  });
   selectedFormality: FormalityType = FormalityType.Default;
 
   constructor(public dialogRef: MatDialogRef<PseudonymEditorComponent>) {}
@@ -41,15 +47,28 @@ export class PseudonymEditorComponent implements OnInit {
     dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .subscribe((data) => {
-        this.selectedFormality = FormalityType.Default;
+        this.selectedFormality = data?.formality ?? FormalityType.Less;
         this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
       });
   }
 
+  get isSaveDisabled(): boolean {
+    return (
+      this.questionerNameFormControl.invalid ||
+      this.questionerNameFormControl.pristine
+    );
+  }
+
+  get isClearDisabled(): boolean {
+    return !this.questionerNameFormControl.value;
+  }
+
   accept() {
     if (this.questionerNameFormControl.errors) {
+      this.questionerNameFormControl.markAsTouched();
       return;
     }
+    const trimmedName = this.questionerNameFormControl.value.trim();
     dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .pipe(
@@ -58,16 +77,32 @@ export class PseudonymEditorComponent implements OnInit {
             data = {
               accountId: this.accountId,
               roomId: this.roomId,
-              pseudonym: this.questionerNameFormControl.value,
+              pseudonym: trimmedName,
+              formality: this.selectedFormality,
             };
           } else {
-            data.pseudonym = this.questionerNameFormControl.value;
-            //data.formality = this.selectedFormality;
+            data.pseudonym = trimmedName;
+            data.formality = this.selectedFormality;
           }
           return dataService.localRoomSetting.createOrUpdate(data);
         }),
       )
       .subscribe();
     this.dialogRef.close();
+  }
+
+  clearInput(): void {
+    this.questionerNameFormControl.setValue('');
+    this.questionerNameFormControl.markAsDirty();
+    this.questionerNameFormControl.markAsTouched();
+  }
+
+  onInputTrim(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const trimmed = input.value.trim(); // Trim both leading and trailing whitespace
+    if (input.value !== trimmed) {
+      input.value = trimmed;
+      this.questionerNameFormControl.setValue(trimmed, { emitEvent: false });
+    }
   }
 }

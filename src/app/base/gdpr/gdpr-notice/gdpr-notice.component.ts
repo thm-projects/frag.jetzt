@@ -31,7 +31,7 @@ export class GdprNoticeComponent {
   verified = output();
   protected readonly i18n = i18n;
   protected readonly option: Signal<Values | 'unknown'> = computed(() => {
-    return MAPPER[this.source()] || 'unknown';
+    return MAPPER[this.source()] ?? 'unknown';
   });
   protected readonly content = computed(() => {
     return i18nContext(i18n()[this.option()].content, {
