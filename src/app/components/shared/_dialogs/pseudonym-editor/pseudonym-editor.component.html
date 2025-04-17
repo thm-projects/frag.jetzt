@@ -18,6 +18,11 @@
       aria-label="Clear input">
       <mat-icon>close</mat-icon>
     </button>
+    <!-- Add the character counter hint -->
+    <mat-hint align="end">
+      {{ questionerNameFormControl.value?.length || 0 }} /
+      {{ questionerNameMax }}
+    </mat-hint>
     <mat-error *ngIf="questionerNameFormControl.hasError('required')">
       {{ i18n().requiredError }}
     </mat-error>
