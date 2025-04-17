@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { switchMap } from 'rxjs/operators';
@@ -15,7 +22,7 @@ const i18n = I18nLoader.load(rawI18n);
   styleUrls: ['./pseudonym-editor.component.scss'],
   standalone: false,
 })
-export class PseudonymEditorComponent implements OnInit {
+export class PseudonymEditorComponent implements OnInit, AfterViewInit {
   @Input()
   roomId: string;
   @Input()
@@ -34,6 +41,8 @@ export class PseudonymEditorComponent implements OnInit {
   });
   selectedFormality: FormalityType = FormalityType.Default;
 
+  @ViewChild('pseudonymInput') pseudonymInputRef: ElementRef<HTMLInputElement>;
+
   constructor(public dialogRef: MatDialogRef<PseudonymEditorComponent>) {}
 
   public static open(dialog: MatDialog, accountId: string, roomId: string) {
@@ -50,6 +59,14 @@ export class PseudonymEditorComponent implements OnInit {
         this.selectedFormality = data?.formality ?? FormalityType.Less;
         this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
       });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (this.pseudonymInputRef) {
+        this.pseudonymInputRef.nativeElement.focus();
+      }
+    });
   }
 
   get isSaveDisabled(): boolean {
@@ -104,5 +121,25 @@ export class PseudonymEditorComponent implements OnInit {
       input.value = trimmed;
       this.questionerNameFormControl.setValue(trimmed, { emitEvent: false });
     }
+  }
+
+  deletePseudonym(): void {
+    dataService.localRoomSetting
+      .get([this.roomId, this.accountId])
+      .pipe(
+        switchMap((data) => {
+          if (data) {
+            data.pseudonym = '';
+            return dataService.localRoomSetting.createOrUpdate(data);
+          }
+          return [];
+        }),
+      )
+      .subscribe(() => {
+        this.questionerNameFormControl.setValue('');
+        this.questionerNameFormControl.markAsPristine();
+        this.questionerNameFormControl.markAsTouched();
+        this.dialogRef.close();
+      });
   }
 }

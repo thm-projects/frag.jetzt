@@ -9,8 +9,9 @@
     "more": "Siezen",
     "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "global": {
-      "cancel": "Abbrechen",
-      "saveAndClose": "Speichern & Schließen"
+      "cancel": "Zurück",
+      "saveAndClose": "Speichern",
+      "delete": "Löschen"
     }
   },
   "en": {
@@ -22,8 +23,9 @@
     "more": "Formal",
     "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
     "global": {
-      "cancel": "Cancel",
-      "saveAndClose": "Save & Close"
+      "cancel": "Back",
+      "saveAndClose": "Save",
+      "delete": "Delete"
     }
   },
   "fr": {
@@ -35,8 +37,9 @@
     "more": "Formel",
     "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "global": {
-      "cancel": "Annuler",
-      "saveAndClose": "Enregistrer & Fermer"
+      "cancel": "Retour",
+      "saveAndClose": "Enregistrer",
+      "delete": "Supprimer"
     }
   }
 }
