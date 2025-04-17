@@ -4,7 +4,9 @@
 
 <mat-dialog-content>
   <mat-form-field>
+    <mat-label>{{ i18n().name }}</mat-label>
     <input
+      #pseudonymInput
       matInput
       [formControl]="questionerNameFormControl"
       aria-label="Pseudonym" />
@@ -16,8 +18,24 @@
       aria-label="Clear input">
       <mat-icon>close</mat-icon>
     </button>
-    <mat-hint align="end"></mat-hint>
-    <mat-error></mat-error>
+    <mat-error *ngIf="questionerNameFormControl.hasError('required')">
+      {{ i18n().requiredError }}
+    </mat-error>
+    <mat-error *ngIf="questionerNameFormControl.hasError('pattern')">
+      {{ i18n().name }} {{ i18n().error }}
+    </mat-error>
+    <mat-error
+      *ngIf="
+        questionerNameFormControl.hasError('minlength') ||
+        questionerNameFormControl.hasError('maxlength')
+      ">
+      {{
+        replaceI18n(i18n().nameLengthError, {
+          min: questionerNameMin,
+          max: questionerNameMax,
+        })
+      }}
+    </mat-error>
   </mat-form-field>
 </mat-dialog-content>
 

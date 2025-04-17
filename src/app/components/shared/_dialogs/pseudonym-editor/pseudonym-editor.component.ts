@@ -63,9 +63,7 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.pseudonymInputRef) {
-        this.pseudonymInputRef.nativeElement.focus();
-      }
+      this.pseudonymInputRef?.nativeElement.focus();
     });
   }
 
@@ -141,5 +139,17 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
         this.questionerNameFormControl.markAsTouched();
         this.dialogRef.close();
       });
+  }
+
+  replaceI18n(
+    template: string,
+    params: Record<string, string | number>,
+  ): string {
+    if (!template || !params) return template;
+    return Object.keys(params).reduce(
+      (acc, key) =>
+        acc.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), String(params[key])),
+      template,
+    );
   }
 }
