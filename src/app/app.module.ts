@@ -2,9 +2,11 @@ import { Injector, NgModule, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
-  HTTP_INTERCEPTORS,
+  HTTP_INTERCEPTORS, // Keep this for class-based interceptors
   HttpClient,
-  HttpClientModule,
+  provideHttpClient, // Import provideHttpClient
+  // HttpClientModule is removed
+  // withInterceptors is NOT imported
 } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
@@ -15,7 +17,7 @@ import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
 import { VoteService } from './services/http/vote.service';
-import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
+import { AuthenticationInterceptor } from './interceptors/authentication.interceptor'; // Your class-based interceptor
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
@@ -92,6 +94,7 @@ import { PaymentRouteComponent } from './paypal/payment-route/payment-route.comp
 import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-user/first-time-user.component';
 import './base/theme/apply-system-variables';
 import { PwaInstallSnackbarComponent } from './components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -141,10 +144,10 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     SharedModule,
     MatIconModule,
     MatDialogModule,
-    HttpClientModule,
     AdminModule,
     CreatorModule,
     ModeratorModule,
+    MatSnackBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -162,8 +165,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatRippleModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
     ColorPickerComponent,
@@ -180,11 +181,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     PwaInstallSnackbarComponent,
   ],
   providers: [
-    /*AppConfig,
-    { provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [AppConfig], multi: true
-    },*/
+    provideHttpClient(),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {
@@ -196,6 +193,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       provide: MatDialogRef,
       useValue: {},
     },
+    // Keep the original provider for the class-based interceptor
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
@@ -219,12 +217,13 @@ export const HttpLoaderFactory = (http: HttpClient) =>
   bootstrap: [AppComponent],
 })
 export class AppModule {
+  // Add readonly to constructor parameters that are not reassigned
   constructor(
-    private appState: AppStateService,
-    private translateService: TranslateService,
-    iconRegistry: MatIconRegistry,
-    domSanitizer: DomSanitizer,
-    injector: Injector,
+    private readonly appState: AppStateService,
+    private readonly translateService: TranslateService,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly injector: Injector,
   ) {
     angularInjector.next(injector);
     this.appState.language$.subscribe((lang) =>

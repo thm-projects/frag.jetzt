@@ -210,11 +210,7 @@ body {
     hyphens: auto;
     line-height: 1.5;
   }
-  /*
-span {
-    @include m3-typescale.typescale(body, small);
-  }
-  */
+  // Comment block for 'span' removed from here
 }
 
 /* common layout */
@@ -446,4 +442,20 @@ ul {
 
 .mat-internal-form-field > label {
   padding-left: 16px !important;
+}
+
+// <-- Add custom snackbar styles here -->
+/* Global styles for the custom error snackbar panel class */
+.error-snackbar {
+  background-color: var(
+    --mat-sys-error-container
+  ); // Use Material theme error color
+  color: var(--mat-sys-on-error-container); // Use corresponding text color
+
+  // Style for the action button (e.g., 'OK') within the error snackbar
+  .mat-simple-snackbar-action {
+    color: var(--mat-sys-on-error-container); // Match text color
+    // Optionally add more emphasis
+    font-weight: bold;
+  }
 }
