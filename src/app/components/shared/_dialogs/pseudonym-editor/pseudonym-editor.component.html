@@ -9,6 +9,7 @@
       #pseudonymInput
       matInput
       [formControl]="questionerNameFormControl"
+      (keydown.enter)="accept()"
       aria-label="Pseudonym" />
     <button
       mat-icon-button
