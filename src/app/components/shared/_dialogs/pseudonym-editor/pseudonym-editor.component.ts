@@ -5,7 +5,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  OnDestroy, // Import OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import {
   FormControl,
@@ -14,8 +14,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
-// Import RxJS operators directly from 'rxjs'
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   Subject,
   switchMap,
@@ -29,7 +28,6 @@ import { dataService } from 'app/base/db/data-service';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import rawI18n from './i18n.json';
 
-// Define an interface matching the structure of a single language set in i18n.json
 interface TranslationSet {
   name: string;
   title: string;
@@ -45,13 +43,10 @@ interface TranslationSet {
     saveAndClose: string;
     delete: string;
   };
-  // Add any other keys that might exist
 }
 
-// Apply the type definition to the i18n constant.
 const i18n: () => TranslationSet = I18nLoader.load(rawI18n);
 
-// Custom validator to prevent leading whitespace in the input value.
 function noLeadingWhitespaceValidator(
   control: AbstractControl,
 ): ValidationErrors | null {
@@ -70,17 +65,14 @@ function noLeadingWhitespaceValidator(
 })
 export class PseudonymEditorComponent
   implements OnInit, AfterViewInit, OnDestroy {
-  // Implement OnDestroy
   @Input() roomId: string;
   @Input() accountId: string;
 
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
-  // Make i18n public for template access
   public readonly i18n = i18n;
-  isLoading = false; // Loading indicator state
+  isLoading = false;
 
-  // Subject to automatically unsubscribe from observables on component destruction
   private readonly destroy$ = new Subject<void>();
 
   questionerNameFormControl = new FormControl('', {
@@ -96,10 +88,9 @@ export class PseudonymEditorComponent
 
   @ViewChild('pseudonymInput') pseudonymInputRef: ElementRef<HTMLInputElement>;
 
-  // Add 'readonly' to injected dependencies that are not reassigned
   constructor(
-    public readonly dialogRef: MatDialogRef<PseudonymEditorComponent>, // Also mark dialogRef as readonly
-    private readonly snackBar: MatSnackBar, // Mark snackBar as readonly
+    public readonly dialogRef: MatDialogRef<PseudonymEditorComponent>,
+    private readonly snackBar: MatSnackBar,
   ) {}
 
   public static open(dialog: MatDialog, accountId: string, roomId: string) {
@@ -115,6 +106,7 @@ export class PseudonymEditorComponent
   }
 
   ngAfterViewInit(): void {
+    // Needs setTimeout to ensure the element is rendered and available for focus.
     setTimeout(() => {
       this.pseudonymInputRef?.nativeElement.focus();
     });
@@ -135,13 +127,16 @@ export class PseudonymEditorComponent
           console.error('Error loading pseudonym:', err);
           const msg = this.i18n().loadError || 'Could not load name.';
           this.showError(msg);
+          // Return EMPTY to prevent the observable chain from completing on error
           return EMPTY;
         }),
+        // Ensure loading state is reset regardless of success/error
         finalize(() => (this.isLoading = false)),
       )
       .subscribe((data) => {
         const initialValue = data?.pseudonym ?? '';
         this.questionerNameFormControl.setValue(initialValue, {
+          // Avoid triggering valueChanges on initial set
           emitEvent: false,
         });
         this.questionerNameFormControl.markAsPristine();
@@ -156,6 +151,7 @@ export class PseudonymEditorComponent
         const trimmed = currentValue.trimStart();
         if (currentValue !== trimmed) {
           this.questionerNameFormControl.setValue(trimmed, {
+            // Update the form control value without triggering another valueChange event immediately
             emitEvent: false,
           });
         }
@@ -207,25 +203,28 @@ export class PseudonymEditorComponent
               console.error('Error saving pseudonym:', err);
               const msg = this.i18n().saveError || 'Could not save name.';
               this.showError(msg);
+              // Propagate the error to the outer catchError
               return throwError(() => err);
             }),
           );
         }),
+        // Catch errors from the initial 'get' operation
         catchError((err) => {
           console.error('Error getting settings before saving:', err);
           const msg = this.i18n().saveError || 'Could not save name.';
           this.showError(msg);
+          // Prevent the observable chain from completing on error
           return EMPTY;
         }),
+        // Ensure loading state is reset
         finalize(() => (this.isLoading = false)),
       )
       .subscribe({
         next: () => {
           this.dialogRef.close(true);
         },
-        error: () => {
-          // Error already shown
-        },
+        // Error handling is done in catchError, no further action needed here
+        error: () => {},
       });
   }
 
@@ -247,24 +246,30 @@ export class PseudonymEditorComponent
         takeUntil(this.destroy$),
         switchMap((data) => {
           if (data) {
+            // Set pseudonym to empty string to effectively delete it
             data.pseudonym = '';
             return dataService.localRoomSetting.createOrUpdate(data).pipe(
               catchError((err) => {
                 console.error('Error deleting pseudonym:', err);
                 const msg = this.i18n().deleteError || 'Could not delete name.';
                 this.showError(msg);
+                // Propagate error
                 return throwError(() => err);
               }),
             );
           }
+          // If no data exists, there's nothing to delete
           return EMPTY;
         }),
+        // Catch errors from the initial 'get' operation
         catchError((err) => {
           console.error('Error getting settings before deleting:', err);
           const msg = this.i18n().deleteError || 'Could not delete name.';
           this.showError(msg);
+          // Prevent completion on error
           return EMPTY;
         }),
+        // Ensure loading state is reset
         finalize(() => (this.isLoading = false)),
       )
       .subscribe({
@@ -273,9 +278,8 @@ export class PseudonymEditorComponent
           this.questionerNameFormControl.markAsPristine();
           this.dialogRef.close(true);
         },
-        error: () => {
-          // Error already shown
-        },
+        // Error handling is done in catchError
+        error: () => {},
       });
   }
 
@@ -286,6 +290,10 @@ export class PseudonymEditorComponent
     });
   }
 
+  /**
+   * Replaces placeholders like {{key}} in a template string with values from params.
+   * Used for dynamic i18n strings.
+   */
   replaceI18n(
     template: string,
     params: Record<string, string | number>,
