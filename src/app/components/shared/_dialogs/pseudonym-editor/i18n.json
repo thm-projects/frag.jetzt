@@ -3,9 +3,13 @@
   "de": {
     "name": "Wird beim Posten verwendet",
     "title": "Mein Forumsname",
-    "error": "Der Text konnte nicht aktualisiert werden.",
     "requiredError": "Bitte gib einen Namen ein.",
     "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
+    "nameWhitespaceError": "Der Name darf nicht nur aus Leerzeichen bestehen.",
+    "leadingWhitespaceError": "Name darf nicht mit Leerzeichen beginnen.",
+    "loadError": "Name konnte nicht geladen werden.",
+    "saveError": "Name konnte nicht gespeichert werden.",
+    "deleteError": "Name konnte nicht gelöscht werden.",
     "global": {
       "cancel": "Abbrechen",
       "saveAndClose": "Speichern",
@@ -15,9 +19,13 @@
   "en": {
     "name": "Used when posting",
     "title": "My forum name",
-    "error": "The text could not be updated.",
     "requiredError": "Please enter a name.",
     "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
+    "nameWhitespaceError": "The name cannot consist only of whitespace.",
+    "leadingWhitespaceError": "Name cannot start with whitespace.",
+    "loadError": "Could not load name.",
+    "saveError": "Could not save name.",
+    "deleteError": "Could not delete name.",
     "global": {
       "cancel": "Cancel",
       "saveAndClose": "Save",
@@ -27,9 +35,13 @@
   "fr": {
     "name": "Utilisé lors de la publication",
     "title": "Mon nom de forum",
-    "error": "Le texte n'a pas pu être mis à jour.",
     "requiredError": "Veuillez saisir un nom.",
     "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
+    "nameWhitespaceError": "Le nom ne peut pas être composé uniquement d'espaces.",
+    "leadingWhitespaceError": "Le nom ne peut pas commencer par un espace.",
+    "loadError": "Le nom n'a pas pu être chargé.",
+    "saveError": "Le nom n'a pas pu être enregistré.",
+    "deleteError": "Le nom n'a pas pu être supprimé.",
     "global": {
       "cancel": "Annuler",
       "saveAndClose": "Enregistrer",

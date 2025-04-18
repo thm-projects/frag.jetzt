@@ -3,36 +3,54 @@
 </h2>
 
 <mat-dialog-content>
-  <mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-label>{{ i18n().name }}</mat-label>
     <input
       #pseudonymInput
       matInput
       [formControl]="questionerNameFormControl"
-      (keydown.enter)="accept()"
-      aria-label="Pseudonym" />
+      (keydown.enter)="!isSaveDisabled && accept()"
+      aria-label="Pseudonym"
+      autocomplete="off" />
     <button
       mat-icon-button
       matSuffix
       *ngIf="questionerNameFormControl.value"
       (click)="clearInput()"
+      [disabled]="isLoading"
+      type="button"
       aria-label="Clear input">
       <mat-icon>close</mat-icon>
     </button>
-    <!-- Add the character counter hint -->
-    <mat-hint align="end">
+
+    <mat-hint
+      align="end"
+      aria-live="polite">
       <span>{{ trimmedNameLength }} / {{ questionerNameMax }}</span>
     </mat-hint>
+
     <mat-error *ngIf="questionerNameFormControl.hasError('required')">
       {{ i18n().requiredError }}
     </mat-error>
-    <mat-error *ngIf="questionerNameFormControl.hasError('pattern')">
-      {{ i18n().name }} {{ i18n().error }}
+    <mat-error
+      *ngIf="
+        questionerNameFormControl.hasError('pattern') &&
+        !questionerNameFormControl.hasError('required')
+      ">
+      {{ i18n().nameWhitespaceError }}
     </mat-error>
     <mat-error
       *ngIf="
-        questionerNameFormControl.hasError('minlength') ||
-        questionerNameFormControl.hasError('maxlength')
+        questionerNameFormControl.hasError('leadingWhitespace') &&
+        !questionerNameFormControl.hasError('required')
+      ">
+      {{ i18n().leadingWhitespaceError }}
+    </mat-error>
+    <mat-error
+      *ngIf="
+        (questionerNameFormControl.hasError('minlength') ||
+          questionerNameFormControl.hasError('maxlength')) &&
+        !questionerNameFormControl.hasError('required')
       ">
       {{
         replaceI18n(i18n().nameLengthError, {
@@ -42,30 +60,37 @@
       }}
     </mat-error>
   </mat-form-field>
+
+  <mat-progress-bar
+    *ngIf="isLoading"
+    mode="indeterminate"></mat-progress-bar>
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button
     mat-button
-    mat-dialog-close>
+    mat-dialog-close
+    type="button">
     {{ i18n().global.cancel }}
   </button>
+
   <button
     mat-button
     color="warn"
     (click)="deletePseudonym()"
-    [disabled]="
-      !questionerNameFormControl.value ||
-      questionerNameFormControl.value.trim() === ''
-    ">
+    [disabled]="isDeleteDisabled"
+    type="button">
     {{ i18n().global.delete }}
   </button>
-  <span style="flex: 1"></span>
+
+  <span style="flex: 1 1 auto"></span>
+
   <button
     mat-flat-button
     color="primary"
     (click)="accept()"
-    [disabled]="isSaveDisabled">
+    [disabled]="isSaveDisabled"
+    type="button">
     {{ i18n().global.saveAndClose }}
   </button>
 </mat-dialog-actions>

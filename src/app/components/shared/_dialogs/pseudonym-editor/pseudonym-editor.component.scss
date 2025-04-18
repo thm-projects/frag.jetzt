@@ -2,3 +2,15 @@ mat-form-field {
   /* Ensure the form field takes up the full available width within its container. */
   display: block;
 }
+
+/* Optional: Style for error snackbar */
+.error-snackbar {
+  background-color: #f44336; /* Material Design warn color */
+  color: white;
+}
+
+/* Optional: Style for loading indicator placement if needed */
+mat-progress-bar {
+  /* Position it below the form field or as desired */
+  margin-top: 8px;
+}

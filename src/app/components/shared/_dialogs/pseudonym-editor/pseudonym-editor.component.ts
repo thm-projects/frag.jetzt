@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  OnDestroy, // Import OnDestroy
 } from '@angular/core';
 import {
   FormControl,
@@ -13,12 +14,42 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { switchMap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
+// Import RxJS operators directly from 'rxjs'
+import {
+  Subject,
+  switchMap,
+  takeUntil,
+  catchError,
+  EMPTY,
+  throwError,
+  finalize,
+} from 'rxjs';
 import { dataService } from 'app/base/db/data-service';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import rawI18n from './i18n.json';
 
-const i18n = I18nLoader.load(rawI18n);
+// Define an interface matching the structure of a single language set in i18n.json
+interface TranslationSet {
+  name: string;
+  title: string;
+  requiredError: string;
+  nameLengthError: string;
+  nameWhitespaceError: string;
+  leadingWhitespaceError: string;
+  loadError: string;
+  saveError: string;
+  deleteError: string;
+  global: {
+    cancel: string;
+    saveAndClose: string;
+    delete: string;
+  };
+  // Add any other keys that might exist
+}
+
+// Apply the type definition to the i18n constant.
+const i18n: () => TranslationSet = I18nLoader.load(rawI18n);
 
 // Custom validator to prevent leading whitespace in the input value.
 function noLeadingWhitespaceValidator(
@@ -37,13 +68,20 @@ function noLeadingWhitespaceValidator(
   styleUrls: ['./pseudonym-editor.component.scss'],
   standalone: false,
 })
-export class PseudonymEditorComponent implements OnInit, AfterViewInit {
+export class PseudonymEditorComponent
+  implements OnInit, AfterViewInit, OnDestroy {
+  // Implement OnDestroy
   @Input() roomId: string;
   @Input() accountId: string;
 
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
-  protected readonly i18n = i18n;
+  // Make i18n public for template access
+  public readonly i18n = i18n;
+  isLoading = false; // Loading indicator state
+
+  // Subject to automatically unsubscribe from observables on component destruction
+  private readonly destroy$ = new Subject<void>();
 
   questionerNameFormControl = new FormControl('', {
     validators: [
@@ -58,7 +96,11 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('pseudonymInput') pseudonymInputRef: ElementRef<HTMLInputElement>;
 
-  constructor(public dialogRef: MatDialogRef<PseudonymEditorComponent>) {}
+  // Add 'readonly' to injected dependencies that are not reassigned
+  constructor(
+    public readonly dialogRef: MatDialogRef<PseudonymEditorComponent>, // Also mark dialogRef as readonly
+    private readonly snackBar: MatSnackBar, // Mark snackBar as readonly
+  ) {}
 
   public static open(dialog: MatDialog, accountId: string, roomId: string) {
     const ref = dialog.open(PseudonymEditorComponent);
@@ -68,54 +110,88 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    dataService.localRoomSetting
-      .get([this.roomId, this.accountId])
-      .subscribe((data) => {
-        this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
-      });
-
-    // Auto-trimming leading whitespace for better UX.
-    this.questionerNameFormControl.valueChanges.subscribe((value) => {
-      const trimmed = value ? value.trimStart() : value;
-      if (value !== trimmed) {
-        this.questionerNameFormControl.setValue(trimmed, { emitEvent: false });
-      }
-    });
+    this.loadInitialPseudonym();
+    this.setupAutoTrim();
   }
 
   ngAfterViewInit(): void {
-    // Focus the input field after view initialization.
     setTimeout(() => {
       this.pseudonymInputRef?.nativeElement.focus();
     });
   }
 
-  get isSaveDisabled(): boolean {
-    return (
-      this.questionerNameFormControl.invalid ||
-      this.questionerNameFormControl.pristine
-    );
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  get isClearDisabled(): boolean {
-    return !this.questionerNameFormControl.value;
-  }
-
-  // Returns the length of the input after removing leading whitespace.
-  get trimmedNameLength(): number {
-    const value = this.questionerNameFormControl.value;
-    return value ? value.replace(/^\s+/, '').length : 0;
-  }
-
-  accept() {
-    if (this.questionerNameFormControl.errors) {
-      this.questionerNameFormControl.markAsTouched();
-      return;
-    }
-    const trimmedName = this.questionerNameFormControl.value.trim();
+  private loadInitialPseudonym(): void {
+    this.isLoading = true;
     dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .pipe(
+        takeUntil(this.destroy$),
+        catchError((err) => {
+          console.error('Error loading pseudonym:', err);
+          const msg = this.i18n().loadError || 'Could not load name.';
+          this.showError(msg);
+          return EMPTY;
+        }),
+        finalize(() => (this.isLoading = false)),
+      )
+      .subscribe((data) => {
+        const initialValue = data?.pseudonym ?? '';
+        this.questionerNameFormControl.setValue(initialValue, {
+          emitEvent: false,
+        });
+        this.questionerNameFormControl.markAsPristine();
+      });
+  }
+
+  private setupAutoTrim(): void {
+    this.questionerNameFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        const currentValue = value ?? '';
+        const trimmed = currentValue.trimStart();
+        if (currentValue !== trimmed) {
+          this.questionerNameFormControl.setValue(trimmed, {
+            emitEvent: false,
+          });
+        }
+      });
+  }
+
+  get isSaveDisabled(): boolean {
+    return (
+      this.questionerNameFormControl.invalid ||
+      this.questionerNameFormControl.pristine ||
+      this.isLoading
+    );
+  }
+
+  get isDeleteDisabled(): boolean {
+    const value = this.questionerNameFormControl.value ?? '';
+    return this.isLoading || !value || value.trim() === '';
+  }
+
+  get trimmedNameLength(): number {
+    const value = this.questionerNameFormControl.value;
+    return (value ?? '').trimStart().length;
+  }
+
+  accept(): void {
+    if (this.questionerNameFormControl.invalid || this.isLoading) {
+      this.questionerNameFormControl.markAsTouched();
+      return;
+    }
+    const trimmedName = (this.questionerNameFormControl.value ?? '').trim();
+
+    this.isLoading = true;
+    dataService.localRoomSetting
+      .get([this.roomId, this.accountId])
+      .pipe(
+        takeUntil(this.destroy$),
         switchMap((data) => {
           if (!data) {
             data = {
@@ -126,46 +202,88 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
           } else {
             data.pseudonym = trimmedName;
           }
-          return dataService.localRoomSetting.createOrUpdate(data);
+          return dataService.localRoomSetting.createOrUpdate(data).pipe(
+            catchError((err) => {
+              console.error('Error saving pseudonym:', err);
+              const msg = this.i18n().saveError || 'Could not save name.';
+              this.showError(msg);
+              return throwError(() => err);
+            }),
+          );
         }),
+        catchError((err) => {
+          console.error('Error getting settings before saving:', err);
+          const msg = this.i18n().saveError || 'Could not save name.';
+          this.showError(msg);
+          return EMPTY;
+        }),
+        finalize(() => (this.isLoading = false)),
       )
-      .subscribe();
-    this.dialogRef.close();
+      .subscribe({
+        next: () => {
+          this.dialogRef.close(true);
+        },
+        error: () => {
+          // Error already shown
+        },
+      });
   }
 
   clearInput(): void {
     this.questionerNameFormControl.setValue('');
     this.questionerNameFormControl.markAsDirty();
     this.questionerNameFormControl.markAsTouched();
-  }
-
-  onInputTrim(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const trimmedValue = input.value.replace(/^\s+/, '');
-    if (trimmedValue !== input.value) {
-      input.value = trimmedValue;
-      this.questionerNameFormControl.setValue(trimmedValue);
-    }
+    this.pseudonymInputRef?.nativeElement.focus();
   }
 
   deletePseudonym(): void {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
     dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .pipe(
+        takeUntil(this.destroy$),
         switchMap((data) => {
           if (data) {
             data.pseudonym = '';
-            return dataService.localRoomSetting.createOrUpdate(data);
+            return dataService.localRoomSetting.createOrUpdate(data).pipe(
+              catchError((err) => {
+                console.error('Error deleting pseudonym:', err);
+                const msg = this.i18n().deleteError || 'Could not delete name.';
+                this.showError(msg);
+                return throwError(() => err);
+              }),
+            );
           }
-          return [];
+          return EMPTY;
         }),
+        catchError((err) => {
+          console.error('Error getting settings before deleting:', err);
+          const msg = this.i18n().deleteError || 'Could not delete name.';
+          this.showError(msg);
+          return EMPTY;
+        }),
+        finalize(() => (this.isLoading = false)),
       )
-      .subscribe(() => {
-        this.questionerNameFormControl.setValue('');
-        this.questionerNameFormControl.markAsPristine();
-        this.questionerNameFormControl.markAsTouched();
-        this.dialogRef.close();
+      .subscribe({
+        next: () => {
+          this.questionerNameFormControl.setValue('');
+          this.questionerNameFormControl.markAsPristine();
+          this.dialogRef.close(true);
+        },
+        error: () => {
+          // Error already shown
+        },
       });
+  }
+
+  private showError(message: string): void {
+    this.snackBar.open(message, 'OK', {
+      duration: 5000,
+      panelClass: ['error-snackbar'],
+    });
   }
 
   replaceI18n(
