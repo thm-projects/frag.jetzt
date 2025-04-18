@@ -75,6 +75,12 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
     return !this.questionerNameFormControl.value;
   }
 
+  // Neuer Getter für die Anzahl der Zeichen ohne führende Leerzeichen
+  get trimmedNameLength(): number {
+    const value = this.questionerNameFormControl.value as string;
+    return value ? value.replace(/^\s+/, '').length : 0;
+  }
+
   accept() {
     if (this.questionerNameFormControl.errors) {
       this.questionerNameFormControl.markAsTouched();
@@ -109,10 +115,10 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
 
   onInputTrim(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const trimmed = input.value.trim(); // Trim both leading and trailing whitespace
-    if (input.value !== trimmed) {
-      input.value = trimmed;
-      this.questionerNameFormControl.setValue(trimmed, { emitEvent: false });
+    const trimmedValue = input.value.replace(/^\s+/, '');
+    if (trimmedValue !== input.value) {
+      input.value = trimmedValue;
+      this.questionerNameFormControl.setValue(trimmedValue);
     }
   }
 

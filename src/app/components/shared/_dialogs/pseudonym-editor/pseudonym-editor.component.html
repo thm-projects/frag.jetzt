@@ -21,8 +21,7 @@
     </button>
     <!-- Add the character counter hint -->
     <mat-hint align="end">
-      {{ questionerNameFormControl.value?.length || 0 }} /
-      {{ questionerNameMax }}
+      <span>{{ trimmedNameLength }} / {{ questionerNameMax }}</span>
     </mat-hint>
     <mat-error *ngIf="questionerNameFormControl.hasError('required')">
       {{ i18n().requiredError }}
