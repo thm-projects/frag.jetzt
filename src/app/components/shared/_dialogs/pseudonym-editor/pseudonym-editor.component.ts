@@ -9,7 +9,6 @@ import {
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { switchMap } from 'rxjs/operators';
-import { FormalityType } from 'app/services/http/deep-l.service';
 import { dataService } from 'app/base/db/data-service';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 import rawI18n from './i18n.json';
@@ -39,7 +38,6 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
     ],
     updateOn: 'change',
   });
-  selectedFormality: FormalityType = FormalityType.Default;
 
   @ViewChild('pseudonymInput') pseudonymInputRef: ElementRef<HTMLInputElement>;
 
@@ -56,7 +54,6 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
     dataService.localRoomSetting
       .get([this.roomId, this.accountId])
       .subscribe((data) => {
-        this.selectedFormality = data?.formality ?? FormalityType.Less;
         this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
       });
   }
@@ -93,11 +90,9 @@ export class PseudonymEditorComponent implements OnInit, AfterViewInit {
               accountId: this.accountId,
               roomId: this.roomId,
               pseudonym: trimmedName,
-              formality: this.selectedFormality,
             };
           } else {
             data.pseudonym = trimmedName;
-            data.formality = this.selectedFormality;
           }
           return dataService.localRoomSetting.createOrUpdate(data);
         }),

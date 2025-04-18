@@ -3,11 +3,8 @@
   "de": {
     "name": "Wird beim Posten verwendet",
     "title": "Mein Forumsname",
-    "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
     "requiredError": "Bitte gib einen Namen ein.",
-    "less": "Duzen",
-    "more": "Siezen",
     "nameLengthError": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "global": {
       "cancel": "Abbrechen",
@@ -18,11 +15,8 @@
   "en": {
     "name": "Used when posting",
     "title": "My forum name",
-    "default": "Default",
     "error": "The text could not be updated.",
     "requiredError": "Please enter a name.",
-    "less": "Informal",
-    "more": "Formal",
     "nameLengthError": "The name must be {{min}} to {{max}} characters long.",
     "global": {
       "cancel": "Cancel",
@@ -33,11 +27,8 @@
   "fr": {
     "name": "Utilisé lors de la publication",
     "title": "Mon nom de forum",
-    "default": "Préréglage",
     "error": "Le texte n'a pas pu être mis à jour.",
     "requiredError": "Veuillez saisir un nom.",
-    "less": "Informel",
-    "more": "Formel",
     "nameLengthError": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "global": {
       "cancel": "Annuler",
