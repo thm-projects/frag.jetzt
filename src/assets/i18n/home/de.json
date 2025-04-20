@@ -932,7 +932,7 @@
     "session-name": "Veranstaltung"
   },
   "worker-dialog": {
-    "404-error-description": "Diese Seite kennt nicht mal mein Speicherchip.",
+    "404-error-description": "Diese Seite kennt nicht mal mein Speicherchip.<br>Vielleicht brauchst du eine Anmeldung?",
     "bad-spelled": "Zu schlechte Rechtschreibung",
     "comments": "Abgearbeitete Fragen",
     "failed": "Fehler aufgetreten",
