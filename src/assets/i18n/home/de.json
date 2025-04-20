@@ -932,7 +932,7 @@
     "session-name": "Veranstaltung"
   },
   "worker-dialog": {
-    "404-error-description": "Die von Ihnen aufgerufene Seite existiert nicht.",
+    "404-error-description": "Diese Seite kennt nicht mal mein Speicherchip.",
     "bad-spelled": "Zu schlechte Rechtschreibung",
     "comments": "Abgearbeitete Fragen",
     "failed": "Fehler aufgetreten",

@@ -1,3 +1,120 @@
-h2, h3 {
-  color: var(--primary);
+.page-not-found-wrapper {
+  height: calc(100dvh - 64px);
+  max-height: calc(100dvh - 64px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  gap: 1rem;
+  text-align: center;
+  animation: fade-in 0.8s ease-out both;
+
+  .robot-img {
+    max-width: 100%;
+    max-height: 30vh;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .robot-portrait {
+    display: block;
+
+    @media (orientation: landscape) {
+      display: none;
+    }
+  }
+
+  .robot-landscape {
+    display: none;
+
+    @media (orientation: landscape) {
+      display: block;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #2b8a3e;
+      margin: 0.2rem 0;
+    }
+
+    p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      max-width: 480px;
+    }
+
+    .start-button {
+      display: inline-block;
+      background-color: #247634;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+      animation: pulse-button 2.5s infinite;
+
+      &:hover {
+        background-color: #1c5e29;
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // Querformat: zwei Spalten, mittig platziert
+  @media (orientation: landscape) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+
+    .robot-landscape {
+      flex: 0 0 auto;
+      max-height: 60vh;
+      max-width: 40vw;
+    }
+
+    .content {
+      align-items: flex-start;
+      margin-left: 2rem;
+      flex: 1;
+    }
+  }
+}
+
+// Animationen
+@keyframes pulse-button {
+  0% {
+    box-shadow: 0 0 0 0 rgba(36, 118, 52, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(36, 118, 52, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(36, 118, 52, 0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -934,7 +934,8 @@
     "session-name": "Event"
   },
   "worker-dialog": {
-    "404-error-description": "The page you were looking for was not found.",
+    "404-error-description": "Even my memory chip doesn’t recognize this page.",
+
     "bad-spelled": "Spelling too bad",
     "comments": "Processed questions",
     "failed": "Errors occurred",
