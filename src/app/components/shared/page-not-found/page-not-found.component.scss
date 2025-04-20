@@ -74,7 +74,7 @@
     }
   }
 
-  // Querformat: zwei Spalten, mittig platziert
+  // Landscape: two columns, centered
   @media (orientation: landscape) {
     flex-direction: row;
     justify-content: center;
@@ -95,7 +95,7 @@
   }
 }
 
-// Animationen
+// Animations
 @keyframes pulse-button {
   0% {
     box-shadow: 0 0 0 0 rgba(36, 118, 52, 0.6);
