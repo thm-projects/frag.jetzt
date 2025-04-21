@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentListComponent } from './comment-list/comment-list.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
@@ -178,7 +177,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
   ],
   declarations: [
     RoomJoinComponent,
-    PageNotFoundComponent,
     RoomListComponent,
     CommentPageComponent,
     CommentListComponent,
@@ -298,7 +296,6 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
   ],
   exports: [
     RoomJoinComponent,
-    PageNotFoundComponent,
     RoomListComponent,
     CommentPageComponent,
     CommentListComponent,
@@ -326,7 +323,7 @@ import { TruncateBadgePipe } from 'app/utils/truncate-badge.pipe';
 })
 export class SharedModule {
   constructor(
-    private translateService: TranslateService,
+    private readonly translateService: TranslateService,
     appState: AppStateService,
   ) {
     appState.language$.subscribe((lang) => {

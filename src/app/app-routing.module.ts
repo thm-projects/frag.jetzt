@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomePageComponent } from './components/home/user-home-page/user-home-page.component';
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
@@ -11,6 +10,7 @@ import { PaymentRouteComponent } from './paypal/payment-route/payment-route.comp
 import { TransactionComponent } from './paypal/transaction/transaction.component';
 import { UserOverviewComponent } from './user/user-overview/user-overview.component';
 import { APISetupComponent } from './user/apisetup/apisetup.component';
+import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 const routes: Routes = [
   {
     path: '',
