@@ -19,7 +19,7 @@ import { PrivacyConsentService } from 'app/services/state/privacy-consent.servic
 })
 export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
   currentLanguage: Language;
-  private destroyer = new ReplaySubject(1);
+  private readonly destroyer = new ReplaySubject(1);
   hasScrolledToEnd = false;
   showAcceptButton = true;
 
@@ -27,8 +27,8 @@ export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
 
   constructor(
     appState: AppStateService,
-    private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
-    private privacyConsentService: PrivacyConsentService,
+    private readonly dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
+    private readonly privacyConsentService: PrivacyConsentService,
   ) {
     appState.language$
       .pipe(takeUntil(this.destroyer))
