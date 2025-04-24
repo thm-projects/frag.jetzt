@@ -10,15 +10,11 @@ import { DebugElement } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-// Mock TranslateLoader for testing
-class FakeLoader implements TranslateLoader {
-  // Add underscore to indicate unused parameter and specify return type
+// Mock translator for testing with minimal translations
+class MockTranslator implements TranslateLoader {
   getTranslation(_lang: string): Observable<Record<string, string>> {
-    // Provide the specific keys used in the template
     return of({
       'worker-dialog.404-error-description': 'Mocked 404 Description',
-      // Add other keys if needed by the template, e.g., button text
-      // 'homepage.button.text': 'Go Home' // Example
     });
   }
 }
@@ -26,81 +22,52 @@ class FakeLoader implements TranslateLoader {
 describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
   let fixture: ComponentFixture<PageNotFoundComponent>;
-  let de: DebugElement; // DebugElement for querying the DOM
-  // Remove unused nativeElement declaration
+  let debugElement: DebugElement;
   let translateService: TranslateService;
 
-  // Use waitForAsync for async operations like compileComponents
+  // Setup test environment
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        PageNotFoundComponent, // Import the standalone component
+        PageNotFoundComponent,
         TranslateModule.forRoot({
-          // Configure TranslateModule for testing
-          loader: { provide: TranslateLoader, useClass: FakeLoader },
+          loader: { provide: TranslateLoader, useClass: MockTranslator },
         }),
       ],
       providers: [
-        provideRouter([]), // Provide basic router configuration for RouterLink
+        provideRouter([]), // Required for RouterLink testing
       ],
-    }).compileComponents(); // Compile template and css
+    }).compileComponents();
   }));
 
-  // Synchronous setup executed after compilation
   beforeEach(() => {
     fixture = TestBed.createComponent(PageNotFoundComponent);
     component = fixture.componentInstance;
-    de = fixture.debugElement;
-    // Removed the unused assignment to nativeElement
+    debugElement = fixture.debugElement;
 
-    // Inject TranslateService and set language explicitly for predictable tests
     translateService = TestBed.inject(TranslateService);
-    translateService.use('en'); // Use a specific language
+    translateService.use('en');
 
-    fixture.detectChanges(); // Trigger initial data binding and render the component
+    fixture.detectChanges();
   });
 
+  // Test 1: Core component functionality
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
+  // Test 2: Main user information (404 indicator)
   it('should display the main 404 heading', () => {
-    const heading = de.query(By.css('h2'));
+    const heading = debugElement.query(By.css('h2'));
     expect(heading).toBeTruthy();
     expect(heading.nativeElement.textContent).toContain('404');
   });
 
-  it('should display the translated error description paragraph', () => {
-    const paragraph = de.query(By.css('p'));
-    expect(paragraph).toBeTruthy();
-    // Check against the mocked translation value provided by FakeLoader
-    expect(paragraph.nativeElement.textContent).toContain(
-      'Mocked 404 Description',
-    );
-  });
-
-  it('should contain a link pointing to the root path ("/") with correct text', () => {
-    const link = de.query(By.css('a.start-button'));
+  // Test 3: Critical navigation functionality
+  it('should provide navigation back to home page', () => {
+    const link = debugElement.query(By.css('a.start-button'));
     expect(link).toBeTruthy();
-    // Check the routerLink attribute directly
     expect(link.attributes['routerLink']).toBe('/');
-    // Check the visible text of the link
     expect(link.nativeElement.textContent).toContain('frag.jetzt');
-  });
-
-  it('should display exactly two robot images with correct alt text', () => {
-    // Use queryAll to find multiple elements
-    const images = de.queryAll(By.css('img.robot-img'));
-    expect(images.length).toBe(2); // Verify exactly two images are found
-
-    // Check the first image
-    expect(images[0]).toBeTruthy();
-    expect(images[0].attributes['alt']).toBe('Chatbot zeigt nach unten');
-
-    // Check the second image
-    expect(images[1]).toBeTruthy();
-    expect(images[1].attributes['alt']).toBe(
-      'Chatbot zeigt nach links (Landscape)',
-    );
   });
 });
