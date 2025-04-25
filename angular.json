@@ -126,6 +126,15 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "src/**/*.spec.ts",
+              "src/test.ts",
+              "src/polyfills.ts",
+              "src/main.ts",
+              "src/environments/**"
+            ],
+            "sourceMap": true,
             "karmaConfig": "./karma.conf.js",
             "polyfills": [
               "zone.js",
