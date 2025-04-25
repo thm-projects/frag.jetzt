@@ -934,7 +934,7 @@
     "session-name": "Événement"
   },
   "worker-dialog": {
-    "404-error-description": "Même ma puce mémoire ne connaît pas cette page.<br>Tu dois peut-être te connecter ?",
+    "404-error-description": "Oups ! Cette page est si bien cachée que même mon IA ne peut pas la trouver. Peut-être qu'elle s'est enfuie avec les 404 autres chaussettes disparues de ta machine à laver ?",
     "bad-spelled": "Orthographe trop mauvaise",
     "comments": "Questions traitées",
     "failed": "Erreur survenue",
