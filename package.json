@@ -57,7 +57,6 @@
     "rxjs": "^7.8.2",
     "source-map-support": "^0.5.21",
     "tslib": "^2.4.0",
-    "typescript-eslint": "^8.27.0",
     "typescript-map": "^0.1.0",
     "webpack": "^5.95.0",
     "zone.js": "^0.15.0"
@@ -82,12 +81,12 @@
     "@types/jasminewd2": "^2.0.13",
     "@types/nightwatch": "3.0.1",
     "@types/node": "^22.13.10",
-    "@typescript-eslint/eslint-plugin": "^8.27.0",
-    "@typescript-eslint/parser": "^8.27.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
     "@typescript-eslint/types": "^8.27.0",
     "chromedriver": "134.0.4",
     "esbuild": "^0.25.1",
-    "eslint": "^9.22.0",
+    "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.6.8",
@@ -105,7 +104,8 @@
     "nightwatch": "3.12.1",
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
