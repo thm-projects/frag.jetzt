@@ -27,7 +27,7 @@ module.exports = {
   custom_assertions_path: "",
 
   // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
-  plugins: ["@nightwatch/angular"],
+  plugins: [],
 
   // See https://nightwatchjs.org/guide/concepts/test-globals.html#external-test-globals
   globals_path: "",
@@ -56,7 +56,11 @@ module.exports = {
   test_settings: {
     default: {
       desiredCapabilities: { browserName: "chrome" },
-      webdriver: { start_process: true, server_path: "" },
+      webdriver: {
+        start_process: true,
+        server_path:
+          process.env.CHROMEDRIVER_PATH || "/snap/bin/chromium.chromedriver",
+      },
       disable_error_log: false,
       launch_url: "http://localhost:4200",
 
@@ -112,19 +116,20 @@ module.exports = {
           // w3c:false tells Chromedriver to run using the legacy JSONWire protocol (not required in Chrome 78)
           w3c: true,
           args: [
-            //'--no-sandbox',
-            //'--ignore-certificate-errors',
-            //'--allow-insecure-localhost',
-            //'--headless'
-          ],
+            "--no-sandbox",
+            "--ignore-certificate-errors",
+            "--allow-insecure-localhost",
+            process.env.CI === 'true' && "--headless",
+          ].filter(Boolean),
         },
       },
 
       webdriver: {
         start_process: true,
-        server_path: "",
+        server_path:
+          process.env.CHROMEDRIVER_PATH || "/snap/bin/chromium.chromedriver",
         cli_args: [
-          // --verbose
+           // "--verbose"
         ],
       },
     },

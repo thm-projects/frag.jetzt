@@ -17,11 +17,10 @@ install:
   image: angular:19
   allow_failure: false
   script:
-    - npm ci --legacy-peer-deps
+    - bun install
   artifacts:
     paths:
       - node_modules/
-      - /root/.cache/Cypress/
     expire_in: 30 minutes
 
 eslint:
@@ -35,7 +34,7 @@ eslint:
   needs:
     - install
   script:
-    - npx eslint src
+    - bunx eslint src
 
 unit_tests:
   stage: test
@@ -51,9 +50,9 @@ unit_tests:
     paths:
       - coverage
   script:
-    - npm test
+    - bun run test
 
-.e2e_cypress:
+e2e_nightwatch:
   stage: test
   tags:
     - angular
@@ -63,21 +62,13 @@ unit_tests:
     TEST_USER_MAIL: $E2E_TEST_USER_MAIL
     TEST_USER_PASSWORD: $E2E_TEST_USER_PASSWORD
     TEST_ROOM_SHORTID: $E2E_TEST_ROOM_SHORTID
+    CI: true
   dependencies:
     - install
   needs:
     - install
-  before_script:
-    - apt-get update && apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-    - ./node_modules/.bin/cypress install
   script:
-    - source ci_staging_backend.export
-    - npx cypress verify
-    - ng e2e arsnova-angular-frontend --watch=false
-  artifacts:
-    paths:
-      - cypress/videos
-    expire_in: 15 mins
+    - bun nightwatch/run_e2e.mjs
 
 sonar:
   stage: codequality
@@ -106,7 +97,7 @@ ngbuild:
   needs:
     - install
   script:
-    - ng build --configuration production --aot
+    - bunx ng build --configuration production --aot
     - mv dist dist2
     - mv dist2/fragjetzt/browser/ dist/
     - mv dist2/fragjetzt/3rdpartylicenses.txt dist/
