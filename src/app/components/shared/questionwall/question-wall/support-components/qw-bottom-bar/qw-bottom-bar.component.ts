@@ -14,7 +14,6 @@ import { I18nLoader } from '../../../../../../base/i18n/i18n-loader';
 const i18n = I18nLoader.load(i18nRaw);
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-bottom-bar',
   imports: [
     MatButton,

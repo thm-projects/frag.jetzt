@@ -19,7 +19,6 @@ import { QwRunningNumberBackgroundComponent } from '../qw-running-number-backgro
 import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment',
   imports: [
     ArsModule,

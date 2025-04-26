@@ -5,7 +5,6 @@ import { QuestionWallService } from '../../question-wall.service';
 import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-footer',
   imports: [MatButton, MatIcon],
   templateUrl: './qw-comment-footer.component.html',

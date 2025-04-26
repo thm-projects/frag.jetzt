@@ -5,7 +5,6 @@ import { QuestionWallService } from '../../question-wall.service';
 import { DefaultSliderConfig } from '../../qw-config';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-scale-slider',
   imports: [MatIcon, MatSlider, MatSliderThumb],
   templateUrl: './qw-scale-slider.component.html',

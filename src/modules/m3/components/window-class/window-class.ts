@@ -11,7 +11,7 @@ import { M3WindowClass } from '../navigation/m3-navigation-types';
 export class M3WindowClassDirective {
   private _m3WindowClassExpression: string;
 
-  @Input('m3WindowClass') set m3WindowClass(value: M3WindowClass['window']) {
+  @Input() set m3WindowClass(value: M3WindowClass['window']) {
     if (!value) {
       this._m3WindowClass = undefined;
     } else {

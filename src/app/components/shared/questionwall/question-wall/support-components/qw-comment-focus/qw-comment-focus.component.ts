@@ -36,7 +36,6 @@ import { UIComment } from 'app/room/state/comment-updates';
 const baseAnimationDuration = 100;
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-focus',
   imports: [
     ArsModule,

@@ -3,7 +3,6 @@ import { QwCommentResponseComponent } from '../qw-comment-response/qw-comment-re
 import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-response-window',
   imports: [QwCommentResponseComponent],
   templateUrl: './qw-comment-response-window.component.html',

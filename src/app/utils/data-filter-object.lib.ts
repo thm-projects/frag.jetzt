@@ -34,7 +34,7 @@ export enum FilterType {
   Conversation = 'Conversation',
   BrainstormingIdea = 'BrainstormingIdea',
   Approved = 'Approved',
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+
   ChatGPT = 'ChatGPT',
 }
 

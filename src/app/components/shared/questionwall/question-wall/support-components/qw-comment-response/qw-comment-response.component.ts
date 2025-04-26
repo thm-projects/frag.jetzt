@@ -9,7 +9,6 @@ import { ArsDateFormatter } from '../../../../../../../../projects/ars/src/lib/s
 import { UIComment } from 'app/room/state/comment-updates';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'qw-comment-response',
   imports: [
     ArsModule,
