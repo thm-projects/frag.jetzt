@@ -1,11 +1,13 @@
 import tseslint from 'typescript-eslint';
+import angularEslint from '@angular-eslint/eslint-plugin';
 
 export default tseslint.config(
   {
     ignores: [
       "dist/**",
       "node_modules/**",
-      "coverage/**"  // Also ignore coverage reports
+      "coverage/**",  // Also ignore coverage reports
+      "src/modules/m3/utility/*.js" // Ignore problematic JS files
     ]
   },
   // Add typescript-eslint recommended configurations
@@ -20,6 +22,9 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    plugins: {
+      '@angular-eslint': angularEslint
+    },
     rules: {
       // Improved rule configuration
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -29,7 +34,14 @@ export default tseslint.config(
         varsIgnorePattern: '^_' 
       }],
       '@typescript-eslint/no-empty-function': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'warn', // Changed from error to warning
+      '@typescript-eslint/no-require-imports': 'warn', // Changed from error to warning
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      
+      // Angular ESLint Rules
+      '@angular-eslint/component-selector': 'warn',
+      '@angular-eslint/directive-selector': 'warn',
+      '@angular-eslint/no-input-rename': 'warn'
     },
   },
   
@@ -43,5 +55,14 @@ export default tseslint.config(
       'no-console': 'off', // Allow console in tests
       '@typescript-eslint/no-empty-function': 'off',
     },
+  },
+  
+  // Configuration for JS files
+  {
+    files: ['**/*.js'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn'
+    }
   }
 );

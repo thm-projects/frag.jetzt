@@ -28,7 +28,8 @@ module.exports = async function(config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false, // Run tests in order they are defined
-        failFast: false // Don't stop on first failure
+        failFast: false, // Don't stop on first failure
+        failSpecWithNoExpectations: true // Fail specs that have no expectations
       }
     },
     coverageIstanbulReporter: {
