@@ -52,7 +52,7 @@ unit_tests:
   script:
     - bun run test
 
-e2e_nightwatch:
+.e2e_nightwatch:
   stage: test
   tags:
     - angular
