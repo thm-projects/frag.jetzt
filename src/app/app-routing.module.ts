@@ -11,67 +11,74 @@ import { TransactionComponent } from './paypal/transaction/transaction.component
 import { UserOverviewComponent } from './user/user-overview/user-overview.component';
 import { APISetupComponent } from './user/apisetup/apisetup.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
+
+/**
+ * Routing configuration with title keys for internationalization.
+ *
+ * The title properties are used by TitleStrategy classes
+ * to find the corresponding translations.
+ */
 const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
-    title: 'home',
+    title: 'HOME', // Changed: Using uppercase as convention for translation keys
   },
   {
     path: 'home',
     component: HomePageComponent,
-    title: 'home',
+    title: 'HOME',
   },
   {
     path: 'user',
     component: UserHomePageComponent,
-    title: 'user',
+    title: 'USER_DASHBOARD',
   },
   {
     path: 'user/overview',
     component: UserOverviewComponent,
-    title: 'user-overview',
+    title: 'USER_OVERVIEW',
   },
   {
     path: 'user/api-setup',
     component: APISetupComponent,
-    title: 'api-setup',
+    title: 'API_SETUP',
   },
   {
     path: 'imprint',
     component: ImprintComponent,
-    title: 'imprint',
+    title: 'IMPRINT',
   },
   {
     path: 'introduction',
     component: DemoVideoComponent,
-    title: 'introduction',
+    title: 'INTRODUCTION',
   },
   {
     path: 'data-protection',
     component: DataProtectionComponent,
-    title: 'data-protection',
+    title: 'DATA_PROTECTION',
   },
   {
     path: 'quiz',
     component: QuizNowComponent,
-    title: 'quiz',
+    title: 'QUIZ',
   },
   {
     path: 'purchase',
     component: PaymentRouteComponent,
-    title: 'purchase',
+    title: 'PURCHASE',
   },
   {
     path: 'transaction',
     component: TransactionComponent,
-    title: 'transaction',
+    title: 'TRANSACTION',
   },
   {
     path: 'admin',
     loadChildren: () =>
       import('./components/admin/admin.module').then((m) => m.AdminModule),
-    title: 'admin',
+    title: 'ADMIN_PORTAL',
   },
   {
     path: 'creator',
@@ -79,7 +86,7 @@ const routes: Routes = [
       import('./components/creator/creator.module').then(
         (m) => m.CreatorModule,
       ),
-    title: 'creator',
+    title: 'CREATOR',
   },
   {
     path: 'participant',
@@ -87,7 +94,7 @@ const routes: Routes = [
       import('./components/participant/participant.module').then(
         (m) => m.ParticipantModule,
       ),
-    title: 'participant',
+    title: 'PARTICIPANT',
   },
   {
     path: 'moderator',
@@ -95,12 +102,12 @@ const routes: Routes = [
       import('./components/moderator/moderator.module').then(
         (m) => m.ModeratorModule,
       ),
-    title: 'moderator',
+    title: 'MODERATOR',
   },
   {
     path: '**',
     component: PageNotFoundComponent,
-    title: 'not-found',
+    title: 'NOT_FOUND',
   },
 ];
 

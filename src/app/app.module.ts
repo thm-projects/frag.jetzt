@@ -95,6 +95,8 @@ import { FirstTimeUserComponent } from './components/home/_dialogs/first-time-us
 import './base/theme/apply-system-variables';
 import { PwaInstallSnackbarComponent } from './components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AppTitleStrategy } from './services/title/app-title-strategy';
+import { RouterModule, TitleStrategy } from '@angular/router';
 
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
@@ -148,10 +150,11 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     CreatorModule,
     ModeratorModule,
     MatSnackBarModule,
+    RouterModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
-    TranslateModule.forChild({
+    TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
@@ -213,6 +216,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     CustomIconService,
     MatBottomSheet,
     DashboardNotificationService,
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
   ],
   bootstrap: [AppComponent],
 })
