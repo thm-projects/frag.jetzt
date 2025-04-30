@@ -18,7 +18,7 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
       ],
     },
-    title: 'room',
+    title: 'ROOM',
   },
   {
     path: 'room/:shortId/comments',
@@ -31,7 +31,7 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
       ],
     },
-    title: 'comments',
+    title: 'COMMENTS',
   },
   {
     path: 'room/:shortId/comment/:commentId',
@@ -44,7 +44,7 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
       ],
     },
-    title: 'comment',
+    title: 'COMMENT',
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
@@ -57,7 +57,7 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
       ],
     },
-    title: 'conversation',
+    title: 'CONVERSATION',
   },
 ];
 

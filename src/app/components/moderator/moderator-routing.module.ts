@@ -20,7 +20,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
-    title: 'room',
+    title: 'ROOM',
   },
   {
     path: 'room/:shortId/comments',
@@ -33,14 +33,16 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
-    title: 'comments',
+    title: 'COMMENTS',
   },
   {
     path: 'room/:shortId/moderator/comments',
     component: ModeratorCommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR, UserRole.CREATOR] },
-    title: 'moderator',
+    data: {
+      roles: [UserRole.EXECUTIVE_MODERATOR, UserRole.CREATOR],
+    },
+    title: 'MODERATOR',
   },
   {
     path: 'room/:shortId/comment/:commentId',
@@ -53,7 +55,7 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
-    title: 'comment',
+    title: 'COMMENT',
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
@@ -66,12 +68,12 @@ const routes: Routes = [
         UserRole.PARTICIPANT,
       ],
     },
-    title: 'conversation',
+    title: 'CONVERSATION',
   },
   {
     path: 'join/:shortId',
     component: ModeratorJoinComponent,
-    title: 'moderator-join',
+    title: 'MODERATOR_JOIN',
   },
 ];
 

@@ -12,28 +12,28 @@ const routes: Routes = [
     component: AdminOverviewComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
-    title: 'overview',
+    title: 'ADMIN_OVERVIEW',
   },
   {
     path: 'create-motd',
     component: CreateMotdComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
-    title: 'create-motd',
+    title: 'ADMIN_CREATE_MOTD',
   },
   {
     path: 'mailing',
     component: AdminMailingComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
-    title: 'mailing',
+    title: 'ADMIN_MAILING',
   },
   {
     path: 'keycloak-provider',
     component: KeycloakProviderComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
-    title: 'keycloak-provider',
+    title: 'ADMIN_KEYCLOAK_PROVIDER',
   },
 ];
 

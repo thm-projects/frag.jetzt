@@ -1,68 +1,106 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 /**
- * Custom TitleStrategy that handles internationalization of page titles.
- * Uses fallback translations for critical routes to ensure titles are always available,
- * even when translation loading fails or is delayed.
+ * Custom TitleStrategy for internationalized page titles using fallback translations.
  */
 @Injectable()
-export class AppTitleStrategy extends TitleStrategy {
-  // Hardcoded fallback translations for all routes
+export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
+  // Fallback translations (alphabetically sorted)
   private readonly fallbackTitles: Record<string, Record<string, string>> = {
     en: {
-      HOME: 'Home',
-      USER_DASHBOARD: 'My Dashboard',
-      USER_OVERVIEW: 'My Profile',
-      API_SETUP: 'API Settings',
-      IMPRINT: 'Legal Notice',
-      INTRODUCTION: 'How It Works',
-      DATA_PROTECTION: 'Privacy Policy',
-      QUIZ: 'Take Quiz',
-      PURCHASE: 'Checkout',
-      TRANSACTION: 'Payment Details',
+      ADMIN_CREATE_MOTD: 'Create MOTD',
+      ADMIN_KEYCLOAK_PROVIDER: 'Keycloak Provider',
+      ADMIN_MAILING: 'Admin Mailing',
+      ADMIN_OVERVIEW: 'Admin Overview',
       ADMIN_PORTAL: 'Admin Area',
+      API_SETUP: 'API Settings',
+      BRAINSTORMING: 'Brainstorming',
+      COMMENT: 'Comment',
+      COMMENTS: 'Public Posts',
+      CONVERSATION: 'Conversation',
       CREATOR: 'Room Management',
-      PARTICIPANT: 'Q&A Session',
-      MODERATOR: 'Moderation Tools',
+      DATA_PROTECTION: 'Data Protection',
+      GPT_CHAT_ROOM: 'GPT Chat Room',
+      HOME: 'Home',
+      IMPRINT: 'Legal Notice',
+      INTRODUCTION: 'Introduction',
+      MODERATOR: 'Moderator Tools',
+      MODERATOR_JOIN: 'Join as Moderator',
       NOT_FOUND: 'Page Not Found',
+      PARTICIPANT: 'Q&A',
+      PURCHASE: 'Payment Process',
+      QUESTIONWALL: 'Question Wall',
+      QUIZ: 'Quiz',
+      ROOM: 'Room Entrance',
+      TAGCLOUD: 'Tag Cloud',
+      TRANSACTION: 'Payment Details',
+      USER_DASHBOARD: 'My Rooms',
+      USER_OVERVIEW: 'My Profile',
     },
     de: {
-      HOME: 'Startseite',
-      USER_DASHBOARD: 'Meine Übersicht',
-      USER_OVERVIEW: 'Mein Profil',
-      API_SETUP: 'API-Einstellungen',
-      IMPRINT: 'Impressum',
-      INTRODUCTION: 'So funktioniert es',
-      DATA_PROTECTION: 'Datenschutz',
-      QUIZ: 'Quiz machen',
-      PURCHASE: 'Zur Kasse',
-      TRANSACTION: 'Zahlungsdetails',
+      ADMIN_CREATE_MOTD: 'MOTD-Erstellung',
+      ADMIN_KEYCLOAK_PROVIDER: 'Keycloak-Provider',
+      ADMIN_MAILING: 'Admin-Mailing',
+      ADMIN_OVERVIEW: 'Admin-Übersicht',
       ADMIN_PORTAL: 'Admin-Bereich',
+      API_SETUP: 'API-Einstellungen',
+      BRAINSTORMING: 'Brainstorming',
+      COMMENT: 'Kommentar',
+      COMMENTS: 'Öffentliche Beiträge',
+      CONVERSATION: 'Unterhaltung',
       CREATOR: 'Raumverwaltung',
-      PARTICIPANT: 'Fragen & Antworten',
-      MODERATOR: 'Moderationstools',
-      NOT_FOUND: 'Seite nicht gefunden',
+      DATA_PROTECTION: 'Datenschutz',
+      GPT_CHAT_ROOM: 'GPT-Chat-Raum',
+      HOME: 'Startseite',
+      IMPRINT: 'Impressum',
+      INTRODUCTION: 'Einführung',
+      MODERATOR: 'Moderierte Beiträge',
+      MODERATOR_JOIN: 'Moderatorbeitritt',
+      NOT_FOUND: 'Diese Seite existiert nicht',
+      PARTICIPANT: 'Q&A',
+      PURCHASE: 'Bezahlvorgang',
+      QUESTIONWALL: 'Fragenwand',
+      QUIZ: 'Quiz',
+      ROOM: 'Raum-Eingang',
+      TAGCLOUD: 'Fragenradar',
+      TRANSACTION: 'Zahlungsdetails',
+      USER_DASHBOARD: 'Meine Räume',
+      USER_OVERVIEW: 'Mein Profil',
     },
     fr: {
-      HOME: 'Accueil',
-      USER_DASHBOARD: 'Mon tableau de bord',
-      USER_OVERVIEW: 'Mon profil',
+      ADMIN_CREATE_MOTD: 'Création de MOTD',
+      ADMIN_KEYCLOAK_PROVIDER: 'Fournisseur Keycloak',
+      ADMIN_MAILING: 'Mailing Admin',
+      ADMIN_OVERVIEW: 'Vue d’administration',
+      ADMIN_PORTAL: 'Espace Admin',
       API_SETUP: 'Paramètres API',
-      IMPRINT: 'Mentions légales',
-      INTRODUCTION: 'Comment ça marche',
-      DATA_PROTECTION: 'Confidentialité',
-      QUIZ: 'Faire le quiz',
-      PURCHASE: 'Paiement',
-      TRANSACTION: 'Détails du paiement',
-      ADMIN_PORTAL: 'Espace admin',
+      BRAINSTORMING: 'Brainstorming',
+      COMMENT: 'Commentaire',
+      COMMENTS: 'Publications',
+      CONVERSATION: 'Conversation',
       CREATOR: 'Gestion des salles',
-      PARTICIPANT: 'Questions & Réponses',
-      MODERATOR: 'Outils de modération',
+      DATA_PROTECTION: 'Protection des données',
+      GPT_CHAT_ROOM: 'Salle de chat GPT',
+      HOME: 'Accueil',
+      IMPRINT: 'Mentions légales',
+      INTRODUCTION: 'Introduction',
+      MODERATOR: 'Modération',
+      MODERATOR_JOIN: 'Devenir modérateur',
       NOT_FOUND: 'Page introuvable',
+      PARTICIPANT: 'Q&R',
+      PURCHASE: 'Processus de paiement',
+      QUESTIONWALL: 'Mur de questions',
+      QUIZ: 'Quiz',
+      ROOM: 'Entrée de salle',
+      TAGCLOUD: 'Nuage de tags',
+      TRANSACTION: 'Détails de paiement',
+      USER_DASHBOARD: 'Mes salles',
+      USER_OVERVIEW: 'Mon profil',
     },
   };
 
@@ -74,8 +112,7 @@ export class AppTitleStrategy extends TitleStrategy {
     private readonly translate: TranslateService,
   ) {
     super();
-
-    // Subscribe to language changes to update the title reactively
+    // Subscribe to language change events to update the title accordingly
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       if (this.currentTitle) {
         this.updateTitleWithCurrentLanguage(this.currentTitle);
@@ -83,48 +120,54 @@ export class AppTitleStrategy extends TitleStrategy {
     });
   }
 
+  // Called by the router when the page title should be updated.
+  // Note: Title keys for lazy-loaded modules are provided via the "title" property in their routing definitions.
   override updateTitle(routerState: RouterStateSnapshot): void {
     const titleKey = this.buildTitle(routerState);
     this.currentTitle = titleKey as string;
-
     if (titleKey) {
       this.updateTitleWithCurrentLanguage(titleKey as string);
     } else {
+      // Fallback title if no key is provided
       this.title.setTitle('frag.jetzt');
     }
   }
 
+  // Update the browser title based on the current language.
+  // This method attempts to retrieve a translated title first (using TranslateService),
+  // but falls back to a predefined translation if needed. It also handles lazy-loaded modules'
+  // title keys provided in the routing modules.
   private updateTitleWithCurrentLanguage(titleKey: string): void {
-    // Get current language
     const currentLang =
       this.translate.currentLang || this.translate.defaultLang || 'en';
-
-    // Try to get from fallback translations first
     const fallbackTitle = this.getFallbackTitle(titleKey, currentLang);
-
     if (fallbackTitle) {
       this.title.setTitle(`${fallbackTitle} | frag.jetzt`);
     } else {
-      // Use key as fallback
       this.title.setTitle(`${titleKey} | frag.jetzt`);
     }
-
-    // Try with TranslateService too
     this.translate
       .get(`PAGE_TITLES.${titleKey}`)
+      .pipe(
+        catchError((err) => {
+          console.error(`Error loading translation for key ${titleKey}:`, err);
+          return of(''); // Return an empty string on error
+        }),
+      )
       .subscribe((translatedTitle: string) => {
-        // Only use if it's not just returning the key
+        // Use the translated title if available and different than the key
         if (translatedTitle && translatedTitle !== `PAGE_TITLES.${titleKey}`) {
           this.title.setTitle(`${translatedTitle} | frag.jetzt`);
         }
       });
   }
 
+  // Retrieve the fallback translation for a given key and language.
+  // If not found, fall back to English.
   private getFallbackTitle(key: string, lang: string): string | null {
     if (this.fallbackTitles[lang] && this.fallbackTitles[lang][key]) {
       return this.fallbackTitles[lang][key];
     }
-    // Try English as ultimate fallback
     if (
       lang !== 'en' &&
       this.fallbackTitles['en'] &&
@@ -133,5 +176,10 @@ export class AppTitleStrategy extends TitleStrategy {
       return this.fallbackTitles['en'][key];
     }
     return null;
+  }
+
+  // Unsubscribe from language change events when the instance is destroyed.
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
   }
 }

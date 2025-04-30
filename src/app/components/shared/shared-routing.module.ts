@@ -29,7 +29,7 @@ const routes: Routes = [
       ],
     },
     canActivate: [AuthenticationGuard],
-    title: 'questionwall',
+    title: 'QUESTIONWALL',
   },
   {
     path: 'room/:shortId/comments/tagcloud',
@@ -43,7 +43,7 @@ const routes: Routes = [
       ],
     },
     canActivate: [AuthenticationGuard],
-    title: 'tagcloud',
+    title: 'TAGCLOUD',
   },
   {
     path: 'room/:shortId/comments/brainstorming',
@@ -58,7 +58,7 @@ const routes: Routes = [
       brainstorming: true,
     },
     canActivate: [AuthenticationGuard],
-    title: 'brainstorming',
+    title: 'BRAINSTORMING',
   },
   {
     path: 'room/:shortId/gpt-chat-room',
@@ -72,7 +72,7 @@ const routes: Routes = [
       ],
     },
     canActivate: [AuthenticationGuard],
-    title: 'gpt-chat-room',
+    title: 'GPT_CHAT_ROOM',
   },
 ];
 
