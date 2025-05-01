@@ -1,21 +1,43 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta
-      content="frag.jetzt: Where Questions Turn into Answers!"
-      name="description"
-    />
-    <meta
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, maximum-scale=5.0, viewport-fit=cover"
-      name="viewport"
-    />
-    <meta name="keywords" content="ChatGPT, AI assistants, frag.jetzt" />
 
-    <title>frag.jetzt: Where Questions Turn into Answers!</title>
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="utf-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, maximum-scale=5.0, viewport-fit=cover"
+    name="viewport" />
+  <meta name="theme-color" content="#1976d2" />
 
-    <script type="application/ld+json">
+  <!-- SEO Meta Tags -->
+  <title>frag.jetzt: Where Questions Turn into Answers!</title>
+  <meta content="frag.jetzt: Where Questions Turn into Answers!" name="description" />
+  <meta name="keywords" content="ChatGPT, AI assistants, frag.jetzt" />
+
+  <!-- Base URL -->
+  <base href="/" />
+
+  <!-- PWA & Icons -->
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
+  <link rel="shortcut icon" href="/assets/icons/favicon.ico" />
+
+  <!-- PWA Meta Tags (iOS, Android, Windows) -->
+  <meta content="yes" name="mobile-web-app-capable" />
+  <meta content="frag.jetzt" name="application-name" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+  <meta content="frag.jetzt" name="apple-mobile-web-app-title" />
+  <meta name="msapplication-TileColor" content="#000000" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://frag.jetzt/introduction" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
       {
         "@context": "http://schema.org",
         "@type": "WebApplication",
@@ -32,66 +54,32 @@
         },
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "screenshot": "https://frag.jetzt/assets/background/Chatbot.png",
-        "inLanguage": "DE, EN, FR",
+        "inLanguage": ["de", "en", "fr"],
         "softwareHelp": {
           "@type": "CreativeWork",
           "url": "https://blog.frag.jetzt/"
         },
         "operatingSystem": "All",
         "author": {
-          "@type": "Technische Hochschule Mittelhessen, THM",
-          "name": "ARSnova team"
+          "@type": "Organization",
+          "name": "ARSnova team (Technische Hochschule Mittelhessen, THM)"
         },
         "offers": {
           "@type": "Offer",
-          "offeredBy": "TransMIT GmbH",
-          "price": " 0",
-          "priceCurrency": "€"
+          "offeredBy": {
+            "@type": "Organization",
+            "name": "TransMIT GmbH"
+          },
+          "price": 0,
+          "priceCurrency": "EUR"
         }
       }
     </script>
+</head>
 
-    <base href="/" />
+<body class="default-typescale" style="background-color: #201f22">
+  <app-root></app-root>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
 
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/assets/icons/apple-icon-180.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/assets/icons/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/assets/icons/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="shortcut icon" href="/assets/icons/favicon.ico" />
-    <link rel="canonical" href="https://frag.jetzt/introduction" />
-    <meta name="msapplication-TileColor" content="#000000" />
-    <meta content="frag.jetzt" name="apple-mobile-web-app-title" />
-    <meta content="frag.jetzt" name="application-name" />
-    <meta name="theme-color" content="#000000" />
-    <!-- Add to Homescreen for Chrome on Android -->
-    <meta content="yes" name="mobile-web-app-capable" />
-
-    <!-- Add to Homescreen for Safari on iOS -->
-    <meta content="yes" name="apple-mobile-web-app-capable" />
-    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
-
-    <link rel="manifest" href="manifest.webmanifest" />
-    <meta name="theme-color" content="#1976d2" />
-  </head>
-
-  <body class="default-typescale" style="background-color: #201f22">
-    <app-root></app-root>
-    <noscript
-      >Please enable JavaScript to continue using this application.</noscript
-    >
-  </body>
 </html>

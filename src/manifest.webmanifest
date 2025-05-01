@@ -14,7 +14,7 @@
   "lang": "de",
   "icons": [
     {
-      "src": "assets/icons/masked_icon.svg",
+      "src": "/assets/icons/masked_icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
@@ -56,32 +56,15 @@
       ]
     }
   ],
-  "theme_color": "#fff8f4",
-  "background_color": "#018000",
+  "theme_color": "#1976d2",
+  "background_color": "#201f22",
   "scope": "/",
-  "start_url": "/home",
-  "id": "/home",
+  "start_url": "/",
+  "id": "/",
   "orientation": "any",
   "display_override": ["window-controls-overlay"],
   "display": "standalone",
   "dir": "ltr",
-  "prefer_related_applications": true,
-  "_comment_related_applications": [
-    {
-      "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.uninow.thm&hl=de",
-      "id": "com.uninow.thm"
-    },
-    {
-      "platform": "itunes",
-      "url": "https://apps.apple.com/us/app/thm-app/id1644060104?itscg=30200&itsct=apps_box_badge&mttnsubad=1644060104",
-      "id": "1644060104"
-    },
-    {
-      "platform": "webapp",
-      "url": "https://staging.frag.jetzt/manifest.webmanifest"
-    }
-  ],
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
