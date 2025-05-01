@@ -844,7 +844,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt: Where Questions Turn into Answers!"
+    "default-title": "Where Questions Turn into Answers!"
   },
   "token-validator": {
     "bonus-token-header": "Bonus archive",
