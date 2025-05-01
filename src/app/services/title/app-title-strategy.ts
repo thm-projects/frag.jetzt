@@ -5,14 +5,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+/**
+ * Custom TitleStrategy to set the document title based on route configuration
+ * and the currently selected language using ngx-translate.
+ * Reads the title key directly from the `title` property of the route definition.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
-  // Define a default title key (e.g., for the home page or initial load)
   private readonly DEFAULT_TITLE_KEY = 'HOME';
 
-  // Fallback translation keys for titles in different languages
+  // Hardcoded fallback titles used if translation via ngx-translate fails.
   private readonly fallbackTitles: Record<string, Record<string, string>> = {
     en: {
       ADMIN_CREATE_MOTD: 'Create Announcement',
@@ -109,9 +113,12 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     },
   };
 
-  // Store the *key* of the current title (route or dialog)
+  // Stores the key ('HOME', 'INTRODUCTION', etc.) of the current route OR dialog title.
   private currentTitleKey: string | null = null;
+  // Stores the title string before a dialog opens.
   private originalTitle: string | null = null;
+  // Stores the route's title key before a dialog opens.
+  private routeTitleKeyBeforeDialog: string | null = null;
   private readonly langChangeSubscription: Subscription;
 
   constructor(
@@ -119,27 +126,42 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     private readonly translate: TranslateService,
   ) {
     super();
-    // Subscribe to language change events to update titles accordingly
+    // Update title whenever the language changes.
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
-      // Use the stored key to update the title when language changes
       const keyToUpdate = this.currentTitleKey || this.DEFAULT_TITLE_KEY;
       this.updateTitleWithCurrentLanguage(keyToUpdate);
     });
 
-    // Set initial title based on default language and default key
+    // Set the initial title.
     this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
   }
 
-  // Update the routing title based on the router state data
+  /**
+   * Updates the document title based on the router state.
+   */
   override updateTitle(routerState: RouterStateSnapshot): void {
-    // Use the default key if no title is found in route data
-    const titleKey =
-      routerState.root.firstChild?.data['title'] ?? this.DEFAULT_TITLE_KEY;
-    this.currentTitleKey = titleKey; // Store the key for language change updates
-    this.updateTitleWithCurrentLanguage(titleKey);
+    // Traverse the route tree to find the deepest activated route snapshot.
+    let route = routerState.root;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    // Get the title key directly from the `title` property of the snapshot.
+    const titleKey = route.title ?? this.DEFAULT_TITLE_KEY;
+
+    // Only update if not currently showing a dialog title
+    if (!this.originalTitle) {
+      this.currentTitleKey = titleKey;
+      this.updateTitleWithCurrentLanguage(titleKey);
+    } else {
+      // If a dialog is open, just store the underlying route key
+      this.routeTitleKeyBeforeDialog = titleKey;
+    }
   }
 
-  // Update the title using the current language, ngx-translate, and fallback keys
+  /**
+   * Fetches the translation and sets the document title.
+   */
   private updateTitleWithCurrentLanguage(titleKey: string): void {
     const currentLang =
       this.translate.currentLang || this.translate.defaultLang || 'en';
@@ -150,7 +172,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       .get(translationKey)
       .pipe(
         catchError(() => {
-          // On error (e.g., key not found in JSON), use fallback or the key itself
+          // Use fallback or key if translation fails.
           console.warn(
             `Translation not found for key: ${translationKey}. Using fallback or key.`,
           );
@@ -158,53 +180,69 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
         }),
       )
       .subscribe((translatedTitle: string) => {
-        // Check if translation is valid and not just the key path itself
         const finalTitle =
           translatedTitle && translatedTitle !== translationKey
             ? translatedTitle
-            : fallbackTitle || titleKey; // Use fallback or key if translation failed or was invalid
+            : fallbackTitle || titleKey;
 
+        // Set the final document title.
         this.title.setTitle(`${finalTitle} | frag.jetzt`);
       });
   }
 
-  // Retrieve a fallback title for a given key and language
+  /**
+   * Retrieves a hardcoded fallback title.
+   */
   private getFallbackTitle(key: string, lang: string): string | null {
     if (this.fallbackTitles[lang]?.[key]) {
       return this.fallbackTitles[lang][key];
     }
-    // Fallback to English if key exists there but not in current language
+    // Fallback to English if key exists there but not in current language.
     if (lang !== 'en' && this.fallbackTitles['en']?.[key]) {
       return this.fallbackTitles['en'][key];
     }
     return null;
   }
 
-  // Set the dialog title and save the current title for later restoration
+  /**
+   * Temporarily sets the document title for a dialog.
+   */
   setDialogTitle(dialogTitleKey: string): void {
     if (!this.originalTitle) {
+      // Store route key BEFORE overwriting currentTitleKey
+      this.routeTitleKeyBeforeDialog = this.currentTitleKey;
       this.originalTitle = this.title.getTitle();
     }
-    // Store the dialog key temporarily while the dialog is open
-    // This allows language changes to update the dialog title
+    // Set current key to the dialog's key
     this.currentTitleKey = dialogTitleKey;
     this.updateTitleWithCurrentLanguage(dialogTitleKey);
   }
 
-  // Restore the original title saved before opening a dialog
+  /**
+   * Restores the document title that was active before a dialog was opened.
+   */
   restoreOriginalTitle(): void {
     if (this.originalTitle) {
       this.title.setTitle(this.originalTitle);
+      // Restore the route's key
+      this.currentTitleKey = this.routeTitleKeyBeforeDialog;
+      // Clear temporary storage
       this.originalTitle = null;
-      // Reset currentTitleKey so the next route change or lang change uses the correct route title
-      // We assume a navigation event will happen shortly after closing a dialog,
-      // or the user is back on a page whose title will be set by updateTitle.
-      // If not, we might need to re-fetch the current route's title here.
-      this.currentTitleKey = null; // Resetting might be simplest. Re-evaluate if needed.
+      this.routeTitleKeyBeforeDialog = null;
+
+      // Immediately update title with the restored key
+      if (this.currentTitleKey) {
+        this.updateTitleWithCurrentLanguage(this.currentTitleKey);
+      } else {
+        // Fallback if routeTitleKeyBeforeDialog was somehow null
+        this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
+      }
     }
   }
 
-  // Unsubscribe from language change events when the service is destroyed
+  /**
+   * Cleans up the subscription.
+   */
   ngOnDestroy(): void {
     this.langChangeSubscription.unsubscribe();
   }
