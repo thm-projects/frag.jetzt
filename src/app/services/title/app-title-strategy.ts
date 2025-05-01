@@ -5,12 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-/**
- * Custom TitleStrategy for internationalized page titles using fallback translations.
- */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
-  // Fallback translations (alphabetically sorted)
+  // Fallback translation keys for titles in different languages
   private readonly fallbackTitles: Record<string, Record<string, string>> = {
     en: {
       ADMIN_CREATE_MOTD: 'Create Announcement',
@@ -41,6 +40,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       TRANSACTION: 'Payment Details',
       USER_DASHBOARD: 'My Rooms',
       USER_OVERVIEW: 'My Profile',
+      IMPRINT_DIALOG: 'Legal Notice',
     },
     de: {
       ADMIN_CREATE_MOTD: 'Ankündigung erstellen',
@@ -71,6 +71,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       TRANSACTION: 'Zahlungsdetails',
       USER_DASHBOARD: 'Meine Räume',
       USER_OVERVIEW: 'Mein Profil',
+      IMPRINT_DIALOG: 'Impressum',
     },
     fr: {
       ADMIN_CREATE_MOTD: 'Créer une annonce',
@@ -101,18 +102,20 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       TRANSACTION: 'Détails de paiement',
       USER_DASHBOARD: 'Mes salles',
       USER_OVERVIEW: 'Mon profil',
+      IMPRINT_DIALOG: 'Mentions légales',
     },
   };
 
   private currentTitle: string | null = null;
-  private langChangeSubscription: Subscription;
+  private originalTitle: string | null = null;
+  private readonly langChangeSubscription: Subscription;
 
   constructor(
     private readonly title: Title,
     private readonly translate: TranslateService,
   ) {
     super();
-    // Subscribe to language change events to update the title accordingly
+    // Subscribe to language change events to update titles accordingly
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       if (this.currentTitle) {
         this.updateTitleWithCurrentLanguage(this.currentTitle);
@@ -120,23 +123,16 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     });
   }
 
-  // Called by the router when the page title should be updated.
-  // Note: Title keys for lazy-loaded modules are provided via the "title" property in their routing definitions.
+  // Update the routing title based on the router state data
   override updateTitle(routerState: RouterStateSnapshot): void {
-    const titleKey = this.buildTitle(routerState);
-    this.currentTitle = titleKey as string;
+    const titleKey = routerState.root.firstChild?.data['title'] ?? '';
     if (titleKey) {
-      this.updateTitleWithCurrentLanguage(titleKey as string);
-    } else {
-      // Fallback title if no key is provided
-      this.title.setTitle('frag.jetzt');
+      this.currentTitle = titleKey;
+      this.updateTitleWithCurrentLanguage(titleKey);
     }
   }
 
-  // Update the browser title based on the current language.
-  // This method attempts to retrieve a translated title first (using TranslateService),
-  // but falls back to a predefined translation if needed. It also handles lazy-loaded modules'
-  // title keys provided in the routing modules.
+  // Update the title using the current language and fallback keys
   private updateTitleWithCurrentLanguage(titleKey: string): void {
     const currentLang =
       this.translate.currentLang || this.translate.defaultLang || 'en';
@@ -148,37 +144,48 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     }
     this.translate
       .get(`PAGE_TITLES.${titleKey}`)
-      .pipe(
-        catchError((err) => {
-          console.error(`Error loading translation for key ${titleKey}:`, err);
-          return of(''); // Return an empty string on error
-        }),
-      )
+      .pipe(catchError(() => of('')))
       .subscribe((translatedTitle: string) => {
-        // Use the translated title if available and different than the key
         if (translatedTitle && translatedTitle !== `PAGE_TITLES.${titleKey}`) {
           this.title.setTitle(`${translatedTitle} | frag.jetzt`);
         }
       });
   }
 
-  // Retrieve the fallback translation for a given key and language.
-  // If not found, fall back to English.
+  // Retrieve a fallback title for a given key and language
   private getFallbackTitle(key: string, lang: string): string | null {
-    if (this.fallbackTitles[lang] && this.fallbackTitles[lang][key]) {
+    if (this.fallbackTitles[lang]?.[key]) {
       return this.fallbackTitles[lang][key];
     }
-    if (
-      lang !== 'en' &&
-      this.fallbackTitles['en'] &&
-      this.fallbackTitles['en'][key]
-    ) {
+    if (lang !== 'en' && this.fallbackTitles['en']?.[key]) {
       return this.fallbackTitles['en'][key];
     }
     return null;
   }
 
-  // Unsubscribe from language change events when the instance is destroyed.
+  // Set the dialog title and save the current title for later restoration
+  setDialogTitle(dialogTitleKey: string): void {
+    if (!this.originalTitle) {
+      this.originalTitle = this.title.getTitle();
+    }
+    const currentLang =
+      this.translate.currentLang || this.translate.defaultLang || 'en';
+    const fallbackTitle = this.getFallbackTitle(dialogTitleKey, currentLang);
+    const translatedTitle = fallbackTitle
+      ? `${fallbackTitle} | frag.jetzt`
+      : `${dialogTitleKey} | frag.jetzt`;
+    this.title.setTitle(translatedTitle);
+  }
+
+  // Restore the original title saved before opening a dialog
+  restoreOriginalTitle(): void {
+    if (this.originalTitle) {
+      this.title.setTitle(this.originalTitle);
+      this.originalTitle = null;
+    }
+  }
+
+  // Unsubscribe from language change events when the service is destroyed
   ngOnDestroy(): void {
     this.langChangeSubscription.unsubscribe();
   }
