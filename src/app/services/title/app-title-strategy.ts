@@ -31,6 +31,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       CONVERSATION: 'Post History',
       CREATOR: 'Room Management',
       DATA_PROTECTION_DIALOG: 'Privacy Policy',
+      DONATION_DIALOG: 'Help frag.jetzt Grow!',
       GPT_CHAT_ROOM: 'AI Chat Room',
       HOME: 'Where Questions Turn into Answers!',
       IMPRINT_DIALOG: 'Legal Notice',
@@ -62,6 +63,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       CONVERSATION: 'Beitragsverlauf',
       CREATOR: 'Raumverwaltung',
       DATA_PROTECTION_DIALOG: 'Datenschutzrichtlinie',
+      DONATION_DIALOG: 'Gestalte die Zukunft mit uns!',
       GPT_CHAT_ROOM: 'KI-Chatraum',
       HOME: 'Wo Fragen zu Antworten werden!',
       IMPRINT_DIALOG: 'Impressum',
@@ -93,6 +95,7 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       CONVERSATION: 'Historique des publications',
       CREATOR: 'Gestion des salles',
       DATA_PROTECTION_DIALOG: 'Politique de confidentialité',
+      DONATION_DIALOG: "Faites une différence aujourd'hui!",
       GPT_CHAT_ROOM: 'Salle de chat IA',
       HOME: 'Où les questions deviennent des réponses !',
       IMPRINT_DIALOG: 'Mentions légales',
@@ -113,11 +116,9 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     },
   };
 
-  // Stores the key ('HOME', 'INTRODUCTION', etc.) of the current route OR dialog title.
+  // Stores current title key and state
   private currentTitleKey: string | null = null;
-  // Stores the title string before a dialog opens.
   private originalTitle: string | null = null;
-  // Stores the route's title key before a dialog opens.
   private routeTitleKeyBeforeDialog: string | null = null;
   private readonly langChangeSubscription: Subscription;
 
@@ -126,13 +127,11 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     private readonly translate: TranslateService,
   ) {
     super();
-    // Update title whenever the language changes.
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       const keyToUpdate = this.currentTitleKey || this.DEFAULT_TITLE_KEY;
       this.updateTitleWithCurrentLanguage(keyToUpdate);
     });
 
-    // Set the initial title.
     this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
   }
 
@@ -140,21 +139,17 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
    * Updates the document title based on the router state.
    */
   override updateTitle(routerState: RouterStateSnapshot): void {
-    // Traverse the route tree to find the deepest activated route snapshot.
     let route = routerState.root;
     while (route.firstChild) {
       route = route.firstChild;
     }
 
-    // Get the title key directly from the `title` property of the snapshot.
     const titleKey = route.title ?? this.DEFAULT_TITLE_KEY;
 
-    // Only update if not currently showing a dialog title
     if (!this.originalTitle) {
       this.currentTitleKey = titleKey;
       this.updateTitleWithCurrentLanguage(titleKey);
     } else {
-      // If a dialog is open, just store the underlying route key
       this.routeTitleKeyBeforeDialog = titleKey;
     }
   }
@@ -172,7 +167,6 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       .get(translationKey)
       .pipe(
         catchError(() => {
-          // Use fallback or key if translation fails.
           console.warn(
             `Translation not found for key: ${translationKey}. Using fallback or key.`,
           );
@@ -185,7 +179,6 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
             ? translatedTitle
             : fallbackTitle || titleKey;
 
-        // Set the final document title.
         this.title.setTitle(`${finalTitle} | frag.jetzt`);
       });
   }
@@ -197,7 +190,6 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     if (this.fallbackTitles[lang]?.[key]) {
       return this.fallbackTitles[lang][key];
     }
-    // Fallback to English if key exists there but not in current language.
     if (lang !== 'en' && this.fallbackTitles['en']?.[key]) {
       return this.fallbackTitles['en'][key];
     }
@@ -209,11 +201,9 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
    */
   setDialogTitle(dialogTitleKey: string): void {
     if (!this.originalTitle) {
-      // Store route key BEFORE overwriting currentTitleKey
       this.routeTitleKeyBeforeDialog = this.currentTitleKey;
       this.originalTitle = this.title.getTitle();
     }
-    // Set current key to the dialog's key
     this.currentTitleKey = dialogTitleKey;
     this.updateTitleWithCurrentLanguage(dialogTitleKey);
   }
@@ -224,17 +214,13 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
   restoreOriginalTitle(): void {
     if (this.originalTitle) {
       this.title.setTitle(this.originalTitle);
-      // Restore the route's key
       this.currentTitleKey = this.routeTitleKeyBeforeDialog;
-      // Clear temporary storage
       this.originalTitle = null;
       this.routeTitleKeyBeforeDialog = null;
 
-      // Immediately update title with the restored key
       if (this.currentTitleKey) {
         this.updateTitleWithCurrentLanguage(this.currentTitleKey);
       } else {
-        // Fallback if routeTitleKeyBeforeDialog was somehow null
         this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
       }
     }
