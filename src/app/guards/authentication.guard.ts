@@ -5,7 +5,6 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from '@angular/router';
-
 import { UserRole } from '../models/user-roles.enum';
 import { EventService } from 'app/services/util/event.service';
 import {
@@ -30,11 +29,11 @@ import { forceLogin, user$ } from 'app/user/state/user';
 @Injectable()
 export class AuthenticationGuard {
   constructor(
-    private router: Router,
-    private eventService: EventService,
-    private accountState: AccountStateService,
-    private roomState: RoomStateService,
-    private roomService: RoomService,
+    private readonly router: Router,
+    private readonly eventService: EventService,
+    private readonly accountState: AccountStateService,
+    private readonly roomState: RoomStateService,
+    private readonly roomService: RoomService,
   ) {}
 
   canActivate(
@@ -49,14 +48,14 @@ export class AuthenticationGuard {
         filter((v) => Boolean(v)),
         take(1),
         map((user) => user.hasRole(KeycloakRoles.AdminDashboard)),
-        tap((v) => !v && this.onNotAllowed()),
+        tap((v) => !v && this.onNotAllowed(route, state)),
       );
     }
     const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
     const wantedRole = this.parseRole(url);
     return forkJoin([
       forceLogin().pipe(
-        map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
+        map((u) => u?.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
       ),
       this.accountState.access$.pipe(first(Boolean)),
     ]).pipe(
@@ -78,7 +77,7 @@ export class AuthenticationGuard {
                 }),
               );
             }
-            this.onNotAllowed();
+            this.onNotAllowed(route, state);
             return of(false);
           }
           const role = this.findRole(possibleRoles, accessRole);
@@ -86,7 +85,7 @@ export class AuthenticationGuard {
             this.redirect(role, route.url);
             return of(false);
           }
-          this.onNotAllowed();
+          this.onNotAllowed(route, state);
           return of(false);
         }
         // wantedRole = ok && wantendRole in possible
@@ -163,9 +162,35 @@ export class AuthenticationGuard {
     return null;
   }
 
-  private onNotAllowed() {
+  private onNotAllowed(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ) {
+    // Check if this is an obviously non-existent route
+    if (this.isObviouslyInvalidURL(state.url)) {
+      // This is most likely a non-existent route, show 404 page
+      this.router.navigate(['/not-found']);
+      return;
+    }
+
+    // For all likely existing routes: Redirect to home page
+    // Let the homepage component show its default "Room doesn't exist" message
     this.router.navigate(['/']).then(() => {
-      setTimeout(() => this.eventService.broadcast('not-authorized'));
+      // Keep the event broadcast for backward compatibility
+      // (but don't add our own snackbar notification)
+      this.eventService.broadcast('not-authorized');
     });
+  }
+
+  private isObviouslyInvalidURL(url: string): boolean {
+    // Limited detection for obviously invalid URLs
+    // Detects URL malformations that clearly indicate erroneous inputs
+
+    const normalizedUrl = url.toLowerCase();
+
+    // Obviously invalid patterns
+    return /[<>:;"'\\|{}]|\.html$|\.php$|\.aspx?$|\.jsp$|\/undefined$|\/null$|\/\//.test(
+      normalizedUrl,
+    );
   }
 }
