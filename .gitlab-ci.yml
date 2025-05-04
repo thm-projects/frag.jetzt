@@ -1,71 +1,223 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
+variables:
+  BUILD_DIR: dist
 
-module.exports = async function(config) {
-  const isDocker = (await import('is-docker')).default();
-  const isCi = process.env.CI === 'true';
+stages:
+  - install
+  - test
+  - codequality
+  - build
+  - deploy
+  - push_manifest
+  - deploy_servers
 
-  config.set({
-    basePath: '',
+install:
+  stage: install
+  tags:
+    - angular
+  image: angular:19
+  allow_failure: false
+  script: |
+    bun install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 30 minutes
 
-    // Select headless launcher with sandbox flags in CI or Docker, else default ChromeHeadless
-    browsers: isCi || isDocker ? ['ChromeHeadlessNoSandbox'] : ['ChromeHeadless'],
+eslint:
+  stage: codequality
+  tags:
+    - angular
+  image: angular:19
+  allow_failure: false
+  dependencies:
+    - install
+  needs:
+    - install
+  script: |
+    bunx eslint src
 
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--disable-setuid-sandbox']
-      }
-    },
+unit_tests:
+  stage: test
+  tags:
+    - angular
+  image: angular:19
+  allow_failure: true
+  dependencies:
+    - install
+  needs:
+    - install
+  artifacts:
+    paths:
+      - coverage
+  script: |
+    bunx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox
 
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
-    plugins: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
-    ],
+e2e_nightwatch:
+  stage: test
+  tags:
+    - angular
+  image: angular:19
+  allow_failure: true
+  variables:
+    TEST_USER_MAIL: $E2E_TEST_USER_MAIL
+    TEST_USER_PASSWORD: $E2E_TEST_USER_PASSWORD
+    TEST_ROOM_SHORTID: $E2E_TEST_ROOM_SHORTID
+    CI: true
+  dependencies:
+    - install
+  needs:
+    - install
+  script: |
+    bun nightwatch/run_e2e.mjs
 
-    client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
-      jasmine: {
-        random: false, // Run tests in order they are defined
-        failFast: false, // Don't stop on first failure
-        failSpecWithNoExpectations: true // Fail specs that have no expectations
-      }
-    },
+sonar:
+  stage: codequality
+  only:
+    - staging
+  tags:
+    - sonar-cli
+  allow_failure: true
+  dependencies:
+    - unit_tests
+    - install
+  needs:
+    - unit_tests
+    - install
+  script: |
+    sonar-scanner \
+      -Dsonar.token="$SONAR_TOKEN" \
+      -Dsonar.host.url="$SONAR_HOST_URL" \
+      -Dsonar.qualitygate.wait=true \
+      -Dsonar.projectKey=frag.jetzt-frontend \
+      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
-    coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, 'coverage'),
-      reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      verbose: false,
-      thresholds: {
-        emitWarning: false,
-        each: {
-          statements: 0,
-          lines: 0,
-          branches: 0,
-          functions: 0
-        }
-      }
-    },
+ngbuild:
+  stage: build
+  tags:
+    - angular
+  image: angular:19
+  allow_failure: false
+  dependencies:
+    - install
+  needs:
+    - install
+  script: |
+    bunx ng build --configuration production --aot
+    mv dist dist2
+    mv dist2/fragjetzt/browser/ dist/
+    mv dist2/fragjetzt/3rdpartylicenses.txt dist/
+    rm -rf dist2/
+    echo "Package: @shopware-ag/meteor-icon-kit" >> dist/3rdpartylicenses.txt
+    echo "LICENSE: \"$(jq .license node_modules/@shopware-ag/meteor-icon-kit/package.json)\"" >> dist/3rdpartylicenses.txt
+    cat node_modules/@shopware-ag/meteor-icon-kit/LICENSE.md >> dist/3rdpartylicenses.txt
+    echo "" >> dist/3rdpartylicenses.txt
+    echo "--------------------------------------------------------------------------------" >> dist/3rdpartylicenses.txt
+  artifacts:
+    paths:
+      - "$BUILD_DIR"
 
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
-    reportSlowerThan: 500,
-    files: [],
-    port: 9876,
-    colors: true,
-    logLevel: config.LOG_INFO,
+.deploy_server:
+  stage: deploy_servers
+  tags:
+    - common
+  dependencies: []
+  script: |
+    eval $(ssh-agent -s)
+    mkdir ~/.ssh
+    ssh-keyscan "${SSH_CMD#*@}" >> ~/.ssh/known_hosts
+    ssh-add <(echo "$SSH_KEY")
+    ssh "${SSH_CMD}"
 
-    // Watch and run configuration
-    autoWatch: !isCi,
-    singleRun: isCi,
+deploy_staging:
+  extends: .deploy_server
+  only:
+    - staging
+  variables:
+    SSH_CMD: "$STAGING_SSH_URL"
+    SSH_KEY: "$STAGING_KEY"
 
-    // Timeouts for CI environments
-    browserDisconnectTimeout: 10000,
-    browserNoActivityTimeout: 60000,
-    captureTimeout: 60000
-  });
-};
+deploy_production:
+  extends: .deploy_server
+  only:
+    - master
+  dependencies:
+    - ngbuild
+  variables:
+    SSH_CMD: "$PROD_SSH_URL"
+    SSH_KEY: "$PROD_KEY"
+
+.build_image_template:
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags:
+    - kaniko
+  script: |
+    sed -i '/^dist$/d' .dockerignore
+    mkdir -p /kaniko/.docker
+    echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    echo "$CI_REGISTRY" "$IMAGE"
+    /kaniko/executor \
+      --custom-platform "$PLATFORM" \
+      --context         "$CI_PROJECT_DIR" \
+      --dockerfile      "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko" \
+      --build-arg       "BUILD_DIR=$BUILD_DIR" \
+      --build-arg       "TARGETPLATFORM=$PLATFORM" \
+      --destination     "$IMAGE"
+
+.manifest:
+  stage: push_manifest
+  only:
+    - staging
+    - master
+  tags:
+    - common
+  before_script: |
+    PROJECT_URL="https://github.com/estesp/manifest-tool"
+    VERSION="v2.1.9"
+    ARTIFACT="binaries-manifest-tool-2.1.9.tar.gz"
+    URL="$PROJECT_URL/releases/download/$VERSION/$ARTIFACT"
+    curl -L -o manifest-tool.tar.gz $URL
+    tar -zxvf manifest-tool.tar.gz manifest-tool-linux-$(dpkg --print-architecture)
+    rm manifest-tool.tar.gz
+    mv manifest-tool-linux-$(dpkg --print-architecture) manifest-tool
+    chmod +x manifest-tool
+  script: |
+    ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-args \
+      --platforms linux/arm64,linux/amd64 \
+      --template "${CI_REGISTRY_IMAGE}:ARCH-${CI_COMMIT_REF_SLUG}" \
+      --target "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+
+build_image_amd64:
+  extends: .build_image_template
+  only:
+    - staging
+    - master
+  variables:
+    PLATFORM: linux/amd64
+    IMAGE: "$CI_REGISTRY_IMAGE:amd64-$CI_COMMIT_REF_SLUG"
+
+build_image_arm64:
+  extends: .build_image_template
+  only:
+    - staging
+    - master
+  variables:
+    PLATFORM: linux/arm64
+    IMAGE: "$CI_REGISTRY_IMAGE:arm64-$CI_COMMIT_REF_SLUG"
+
+gitlab_registry_manifest:
+  extends: .manifest
+  script: |
+    ./manifest-tool --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" push from-args \
+      --platforms linux/arm64,linux/amd64 \
+      --template "${CI_REGISTRY_IMAGE}:ARCH-${CI_COMMIT_REF_SLUG}" \
+      --target "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+
+build_image_manual:
+  extends: .build_image_template
+  when: manual
+  except:
+    - staging
+    - master
