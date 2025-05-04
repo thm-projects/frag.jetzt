@@ -116,6 +116,7 @@ When you started with docker, all emails from the system are intercepted and can
 ## Static Code Analysis of the Angular Frontend
 
 To ensure high-quality code and maintainability, we use [SonarQube](https://www.sonarsource.com/) for static code analysis of the Angular frontend:
+
 [![Quality Gate Status](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=alert_status&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
 [![Technical Debt](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=sqale_index&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
 [![Maintainability Rating](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=sqale_rating&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
