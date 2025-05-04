@@ -49,6 +49,7 @@ unit_tests:
   artifacts:
     paths:
       - coverage
+    when: always        # Coverage selbst bei Test-Fehlern sichern
   script: |
     bunx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox
 
@@ -89,7 +90,7 @@ sonar:
       -Dsonar.host.url="$SONAR_HOST_URL" \
       -Dsonar.qualitygate.wait=true \
       -Dsonar.projectKey=frag.jetzt-frontend \
-      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      -Dsonar.javascript.lcov.reportPaths="coverage/**/lcov.info"
 
 ngbuild:
   stage: build
