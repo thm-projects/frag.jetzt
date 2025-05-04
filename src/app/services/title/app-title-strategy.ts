@@ -14,43 +14,58 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
+  // Default key used when no title is specified
   private readonly DEFAULT_TITLE_KEY = 'HOME';
 
-  // Hardcoded fallback titles used if translation via ngx-translate fails.
+  // State tracking for current title and dialog handling
+  private currentTitleKey: string = this.DEFAULT_TITLE_KEY;
+  private routeTitleKeyBeforeDialog: string | null = null;
+  private readonly langChangeSubscription: Subscription;
+
+  // Hardcoded fallback titles used if translation via ngx-translate fails
   private readonly fallbackTitles: Record<string, Record<string, string>> = {
     en: {
+      // Admin section
       ADMIN_CREATE_MOTD: 'Create Announcement',
       ADMIN_KEYCLOAK_PROVIDER: 'Keycloak Configuration',
       ADMIN_MAILING: 'Admin Mailing',
       ADMIN_OVERVIEW: 'Admin Overview',
       ADMIN_PORTAL: 'Admin Area',
+
+      // Core features
       API_SETUP: 'API Configuration',
       BRAINSTORMING: 'Brainstorming',
       COMMENT: 'Post',
       COMMENTS: 'Public Posts',
       CONVERSATION: 'Post History',
       CREATOR: 'Room Management',
-      DATA_PROTECTION_DIALOG: 'Privacy Policy',
-      DONATION_DIALOG: 'Help frag.jetzt Grow!',
-      GPT_CHAT_ROOM: 'AI Chat Room',
       HOME: 'Where Questions Turn into Answers!',
-      IMPRINT_DIALOG: 'Legal Notice',
       INTRODUCTION: 'How It Works',
       MODERATOR: 'Posts retained',
       MODERATOR_JOIN: 'Join as Moderator',
       NOT_FOUND: 'Page Not Found',
       PARTICIPANT: 'Q&A Session',
-      PURCHASE: 'Payment Process',
       QUESTIONWALL: 'Question Wall',
       QUIZ: 'Quiz',
       ROOM: 'Room Entry',
       TAGCLOUD: 'Question Radar',
+
+      // User and payment features
+      GPT_CHAT_ROOM: 'AI Chat Room',
+      PURCHASE: 'Payment Process',
       TRANSACTION: 'Payment Details',
-      UPDATE_INFO_DIALOG: 'Update Information',
       USER_DASHBOARD: 'My Rooms',
       USER_OVERVIEW: 'My Profile',
+
+      // Dialog titles
+      DATA_PROTECTION_DIALOG: 'Privacy Policy',
+      DONATION_DIALOG: 'Help frag.jetzt Grow!',
+      IMPRINT_DIALOG: 'Legal Notice',
+      UPDATE_INFO_DIALOG: 'Update Information',
     },
+
     de: {
+      // Same structure maintained for German titles
       ADMIN_CREATE_MOTD: 'Ankündigung erstellen',
       ADMIN_KEYCLOAK_PROVIDER: 'Keycloak-Konfiguration',
       ADMIN_MAILING: 'Admin-Mailing',
@@ -82,7 +97,9 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
       USER_DASHBOARD: 'Meine Räume',
       USER_OVERVIEW: 'Mein Profil',
     },
+
     fr: {
+      // Same structure maintained for French titles
       ADMIN_CREATE_MOTD: 'Créer une annonce',
       ADMIN_KEYCLOAK_PROVIDER: 'Configuration Keycloak',
       ADMIN_MAILING: 'Mailing Admin',
@@ -116,118 +133,129 @@ export class AppTitleStrategy extends TitleStrategy implements OnDestroy {
     },
   };
 
-  // Stores current title key and state
-  private currentTitleKey: string | null = null;
-  private originalTitle: string | null = null;
-  private routeTitleKeyBeforeDialog: string | null = null;
-  private readonly langChangeSubscription: Subscription;
-
   constructor(
     private readonly title: Title,
     private readonly translate: TranslateService,
   ) {
     super();
+
+    // Set up subscription to language changes to update title
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
-      const keyToUpdate = this.currentTitleKey || this.DEFAULT_TITLE_KEY;
-      this.updateTitleWithCurrentLanguage(keyToUpdate);
+      this.updateTitleWithCurrentLanguage(this.currentTitleKey);
     });
 
+    // Set initial default title
     this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
   }
 
+  // ====== Router Integration ======
+
   /**
    * Updates the document title based on the router state.
+   * This is called by Angular's router when navigation completes.
    */
   override updateTitle(routerState: RouterStateSnapshot): void {
+    // Find the deepest route (leaf node)
     let route = routerState.root;
     while (route.firstChild) {
       route = route.firstChild;
     }
 
+    // Extract title key from route data or use default
     const titleKey = route.title ?? this.DEFAULT_TITLE_KEY;
 
-    if (!this.originalTitle) {
+    // Only update if no dialog is currently active
+    if (!this.routeTitleKeyBeforeDialog) {
       this.currentTitleKey = titleKey;
       this.updateTitleWithCurrentLanguage(titleKey);
-    } else {
-      this.routeTitleKeyBeforeDialog = titleKey;
     }
   }
 
-  /**
-   * Fetches the translation and sets the document title.
-   */
-  private updateTitleWithCurrentLanguage(titleKey: string): void {
-    const currentLang =
-      this.translate.currentLang || this.translate.defaultLang || 'en';
-    const fallbackTitle = this.getFallbackTitle(titleKey, currentLang);
-    const translationKey = `PAGE_TITLES.${titleKey}`;
-
-    this.translate
-      .get(translationKey)
-      .pipe(
-        catchError(() => {
-          console.warn(
-            `Translation not found for key: ${translationKey}. Using fallback or key.`,
-          );
-          return of(fallbackTitle || titleKey);
-        }),
-      )
-      .subscribe((translatedTitle: string) => {
-        const finalTitle =
-          translatedTitle && translatedTitle !== translationKey
-            ? translatedTitle
-            : fallbackTitle || titleKey;
-
-        this.title.setTitle(`${finalTitle} | frag.jetzt`);
-      });
-  }
-
-  /**
-   * Retrieves a hardcoded fallback title.
-   */
-  private getFallbackTitle(key: string, lang: string): string | null {
-    if (this.fallbackTitles[lang]?.[key]) {
-      return this.fallbackTitles[lang][key];
-    }
-    if (lang !== 'en' && this.fallbackTitles['en']?.[key]) {
-      return this.fallbackTitles['en'][key];
-    }
-    return null;
-  }
+  // ====== Dialog Title Management ======
 
   /**
    * Temporarily sets the document title for a dialog.
+   * Stores the previous title to be restored later.
    */
   setDialogTitle(dialogTitleKey: string): void {
-    if (!this.originalTitle) {
+    // Store current title key for later restoration if not already stored
+    if (!this.routeTitleKeyBeforeDialog) {
       this.routeTitleKeyBeforeDialog = this.currentTitleKey;
-      this.originalTitle = this.title.getTitle();
     }
+
+    // Update to dialog title
     this.currentTitleKey = dialogTitleKey;
     this.updateTitleWithCurrentLanguage(dialogTitleKey);
   }
 
   /**
-   * Restores the document title that was active before a dialog was opened.
+   * Restores the document title to a default value.
+   * Note: We use a default title for reliability across navigation contexts.
    */
   restoreOriginalTitle(): void {
-    if (this.originalTitle) {
-      this.title.setTitle(this.originalTitle);
-      this.currentTitleKey = this.routeTitleKeyBeforeDialog;
-      this.originalTitle = null;
-      this.routeTitleKeyBeforeDialog = null;
-
-      if (this.currentTitleKey) {
-        this.updateTitleWithCurrentLanguage(this.currentTitleKey);
-      } else {
-        this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
-      }
-    }
+    // Reset to default HOME title for consistency
+    this.currentTitleKey = this.DEFAULT_TITLE_KEY;
+    this.updateTitleWithCurrentLanguage(this.DEFAULT_TITLE_KEY);
+    this.routeTitleKeyBeforeDialog = null;
   }
 
+  // ====== Title Translation & Fallback Logic ======
+
   /**
-   * Cleans up the subscription.
+   * Core method for setting the document title using the current language.
+   * Implements a cascading fallback mechanism for missing translations.
+   */
+  private updateTitleWithCurrentLanguage(titleKey: string): void {
+    // Get current language or fall back to default
+    const currentLang =
+      this.translate.currentLang || this.translate.defaultLang || 'en';
+
+    // Format the translation key
+    const translationKey = `PAGE_TITLES.${titleKey}`;
+
+    // Try to get translation from the service
+    this.translate
+      .get(translationKey)
+      .pipe(
+        catchError(() => {
+          // Handle errors from translate service
+          return of(translationKey);
+        }),
+      )
+      .subscribe((translatedTitle: string) => {
+        let finalTitle: string;
+
+        // Check if translation was found
+        if (translatedTitle === translationKey) {
+          // FALLBACK 1: Try hardcoded fallbacks in current language
+          if (this.fallbackTitles[currentLang]?.[titleKey]) {
+            finalTitle = this.fallbackTitles[currentLang][titleKey];
+          }
+          // FALLBACK 2: Try English fallbacks if not already in English
+          else if (
+            currentLang !== 'en' &&
+            this.fallbackTitles['en']?.[titleKey]
+          ) {
+            finalTitle = this.fallbackTitles['en'][titleKey];
+          }
+          // FALLBACK 3: Use the key itself as last resort
+          else {
+            finalTitle = titleKey;
+          }
+        } else {
+          // Translation found - use it
+          finalTitle = translatedTitle;
+        }
+
+        // Set the browser title with site suffix
+        this.title.setTitle(`${finalTitle} | frag.jetzt`);
+      });
+  }
+
+  // ====== Lifecycle ======
+
+  /**
+   * Clean up resources when component is destroyed
    */
   ngOnDestroy(): void {
     this.langChangeSubscription.unsubscribe();

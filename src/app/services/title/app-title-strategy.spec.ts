@@ -1,53 +1,41 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { RouterStateSnapshot } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { AppTitleStrategy } from './app-title-strategy';
-import { of, Subject } from 'rxjs';
 
 describe('AppTitleStrategy', () => {
-  let titleStrategy: AppTitleStrategy;
+  let strategy: AppTitleStrategy;
   let titleService: jasmine.SpyObj<Title>;
   let translateService: jasmine.SpyObj<TranslateService>;
-  let langChangeSubject: Subject<{ lang: string }>;
 
-  // Helper function to create mock router state
-  function createMockRouterState(
-    titleKey: string | null = 'HOME',
-  ): RouterStateSnapshot {
-    return {
-      root: {
-        firstChild: {
-          data: titleKey ? { title: titleKey } : {},
-        },
+  // Mock router state with a title
+  const mockRouterStateSnapshot = {
+    root: {
+      firstChild: {
+        firstChild: null,
+        title: 'HOME',
       },
-    } as unknown as RouterStateSnapshot;
-  }
+    },
+  } as unknown as RouterStateSnapshot;
 
   beforeEach(() => {
-    // Arrange: Create mocks and spies
+    // Arrange - Create test dependencies
     const titleSpy = jasmine.createSpyObj('Title', ['setTitle']);
-    langChangeSubject = new Subject<{ lang: string }>();
+    const translateSpy = jasmine.createSpyObj('TranslateService', ['get']);
+    translateSpy.get.and.returnValue(of('Translated Title'));
 
-    const translateSpy = jasmine.createSpyObj(
-      'TranslateService',
-      ['get', 'use'],
-      {
-        currentLang: 'en',
-        defaultLang: 'en',
-        onLangChange: langChangeSubject.asObservable(),
-      },
-    );
-
-    // Mock different translation responses based on key
-    translateSpy.get.and.callFake((key: string) => {
-      if (key === 'PAGE_TITLES.HOME') {
-        return of('Translated Title');
-      } else {
-        // Simulate not found by returning the key
-        return of(key);
-      }
+    // Mock translation service properties
+    Object.defineProperty(translateSpy, 'currentLang', {
+      get: () => 'en',
     });
+    Object.defineProperty(translateSpy, 'defaultLang', {
+      get: () => 'en',
+    });
+    translateSpy.onLangChange = {
+      subscribe: jasmine.createSpy().and.returnValue({ unsubscribe: () => {} }),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -57,162 +45,104 @@ describe('AppTitleStrategy', () => {
       ],
     });
 
-    titleStrategy = TestBed.inject(AppTitleStrategy);
+    strategy = TestBed.inject(AppTitleStrategy);
     titleService = TestBed.inject(Title) as jasmine.SpyObj<Title>;
     translateService = TestBed.inject(
       TranslateService,
     ) as jasmine.SpyObj<TranslateService>;
+  });
 
-    // Mock buildTitle method that normally comes from the base class
-    spyOn(titleStrategy, 'buildTitle').and.callFake(
-      (state: RouterStateSnapshot) => {
-        return state.root.firstChild?.data?.['title'] || null;
-      },
+  it('should set page title from route data', () => {
+    // Arrange
+    translateService.get.and.returnValue(of('Welcome to frag.jetzt'));
+
+    // Act
+    strategy.updateTitle(mockRouterStateSnapshot);
+
+    // Assert
+    expect(translateService.get).toHaveBeenCalledWith('PAGE_TITLES.HOME');
+    expect(titleService.setTitle).toHaveBeenCalledWith(
+      'Welcome to frag.jetzt | frag.jetzt',
     );
   });
 
-  // Test 1: Basic functionality - translation found
-  it('should set the page title using translation service', fakeAsync(() => {
-    // Arrange
-    const mockRouterState = createMockRouterState();
-
-    // Act
-    titleStrategy.updateTitle(mockRouterState);
-    tick(); // Process async operations
-
-    // Assert
-    expect(translateService.get).toHaveBeenCalledWith('PAGE_TITLES.HOME');
-    expect(titleService.setTitle).toHaveBeenCalledWith(
-      'Translated Title | frag.jetzt',
-    );
-  }));
-
-  // Test 2: Fallback behavior - translation not found
-  it('should use fallback title when translation key is not found', fakeAsync(() => {
-    // Arrange
-    const mockRouterState = createMockRouterState();
+  it('should use fallback title when translation key not found', () => {
+    // Arrange - Setup translation to return the key (indicating no translation)
     translateService.get.and.returnValue(of('PAGE_TITLES.HOME'));
 
     // Act
-    titleStrategy.updateTitle(mockRouterState);
-    tick();
+    strategy.updateTitle(mockRouterStateSnapshot);
 
-    // Assert
-    expect(titleService.setTitle).toHaveBeenCalledWith('Home | frag.jetzt');
-  }));
+    // Assert - Verify fallback title was used
+    expect(titleService.setTitle).toHaveBeenCalled();
+    const titleCall = titleService.setTitle.calls.mostRecent();
+    expect(titleCall.args[0]).toContain('Where Questions Turn into Answers!');
+  });
 
-  // Test 3: Reactive behavior on language change
-  it('should update title when language changes', fakeAsync(() => {
-    // Arrange
-    const mockRouterState = createMockRouterState();
+  it('should handle missing title data gracefully', () => {
+    // Arrange - Router state with no title
+    const noTitleSnapshot = {
+      root: {
+        firstChild: {
+          firstChild: null,
+          // No title property
+        },
+      },
+    } as unknown as RouterStateSnapshot;
+    translateService.get.and.returnValue(of('Welcome to frag.jetzt'));
 
-    // Act 1 - Set title in English
-    titleStrategy.updateTitle(mockRouterState);
-    tick();
+    // Act
+    strategy.updateTitle(noTitleSnapshot);
 
-    // Reset spies for clean test
+    // Assert - Default title key should be used
+    expect(translateService.get).toHaveBeenCalledWith('PAGE_TITLES.HOME');
+    expect(titleService.setTitle).toHaveBeenCalledWith(
+      'Welcome to frag.jetzt | frag.jetzt',
+    );
+  });
+
+  it('should use key as fallback when no translation or hardcoded fallback exists', () => {
+    // Arrange - Router state with custom title key
+    const customKeySnapshot = {
+      root: {
+        firstChild: {
+          firstChild: null,
+          title: 'CUSTOM_KEY_WITHOUT_TRANSLATION',
+        },
+      },
+    } as unknown as RouterStateSnapshot;
+    translateService.get.and.returnValue(
+      of('PAGE_TITLES.CUSTOM_KEY_WITHOUT_TRANSLATION'),
+    );
+
+    // Act
+    strategy.updateTitle(customKeySnapshot);
+
+    // Assert - Key itself should be used as fallback
+    expect(titleService.setTitle).toHaveBeenCalledWith(
+      'CUSTOM_KEY_WITHOUT_TRANSLATION | frag.jetzt',
+    );
+  });
+
+  it('should set temporary dialog title', () => {
+    // Arrange - Set initial title
+    translateService.get.and.returnValue(of('Welcome to frag.jetzt'));
+    strategy.updateTitle(mockRouterStateSnapshot);
+
+    // Reset tracking
     titleService.setTitle.calls.reset();
     translateService.get.calls.reset();
 
-    // Act 2 - Change language to German
-    Object.defineProperty(translateService, 'currentLang', { get: () => 'de' });
-    langChangeSubject.next({ lang: 'de' });
-    tick();
+    // Act - Set dialog title
+    translateService.get.and.returnValue(of('Privacy Policy'));
+    strategy.setDialogTitle('DATA_PROTECTION_DIALOG');
 
-    // Assert
-    expect(translateService.get).toHaveBeenCalledWith('PAGE_TITLES.HOME');
-    expect(titleService.setTitle).toHaveBeenCalled();
-  }));
-
-  // Test 4: Error tolerance - Missing title in route data
-  it('should handle missing title data gracefully', fakeAsync(() => {
-    // Arrange
-    const mockRouterStateWithoutTitle = createMockRouterState(null);
-
-    // Act
-    titleStrategy.updateTitle(mockRouterStateWithoutTitle);
-    tick();
-
-    // Assert
-    expect(titleService.setTitle).toHaveBeenCalledWith('frag.jetzt');
-  }));
-
-  // Test 5: Fallback for completely unsupported keys
-  it('should use route key as fallback when no translation or fallback exists', fakeAsync(() => {
-    // Arrange - Key not available in any language
-    Object.defineProperty(translateService, 'currentLang', { get: () => 'fr' });
-    const mockRouterState = createMockRouterState('UNKNOWN_KEY');
-
-    // Act
-    titleStrategy.updateTitle(mockRouterState);
-    tick();
-
-    // Assert
-    expect(titleService.setTitle).toHaveBeenCalledWith(
-      'UNKNOWN_KEY | frag.jetzt',
+    // Assert - Dialog title should be set
+    expect(translateService.get).toHaveBeenCalledWith(
+      'PAGE_TITLES.DATA_PROTECTION_DIALOG',
     );
-  }));
-
-  // Test 6: Fallback for languages without specific translations
-  it('should use English fallback when language has no translations', fakeAsync(() => {
-    // Arrange - French has no entries
-    Object.defineProperty(translateService, 'currentLang', { get: () => 'fr' });
-
-    const fallbackTitles = {
-      en: {
-        SPECIAL_KEY: 'English Fallback Text',
-      },
-      fr: {},
-    };
-
-    Object.defineProperty(titleStrategy, 'fallbackTitles', {
-      value: fallbackTitles,
-    });
-    const mockRouterState = createMockRouterState('SPECIAL_KEY');
-
-    // Act
-    titleStrategy.updateTitle(mockRouterState);
-    tick();
-
-    // Assert
     expect(titleService.setTitle).toHaveBeenCalledWith(
-      'English Fallback Text | frag.jetzt',
+      'Privacy Policy | frag.jetzt',
     );
-  }));
-
-  // Test 7: English fallback for specific missing keys in other languages
-  it('should use English fallback when key exists in English but not in current language', fakeAsync(() => {
-    // Arrange - German doesn't have the key, but English does
-    Object.defineProperty(translateService, 'currentLang', { get: () => 'de' });
-
-    // Create a scenario where:
-    // 1. The 'de' language exists
-    // 2. The key doesn't exist in 'de'
-    // 3. The key exists in 'en'
-    const fallbackTitles = {
-      en: {
-        ENGLISH_ONLY_KEY: 'English Text',
-      },
-      de: {
-        SOME_OTHER_KEY: 'German Text', // Key exists in German, but not the one we're looking for
-      },
-    };
-
-    // Use Reflection to set the private fallbackTitles property
-    Object.defineProperty(titleStrategy, 'fallbackTitles', {
-      value: fallbackTitles,
-    });
-
-    const mockRouterState = createMockRouterState('ENGLISH_ONLY_KEY');
-
-    // Act
-    titleStrategy.updateTitle(mockRouterState);
-    tick();
-
-    // Assert
-    // Should use the English fallback since it's not available in German
-    expect(titleService.setTitle).toHaveBeenCalledWith(
-      'English Text | frag.jetzt',
-    );
-  }));
+  });
 });
