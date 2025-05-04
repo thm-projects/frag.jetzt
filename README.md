@@ -1,3 +1,7 @@
+[![Quality Gate](https://sonarqube.example.com/api/project_badges/measure?project=frag.jetzt-frontend&metric=alert_status)](https://sonarqube.example.com/dashboard?id=frag.jetzt-frontend)
+[![Coverage](https://sonarqube.example.com/api/project_badges/measure?project=frag.jetzt-frontend&metric=coverage)](https://sonarqube.example.com/dashboard?id=frag.jetzt-frontend)
+
+
 # Developer Onboarding Guide
 
 **Nomen est omen:** The app's name, _frag.jetzt_ (German for "ask.now"), says it all—highlighting both its main purpose and its web address, <https://frag.jetzt>.
@@ -111,8 +115,8 @@ When you started with docker, all emails from the system are intercepted and can
 ## Static Code Analysis of the Angular Frontend
 
 To ensure high-quality code and maintainability, we use [SonarQube](https://www.sonarsource.com/) for static code analysis of the Angular frontend:
-
-[![Quality gate](https://sonar.arsnova.eu/api/project_badges/quality_gate?project=frag.jetzt-frontend&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
+[![Quality Gate](https://sonarqube.example.com/api/project_badges/measure?project=frag.jetzt-frontend&metric=alert_status)](https://sonarqube.example.com/dashboard?id=frag.jetzt-frontend)
+[![Coverage](https://sonarqube.example.com/api/project_badges/measure?project=frag.jetzt-frontend&metric=coverage)](https://sonarqube.example.com/dashboard?id=frag.jetzt-frontend)
 
 [![Lines of Code](https://sonar.arsnova.eu/api/project_badges/measure?project=frag.jetzt-frontend&metric=ncloc&token=sqb_b08ddcd80ffd5373cec06b06190b2090a3808b0f)](https://sonar.arsnova.eu/dashboard?id=frag.jetzt-frontend)
 
