@@ -92,9 +92,9 @@ export class MatomoTrackingService {
     ],
   ] as const;
 
-  private router = inject(Router);
-  private roomState = inject(RoomStateService);
-  private platform = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
+  private readonly roomState = inject(RoomStateService);
+  private readonly platform = inject(PLATFORM_ID);
 
   constructor() {
     if (
@@ -137,7 +137,7 @@ export class MatomoTrackingService {
     const url = decodeURI(this.router.url);
     let matched = false;
     for (const [key, operation] of this.CONFIG) {
-      const match = url.match(key);
+      const match = key.exec(url);
       if (match) {
         matched = true;
         this.setReferrerUrl(this.lastUrl);
