@@ -143,7 +143,7 @@ To ensure high-quality code and maintainability, we use [SonarQube](https://www.
 
    ```bash
    sudo docker compose pull
-   ARCH=$(uname -m) docker compose build
+   docker compose build
    ```
 
 4. **Start the SonarQube server:**
@@ -153,9 +153,12 @@ To ensure high-quality code and maintainability, we use [SonarQube](https://www.
    ```
 
 5. **Run the analysis:**
+
    ```bash
    sudo docker compose run --rm analysis
    ```
+
+6. **Look at the results at [http://localhost:9000](http://localhost:9000)**
 
 ## Understanding the Codebase
 
