@@ -84,7 +84,8 @@ sonar:
     - unit_tests
     - install
   script:
-    - sonar-scanner \
+    - |
+      sonar-scanner \
         -Dsonar.token="$SONAR_TOKEN" \
         -Dsonar.host.url="$SONAR_HOST_URL" \
         -Dsonar.qualitygate.wait=true \
