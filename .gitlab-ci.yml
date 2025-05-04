@@ -50,7 +50,7 @@ unit_tests:
     paths:
       - coverage
   script: |
-    bunx ng test --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox --browsers-args="--no-sandbox --disable-setuid-sandbox"
+    bunx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox
 
 e2e_nightwatch:
   stage: test
