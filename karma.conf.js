@@ -8,8 +8,8 @@ module.exports = async function(config) {
   config.set({
     basePath: '',
 
-    // Select headless launcher with sandbox flags in CI or Docker, else default ChromeHeadless
-    browsers: isCi || isDocker ? ['ChromeHeadlessNoSandbox'] : ['ChromeHeadless'],
+    // Use visible Chrome for local development, headless for CI
+    browsers: isCi || isDocker ? ['ChromeHeadlessNoSandbox'] : ['Chrome'],
 
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
@@ -33,7 +33,9 @@ module.exports = async function(config) {
         random: false, // Run tests in order they are defined
         failFast: false, // Don't stop on first failure
         failSpecWithNoExpectations: true // Fail specs that have no expectations
-      }
+      },
+      // Add debug flag to keep browser open
+      debug: true
     },
 
     coverageIstanbulReporter: {
@@ -59,11 +61,11 @@ module.exports = async function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
 
-    // Watch and run configuration
-    autoWatch: !isCi,
+    // Force watch mode for local development
+    autoWatch: true,
     singleRun: isCi,
 
-    // Timeouts for CI environments
+    // Increase timeouts for better stability
     browserDisconnectTimeout: 10000,
     browserNoActivityTimeout: 60000,
     captureTimeout: 60000
