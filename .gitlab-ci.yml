@@ -36,6 +36,8 @@ unit_tests:
   script: |
     bun install
     bunx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox
+    cp coverage/**/lcov.info coverage/lcov.info || echo "no lcov.info found"
+
 
 e2e_nightwatch:
   stage: test

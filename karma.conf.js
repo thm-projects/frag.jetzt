@@ -139,6 +139,7 @@ module.exports = async function(config) {
 
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, 'coverage'),
+      subdir: '.', // ensures lcov.info is placed directly in 'coverage/'
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true,
       verbose: false,
@@ -152,7 +153,7 @@ module.exports = async function(config) {
         }
       }
     },
-
+    
     reportSlowerThan: 500,
     files: [],
     port: 9876,
