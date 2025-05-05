@@ -3,18 +3,21 @@
   "version": "3.0.1",
   "license": "MIT",
   "scripts": {
-    "e2e:test": "./node_modules/.bin/nightwatch --env 'chrome' --config './nightwatch.conf.js'",
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration production",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom --source-map=false --code-coverage",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
-    "prepare": "husky",
-    "postinstall": "node ./install/post-install.js",
-    "app": "node --trace-uncaught ./install/manage-dependency.mjs"
-  },
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build --configuration production",
+  "test": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox --source-map=false --code-coverage",
+  "test:firefox": "ng test --browsers=Firefox",
+  "test:headless": "ng test --browsers=ChromeHeadlessNoSandbox,FirefoxHeadless",
+  "lint": "ng lint",
+  "e2e": "ng e2e",
+  "e2e:test": "./node_modules/.bin/nightwatch --env 'chrome' --config './nightwatch.conf.js'",
+  "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
+  "prepare": "husky",
+  "postinstall": "node ./install/post-install.js",
+  "app": "node --trace-uncaught ./install/manage-dependency.mjs"
+},
+
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.2.3",
