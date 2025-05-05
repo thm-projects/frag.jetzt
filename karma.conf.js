@@ -1,22 +1,23 @@
 // karma.conf.js - cross-platform browser path resolution for local and CI testing
-// 
+//
 // This configuration auto-detects Chrome and Firefox binaries across macOS, Linux, and Windows.
 // It assigns CHROME_BIN and FIREFOX_BIN accordingly and gives visible console feedback.
-// On CI (or Docker), it fails fast if no valid browser binary is found.
-// Locally, it uses visible Chrome by default.
+// In CI environments, it only uses Chrome to avoid missing binary issues.
+// Locally, it uses visible Chrome by default and enables full debugging support.
 
 const fs = require('fs');
+const path = require('path');
 
+// Utility: Return the first available binary path from a list
 function resolveBrowserPath(candidates) {
   return candidates.find((p) => fs.existsSync(p));
 }
 
 const platform = process.platform;
-
 let chromeResolved = false;
 let firefoxResolved = false;
 
-// macOS
+// === macOS Binary Resolution ===
 if (platform === 'darwin') {
   const chromiumPath = resolveBrowserPath([
     '/Applications/Chromium.app/Contents/MacOS/Chromium',
@@ -36,7 +37,7 @@ if (platform === 'darwin') {
   }
 }
 
-// Linux
+// === Linux Binary Resolution ===
 if (platform === 'linux') {
   const chromePath = resolveBrowserPath([
     '/usr/bin/google-chrome',
@@ -57,7 +58,7 @@ if (platform === 'linux') {
   }
 }
 
-// Windows
+// === Windows Binary Resolution ===
 if (platform === 'win32') {
   const chromePath = resolveBrowserPath([
     'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -80,32 +81,29 @@ if (platform === 'win32') {
   }
 }
 
-// Warn if not resolved
+// === Warnings only – no CI abortion ===
 if (!chromeResolved) {
   console.warn(`\x1b[33m[Karma Config] WARN:\x1b[0m No valid Chrome/Chromium browser path found. Please set CHROME_BIN manually.`);
-  if (process.env.CI === 'true') throw new Error('CHROME_BIN could not be set. Aborting test in CI.');
 }
 if (!firefoxResolved) {
   console.warn(`\x1b[33m[Karma Config] WARN:\x1b[0m No valid Firefox browser path found. Please set FIREFOX_BIN manually.`);
-  if (process.env.CI === 'true') throw new Error('FIREFOX_BIN could not be set. Aborting test in CI.');
 }
 
-module.exports = async function(config) {
+module.exports = async function (config) {
   const isDocker = (await import('is-docker')).default();
   const isCi = process.env.CI === 'true';
 
   config.set({
     basePath: '',
 
-    // Browser selection
-    browsers: isCi || isDocker ? ['ChromeHeadlessNoSandbox', 'FirefoxHeadless'] : ['Chrome'],
+    // === Browser strategy ===
+    // In CI and Docker: use Chrome only (Firefox optional, not enforced)
+    // Locally: use visible Chrome
+    browsers: isCi || isDocker
+      ? ['ChromeHeadlessNoSandbox']
+      : ['Chrome'],
 
-    // Minimal terminal output with browser UI
-    reporters: ['dots', 'kjhtml', 'coverage-istanbul'],
-
-    // Suppress info/debug, keep warnings
-    logLevel: config.LOG_WARN,
-
+    // Custom headless launchers with safe defaults
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
@@ -118,6 +116,7 @@ module.exports = async function(config) {
     },
 
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
+
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
@@ -127,8 +126,9 @@ module.exports = async function(config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
 
+    // Jasmine & Karma UI behavior
     client: {
-      clearContext: false,
+      clearContext: false, // preserves Jasmine output in browser
       jasmine: {
         random: false,
         failFast: false,
@@ -137,9 +137,15 @@ module.exports = async function(config) {
       debug: true
     },
 
+    // === Reporting strategy ===
+    // Dots in terminal, HTML in browser, coverage for Sonar
+    reporters: ['dots', 'kjhtml', 'coverage-istanbul'],
+    logLevel: config.LOG_WARN, // suppresses info/debug output
+
+    // === Code coverage output (Sonar-compatible) ===
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, 'coverage'),
-      subdir: '.', // ensures lcov.info is placed directly in 'coverage/'
+      dir: path.join(__dirname, 'coverage'),
+      subdir: '.', // ensures coverage/lcov.info is flat
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true,
       verbose: false,
@@ -153,7 +159,7 @@ module.exports = async function(config) {
         }
       }
     },
-    
+
     reportSlowerThan: 500,
     files: [],
     port: 9876,
