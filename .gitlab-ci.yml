@@ -2,7 +2,6 @@ variables:
   BUILD_DIR: dist
 
 stages:
-  - install
   - test
   - codequality
   - build
@@ -10,30 +9,16 @@ stages:
   - push_manifest
   - deploy_servers
 
-install:
-  stage: install
-  tags:
-    - angular
-  image: angular:19
-  allow_failure: false
-  script: |
-    bun install
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: 30 minutes
-
 eslint:
   stage: codequality
   tags:
     - angular
   image: angular:19
   allow_failure: false
-  dependencies:
-    - install
-  needs:
-    - install
+  dependencies: []
+  needs: []
   script: |
+    bun install
     bunx eslint src
 
 unit_tests:
@@ -42,15 +27,14 @@ unit_tests:
     - angular
   image: angular:19
   allow_failure: true
-  dependencies:
-    - install
-  needs:
-    - install
+  dependencies: []
+  needs: []
   artifacts:
     paths:
       - coverage
     when: always        # Coverage selbst bei Test-Fehlern sichern
   script: |
+    bun install
     bunx ng test --watch=false --code-coverage --browsers ChromeHeadlessNoSandbox
 
 e2e_nightwatch:
@@ -64,11 +48,10 @@ e2e_nightwatch:
     TEST_USER_PASSWORD: $E2E_TEST_USER_PASSWORD
     TEST_ROOM_SHORTID: $E2E_TEST_ROOM_SHORTID
     CI: true
-  dependencies:
-    - install
-  needs:
-    - install
+  dependencies: []
+  needs: []
   script: |
+    bun install
     bun nightwatch/run_e2e.mjs
 
 sonar:
@@ -80,10 +63,8 @@ sonar:
   allow_failure: true
   dependencies:
     - unit_tests
-    - install
   needs:
     - unit_tests
-    - install
   script: |
     sonar-scanner \
       -Dsonar.token="$SONAR_TOKEN" \
@@ -98,11 +79,10 @@ ngbuild:
     - angular
   image: angular:19
   allow_failure: false
-  dependencies:
-    - install
-  needs:
-    - install
+  dependencies: []
+  needs: []
   script: |
+    bun install
     bunx ng build --configuration production --aot
     mv dist dist2
     mv dist2/fragjetzt/browser/ dist/
@@ -122,6 +102,8 @@ ngbuild:
   tags:
     - common
   dependencies: []
+  needs:
+    - gitlab_registry_manifest
   script: |
     eval $(ssh-agent -s)
     mkdir ~/.ssh
@@ -141,8 +123,6 @@ deploy_production:
   extends: .deploy_server
   only:
     - master
-  dependencies:
-    - ngbuild
   variables:
     SSH_CMD: "$PROD_SSH_URL"
     SSH_KEY: "$PROD_KEY"
@@ -152,6 +132,8 @@ deploy_production:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
+  dependencies:
+    - ngbuild
   tags:
     - kaniko
   script: |
@@ -172,6 +154,7 @@ deploy_production:
   only:
     - staging
     - master
+  dependencies: []
   tags:
     - common
   before_script: |
