@@ -18,6 +18,7 @@ This guide summarizes how to run tests locally using different browsers and conf
 | Purpose                       | Command                                      |
 | ----------------------------- | -------------------------------------------- |
 | Run tests in visible Chrome   | `ng test`                                    |
+| Run tests for a component     | `ng test --include=/src/app/components/ ...` |
 | Run tests in visible Firefox  | `ng test --browsers=Firefox`                 |
 | Run tests in Chrome Headless  | `ng test --browsers=ChromeHeadlessNoSandbox` |
 | Run tests in Firefox Headless | `ng test --browsers=FirefoxHeadless`         |
