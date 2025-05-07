@@ -1,4 +1,3 @@
-// src/app/components/home/home-page/yt-video-wrapper/yt-video-wrapper.component.ts
 import {
   Component,
   computed,
@@ -34,13 +33,14 @@ const EMBED_URLS: Record<LanguageKey, string> = {
 export class YtVideoWrapperComponent {
   @Input() langKey?: LanguageKey;
   isAccepted = false;
-  readonly componentId = 'yt-video-' + Math.random().toString(36).substr(2, 9);
+  readonly componentId =
+    'yt-video-' + Math.random().toString(36).substring(2, 11);
 
   @ViewChild('scaledIframe') scaledIframe?: ElementRef<HTMLIFrameElement>;
   @ViewChild('videoRegion') videoRegion?: ElementRef<HTMLElement>;
-  private sanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
 
-  private currentLang = computed<LanguageKey>(() => {
+  private readonly currentLang = computed<LanguageKey>(() => {
     if (this.langKey) {
       return this.langKey;
     }
@@ -58,11 +58,15 @@ export class YtVideoWrapperComponent {
 
   readonly videoTitle = computed(() => {
     const lang = this.currentLang();
-    return lang === 'en'
-      ? 'Introduction to frag.jetzt'
-      : lang === 'de'
-        ? 'Einführung in frag.jetzt'
-        : 'Présentation de frag.jetzt';
+    let title: string;
+    if (lang === 'en') {
+      title = 'Introduction to frag.jetzt';
+    } else if (lang === 'de') {
+      title = 'Einführung in frag.jetzt';
+    } else {
+      title = 'Présentation de frag.jetzt';
+    }
+    return title;
   });
 
   playVideo(): void {
