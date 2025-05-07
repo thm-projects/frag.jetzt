@@ -1,21 +1,24 @@
+// src/app/components/home/home-page/yt-video-wrapper/yt-video-wrapper.component.ts
 import {
   Component,
   computed,
   ElementRef,
+  Input,
   inject,
   ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LanguageKey } from '../home-page-types';
 import { language } from 'app/base/language/language';
 
-const LanguageKeyToImageURL: { [A in LanguageKey]: string } = {
+const IMAGE_URLS: Record<LanguageKey, string> = {
   de: '/assets/images/youtube-start_de.webp',
   en: '/assets/images/youtube-start_en.webp',
   fr: '/assets/images/youtube-start_fr.webp',
 };
-const LanguageKeyToEmbedURL: { [A in LanguageKey]: string } = {
+
+const EMBED_URLS: Record<LanguageKey, string> = {
   de: 'https://www.youtube-nocookie.com/embed/de8UG1oeH30',
   en: 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q',
   fr: 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw',
@@ -23,33 +26,57 @@ const LanguageKeyToEmbedURL: { [A in LanguageKey]: string } = {
 
 @Component({
   selector: 'app-yt-video-wrapper',
+  standalone: true,
   imports: [NgIf],
   templateUrl: './yt-video-wrapper.component.html',
-  styleUrl: './yt-video-wrapper.component.scss',
+  styleUrls: ['./yt-video-wrapper.component.scss'],
 })
 export class YtVideoWrapperComponent {
+  @Input() langKey?: LanguageKey;
   isAccepted = false;
-  @ViewChild('scaledIframe')
-  scaledIframe: ElementRef<HTMLIFrameElement>;
-  readonly imageSrc = computed(() => {
-    const lang = language();
-    this.isAccepted = false;
-    return LanguageKeyToImageURL[lang];
-  });
-  private readonly sanitizer = inject(DomSanitizer);
-  readonly iframeSrc = computed(() => {
-    const lang = language();
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      LanguageKeyToEmbedURL[lang],
-    );
+  readonly componentId = 'yt-video-' + Math.random().toString(36).substr(2, 9);
+
+  @ViewChild('scaledIframe') scaledIframe?: ElementRef<HTMLIFrameElement>;
+  @ViewChild('videoRegion') videoRegion?: ElementRef<HTMLElement>;
+  private sanitizer = inject(DomSanitizer);
+
+  private currentLang = computed<LanguageKey>(() => {
+    if (this.langKey) {
+      return this.langKey;
+    }
+    const sig = language();
+    return sig === 'en' || sig === 'de' || sig === 'fr' ? sig : 'en';
   });
 
-  onResize() {
-    const style = this.scaledIframe?.nativeElement;
-    if (!style) {
-      return;
-    }
-    const height = (parseFloat(getComputedStyle(style).width) * 9) / 16;
-    style.height = height.toFixed(2) + 'px';
+  readonly imageSrc = computed(() => IMAGE_URLS[this.currentLang()]);
+
+  readonly iframeSrc = computed<SafeResourceUrl>(() => {
+    // force captions on by default
+    const url = `${EMBED_URLS[this.currentLang()]}?cc_load_policy=1`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  });
+
+  readonly videoTitle = computed(() => {
+    const lang = this.currentLang();
+    return lang === 'en'
+      ? 'Introduction to frag.jetzt'
+      : lang === 'de'
+        ? 'Einführung in frag.jetzt'
+        : 'Présentation de frag.jetzt';
+  });
+
+  playVideo(): void {
+    this.isAccepted = true;
+    // move focus into the iframe for screen readers / keyboard users
+    setTimeout(() => {
+      this.scaledIframe?.nativeElement.focus();
+    }, 0);
+  }
+
+  onResize(): void {
+    const el = this.scaledIframe?.nativeElement;
+    if (!el) return;
+    const width = parseFloat(getComputedStyle(el).width);
+    el.style.height = `${((width * 9) / 16).toFixed(2)}px`;
   }
 }

@@ -1,16 +1,33 @@
-<img
-  (click)="isAccepted = true"
+<!-- src/app/components/home/home-page/yt-video-wrapper/yt-video-wrapper.component.html -->
+<button
   *ngIf="!isAccepted"
-  [src]="imageSrc()"
-  alt="" />
-<iframe
+  (click)="playVideo()"
+  class="video-preview-button"
+  aria-label="Play video preview">
+  <img
+    [src]="imageSrc()"
+    [alt]="'Video preview: ' + videoTitle()" />
+</button>
+
+<div
   *ngIf="isAccepted"
-  (window:resize)="onResize()"
-  (load)="onResize()"
-  #scaledIframe
-  allowfullscreen
-  tabindex="0"
-  frameborder="0"
-  data-verified="true"
-  title=""
-  [src]="iframeSrc()"></iframe>
+  #videoRegion
+  role="region"
+  [attr.aria-labelledby]="'video-title-' + componentId"
+  tabindex="-1">
+  <h2
+    id="video-title-{{ componentId }}"
+    class="visually-hidden">
+    {{ videoTitle() }}
+  </h2>
+  <iframe
+    #scaledIframe
+    [src]="iframeSrc()"
+    [title]="videoTitle()"
+    allowfullscreen
+    frameborder="0"
+    tabindex="0"
+    data-verified="true"
+    (load)="onResize()"
+    (window:resize)="onResize()"></iframe>
+</div>

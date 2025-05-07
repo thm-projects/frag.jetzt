@@ -1,18 +1,39 @@
+/* src/app/components/home/home-page/yt-video-wrapper/yt-video-wrapper.component.scss */
 :host {
   width: 100%;
 
-  > iframe,
-  > img {
+  .video-preview-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .video-preview-button:focus {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  iframe,
+  img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: 100%;
     border-radius: var(--mdc-elevated-card-container-shape);
     box-shadow: var(--mdc-elevated-card-container-elevation);
     background-color: var(--mat-sys-surface-container);
     color: var(--mat-sys-on-surface);
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    height: 100%;
   }
 
-  > img {
-    cursor: pointer;
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 }
