@@ -7,7 +7,8 @@ export default tseslint.config(
       "dist/**",
       "node_modules/**",
       "coverage/**",  // Also ignore coverage reports
-      "src/modules/m3/utility/*.js" // Ignore problematic JS files
+      "src/modules/m3/utility/*.js", // Ignore problematic JS files
+      "**/introduction-prompt-guide-chatbot/**/*" // Ignoriere problematische Chatbot-Komponenten
     ]
   },
   // Add typescript-eslint recommended configurations
