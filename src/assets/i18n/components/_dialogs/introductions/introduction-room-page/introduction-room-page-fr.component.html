@@ -1,6 +1,7 @@
 <p>
-  Ici, c'est la page d'accueil de la salle.
-  Sous « Options », les paramètres administratifs sont disponibles pour la fonctionnalité et l'utilisation de la salle.
+  Ici, c'est la page d'accueil de la salle. Sous « Options », les paramètres
+  administratifs sont disponibles pour la fonctionnalité et l'utilisation de la
+  salle.
 </p>
 
 <ol>
@@ -9,12 +10,13 @@
   <li>Gérer la salle (modérateurs)</li>
 </ol>
 
-<div class="videoWrapper">
-  <iframe allowfullscreen
-          height="315"
-          width="560"
-          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
-          tabindex="0"
-          title="Placeholder video"
-  ></iframe>
+<div>
+  <iframe
+    allowfullscreen
+    height="315"
+    width="560"
+    [src]="
+      sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')
+    "
+    title="Placeholder video"></iframe>
 </div>
