@@ -56,18 +56,19 @@ export class YtVideoWrapperComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   });
 
-  readonly videoTitle = computed(() => {
-    const lang = this.currentLang();
-    let title: string;
-    if (lang === 'en') {
-      title = 'Introduction to frag.jetzt';
-    } else if (lang === 'de') {
-      title = 'Einführung in frag.jetzt';
-    } else {
-      title = 'Présentation de frag.jetzt';
+  videoTitle(): string {
+    const lang = this.langKey || 'en'; // Default to English if no language key
+
+    switch (lang) {
+      case 'de':
+        return 'Einführung in frag.jetzt';
+      case 'fr':
+        return 'Présentation de frag.jetzt';
+      case 'en':
+      default:
+        return 'Introduction to frag.jetzt';
     }
-    return title;
-  });
+  }
 
   playVideo(): void {
     this.isAccepted = true;
