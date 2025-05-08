@@ -37,13 +37,11 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     fixture.detectChanges();
   });
 
-  // Component instantiation
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // Signal formatting (locale-aware)
-  it('formats rating to one decimal place', () => {
+  it('formats rating to one decimal place (locale-aware)', () => {
     const actual = (component as any).rating();
     const expected = sampleResult.rating.toLocaleString(undefined, {
       minimumFractionDigits: 1,
@@ -52,13 +50,12 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     expect(actual).toBe(expected);
   });
 
-  it('formats people count correctly', () => {
+  it('formats people count correctly (locale-aware)', () => {
     expect((component as any).people()).toBe(
       sampleResult.people.toLocaleString(),
     );
   });
 
-  // Icon accumulation logic
   describe('getIconAccumulated()', () => {
     it('full stars for indices below rounded rating', () => {
       expect(component.getIconAccumulated(0)).toBe('star_full');
@@ -74,7 +71,6 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     });
   });
 
-  // Static dialog opener
   it('openDialogAt() opens dialog with correct config and passes result', () => {
     const dialogRef: any = { componentInstance: {} };
     dialogSpy.open.and.returnValue(dialogRef);
@@ -93,9 +89,8 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     expect(dialogRef.componentInstance.result).toBe(sampleResult);
   });
 
-  // Exhaustive rating scenarios
   it('handles multiple rating scenarios correctly', () => {
-    const cases: { rating: number; expected: string[] }[] = [
+    const scenarios: { rating: number; expected: string[] }[] = [
       {
         rating: 0.2,
         expected: [
@@ -142,7 +137,7 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
       },
     ];
 
-    for (const { rating, expected } of cases) {
+    for (const { rating, expected } of scenarios) {
       component.result = {
         ...sampleResult,
         rating,
@@ -163,7 +158,6 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     }
   });
 
-  // Update formatting when result changes
   it('updates formatted signals when result changes', () => {
     const newResult: RatingResult = {
       rating: 2.718,
@@ -183,6 +177,7 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     });
     expect((component as any).rating()).toBe(expRating);
 
-    expect((component as any).people()).toBe(newResult.people.toLocaleString());
+    const expPeople = newResult.people.toLocaleString();
+    expect((component as any).people()).toBe(expPeople);
   });
 });
