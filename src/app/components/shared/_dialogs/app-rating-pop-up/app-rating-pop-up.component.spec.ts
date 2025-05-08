@@ -2,12 +2,11 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
 
 import { AppRatingPopUpComponent } from './app-rating-pop-up.component';
 import { RatingResult } from '../../../../models/rating-result';
 
-describe('AppRatingPopUpComponent (locale-agnostic)', () => {
+describe('AppRatingPopUpComponent (class-only tests)', () => {
   let fixture: ComponentFixture<AppRatingPopUpComponent>;
   let component: AppRatingPopUpComponent;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
@@ -29,7 +28,6 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
       declarations: [AppRatingPopUpComponent],
       providers: [{ provide: MatDialog, useValue: dialogSpy }],
     })
-      // stub out the template so we don't need pipes or markup in tests
       .overrideComponent(AppRatingPopUpComponent, { set: { template: '' } })
       .compileComponents();
 
@@ -39,11 +37,13 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
     fixture.detectChanges();
   });
 
+  // Component instantiation
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('formats rating to one decimal place (locale-aware)', () => {
+  // Signal formatting (locale-aware)
+  it('formats rating to one decimal place', () => {
     const actual = (component as any).rating();
     const expected = sampleResult.rating.toLocaleString(undefined, {
       minimumFractionDigits: 1,
@@ -52,19 +52,20 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
     expect(actual).toBe(expected);
   });
 
-  it('formats people count correctly (locale-aware)', () => {
-    const actual = (component as any).people();
-    const expected = sampleResult.people.toLocaleString();
-    expect(actual).toBe(expected);
+  it('formats people count correctly', () => {
+    expect((component as any).people()).toBe(
+      sampleResult.people.toLocaleString(),
+    );
   });
 
+  // Icon accumulation logic
   describe('getIconAccumulated()', () => {
     it('full stars for indices below rounded rating', () => {
       expect(component.getIconAccumulated(0)).toBe('star_full');
       expect(component.getIconAccumulated(3)).toBe('star_full');
     });
 
-    it('half star when rating between index and index+1', () => {
+    it('half star when rating between index and index + 1', () => {
       expect(component.getIconAccumulated(4)).toBe('star_half');
     });
 
@@ -73,7 +74,8 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
     });
   });
 
-  it('openDialogAt() opens dialog and passes result through', () => {
+  // Static dialog opener
+  it('openDialogAt() opens dialog with correct config and passes result', () => {
     const dialogRef: any = { componentInstance: {} };
     dialogSpy.open.and.returnValue(dialogRef);
 
@@ -91,9 +93,9 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
     expect(dialogRef.componentInstance.result).toBe(sampleResult);
   });
 
-  describe('exhaustive rating scenarios', () => {
-    type Case = { rating: number; expected: string[] };
-    const cases: Case[] = [
+  // Exhaustive rating scenarios
+  it('handles multiple rating scenarios correctly', () => {
+    const cases: { rating: number; expected: string[] }[] = [
       {
         rating: 0.2,
         expected: [
@@ -140,49 +142,47 @@ describe('AppRatingPopUpComponent (locale-agnostic)', () => {
       },
     ];
 
-    cases.forEach(({ rating, expected }) => {
-      it(`rating ${rating} → icons [${expected.join(', ')}]`, () => {
-        component.result = {
-          ...sampleResult,
-          rating,
-          people: 0,
-          fiveStarPercent: 0,
-          fourStarPercent: 0,
-          threeStarPercent: 0,
-          twoStarPercent: 0,
-          oneStarPercent: 0,
-        };
-        fixture.detectChanges();
-
-        expected.forEach((icon, idx) => {
-          expect(component.getIconAccumulated(idx))
-            .withContext(`index ${idx} for rating ${rating}`)
-            .toBe(icon);
-        });
-      });
-    });
-
-    it('rating() and people() adapt when result changes (locale-aware)', () => {
-      const newResult: RatingResult = {
-        rating: 2.718,
-        people: 300,
+    for (const { rating, expected } of cases) {
+      component.result = {
+        ...sampleResult,
+        rating,
+        people: 0,
         fiveStarPercent: 0,
         fourStarPercent: 0,
         threeStarPercent: 0,
         twoStarPercent: 0,
         oneStarPercent: 0,
       };
-      component.result = newResult;
       fixture.detectChanges();
 
-      const expRating = newResult.rating.toLocaleString(undefined, {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      });
-      expect((component as any).rating()).toBe(expRating);
+      for (const [idx, icon] of expected.entries()) {
+        expect(component.getIconAccumulated(idx))
+          .withContext(`rating ${rating}, index ${idx}`)
+          .toBe(icon);
+      }
+    }
+  });
 
-      const expPeople = newResult.people.toLocaleString();
-      expect((component as any).people()).toBe(expPeople);
+  // Update formatting when result changes
+  it('updates formatted signals when result changes', () => {
+    const newResult: RatingResult = {
+      rating: 2.718,
+      people: 300,
+      fiveStarPercent: 0,
+      fourStarPercent: 0,
+      threeStarPercent: 0,
+      twoStarPercent: 0,
+      oneStarPercent: 0,
+    };
+    component.result = newResult;
+    fixture.detectChanges();
+
+    const expRating = newResult.rating.toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
     });
+    expect((component as any).rating()).toBe(expRating);
+
+    expect((component as any).people()).toBe(newResult.people.toLocaleString());
   });
 });
