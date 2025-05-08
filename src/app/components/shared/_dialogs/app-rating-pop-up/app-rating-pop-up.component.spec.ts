@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { AppRatingPopUpComponent } from './app-rating-pop-up.component';
 import { RatingResult } from '../../../../models/rating-result';
 
-describe('AppRatingPopUpComponent (class-only tests)', () => {
+describe('AppRatingPopUpComponent (locale-agnostic)', () => {
   let fixture: ComponentFixture<AppRatingPopUpComponent>;
   let component: AppRatingPopUpComponent;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
@@ -29,7 +29,7 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
       declarations: [AppRatingPopUpComponent],
       providers: [{ provide: MatDialog, useValue: dialogSpy }],
     })
-      // stub out template to avoid pipe or markup errors
+      // stub out the template so we don't need pipes or markup in tests
       .overrideComponent(AppRatingPopUpComponent, { set: { template: '' } })
       .compileComponents();
 
@@ -39,38 +39,41 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     fixture.detectChanges();
   });
 
-  // Component instantiation
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // Signal formatting
-  it('formats rating to one decimal place', () => {
-    expect((component as any).rating()).toBe('4.3');
+  it('formats rating to one decimal place (locale-aware)', () => {
+    const actual = (component as any).rating();
+    const expected = sampleResult.rating.toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
+    expect(actual).toBe(expected);
   });
 
-  it('formats people count as string', () => {
-    expect((component as any).people()).toContain('57');
+  it('formats people count correctly (locale-aware)', () => {
+    const actual = (component as any).people();
+    const expected = sampleResult.people.toLocaleString();
+    expect(actual).toBe(expected);
   });
 
-  // Icon accumulation logic
   describe('getIconAccumulated()', () => {
-    it('returns full stars for indices below rounded rating', () => {
+    it('full stars for indices below rounded rating', () => {
       expect(component.getIconAccumulated(0)).toBe('star_full');
       expect(component.getIconAccumulated(3)).toBe('star_full');
     });
 
-    it('returns half star when rating is between index and index + 1', () => {
+    it('half star when rating between index and index+1', () => {
       expect(component.getIconAccumulated(4)).toBe('star_half');
     });
 
-    it('returns empty star for indices above rounded rating', () => {
+    it('empty star for indices above rounded rating', () => {
       expect(component.getIconAccumulated(5)).toBe('star_border');
     });
   });
 
-  // Static dialog opener
-  it('openDialogAt() opens dialog with correct config and passes result', () => {
+  it('openDialogAt() opens dialog and passes result through', () => {
     const dialogRef: any = { componentInstance: {} };
     dialogSpy.open.and.returnValue(dialogRef);
 
@@ -88,10 +91,9 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     expect(dialogRef.componentInstance.result).toBe(sampleResult);
   });
 
-  // Exhaustive tests for various rating values
   describe('exhaustive rating scenarios', () => {
-    type TestCase = { rating: number; expected: string[] };
-    const cases: TestCase[] = [
+    type Case = { rating: number; expected: string[] };
+    const cases: Case[] = [
       {
         rating: 0.2,
         expected: [
@@ -139,7 +141,7 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     ];
 
     cases.forEach(({ rating, expected }) => {
-      it(`rating ${rating} => icons [${expected.join(', ')}]`, () => {
+      it(`rating ${rating} → icons [${expected.join(', ')}]`, () => {
         component.result = {
           ...sampleResult,
           rating,
@@ -160,8 +162,8 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
       });
     });
 
-    it('rating() and people() update when result changes', () => {
-      component.result = {
+    it('rating() and people() adapt when result changes (locale-aware)', () => {
+      const newResult: RatingResult = {
         rating: 2.718,
         people: 300,
         fiveStarPercent: 0,
@@ -170,9 +172,17 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
         twoStarPercent: 0,
         oneStarPercent: 0,
       };
+      component.result = newResult;
       fixture.detectChanges();
-      expect((component as any).rating()).toBe('2.7');
-      expect((component as any).people()).toContain('300');
+
+      const expRating = newResult.rating.toLocaleString(undefined, {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      });
+      expect((component as any).rating()).toBe(expRating);
+
+      const expPeople = newResult.people.toLocaleString();
+      expect((component as any).people()).toBe(expPeople);
     });
   });
 });
