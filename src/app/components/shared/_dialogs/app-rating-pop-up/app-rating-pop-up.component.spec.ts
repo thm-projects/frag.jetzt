@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { AppRatingPopUpComponent } from './app-rating-pop-up.component';
 import { RatingResult } from '../../../../models/rating-result';
 
-describe('AppRatingPopUpComponent (class-only)', () => {
+describe('AppRatingPopUpComponent (class-only tests)', () => {
   let fixture: ComponentFixture<AppRatingPopUpComponent>;
   let component: AppRatingPopUpComponent;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
@@ -29,9 +29,8 @@ describe('AppRatingPopUpComponent (class-only)', () => {
       declarations: [AppRatingPopUpComponent],
       providers: [{ provide: MatDialog, useValue: dialogSpy }],
     })
-      .overrideComponent(AppRatingPopUpComponent, {
-        set: { template: '' }, // leeres Template, um Pipes/Markup zu umgehen
-      })
+      // stub out template to avoid pipe or markup errors
+      .overrideComponent(AppRatingPopUpComponent, { set: { template: '' } })
       .compileComponents();
 
     fixture = TestBed.createComponent(AppRatingPopUpComponent);
@@ -40,10 +39,12 @@ describe('AppRatingPopUpComponent (class-only)', () => {
     fixture.detectChanges();
   });
 
+  // Component instantiation
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
+  // Signal formatting
   it('formats rating to one decimal place', () => {
     expect((component as any).rating()).toBe('4.3');
   });
@@ -52,25 +53,26 @@ describe('AppRatingPopUpComponent (class-only)', () => {
     expect((component as any).people()).toContain('57');
   });
 
+  // Icon accumulation logic
   describe('getIconAccumulated()', () => {
-    it('returns "star_full" for indexes below rounded rating', () => {
-      // 4.3 rounds to 4.5 → full for indices 0–3
+    it('returns full stars for indices below rounded rating', () => {
       expect(component.getIconAccumulated(0)).toBe('star_full');
       expect(component.getIconAccumulated(3)).toBe('star_full');
     });
 
-    it('returns "star_half" when rating is between index and index+1', () => {
+    it('returns half star when rating is between index and index + 1', () => {
       expect(component.getIconAccumulated(4)).toBe('star_half');
     });
 
-    it('returns "star_border" for indexes above rounded rating', () => {
+    it('returns empty star for indices above rounded rating', () => {
       expect(component.getIconAccumulated(5)).toBe('star_border');
     });
   });
 
-  it('static openDialogAt() calls MatDialog.open and sets result', () => {
-    const dialogRef = { componentInstance: {} };
-    dialogSpy.open.and.returnValue(dialogRef as any);
+  // Static dialog opener
+  it('openDialogAt() opens dialog with correct config and passes result', () => {
+    const dialogRef: any = { componentInstance: {} };
+    dialogSpy.open.and.returnValue(dialogRef);
 
     AppRatingPopUpComponent.openDialogAt(dialogSpy, sampleResult);
 
@@ -83,16 +85,16 @@ describe('AppRatingPopUpComponent (class-only)', () => {
         autoFocus: false,
       }),
     );
-    expect((dialogRef as any).componentInstance.result).toBe(sampleResult);
+    expect(dialogRef.componentInstance.result).toBe(sampleResult);
   });
 
-  describe('exhaustive getIconAccumulated for various ratings', () => {
-    type Case = { rating: number; icons: string[] };
-    const cases: Case[] = [
-      // 0.2*2=0.4→round0→0.0
+  // Exhaustive tests for various rating values
+  describe('exhaustive rating scenarios', () => {
+    type TestCase = { rating: number; expected: string[] };
+    const cases: TestCase[] = [
       {
         rating: 0.2,
-        icons: [
+        expected: [
           'star_border',
           'star_border',
           'star_border',
@@ -101,10 +103,9 @@ describe('AppRatingPopUpComponent (class-only)', () => {
           'star_border',
         ],
       },
-      // 1.25*2=2.5→round3→1.5
       {
         rating: 1.25,
-        icons: [
+        expected: [
           'star_full',
           'star_half',
           'star_border',
@@ -113,10 +114,9 @@ describe('AppRatingPopUpComponent (class-only)', () => {
           'star_border',
         ],
       },
-      // 2.5*2=5→round5→2.5
       {
         rating: 2.5,
-        icons: [
+        expected: [
           'star_full',
           'star_full',
           'star_half',
@@ -125,10 +125,9 @@ describe('AppRatingPopUpComponent (class-only)', () => {
           'star_border',
         ],
       },
-      // 4.75*2=9.5→round10→5.0
       {
         rating: 4.75,
-        icons: [
+        expected: [
           'star_full',
           'star_full',
           'star_full',
@@ -139,8 +138,8 @@ describe('AppRatingPopUpComponent (class-only)', () => {
       },
     ];
 
-    for (const { rating, icons } of cases) {
-      it(`rating ${rating} → icons ${icons.join(',')}`, () => {
+    cases.forEach(({ rating, expected }) => {
+      it(`rating ${rating} => icons [${expected.join(', ')}]`, () => {
         component.result = {
           ...sampleResult,
           rating,
@@ -152,27 +151,28 @@ describe('AppRatingPopUpComponent (class-only)', () => {
           oneStarPercent: 0,
         };
         fixture.detectChanges();
-        icons.forEach((expected, idx) => {
+
+        expected.forEach((icon, idx) => {
           expect(component.getIconAccumulated(idx))
-            .withContext(`index ${idx}`)
-            .toBe(expected);
+            .withContext(`index ${idx} for rating ${rating}`)
+            .toBe(icon);
         });
       });
-    }
-  });
+    });
 
-  it('rating() and people() adapt to updated result values', () => {
-    component.result = {
-      rating: 2.718,
-      people: 300,
-      fiveStarPercent: 0,
-      fourStarPercent: 0,
-      threeStarPercent: 0,
-      twoStarPercent: 0,
-      oneStarPercent: 0,
-    };
-    fixture.detectChanges();
-    expect((component as any).rating()).toBe('2.7');
-    expect((component as any).people()).toContain('300');
+    it('rating() and people() update when result changes', () => {
+      component.result = {
+        rating: 2.718,
+        people: 300,
+        fiveStarPercent: 0,
+        fourStarPercent: 0,
+        threeStarPercent: 0,
+        twoStarPercent: 0,
+        oneStarPercent: 0,
+      };
+      fixture.detectChanges();
+      expect((component as any).rating()).toBe('2.7');
+      expect((component as any).people()).toContain('300');
+    });
   });
 });
