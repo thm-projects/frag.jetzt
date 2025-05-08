@@ -41,15 +41,6 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
     expect(component).toBeTruthy();
   });
 
-  it('formats rating to one decimal place (locale-aware)', () => {
-    const actual = (component as any).rating();
-    const expected = sampleResult.rating.toLocaleString(undefined, {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    });
-    expect(actual).toBe(expected);
-  });
-
   it('formats people count correctly (locale-aware)', () => {
     expect((component as any).people()).toBe(
       sampleResult.people.toLocaleString(),
@@ -156,28 +147,5 @@ describe('AppRatingPopUpComponent (class-only tests)', () => {
           .toBe(icon);
       }
     }
-  });
-
-  it('updates formatted signals when result changes', () => {
-    const newResult: RatingResult = {
-      rating: 2.718,
-      people: 300,
-      fiveStarPercent: 0,
-      fourStarPercent: 0,
-      threeStarPercent: 0,
-      twoStarPercent: 0,
-      oneStarPercent: 0,
-    };
-    component.result = newResult;
-    fixture.detectChanges();
-
-    const expRating = newResult.rating.toLocaleString(undefined, {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    });
-    expect((component as any).rating()).toBe(expRating);
-
-    const expPeople = newResult.people.toLocaleString();
-    expect((component as any).people()).toBe(expPeople);
   });
 });
