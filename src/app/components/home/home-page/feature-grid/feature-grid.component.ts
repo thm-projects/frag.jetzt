@@ -37,9 +37,22 @@ import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigati
 export class FeatureGridComponent {
   protected readonly carousel = carousel;
   protected readonly Math = Math;
-  protected featureState: boolean = false;
+  protected flippedCardIndex: number | null = null;
+
   protected readonly windowClass = windowWatcher.windowState;
   protected readonly language = language;
+
+  protected toggleCard(index: number): void {
+    if (this.flippedCardIndex === index) {
+      this.flippedCardIndex = null;
+    } else {
+      this.flippedCardIndex = index;
+    }
+  }
+
+  protected isCardFlipped(index: number): boolean {
+    return this.flippedCardIndex === index;
+  }
 
   @HostBinding('class.asDialog') get _asDialog() {
     return this.isDialog;
