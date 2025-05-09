@@ -11,11 +11,11 @@
   </div>
 }
 @if (carouselWindow.rowHeight === 0) {
-  @for (tile of carousel.entries; track tile) {
+  @for (tile of carousel.entries; let i = $index; track tile) {
     <ng-container
       *ngTemplateOutlet="
         card;
-        context: { tile: tile, cls: 'fit-tile filled-card' }
+        context: { tile: tile, cls: 'fit-tile filled-card', index: i }
       "></ng-container>
   }
 } @else {
@@ -23,7 +23,7 @@
     [gutterSize]="'12px'"
     [cols]="carouselWindow.cols"
     [rowHeight]="carouselWindow.rowHeight">
-    @for (tile of carousel.entries; track tile) {
+    @for (tile of carousel.entries; let i = $index; track tile) {
       <mat-grid-tile
         [colspan]="
           Math.min(
@@ -42,7 +42,7 @@
         <ng-container
           *ngTemplateOutlet="
             card;
-            context: { tile: tile, cls: 'grid-tile filled-card' }
+            context: { tile: tile, cls: 'grid-tile filled-card', index: i }
           "></ng-container>
       </mat-grid-tile>
     }
@@ -52,34 +52,56 @@
 <ng-template
   #card
   let-tile="tile"
-  let-cls="cls">
-  <mat-card [ngClass]="cls">
+  let-cls="cls"
+  let-index="index">
+  <!-- Card-Container für Flip-Effekt -->
+  <div
+    class="card-container"
+    (click)="toggleCard(index); $event.stopPropagation()">
     <div
-      style="
-        flex-grow: 1;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      ">
-      @if (tile.content.image.url) {
-        <img
-          mat-card-image
-          src="{{ tile.content.image.url }}"
-          alt="{{ tile.content.image.alt }}" />
-      } @else {
-        <mat-icon
-          class="image-icon"
-          mat-card-image
-          [svgIcon]="tile.content.image.svgIcon"></mat-icon>
-      }
+      class="card"
+      [ngClass]="{ flipped: isCardFlipped(index) }">
+      <!-- Vorderseite der Karte (bestehender Inhalt) -->
+      <div class="card-face card-front">
+        <mat-card [ngClass]="cls">
+          <div
+            style="
+              flex-grow: 1;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+            ">
+            @if (tile.content.image.url) {
+              <img
+                mat-card-image
+                src="{{ tile.content.image.url }}"
+                alt="{{ tile.content.image.alt }}" />
+            } @else {
+              <mat-icon
+                class="image-icon"
+                mat-card-image
+                [svgIcon]="tile.content.image.svgIcon"></mat-icon>
+            }
+          </div>
+          <mat-card-header>
+            <mat-card-title>
+              {{ tile.content.title[language()] }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <span>{{ tile.content.description[language()] }}</span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Rückseite der Karte (neu) -->
+      <div class="card-face card-back">
+        <mat-card [ngClass]="cls">
+          <mat-card-content>
+            <p>Rückseite (wird später implementiert)</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-    <mat-card-header>
-      <mat-card-title>
-        {{ tile.content.title[language()] }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <span>{{ tile.content.description[language()] }}</span>
-    </mat-card-content>
-  </mat-card>
+  </div>
 </ng-template>
