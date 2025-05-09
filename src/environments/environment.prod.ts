@@ -9,7 +9,7 @@ export const environment = {
     scriptUrl: '/matomo/piwik.js',
     trackers: [
       {
-        trackerUrl: '/matomo/',
+        trackerUrl: '/matomo/matomo.php',
         siteId: 6,
       },
     ],

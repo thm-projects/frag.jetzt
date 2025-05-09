@@ -143,7 +143,7 @@ To ensure high-quality code and maintainability, we use [SonarQube](https://www.
 
    ```bash
    sudo docker compose pull
-   docker compose build
+   sudo docker compose build
    ```
 
 4. **Start the SonarQube server:**
