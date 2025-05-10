@@ -83,62 +83,34 @@ export class FeatureGridComponent implements AfterViewInit {
         `Card ${index + 1} flipped. Details are now visible.`,
       );
 
-      // Start video on card flip (with slight delay for animation)
+      // Add a slight delay to let the card flip animation finish
       if (this.carousel.entries[index]?.content.video) {
         setTimeout(() => {
-          const cardBackFace = document.querySelectorAll(
-            '.card-face.card-back',
-          )[index] as HTMLElement;
-          if (!cardBackFace) {
-            console.warn('Card back face element not found');
-            return;
+          // Find the video element directly by index, not by querying the DOM
+          const cards = document.querySelectorAll('.card');
+          if (cards[index]) {
+            const video =
+              cards[index].querySelector<HTMLVideoElement>('.feature-video');
+            if (video) {
+              // Force load and play
+              video.load();
+
+              // Try playing after a small delay to ensure the video has loaded
+              setTimeout(() => {
+                const playPromise = video.play();
+                // Handle autoplay blocking
+                if (playPromise !== undefined) {
+                  playPromise.catch(() => {
+                    // Browser blocked autoplay - user will need to click play button
+                    console.log(
+                      'Autoplay prevented by browser - manual play required',
+                    );
+                  });
+                }
+              }, 100);
+            }
           }
-
-          const video = cardBackFace.querySelector(
-            '.feature-video',
-          ) as HTMLVideoElement;
-          if (!video) {
-            console.warn('Video element not found in card', index);
-            return;
-          }
-
-          // Set source if using data-src attribute, otherwise use direct src
-          const dataSrc = video.getAttribute('data-src');
-          if (dataSrc) {
-            console.log('Setting video src from data-src:', dataSrc);
-            video.src = dataSrc;
-          }
-
-          // Ensure video loads its new source
-          video.load();
-
-          // Always start muted to ensure autoplay works
-          video.muted = true;
-
-          // Try to play the video
-          console.log('Attempting to play video...');
-          video
-            .play()
-            .then(() => {
-              console.log('Video playing successfully');
-            })
-            .catch((err) => {
-              console.error('Video autoplay failed:', err);
-
-              // If autoplay fails, add a play button
-              const playBtn = document.createElement('button');
-              playBtn.className = 'video-play-button';
-              playBtn.innerText = 'Play Video';
-              playBtn.onclick = (e) => {
-                e.stopPropagation();
-                video.play();
-                playBtn.remove();
-              };
-
-              // Add play button to container
-              video.parentElement?.appendChild(playBtn);
-            });
-        }, 800); // Wait for flip animation to complete
+        }, 800); // Wait for flip animation
       }
     }
   }
@@ -147,24 +119,13 @@ export class FeatureGridComponent implements AfterViewInit {
    * Stop all videos that may be playing
    */
   private stopAllVideos(): void {
-    try {
-      const videos = document.querySelectorAll(
-        '.feature-video',
-      ) as NodeListOf<HTMLVideoElement>;
-      videos.forEach((video, i) => {
-        if (video) {
-          console.log(`Stopping video ${i}`);
-          video.pause();
-          video.currentTime = 0;
-
-          // Don't remove the src attribute completely - this causes issues with replay
-          // Instead, just pause and reset the current time
-          // This ensures the video can be played again on subsequent flips
-        }
-      });
-    } catch (e) {
-      console.error('Error stopping videos:', e);
-    }
+    document.querySelectorAll('.feature-video').forEach((videoElement) => {
+      const video = videoElement as HTMLVideoElement;
+      if (video && !video.paused) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
   }
 
   /**
@@ -334,8 +295,8 @@ export class FeatureGridComponent implements AfterViewInit {
       const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const img = entry.target as HTMLImageElement;
-            if (img.dataset['src']) {
+            const img = entry.target;
+            if (img instanceof HTMLImageElement && img.dataset['src']) {
               img.src = img.dataset['src'];
               img.removeAttribute('data-src');
               imageObserver.unobserve(img);

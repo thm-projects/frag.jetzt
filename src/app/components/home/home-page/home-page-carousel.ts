@@ -96,21 +96,28 @@ export const carousel: HomePageCarousel = {
     rowspan: 1,
   },
   entries: [
-    // First two entries remain unchanged
+    // First entry remains unchanged
     homePageCarouselEntries[0],
-    homePageCarouselEntries[1],
 
-    // Update third entry (index 2) with video
+    // Small card (index 1) without video
     {
-      window: homePageCarouselEntries[2].window, // Keep existing window config
+      window: homePageCarouselEntries[1].window,
       content: {
-        ...homePageCarouselEntries[2].content, // Keep existing content
+        ...homePageCarouselEntries[1].content,
+      },
+    },
+
+    // Make sure large card (index 2) also has video
+    {
+      window: homePageCarouselEntries[2].window,
+      content: {
+        ...homePageCarouselEntries[2].content,
         video: {
-          url: 'assets/feature-videos/Git-History_2025-01-01_to_2025-04-15.mp4',
-          title: 'Git History Visualization Demo',
+          url: 'assets/feature-videos/Git-History_2025-01-01_to_2025-04-15.mp4', // Original video for card 2
+          title: 'Git History Visualization',
           controls: true,
           autoplay: true,
-          muted: false,
+          muted: true,
         },
       },
     },
