@@ -307,8 +307,7 @@ export class FeatureGridComponent implements AfterViewInit {
   constructor(protected self: HomePageService) {}
 
   ngAfterViewInit() {
-    this.loadCardImages();
-    this.setupImageObserver();
+    this.setupImageObserver(); // Keep only the IntersectionObserver
   }
 
   /**
