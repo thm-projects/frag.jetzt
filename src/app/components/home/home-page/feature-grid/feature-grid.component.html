@@ -56,8 +56,14 @@
   let-index="index">
   <!-- Card-Container für Flip-Effekt -->
   <div
+    #cardContainer
     class="card-container"
-    (click)="toggleCard(index); $event.stopPropagation()">
+    [attr.tabindex]="getTabIndex(index)"
+    role="button"
+    [attr.aria-expanded]="flippedCardIndex === index"
+    [attr.aria-label]="'Feature: ' + tile.content.title[language()]"
+    (keydown)="handleKeydown($event, index)"
+    (click)="toggleCard(index)">
     <div
       class="card"
       [ngClass]="{ flipped: isCardFlipped(index) }">
@@ -131,8 +137,40 @@
             </button>
             <button mat-button>AKTION 2</button>
           </mat-card-actions>
+          <!-- Für die Action-Buttons auf der Rückseite -->
+          <mat-card-actions>
+            <button
+              mat-button
+              color="primary"
+              (click)="$event.stopPropagation()"
+              tabindex="0">
+              Aktion 1
+            </button>
+            <button
+              mat-button
+              color="accent"
+              (click)="$event.stopPropagation()"
+              tabindex="0">
+              Aktion 2
+            </button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>
   </div>
 </ng-template>
+
+<style>
+  // Für screen reader
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

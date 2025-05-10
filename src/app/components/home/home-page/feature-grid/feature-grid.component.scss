@@ -193,3 +193,41 @@ mat-grid-tile {
     color: var(--mat-sys-on-secondary, white) !important;
   }
 }
+
+// Barrierefreiheits-Styles für Keyboard-Navigation
+
+// Klarer Fokus-Indikator
+.card-container:focus {
+  outline: none; // Entfernt Browser-Standard-Outline
+
+  // Eigener deutlicherer Fokus-Indikator
+  &::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 8px;
+    border: 2px solid var(--mat-sys-primary, #1976d2);
+    pointer-events: none;
+    z-index: 1101; // Höher als hover z-index
+  }
+}
+
+// Erhöhte Sichtbarkeit für keyboard-fokussierte, nicht-gehoverte Karte
+.card-container:focus:not(:hover) .card:not(.flipped) {
+  transform: translateZ(15px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 500;
+}
+
+// Verbesserte Darstellung für fokussierte, umgedrehte Karten
+.card-container:focus .card.flipped {
+  z-index: 1101 !important; // Höchste Priorität
+}
+
+// Fokus-innerhalb für interaktive Elemente innerhalb der Karte
+.card-container:has(:focus-within) {
+  z-index: 1200 !important; // Höher als alle anderen
+}
