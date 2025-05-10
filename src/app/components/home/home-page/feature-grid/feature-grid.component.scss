@@ -122,112 +122,37 @@ mat-grid-tile {
 }
 
 .card.flipped .card-back mat-card {
-  border-color: transparent;
-  box-shadow:
-    0 15px 30px rgba(0, 0, 0, 0.15),
-    0 0 0 1px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.12));
+  border-color: transparent !important;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
 .card-back mat-card {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--mat-sys-on-surface, inherit);
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .card-back mat-card-content {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 8px;
-  margin-bottom: 8px;
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 8px 16px 16px 16px !important;
 }
 
-.card-back mat-card-header {
-  padding-bottom: 8px;
-}
-
-.card-back mat-card-content h3 {
-  color: var(--mat-sys-primary, #1976d2);
-  margin-top: 16px;
-  margin-bottom: 8px;
-}
-
-.card-back mat-card-actions {
-  position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 8px 16px;
-  margin: 0;
-  background-color: var(--mat-sys-surface, white);
-  border-top: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.05));
-}
-
-:host ::ng-deep {
-  .mat-mdc-button.mat-primary .mdc-button__label,
-  .mat-mdc-unelevated-button.mat-primary .mdc-button__label,
-  .mat-mdc-outlined-button.mat-primary .mdc-button__label {
-    color: var(--mat-sys-primary, #1976d2) !important;
-  }
-
-  .mat-mdc-raised-button.mat-primary {
-    background-color: var(--mat-sys-primary, #1976d2) !important;
-  }
-
-  .mat-mdc-raised-button.mat-primary .mdc-button__label {
-    color: var(--mat-sys-on-primary, white) !important;
-  }
-
-  .mat-mdc-button.mat-accent .mdc-button__label,
-  .mat-mdc-unelevated-button.mat-accent .mdc-button__label,
-  .mat-mdc-outlined-button.mat-accent .mdc-button__label {
-    color: var(--mat-sys-secondary, #018786) !important;
-  }
-
-  .mat-mdc-raised-button.mat-accent {
-    background-color: var(--mat-sys-secondary, #018786) !important;
-  }
-
-  .mat-mdc-raised-button.mat-accent .mdc-button__label {
-    color: var(--mat-sys-on-secondary, white) !important;
-  }
-}
-
-// Barrierefreiheits-Styles für Keyboard-Navigation
-
-// Klarer Fokus-Indikator
 .card-container:focus {
-  outline: none; // Entfernt Browser-Standard-Outline
-
-  // Eigener deutlicherer Fokus-Indikator
-  &::after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 8px;
-    border: 2px solid var(--mat-sys-primary, #1976d2);
-    pointer-events: none;
-    z-index: 1101; // Höher als hover z-index
-  }
+  outline: none !important;
 }
 
-// Erhöhte Sichtbarkeit für keyboard-fokussierte, nicht-gehoverte Karte
 .card-container:focus:not(:hover) .card:not(.flipped) {
   transform: translateZ(15px) scale(1.03);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 500;
 }
 
-// Verbesserte Darstellung für fokussierte, umgedrehte Karten
 .card-container:focus .card.flipped {
-  z-index: 1101 !important; // Höchste Priorität
+  z-index: 1101 !important;
 }
 
-// Fokus-innerhalb für interaktive Elemente innerhalb der Karte
 .card-container:has(:focus-within) {
-  z-index: 1200 !important; // Höher als alle anderen
+  z-index: 1200 !important;
 }
