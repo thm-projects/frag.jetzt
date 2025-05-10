@@ -56,12 +56,23 @@ mat-grid-tile {
   perspective: 1200px;
 }
 
+// Sanfte, natürliche Drehung ohne Bouncing
 .card {
   position: relative;
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  transition:
+    transform 0.8s cubic-bezier(0.45, 0, 0.35, 1),
+    // Sanfte, gleichmäßige Drehung
+    z-index 0s 0.4s;
+
+  &.flipped {
+    transform: rotateY(180deg) translateZ(0);
+    transition:
+      transform 0.8s cubic-bezier(0.45, 0, 0.35, 1),
+      z-index 0s;
+  }
 }
 
 .card-face {
@@ -91,12 +102,6 @@ mat-grid-tile {
   transform: translateZ(25px) scale(1.06);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 1100 !important;
-}
-
-.card.flipped {
-  transform: rotateY(180deg) scale(1.12);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  z-index: 1000 !important;
 }
 
 .card-container:has(.card.flipped) {

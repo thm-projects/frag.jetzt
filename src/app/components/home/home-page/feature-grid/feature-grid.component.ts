@@ -21,11 +21,12 @@ import {
   MatCardHeader,
   MatCardImage,
   MatCardTitle,
-  MatCardSubtitle,
-  MatCardActions,
 } from '@angular/material/card';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 
+/**
+ * Component that displays features in an interactive grid with flip cards
+ */
 @Component({
   selector: 'app-feature-grid',
   imports: [
@@ -39,8 +40,6 @@ import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigati
     MatCardHeader,
     MatCardImage,
     MatCardTitle,
-    MatCardSubtitle,
-    MatCardActions,
     NgClass,
   ],
   templateUrl: './feature-grid.component.html',
@@ -51,124 +50,142 @@ export class FeatureGridComponent implements AfterViewInit {
   protected readonly Math = Math;
   protected flippedCardIndex: number | null = null;
 
-  protected featureState = false; // oder true, je nach Anforderung
+  // State for feature (can be true or false based on requirements)
+  protected featureState = false;
 
   protected readonly windowClass = windowWatcher.windowState;
   protected readonly language = language;
 
   @ViewChildren('cardContainer') cardContainers: QueryList<ElementRef>;
 
+  /**
+   * Toggles a card's flipped state and announces the change for screen readers
+   * @param index The index of the card to toggle
+   */
   protected toggleCard(index: number): void {
-    // Wenn wir auf die bereits umgedrehte Karte klicken, einfach zurückdrehen
     if (this.flippedCardIndex === index) {
       this.flippedCardIndex = null;
-      return;
-    }
-
-    // Wenn bereits eine andere Karte umgedreht ist
-    if (this.flippedCardIndex !== null) {
-      const previousIndex = this.flippedCardIndex;
-      // Zuerst die alte Karte zurückdrehen
-      this.flippedCardIndex = null;
-
-      // Erst nach VERKÜRZTER Verzögerung die neue Karte umdrehen
-      setTimeout(() => {
-        this.flippedCardIndex = index;
-      }, 700); // Von 1500ms auf 700ms reduziert - gerade noch lang genug, um die Sequenz zu erkennen
+      // Announce to screen reader
+      this.announceToScreenReader(`Card ${index + 1} flipped back.`);
     } else {
-      // Wenn keine Karte umgedreht ist, sofort die neue umdrehen
       this.flippedCardIndex = index;
+      // Announce to screen reader
+      this.announceToScreenReader(
+        `Card ${index + 1} flipped. Details are now visible.`,
+      );
     }
 
-    // Fokus auf die gerade aktivierte Karte setzen
+    // Set focus on the currently activated card
     this.focusCardRobust(index);
   }
 
+  /**
+   * Checks if a card is currently flipped
+   * @param index The card index to check
+   * @returns True if the card is flipped, false otherwise
+   */
   protected isCardFlipped(index: number): boolean {
     return this.flippedCardIndex === index;
   }
 
+  /**
+   * Handles keyboard navigation between cards
+   * @param event The keyboard event
+   * @param index The current card index
+   */
   protected handleKeydown(event: KeyboardEvent, index: number): void {
     const totalCards = this.carousel.entries.length;
-    let targetIndex = index;
 
-    // Tab-Taste abfangen und zyklische Navigation implementieren
+    // Handle Tab key for cyclic navigation
     if (event.key === 'Tab') {
       if (!event.shiftKey && index === totalCards - 1) {
-        // Normale Tab-Taste auf der letzten Karte → zur ersten Karte springen
+        // Regular Tab on last card → jump to first card
         event.preventDefault();
         this.focusCardRobust(0);
         return;
       } else if (event.shiftKey && index === 0) {
-        // Shift+Tab auf der ersten Karte → zur letzten Karte springen
+        // Shift+Tab on first card → jump to last card
         event.preventDefault();
         this.focusCardRobust(totalCards - 1);
         return;
       }
-      // Sonst normales Tabbing erlauben
+      // Allow normal tabbing otherwise
       return;
     }
 
-    // Enter oder Space drücken dreht die Karte um
+    // Enter or Space flips the card
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.toggleCard(index);
-      return; // Frühes Return, um weitere Verarbeitung zu vermeiden
+      return; // Early return to avoid further processing
     }
 
-    // Navigation basierend auf Taste
+    // Navigation based on key
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowDown':
         event.preventDefault();
-        targetIndex = (index + 1) % totalCards;
+        this.focusCardRobust((index + 1) % totalCards);
         break;
       case 'ArrowLeft':
       case 'ArrowUp':
         event.preventDefault();
-        targetIndex = (index - 1 + totalCards) % totalCards;
+        this.focusCardRobust((index - 1 + totalCards) % totalCards);
         break;
       case 'Home':
         event.preventDefault();
-        targetIndex = 0; // Erste Karte
+        this.focusCardRobust(0); // First card
         break;
       case 'End':
         event.preventDefault();
-        targetIndex = totalCards - 1; // Letzte Karte
+        this.focusCardRobust(totalCards - 1); // Last card
         break;
-      default:
-        return; // Andere Tasten nicht verarbeiten
-    }
-
-    // Index geändert? Dann fokussieren
-    if (targetIndex !== index) {
-      this.focusCardRobust(targetIndex);
     }
   }
 
+  /**
+   * Focus a specific card with robust error handling
+   * @param index The index of the card to focus
+   */
   private focusCardRobust(index: number): void {
-    // Länger warten, um DOM-Updates zu ermöglichen
     setTimeout(() => {
       try {
-        // Versuch 1: Über QueryList (bevorzugt)
-        if (this.cardContainers && this.cardContainers.toArray()[index]) {
-          const element = this.cardContainers.toArray()[index].nativeElement;
+        // Use optional chaining for cleaner code
+        const element = this.cardContainers?.toArray()[index]?.nativeElement;
+        if (element) {
           element.focus();
           return;
         }
 
-        // Versuch 2: Über Document Query
-        const cards = document.querySelectorAll('.card-container');
-        if (cards && cards[index]) {
-          (cards[index] as HTMLElement).focus();
-          return;
-        }
+        // Try 2: Via Document Query
+        const card = document.querySelectorAll('.card-container')[
+          index
+        ] as HTMLElement;
+        card?.focus();
 
-        console.warn('Konnte Karte nicht fokussieren:', index);
+        if (!element && !card) {
+          console.warn('Could not focus card:', index);
+        }
       } catch (e) {
-        console.error('Fehler beim Fokussieren der Karte:', e);
+        console.error('Error focusing card:', e);
       }
-    }, 50); // Längere Verzögerung für bessere Zuverlässigkeit
+    }, 50); // Longer delay for better reliability
+  }
+
+  /**
+   * Announces a message to screen readers
+   * @param message The message to announce
+   */
+  private announceToScreenReader(message: string): void {
+    const announcer = document.createElement('div');
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.classList.add('sr-only');
+    announcer.textContent = message;
+    document.body.appendChild(announcer);
+
+    setTimeout(() => {
+      document.body.removeChild(announcer);
+    }, 1000);
   }
 
   @HostBinding('class.asDialog') get _asDialog() {
@@ -181,6 +198,9 @@ export class FeatureGridComponent implements AfterViewInit {
   }
   private isDialog: boolean;
 
+  /**
+   * Gets the current window class considering dialog mode
+   */
   get currentWindowClass(): M3WindowSizeClass {
     if (this.isDialog) {
       return M3WindowSizeClass.Compact;
@@ -189,6 +209,9 @@ export class FeatureGridComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Gets the carousel window for the current display size
+   */
   get carouselWindow() {
     return this.carousel.window[this.currentWindowClass];
   }
@@ -196,34 +219,41 @@ export class FeatureGridComponent implements AfterViewInit {
   constructor(protected self: HomePageService) {}
 
   ngAfterViewInit() {
-    // Überschreibe die querySelectorAll-Methode mit einer robusteren Variante
+    // This could be used to override querySelectorAll with a more robust version
   }
 
-  // Berechnen der korrekten tabindex-Werte basierend auf Grid-Position
+  /**
+   * Calculates the correct tabindex based on grid position
+   * @param index The card index
+   * @returns The tabindex value for natural grid navigation order
+   */
   protected getTabIndex(index: number): number {
-    // Anzahl Karten pro Zeile ermitteln (basierend auf cols-Wert)
+    // Determine cards per row (based on cols value)
     const cardsPerRow = this.getCardsPerRow();
 
-    // Zeile und Spalte berechnen
+    // Calculate row and column
     const row = Math.floor(index / cardsPerRow);
     const col = index % cardsPerRow;
 
-    // Tabindex berechnen: zeilenweise Reihenfolge
-    return row * cardsPerRow + col + 1; // +1, damit wir bei 1 starten
+    // Calculate tabindex: row-wise order
+    return row * cardsPerRow + col + 1; // +1 so we start at 1
   }
 
-  // Ermittelt Karten pro Zeile basierend auf aktuellem Layout
+  /**
+   * Determines cards per row based on current layout
+   * @returns Number of cards to display per row
+   */
   private getCardsPerRow(): number {
     const windowSize = this.windowClass();
 
-    // Korrekte Enum-Werte verwenden, nicht String-Literale
+    // Use correct enum values
     if (windowSize === M3WindowSizeClass.Compact) {
-      return 1; // Mobile: eine Karte pro Zeile
+      return 1; // Mobile: one card per row
     } else if (windowSize === M3WindowSizeClass.Medium) {
-      return 2; // Tablet: zwei Karten pro Zeile
+      return 2; // Tablet: two cards per row
     } else {
-      // Expanded und andere größere Formate
-      return 3; // Desktop: drei Karten pro Zeile
+      // Expanded and other larger formats
+      return 3; // Desktop: three cards per row
     }
   }
 }

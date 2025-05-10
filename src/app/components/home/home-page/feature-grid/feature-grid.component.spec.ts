@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { FeatureGridComponent } from './feature-grid.component';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
@@ -14,7 +19,6 @@ import {
 } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
-import { fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('FeatureGridComponent', () => {
@@ -40,7 +44,15 @@ describe('FeatureGridComponent', () => {
         NgFor,
       ],
       providers: [
-        { provide: HomePageService, useClass: class MockHomePageService {} },
+        {
+          provide: HomePageService,
+          useClass: class MockHomePageService {
+            // Minimal implementation to satisfy linting rules
+            getServiceType(): string {
+              return 'mock';
+            }
+          },
+        },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     })
@@ -49,30 +61,30 @@ describe('FeatureGridComponent', () => {
           template: `<div class="card-container" tabindex="0">
           <div class="card" [class.flipped]="isCardFlipped(0)">
             <div class="card-face card-front">
-              <mat-card>Vorderseite 0</mat-card>
+              <mat-card>Front side 0</mat-card>
             </div>
             <div class="card-face card-back">
-              <mat-card>Rückseite 0</mat-card>
+              <mat-card>Back side 0</mat-card>
             </div>
           </div>
         </div>
         <div class="card-container" tabindex="0">
           <div class="card" [class.flipped]="isCardFlipped(1)">
             <div class="card-face card-front">
-              <mat-card>Vorderseite 1</mat-card>
+              <mat-card>Front side 1</mat-card>
             </div>
             <div class="card-face card-back">
-              <mat-card>Rückseite 1</mat-card>
+              <mat-card>Back side 1</mat-card>
             </div>
           </div>
         </div>
         <div class="card-container" tabindex="0">
           <div class="card" [class.flipped]="isCardFlipped(2)">
             <div class="card-face card-front">
-              <mat-card>Vorderseite 2</mat-card>
+              <mat-card>Front side 2</mat-card>
             </div>
             <div class="card-face card-back">
-              <mat-card>Rückseite 2</mat-card>
+              <mat-card>Back side 2</mat-card>
             </div>
           </div>
         </div>`,
@@ -84,28 +96,28 @@ describe('FeatureGridComponent', () => {
     fixture = TestBed.createComponent(FeatureGridComponent);
     component = fixture.componentInstance;
 
-    // Mock-Setup für grundlegende Tests
+    // Setup mocks for basic tests
     (component as any).windowClass = jasmine
       .createSpy('windowClass')
       .and.returnValue('medium');
     (component as any).language = jasmine
       .createSpy('language')
-      .and.returnValue('de');
+      .and.returnValue('en');
     (component as any).carousel = {
       entries: [
         {
-          content: { title: { de: 'Feature 1' }, image: { url: '', alt: '' } },
+          content: { title: { en: 'Feature 1' }, image: { url: '', alt: '' } },
         },
         {
-          content: { title: { de: 'Feature 2' }, image: { url: '', alt: '' } },
+          content: { title: { en: 'Feature 2' }, image: { url: '', alt: '' } },
         },
         {
-          content: { title: { de: 'Feature 3' }, image: { url: '', alt: '' } },
+          content: { title: { en: 'Feature 3' }, image: { url: '', alt: '' } },
         },
       ],
     };
 
-    // Implementierung der Kartenzustandslogik
+    // Implementation of card state logic
     (component as any).flippedCardIndex = null;
 
     (component as any).isCardFlipped = (index) => {
@@ -123,95 +135,92 @@ describe('FeatureGridComponent', () => {
     fixture.detectChanges();
   });
 
-  it('sollte den Kartenzustand korrekt verwalten', () => {
-    // Initial sollte keine Karte umgedreht sein
+  it('should manage card state correctly', () => {
+    // Initially, no card should be flipped
     expect(component['flippedCardIndex']).toBe(null);
 
-    // Erste Karte umdrehen
+    // Flip the first card
     component['toggleCard'](0);
     expect(component['flippedCardIndex']).toBe(0);
     expect(component['isCardFlipped'](0)).toBeTrue();
     expect(component['isCardFlipped'](1)).toBeFalse();
 
-    // Zweite Karte umdrehen (erste sollte zurückgedreht werden)
+    // Flip the second card (first should return to front)
     component['toggleCard'](1);
     expect(component['flippedCardIndex']).toBe(1);
     expect(component['isCardFlipped'](0)).toBeFalse();
     expect(component['isCardFlipped'](1)).toBeTrue();
 
-    // Dieselbe Karte nochmals umdrehen (zurück zur Vorderseite)
+    // Flip the same card again (back to front side)
     component['toggleCard'](1);
     expect(component['flippedCardIndex']).toBe(null);
     expect(component['isCardFlipped'](1)).toBeFalse();
   });
 
-  it('sollte die korrekte HTML-Struktur für die Kartendrehung rendern', () => {
+  it('should render the correct HTML structure for card flipping', () => {
     fixture.detectChanges();
 
-    // Prüfen ob die Card-Container existieren
+    // Check if card containers exist
     const cardContainers = fixture.debugElement.queryAll(
       By.css('.card-container'),
     );
 
     cardContainers.forEach((container) => {
-      // Jeder Container sollte eine Karte mit einer Vorder- und Rückseite haben
+      // Each container should have a card with front and back faces
       const card = container.query(By.css('.card'));
-      expect(card).toBeTruthy('Karte sollte im Container existieren');
+      expect(card).toBeTruthy('Card should exist in container');
 
       const frontFace = card.query(By.css('.card-face.card-front'));
-      expect(frontFace).toBeTruthy('Vorderseite sollte existieren');
+      expect(frontFace).toBeTruthy('Front face should exist');
 
       const backFace = card.query(By.css('.card-face.card-back'));
-      expect(backFace).toBeTruthy('Rückseite sollte existieren');
+      expect(backFace).toBeTruthy('Back face should exist');
 
-      // Prüfen ob die Kartenstruktur korrekt ist
+      // Check if the card structure is correct
       const frontMatCard = frontFace.query(By.css('mat-card'));
-      expect(frontMatCard).toBeTruthy(
-        'Vorderseite sollte eine mat-card enthalten',
-      );
+      expect(frontMatCard).toBeTruthy('Front face should contain a mat-card');
 
       const backMatCard = backFace.query(By.css('mat-card'));
-      expect(backMatCard).toBeTruthy(
-        'Rückseite sollte eine mat-card enthalten',
-      );
+      expect(backMatCard).toBeTruthy('Back face should contain a mat-card');
     });
   });
 
-  it('sollte die Karte während der Drehung vergrößern', () => {
+  it('should scale the card during flipping', () => {
     fixture.detectChanges();
 
-    // Karte umdrehen
+    // Flip the card
     component['toggleCard'](0);
     fixture.detectChanges();
 
-    // CSS-Klassen überprüfen
+    // Check CSS classes
     const cardElement = fixture.debugElement.query(By.css('.card'));
     expect(cardElement.classes['flipped']).toBeTruthy(
-      'Die Karte sollte umgedreht sein',
+      'The card should be flipped',
     );
 
-    // Dokumentieren, dass wir einen scale(1.05)-Effekt erwarten
-    // (wird durch CSS-Regel .card.flipped implementiert)
+    // Document that we expect a scale(1.05) effect
+    // (implemented via CSS rule .card.flipped)
   });
 
-  it('sollte unterschiedliche Elevation für Vorder- und Rückseite haben', () => {
+  it('should have different elevation for front and back sides', () => {
     fixture.detectChanges();
 
-    // Karte umdrehen
+    // Flip the card
     component['toggleCard'](0);
     fixture.detectChanges();
 
-    // Wir können nicht direkt die berechneten Stile testen, aber wir können prüfen,
-    // ob die Klassen korrekt angewendet werden
+    // We can't directly test computed styles, but we can check
+    // if the classes are applied correctly
     const cardElement = fixture.debugElement.query(By.css('.card'));
-    const frontCard = cardElement.query(By.css('.card-front mat-card'));
-    const backCard = cardElement.query(By.css('.card-back mat-card'));
 
-    // Prüfen, ob die Karte umgedreht ist
+    // Check if the card is flipped
     expect(cardElement.classes['flipped']).toBeTruthy();
 
-    // Hinweis: Die tatsächlichen Schatten werden durch CSS gesteuert
-    // und müssen visuell überprüft werden
+    // Note: The variables frontCard and backCard were declared but not used
+    // Removed to fix linting issue
+
+    // Note: The actual shadows are controlled by CSS
+    // and need to be visually verified
   });
 });
 
@@ -237,7 +246,15 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
         NgClass,
       ],
       providers: [
-        { provide: HomePageService, useClass: class MockHomePageService {} },
+        {
+          provide: HomePageService,
+          useClass: class MockHomePageService {
+            // Minimal implementation to satisfy linting rules
+            getServiceType(): string {
+              return 'mock';
+            }
+          },
+        },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     })
@@ -246,30 +263,30 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
         `<div class="card-container" tabindex="0">
         <div class="card" [class.flipped]="isCardFlipped(0)">
           <div class="card-face card-front">
-            <mat-card>Vorderseite 0</mat-card>
+            <mat-card>Front side 0</mat-card>
           </div>
           <div class="card-face card-back">
-            <mat-card>Rückseite 0</mat-card>
+            <mat-card>Back side 0</mat-card>
           </div>
         </div>
       </div>
       <div class="card-container" tabindex="0">
         <div class="card" [class.flipped]="isCardFlipped(1)">
           <div class="card-face card-front">
-            <mat-card>Vorderseite 1</mat-card>
+            <mat-card>Front side 1</mat-card>
           </div>
           <div class="card-face card-back">
-            <mat-card>Rückseite 1</mat-card>
+            <mat-card>Back side 1</mat-card>
           </div>
         </div>
       </div>
       <div class="card-container" tabindex="0">
         <div class="card" [class.flipped]="isCardFlipped(2)">
           <div class="card-face card-front">
-            <mat-card>Vorderseite 2</mat-card>
+            <mat-card>Front side 2</mat-card>
           </div>
           <div class="card-face card-back">
-            <mat-card>Rückseite 2</mat-card>
+            <mat-card>Back side 2</mat-card>
           </div>
         </div>
       </div>`,
@@ -279,7 +296,7 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
     fixture = TestBed.createComponent(FeatureGridComponent);
     component = fixture.componentInstance;
 
-    // Mock-Setup für Keyboard Tests
+    // Setup mocks for keyboard tests
     (component as any).flippedCardIndex = null;
 
     (component as any).isCardFlipped = jasmine
@@ -290,7 +307,7 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
       entries: [{}, {}, {}],
     };
 
-    // Card-Container für DOM-Tests
+    // Card containers for DOM tests
     const mockElements = Array(3)
       .fill(0)
       .map(() => ({
@@ -303,24 +320,24 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
       toArray: () => mockElements,
     } as any;
 
-    // Methoden-Mocks
+    // Method mocks
     (component as any).focusCardRobust = jasmine.createSpy('focusCardRobust');
     (component as any).toggleCard = jasmine.createSpy('toggleCard');
 
-    // Console-Warnungen unterdrücken
+    // Suppress console warnings
     spyOn(console, 'warn').and.stub();
 
     fixture.detectChanges();
   });
 
-  it('sollte mit Enter/Space die Karte umdrehen', fakeAsync(() => {
-    // Event-Mock mit cancelable: true für preventDefault()
+  it('should flip the card with Enter/Space', fakeAsync(() => {
+    // Event mock with cancelable: true for preventDefault()
     const event = new KeyboardEvent('keydown', {
       key: 'Enter',
       cancelable: true,
     });
 
-    // Handler direkt implementieren
+    // Directly implement handler
     (component as any).handleKeydown = (e, index) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -330,10 +347,10 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
       return false;
     };
 
-    // Test durchführen
+    // Run the test
     const result = (component as any).handleKeydown(event, 0);
 
-    // Prüfen
+    // Verify
     expect(result).toBeTrue();
     expect(event.defaultPrevented).toBeTrue();
     expect((component as any).toggleCard).toHaveBeenCalledWith(0);
@@ -341,14 +358,14 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
     tick(50);
   }));
 
-  it('sollte mit Pfeiltasten zwischen Karten navigieren', fakeAsync(() => {
-    // Event-Mock
+  it('should navigate between cards with arrow keys', fakeAsync(() => {
+    // Event mock
     const rightEvent = new KeyboardEvent('keydown', {
       key: 'ArrowRight',
       cancelable: true,
     });
 
-    // Handler implementieren
+    // Implement handler
     (component as any).handleKeydown = (e, index) => {
       if (e.key === 'ArrowRight') {
         e.preventDefault();
@@ -359,10 +376,10 @@ describe('FeatureGridComponent Keyboard Navigation', () => {
       return false;
     };
 
-    // Test durchführen
+    // Run the test
     const result = (component as any).handleKeydown(rightEvent, 0);
 
-    // Prüfen
+    // Verify
     expect(result).toBeTrue();
     expect(rightEvent.defaultPrevented).toBeTrue();
     expect((component as any).focusCardRobust).toHaveBeenCalledWith(1);
