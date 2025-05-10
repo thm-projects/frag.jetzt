@@ -13,6 +13,8 @@ import {
   MatCardHeader,
   MatCardImage,
   MatCardTitle,
+  MatCardSubtitle,
+  MatCardActions,
 } from '@angular/material/card';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 
@@ -29,6 +31,8 @@ import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigati
     MatCardHeader,
     MatCardImage,
     MatCardTitle,
+    MatCardSubtitle,
+    MatCardActions,
     NgClass,
   ],
   templateUrl: './feature-grid.component.html',
@@ -39,13 +43,30 @@ export class FeatureGridComponent {
   protected readonly Math = Math;
   protected flippedCardIndex: number | null = null;
 
+  protected featureState = false; // oder true, je nach Anforderung
+
   protected readonly windowClass = windowWatcher.windowState;
   protected readonly language = language;
 
   protected toggleCard(index: number): void {
+    // Wenn wir auf die bereits umgedrehte Karte klicken, einfach zurückdrehen
     if (this.flippedCardIndex === index) {
       this.flippedCardIndex = null;
+      return;
+    }
+
+    // Wenn bereits eine andere Karte umgedreht ist
+    if (this.flippedCardIndex !== null) {
+      const previousIndex = this.flippedCardIndex;
+      // Zuerst die alte Karte zurückdrehen
+      this.flippedCardIndex = null;
+
+      // Erst nach VERKÜRZTER Verzögerung die neue Karte umdrehen
+      setTimeout(() => {
+        this.flippedCardIndex = index;
+      }, 700); // Von 1500ms auf 700ms reduziert - gerade noch lang genug, um die Sequenz zu erkennen
     } else {
+      // Wenn keine Karte umgedreht ist, sofort die neue umdrehen
       this.flippedCardIndex = index;
     }
   }

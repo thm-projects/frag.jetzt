@@ -94,12 +94,43 @@
         </mat-card>
       </div>
 
-      <!-- Rückseite der Karte (neu) -->
+      <!-- Rückseite der Karte mit Test-Inhalt -->
       <div class="card-face card-back">
-        <mat-card [ngClass]="cls">
+        <mat-card class="feature-card">
+          <mat-card-header>
+            <mat-card-title>Lorem Ipsum Test</mat-card-title>
+            <mat-card-subtitle>
+              Diese Seite sollte nicht gespiegelt sein
+            </mat-card-subtitle>
+          </mat-card-header>
           <mat-card-content>
-            <p>Rückseite (wird später implementiert)</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in
+              dui mauris.
+            </p>
+            <p>
+              Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor
+              neque.
+            </p>
+            <h3>Zwischenüberschrift</h3>
+            <p>
+              Morbi in sem quis dui placerat ornare. Pellentesque odio nisi,
+              euismod in.
+            </p>
+            <ul>
+              <li>Erster Punkt in einer Liste</li>
+              <li>Zweiter wichtiger Punkt</li>
+              <li>Dritter Stichpunkt zum Testen</li>
+            </ul>
           </mat-card-content>
+          <mat-card-actions align="end">
+            <button
+              mat-button
+              color="primary">
+              AKTION 1
+            </button>
+            <button mat-button>AKTION 2</button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>
