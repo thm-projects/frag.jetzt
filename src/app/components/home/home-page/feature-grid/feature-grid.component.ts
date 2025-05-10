@@ -63,10 +63,13 @@ export class FeatureGridComponent implements AfterViewInit {
    * @param index The index of the card to toggle
    */
   protected toggleCard(index: number): void {
+    // Save current flipped state for later comparison
+    const wasFlipped = this.flippedCardIndex === index;
+
     // First, stop any currently playing videos
     this.stopAllVideos();
 
-    if (this.flippedCardIndex === index) {
+    if (wasFlipped) {
       // Card is being flipped back to front
       this.flippedCardIndex = null;
       // Announce to screen reader
@@ -83,15 +86,58 @@ export class FeatureGridComponent implements AfterViewInit {
       // Start video on card flip (with slight delay for animation)
       if (this.carousel.entries[index]?.content.video) {
         setTimeout(() => {
-          const video = document.querySelector(
+          const cardBackFace = document.querySelectorAll(
+            '.card-face.card-back',
+          )[index] as HTMLElement;
+          if (!cardBackFace) {
+            console.warn('Card back face element not found');
+            return;
+          }
+
+          const video = cardBackFace.querySelector(
             '.feature-video',
           ) as HTMLVideoElement;
-          if (video) {
-            video.play().catch((err) => {
-              // Auto-play may be blocked by browser policies
-              console.log('Video auto-play prevented:', err);
-            });
+          if (!video) {
+            console.warn('Video element not found in card', index);
+            return;
           }
+
+          // Set source if using data-src attribute, otherwise use direct src
+          const dataSrc = video.getAttribute('data-src');
+          if (dataSrc) {
+            console.log('Setting video src from data-src:', dataSrc);
+            video.src = dataSrc;
+          }
+
+          // Ensure video loads its new source
+          video.load();
+
+          // Always start muted to ensure autoplay works
+          video.muted = true;
+
+          // Try to play the video
+          console.log('Attempting to play video...');
+          video
+            .play()
+            .then(() => {
+              console.log('Video playing successfully');
+            })
+            .catch((err) => {
+              console.error('Video autoplay failed:', err);
+
+              // If autoplay fails, add a play button
+              const playBtn = document.createElement('button');
+              playBtn.className = 'video-play-button';
+              playBtn.innerText = 'Play Video';
+              playBtn.onclick = (e) => {
+                e.stopPropagation();
+                video.play();
+                playBtn.remove();
+              };
+
+              // Add play button to container
+              video.parentElement?.appendChild(playBtn);
+            });
         }, 800); // Wait for flip animation to complete
       }
     }
@@ -101,13 +147,24 @@ export class FeatureGridComponent implements AfterViewInit {
    * Stop all videos that may be playing
    */
   private stopAllVideos(): void {
-    const videos = document.querySelectorAll(
-      '.feature-video',
-    ) as NodeListOf<HTMLVideoElement>;
-    videos.forEach((video) => {
-      video.pause();
-      video.currentTime = 0;
-    });
+    try {
+      const videos = document.querySelectorAll(
+        '.feature-video',
+      ) as NodeListOf<HTMLVideoElement>;
+      videos.forEach((video, i) => {
+        if (video) {
+          console.log(`Stopping video ${i}`);
+          video.pause();
+          video.currentTime = 0;
+
+          // Don't remove the src attribute completely - this causes issues with replay
+          // Instead, just pause and reset the current time
+          // This ensures the video can be played again on subsequent flips
+        }
+      });
+    } catch (e) {
+      console.error('Error stopping videos:', e);
+    }
   }
 
   /**
@@ -250,7 +307,50 @@ export class FeatureGridComponent implements AfterViewInit {
   constructor(protected self: HomePageService) {}
 
   ngAfterViewInit() {
-    // This could be used to override querySelectorAll with a more robust version
+    this.loadCardImages();
+    this.setupImageObserver();
+  }
+
+  /**
+   * Load images for visible cards
+   */
+  private loadCardImages(): void {
+    // Get all lazy-loaded images
+    const images = document.querySelectorAll(
+      'img[data-src]',
+    ) as NodeListOf<HTMLImageElement>;
+
+    images.forEach((img) => {
+      if (!img.src && img.dataset['src']) {
+        img.src = img.dataset['src'];
+      }
+    });
+  }
+
+  /**
+   * Sets up intersection observer for better image lazy loading
+   */
+  private setupImageObserver(): void {
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            if (img.dataset['src']) {
+              img.src = img.dataset['src'];
+              img.removeAttribute('data-src');
+              imageObserver.unobserve(img);
+            }
+          }
+        });
+      });
+
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      lazyImages.forEach((img) => imageObserver.observe(img));
+    } else {
+      // Fallback for browsers without IntersectionObserver
+      this.loadCardImages();
+    }
   }
 
   /**
@@ -286,5 +386,60 @@ export class FeatureGridComponent implements AfterViewInit {
       // Expanded and other larger formats
       return 3; // Desktop: three cards per row
     }
+  }
+
+  /**
+   * Formats image alt text to remove redundant words and provide fallbacks
+   * @param alt Original alt text from data
+   * @param fallback Fallback text (usually title)
+   * @returns Cleaned alt text for better accessibility
+   */
+  protected formatAltText(alt: string | undefined, fallback: string): string {
+    if (!alt) {
+      return fallback;
+    }
+
+    // Remove redundant words that screen readers already announce
+    return (
+      alt.replace(/\b(image|picture|photo|icon)\b/gi, '').trim() || fallback
+    );
+  }
+
+  /**
+   * Adds an unmute button overlay to a muted autoplaying video
+   */
+  private addUnmuteButton(
+    video: HTMLVideoElement,
+    container: HTMLElement,
+  ): void {
+    // Only add if video is actually muted and playing
+    if (!video.muted || video.paused) return;
+
+    const unmuteBtn = document.createElement('button');
+    unmuteBtn.className = 'video-unmute-button';
+    unmuteBtn.innerHTML = '<mat-icon>volume_up</mat-icon> Unmute';
+    unmuteBtn.onclick = (e) => {
+      e.stopPropagation();
+      video.muted = false;
+      unmuteBtn.remove();
+    };
+
+    container.querySelector('.video-container')?.appendChild(unmuteBtn);
+  }
+
+  /**
+   * Adds a play button for browsers that block autoplay completely
+   */
+  private addPlayButton(video: HTMLVideoElement, container: HTMLElement): void {
+    const playBtn = document.createElement('button');
+    playBtn.className = 'video-play-button';
+    playBtn.innerHTML = '<mat-icon>play_arrow</mat-icon> Play Video';
+    playBtn.onclick = (e) => {
+      e.stopPropagation();
+      video.play().catch(console.error);
+      playBtn.remove();
+    };
+
+    container.querySelector('.video-container')?.appendChild(playBtn);
   }
 }

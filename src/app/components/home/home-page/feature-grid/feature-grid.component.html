@@ -77,11 +77,17 @@
               display: flex;
               flex-direction: column;
             ">
-            @if (tile.content.image.url) {
+            @if (tile.content.image?.url) {
               <img
                 mat-card-image
-                src="{{ tile.content.image.url }}"
-                alt="{{ tile.content.image.alt }}" />
+                loading="lazy"
+                [attr.data-src]="tile.content.image.url"
+                [attr.alt]="
+                  formatAltText(
+                    tile.content.image.alt,
+                    tile.content.title[language()]
+                  )
+                " />
             } @else {
               <mat-icon
                 class="image-icon"
@@ -118,8 +124,10 @@
             @if (tile.content.video?.url) {
               <div class="video-container">
                 <video
+                  #featureVideo
                   class="feature-video"
-                  src="{{ tile.content.video.url }}"
+                  data-src="{{ tile.content.video.url }}"
+                  preload="none"
                   [controls]="tile.content.video.controls !== false"
                   [muted]="tile.content.video.muted !== false"
                   [attr.aria-label]="tile.content.video.title"
