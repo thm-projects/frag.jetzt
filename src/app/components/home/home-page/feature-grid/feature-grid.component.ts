@@ -59,24 +59,55 @@ export class FeatureGridComponent implements AfterViewInit {
   @ViewChildren('cardContainer') cardContainers: QueryList<ElementRef>;
 
   /**
-   * Toggles a card's flipped state and announces the change for screen readers
+   * Toggles a card's flipped state and handles video playback
    * @param index The index of the card to toggle
    */
   protected toggleCard(index: number): void {
+    // First, stop any currently playing videos
+    this.stopAllVideos();
+
     if (this.flippedCardIndex === index) {
+      // Card is being flipped back to front
       this.flippedCardIndex = null;
       // Announce to screen reader
       this.announceToScreenReader(`Card ${index + 1} flipped back.`);
     } else {
+      // If another card was flipped, reset its state
       this.flippedCardIndex = index;
+
       // Announce to screen reader
       this.announceToScreenReader(
         `Card ${index + 1} flipped. Details are now visible.`,
       );
-    }
 
-    // Set focus on the currently activated card
-    this.focusCardRobust(index);
+      // Start video on card flip (with slight delay for animation)
+      if (this.carousel.entries[index]?.content.video) {
+        setTimeout(() => {
+          const video = document.querySelector(
+            '.feature-video',
+          ) as HTMLVideoElement;
+          if (video) {
+            video.play().catch((err) => {
+              // Auto-play may be blocked by browser policies
+              console.log('Video auto-play prevented:', err);
+            });
+          }
+        }, 800); // Wait for flip animation to complete
+      }
+    }
+  }
+
+  /**
+   * Stop all videos that may be playing
+   */
+  private stopAllVideos(): void {
+    const videos = document.querySelectorAll(
+      '.feature-video',
+    ) as NodeListOf<HTMLVideoElement>;
+    videos.forEach((video) => {
+      video.pause();
+      video.currentTime = 0;
+    });
   }
 
   /**

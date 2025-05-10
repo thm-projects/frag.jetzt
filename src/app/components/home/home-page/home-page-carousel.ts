@@ -38,10 +38,22 @@ export interface HomePageCarouselEntry {
     description: {
       [A in LanguageKey]: string;
     };
+    // Add optional detailed description
+    detailedDescription?: {
+      [A in LanguageKey]: string;
+    };
     image: {
       url?: string;
       alt?: string;
       svgIcon?: string;
+    };
+    // Add optional video property
+    video?: {
+      url: string;
+      title: string;
+      controls?: boolean;
+      autoplay?: boolean;
+      muted?: boolean;
     };
   };
 }
@@ -83,5 +95,27 @@ export const carousel: HomePageCarousel = {
     colspan: 1,
     rowspan: 1,
   },
-  entries: homePageCarouselEntries,
+  entries: [
+    // First two entries remain unchanged
+    homePageCarouselEntries[0],
+    homePageCarouselEntries[1],
+
+    // Update third entry (index 2) with video
+    {
+      window: homePageCarouselEntries[2].window, // Keep existing window config
+      content: {
+        ...homePageCarouselEntries[2].content, // Keep existing content
+        video: {
+          url: 'assets/feature-videos/Git-History_2025-01-01_to_2025-04-15.mp4',
+          title: 'Git History Visualization Demo',
+          controls: true,
+          autoplay: true,
+          muted: false,
+        },
+      },
+    },
+
+    // Any remaining entries stay unchanged
+    ...homePageCarouselEntries.slice(3),
+  ],
 };

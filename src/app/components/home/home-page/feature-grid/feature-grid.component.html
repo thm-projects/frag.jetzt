@@ -103,8 +103,31 @@
       <!-- Rückseite der Karte mit dynamischem Inhalt -->
       <div class="card-face card-back">
         <mat-card>
+          <!-- Add background image container -->
+          <div class="card-background-image">
+            <img
+              src="assets/background/chat_bot_green.svg"
+              alt=""
+              aria-hidden="true" />
+          </div>
+
           <mat-card-content>
             <h3>{{ tile.content.title[language()] }}</h3>
+
+            <!-- Add video container - place before the text -->
+            @if (tile.content.video?.url) {
+              <div class="video-container">
+                <video
+                  class="feature-video"
+                  src="{{ tile.content.video.url }}"
+                  [controls]="tile.content.video.controls !== false"
+                  [muted]="tile.content.video.muted !== false"
+                  [attr.aria-label]="tile.content.video.title"
+                  (click)="$event.stopPropagation()">
+                  Your browser does not support HTML5 video.
+                </video>
+              </div>
+            }
 
             <!-- Statt Lorem Ipsum den tatsächlichen Content verwenden -->
             @if (tile.content.detailedDescription) {
