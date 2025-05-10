@@ -1,4 +1,7 @@
+// Add padding to keep cards away from edges
 :host {
+  display: block;
+  padding: 16px; // Ensures hovering cards don't touch the edges
   overflow: visible !important;
   hyphens: auto;
   gap: 16px;
@@ -119,7 +122,7 @@ mat-grid-tile {
 }
 
 .card-container:hover .card:not(.flipped) {
-  transform: translateZ(25px) scale(1.06);
+  transform: translateZ(15px) scale(1.02); // Reduce from 1.03 to 1.02
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 1100 !important;
 }
@@ -147,8 +150,15 @@ mat-grid-tile {
 }
 
 .card.flipped .card-back mat-card {
-  border-color: transparent !important;
+  border: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.08)) !important;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card.flipped .card-back mat-card:hover {
+  border-color: var(
+    --mat-sys-primary-container,
+    rgba(25, 118, 210, 0.2)
+  ) !important;
 }
 
 .card-back mat-card {
@@ -161,7 +171,18 @@ mat-grid-tile {
 .card-back mat-card-content {
   flex: 1 !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important; // Prevent horizontal scrolling
   padding: 8px 16px 16px 16px !important;
+  max-width: 100%; // Ensure content doesn't exceed container width
+  box-sizing: border-box; // Include padding in width calculation
+}
+
+// Ensure text content doesn't cause overflow
+.card-back h3,
+.card-back p {
+  max-width: 100%;
+  word-wrap: break-word; // Allow long words to break
+  overflow-wrap: break-word;
 }
 
 // Make sure content appears above the background
@@ -175,7 +196,7 @@ mat-card-content {
 }
 
 .card-container:focus:not(:hover) .card:not(.flipped) {
-  transform: translateZ(15px) scale(1.03);
+  transform: translateZ(15px) scale(1.02); // Reduce from 1.03 to 1.02
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 500;
 }
@@ -196,10 +217,13 @@ mat-card-content {
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.08);
   position: relative;
+  box-sizing: border-box; // Include border in width calculation
+  max-width: 100%; // Ensure it doesn't exceed parent width
 }
 
 .feature-video {
   width: 100%;
+  max-width: 100%; // Ensure video respects container width
   display: block;
   background-color: #f5f5f5;
 }
