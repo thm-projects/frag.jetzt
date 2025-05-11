@@ -23,6 +23,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
+import { YoutubeEmbedComponent } from '../youtube-embed/youtube-embed.component';
 
 /**
  * Component that displays features in an interactive grid with flip cards
@@ -41,6 +42,7 @@ import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigati
     MatCardImage,
     MatCardTitle,
     NgClass,
+    YoutubeEmbedComponent,
   ],
   templateUrl: './feature-grid.component.html',
   styleUrl: './feature-grid.component.scss',
@@ -83,25 +85,20 @@ export class FeatureGridComponent implements AfterViewInit {
         `Card ${index + 1} flipped. Details are now visible.`,
       );
 
-      // Add a slight delay to let the card flip animation finish
+      // Add a slight delay for videos
       if (this.carousel.entries[index]?.content.video) {
+        // Handle regular videos as before
         setTimeout(() => {
-          // Find the video element directly by index, not by querying the DOM
           const cards = document.querySelectorAll('.card');
           if (cards[index]) {
             const video =
               cards[index].querySelector<HTMLVideoElement>('.feature-video');
             if (video) {
-              // Force load and play
               video.load();
-
-              // Try playing after a small delay to ensure the video has loaded
               setTimeout(() => {
                 const playPromise = video.play();
-                // Handle autoplay blocking
                 if (playPromise !== undefined) {
                   playPromise.catch(() => {
-                    // Browser blocked autoplay - user will need to click play button
                     console.log(
                       'Autoplay prevented by browser - manual play required',
                     );
@@ -110,20 +107,34 @@ export class FeatureGridComponent implements AfterViewInit {
               }, 100);
             }
           }
-        }, 800); // Wait for flip animation
+        }, 800);
       }
+      // No special handling needed for YouTube - the component handles it
     }
   }
 
   /**
-   * Stop all videos that may be playing
+   * Stop all videos that may be playing (update to include YouTube)
    */
   private stopAllVideos(): void {
+    // Stop regular videos
     document.querySelectorAll('.feature-video').forEach((videoElement) => {
       const video = videoElement as HTMLVideoElement;
       if (video && !video.paused) {
         video.pause();
         video.currentTime = 0;
+      }
+    });
+
+    // For YouTube iframes, send postMessage to pause
+    document.querySelectorAll('iframe').forEach((iframe) => {
+      try {
+        iframe.contentWindow?.postMessage(
+          '{"event":"command","func":"pauseVideo","args":""}',
+          '*',
+        );
+      } catch (e) {
+        console.warn('Could not pause YouTube video:', e);
       }
     });
   }
@@ -401,5 +412,65 @@ export class FeatureGridComponent implements AfterViewInit {
     };
 
     container.querySelector('.video-container')?.appendChild(playBtn);
+  }
+
+  /**
+   * Handles YouTube video loaded event
+   * @param index The index of the card
+   */
+  protected onYoutubeLoaded(index: number): void {
+    console.log(`YouTube video for card ${index} loaded`);
+    // You could implement additional logic here if needed
+  }
+
+  /**
+   * Checks if a card is considered large based on its window configuration
+   * @param index The index of the card
+   * @returns True if the card is large, false otherwise
+   */
+  protected isLargeCard(index: number): boolean {
+    // Make sure index is valid
+    if (index < 0 || index >= this.carousel.entries.length) {
+      return false;
+    }
+
+    const entry = this.carousel.entries[index];
+    // If using a signal for window class, use function call syntax
+    const currentWindowClass =
+      typeof this.windowClass === 'function'
+        ? this.windowClass()
+        : this.windowClass;
+
+    const currentWindow = entry.window?.[currentWindowClass];
+    return currentWindow?.colspan >= 2 || currentWindow?.rowspan >= 2;
+  }
+
+  /**
+   * Gets the video title (YouTube or regular) for a card
+   * @param index The card index
+   * @returns The video title or empty string
+   */
+  protected getVideoTitle(index: number): string {
+    const entry = this.carousel.entries[index];
+    if (entry?.content.youtube?.title) {
+      return entry.content.youtube.title;
+    } else if (entry?.content.video?.title) {
+      return entry.content.video.title;
+    }
+    return '';
+  }
+
+  /**
+   * Checks if a card has a summary
+   * @param index The card index
+   * @returns True if the card has a summary, false otherwise
+   */
+  protected hasSummary(index: number): boolean {
+    const hasSum = !!this.carousel.entries[index]?.content.youtube?.summary;
+    console.log(
+      `Card ${index} has summary: ${hasSum}`,
+      this.carousel.entries[index]?.content.youtube?.summary,
+    );
+    return hasSum;
   }
 }

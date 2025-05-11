@@ -120,8 +120,28 @@
           <mat-card-content>
             <h3>{{ tile.content.title[language()] }}</h3>
 
-            <!-- Replace the video container section with this -->
-            @if (tile.content.video?.url) {
+            <!-- YouTube Video Section -->
+            @if (tile.content.youtube?.videoId) {
+              <div
+                class="video-container"
+                (click)="$event.stopPropagation()">
+                <app-youtube-embed
+                  [videoId]="tile.content.youtube.videoId"
+                  [startAt]="tile.content.youtube.startAt || 0"
+                  [smallCard]="!isLargeCard(index)"
+                  (loaded)="onYoutubeLoaded(index)"></app-youtube-embed>
+              </div>
+
+              <!-- Just keep ONE summary section -->
+              @if (tile.content.youtube?.summary) {
+                <div class="video-summary">
+                  <p>{{ tile.content.youtube.summary }}</p>
+                </div>
+              }
+            }
+
+            <!-- Regular Video Section (keep existing) -->
+            @else if (tile.content.video?.url) {
               <div
                 class="video-container"
                 (click)="$event.stopPropagation()">
@@ -129,31 +149,17 @@
                   class="feature-video"
                   [src]="tile.content.video.url"
                   controls
-                  preload="metadata">
+                  preload="metadata"
+                  (click)="$event.stopPropagation()">
                   Your browser does not support HTML5 video.
                 </video>
               </div>
             }
 
-            <!-- Statt Lorem Ipsum den tatsächlichen Content verwenden -->
-            @if (tile.content.detailedDescription) {
-              <div
-                [innerHTML]="
-                  tile.content.detailedDescription[language()]
-                "></div>
-            } @else {
+            <!-- Rest of the content -->
+            <div class="card-text-content">
               <p>{{ tile.content.description[language()] }}</p>
-            }
-
-            <!-- Falls vorhanden, Spezifikationen anzeigen -->
-            @if (tile.content.features?.length > 0) {
-              <h3>Funktionen</h3>
-              <ul>
-                @for (feature of tile.content.features; track feature) {
-                  <li>{{ feature[language()] }}</li>
-                }
-              </ul>
-            }
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

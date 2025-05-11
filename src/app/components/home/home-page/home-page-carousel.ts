@@ -31,30 +31,29 @@ export interface HomePageCarouselEntry {
       rowspan: number;
     };
   }>;
-  content: {
-    title: {
-      [A in LanguageKey]: string;
-    };
-    description: {
-      [A in LanguageKey]: string;
-    };
-    // Add optional detailed description
-    detailedDescription?: {
-      [A in LanguageKey]: string;
-    };
-    image: {
-      url?: string;
-      alt?: string;
-      svgIcon?: string;
-    };
-    // Add optional video property
-    video?: {
-      url: string;
-      title: string;
-      controls?: boolean;
-      autoplay?: boolean;
-      muted?: boolean;
-    };
+  content: HomePageCarouselEntryContent;
+}
+
+interface HomePageCarouselEntryContent {
+  title: Record<string, string>;
+  description: Record<string, string>;
+  image?: {
+    url?: string;
+    alt?: string;
+    svgIcon?: string;
+  };
+  video?: {
+    url?: string;
+    title?: string;
+    controls?: boolean;
+    autoplay?: boolean;
+    muted?: boolean;
+  };
+  youtube?: {
+    videoId: string;
+    title?: string;
+    startAt?: number; // Start time in seconds
+    summary?: string; // Add this field for video summaries
   };
 }
 
@@ -96,33 +95,126 @@ export const carousel: HomePageCarousel = {
     rowspan: 1,
   },
   entries: [
-    // First entry remains unchanged
-    homePageCarouselEntries[0],
-
-    // Small card (index 1) without video
+    // First entry (index 0) - Neural Networks intro
     {
-      window: homePageCarouselEntries[1].window,
+      window: homePageCarouselEntries[0].window,
       content: {
-        ...homePageCarouselEntries[1].content,
-      },
-    },
-
-    // Make sure large card (index 2) also has video
-    {
-      window: homePageCarouselEntries[2].window,
-      content: {
-        ...homePageCarouselEntries[2].content,
-        video: {
-          url: 'assets/feature-videos/Git-History_2025-01-01_to_2025-04-15.mp4', // Original video for card 2
-          title: 'Git History Visualization',
-          controls: true,
-          autoplay: true,
-          muted: true,
+        ...homePageCarouselEntries[0].content,
+        youtube: {
+          videoId: 'aircAruvnKk', // 3Blue1Brown: Neural Networks
+          title: 'Neural Networks Fundamentals',
+          startAt: 60,
+          summary:
+            'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
         },
       },
     },
 
-    // Any remaining entries stay unchanged
-    ...homePageCarouselEntries.slice(3),
+    // Second entry (index 1) - Backpropagation
+    {
+      window: homePageCarouselEntries[1].window,
+      content: {
+        ...homePageCarouselEntries[1].content,
+        youtube: {
+          videoId: 'Ilg3gGewQ5U', // 3Blue1Brown: Backpropagation
+          title: 'Backpropagation Algorithm',
+          startAt: 30,
+          summary:
+            'Part of the 3Blue1Brown neural network series, this video visualizes the mathematics behind backpropagation, the algorithm that powers deep learning. The concepts are explained visually with clear animations that help understand the gradient descent process.',
+        },
+      },
+    },
+
+    // Third entry (index 2) - Gradient descent
+    {
+      window: homePageCarouselEntries[2].window,
+      content: {
+        ...homePageCarouselEntries[2].content,
+        youtube: {
+          videoId: 'IHZwWFHWa-w', // 3Blue1Brown: Gradient Descent
+          title: 'Gradient Descent Explained',
+          startAt: 45,
+          summary:
+            "This 3Blue1Brown video provides an intuitive explanation of gradient descent, the optimization algorithm that enables neural networks to learn. Through innovative visualizations, you'll understand how models navigate complex parameter spaces to minimize error.",
+        },
+      },
+    },
+
+    // Fourth entry (index 3) - Linear Algebra
+    {
+      window: homePageCarouselEntries[3].window,
+      content: {
+        ...homePageCarouselEntries[3].content,
+        youtube: {
+          videoId: 'fNk_zzaMoSs', // 3Blue1Brown: Linear Algebra
+          title: 'Linear Algebra for AI Engineers',
+          startAt: 30,
+          summary:
+            "This introductory video from 3Blue1Brown's acclaimed Linear Algebra series focuses on the essential math underlying machine learning algorithms. It provides geometric intuition for vectors, matrices, and transformations that form the foundation of AI systems.",
+        },
+      },
+    },
+
+    // Fifth entry (index 4) - Calculus
+    {
+      window: homePageCarouselEntries[4].window,
+      content: {
+        ...homePageCarouselEntries[4].content,
+        youtube: {
+          videoId: 'WUvTyaaNkzM', // 3Blue1Brown: Calculus
+          title: 'Calculus for Machine Learning',
+          startAt: 60,
+          summary:
+            "Part of 3Blue1Brown's Essence of Calculus series, this video explains the calculus concepts essential for understanding machine learning algorithms. The visual approach helps software engineers grasp derivatives, integrals, and their application in optimization problems.",
+        },
+      },
+    },
+
+    // Add YouTube videos to other entries
+    ...homePageCarouselEntries.slice(5).map((entry, idx) => {
+      if (idx % 2 === 0) {
+        // More 3Blue1Brown and educational content
+        const videos = [
+          {
+            id: 'KXpfVViPi-I',
+            title: 'Deep Learning Algorithms',
+            summary:
+              'This 3Blue1Brown collaboration explores cutting-edge deep learning algorithms that power modern AI systems. It covers convolutional neural networks, attention mechanisms, and reinforcement learning through clear, visual explanations.',
+          },
+          {
+            id: 'rBCqOTEfxvg',
+            title: 'Probability in Machine Learning',
+            summary:
+              "This installment from 3Blue1Brown examines how probability theory underlies machine learning models. Through animations and examples, you'll see how Bayesian concepts and statistics inform AI decision-making processes.",
+          },
+          {
+            id: 'kYB8IZa5AuE',
+            title: 'Fourier Transforms for AI',
+            summary:
+              '3Blue1Brown explains Fourier transforms, a powerful mathematical tool used in signal processing and AI applications. This visual guide demonstrates how complex signals can be broken down into simpler components for more effective machine learning.',
+          },
+          {
+            id: 'bM2yD_XZxcU',
+            title: 'Visual Information Theory',
+            summary:
+              "This video explores information theory concepts crucial for AI systems. Through 3Blue1Brown's signature animations, you'll learn about entropy, information content, and how these ideas apply to machine learning model compression and optimization.",
+          },
+        ];
+
+        return {
+          window: entry.window,
+          content: {
+            ...entry.content,
+            youtube: {
+              videoId: videos[idx % 4].id,
+              title: videos[idx % 4].title,
+              startAt: 30,
+              summary: videos[idx % 4].summary,
+            },
+          },
+        };
+      }
+      return entry;
+    }),
   ],
 };

@@ -189,6 +189,7 @@ mat-grid-tile {
 mat-card-content {
   position: relative;
   z-index: 1;
+  padding-top: 8px;
 }
 
 .card-container:focus {
@@ -209,7 +210,7 @@ mat-card-content {
   z-index: 1200 !important;
 }
 
-// Consolidated video container styling - replace all existing .video-container rules
+// Update video container styling to handle both HTML5 and YouTube videos
 .video-container {
   width: 100%;
   margin: 0 0 16px;
@@ -221,8 +222,6 @@ mat-card-content {
 
   // Stop event propagation
   pointer-events: auto;
-
-  // For click handling
   z-index: 2;
 }
 
@@ -232,4 +231,88 @@ mat-card-content {
   display: block;
   background-color: #f5f5f5;
   max-width: 100%;
+}
+
+// Fix for YouTube on small cards
+mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
+  ::ng-deep .youtube-container {
+    height: auto !important;
+    padding-bottom: 56.25% !important; // Restore aspect ratio
+  }
+
+  // Fix the position of the iframe on small cards
+  ::ng-deep iframe {
+    position: absolute !important;
+    height: 100% !important;
+    top: 0;
+    left: 0;
+  }
+}
+
+// Add these styles to improve the card and video container layout
+.card-face.card-back {
+  h3 {
+    margin-bottom: 16px; /* More space before video */
+    font-weight: 500; /* Slightly bolder */
+  }
+
+  // Better spacing for videos - combined with transition effects
+  .video-container {
+    margin: 0 0 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: none; /* Remove border since we have shadow */
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  p {
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+}
+
+// Enhanced styling for video summaries using correct MD3 variables
+.video-summary {
+  margin: 8px 0 16px;
+  padding: 12px;
+  // Use surface-container for background that works in both modes
+  background-color: var(--mat-sys-surface-container-high, rgba(0, 0, 0, 0.05));
+  border-radius: 8px;
+  font-size: 0.9em;
+  line-height: 1.5;
+  // Use primary color for accent border
+  border-left: 3px solid var(--mat-sys-primary, #1976d2);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.video-summary p {
+  margin: 0;
+  // Use on-surface for text that will be visible on any surface
+  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.8));
+}
+
+// Fix for small cards to ensure summary is visible
+mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
+  max-height: 80px;
+  font-size: 0.8em;
+  padding: 8px;
+}
+
+// High contrast mode support
+@media (forced-colors: active) {
+  .video-summary {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+  }
+
+  .video-summary p {
+    color: CanvasText;
+  }
 }
