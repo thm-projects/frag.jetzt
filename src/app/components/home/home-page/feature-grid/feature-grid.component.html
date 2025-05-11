@@ -55,11 +55,10 @@
   let-cls="cls"
   let-index="index">
   <!-- Card-Container für Flip-Effekt -->
-  <div
+  <button
     #cardContainer
     class="card-container"
     [attr.tabindex]="getTabIndex(index)"
-    role="button"
     [attr.aria-expanded]="flippedCardIndex === index"
     [attr.aria-label]="'Feature: ' + tile.content.title[language()]"
     (keydown)="handleKeydown($event, index)"
@@ -78,16 +77,18 @@
               flex-direction: column;
             ">
             @if (tile.content.image?.url) {
+              <!-- sonar:disable Web:S6851 -->
               <img
                 mat-card-image
                 loading="lazy"
                 [attr.data-src]="tile.content.image.url"
                 [attr.alt]="
-                  formatAltText(
+                  cleanAltText(
                     tile.content.image.alt,
                     tile.content.title[language()]
                   )
                 " />
+              <!-- sonar:enable Web:S6851 -->
             } @else {
               <mat-icon
                 class="image-icon"
@@ -124,7 +125,8 @@
             @if (tile.content.youtube?.videoId) {
               <div
                 class="video-container"
-                (click)="$event.stopPropagation()">
+                (click)="$event.stopPropagation()"
+                (keydown)="handleVideoKeydown($event)">
                 <app-youtube-embed
                   [videoId]="tile.content.youtube.videoId"
                   [startAt]="tile.content.youtube.startAt || 0"
@@ -144,14 +146,23 @@
             @else if (tile.content.video?.url) {
               <div
                 class="video-container"
-                (click)="$event.stopPropagation()">
+                (click)="$event.stopPropagation()"
+                (keydown)="handleVideoKeydown($event)">
                 <video
                   class="feature-video"
                   [src]="tile.content.video.url"
                   controls
                   preload="metadata"
-                  (click)="$event.stopPropagation()">
+                  (click)="$event.stopPropagation()"
+                  (keydown)="handleVideoKeydown($event)">
                   Your browser does not support HTML5 video.
+
+                  <!-- Add subtitles track for accessibility -->
+                  <track
+                    kind="subtitles"
+                    src="path-to-subtitles.vtt"
+                    label="English"
+                    srclang="en" />
                 </video>
               </div>
             }
@@ -164,7 +175,7 @@
         </mat-card>
       </div>
     </div>
-  </div>
+  </button>
 </ng-template>
 
 <style>

@@ -1,4 +1,4 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -9,10 +9,14 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+/**
+ * Component that embeds YouTube videos with responsive design
+ * Shows full player on large cards and thumbnails on small cards
+ */
 @Component({
   selector: 'app-youtube-embed',
   standalone: true,
-  imports: [CommonModule, NgClass],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- For large cards: Normal iframe embed -->
@@ -25,8 +29,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         (load)="onIframeLoad()"
-      >
-      </iframe>
+      ></iframe>
     </div>
 
     <!-- For small cards: Thumbnail with play button -->
@@ -46,8 +49,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         height: 0;
         overflow: hidden;
         background-color: #000;
-        border-radius: 8px; /* Increased border-radius for more modern look */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       }
 
       iframe {
@@ -59,11 +62,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         border-radius: 8px;
       }
 
-      /* Improved thumbnail styling for small cards */
       .youtube-thumbnail {
         position: relative;
         width: 100%;
-        height: 130px; /* Slightly taller */
+        height: 130px;
         overflow: hidden;
         border-radius: 8px;
         cursor: pointer;
@@ -74,7 +76,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
           box-shadow 0.2s ease;
       }
 
-      /* Add hover effect */
       .youtube-thumbnail:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -109,7 +110,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       }
 
       .play-button {
-        width: 56px; /* Larger button */
+        width: 56px;
         height: 56px;
         border-radius: 50%;
         background-color: rgba(255, 0, 0, 0.9);
@@ -117,7 +118,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 28px; /* Larger icon */
+        font-size: 28px;
         transform: scale(1);
         transition:
           transform 0.2s ease,
@@ -126,39 +127,60 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
       .youtube-thumbnail:hover .play-button {
         transform: scale(1.05);
-        background-color: #ff0000; /* Solid red on hover */
+        background-color: #ff0000;
       }
     `,
   ],
 })
 export class YoutubeEmbedComponent implements OnInit {
-  @Input() videoId: string;
+  /** YouTube video ID */
+  @Input() videoId!: string;
+
+  /** Start time in seconds */
   @Input() startAt = 0;
+
+  /** Whether this component is on a small card */
   @Input() smallCard = false;
+
+  /** Emits when the iframe has loaded */
   @Output() loaded = new EventEmitter<void>();
 
-  safeUrl: SafeResourceUrl;
-  thumbnailUrl: string;
+  /** Safe URL for iframe src */
+  safeUrl!: SafeResourceUrl;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  /** URL for video thumbnail */
+  thumbnailUrl!: string;
 
-  ngOnInit() {
+  constructor(private readonly sanitizer: DomSanitizer) {}
+
+  /**
+   * Initialize the component
+   */
+  ngOnInit(): void {
     this.updateSafeUrl();
-    // Get high quality thumbnail from YouTube
     this.thumbnailUrl = `https://img.youtube.com/vi/${this.videoId}/hqdefault.jpg`;
   }
 
-  onIframeLoad() {
+  /**
+   * Handle iframe load event
+   */
+  onIframeLoad(): void {
     this.loaded.emit();
   }
 
-  private updateSafeUrl() {
+  /**
+   * Update the iframe src URL with proper security handling
+   */
+  private updateSafeUrl(): void {
     const url = `https://www.youtube.com/embed/${this.videoId}?rel=0&modestbranding=1`;
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  openInNewTab() {
-    // For small cards, open YouTube directly
+  /**
+   * Open the YouTube video in a new tab
+   * Used for small cards where we show a thumbnail
+   */
+  openInNewTab(): void {
     const startTime = this.startAt ? `&t=${this.startAt}` : '';
     window.open(
       `https://www.youtube.com/watch?v=${this.videoId}${startTime}`,

@@ -1,5 +1,4 @@
 import { M3WindowSizeClass } from '../../../../modules/m3/components/navigation/m3-navigation-types';
-import { LanguageKey } from './home-page-types';
 import { homePageCarouselEntries } from './carousel-entries/home-page-carousel-entries';
 export interface HomePageCarousel {
   defaultEntryWindow: {
@@ -34,7 +33,7 @@ export interface HomePageCarouselEntry {
   content: HomePageCarouselEntryContent;
 }
 
-interface HomePageCarouselEntryContent {
+export interface HomePageCarouselEntryContent {
   title: Record<string, string>;
   description: Record<string, string>;
   image?: {
@@ -53,7 +52,7 @@ interface HomePageCarouselEntryContent {
     videoId: string;
     title?: string;
     startAt?: number; // Start time in seconds
-    summary?: string; // Add this field for video summaries
+    summary?: string; // Video description
   };
 }
 
