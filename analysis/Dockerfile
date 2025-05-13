@@ -5,12 +5,7 @@ USER root
 RUN <<EOF
 set -e
 apk update
-apk add --no-cache flatpak unzip curl npm
-flatpak remote-add --if-not-exists flathub 'https://flathub.org/repo/flathub.flatpakrepo'
-flatpak install flathub org.chromium.Chromium -y
-flatpak uninstall --unused
-rm -rf ~/.var/cache/flatpak
-rm -rf ~/.cache/flatpak
+apk add --no-cache chromium curl unzip npm ttf-freefont
 
 VERSION=$(curl -LsI -w %{url_effective} https://github.com/SonarSource/sonar-scanner-cli/releases/latest | tail -n 1)
 VERSION=${VERSION##*/}
@@ -33,5 +28,5 @@ EOF
 USER sonar-cli
 
 ENV PATH="$PATH:/opt/sonar-scanner/bin"
-ENV CHROME_BIN=/var/lib/flatpak/app/org.chromium.Chromium/current/active
+ENV CHROME_BIN=/usr/bin/chromium
 CMD ["sonar-scanner"]

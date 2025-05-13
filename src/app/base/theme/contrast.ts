@@ -21,6 +21,9 @@ const contrastSignal = signal<Contrast>('normal');
 export const contrast = contrastSignal.asReadonly();
 export const setContrast = (contrast: Contrast): boolean => {
   if (!AVAILABLE_CONTRASTS.includes(contrast)) {
+    if (!contrast) {
+      return false;
+    }
     console.error('Tried to set "' + contrast + '" as Contrast!');
     return false;
   }

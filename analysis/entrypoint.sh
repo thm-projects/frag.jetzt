@@ -19,13 +19,23 @@ while [[ $(curl -s -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/syst
 done
 
 if [[ $(curl -s -u 'admin:!AdminAdmin1' -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping) = 401 ]]; then
-  echo "Changing Admin password to password:"
+  echo "Changing Admin password to !AdminAdmin1:"
 
   # reset admin password
-  curl -s -o /dev/null -w "  - Change Admin password to '!AdminAdmin1': %{http_code}\n" \
+  first_request = $(curl -s -o /dev/null -w "%{http_code}\n" \
     -u admin:admin -X POST \
     -F 'login=admin' -F 'password=!AdminAdmin1' -F 'previousPassword=admin' \
-    http://sonarqube:9000/api/users/change_password
+    http://sonarqube:9000/api/users/change_password)
+  
+  if [[ "$first_request" != "204" ]]; then
+    echo "  - First request failed with code $first_request"
+    echo ""
+    echo "Please run 'sudo docker compose down -v' and 'sudo docker compose up -d sonarqube' to reset the database."
+    echo "Then run this script again."
+    exit 1
+  else
+    echo "  - Change Admin password to '!AdminAdmin1': $first_request"
+  fi
 
   # disable authentication
   curl -s -o /dev/null -w "  - Disable Authentication: %{http_code}\n" \

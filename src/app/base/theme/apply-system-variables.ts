@@ -20,6 +20,9 @@ export const setThemeSourceColor = (color: string): boolean => {
   try {
     argbFromHex(color);
   } catch {
+    if (!color) {
+      return false;
+    }
     console.error('Tried to set "' + color + '" as Theme Source Color!');
     return false;
   }

@@ -1,9 +1,8 @@
-version: '3.7'
-
 services:
 
   analysis:
     image: localhost/sonarscanner-cli
+    pull_policy: never
     build:
       context: ..
       dockerfile: analysis/Dockerfile

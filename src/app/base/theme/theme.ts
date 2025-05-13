@@ -13,6 +13,9 @@ const themeSignal = signal<Theme>('system');
 export const theme = themeSignal.asReadonly();
 export const setTheme = (theme: Theme): boolean => {
   if (!AVAILABLE_THEMES.includes(theme)) {
+    if (!theme) {
+      return false;
+    }
     console.error('Tried to set "' + theme + '" as Theme!');
     return false;
   }
