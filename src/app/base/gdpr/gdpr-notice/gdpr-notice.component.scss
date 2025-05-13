@@ -102,6 +102,8 @@ mat-card-actions {
   margin: 0 !important;
   padding: 0 !important;
   color: var(--mat-sys-on-surface) !important;
+  border: 2px solid var(--mat-sys-outline) !important; /* Added theme-compliant border */
+  border-radius: 8px !important; /* Ensure border has rounded corners */
 }
 
 /* If the container has a specific height, override it */
@@ -140,6 +142,8 @@ mat-card-actions {
   justify-content: center !important;
   background-color: var(--mat-sys-surface) !important; /* Theme variable */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid var(--mat-sys-outline-variant) !important; /* Subtle inner border */
+  border-radius: 6px !important; /* Slightly smaller than outer border radius */
 }
 
 /* Ensures inner elements are correctly positioned */
