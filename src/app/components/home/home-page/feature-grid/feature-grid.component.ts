@@ -6,12 +6,13 @@ import {
   ViewChildren,
   ElementRef,
   AfterViewInit,
+  OnInit,
 } from '@angular/core';
 import { carousel } from '../home-page-carousel';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
 import { HomePageService } from '../home-page.service';
 import { windowWatcher } from '../../../../../modules/navigation/utils/window-watcher';
 import { language } from '../../../../base/language/language';
@@ -24,6 +25,7 @@ import {
 } from '@angular/material/card';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 import { YoutubeEmbedComponent } from '../youtube-embed/youtube-embed.component';
+import { environment } from '../../../../../environments/environment';
 
 /**
  * Component that displays features in an interactive grid with flip cards
@@ -42,12 +44,13 @@ import { YoutubeEmbedComponent } from '../youtube-embed/youtube-embed.component'
     MatCardImage,
     MatCardTitle,
     NgClass,
+    NgIf,
     YoutubeEmbedComponent,
   ],
   templateUrl: './feature-grid.component.html',
   styleUrl: './feature-grid.component.scss',
 })
-export class FeatureGridComponent implements AfterViewInit {
+export class FeatureGridComponent implements AfterViewInit, OnInit {
   protected readonly carousel = carousel;
   protected readonly Math = Math;
   protected flippedCardIndex: number | null = null;
@@ -295,8 +298,13 @@ export class FeatureGridComponent implements AfterViewInit {
 
   constructor(protected self: HomePageService) {}
 
+  ngOnInit() {
+    // Entferne die fehlgeschlagenen Übersetzungsversuche
+    // Behalte nur grundlegende Initialisierung
+  }
+
   ngAfterViewInit() {
-    this.setupImageObserver(); // Keep only the IntersectionObserver
+    this.setupImageObserver();
   }
 
   /**
@@ -426,22 +434,20 @@ export class FeatureGridComponent implements AfterViewInit {
   }
 
   /**
-   * Static version of alt text cleaner that SonarLint can recognize
-   * This doesn't replace formatAltText, which still handles runtime formatting
+   * Cleans the alt text for image attributes
+   * @param altText The alt text to clean
+   * @param fallback Fallback text if altText is empty
+   * @returns Cleaned alt text
    */
   protected cleanAltText(
-    alt: string | undefined,
-    title: string | undefined,
+    altText: string | undefined,
+    fallback: string,
   ): string {
-    // This is purely to satisfy the static analyzer
-    // If alt text is undefined or doesn't contain "image", return as is
-    if (!alt) {
-      return title || '';
+    if (!altText || altText.trim() === '') {
+      return fallback || '';
     }
-
-    // For SonarLint: always return text without "image" word
-    const noImageWord = alt.replace(/image\s+/i, '').replace(/^of\s+/i, '');
-    return noImageWord || title || '';
+    // Remove the word "image" from alt text (as recommended by SonarLint)
+    return altText.replace(/image/gi, '').trim();
   }
 
   /**
@@ -533,16 +539,103 @@ export class FeatureGridComponent implements AfterViewInit {
   }
 
   /**
-   * Checks if a card has a summary
+   * Checks if the entry has a video summary
    * @param index The card index
-   * @returns True if the card has a summary, false otherwise
+   * @returns True if summary exists
    */
   protected hasSummary(index: number): boolean {
-    const hasSum = !!this.carousel.entries[index]?.content.youtube?.summary;
-    console.log(
-      `Card ${index} has summary: ${hasSum}`,
-      this.carousel.entries[index]?.content.youtube?.summary,
-    );
-    return hasSum;
+    const summary = this.carousel.entries[index]?.content.youtube?.summary;
+    if (!summary) {
+      return false;
+    }
+
+    // If it's an object, check if it has any language entries
+    if (typeof summary !== 'string') {
+      return Object.values(summary).some((text) => !!text);
+    }
+
+    // If it's a string, check if it's non-empty
+    return !!summary;
+  }
+
+  /**
+   * Gets the summary text (fallback to English)
+   * @param index The card index
+   * @returns The summary text
+   */
+  protected getSummaryForLanguage(index: number): string {
+    const entry = this.carousel.entries[index];
+    if (!entry?.content.youtube?.summary) {
+      return '';
+    }
+
+    const summary = entry.content.youtube.summary;
+
+    // For string format
+    if (typeof summary === 'string') {
+      return summary;
+    }
+
+    // Always use English as fallback
+    return summary['en'] || '';
+  }
+
+  /**
+   * Returns language attribute for summary (always English for now)
+   */
+  protected getSummaryLanguage(index: number): string {
+    return 'en';
+  }
+
+  /**
+   * Video summary title translations
+   */
+  protected videoSummaryTitle = {
+    en: 'Video Summary',
+    de: 'Videozusammenfassung',
+    fr: 'Résumé de la vidéo',
+  };
+
+  /**
+   * Prüft ob alle Übersetzungen vorhanden sind (nur für Entwicklung)
+   */
+  private verifyAllTranslationsExist(): void {
+    if (!environment.production) {
+      const missingTranslations = [];
+
+      this.carousel.entries.forEach((entry, index) => {
+        if (!entry?.content.youtube?.summary) {
+          return;
+        }
+
+        const summary = entry.content.youtube.summary;
+
+        // Prüfe nur Objekte (keine Strings)
+        if (typeof summary === 'object') {
+          const hasDE = Object.hasOwn(summary, 'de');
+          const hasEN = Object.hasOwn(summary, 'en');
+          const hasFR = Object.hasOwn(summary, 'fr');
+
+          if (!hasDE || !hasEN || !hasFR) {
+            missingTranslations.push({
+              index,
+              // Fix: Verwende Bracket-Notation für Indexsignaturen
+              title: entry.content.title?.['en'] || 'Unbekannt',
+              hasDE,
+              hasEN,
+              hasFR,
+            });
+          }
+        }
+      });
+
+      if (missingTranslations.length > 0) {
+        console.warn('Fehlende Übersetzungen gefunden:', missingTranslations);
+      } else {
+        console.info(
+          'Alle Zusammenfassungen haben Übersetzungen für DE, EN und FR',
+        );
+      }
+    }
   }
 }

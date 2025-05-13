@@ -48,12 +48,14 @@ export interface HomePageCarouselEntryContent {
     autoplay?: boolean;
     muted?: boolean;
   };
-  youtube?: {
-    videoId: string;
-    title?: string;
-    startAt?: number; // Start time in seconds
-    summary?: string; // Video description
-  };
+  youtube?: YouTubeContent;
+}
+
+interface YouTubeContent {
+  videoId: string;
+  title?: string;
+  startAt?: number;
+  summary?: Record<string, string>; // or { en: string; de: string; fr: string; }
 }
 
 export const carousel: HomePageCarousel = {
@@ -103,8 +105,9 @@ export const carousel: HomePageCarousel = {
           videoId: 'aircAruvnKk', // 3Blue1Brown: Neural Networks
           title: 'Neural Networks Fundamentals',
           startAt: 60,
-          summary:
-            'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
+          summary: {
+            en: 'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
+          },
         },
       },
     },
@@ -118,8 +121,9 @@ export const carousel: HomePageCarousel = {
           videoId: 'Ilg3gGewQ5U', // 3Blue1Brown: Backpropagation
           title: 'Backpropagation Algorithm',
           startAt: 30,
-          summary:
-            'Part of the 3Blue1Brown neural network series, this video visualizes the mathematics behind backpropagation, the algorithm that powers deep learning. The concepts are explained visually with clear animations that help understand the gradient descent process.',
+          summary: {
+            en: 'Part of the 3Blue1Brown neural network series, this video visualizes the mathematics behind backpropagation, the algorithm that powers deep learning. The concepts are explained visually with clear animations that help understand the gradient descent process.',
+          },
         },
       },
     },
@@ -133,8 +137,9 @@ export const carousel: HomePageCarousel = {
           videoId: 'IHZwWFHWa-w', // 3Blue1Brown: Gradient Descent
           title: 'Gradient Descent Explained',
           startAt: 45,
-          summary:
-            "This 3Blue1Brown video provides an intuitive explanation of gradient descent, the optimization algorithm that enables neural networks to learn. Through innovative visualizations, you'll understand how models navigate complex parameter spaces to minimize error.",
+          summary: {
+            en: "This 3Blue1Brown video provides an intuitive explanation of gradient descent, the optimization algorithm that enables neural networks to learn. Through innovative visualizations, you'll understand how models navigate complex parameter spaces to minimize error.",
+          },
         },
       },
     },
@@ -148,8 +153,9 @@ export const carousel: HomePageCarousel = {
           videoId: 'fNk_zzaMoSs', // 3Blue1Brown: Linear Algebra
           title: 'Linear Algebra for AI Engineers',
           startAt: 30,
-          summary:
-            "This introductory video from 3Blue1Brown's acclaimed Linear Algebra series focuses on the essential math underlying machine learning algorithms. It provides geometric intuition for vectors, matrices, and transformations that form the foundation of AI systems.",
+          summary: {
+            en: "This introductory video from 3Blue1Brown's acclaimed Linear Algebra series focuses on the essential math underlying machine learning algorithms. It provides geometric intuition for vectors, matrices, and transformations that form the foundation of AI systems.",
+          },
         },
       },
     },
@@ -163,8 +169,9 @@ export const carousel: HomePageCarousel = {
           videoId: 'WUvTyaaNkzM', // 3Blue1Brown: Calculus
           title: 'Calculus for Machine Learning',
           startAt: 60,
-          summary:
-            "Part of 3Blue1Brown's Essence of Calculus series, this video explains the calculus concepts essential for understanding machine learning algorithms. The visual approach helps software engineers grasp derivatives, integrals, and their application in optimization problems.",
+          summary: {
+            en: "Part of 3Blue1Brown's Essence of Calculus series, this video explains the calculus concepts essential for understanding machine learning algorithms. The visual approach helps software engineers grasp derivatives, integrals, and their application in optimization problems.",
+          },
         },
       },
     },
@@ -177,26 +184,30 @@ export const carousel: HomePageCarousel = {
           {
             id: 'KXpfVViPi-I',
             title: 'Deep Learning Algorithms',
-            summary:
-              'This 3Blue1Brown collaboration explores cutting-edge deep learning algorithms that power modern AI systems. It covers convolutional neural networks, attention mechanisms, and reinforcement learning through clear, visual explanations.',
+            summary: {
+              en: 'This 3Blue1Brown collaboration explores cutting-edge deep learning algorithms that power modern AI systems. It covers convolutional neural networks, attention mechanisms, and reinforcement learning through clear, visual explanations.',
+            },
           },
           {
             id: 'rBCqOTEfxvg',
             title: 'Probability in Machine Learning',
-            summary:
-              "This installment from 3Blue1Brown examines how probability theory underlies machine learning models. Through animations and examples, you'll see how Bayesian concepts and statistics inform AI decision-making processes.",
+            summary: {
+              en: "This installment from 3Blue1Brown examines how probability theory underlies machine learning models. Through animations and examples, you'll see how Bayesian concepts and statistics inform AI decision-making processes.",
+            },
           },
           {
             id: 'kYB8IZa5AuE',
             title: 'Fourier Transforms for AI',
-            summary:
-              '3Blue1Brown explains Fourier transforms, a powerful mathematical tool used in signal processing and AI applications. This visual guide demonstrates how complex signals can be broken down into simpler components for more effective machine learning.',
+            summary: {
+              en: '3Blue1Brown explains Fourier transforms, a powerful mathematical tool used in signal processing and AI applications. This visual guide demonstrates how complex signals can be broken down into simpler components for more effective machine learning.',
+            },
           },
           {
             id: 'bM2yD_XZxcU',
             title: 'Visual Information Theory',
-            summary:
-              "This video explores information theory concepts crucial for AI systems. Through 3Blue1Brown's signature animations, you'll learn about entropy, information content, and how these ideas apply to machine learning model compression and optimization.",
+            summary: {
+              en: "This video explores information theory concepts crucial for AI systems. Through 3Blue1Brown's signature animations, you'll learn about entropy, information content, and how these ideas apply to machine learning model compression and optimization.",
+            },
           },
         ];
 

@@ -293,6 +293,40 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
     margin-top: 16px;
     line-height: 1.5;
   }
+
+  // Themefähigen Hintergrund verwenden
+  background-color: var(--mat-sys-surface, white);
+
+  // Text-Styling mit themefähigen Farben
+  h3,
+  p {
+    color: var(--mat-sys-on-surface, black);
+  }
+
+  // Video-Beschreibungen und andere Inhalte
+  .video-summary {
+    background-color: var(
+      --mat-sys-surface-container-high,
+      rgba(0, 0, 0, 0.05)
+    );
+    color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.87));
+    border-left: 3px solid var(--mat-sys-primary, #1976d2);
+  }
+}
+
+// Kontraststeigerung für bessere Lesbarkeit
+.card-face.card-back .card-content {
+  // Stellt sicher, dass der Text immer genug Kontrast hat
+  color: var(--mat-sys-on-surface, black);
+}
+
+// Spezifische Override für Dark-Theme
+:host-context(.dark-theme) .card-face.card-back {
+  h3,
+  p,
+  .card-content {
+    color: var(--mat-sys-on-surface, white);
+  }
 }
 
 // Enhanced styling for video summaries using correct MD3 variables
@@ -308,6 +342,25 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
   border-left: 3px solid var(--mat-sys-primary, #1976d2);
   max-height: 120px;
   overflow-y: auto;
+
+  // Add title styling
+  .video-summary-title {
+    margin: 0 0 8px 0;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12));
+  }
+}
+
+// Fix title color in dark mode
+:host-context(.dark-theme) .video-summary .video-summary-title {
+  color: var(--mat-sys-on-surface, white);
+  border-bottom-color: var(
+    --mat-sys-outline-variant,
+    rgba(255, 255, 255, 0.12)
+  );
 }
 
 .video-summary p {

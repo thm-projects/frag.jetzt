@@ -77,18 +77,18 @@
               flex-direction: column;
             ">
             @if (tile.content.image?.url) {
-              <!-- sonar:disable Web:S6851 -->
               <img
                 mat-card-image
                 loading="lazy"
                 [attr.data-src]="tile.content.image.url"
                 [attr.alt]="
-                  cleanAltText(
-                    tile.content.image.alt,
-                    tile.content.title[language()]
-                  )
+                  tile.content.image.alt
+                    ? cleanAltText(
+                        tile.content.image.alt,
+                        tile.content.title[language()]
+                      )
+                    : tile.content.title[language()]
                 " />
-              <!-- sonar:enable Web:S6851 -->
             } @else {
               <mat-icon
                 class="image-icon"
@@ -134,10 +134,15 @@
                   (loaded)="onYoutubeLoaded(index)"></app-youtube-embed>
               </div>
 
-              <!-- Just keep ONE summary section -->
+              <!-- Videozusammenfassung vereinfachen -->
               @if (tile.content.youtube?.summary) {
-                <div class="video-summary">
-                  <p>{{ tile.content.youtube.summary }}</p>
+                <div
+                  class="video-summary"
+                  *ngIf="hasSummary(index)">
+                  <h4 class="video-summary-title">
+                    {{ videoSummaryTitle[language()] }}
+                  </h4>
+                  <p lang="en">{{ getSummaryForLanguage(index) }}</p>
                 </div>
               }
             }

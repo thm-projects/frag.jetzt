@@ -36,6 +36,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         svgIcon: 'fj_robot',
       },
+      youtube: {
+        videoId: 'aircAruvnKk',
+        title: 'Neural Networks Explained',
+        startAt: 0,
+        summary: {
+          en: 'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
+          de: 'Diese visuelle Erklärung von 3Blue1Brown führt neuronale Netzwerke von Grund auf ein. Mit intuitiven Animationen erklärt Grant Sanderson, wie neuronale Netzwerke lernen und Informationen verarbeiten, und macht dieses komplexe Thema sowohl für Studierende als auch für Ingenieure verständlich.',
+          fr: "Cette explication visuelle de 3Blue1Brown introduit les réseaux de neurones depuis les premiers principes. À l'aide d'animations intuitives, Grant Sanderson décompose comment les réseaux de neurones apprennent et traitent l'information, rendant ce sujet complexe accessible aux étudiants et ingénieurs.",
+        },
+      },
     },
     window: {
       [M3WindowSizeClass.Expanded]: {
@@ -88,6 +98,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/KI-Chatbot-MNI-1024.webp',
+      },
+      youtube: {
+        videoId: 'aircAruvnKk',
+        title: 'Neural Networks Explained',
+        startAt: 0,
+        summary: {
+          en: 'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
+          de: 'Diese visuelle Erklärung von 3Blue1Brown führt neuronale Netzwerke von Grund auf ein. Mit intuitiven Animationen erklärt Grant Sanderson, wie neuronale Netzwerke lernen und Informationen verarbeiten, und macht dieses komplexe Thema sowohl für Studierende als auch für Ingenieure verständlich.',
+          fr: "Cette explication visuelle de 3Blue1Brown introduit les réseaux de neurones depuis les premiers principes. À l'aide d'animations intuitives, Grant Sanderson décompose comment les réseaux de neurones apprennent et traitent l'information, rendant ce sujet complexe accessible aux étudiants et ingénieurs.",
+        },
       },
     },
     window: {
