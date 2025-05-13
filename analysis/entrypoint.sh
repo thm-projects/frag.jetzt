@@ -4,7 +4,7 @@ echo "Waiting for SonarQube..."
 counter=0
 while [[ $(curl -s -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping) = '000' && $counter -lt 100 ]]; do
   sleep 2
-  ((counter++))
+  counter=$((counter + 1))
 done
 
 if [[ $counter -ge 30 ]]; then
@@ -14,15 +14,20 @@ if [[ $counter -ge 30 ]]; then
   exit 0
 fi
 
-while [[ $(curl -s -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping) = 404 ]]; do
+
+echo "SonarQube is started."
+echo "Waiting for SonarQube to be ready..."
+ping_result=$(curl -s -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping)
+while [[ "$ping_result" != "200" && "$ping_result" != "401" ]]; do
   sleep 2
+  ping_result=$(curl -s -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping)
 done
 
 if [[ $(curl -s -u 'admin:!AdminAdmin1' -o /dev/null -w "%{http_code}" http://sonarqube:9000/api/system/ping) = 401 ]]; then
   echo "Changing Admin password to !AdminAdmin1:"
 
   # reset admin password
-  first_request = $(curl -s -o /dev/null -w "%{http_code}\n" \
+  first_request=$(curl -s -o /dev/null -w "%{http_code}\n" \
     -u admin:admin -X POST \
     -F 'login=admin' -F 'password=!AdminAdmin1' -F 'previousPassword=admin' \
     http://sonarqube:9000/api/users/change_password)
