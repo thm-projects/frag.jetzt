@@ -1,4 +1,6 @@
-// Add padding to keep cards away from edges
+/* ------------------------------------------
+ * HOST CONTAINER STYLES
+ * ------------------------------------------ */
 :host {
   display: block;
   padding: 16px; // Ensures hovering cards don't touch the edges
@@ -7,11 +9,16 @@
   gap: 16px;
 }
 
+/* ------------------------------------------
+ * DIALOG MODE STYLES
+ * ------------------------------------------ */
+// For when the grid is used in dialog context
 :host-context(.asDialog) {
   display: flex;
   flex-direction: column;
 }
 
+// Special styling when placed inside a Material dialog
 :host-context(.mat-mdc-dialog-content) {
   // Basic container fixing
   display: block !important;
@@ -24,8 +31,8 @@
     height: auto !important;
     width: 100% !important;
     transform: none !important;
-    margin-bottom: 40px !important; // Add significant space between cards
-    clear: both !important; // Prevent any floating issues
+    margin-bottom: 40px !important; // Add space between cards
+    clear: both !important; // Prevent floating issues
   }
 
   // Fix the grid tile positioning
@@ -92,6 +99,9 @@
   }
 }
 
+/* ------------------------------------------
+ * GRID LAYOUT STYLES
+ * ------------------------------------------ */
 mat-grid-list {
   overflow: visible !important;
   isolation: isolate;
@@ -102,6 +112,7 @@ mat-grid-tile {
   z-index: auto !important;
 }
 
+// Tile content styling
 .grid-tile {
   width: 100%;
   height: 100%;
@@ -114,6 +125,7 @@ mat-grid-tile {
   }
 }
 
+// Alternative tile sizing for content that needs to fit naturally
 .fit-tile {
   height: auto;
 
@@ -125,12 +137,16 @@ mat-grid-tile {
   }
 }
 
+// Icon styling within tiles
 .image-icon {
   aspect-ratio: 1 / 1;
   width: auto;
   color: var(--mat-sys-primary);
 }
 
+/* ------------------------------------------
+ * CARD CONTAINER AND FLIP ANIMATION
+ * ------------------------------------------ */
 .card-container {
   position: relative;
   width: 100%;
@@ -139,7 +155,7 @@ mat-grid-tile {
   perspective: 1200px;
 }
 
-// Style for button to look like regular div
+// Style for button to look like regular div for accessibility
 button.card-container {
   display: block;
   width: 100%;
@@ -157,7 +173,7 @@ button.card-container {
   }
 }
 
-// Sanfte, natürliche Drehung ohne Bouncing
+// Smooth, natural rotation without bouncing
 .card {
   position: relative;
   width: 100%;
@@ -165,7 +181,6 @@ button.card-container {
   transform-style: preserve-3d;
   transition:
     transform 0.8s cubic-bezier(0.45, 0, 0.35, 1),
-    // Sanfte, gleichmäßige Drehung
     z-index 0s 0.4s;
 
   &.flipped {
@@ -176,12 +191,13 @@ button.card-container {
   }
 }
 
+// Card face styling (front and back)
 .card-face {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; // For Safari support
   background-color: transparent;
 }
 
@@ -214,22 +230,29 @@ button.card-container {
   }
 }
 
+/* ------------------------------------------
+ * HOVER AND FOCUS EFFECTS
+ * ------------------------------------------ */
+// Card container hover state
 .card-container:hover {
   z-index: 1099 !important;
   position: relative;
 }
 
+// Card hover animation
 .card-container:hover .card:not(.flipped) {
-  transform: translateZ(15px) scale(1.02); // Reduce from 1.03 to 1.02
+  transform: translateZ(15px) scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 1100 !important;
 }
 
+// Ensure flipped cards stay on top
 .card-container:has(.card.flipped) {
   z-index: 999 !important;
   position: relative;
 }
 
+// Card material styling
 .card-face mat-card {
   border: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.08));
   border-radius: 8px;
@@ -240,6 +263,7 @@ button.card-container {
     border-color 0.3s ease !important;
 }
 
+// Card hover effects
 .card-container:hover .card:not(.flipped) mat-card {
   border-color: transparent;
   box-shadow:
@@ -247,11 +271,13 @@ button.card-container {
     0 0 0 1px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.12));
 }
 
+// Flipped card back styling
 .card.flipped .card-back mat-card {
   border: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.08)) !important;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
+// Flipped card hover effects
 .card.flipped .card-back mat-card:hover {
   border-color: var(
     --mat-sys-primary-container,
@@ -259,6 +285,32 @@ button.card-container {
   ) !important;
 }
 
+// Focus states
+.card-container:focus {
+  outline: none !important;
+}
+
+// Focus effect (non-hover)
+.card-container:focus:not(:hover) .card:not(.flipped) {
+  transform: translateZ(15px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 500;
+}
+
+// Focus states for flipped cards
+.card-container:focus .card.flipped {
+  z-index: 1101 !important;
+}
+
+// Focus-within state (for child elements)
+.card-container:has(:focus-within) {
+  z-index: 1200 !important;
+}
+
+/* ------------------------------------------
+ * CARD BACK CONTENT LAYOUT
+ * ------------------------------------------ */
+// Back card layout
 .card-back mat-card {
   width: 100%;
   height: 100%;
@@ -266,6 +318,7 @@ button.card-container {
   flex-direction: column !important;
 }
 
+// Content area with scrolling
 .card-back mat-card-content {
   flex: 1 !important;
   overflow-y: auto !important;
@@ -275,7 +328,7 @@ button.card-container {
   box-sizing: border-box; // Include padding in width calculation
 }
 
-// Ensure text content doesn't cause overflow
+// Prevent text overflow
 .card-back h3,
 .card-back p {
   max-width: 100%;
@@ -283,32 +336,64 @@ button.card-container {
   overflow-wrap: break-word;
 }
 
-// Make sure content appears above the background
+// Card back face styling
+.card-face.card-back {
+  h3 {
+    margin-bottom: 16px; // More space before video
+    font-weight: 500; // Slightly bolder
+  }
+
+  p {
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
+  // Theme-compatible background
+  background-color: var(--mat-sys-surface, white);
+
+  // Theme-compatible text colors
+  h3,
+  p {
+    color: var(--mat-sys-on-surface, black);
+  }
+
+  // Video descriptions and other content
+  .video-summary {
+    background-color: var(
+      --mat-sys-surface-container-high,
+      rgba(0, 0, 0, 0.05)
+    );
+    color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.87));
+    border-left: 3px solid var(--mat-sys-primary, #1976d2);
+  }
+}
+
+// Ensure content is above background
 mat-card-content {
   position: relative;
   z-index: 1;
   padding-top: 8px;
 }
 
-.card-container:focus {
-  outline: none !important;
+// Contrast enhancement for better readability
+.card-face.card-back .card-content {
+  // Ensures text always has enough contrast
+  color: var(--mat-sys-on-surface, black);
 }
 
-.card-container:focus:not(:hover) .card:not(.flipped) {
-  transform: translateZ(15px) scale(1.02); // Reduce from 1.03 to 1.02
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  z-index: 500;
+// Dark theme overrides
+:host-context(.dark-theme) .card-face.card-back {
+  h3,
+  p,
+  .card-content {
+    color: var(--mat-sys-on-surface, white);
+  }
 }
 
-.card-container:focus .card.flipped {
-  z-index: 1101 !important;
-}
-
-.card-container:has(:focus-within) {
-  z-index: 1200 !important;
-}
-
-// Update video container styling to handle both HTML5 and YouTube videos
+/* ------------------------------------------
+ * VIDEO CONTAINER STYLES
+ * ------------------------------------------ */
+// Video container for both HTML5 and YouTube videos
 .video-container {
   width: 100%;
   margin: 0 0 16px;
@@ -323,6 +408,21 @@ mat-card-content {
   z-index: 2;
 }
 
+// Enhanced video styling for back of card
+.card-face.card-back .video-container {
+  margin: 0 0 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none; // Remove border since we have shadow
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
 // Consolidated video element styling
 .feature-video {
   width: 100%;
@@ -331,11 +431,11 @@ mat-card-content {
   max-width: 100%;
 }
 
-// Fix for YouTube on small cards
+// YouTube video aspect ratio fix for small cards
 mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
   ::ng-deep .youtube-container {
     height: auto !important;
-    padding-bottom: 56.25% !important; // Restore aspect ratio
+    padding-bottom: 56.25% !important; // 16:9 aspect ratio
   }
 
   // Fix the position of the iframe on small cards
@@ -347,73 +447,14 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
   }
 }
 
-// Add these styles to improve the card and video container layout
-.card-face.card-back {
-  h3 {
-    margin-bottom: 16px; /* More space before video */
-    font-weight: 500; /* Slightly bolder */
-  }
-
-  // Better spacing for videos - combined with transition effects
-  .video-container {
-    margin: 0 0 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: none; /* Remove border since we have shadow */
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.02);
-    }
-  }
-
-  p {
-    margin-top: 16px;
-    line-height: 1.5;
-  }
-
-  // Themefähigen Hintergrund verwenden
-  background-color: var(--mat-sys-surface, white);
-
-  // Text-Styling mit themefähigen Farben
-  h3,
-  p {
-    color: var(--mat-sys-on-surface, black);
-  }
-
-  // Video-Beschreibungen und andere Inhalte
-  .video-summary {
-    background-color: var(
-      --mat-sys-surface-container-high,
-      rgba(0, 0, 0, 0.05)
-    );
-    color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.87));
-    border-left: 3px solid var(--mat-sys-primary, #1976d2);
-  }
-}
-
-// Kontraststeigerung für bessere Lesbarkeit
-.card-face.card-back .card-content {
-  // Stellt sicher, dass der Text immer genug Kontrast hat
-  color: var(--mat-sys-on-surface, black);
-}
-
-// Spezifische Override für Dark-Theme
-:host-context(.dark-theme) .card-face.card-back {
-  h3,
-  p,
-  .card-content {
-    color: var(--mat-sys-on-surface, white);
-  }
-}
-
-// Enhanced styling for video summaries using correct MD3 variables
+/* ------------------------------------------
+ * VIDEO SUMMARY STYLES
+ * ------------------------------------------ */
+// Styled container for video descriptions
 .video-summary {
   margin: 8px 0 16px;
   padding: 12px;
-  // Use surface-container for background that works in both modes
+  // Use surface-container for background that works in both light/dark modes
   background-color: var(--mat-sys-surface-container-high, rgba(0, 0, 0, 0.05));
   border-radius: 8px;
   font-size: 0.9em;
@@ -423,7 +464,7 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
   max-height: 120px;
   overflow-y: auto;
 
-  // Add title styling
+  // Title styling
   .video-summary-title {
     margin: 0 0 8px 0;
     font-size: 1em;
@@ -434,19 +475,20 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
   }
 }
 
-// Fix title color in dark mode
+// Video summary paragraph styling
+.video-summary p {
+  margin: 0;
+  // Use on-surface for text that will be visible on any surface
+  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.8));
+}
+
+// Dark mode adjustments for video summary
 :host-context(.dark-theme) .video-summary .video-summary-title {
   color: var(--mat-sys-on-surface, white);
   border-bottom-color: var(
     --mat-sys-outline-variant,
     rgba(255, 255, 255, 0.12)
   );
-}
-
-.video-summary p {
-  margin: 0;
-  // Use on-surface for text that will be visible on any surface
-  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.8));
 }
 
 // Fix for small cards to ensure summary is visible
@@ -456,6 +498,9 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
   padding: 8px;
 }
 
+/* ------------------------------------------
+ * ACCESSIBILITY SUPPORT
+ * ------------------------------------------ */
 // High contrast mode support
 @media (forced-colors: active) {
   .video-summary {

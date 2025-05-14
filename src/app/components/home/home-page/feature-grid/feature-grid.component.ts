@@ -117,32 +117,24 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Stop all videos that may be playing (update to include YouTube)
+   * Stops all videos when switching cards
+   * Note: Only stops HTML5 videos, not YouTube embeds (due to iframe security limitations)
    */
   private stopAllVideos(): void {
-    // Stop regular videos
-    document.querySelectorAll('.feature-video').forEach((videoElement) => {
-      const video = videoElement as HTMLVideoElement;
-      if (video && !video.paused) {
+    // Stop HTML5 videos
+    const videos =
+      document.querySelectorAll<HTMLVideoElement>('.feature-video');
+    videos.forEach((video) => {
+      if (!video.paused) {
         video.pause();
-        video.currentTime = 0;
+        // Don't reset currentTime - this can cause issues with some video players
+        // video.currentTime = 0;
       }
     });
 
-    // For YouTube iframes, send postMessage with proper target origin
-    document.querySelectorAll('iframe').forEach((iframe) => {
-      try {
-        // Use proper YouTube origin instead of wildcard '*'
-        const targetOrigin = 'https://www.youtube.com';
-
-        iframe.contentWindow?.postMessage(
-          '{"event":"command","func":"pauseVideo","args":""}',
-          targetOrigin,
-        );
-      } catch (e) {
-        console.warn('Could not pause YouTube video:', e);
-      }
-    });
+    // YouTube videos cannot be reliably controlled due to iframe security restrictions
+    // We could add a message to inform users that they need to manually pause
+    // YouTube videos before navigating away
   }
 
   /**
