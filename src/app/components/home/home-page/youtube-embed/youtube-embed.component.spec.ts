@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { YoutubeEmbedComponent } from './youtube-embed.component';
-import { By } from '@angular/platform-browser';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { EventEmitter } from '@angular/core';
+import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
 
 describe('YoutubeEmbedComponent', () => {
   let component: YoutubeEmbedComponent;
