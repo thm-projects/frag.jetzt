@@ -1,3 +1,17 @@
+/**
+ * HOME PAGE CAROUSEL ENTRIES
+ *
+ * NOTE ON STRING FORMATTING:
+ * When adding text content that contains apostrophes (e.g., "don't", "it's"),
+ * use one of these approaches to avoid TypeScript compilation errors:
+ *
+ * 1. Use template literals (backticks): `This doesn't cause errors`
+ * 2. Use double quotes: "This doesn't cause errors"
+ * 3. Escape apostrophes with backslash: 'This doesn\'t cause errors'
+ *
+ * Template literals are recommended for multi-line text with apostrophes.
+ */
+
 import { HomePageCarouselEntry } from '../home-page-carousel';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 
@@ -37,13 +51,13 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         svgIcon: 'fj_robot',
       },
       youtube: {
-        videoId: 'aircAruvnKk',
-        title: 'Neural Networks Explained',
+        videoId: 'p_di4Zn4wz4',
+        title: 'Differential Equations - Introduction',
         startAt: 0,
         summary: {
-          en: 'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
-          de: 'Diese visuelle Erklärung von 3Blue1Brown führt neuronale Netzwerke von Grund auf ein. Mit intuitiven Animationen erklärt Grant Sanderson, wie neuronale Netzwerke lernen und Informationen verarbeiten, und macht dieses komplexe Thema sowohl für Studierende als auch für Ingenieure verständlich.',
-          fr: "Cette explication visuelle de 3Blue1Brown introduit les réseaux de neurones depuis les premiers principes. À l'aide d'animations intuitives, Grant Sanderson décompose comment les réseaux de neurones apprennent et traitent l'information, rendant ce sujet complexe accessible aux étudiants et ingénieurs.",
+          en: 'This introductory video explains why differential equations are worth studying. Grant Sanderson shows how these powerful mathematical tools connect physics, engineering, and mathematics through elegant visualizations that make complex concepts accessible.',
+          de: 'Dieses einführende Video erklärt, warum Differentialgleichungen es wert sind, studiert zu werden. Grant Sanderson zeigt, wie diese leistungsstarken mathematischen Werkzeuge Physik, Ingenieurwissenschaften und Mathematik durch elegante Visualisierungen verbinden, die komplexe Konzepte zugänglich machen.',
+          fr: "Cette vidéo d'introduction explique pourquoi les équations différentielles méritent d'être étudiées. Grant Sanderson montre comment ces puissants outils mathématiques relient la physique, l'ingénierie et les mathématiques grâce à des visualisations élégantes qui rendent accessibles des concepts complexes.",
         },
       },
     },
@@ -81,6 +95,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/teaching.svg',
       },
+      youtube: {
+        videoId: 'ly4S0oi3Yz8',
+        title: 'But what is a differential equation?',
+        startAt: 0,
+        summary: {
+          en: 'A beautiful overview of differential equations as the language of the universe. This video explores how these equations describe changing systems from population growth to electric circuits, with stunning visuals that make the abstract concepts concrete and intuitive.',
+          de: 'Ein wunderschöner Überblick über Differentialgleichungen als Sprache des Universums. Dieses Video untersucht, wie diese Gleichungen sich verändernde Systeme vom Bevölkerungswachstum bis zu elektrischen Schaltkreisen beschreiben, mit atemberaubenden Visualisierungen, die die abstrakten Konzepte konkret und intuitiv machen.',
+          fr: "Un magnifique aperçu des équations différentielles comme langage de l'univers. Cette vidéo explore comment ces équations décrivent des systèmes en évolution, de la croissance démographique aux circuits électriques, avec des visuels époustouflants qui rendent concrets et intuitifs les concepts abstraits.",
+        },
+      },
     },
     window: _1x1windowSize,
   },
@@ -100,13 +124,13 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/KI-Chatbot-MNI-1024.webp',
       },
       youtube: {
-        videoId: 'aircAruvnKk',
-        title: 'Neural Networks Explained',
+        videoId: 'LwCRRUa8yTU',
+        title: 'Visualizing the solutions to differential equations',
         startAt: 0,
         summary: {
-          en: 'This visual explanation from 3Blue1Brown introduces neural networks from first principles. Using intuitive animations, Grant Sanderson breaks down how neural networks learn and process information, making this complex topic accessible for students and engineers alike.',
-          de: 'Diese visuelle Erklärung von 3Blue1Brown führt neuronale Netzwerke von Grund auf ein. Mit intuitiven Animationen erklärt Grant Sanderson, wie neuronale Netzwerke lernen und Informationen verarbeiten, und macht dieses komplexe Thema sowohl für Studierende als auch für Ingenieure verständlich.',
-          fr: "Cette explication visuelle de 3Blue1Brown introduit les réseaux de neurones depuis les premiers principes. À l'aide d'animations intuitives, Grant Sanderson décompose comment les réseaux de neurones apprennent et traitent l'information, rendant ce sujet complexe accessible aux étudiants et ingénieurs.",
+          en: 'This stunning visual exploration shows how to understand differential equations through their geometric meaning. Grant Sanderson demonstrates powerful techniques for visualizing solutions as flows in space, bringing mathematical abstractions to life through intuitive animations.',
+          de: 'Diese atemberaubende visuelle Erkundung zeigt, wie man Differentialgleichungen durch ihre geometrische Bedeutung verstehen kann. Grant Sanderson demonstriert leistungsstarke Techniken zur Visualisierung von Lösungen als Flüsse im Raum und belebt mathematische Abstraktionen durch intuitive Animationen.',
+          fr: "Cette magnifique exploration visuelle montre comment comprendre les équations différentielles à travers leur signification géométrique. Grant Sanderson démontre des techniques puissantes pour visualiser les solutions comme des flux dans l'espace, donnant vie aux abstractions mathématiques grâce à des animations intuitives.",
         },
       },
     },
@@ -144,6 +168,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/learning.svg',
       },
+      youtube: {
+        videoId: 'ToIXSwZ1pJU',
+        title: 'Solving the heat equation | DE4',
+        startAt: 0,
+        summary: {
+          en: 'This fascinating video explores how to solve the heat equation - a fundamental partial differential equation in physics. Grant Sanderson brilliantly visualizes how heat diffuses through materials with beautiful animations that make complex mathematics accessible.',
+          de: 'Dieses faszinierende Video erklärt, wie man die Wärmeleitungsgleichung löst - eine grundlegende partielle Differentialgleichung der Physik. Grant Sanderson visualisiert brillant, wie sich Wärme durch Materialien ausbreitet, mit wunderschönen Animationen, die komplexe Mathematik zugänglich machen.',
+          fr: "Cette vidéo fascinante explore comment résoudre l'équation de la chaleur - une équation aux dérivées partielles fondamentale en physique. Grant Sanderson visualise brillamment comment la chaleur se diffuse à travers les matériaux avec de belles animations qui rendent les mathématiques complexes accessibles.",
+        },
+      },
     },
     window: {
       [M3WindowSizeClass.Expanded]: {
@@ -178,6 +212,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/keyboard.webp',
+      },
+      youtube: {
+        videoId: 'MvyKQkQ4Ht0',
+        title: "Divergence and curl: Maxwell's equations | DE5",
+        startAt: 0,
+        summary: {
+          en: "This video elegantly introduces the concepts of divergence and curl, essential for understanding electromagnetic fields and fluid dynamics. Through stunning visual explanations, Grant Sanderson reveals how these mathematical operations describe the physical world in Maxwell's equations.",
+          de: 'Dieses Video führt elegant in die Konzepte der Divergenz und Rotation ein, die für das Verständnis elektromagnetischer Felder und Fluiddynamik unerlässlich sind. Durch atemberaubende visuelle Erklärungen zeigt Grant Sanderson, wie diese mathematischen Operationen die physikalische Welt in Maxwells Gleichungen beschreiben.',
+          fr: 'Cette vidéo présente élégamment les concepts de divergence et de rotationnel, essentiels pour comprendre les champs électromagnétiques et la dynamique des fluides. À travers des explications visuelles époustouflantes, Grant Sanderson révèle comment ces opérations mathématiques décrivent le monde physique dans les équations de Maxwell.',
+        },
       },
     },
     window: {
@@ -214,6 +258,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/prompting.svg',
       },
+      youtube: {
+        videoId: 'qcBcWXihh7s',
+        title: "What they won't teach you in calculus | DE6",
+        startAt: 0,
+        summary: {
+          en: 'This eye-opening video reveals the deeper intuitions behind calculus that are rarely taught in standard courses. Grant Sanderson demonstrates how differential equations connect to geometric interpretations, providing insights that transform how you think about mathematics.',
+          de: 'Dieses augenöffnende Video enthüllt die tieferen Intuitionen hinter der Differentialrechnung, die in Standardkursen selten gelehrt werden. Grant Sanderson zeigt, wie Differentialgleichungen mit geometrischen Interpretationen verbunden sind und liefert Erkenntnisse, die die Art und Weise, wie du über Mathematik denkst, verändern.',
+          fr: 'Cette vidéo révélatrice dévoile les intuitions plus profondes derrière le calcul qui sont rarement enseignées dans les cours standard. Grant Sanderson démontre comment les équations différentielles se connectent aux interprétations géométriques, fournissant des perspectives qui transforment votre façon de penser aux mathématiques.',
+        },
+      },
     },
     window: {
       [M3WindowSizeClass.Expanded]: {
@@ -234,7 +288,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
     },
   },
-
   {
     content: {
       title: {
@@ -249,6 +302,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/bonus.svg',
+      },
+      youtube: {
+        videoId: 'naQOIBMhNr0',
+        title: 'The most unexpected answer to a counting puzzle | DE7',
+        startAt: 0,
+        summary: {
+          en: 'This mind-bending video shows how a seemingly simple counting problem leads to a surprising connection with differential equations. Grant Sanderson demonstrates how mathematical curiosity can reveal unexpected relationships between different fields of mathematics.',
+          de: 'Dieses verblüffende Video zeigt, wie ein scheinbar einfaches Zählproblem zu einer überraschenden Verbindung mit Differentialgleichungen führt. Grant Sanderson demonstriert, wie mathematische Neugier unerwartete Beziehungen zwischen verschiedenen Bereichen der Mathematik aufdecken kann.',
+          fr: 'Cette vidéo déconcertante montre comment un problème de comptage apparemment simple mène à une connexion surprenante avec les équations différentielles. Grant Sanderson démontre comment la curiosité mathématique peut révéler des relations inattendues entre différents domaines des mathématiques.',
+        },
       },
     },
     window: _1x1windowSize,
@@ -268,6 +331,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/moderation-2.svg',
       },
+      youtube: {
+        videoId: 'spUNpyF58BY',
+        title: 'But what is the Fourier Transform? | DE8',
+        startAt: 0,
+        summary: {
+          en: "This incredible video demystifies the Fourier Transform, a powerful mathematical tool with applications in signal processing, quantum physics, and differential equations. Grant Sanderson's unique visual approach transforms complex mathematics into intuitive understanding.",
+          de: 'Dieses unglaubliche Video entmystifiziert die Fourier-Transformation, ein leistungsstarkes mathematisches Werkzeug mit Anwendungen in der Signalverarbeitung, Quantenphysik und Differentialgleichungen. Grant Sandersons einzigartiger visueller Ansatz verwandelt komplexe Mathematik in intuitives Verständnis.',
+          fr: "Cette incroyable vidéo démystifie la transformée de Fourier, un puissant outil mathématique avec des applications dans le traitement du signal, la physique quantique et les équations différentielles. L'approche visuelle unique de Grant Sanderson transforme les mathématiques complexes en une compréhension intuitive.",
+        },
+      },
     },
     window: _1x1windowSize,
   },
@@ -286,6 +359,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/folders.svg',
       },
+      youtube: {
+        videoId: 'Jo0NuaCyQF0',
+        title: 'Information Architecture Fundamentals',
+        startAt: 0,
+        summary: {
+          en: 'Learn the principles of effective information organization and categorization. This presentation covers taxonomy design, labeling systems, and search functionality that help users navigate complex information landscapes and find what they need quickly and intuitively.',
+          de: 'Lerne die Grundlagen einer effektiven Informationsorganisation und Kategorisierung. Diese Präsentation behandelt Taxonomiedesign, Beschriftungssysteme und Suchfunktionalität, die Benutzern helfen, komplexe Informationslandschaften zu navigieren und schnell und intuitiv zu finden, was sie brauchen.',
+          fr: "Apprenez les principes d'une organisation et d'une catégorisation efficaces de l'information. Cette présentation couvre la conception de taxonomies, les systèmes d'étiquetage et les fonctionnalités de recherche qui aident les utilisateurs à naviguer dans des paysages d'information complexes et à trouver ce dont ils ont besoin rapidement et intuitivement.",
+        },
+      },
     },
     window: _1x1windowSize,
   },
@@ -303,6 +386,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/at-sign.svg',
+      },
+      youtube: {
+        videoId: 'p_di4Zn4wz4',
+        title: 'Differential equations, introduction | DE1',
+        startAt: 0,
+        summary: {
+          en: "This video introduces the beautiful world of differential equations and why they're worth studying. Through elegant animations, Grant Sanderson shows how these equations connect mathematics to the physical world and help us model change in countless scientific domains.",
+          de: 'Dieses Video führt in die wunderschöne Welt der Differentialgleichungen ein und erklärt, warum sie es wert sind, studiert zu werden. Durch elegante Animationen zeigt Grant Sanderson, wie diese Gleichungen Mathematik mit der physischen Welt verbinden und uns helfen, Veränderungen in unzähligen wissenschaftlichen Bereichen zu modellieren.',
+          fr: "Cette vidéo présente le monde magnifique des équations différentielles et explique pourquoi elles méritent d'être étudiées. À travers d'élégantes animations, Grant Sanderson montre comment ces équations relient les mathématiques au monde physique et nous aident à modéliser le changement dans d'innombrables domaines scientifiques.",
+        },
       },
     },
     window: {
@@ -339,6 +432,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/Peer-Instruction.webp',
       },
+      youtube: {
+        videoId: 'ly4S0oi3Yz8',
+        title: 'But what is a differential equation? | DE2',
+        startAt: 0,
+        summary: {
+          en: "This captivating video explains what differential equations actually are and why they're so fundamental in science and engineering. Using visual intuition rather than formal notation, Grant Sanderson makes these powerful mathematical tools accessible to learners at all levels.",
+          de: 'Dieses fesselnde Video erklärt, was Differentialgleichungen eigentlich sind und warum sie in Wissenschaft und Ingenieurwesen so grundlegend sind. Durch visuelle Intuition anstelle formaler Notation macht Grant Sanderson diese leistungsstarken mathematischen Werkzeuge für Lernende aller Niveaus zugänglich.',
+          fr: "Cette vidéo captivante explique ce que sont réellement les équations différentielles et pourquoi elles sont si fondamentales en science et en ingénierie. En utilisant l'intuition visuelle plutôt que la notation formelle, Grant Sanderson rend ces puissants outils mathématiques accessibles aux apprenants de tous niveaux.",
+        },
+      },
     },
     window: _1x1windowSize,
   },
@@ -356,6 +459,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/quizzing-7.webp',
+      },
+      youtube: {
+        videoId: 'LwCRRUa8yTU',
+        title: 'Visualizing solutions to differential equations | DE3',
+        startAt: 0,
+        summary: {
+          en: 'This mesmerizing video shows how to understand differential equations through geometric visualization. Grant Sanderson demonstrates powerful techniques for visualizing solutions as flows in space, making abstract mathematical concepts concrete and intuitive.',
+          de: 'Dieses faszinierende Video zeigt, wie man Differentialgleichungen durch geometrische Visualisierung verstehen kann. Grant Sanderson demonstriert leistungsstarke Techniken zur Visualisierung von Lösungen als Flüsse im Raum, wodurch abstrakte mathematische Konzepte konkret und intuitiv werden.',
+          fr: "Cette vidéo hypnotisante montre comment comprendre les équations différentielles grâce à la visualisation géométrique. Grant Sanderson démontre des techniques puissantes pour visualiser les solutions comme des flux dans l'espace, rendant concrets et intuitifs des concepts mathématiques abstraits.",
+        },
       },
     },
     window: {
@@ -462,6 +575,16 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/question_radar.svg',
+      },
+      youtube: {
+        videoId: 'Jo0NuaCyQF0',
+        title: 'Information Architecture Fundamentals',
+        startAt: 0,
+        summary: {
+          en: 'Learn the principles of effective information organization and categorization. This presentation covers taxonomy design, labeling systems, and search functionality that help users navigate complex information landscapes and find what they need quickly and intuitively.',
+          de: 'Lerne die Grundlagen einer effektiven Informationsorganisation und Kategorisierung. Diese Präsentation behandelt Taxonomiedesign, Beschriftungssysteme und Suchfunktionalität, die Benutzern helfen, komplexe Informationslandschaften zu navigieren und schnell und intuitiv zu finden, was sie brauchen.',
+          fr: "Apprenez les principes d'une organisation et d'une catégorisation efficaces de l'information. Cette présentation couvre la conception de taxonomies, les systèmes d'étiquetage et les fonctionnalités de recherche qui aident les utilisateurs à naviguer dans des paysages d'information complexes et à trouver ce dont ils ont besoin rapidement et intuitivement.",
+        },
       },
     },
     window: {
