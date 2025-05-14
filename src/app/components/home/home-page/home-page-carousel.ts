@@ -41,14 +41,16 @@ export interface HomePageCarouselEntryContent {
     alt?: string;
     svgIcon?: string;
   };
-  video?: {
-    url?: string;
-    title?: string;
-    controls?: boolean;
-    autoplay?: boolean;
-    muted?: boolean;
-  };
+  video?: Video;
   youtube?: YouTubeContent;
+}
+
+export interface Video {
+  url: string;
+  title?: string; // Add title property to match YouTubeContent
+  subtitlesUrl?: string; // URL to WebVTT subtitle file
+  descriptionsUrl?: string; // URL to WebVTT audio descriptions file
+  poster?: string;
 }
 
 interface YouTubeContent {

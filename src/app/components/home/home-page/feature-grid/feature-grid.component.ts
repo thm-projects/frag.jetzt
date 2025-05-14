@@ -12,7 +12,7 @@ import { carousel } from '../home-page-carousel';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { HomePageService } from '../home-page.service';
 import { windowWatcher } from '../../../../../modules/navigation/utils/window-watcher';
 import { language } from '../../../../base/language/language';
@@ -44,7 +44,6 @@ import { environment } from '../../../../../environments/environment';
     MatCardImage,
     MatCardTitle,
     NgClass,
-    NgIf,
     YoutubeEmbedComponent,
   ],
   templateUrl: './feature-grid.component.html',
@@ -297,6 +296,20 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     this.setupImageObserver();
+
+    // Add small-card class to small card containers
+    setTimeout(() => {
+      this.cardContainers.forEach((container, index) => {
+        if (!this.isLargeCard(index)) {
+          container.nativeElement.classList.add('small-card');
+        }
+      });
+    });
+
+    // Add this line to detect small cards
+    setTimeout(() => {
+      this.markSmallCards();
+    });
   }
 
   /**
@@ -629,5 +642,17 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
         );
       }
     }
+  }
+
+  /**
+   * Marks small cards by adding a specific class
+   */
+  private markSmallCards() {
+    const cardContainers = document.querySelectorAll('.card-container');
+    cardContainers.forEach((container, index) => {
+      if (!this.isLargeCard(index)) {
+        container.classList.add('small-card');
+      }
+    });
   }
 }
