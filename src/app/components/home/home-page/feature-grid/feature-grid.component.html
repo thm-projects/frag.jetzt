@@ -69,13 +69,7 @@
       <!-- Vorderseite der Karte (bestehender Inhalt) -->
       <div class="card-face card-front">
         <mat-card [ngClass]="cls">
-          <div
-            style="
-              flex-grow: 1;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-            ">
+          <div style="overflow: hidden; display: flex; flex-direction: column">
             @if (tile.content.image?.url) {
               <img
                 mat-card-image

@@ -361,23 +361,8 @@ mat-card-content {
 }
 
 .summary-wrapper {
-  position: relative;
   flex: 1;
-  display: flex;
-  align-items: center !important;
-  justify-content: center;
-  min-height: 0;
   overflow: hidden !important;
-  padding: 0;
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-
-:host ::ng-deep .small-card .summary-wrapper {
-  align-items: center !important;
-  max-height: calc(100% - 50px) !important;
-  min-height: 40px !important;
-  margin-bottom: 8px !important;
 }
 
 .video-summary.full-height {
@@ -474,7 +459,6 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
  * ------------------------------------------ */
 .video-summary {
   margin: 4px 0 8px;
-  padding: 8px;
   background-color: var(--mat-sys-surface-container-high, rgba(0, 0, 0, 0.05));
   border-radius: 8px;
   font-size: 0.9em;
@@ -507,7 +491,6 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
 
 mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
   font-size: 0.8em;
-  padding: 8px;
 }
 
 /* ------------------------------------------
