@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+mat-dialog-content {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+mat-dialog-actions {
+  padding: 8px 24px;
+  margin-bottom: 0;
+}
+
+// Make dialog responsive to viewport width
+::ng-deep .mat-mdc-dialog-container {
+  // Responsive width based on viewport size
+  width: 95vw !important; // Mobile first
+  max-width: 1200px !important; // Maximum width on large screens
+  min-width: auto !important; // Remove fixed min-width to prevent overflow
+
+  // Responsive height
+  height: auto !important;
+  max-height: 90vh !important;
+
+  // Make sure dialog is centered
+  margin: 0 auto;
+}
+
+// Media queries for better responsive behavior
+@media (min-width: 768px) {
+  ::ng-deep .mat-mdc-dialog-container {
+    width: 90vw !important; // Slightly narrower on tablets
+  }
+}
+
+@media (min-width: 1024px) {
+  ::ng-deep .mat-mdc-dialog-container {
+    width: 80vw !important; // Even narrower on desktops
+  }
+}
+
+@media (min-width: 1440px) {
+  ::ng-deep .mat-mdc-dialog-container {
+    width: 70vw !important; // Narrowest on large screens
+  }
+}
+
+// Ensure dialog title scales properly
+::ng-deep .mat-mdc-dialog-title {
+  font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+  padding: 16px 24px 0 !important;
+  margin-bottom: 0 !important;
+}

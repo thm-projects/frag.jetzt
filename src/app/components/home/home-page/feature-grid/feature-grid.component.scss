@@ -12,6 +12,86 @@
   flex-direction: column;
 }
 
+:host-context(.mat-mdc-dialog-content) {
+  // Basic container fixing
+  display: block !important;
+
+  // Force grid to display vertically with no overlap
+  mat-grid-list,
+  mat-grid-tile {
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    width: 100% !important;
+    transform: none !important;
+    margin-bottom: 40px !important; // Add significant space between cards
+    clear: both !important; // Prevent any floating issues
+  }
+
+  // Fix the grid tile positioning
+  .mat-grid-tile-content {
+    display: block !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    height: auto !important;
+  }
+
+  // Fix overlap by forcing position in parent
+  .card-container {
+    position: relative !important;
+    height: 400px !important; // Fixed height for each card
+    margin-bottom: 40px !important;
+    z-index: 1 !important;
+    perspective: 1200px !important; // Keep perspective for 3D effect
+  }
+
+  // Keep card structure intact with controlled height
+  .card {
+    position: relative !important;
+    height: 400px !important; // Match container height
+    transform-style: preserve-3d !important;
+
+    &.flipped {
+      transform: rotateY(180deg) !important; // Keep the flip working
+    }
+  }
+
+  // Set exact same size for both faces
+  .card-face {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    backface-visibility: hidden !important;
+
+    // Make each card face at least as tall as its content
+    &.card-front,
+    &.card-back {
+      min-height: 300px !important;
+    }
+
+    // Set equal heights for both faces
+    &.card-front mat-card,
+    &.card-back mat-card {
+      height: 100% !important;
+      min-height: 300px !important;
+    }
+  }
+
+  // Disable hover effects that cause stacking issues
+  .card-container:hover {
+    z-index: 2 !important; // Higher than siblings but not excessive
+  }
+
+  // Disable transform on hover
+  .card-container:hover .card:not(.flipped) {
+    transform: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
 mat-grid-list {
   overflow: visible !important;
   isolation: isolate;

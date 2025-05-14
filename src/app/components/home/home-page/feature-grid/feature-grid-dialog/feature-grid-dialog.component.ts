@@ -1,6 +1,3 @@
-import rawI18n from './i18n.json';
-import { I18nLoader } from 'app/base/i18n/i18n-loader';
-const i18n = I18nLoader.load(rawI18n);
 import { Component } from '@angular/core';
 import {
   MatDialogActions,
@@ -8,8 +5,13 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { FeatureGridComponent } from '../feature-grid.component';
 import { MatButton } from '@angular/material/button';
+import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { FeatureGridComponent } from '../feature-grid.component';
+import rawI18n from './i18n.json';
+
+// Load translations
+const i18n = I18nLoader.load(rawI18n);
 
 @Component({
   selector: 'app-feature-grid-dialog',
