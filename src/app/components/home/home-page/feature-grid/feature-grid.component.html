@@ -114,70 +114,113 @@
           <mat-card-content class="back-content">
             <h3>{{ tile.content.title[language()] }}</h3>
 
-            <!-- When we have a YouTube video -->
-            @if (tile.content.youtube?.videoId) {
-              <div class="video-content-container">
-                <!-- Video container -->
-                <div
-                  class="video-container"
-                  (click)="$event.stopPropagation()"
-                  (keydown)="handleVideoKeydown($event)">
-                  <app-youtube-embed
-                    [videoId]="tile.content.youtube.videoId"
-                    [startAt]="tile.content.youtube.startAt || 0"
-                    [smallCard]="!isLargeCard(index)"
-                    (loaded)="onYoutubeLoaded(index)"></app-youtube-embed>
+            <!-- Überprüfe die ersten drei Objekte -->
+            @if (index < 3) {
+              <div class="screenshot-text-container">
+                <div class="screenshot-container">
+                  <img
+                    class="screenshot-image"
+                    [src]="tile.content.screenshotText.screenshot.url"
+                    [attr.alt]="
+                      tile.content.screenshotText.screenshot.alt[language()]
+                    "
+                    loading="lazy" />
                 </div>
-
-                <!-- Fixed wrapper for vertical centering -->
-                <div class="summary-wrapper">
-                  @if (tile.content.youtube?.summary) {
-                    <div class="video-summary full-height">
-                      <h4 class="video-summary-title">
-                        {{ videoSummaryTitle[language()] }}
-                      </h4>
-                      <p lang="en">{{ getSummaryForLanguage(index) }}</p>
-                    </div>
-                  }
+                <div class="explanation-text-container">
+                  <div
+                    class="explanation-text"
+                    [innerHTML]="
+                      tile.content.screenshotText.text[language()]
+                    "></div>
                 </div>
               </div>
-            }
-            <!-- When we have a regular video -->
-            @else if (tile.content.video?.url) {
-              <div class="video-content-container">
-                <div
-                  class="video-container"
-                  (click)="$event.stopPropagation()"
-                  (keydown)="handleVideoKeydown($event)">
-                  <video
-                    class="feature-video"
-                    [src]="tile.content.video.url"
-                    controls
-                    preload="metadata"
+            } @else {
+              <!-- When we have a YouTube video -->
+              @if (tile.content.youtube?.videoId) {
+                <div class="video-content-container">
+                  <!-- Video container -->
+                  <div
+                    class="video-container"
                     (click)="$event.stopPropagation()"
                     (keydown)="handleVideoKeydown($event)">
-                    Your browser does not support HTML5 video.
-                    <!-- Add subtitle tracks for accessibility -->
-                    <track
-                      kind="subtitles"
-                      [attr.src]="tile.content.video.subtitlesUrl || ''"
-                      srclang="en"
-                      label="English"
-                      default />
-                    <track
-                      kind="descriptions"
-                      [attr.src]="tile.content.video.descriptionsUrl || ''"
-                      srclang="en"
-                      label="English Descriptions" />
-                  </video>
+                    <app-youtube-embed
+                      [videoId]="tile.content.youtube.videoId"
+                      [startAt]="tile.content.youtube.startAt || 0"
+                      [smallCard]="!isLargeCard(index)"
+                      (loaded)="onYoutubeLoaded(index)"></app-youtube-embed>
+                  </div>
+
+                  <!-- Fixed wrapper for vertical centering -->
+                  <div class="summary-wrapper">
+                    @if (tile.content.youtube?.summary) {
+                      <div class="video-summary full-height">
+                        <h4 class="video-summary-title">
+                          {{ videoSummaryTitle[language()] }}
+                        </h4>
+                        <p lang="en">{{ getSummaryForLanguage(index) }}</p>
+                      </div>
+                    }
+                  </div>
                 </div>
-              </div>
-            }
-            <!-- Only show description when no video exists -->
-            @else {
-              <div class="card-text-content">
-                <p>{{ tile.content.description[language()] }}</p>
-              </div>
+              }
+              <!-- When we have a regular video -->
+              @else if (tile.content.video?.url) {
+                <div class="video-content-container">
+                  <div
+                    class="video-container"
+                    (click)="$event.stopPropagation()"
+                    (keydown)="handleVideoKeydown($event)">
+                    <video
+                      class="feature-video"
+                      [src]="tile.content.video.url"
+                      controls
+                      preload="metadata"
+                      (click)="$event.stopPropagation()"
+                      (keydown)="handleVideoKeydown($event)">
+                      Your browser does not support HTML5 video.
+                      <!-- Add subtitle tracks for accessibility -->
+                      <track
+                        kind="subtitles"
+                        [attr.src]="tile.content.video.subtitlesUrl || ''"
+                        srclang="en"
+                        label="English"
+                        default />
+                      <track
+                        kind="descriptions"
+                        [attr.src]="tile.content.video.descriptionsUrl || ''"
+                        srclang="en"
+                        label="English Descriptions" />
+                    </video>
+                  </div>
+                </div>
+              }
+              <!-- When we have a screenshot with text -->
+              @else if (tile.content.screenshotText) {
+                <div class="screenshot-text-container">
+                  <div class="screenshot-container">
+                    <img
+                      class="screenshot-image"
+                      [src]="tile.content.screenshotText.screenshot.url"
+                      [attr.alt]="
+                        tile.content.screenshotText.screenshot.alt[language()]
+                      "
+                      loading="lazy" />
+                  </div>
+                  <div class="explanation-text-container">
+                    <div
+                      class="explanation-text"
+                      [innerHTML]="
+                        tile.content.screenshotText.text[language()]
+                      "></div>
+                  </div>
+                </div>
+              }
+              <!-- Only show description when no video exists -->
+              @else {
+                <div class="card-text-content">
+                  <p>{{ tile.content.description[language()] }}</p>
+                </div>
+              }
             }
           </mat-card-content>
         </mat-card>
@@ -197,5 +240,66 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  /* ------------------------------------------
+   * SCREENSHOT WITH TEXT STYLES
+   * ------------------------------------------ */
+  .screenshot-text-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .screenshot-container {
+    flex: 0 0 auto;
+    margin-bottom: 12px;
+    max-height: 60%;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .screenshot-image {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .explanation-text-container {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 8px 12px;
+
+    /* Styles similar to other card content */
+    background-color: var(
+      --mat-sys-surface-container-high,
+      rgba(0, 0, 0, 0.05)
+    );
+    border-radius: 8px;
+    border-left: 3px solid var(--mat-sys-primary, #1976d2);
+
+    /* Scrollbar styling */
+    &::-webkit-scrollbar {
+      width: 6px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.2));
+      border-radius: 3px;
+      min-height: 30px;
+    }
+  }
+
+  .explanation-text {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.9em;
+    color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.8));
   }
 </style>

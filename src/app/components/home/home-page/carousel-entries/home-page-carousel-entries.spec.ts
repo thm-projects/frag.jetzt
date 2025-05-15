@@ -179,7 +179,7 @@ describe('HomePageCarouselEntries', () => {
         // Descriptions should be substantial enough but not excessive
         expect(description.length).toBeGreaterThan(20);
         // Maximum reasonable length for a card description
-        expect(description.length).toBeLessThan(500);
+        expect(description.length).toBeLessThan(700);
       });
     });
   });

@@ -177,6 +177,31 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
       return; // Early return to avoid further processing
     }
 
+    // Handle scrolling in screenshot-text content
+    if (
+      this.isCardFlipped(index) &&
+      this.carousel.entries[index]?.content.screenshotText &&
+      (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+    ) {
+      const textContainer = this.elementRef.nativeElement.querySelector(
+        '.card.flipped .explanation-text-container',
+      );
+
+      if (textContainer) {
+        const scrollAmount = 30;
+
+        if (event.key === 'ArrowDown') {
+          textContainer.scrollTop += scrollAmount;
+          event.preventDefault();
+        } else if (event.key === 'ArrowUp') {
+          textContainer.scrollTop -= scrollAmount;
+          event.preventDefault();
+        }
+
+        return; // Don't process further navigation when scrolling
+      }
+    }
+
     // Navigation based on key
     switch (event.key) {
       case 'ArrowRight':
@@ -287,7 +312,10 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
     return this.carousel.window[this.currentWindowClass];
   }
 
-  constructor(protected self: HomePageService) {}
+  constructor(
+    protected self: HomePageService,
+    private elementRef: ElementRef,
+  ) {}
 
   ngOnInit() {
     // Entferne die fehlgeschlagenen Übersetzungsversuche

@@ -43,6 +43,23 @@ export interface HomePageCarouselEntryContent {
   };
   video?: Video;
   youtube?: YouTubeContent;
+
+  // New property for screenshot with scrollable text
+  screenshotText?: {
+    screenshot: {
+      url: string;
+      alt: {
+        en: string;
+        de: string;
+        fr: string;
+      };
+    };
+    text: {
+      en: string;
+      de: string;
+      fr: string;
+    };
+  };
 }
 
 export interface Video {

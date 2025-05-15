@@ -43,21 +43,26 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Salles Q&R & Assistants IA',
       },
       description: {
-        en: "Let AI assistants answer your knowledge questions. Your prompts, with which you define the topic of a room and your learning objectives, ensure precise and individual answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-        de: 'Lass deine Wissensfragen von KI-Assistenten beantworten. Deine Prompts, mit denen du das Thema eines Raumes und deine Lernziele festlegst, sorgen für präzise und individuelle Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-        fr: "Laisse les assistants IA répondre à tes questions de connaissances. Tes prompts, avec lesquels tu définis le sujet d'une salle et tes objectifs d'apprentissage, garantissent des réponses précises et individuelles. Une vérification rapide des faits, et tu t'es épargné des heures de travail. Découvre comment l'IA te rend plus efficace !",
+        en: 'The AI assistants in frag.jetzt provide instant answers to questions in your educational rooms. They can be customized with specific prompts to ensure accurate and contextual responses focused on your topic. Key benefits include 24/7 availability for student questions, customizable knowledge boundaries, support for multiple languages, automatic citation of sources, and moderation options to ensure appropriate content.',
+        de: 'Die KI-Assistenten in frag.jetzt liefern sofortige Antworten auf Fragen in deinen Lernräumen. Sie können mit spezifischen Prompts angepasst werden, um genaue und kontextbezogene Antworten zu deinem Thema zu gewährleisten. Hauptvorteile sind 24/7 Verfügbarkeit für Studentenfragen, anpassbare Wissensgrenzen, Unterstützung für mehrere Sprachen, automatische Quellenangaben und Moderationsoptionen für angemessene Inhalte.',
+        fr: 'Les assistants IA dans frag.jetzt fournissent des réponses instantanées aux questions dans vos salles éducatives. Ils peuvent être personnalisés avec des prompts spécifiques pour assurer des réponses précises et contextuelles centrées sur votre sujet. Les avantages clés comprennent la disponibilité 24/7 pour les questions des étudiants, des limites de connaissances personnalisables, le support pour plusieurs langues, la citation automatique des sources et des options de modération pour assurer un contenu approprié.',
       },
       image: {
         svgIcon: 'fj_robot',
       },
-      youtube: {
-        videoId: 'p_di4Zn4wz4',
-        title: 'Differential Equations - Introduction',
-        startAt: 0,
-        summary: {
-          en: 'This introductory video explains why differential equations are worth studying. Grant Sanderson shows how these powerful mathematical tools connect physics, engineering, and mathematics through elegant visualizations that make complex concepts accessible.',
-          de: 'Dieses einführende Video erklärt, warum Differentialgleichungen es wert sind, studiert zu werden. Grant Sanderson zeigt, wie diese leistungsstarken mathematischen Werkzeuge Physik, Ingenieurwissenschaften und Mathematik durch elegante Visualisierungen verbinden, die komplexe Konzepte zugänglich machen.',
-          fr: "Cette vidéo d'introduction explique pourquoi les équations différentielles méritent d'être étudiées. Grant Sanderson montre comment ces puissants outils mathématiques relient la physique, l'ingénierie et les mathématiques grâce à des visualisations élégantes qui rendent accessibles des concepts complexes.",
+      screenshotText: {
+        screenshot: {
+          url: '/assets/icons/Chatbot.png',
+          alt: {
+            en: 'AI assistant robot icon',
+            de: 'KI-Assistenten Roboter-Symbol',
+            fr: 'Icône de robot assistant IA',
+          },
+        },
+        text: {
+          en: 'Let AI assistants answer your knowledge questions.',
+          de: 'Lass deine Wissensfragen von KI-Assistenten beantworten.',
+          fr: 'Laisse les assistants IA répondre à tes questions.',
         },
       },
     },
@@ -88,21 +93,26 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Enseigne avec l'IA",
       },
       description: {
-        en: 'The AI summarizes the chapters of your script, extracts learning objectives and technical terms. It creates exercises and exam questions from your lecture slides and evaluates submissions and answers. It answers all questions 24/7: always competently and in a way that is appropriate for the target group.',
-        de: 'Die KI fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Fachbegriffe. Sie erstellt Übungsaufgaben und Prüfungsfragen aus deinen Vorlesungsfolien und wertet Einreichungen und Antworten aus. Sie beantwortet alle Fragen 24/7: stets kompetent und zielgruppengerecht.',
-        fr: "L'IA résume les chapitres de ton script, extrait les objectifs d'apprentissage et les termes techniques. Elle crée des exercices et des questions d'examen à partir de tes diapositives de cours et évalue les soumissions et les réponses. Elle répond à toutes les questions 24 heures sur 24 et 7 jours sur 7 : toujours de manière compétente et adaptée au groupe cible.",
+        en: 'Transform teaching with AI support: Generate summaries of educational materials. Extract learning objectives and technical terms. Create exercises and exam questions from slides. Evaluate student submissions with detailed feedback. Provide 24/7 assistance to students. The AI works as your teaching assistant, handling routine tasks so you can focus on meaningful interactions.',
+        de: 'Transformiere deine Lehre mit KI: Erstelle Zusammenfassungen von Lehrmaterialien. Extrahiere Lernziele und Fachbegriffe. Generiere Übungen und Prüfungsfragen aus Folien. Bewerte Einreichungen mit detailliertem Feedback. Biete 24/7-Unterstützung für Studierende. Die KI fungiert als Assistent, übernimmt Routineaufgaben und ermöglicht mehr Zeit für Interaktionen.',
+        fr: "Transformez votre enseignement avec l'IA: Générez des résumés de matériaux éducatifs. Extrayez objectifs d'apprentissage et termes techniques. Créez exercices et questions d'examen à partir de diapositives. Évaluez les travaux avec feedback détaillé. Offrez assistance 24/7 aux étudiants. L'IA fonctionne comme assistant, gérant les tâches routinières pour vous permettre de vous concentrer sur les interactions.",
       },
       image: {
         url: '/assets/background/teaching.svg',
       },
-      youtube: {
-        videoId: 'ly4S0oi3Yz8',
-        title: 'But what is a differential equation?',
-        startAt: 0,
-        summary: {
-          en: 'A beautiful overview of differential equations as the language of the universe. This video explores how these equations describe changing systems from population growth to electric circuits, with stunning visuals that make the abstract concepts concrete and intuitive.',
-          de: 'Ein wunderschöner Überblick über Differentialgleichungen als Sprache des Universums. Dieses Video untersucht, wie diese Gleichungen sich verändernde Systeme vom Bevölkerungswachstum bis zu elektrischen Schaltkreisen beschreiben, mit atemberaubenden Visualisierungen, die die abstrakten Konzepte konkret und intuitiv machen.',
-          fr: "Un magnifique aperçu des équations différentielles comme langage de l'univers. Cette vidéo explore comment ces équations décrivent des systèmes en évolution, de la croissance démographique aux circuits électriques, avec des visuels époustouflants qui rendent concrets et intuitifs les concepts abstraits.",
+      screenshotText: {
+        screenshot: {
+          url: '/assets/background/teaching.svg',
+          alt: {
+            en: 'Teaching with AI illustration',
+            de: 'Illustration zum Lehren mit KI',
+            fr: "Illustration d'enseignement avec l'IA",
+          },
+        },
+        text: {
+          en: 'The AI summarizes the chapters of your script...',
+          de: 'Die KI fasst die Kapitel deines Skripts zusammen...',
+          fr: "L'IA résume les chapitres de ton script...",
         },
       },
     },
@@ -116,21 +126,26 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: 'Assistants IA',
       },
       description: {
-        en: 'Take part in our study »AI assistants in teaching & studying«. Get unlimited access to the latest language models in all your rooms. Share your feedback with us: Are AI assistants the future? Contact us via the imprint.',
-        de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil. Erhalte uneingeschränkten Zugang zu den neuesten Sprachmodellen in all deinen Räumen. Teile uns dein Feedback mit: Sind KI-Assistenten die Zukunft? Kontaktiere uns über das Impressum.',
-        fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude ». Bénéficie d'un accès illimité aux derniers modèles linguistiques dans toutes tes salles. Fais-nous part de tes commentaires : Les assistants IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
+        en: 'Join our research study on AI in education: Get access to the latest language models. Use AI across all your rooms for educational purposes. Share your feedback on AI integration in education. Help shape the future of AI-enhanced learning. Your participation helps research how AI can support education while maintaining ethical standards. Contact us through the imprint page to join.',
+        de: 'Nimm an unserer Forschungsstudie zu KI in der Bildung teil: Erhalte Zugang zu neuesten Sprachmodellen. Nutze KI in deinen Räumen für Bildungszwecke. Teile dein Feedback zur KI-Integration. Hilf, die Zukunft des KI-unterstützten Lernens zu gestalten. Deine Teilnahme unterstützt die Forschung zur Bildungsförderung durch KI unter Einhaltung ethischer Standards. Kontaktiere uns über die Impressum-Seite.',
+        fr: "Participez à notre étude sur l'IA dans l'éducation: Accédez aux derniers modèles linguistiques. Utilisez l'IA dans vos salles éducatives. Partagez vos commentaires sur l'intégration de l'IA. Aidez à façonner l'avenir de l'apprentissage avec IA. Votre participation aide la recherche sur le soutien éducatif par l'IA tout en respectant les normes éthiques. Contactez-nous via la page mentions légales.",
       },
       image: {
         url: '/assets/background/KI-Chatbot-MNI-1024.webp',
       },
-      youtube: {
-        videoId: 'LwCRRUa8yTU',
-        title: 'Visualizing the solutions to differential equations',
-        startAt: 0,
-        summary: {
-          en: 'This stunning visual exploration shows how to understand differential equations through their geometric meaning. Grant Sanderson demonstrates powerful techniques for visualizing solutions as flows in space, bringing mathematical abstractions to life through intuitive animations.',
-          de: 'Diese atemberaubende visuelle Erkundung zeigt, wie man Differentialgleichungen durch ihre geometrische Bedeutung verstehen kann. Grant Sanderson demonstriert leistungsstarke Techniken zur Visualisierung von Lösungen als Flüsse im Raum und belebt mathematische Abstraktionen durch intuitive Animationen.',
-          fr: "Cette magnifique exploration visuelle montre comment comprendre les équations différentielles à travers leur signification géométrique. Grant Sanderson démontre des techniques puissantes pour visualiser les solutions comme des flux dans l'espace, donnant vie aux abstractions mathématiques grâce à des animations intuitives.",
+      screenshotText: {
+        screenshot: {
+          url: '/assets/background/KI-Chatbot-MNI-1024.webp',
+          alt: {
+            en: 'AI Chatbot interface',
+            de: 'KI-Chatbot Oberfläche',
+            fr: 'Interface du chatbot IA',
+          },
+        },
+        text: {
+          en: 'Take part in our study »AI assistants in teaching & studying«...',
+          de: 'Nimm an unserer Studie »KI-Assistenten in Lehre & Studium« teil...',
+          fr: "Participe à notre étude « Les assistants IA dans l'enseignement et l'étude »...",
         },
       },
     },
@@ -206,9 +221,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Écris avec l'IA",
       },
       description: {
-        en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. Since program code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
-        de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Da Programmcode im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
-        fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Comme le code du programme n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
+        en: "Use AI to enhance your writing: Overcome writer's block with fresh ideas and outlines. Improve clarity and flow. Find better phrasings for complex concepts. Generate code samples and explain programming concepts. Check logic and syntax in technical documents. The AI works as your personal writing assistant while you maintain creative control.",
+        de: 'Nutze KI zur Verbesserung deiner Texte: Überwinde Schreibblockaden mit Ideen und Gliederungen. Verbessere Klarheit und Textfluss. Finde bessere Formulierungen für komplexe Konzepte. Generiere Code und erkläre Programmierkonzepte. Prüfe Logik und Syntax in technischen Dokumenten. Die KI arbeitet als dein Schreibassistent, während du die kreative Kontrolle behältst.',
+        fr: "Utilisez l'IA pour améliorer votre écriture: Surmontez le syndrome de la page blanche avec des idées et plans. Améliorez clarté et fluidité. Trouvez meilleures formulations pour concepts complexes. Générez exemples de code et expliquez concepts de programmation. Vérifiez logique et syntaxe des documents techniques. L'IA fonctionne comme assistant d'écriture personnel pendant que vous gardez le contrôle créatif.",
       },
       image: {
         url: '/assets/background/keyboard.webp',
@@ -221,6 +236,21 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
           en: "This video elegantly introduces the concepts of divergence and curl, essential for understanding electromagnetic fields and fluid dynamics. Through stunning visual explanations, Grant Sanderson reveals how these mathematical operations describe the physical world in Maxwell's equations.",
           de: 'Dieses Video führt elegant in die Konzepte der Divergenz und Rotation ein, die für das Verständnis elektromagnetischer Felder und Fluiddynamik unerlässlich sind. Durch atemberaubende visuelle Erklärungen zeigt Grant Sanderson, wie diese mathematischen Operationen die physikalische Welt in Maxwells Gleichungen beschreiben.',
           fr: 'Cette vidéo présente élégamment les concepts de divergence et de rotationnel, essentiels pour comprendre les champs électromagnétiques et la dynamique des fluides. À travers des explications visuelles époustouflantes, Grant Sanderson révèle comment ces opérations mathématiques décrivent le monde physique dans les équations de Maxwell.',
+        },
+      },
+      screenshotText: {
+        screenshot: {
+          url: '/assets/background/keyboard.webp',
+          alt: {
+            en: 'Keyboard and writing tools',
+            de: 'Tastatur und Schreibwerkzeuge',
+            fr: "Clavier et outils d'écriture",
+          },
+        },
+        text: {
+          en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. Since program code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
+          de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Da Programmcode im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
+          fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Comme le code du programme n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
         },
       },
     },
@@ -370,7 +400,24 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: _1x1windowSize,
+    window: {
+      [M3WindowSizeClass.Expanded]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.Large]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.ExtraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+      [M3WindowSizeClass.UltraLarge]: {
+        colspan: 1,
+        rowspan: 1,
+      },
+    },
   },
   {
     content: {
@@ -727,6 +774,39 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/rocket.svg',
+      },
+    },
+    window: _1x1windowSize,
+  },
+  {
+    content: {
+      title: {
+        en: 'Feature Demo',
+        de: 'Feature-Demo',
+        fr: 'Démo de fonctionnalité',
+      },
+      description: {
+        en: 'This card demonstrates the screenshot with scrollable text feature',
+        de: 'Diese Karte demonstriert die Screenshot mit scrollbarem Text-Funktion',
+        fr: "Cette carte démontre la fonctionnalité de capture d'écran avec texte défilant",
+      },
+      image: {
+        url: '/assets/background/feature-demo.svg',
+      },
+      screenshotText: {
+        screenshot: {
+          url: '/assets/screenshots/feature-demo.png',
+          alt: {
+            en: 'Feature demonstration screenshot',
+            de: 'Feature-Demonstrations-Screenshot',
+            fr: "Capture d'écran de démonstration de fonctionnalité",
+          },
+        },
+        text: {
+          en: '<p>This is a demonstration of the screenshot with scrollable text feature. You can include detailed explanations here that will be shown in a scrollable container below the screenshot.</p><p>Use arrow keys (up/down) to scroll through longer content.</p><p>HTML formatting is supported, so you can include <strong>bold text</strong>, <em>italics</em>, and other formatting.</p>',
+          de: '<p>Dies ist eine Demonstration der Screenshot-Funktion mit scrollbarem Text. Hier können Sie detaillierte Erklärungen einfügen, die in einem scrollbaren Container unter dem Screenshot angezeigt werden.</p><p>Verwenden Sie die Pfeiltasten (auf/ab), um durch längere Inhalte zu scrollen.</p><p>HTML-Formatierung wird unterstützt, sodass Sie <strong>fetten Text</strong>, <em>Kursivschrift</em> und andere Formatierungen einfügen können.</p>',
+          fr: "<p>Ceci est une démonstration de la fonction de capture d'écran avec texte défilant. Vous pouvez inclure des explications détaillées ici qui seront affichées dans un conteneur défilant sous la capture d'écran.</p><p>Utilisez les touches fléchées (haut/bas) pour faire défiler les contenus plus longs.</p><p>Le formatage HTML est pris en charge, vous pouvez donc inclure du <strong>texte en gras</strong>, des <em>italiques</em> et d'autres formatages.</p>",
+        },
       },
     },
     window: _1x1windowSize,
