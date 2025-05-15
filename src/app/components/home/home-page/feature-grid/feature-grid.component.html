@@ -130,6 +130,8 @@
                         $event
                       )
                     "
+                    (keydown)="handleScreenshotKeydown($event, tile, index)"
+                    [attr.tabindex]="0"
                     class="screenshot-image clickable"
                     loading="lazy" />
                 </div>
@@ -215,6 +217,8 @@
                           $event
                         )
                       "
+                      (keydown)="handleScreenshotKeydown($event, tile, index)"
+                      [attr.tabindex]="0"
                       class="screenshot-image clickable"
                       loading="lazy" />
                   </div>

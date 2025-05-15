@@ -13,7 +13,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 import { carousel } from '../home-page-carousel';
 import { By } from '@angular/platform-browser';
@@ -375,9 +375,6 @@ describe('FeatureGridComponent - Screenshot Text Feature', () => {
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
-    homePageServiceSpy = TestBed.inject(
-      HomePageService,
-    ) as jasmine.SpyObj<HomePageService>;
     fixture = TestBed.createComponent(FeatureGridComponent);
     component = fixture.componentInstance;
 

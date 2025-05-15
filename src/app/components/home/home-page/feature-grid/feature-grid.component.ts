@@ -228,7 +228,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Handle keyboard events for videos
+   * Handles keyboard events for videos
    * @param event The keyboard event
    */
   protected handleVideoKeydown(event: KeyboardEvent): void {
@@ -238,6 +238,30 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
     // Handle space and enter as click for video controls
     if (event.key === 'Enter' || event.key === ' ') {
       // Let browser handle these natively for video controls
+    }
+  }
+
+  /**
+   * Handles keyboard events for screenshots to ensure accessibility
+   * @param event The keyboard event
+   * @param tile The tile containing the screenshot
+   * @param index The index of the tile
+   */
+  handleScreenshotKeydown(
+    event: KeyboardEvent,
+    tile: any,
+    index: number,
+  ): void {
+    // Open image viewer when Enter or Space is pressed
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.openImageViewer(
+        tile.content.screenshotText.screenshot.url,
+        tile.content.screenshotText.screenshot.alt[this.language()],
+        event,
+      );
     }
   }
 
