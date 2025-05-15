@@ -41,6 +41,8 @@ export interface ImageViewerData {
         <button
           mat-icon-button
           (click)="handleZoomOutClick($event)"
+          (touchstart)="handleTouchButtonStart($event)"
+          (touchend)="handleZoomOutTouch($event)"
           [disabled]="zoomLevel <= minZoom"
           matTooltip="Zoom Out (-)"
         >
@@ -49,6 +51,8 @@ export interface ImageViewerData {
         <button
           mat-icon-button
           (click)="resetZoom(); $event.stopPropagation()"
+          (touchstart)="handleTouchButtonStart($event)"
+          (touchend)="handleResetZoomTouch($event)"
           [disabled]="zoomLevel === 1"
           matTooltip="Reset Zoom (R)"
         >
@@ -57,6 +61,8 @@ export interface ImageViewerData {
         <button
           mat-icon-button
           (click)="handleZoomInClick($event)"
+          (touchstart)="handleTouchButtonStart($event)"
+          (touchend)="handleZoomInTouch($event)"
           [disabled]="zoomLevel >= maxZoom"
           matTooltip="Zoom In (+)"
         >
@@ -65,6 +71,8 @@ export interface ImageViewerData {
         <button
           mat-icon-button
           (click)="close(); $event.stopPropagation()"
+          (touchstart)="handleTouchButtonStart($event)"
+          (touchend)="handleCloseTouch($event)"
           matTooltip="Close (Esc)"
         >
           <mat-icon>close</mat-icon>
@@ -135,6 +143,8 @@ export interface ImageViewerData {
           rgba(0, 0, 0, 0.6)
         );
         color: var(--mat-sys-on-surface, white);
+        min-width: 48px; /* Larger touch target */
+        min-height: 48px; /* Larger touch target */
       }
 
       .image-viewer-content {
@@ -530,5 +540,67 @@ export class ImageViewerModalComponent implements AfterViewInit {
 
     // Otherwise perform zoom in
     this.zoomIn();
+  }
+
+  // Prevent default behavior for touch start
+  handleTouchButtonStart(event: TouchEvent) {
+    console.log('Touch button start');
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Add visual feedback
+    const target = event.target as HTMLElement;
+    const button = target.closest('button');
+    if (button) {
+      button.classList.add('touched');
+    }
+  }
+
+  handleZoomOutTouch(event: TouchEvent) {
+    console.log('Touch zoom out');
+    event.preventDefault();
+    event.stopPropagation();
+    this.zoomOut();
+
+    // Remove visual feedback
+    this.removeTouchClass(event);
+  }
+
+  handleZoomInTouch(event: TouchEvent) {
+    console.log('Touch zoom in');
+    event.preventDefault();
+    event.stopPropagation();
+    this.zoomIn();
+
+    // Remove visual feedback
+    this.removeTouchClass(event);
+  }
+
+  handleResetZoomTouch(event: TouchEvent) {
+    console.log('Touch reset zoom');
+    event.preventDefault();
+    event.stopPropagation();
+    this.resetZoom();
+
+    // Remove visual feedback
+    this.removeTouchClass(event);
+  }
+
+  handleCloseTouch(event: TouchEvent) {
+    console.log('Touch close');
+    event.preventDefault();
+    event.stopPropagation();
+    this.close();
+
+    // Remove visual feedback
+    this.removeTouchClass(event);
+  }
+
+  private removeTouchClass(event: TouchEvent) {
+    const target = event.target as HTMLElement;
+    const button = target.closest('button');
+    if (button) {
+      button.classList.remove('touched');
+    }
   }
 }

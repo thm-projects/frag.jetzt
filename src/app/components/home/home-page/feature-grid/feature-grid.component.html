@@ -130,6 +130,13 @@
                         $event
                       )
                     "
+                    (touchend)="
+                      openImageViewer(
+                        tile.content.screenshotText.screenshot.url,
+                        tile.content.screenshotText.screenshot.alt[language()],
+                        $event
+                      )
+                    "
                     (keydown)="handleScreenshotKeydown($event, tile, index)"
                     [attr.tabindex]="0"
                     class="screenshot-image clickable"
@@ -209,6 +216,15 @@
                         tile.content.screenshotText.screenshot.alt[language()]
                       "
                       (click)="
+                        openImageViewer(
+                          tile.content.screenshotText.screenshot.url,
+                          tile.content.screenshotText.screenshot.alt[
+                            language()
+                          ],
+                          $event
+                        )
+                      "
+                      (touchend)="
                         openImageViewer(
                           tile.content.screenshotText.screenshot.url,
                           tile.content.screenshotText.screenshot.alt[
