@@ -13,8 +13,10 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
+import { carousel } from '../home-page-carousel';
+import { By } from '@angular/platform-browser';
 
 describe('FeatureGridComponent', () => {
   let component: FeatureGridComponent;
@@ -357,4 +359,149 @@ describe('FeatureGridComponent', () => {
       expect(component['getTabIndex'](3)).toBe(4); // First card of second row, index 4
     });
   });
+});
+
+describe('FeatureGridComponent - Screenshot Text Feature', () => {
+  let component: FeatureGridComponent;
+  let fixture: ComponentFixture<FeatureGridComponent>;
+  let homePageServiceSpy: jasmine.SpyObj<HomePageService>;
+
+  beforeEach(async () => {
+    const spy = jasmine.createSpyObj('HomePageService', ['getLanguage']);
+
+    await TestBed.configureTestingModule({
+      imports: [FeatureGridComponent],
+      providers: [{ provide: HomePageService, useValue: spy }],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
+    homePageServiceSpy = TestBed.inject(
+      HomePageService,
+    ) as jasmine.SpyObj<HomePageService>;
+    fixture = TestBed.createComponent(FeatureGridComponent);
+    component = fixture.componentInstance;
+
+    spyOn(component as any, 'language').and.returnValue('en');
+    fixture.detectChanges();
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display screenshot-text container when card is flipped', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    expect(cardIndex).not.toBe(-1);
+
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const container = fixture.debugElement.query(
+      By.css('.screenshot-text-container'),
+    );
+    expect(container).toBeTruthy();
+  });
+
+  it('should display the correct screenshot image on back side', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const expectedUrl =
+      carousel.entries[cardIndex].content.screenshotText?.screenshot.url;
+    const image = fixture.debugElement.query(
+      By.css('.screenshot-container img'),
+    );
+
+    expect(image).toBeTruthy();
+    expect(image.nativeElement.src).toContain(expectedUrl);
+  });
+
+  it('should display the correct text in the text container', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const expectedText =
+      carousel.entries[cardIndex].content.screenshotText?.text.en;
+    const textContainer = fixture.debugElement.query(
+      By.css('.screenshot-text'),
+    );
+
+    expect(textContainer).toBeTruthy();
+    expect(textContainer.nativeElement.textContent.trim()).toEqual(
+      expectedText,
+    );
+  });
+
+  it('should handle keyboard navigation for scrolling text', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const scrollElement = { scrollTop: 0 };
+    spyOn(
+      component['elementRef'].nativeElement,
+      'querySelector',
+    ).and.returnValue(scrollElement);
+
+    const scrollSpy = jasmine.createSpy('scrollTopSetter');
+    Object.defineProperty(scrollElement, 'scrollTop', {
+      get: function () {
+        return 0;
+      },
+      set: scrollSpy,
+    });
+
+    const downEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      bubbles: true,
+    });
+    (component as any).handleKeydown(downEvent, cardIndex);
+
+    expect(
+      component['elementRef'].nativeElement.querySelector,
+    ).toHaveBeenCalledWith('.card.flipped .explanation-text-container');
+    expect(scrollSpy).toHaveBeenCalled();
+  });
+
+  it('should respect max-height constraints to prevent overflow', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const container = fixture.debugElement.query(
+      By.css('.screenshot-text-container'),
+    );
+    expect(container).toBeTruthy();
+
+    const styles = window.getComputedStyle(container.nativeElement);
+    expect(styles.maxHeight).toBeTruthy();
+    expect(parseFloat(styles.maxHeight)).toBeLessThan(100);
+  });
+
+  it('should have proper alt text for screenshot images', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const expectedAlt =
+      carousel.entries[cardIndex].content.screenshotText?.screenshot.alt.en;
+    const image = fixture.debugElement.query(
+      By.css('.screenshot-container img'),
+    );
+
+    expect(image).toBeTruthy();
+    expect(image.nativeElement.alt).toEqual(expectedAlt);
+  });
+
+  // Helper function to find the first card with screenshot text
+  function findFirstCardWithScreenshotText(): number {
+    for (let i = 0; i < carousel.entries.length; i++) {
+      if (carousel.entries[i].content.screenshotText) {
+        return i;
+      }
+    }
+    return -1;
+  }
 });

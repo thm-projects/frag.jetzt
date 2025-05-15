@@ -314,7 +314,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
 
   constructor(
     protected self: HomePageService,
-    private elementRef: ElementRef,
+    private readonly elementRef: ElementRef,
   ) {}
 
   ngOnInit() {
