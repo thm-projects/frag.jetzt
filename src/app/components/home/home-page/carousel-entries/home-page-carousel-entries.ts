@@ -1,20 +1,32 @@
 /**
  * HOME PAGE CAROUSEL ENTRIES
  *
- * NOTE ON STRING FORMATTING:
- * When adding text content that contains apostrophes (e.g., "don't", "it's"),
- * use one of these approaches to avoid TypeScript compilation errors:
+ * This file defines all content cards displayed on the application home page.
+ * Each entry represents a feature or aspect of the platform.
  *
- * 1. Use template literals (backticks): `This doesn't cause errors`
- * 2. Use double quotes: "This doesn't cause errors"
- * 3. Escape apostrophes with backslash: 'This doesn\'t cause errors'
+ * STRUCTURE:
+ * - content: Holds multilingual text and media for the card
+ * - window: Defines responsive layout behavior across different screen sizes
  *
- * Template literals are recommended for multi-line text with apostrophes.
+ * FORMATTING NOTES:
+ * For text with apostrophes (e.g., "don't", "it's"), use one of these approaches:
+ * - Template literals: `This doesn't cause errors`
+ * - Double quotes: "This doesn't cause errors"
+ * - Escaped apostrophes: 'This doesn\'t cause errors'
+ *
+ * IMAGE TYPES:
+ * - Front side: Can use either {url: '/path/to/image'} or {svgIcon: 'icon_name'}
+ * - Back side (screenshot): Must use {url: '/path/to/image'} format
+ *
+ * TEXT LENGTH:
+ * - Keep descriptions under 500 characters per language for optimal display
+ * - HTML formatting is supported in scrollable text sections
  */
 
 import { HomePageCarouselEntry } from '../home-page-carousel';
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 
+// Reusable window size configuration for standard 1x1 cards
 const _1x1windowSize: HomePageCarouselEntry['window'] = {
   [M3WindowSizeClass.Expanded]: {
     colspan: 1,
@@ -35,6 +47,7 @@ const _1x1windowSize: HomePageCarouselEntry['window'] = {
 };
 
 export const homePageCarouselEntries: HomePageCarouselEntry[] = [
+  // Q&A Rooms & AI Assistants
   {
     content: {
       title: {
@@ -52,7 +65,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       screenshotText: {
         screenshot: {
-          url: '/assets/icons/Chatbot.png',
+          url: '/assets/icons/Chatbot.png', // Must use URL for screenshot image
           alt: {
             en: 'AI assistant robot icon',
             de: 'KI-Assistenten Roboter-Symbol',
@@ -60,9 +73,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
           },
         },
         text: {
-          en: 'Let AI assistants answer your knowledge questions.',
-          de: 'Lass deine Wissensfragen von KI-Assistenten beantworten.',
-          fr: 'Laisse les assistants IA répondre à tes questions.',
+          en: 'The AI assistants in frag.jetzt provide instant answers to questions in your educational rooms. They can be customized with specific prompts to ensure accurate and contextual responses focused on your topic. Key benefits include 24/7 availability for student questions, customizable knowledge boundaries, support for multiple languages, automatic citation of sources, and moderation options to ensure appropriate content.',
+          de: 'Die KI-Assistenten in frag.jetzt liefern sofortige Antworten auf Fragen in deinen Lernräumen. Sie können mit spezifischen Prompts angepasst werden, um genaue und kontextbezogene Antworten zu deinem Thema zu gewährleisten. Hauptvorteile sind 24/7 Verfügbarkeit für Studentenfragen, anpassbare Wissensgrenzen, Unterstützung für mehrere Sprachen, automatische Quellenangaben und Moderationsoptionen für angemessene Inhalte.',
+          fr: 'Les assistants IA dans frag.jetzt fournissent des réponses instantanées aux questions dans vos salles éducatives. Ils peuvent être personnalisés avec des prompts spécifiques pour assurer des réponses précises et contextuelles centrées sur votre sujet. Les avantages clés comprennent la disponibilité 24/7 pour les questions des étudiants, des limites de connaissances personnalisables, le support pour plusieurs langues, la citation automatique des sources et des options de modération pour assurer un contenu approprié.',
         },
       },
     },

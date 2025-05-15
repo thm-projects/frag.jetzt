@@ -126,12 +126,8 @@
                     "
                     loading="lazy" />
                 </div>
-                <div class="explanation-text-container">
-                  <div
-                    class="explanation-text"
-                    [innerHTML]="
-                      tile.content.screenshotText.text[language()]
-                    "></div>
+                <div class="screenshot-text">
+                  {{ tile.content.screenshotText.text[language()] }}
                 </div>
               </div>
             } @else {
@@ -206,12 +202,8 @@
                       "
                       loading="lazy" />
                   </div>
-                  <div class="explanation-text-container">
-                    <div
-                      class="explanation-text"
-                      [innerHTML]="
-                        tile.content.screenshotText.text[language()]
-                      "></div>
+                  <div class="screenshot-text">
+                    {{ tile.content.screenshotText.text[language()] }}
                   </div>
                 </div>
               }
