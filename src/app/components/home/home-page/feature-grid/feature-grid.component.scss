@@ -584,3 +584,27 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
     color: CanvasText;
   }
 }
+
+/* ------------------------------------------
+ * SCREENSHOT IMAGE CLICKABLE STYLES
+ * ------------------------------------------ */
+.screenshot-image.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* ------------------------------------------
+ * IMAGE VIEWER DIALOG STYLES
+ * ------------------------------------------ */
+.image-viewer-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--mat-sys-surface, white);
+  }
+}

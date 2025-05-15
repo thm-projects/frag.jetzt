@@ -26,6 +26,8 @@ import {
 import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
 import { YoutubeEmbedComponent } from '../youtube-embed/youtube-embed.component';
 import { environment } from '../../../../../environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageViewerModalComponent } from '../image-viewer-modal/image-viewer-modal.component';
 
 /**
  * Component that displays features in an interactive grid with flip cards
@@ -315,6 +317,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
   constructor(
     protected self: HomePageService,
     private readonly elementRef: ElementRef,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -681,6 +684,30 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
       if (!this.isLargeCard(index)) {
         container.classList.add('small-card');
       }
+    });
+  }
+
+  /**
+   * Opens the image viewer dialog
+   * @param imageUrl The URL of the image to display
+   * @param altText The alt text for the image
+   * @param event The event triggering the action
+   */
+  openImageViewer(imageUrl: string, altText: string, event: Event): void {
+    // Stop event propagation to prevent card flipping
+    event.stopPropagation();
+
+    // Open dialog with the image at maximum size
+    this.dialog.open(ImageViewerModalComponent, {
+      panelClass: 'image-viewer-dialog-fullscreen',
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: { imageUrl, altText },
+      position: { top: '0', left: '0' },
+      backdropClass: 'dark-backdrop',
+      autoFocus: false,
     });
   }
 }

@@ -495,6 +495,37 @@ describe('FeatureGridComponent - Screenshot Text Feature', () => {
     expect(image.nativeElement.alt).toEqual(expectedAlt);
   });
 
+  it('should open image viewer modal when clicking on screenshot', () => {
+    const cardIndex = findFirstCardWithScreenshotText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    // Spy on the dialog open method
+    const dialogOpenSpy = spyOn(component['dialog'], 'open').and.callThrough();
+
+    // Find and click the image
+    const image = fixture.debugElement.query(
+      By.css('.screenshot-container img'),
+    );
+    expect(image).toBeTruthy();
+    image.nativeElement.click();
+
+    // Verify dialog was opened with correct data
+    expect(dialogOpenSpy).toHaveBeenCalled();
+
+    // Type-safe way to verify dialog options without referencing ImageViewerModalComponent
+    const callArgs = dialogOpenSpy.calls.first().args;
+    const dialogConfig = callArgs[1] as { data?: any }; // Type assertion to avoid errors
+
+    // Check the image URL and alt text are passed correctly
+    expect(dialogConfig?.data?.imageUrl).toBe(
+      carousel.entries[cardIndex].content.screenshotText?.screenshot.url,
+    );
+    expect(dialogConfig?.data?.altText).toBe(
+      carousel.entries[cardIndex].content.screenshotText?.screenshot.alt.en,
+    );
+  });
+
   // Helper function to find the first card with screenshot text
   function findFirstCardWithScreenshotText(): number {
     for (let i = 0; i < carousel.entries.length; i++) {

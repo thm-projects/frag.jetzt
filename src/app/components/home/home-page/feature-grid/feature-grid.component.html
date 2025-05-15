@@ -119,11 +119,18 @@
               <div class="screenshot-text-container">
                 <div class="screenshot-container">
                   <img
-                    class="screenshot-image"
                     [src]="tile.content.screenshotText.screenshot.url"
                     [attr.alt]="
                       tile.content.screenshotText.screenshot.alt[language()]
                     "
+                    (click)="
+                      openImageViewer(
+                        tile.content.screenshotText.screenshot.url,
+                        tile.content.screenshotText.screenshot.alt[language()],
+                        $event
+                      )
+                    "
+                    class="screenshot-image clickable"
                     loading="lazy" />
                 </div>
                 <div class="screenshot-text">
@@ -195,11 +202,20 @@
                 <div class="screenshot-text-container">
                   <div class="screenshot-container">
                     <img
-                      class="screenshot-image"
                       [src]="tile.content.screenshotText.screenshot.url"
                       [attr.alt]="
                         tile.content.screenshotText.screenshot.alt[language()]
                       "
+                      (click)="
+                        openImageViewer(
+                          tile.content.screenshotText.screenshot.url,
+                          tile.content.screenshotText.screenshot.alt[
+                            language()
+                          ],
+                          $event
+                        )
+                      "
+                      class="screenshot-image clickable"
                       loading="lazy" />
                   </div>
                   <div class="screenshot-text">
