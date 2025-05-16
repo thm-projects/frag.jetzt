@@ -230,41 +230,105 @@ describe('ImageViewerModal Coverage Tests', () => {
 
   // Wheel zoom tests
   describe('Wheel Zoom', () => {
-    it('should zoom in on wheel up with ctrl key', () => {
+    it('should zoom in on wheel up when ctrlKey is pressed', () => {
+      component.zoomLevel = 1; // Ensure a known starting point
       const initialZoom = component.zoomLevel;
+      const zoomStep = component.zoomStep; // Assuming zoomStep is accessible for verification
       const wheelEvent = new WheelEvent('wheel', {
         deltaY: -100, // Scroll up
         ctrlKey: true,
+        bubbles: true,
+        cancelable: true,
+        clientX: 100, // Needed for adjustZoom
+        clientY: 100, // Needed for adjustZoom
       });
 
       component.handleZoom(wheelEvent);
 
-      expect(component.zoomLevel).toBeGreaterThan(initialZoom);
+      // Use toBeCloseTo for floating point comparisons
+      expect(component.zoomLevel).toBeCloseTo(initialZoom + zoomStep, 5);
     });
 
-    it('should zoom out on wheel down with ctrl key', () => {
-      component.zoomLevel = 2; // Start at zoomed level
+    it('should zoom out on wheel down when ctrlKey is pressed', () => {
+      component.zoomLevel = 1.5; // Start at a zoomed-in level
       const initialZoom = component.zoomLevel;
+      const zoomStep = component.zoomStep;
       const wheelEvent = new WheelEvent('wheel', {
         deltaY: 100, // Scroll down
         ctrlKey: true,
+        bubbles: true,
+        cancelable: true,
+        clientX: 100,
+        clientY: 100,
       });
 
       component.handleZoom(wheelEvent);
 
-      expect(component.zoomLevel).toBeLessThan(initialZoom);
+      expect(component.zoomLevel).toBeCloseTo(initialZoom - zoomStep, 5);
     });
 
-    it('should not zoom without ctrl key', () => {
+    it('should zoom in on wheel up WITHOUT ctrlKey', () => {
+      component.zoomLevel = 1; // Ensure a known starting point
       const initialZoom = component.zoomLevel;
+      const zoomStep = component.zoomStep;
       const wheelEvent = new WheelEvent('wheel', {
         deltaY: -100, // Scroll up
-        ctrlKey: false, // No ctrl key
+        ctrlKey: false, // Explicitly false, or simply omit
+        bubbles: true,
+        cancelable: true,
+        clientX: 100,
+        clientY: 100,
       });
 
       component.handleZoom(wheelEvent);
 
-      expect(component.zoomLevel).toBe(initialZoom);
+      // The component should now zoom
+      expect(component.zoomLevel).toBeCloseTo(initialZoom + zoomStep, 5);
+    });
+
+    it('should zoom out on wheel down WITHOUT ctrlKey', () => {
+      component.zoomLevel = 1.5; // Start at a zoomed-in level
+      const initialZoom = component.zoomLevel;
+      const zoomStep = component.zoomStep;
+      const wheelEvent = new WheelEvent('wheel', {
+        deltaY: 100, // Scroll down
+        ctrlKey: false, // Explicitly false, or simply omit
+        bubbles: true,
+        cancelable: true,
+        clientX: 100,
+        clientY: 100,
+      });
+
+      component.handleZoom(wheelEvent);
+
+      // The component should now zoom out
+      expect(component.zoomLevel).toBeCloseTo(initialZoom - zoomStep, 5);
+    });
+
+    it('should NOT pan with simple wheel event even if zoomed (if panning was removed from simple wheel)', () => {
+      component.zoomLevel = 2; // Zoomed in
+      component.translateX = 10;
+      component.translateY = 10;
+      const initialTranslateX = component.translateX;
+      const initialTranslateY = component.translateY;
+
+      const wheelEvent = new WheelEvent('wheel', {
+        deltaY: 50, // some scroll
+        // No ctrlKey, no shiftKey
+        bubbles: true,
+        cancelable: true,
+        clientX: 100,
+        clientY: 100,
+      });
+
+      component.handleZoom(wheelEvent); // This will now zoom further or less
+
+      expect(component.translateX).not.toBe(
+        initialTranslateX - wheelEvent.deltaX / component.zoomLevel,
+      ); // Example of old panning logic
+      expect(component.translateY).not.toBe(
+        initialTranslateY - wheelEvent.deltaY / component.zoomLevel,
+      ); // Example of old panning logic
     });
   });
 });

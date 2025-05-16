@@ -353,17 +353,13 @@ export class ImageViewerModalComponent implements AfterViewInit {
   handleZoom(event: WheelEvent) {
     event.preventDefault();
 
-    if (event.ctrlKey || event.metaKey) {
-      // Zoom with mouse wheel when Ctrl/Cmd is pressed
-      const delta = event.deltaY < 0 ? this.zoomStep : -this.zoomStep;
-      this.adjustZoom(this.zoomLevel + delta, event.clientX, event.clientY);
-    } else if (this.zoomLevel > 1) {
-      // Pan the image when zoomed in (using mouse wheel)
-      this.translateX -= event.deltaX / this.zoomLevel;
-      this.translateY -= event.deltaY / this.zoomLevel;
-      this.constrainTranslation();
-      this.updateDragPositionFromTranslate();
-    }
+    // Immer zoomen, unabhängig von Strg/Cmd
+    const delta = event.deltaY < 0 ? this.zoomStep : -this.zoomStep;
+    // clientX/clientY sind wichtig, damit der Zoom auf den Mauszeiger zentriert ist
+    this.adjustZoom(this.zoomLevel + delta, event.clientX, event.clientY);
+
+    // Die Panning-Logik mit dem Mausrad wäre hier entfernt oder müsste
+    // an eine andere Bedingung geknüpft werden, z.B. if (event.shiftKey && this.zoomLevel > 1)
   }
 
   handleTouchStart(event: TouchEvent) {
