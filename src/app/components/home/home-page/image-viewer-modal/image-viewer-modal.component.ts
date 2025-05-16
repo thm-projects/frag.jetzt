@@ -102,12 +102,14 @@ export interface ImageViewerData {
           />
         </div>
       </div>
-      <div class="zoom-indicator" *ngIf="zoomLevel !== 1">
-        {{ (zoomLevel * 100).toFixed(0) }}%
-      </div>
-      <div class="keyboard-hint">
-        Press <kbd>Esc</kbd> to close, <kbd>+</kbd>/<kbd>-</kbd> to zoom,
-        <kbd>R</kbd> to reset
+      <div class="bottom-controls">
+        <div class="zoom-indicator" *ngIf="zoomLevel !== 1">
+          {{ (zoomLevel * 100).toFixed(0) }}%
+        </div>
+        <div class="keyboard-hint">
+          Press <kbd>Esc</kbd> to close, <kbd>+</kbd>/<kbd>-</kbd> to zoom,
+          <kbd>R</kbd> to reset
+        </div>
       </div>
     </div>
   `,
@@ -129,13 +131,21 @@ export interface ImageViewerData {
 
       .image-viewer-header {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center; /* Changed from flex-end to center */
         padding: 8px;
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0; /* Added to ensure it spans width */
+        right: 0; /* Kept to ensure it spans width, explicit 'right' positioning removed */
         z-index: 10;
         gap: 8px;
+      }
+
+      /* Hide header controls on non-touch (fine pointer) devices */
+      @media (pointer: fine) {
+        .image-viewer-header {
+          display: none;
+        }
       }
 
       .image-viewer-header button {
@@ -146,6 +156,7 @@ export interface ImageViewerData {
         color: var(--mat-sys-on-surface, white);
         min-width: 48px; /* Larger touch target */
         min-height: 48px; /* Larger touch target */
+        opacity: 0.7; /* Added to make buttons less opaque */
       }
 
       .image-viewer-content {
@@ -182,10 +193,30 @@ export interface ImageViewerData {
         user-select: none;
       }
 
-      .zoom-indicator {
+      .bottom-controls {
         position: absolute;
         bottom: 16px;
-        left: 16px;
+        left: 24px; /* Symmetrical padding for the container */
+        right: 24px; /* Symmetrical padding for the container */
+        display: flex;
+        justify-content: center; /* Changed to center content */
+        align-items: center; /* Vertically align items if they have different heights */
+        gap: 16px; /* Optional: Adds space if both items are visible */
+        pointer-events: none; /* Allow clicks to pass through the container itself */
+      }
+
+      /* Hide bottom controls on touch-primary devices */
+      @media (pointer: coarse) {
+        .bottom-controls {
+          display: none;
+        }
+      }
+
+      .bottom-controls > * {
+        pointer-events: auto; /* Ensure children of bottom-controls can receive pointer events */
+      }
+
+      .zoom-indicator {
         background-color: var(
           --mat-sys-surface-container-highest,
           rgba(0, 0, 0, 0.6)
@@ -197,9 +228,6 @@ export interface ImageViewerData {
       }
 
       .keyboard-hint {
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
         background-color: var(
           --mat-sys-surface-container-highest,
           rgba(0, 0, 0, 0.6)
