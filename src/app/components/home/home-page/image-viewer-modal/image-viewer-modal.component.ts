@@ -102,7 +102,7 @@ export interface ImageViewerData {
           />
         </div>
       </div>
-      <div class="bottom-controls">
+      <div class="bottom-controls" (click)="$event.stopPropagation()">
         <div class="zoom-indicator" *ngIf="zoomLevel !== 1">
           {{ (zoomLevel * 100).toFixed(0) }}%
         </div>
@@ -120,6 +120,7 @@ export interface ImageViewerData {
         flex-direction: column;
         height: 100vh;
         width: 100vw;
+        max-width: 100%; /* Add this to prevent overflow if 100vw is too wide for parent */
         overflow: hidden;
         background-color: var(
           --mat-sys-surface-container-high,
@@ -127,6 +128,7 @@ export interface ImageViewerData {
         );
         position: relative;
         color: var(--mat-sys-on-surface, white);
+        box-sizing: border-box; /* Ensure padding/border are included in width/height */
       }
 
       .image-viewer-header {
@@ -165,8 +167,7 @@ export interface ImageViewerData {
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        width: 100vw;
-        height: 100vh;
+        width: 100%; /* Changed from 100vw to fill parent */
         cursor: default; /* Changed from zoom-in as drag will handle cursor */
       }
 
@@ -203,6 +204,7 @@ export interface ImageViewerData {
         align-items: center; /* Vertically align items if they have different heights */
         gap: 16px; /* Optional: Adds space if both items are visible */
         pointer-events: none; /* Allow clicks to pass through the container itself */
+        cursor: default; /* Added cursor style */
       }
 
       /* Hide bottom controls on touch-primary devices */
