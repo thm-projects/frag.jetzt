@@ -10,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { DragDropModule, CdkDragEnd } from '@angular/cdk/drag-drop';
 import {
   trigger,
   transition,
@@ -26,7 +27,7 @@ export interface ImageViewerData {
 @Component({
   selector: 'app-image-viewer-modal',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, DragDropModule],
   template: `
     <div
       class="image-viewer-container"
@@ -83,23 +84,23 @@ export interface ImageViewerData {
         (click)="$event.stopPropagation()"
         (dblclick)="toggleZoom($event)"
       >
-        <img
-          #imageElement
-          [src]="data.imageUrl"
-          [alt]="data.altText"
-          class="fullscreen-image"
-          [style.transform]="
-            'scale(' +
-            zoomLevel +
-            ') translate(' +
-            translateX +
-            'px, ' +
-            translateY +
-            'px)'
-          "
-          [@zoomAnimation]="zoomLevel === 1 ? 'normal' : 'zoomed'"
-          draggable="false"
-        />
+        <div
+          cdkDrag
+          class="image-drag-wrapper"
+          [cdkDragDisabled]="zoomLevel <= 1"
+          (cdkDragEnded)="onDragEnded($event)"
+          [cdkDragFreeDragPosition]="dragPosition"
+        >
+          <img
+            #imageElement
+            [src]="data.imageUrl"
+            [alt]="data.altText"
+            class="fullscreen-image"
+            [style.transform]="'scale(' + zoomLevel + ')'"
+            [@zoomAnimation]="zoomLevel === 1 ? 'normal' : 'zoomed'"
+            draggable="false"
+          />
+        </div>
       </div>
       <div class="zoom-indicator" *ngIf="zoomLevel !== 1">
         {{ (zoomLevel * 100).toFixed(0) }}%
@@ -155,10 +156,21 @@ export interface ImageViewerData {
         overflow: hidden;
         width: 100vw;
         height: 100vh;
-        cursor: zoom-in;
+        cursor: default; /* Changed from zoom-in as drag will handle cursor */
       }
 
       .image-viewer-content:active {
+        cursor: grabbing; /* Or cdkDrag will provide its own active cursor */
+      }
+
+      .image-drag-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+      }
+
+      .image-drag-wrapper.cdk-drag-dragging {
         cursor: grabbing;
       }
 
@@ -251,6 +263,7 @@ export class ImageViewerModalComponent implements AfterViewInit {
   zoomStep = 0.1;
   translateX = 0;
   translateY = 0;
+  dragPosition = { x: 0, y: 0 };
 
   // Touch handling variables
   private lastTouchX = 0;
@@ -270,6 +283,7 @@ export class ImageViewerModalComponent implements AfterViewInit {
 
     // Apply a fade-in animation when opening
     this.animationState = 'enter';
+    this.updateDragPositionFromTranslate();
   }
 
   ngAfterViewInit() {
@@ -314,23 +328,18 @@ export class ImageViewerModalComponent implements AfterViewInit {
       const delta = event.deltaY < 0 ? this.zoomStep : -this.zoomStep;
       this.adjustZoom(this.zoomLevel + delta, event.clientX, event.clientY);
     } else if (this.zoomLevel > 1) {
-      // Pan the image when zoomed in
+      // Pan the image when zoomed in (using mouse wheel)
       this.translateX -= event.deltaX / this.zoomLevel;
       this.translateY -= event.deltaY / this.zoomLevel;
       this.constrainTranslation();
+      this.updateDragPositionFromTranslate();
     }
   }
 
   handleTouchStart(event: TouchEvent) {
     event.preventDefault();
 
-    if (event.touches.length === 1) {
-      // Single touch for panning
-      this.touchStartX = event.touches[0].clientX;
-      this.touchStartY = event.touches[0].clientY;
-      this.lastTouchX = this.touchStartX;
-      this.lastTouchY = this.touchStartY;
-    } else if (event.touches.length === 2) {
+    if (event.touches.length === 2) {
       // Two fingers for pinch zoom
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
@@ -342,21 +351,7 @@ export class ImageViewerModalComponent implements AfterViewInit {
   handleTouchMove(event: TouchEvent) {
     event.preventDefault();
 
-    if (event.touches.length === 1 && this.zoomLevel > 1) {
-      // Pan with single finger when zoomed in
-      const touchX = event.touches[0].clientX;
-      const touchY = event.touches[0].clientY;
-
-      const deltaX = touchX - this.lastTouchX;
-      const deltaY = touchY - this.lastTouchY;
-
-      this.translateX += deltaX / this.zoomLevel;
-      this.translateY += deltaY / this.zoomLevel;
-
-      this.lastTouchX = touchX;
-      this.lastTouchY = touchY;
-      this.constrainTranslation();
-    } else if (event.touches.length === 2) {
+    if (event.touches.length === 2) {
       // Calculate distance between two fingers for pinch zoom
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
@@ -399,6 +394,7 @@ export class ImageViewerModalComponent implements AfterViewInit {
     this.zoomLevel = 1;
     this.translateX = 0;
     this.translateY = 0;
+    this.updateDragPositionFromTranslate();
   }
 
   toggleZoom(event: MouseEvent | null) {
@@ -465,6 +461,7 @@ export class ImageViewerModalComponent implements AfterViewInit {
     }
 
     this.constrainTranslation();
+    this.updateDragPositionFromTranslate();
   }
 
   constrainTranslation() {
@@ -500,6 +497,30 @@ export class ImageViewerModalComponent implements AfterViewInit {
         Math.min(maxTranslateY, this.translateY),
       );
     } else {
+      this.translateY = 0;
+    }
+  }
+
+  onDragEnded(event: CdkDragEnd): void {
+    this.dragPosition = event.source.getFreeDragPosition();
+    this.updateTranslateFromDragPosition();
+    this.constrainTranslation();
+    this.updateDragPositionFromTranslate();
+  }
+
+  private updateDragPositionFromTranslate(): void {
+    this.dragPosition = {
+      x: this.translateX * this.zoomLevel,
+      y: this.translateY * this.zoomLevel,
+    };
+  }
+
+  private updateTranslateFromDragPosition(): void {
+    if (this.zoomLevel !== 0) {
+      this.translateX = this.dragPosition.x / this.zoomLevel;
+      this.translateY = this.dragPosition.y / this.zoomLevel;
+    } else {
+      this.translateX = 0;
       this.translateY = 0;
     }
   }
