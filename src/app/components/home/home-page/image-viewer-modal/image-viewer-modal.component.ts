@@ -296,10 +296,10 @@ export class ImageViewerModalComponent implements AfterViewInit {
   dragPosition = { x: 0, y: 0 };
 
   // Touch handling variables
-  private lastTouchX = 0;
-  private lastTouchY = 0;
-  private touchStartX = 0;
-  private touchStartY = 0;
+  private readonly lastTouchX = 0;
+  private readonly lastTouchY = 0;
+  private readonly touchStartX = 0;
+  private readonly touchStartY = 0;
   private initialDistance = 0;
   private initialZoom = 1;
 
