@@ -368,11 +368,13 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Load images for visible cards
+   * Load images for visible cards (non-front card images only)
    */
   private loadCardImages(): void {
-    // Remove the unnecessary type assertion
-    const images = document.querySelectorAll('img[data-src]');
+    // Select only images with data-src that are not on the front of cards
+    const images = document.querySelectorAll(
+      '.card-back img[data-src], .screenshot-container img[data-src]',
+    );
 
     // Check type inside the loop instead
     images.forEach((img) => {
@@ -390,17 +392,19 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
       const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const img = entry.target;
-            if (img instanceof HTMLImageElement && img.dataset['src']) {
+            const img = entry.target as HTMLImageElement;
+            if (img.dataset['src']) {
               img.src = img.dataset['src'];
-              img.removeAttribute('data-src');
               imageObserver.unobserve(img);
             }
           }
         });
       });
 
-      const lazyImages = document.querySelectorAll('img[data-src]');
+      // Only observe images with data-src that are not on the front of cards
+      const lazyImages = document.querySelectorAll(
+        '.card-back img[data-src], .screenshot-container img[data-src]',
+      );
       lazyImages.forEach((img) => imageObserver.observe(img));
     } else {
       // Fallback for browsers without IntersectionObserver

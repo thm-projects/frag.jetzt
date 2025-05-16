@@ -73,8 +73,7 @@
             @if (tile.content.image?.url) {
               <img
                 mat-card-image
-                loading="lazy"
-                [attr.data-src]="tile.content.image.url"
+                [src]="tile.content.image.url"
                 [attr.alt]="
                   tile.content.image.alt
                     ? cleanAltText(
