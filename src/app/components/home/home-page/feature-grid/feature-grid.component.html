@@ -103,6 +103,14 @@
       <!-- Rückseite der Karte mit dynamischem Inhalt -->
       <div class="card-face card-back">
         <mat-card>
+          <button
+            mat-icon-button
+            class="close-card-button"
+            [attr.aria-label]="'Close card ' + tile.content.title[language()]"
+            (click)="toggleCard(index); $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+          </button>
+
           <div class="card-background-image">
             <img
               src="assets/background/chat_bot_green.svg"
@@ -328,5 +336,32 @@
     line-height: 1.5;
     font-size: 0.9em;
     color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.8));
+  }
+
+  /* NEUE STILE FÜR UX-VERBESSERUNGEN */
+
+  /* UX 3: "Schließen"-Button auf der Kartenrückseite */
+  .close-card-button {
+    position: absolute;
+    top: 8px; /* Abstand vom oberen Rand */
+    right: 8px; /* Abstand vom rechten Rand */
+    z-index: 20; /* Über anderem Inhalt der Rückseite */
+    background-color: rgba(var(--mat-sys-surface-rgb, 255, 255, 255), 0.3);
+    border-radius: 50%;
+    width: 36px; /* Feste Größe für den Button */
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .close-card-button mat-icon {
+    color: var(--mat-sys-on-surface, black);
+    font-size: 20px; /* Kleinere Icon-Größe */
+    width: 20px;
+    height: 20px;
+  }
+  .close-card-button:hover {
+    background-color: rgba(var(--mat-sys-surface-rgb, 255, 255, 255), 0.5);
   }
 </style>

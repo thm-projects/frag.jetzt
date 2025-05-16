@@ -153,6 +153,15 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
    * @param index The current card index
    */
   protected handleKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleCard(index);
+    } else if (event.key === 'Escape' && this.isCardFlipped(index)) {
+      // Ensure the card is flipped
+      event.preventDefault();
+      this.toggleCard(index); // Close the card
+    }
+
     const totalCards = this.carousel.entries.length;
 
     // Handle Tab key for cyclic navigation
@@ -170,13 +179,6 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
       }
       // Allow normal tabbing otherwise
       return;
-    }
-
-    // Enter or Space flips the card
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.toggleCard(index);
-      return; // Early return to avoid further processing
     }
 
     // Handle scrolling in screenshot-text content
