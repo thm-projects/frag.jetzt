@@ -115,7 +115,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       screenshotText: {
         screenshot: {
-          url: '/assets/background/teaching.svg',
+          url: '/assets/background/all-inclusive.svg',
           alt: {
             en: 'Teaching with AI illustration',
             de: 'Illustration zum Lehren mit KI',
