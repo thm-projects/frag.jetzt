@@ -1,9 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageViewerModalComponent } from './image-viewer-modal.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,7 +32,6 @@ describe('ImageViewerModal Coverage Tests', () => {
 
     fixture = TestBed.createComponent(ImageViewerModalComponent);
     component = fixture.componentInstance;
-    nativeElement = fixture.nativeElement;
 
     // Mock image element with detailed properties
     const mockImgElement = document.createElement('img');
@@ -215,8 +209,6 @@ describe('ImageViewerModal Coverage Tests', () => {
   // Additional touch edge cases
   describe('Touch Event Edge Cases', () => {
     it('should handle touchend correctly', () => {
-      const touchEndEvent = new Event('touchend');
-
       component.handleTouchEnd();
 
       // No errors should be thrown
