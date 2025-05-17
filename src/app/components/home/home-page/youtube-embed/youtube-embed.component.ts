@@ -44,7 +44,7 @@ import { DomSanitizer } from '@angular/platform-browser';
             class="consent-button themed-button"
             (click)="consentGiven = true"
           >
-            VIEW
+            View
           </button>
         </div>
       </div>
@@ -81,7 +81,7 @@ import { DomSanitizer } from '@angular/platform-browser';
             class="consent-button themed-button small-button"
             (click)="smallCardConsentGiven = true"
           >
-            VIEW
+            View
           </button>
         </div>
       </div>
