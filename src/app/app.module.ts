@@ -241,6 +241,10 @@ export class AppModule {
         ),
       )
       .addSvgIcon(
+        'fj_bot',
+        domSanitizer.bypassSecurityTrustResourceUrl('assets/images/fj_bot.svg'),
+      )
+      .addSvgIcon(
         'fj_beamer',
         domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/beamer.svg'),
       )

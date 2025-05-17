@@ -191,6 +191,27 @@ button.card-container {
 .card-back {
   transform: rotateY(180deg);
   background-color: transparent;
+
+  .card-background-image {
+    position: absolute;
+    top: 0;
+    right: 40px;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    opacity: 1; // Behält die Transparenz für den gesamten Icon-Container bei
+    pointer-events: none;
+    z-index: 0;
+
+    img,
+    mat-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top right;
+      color: var(--mat-sys-secondary); // Geändert zu Primärfarbe des Themes
+    }
+  }
 }
 
 .card-background-image {

@@ -97,7 +97,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       // `image`: Image for the card's front. Here, an SVG icon is used.
       image: {
-        svgIcon: 'fj_robot',
+        svgIcon: 'fj_bot',
       },
       // `screenshotText`: Optional. Defines content for a "flipped" or detail view,
       // typically showing a screenshot alongside scrollable text.
@@ -327,7 +327,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Stimule l'engagement et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
       },
       image: {
-        url: '/assets/background/bonus.svg',
+        url: '/assets/background/traffic-light.svg',
       },
       youtube: {
         videoId: 'naQOIBMhNr0',
