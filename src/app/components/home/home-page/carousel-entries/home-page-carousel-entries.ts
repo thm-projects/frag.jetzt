@@ -1,32 +1,61 @@
 /**
- * HOME PAGE CAROUSEL ENTRIES
+ * HOME PAGE CAROUSEL ENTRIES - THE SINGLE SOURCE OF TRUTH FOR CARD CONTENT
  *
- * This file defines all content cards displayed on the application home page.
- * Each entry represents a feature or aspect of the platform.
+ * This file defines all content cards displayed on the application's home page carousel.
+ * Each object in the `homePageCarouselEntries` array represents one card.
  *
- * STRUCTURE:
- * - content: Holds multilingual text and media for the card
- * - window: Defines responsive layout behavior across different screen sizes
+ * DATA FLOW:
+ * 1. Card Data Definition (This File):
+ *    - Each card's visual elements (title, description, image, YouTube video, screenshot text)
+ *      and its responsive layout behavior (`window` property) are defined here.
+ *    - The structure of each card must conform to the `HomePageCarouselEntry` interface.
  *
- * FORMATTING NOTES:
- * For text with apostrophes (e.g., "don't", "it's"), use one of these approaches:
- * - Template literals: `This doesn't cause errors`
- * - Double quotes: "This doesn't cause errors"
- * - Escaped apostrophes: 'This doesn\'t cause errors'
+ * 2. Data Import and Structuring (`../home-page-carousel.ts`):
+ *    - The `homePageCarouselEntries` array from this file is imported by `../home-page-carousel.ts`.
+ *    - That file then maps these entries into the `carousel.entries` array. This `carousel` object
+ *      also includes global carousel layout settings (e.g., number of columns for the grid).
+ *    - `../home-page-carousel.ts` directly uses the `content` objects defined here without modification.
+ *
+ * 3. Rendering by Angular Component (`../feature-grid/feature-grid.component.ts`):
+ *    - The `FeatureGridComponent` consumes the `carousel` object (from `../home-page-carousel.ts`).
+ *    - It iterates over `carousel.entries` and uses the data (title, description, media,
+ *      colspan/rowspan) to render each card in its HTML template.
+ *
+ * STRUCTURE OF EACH ENTRY (`HomePageCarouselEntry`):
+ * - `content`: An object holding all multilingual text (title, description, summary) and
+ *              media (image, YouTube video, screenshot with text). This is the core
+ *              visual information for the card.
+ * - `window`:  An object defining the card's responsive layout behavior. It specifies
+ *              how many columns (`colspan`) and rows (`rowspan`) each card occupies
+ *              within the grid layout at different screen sizes (`M3WindowSizeClass`).
+ *
+ * FORMATTING NOTES FOR TEXT:
+ * - For text containing apostrophes (e.g., "don't", "it's"), use:
+ *   - Template literals: `This doesn't cause errors`
+ *   - Double quotes: "This doesn't cause errors"
+ *   - Escaped apostrophes: 'This doesn\'t cause errors'
  *
  * IMAGE TYPES:
- * - Front side: Can use either {url: '/path/to/image'} or {svgIcon: 'icon_name'}
- * - Back side (screenshot): Must use {url: '/path/to/image'} format
+ * - Card Front Side (`content.image`):
+ *   - Can use either `{ url: '/path/to/image.png' }` for standard images.
+ *   - Or `{ svgIcon: 'icon_name' }` to use an SVG icon registered with MatIconRegistry.
+ * - Card Back Side / Detail View (`content.screenshotText.screenshot.url`):
+ *   - Must use the `{ url: '/path/to/image.png' }` format.
  *
- * TEXT LENGTH:
- * - Keep descriptions under 500 characters per language for optimal display
- * - HTML formatting is supported in scrollable text sections
+ * TEXT LENGTH RECOMMENDATIONS:
+ * - `content.description`: Keep under 500 characters per language for optimal display
+ *   on the card's front side.
+ * - `content.screenshotText.text`: This text is scrollable, so length is less critical.
+ *   HTML formatting is supported here.
+ * - `content.youtube.summary`: Keep concise for display alongside the video.
  */
 
-import { HomePageCarouselEntry } from '../home-page-carousel';
-import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types';
+import { HomePageCarouselEntry } from '../home-page-carousel'; // Interface defining the structure for each card entry
+import { M3WindowSizeClass } from '../../../../../modules/m3/components/navigation/m3-navigation-types'; // Enum for screen size classifications
 
-// Reusable window size configuration for standard 1x1 cards
+// Reusable window size configuration for standard 1x1 cards.
+// This defines that the card will take 1 column and 1 row
+// across various screen sizes (Expanded, Large, ExtraLarge, UltraLarge).
 const _1x1windowSize: HomePageCarouselEntry['window'] = {
   [M3WindowSizeClass.Expanded]: {
     colspan: 1,
@@ -46,43 +75,59 @@ const _1x1windowSize: HomePageCarouselEntry['window'] = {
   },
 };
 
+// The main array holding all card definitions.
+// Each object in this array will be rendered as a card in the carousel
+// by the FeatureGridComponent.
 export const homePageCarouselEntries: HomePageCarouselEntry[] = [
-  // Q&A Rooms & AI Assistants
+  // Card 1: Q&A Rooms & AI Assistants
   {
+    // `content` object: Contains all visual and textual information for this card.
     content: {
+      // `title`: Multilingual title of the card.
       title: {
         en: 'Q&A Rooms & AI Assistants',
         de: 'Q&A-Räume & KI-Assistenten',
         fr: 'Salles Q&R & Assistants IA',
       },
+      // `description`: Multilingual description displayed on the card's front.
       description: {
         en: 'The AI assistants in frag.jetzt provide instant answers to questions in your educational rooms. They can be customized with specific prompts to ensure accurate and contextual responses focused on your topic. Key benefits include 24/7 availability for student questions, customizable knowledge boundaries, support for multiple languages, automatic citation of sources, and moderation options to ensure appropriate content.',
         de: 'Die KI-Assistenten in frag.jetzt liefern sofortige Antworten auf Fragen in deinen Lernräumen. Sie können mit spezifischen Prompts angepasst werden, um genaue und kontextbezogene Antworten zu deinem Thema zu gewährleisten. Hauptvorteile sind 24/7 Verfügbarkeit für Studentenfragen, anpassbare Wissensgrenzen, Unterstützung für mehrere Sprachen, automatische Quellenangaben und Moderationsoptionen für angemessene Inhalte.',
         fr: 'Les assistants IA dans frag.jetzt fournissent des réponses instantanées aux questions dans vos salles éducatives. Ils peuvent être personnalisés avec des prompts spécifiques pour assurer des réponses précises et contextuelles centrées sur votre sujet. Les avantages clés comprennent la disponibilité 24/7 pour les questions des étudiants, des limites de connaissances personnalisables, le support pour plusieurs langues, la citation automatique des sources et des options de modération pour assurer un contenu approprié.',
       },
+      // `image`: Image for the card's front. Here, an SVG icon is used.
       image: {
         svgIcon: 'fj_robot',
       },
+      // `screenshotText`: Optional. Defines content for a "flipped" or detail view,
+      // typically showing a screenshot alongside scrollable text.
       screenshotText: {
         screenshot: {
-          url: '/assets/images/Use_Case_Diagram.svg', // Must use URL for screenshot image
+          url: '/assets/images/Use_Case_Diagram.svg', // URL for the screenshot image.
           alt: {
+            // Alt text for the screenshot, for accessibility.
             en: 'AI assistant robot icon',
             de: 'KI-Assistenten Roboter-Symbol',
             fr: 'Icône de robot assistant IA',
           },
         },
         text: {
+          // Multilingual text to accompany the screenshot. Can include HTML.
           en: 'The AI assistants in frag.jetzt provide instant answers to questions in your educational rooms. They can be customized with specific prompts to ensure accurate and contextual responses focused on your topic. Key benefits include 24/7 availability for student questions, customizable knowledge boundaries, support for multiple languages, automatic citation of sources, and moderation options to ensure appropriate content.',
           de: 'Die KI-Assistenten in frag.jetzt liefern sofortige Antworten auf Fragen in deinen Lernräumen. Sie können mit spezifischen Prompts angepasst werden, um genaue und kontextbezogene Antworten zu deinem Thema zu gewährleisten. Hauptvorteile sind 24/7 Verfügbarkeit für Studentenfragen, anpassbare Wissensgrenzen, Unterstützung für mehrere Sprachen, automatische Quellenangaben und Moderationsoptionen für angemessene Inhalte.',
           fr: 'Les assistants IA dans frag.jetzt fournissent des réponses instantanées aux questions dans vos salles éducatives. Ils peuvent être personnalisés avec des prompts spécifiques pour assurer des réponses précises et contextuelles centrées sur votre sujet. Les avantages clés comprennent la disponibilité 24/7 pour les questions des étudiants, des limites de connaissances personnalisables, le support pour plusieurs langues, la citation automatique des sources et des options de modération pour assurer un contenu approprié.',
         },
       },
+      // `youtube`: Optional. If present, defines a YouTube video associated with the card,
+      // often shown on the "back" or in a detail view.
     },
+    // `window` object: Defines how this card spans columns and rows in the grid
+    // for different screen sizes.
     window: {
       [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
+        // Screen size: Expanded
+        colspan: 1, // Takes 1 grid column
+        rowspan: 1, // Takes 1 grid row
       },
       [M3WindowSizeClass.Large]: {
         colspan: 1,
@@ -98,6 +143,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
     },
   },
+  // Card 2: Teach with AI
   {
     content: {
       title: {
@@ -111,7 +157,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         fr: "Transformez votre enseignement avec l'IA: Générez des résumés de matériaux éducatifs. Extrayez objectifs d'apprentissage et termes techniques. Créez exercices et questions d'examen à partir de diapositives. Évaluez les travaux avec feedback détaillé. Offrez assistance 24/7 aux étudiants. L'IA fonctionne comme assistant, gérant les tâches routinières pour vous permettre de vous concentrer sur les interactions.",
       },
       image: {
-        url: '/assets/background/teaching.svg',
+        url: '/assets/background/teaching.svg', // Standard image URL for the card front.
       },
       screenshotText: {
         screenshot: {
@@ -129,8 +175,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: _1x1windowSize,
+    window: _1x1windowSize, // Uses the reusable 1x1 window configuration.
   },
+  // Card 3: AI Assistants (Research Study)
   {
     content: {
       title: {
@@ -162,6 +209,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
+    // This card has a custom window configuration, making it larger on bigger screens.
     window: {
       [M3WindowSizeClass.Expanded]: {
         colspan: 1,
@@ -172,15 +220,18 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         rowspan: 1,
       },
       [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 2,
-        rowspan: 2,
+        // On ExtraLarge screens...
+        colspan: 2, // ...it takes 2 columns.
+        rowspan: 2, // ...and 2 rows, making it a 2x2 card.
       },
       [M3WindowSizeClass.UltraLarge]: {
-        colspan: 2,
-        rowspan: 2,
+        // On UltraLarge screens...
+        colspan: 2, // ...it also takes 2 columns.
+        rowspan: 2, // ...and 2 rows.
       },
     },
   },
+  // Card 4: Learn with AI
   {
     content: {
       title: {
@@ -196,30 +247,15 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/learning.svg',
       },
+      // This card features a YouTube video.
       youtube: {
-        videoId: 'azjV4WslLZ4',
-        title: 'Solving the heat equation | DE4',
+        videoId: 'azjV4WslLZ4', // The ID of the YouTube video.
+        title: 'Solving the heat equation | DE4', // Optional title for the video.
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 5: Write with AI
   {
     content: {
       title: {
@@ -246,25 +282,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 6: Pre-Prompting & Role-playing
   {
     content: {
       title: {
@@ -291,25 +311,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 7: Good Questions
   {
     content: {
       title: {
@@ -338,6 +342,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 8: Moderation
   {
     content: {
       title: {
@@ -366,6 +371,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 9: Categories
   {
     content: {
       title: {
@@ -392,25 +398,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 10: Mail Service
   {
     content: {
       title: {
@@ -437,25 +427,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 11: Peer Instruction
   {
     content: {
       title: {
@@ -484,6 +458,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 12: Quiz Rally
   {
     content: {
       title: {
@@ -510,25 +485,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 13: Flash Polls
   {
     content: {
       title: {
@@ -545,25 +504,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/feedback.webp',
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 14: Brainstorming
   {
     content: {
       title: {
@@ -582,6 +525,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 15: Question Focus
   {
     content: {
       title: {
@@ -600,6 +544,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 16: Question Radar
   {
     content: {
       title: {
@@ -626,25 +571,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         },
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 17: Navigation
   {
     content: {
       title: {
@@ -663,6 +592,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 18: Test frag.jetzt!
   {
     content: {
       title: {
@@ -681,6 +611,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 19: Price?
   {
     content: {
       title: {
@@ -697,25 +628,9 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/dollars.svg',
       },
     },
-    window: {
-      [M3WindowSizeClass.Expanded]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.Large]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.ExtraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-      [M3WindowSizeClass.UltraLarge]: {
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
+    window: _1x1windowSize,
   },
+  // Card 20: All inclusive
   {
     content: {
       title: {
@@ -734,6 +649,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 21: GDPR
   {
     content: {
       title: {
@@ -752,6 +668,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 22: Start Now!
   {
     content: {
       title: {
