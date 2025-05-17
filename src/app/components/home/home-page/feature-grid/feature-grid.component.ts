@@ -625,7 +625,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Gets the summary text (fallback to English)
+   * Gets the summary text for the current language (fallback to English)
    * @param index The card index
    * @returns The summary text
    */
@@ -637,20 +637,22 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
 
     const summary = entry.content.youtube.summary;
 
-    // For string format
+    // For string format (should ideally not happen if multilingual)
     if (typeof summary === 'string') {
       return summary;
     }
 
-    // Always use English as fallback
-    return summary['en'] || '';
+    // Get current language from the language utility
+    const currentLang = this.language(); // e.g., 'de', 'en', 'fr'
+    return summary[currentLang] || summary['en'] || ''; // Fallback to current lang, then 'en'
   }
 
   /**
-   * Returns language attribute for summary (always English for now)
+   * Returns language attribute for summary based on the current application language
    */
-  protected getSummaryLanguage(index: number): string {
-    return 'en';
+  protected getSummaryLanguage(): string {
+    // Return the current language, fallback to 'en' if undefined
+    return this.language() || 'en';
   }
 
   /**

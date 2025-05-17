@@ -176,7 +176,9 @@
                         <h4 class="video-summary-title">
                           {{ videoSummaryTitle[language()] }}
                         </h4>
-                        <p lang="en">{{ getSummaryForLanguage(index) }}</p>
+                        <p [attr.lang]="getSummaryLanguage()">
+                          {{ getSummaryForLanguage(index) }}
+                        </p>
                       </div>
                     }
                   </div>
