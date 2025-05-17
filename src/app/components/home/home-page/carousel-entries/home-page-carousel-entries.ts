@@ -65,7 +65,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       screenshotText: {
         screenshot: {
-          url: '/assets/icons/Chatbot.png', // Must use URL for screenshot image
+          url: '/assets/images/Use_Case_Diagram.svg', // Must use URL for screenshot image
           alt: {
             en: 'AI assistant robot icon',
             de: 'KI-Assistenten Roboter-Symbol',
@@ -115,7 +115,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       screenshotText: {
         screenshot: {
-          url: '/assets/background/all-inclusive.svg',
+          url: '/assets/images/Domain_Diagram.svg',
           alt: {
             en: 'Teaching with AI illustration',
             de: 'Illustration zum Lehren mit KI',
@@ -148,7 +148,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       screenshotText: {
         screenshot: {
-          url: '/assets/background/KI-Chatbot-MNI-1024.webp',
+          url: '/assets/images/frag.jetzt_startpage_wide.png',
           alt: {
             en: 'AI Chatbot interface',
             de: 'KI-Chatbot Oberfläche',
@@ -197,14 +197,8 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/learning.svg',
       },
       youtube: {
-        videoId: 'ToIXSwZ1pJU',
+        videoId: 'azjV4WslLZ4',
         title: 'Solving the heat equation | DE4',
-        startAt: 0,
-        summary: {
-          en: 'This fascinating video explores how to solve the heat equation - a fundamental partial differential equation in physics. Grant Sanderson brilliantly visualizes how heat diffuses through materials with beautiful animations that make complex mathematics accessible.',
-          de: 'Dieses faszinierende Video erklärt, wie man die Wärmeleitungsgleichung löst - eine grundlegende partielle Differentialgleichung der Physik. Grant Sanderson visualisiert brillant, wie sich Wärme durch Materialien ausbreitet, mit wunderschönen Animationen, die komplexe Mathematik zugänglich machen.',
-          fr: "Cette vidéo fascinante explore comment résoudre l'équation de la chaleur - une équation aux dérivées partielles fondamentale en physique. Grant Sanderson visualise brillamment comment la chaleur se diffuse à travers les matériaux avec de belles animations qui rendent les mathématiques complexes accessibles.",
-        },
       },
     },
     window: {
@@ -242,28 +236,13 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/keyboard.webp',
       },
       youtube: {
-        videoId: 'MvyKQkQ4Ht0',
-        title: "Divergence and curl: Maxwell's equations | DE5",
+        videoId: 'azjV4WslLZ4',
+        title: 'Guidde',
         startAt: 0,
         summary: {
           en: "This video elegantly introduces the concepts of divergence and curl, essential for understanding electromagnetic fields and fluid dynamics. Through stunning visual explanations, Grant Sanderson reveals how these mathematical operations describe the physical world in Maxwell's equations.",
           de: 'Dieses Video führt elegant in die Konzepte der Divergenz und Rotation ein, die für das Verständnis elektromagnetischer Felder und Fluiddynamik unerlässlich sind. Durch atemberaubende visuelle Erklärungen zeigt Grant Sanderson, wie diese mathematischen Operationen die physikalische Welt in Maxwells Gleichungen beschreiben.',
           fr: 'Cette vidéo présente élégamment les concepts de divergence et de rotationnel, essentiels pour comprendre les champs électromagnétiques et la dynamique des fluides. À travers des explications visuelles époustouflantes, Grant Sanderson révèle comment ces opérations mathématiques décrivent le monde physique dans les équations de Maxwell.',
-        },
-      },
-      screenshotText: {
-        screenshot: {
-          url: '/assets/background/keyboard.webp',
-          alt: {
-            en: 'Keyboard and writing tools',
-            de: 'Tastatur und Schreibwerkzeuge',
-            fr: "Clavier et outils d'écriture",
-          },
-        },
-        text: {
-          en: "The AI assistant helps you to overcome your writer's block. It supports you in formulating your thoughts, creates outlines and revises your texts. Since program code is basically just text, the chatbot can generate code, find errors or explain code. So use the AI whenever you need a writing aid.",
-          de: 'Der KI-Assistent hilft dir, deine Schreibblockade zu überwinden. Er unterstützt dich bei der Formulierung deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Da Programmcode im Grunde nur Text ist, kann der Chatbot Code generieren, Fehler finden oder Code erklären. Nutze also die KI, wann immer du eine Schreibhilfe brauchst.',
-          fr: "L'assistant IA t'aide à surmonter ton syndrome de la page blanche. Il te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Comme le code du programme n'est à la base que du texte, le chatbot peut générer du code, trouver des erreurs ou expliquer du code. Utilise donc l'IA chaque fois que tu as besoin d'une aide à la rédaction.",
         },
       },
     },
@@ -302,7 +281,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
         url: '/assets/background/prompting.svg',
       },
       youtube: {
-        videoId: 'qcBcWXihh7s',
+        videoId: 'azjV4WslLZ4&t',
         title: "What they won't teach you in calculus | DE6",
         startAt: 0,
         summary: {
@@ -787,39 +766,6 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       image: {
         url: '/assets/background/rocket.svg',
-      },
-    },
-    window: _1x1windowSize,
-  },
-  {
-    content: {
-      title: {
-        en: 'Feature Demo',
-        de: 'Feature-Demo',
-        fr: 'Démo de fonctionnalité',
-      },
-      description: {
-        en: 'This card demonstrates the screenshot with scrollable text feature',
-        de: 'Diese Karte demonstriert die Screenshot mit scrollbarem Text-Funktion',
-        fr: "Cette carte démontre la fonctionnalité de capture d'écran avec texte défilant",
-      },
-      image: {
-        url: '/assets/background/feature-demo.svg',
-      },
-      screenshotText: {
-        screenshot: {
-          url: '/assets/screenshots/feature-demo.png',
-          alt: {
-            en: 'Feature demonstration screenshot',
-            de: 'Feature-Demonstrations-Screenshot',
-            fr: "Capture d'écran de démonstration de fonctionnalité",
-          },
-        },
-        text: {
-          en: '<p>This is a demonstration of the screenshot with scrollable text feature. You can include detailed explanations here that will be shown in a scrollable container below the screenshot.</p><p>Use arrow keys (up/down) to scroll through longer content.</p><p>HTML formatting is supported, so you can include <strong>bold text</strong>, <em>italics</em>, and other formatting.</p>',
-          de: '<p>Dies ist eine Demonstration der Screenshot-Funktion mit scrollbarem Text. Hier können Sie detaillierte Erklärungen einfügen, die in einem scrollbaren Container unter dem Screenshot angezeigt werden.</p><p>Verwenden Sie die Pfeiltasten (auf/ab), um durch längere Inhalte zu scrollen.</p><p>HTML-Formatierung wird unterstützt, sodass Sie <strong>fetten Text</strong>, <em>Kursivschrift</em> und andere Formatierungen einfügen können.</p>',
-          fr: "<p>Ceci est une démonstration de la fonction de capture d'écran avec texte défilant. Vous pouvez inclure des explications détaillées ici qui seront affichées dans un conteneur défilant sous la capture d'écran.</p><p>Utilisez les touches fléchées (haut/bas) pour faire défiler les contenus plus longs.</p><p>Le formatage HTML est pris en charge, vous pouvez donc inclure du <strong>texte en gras</strong>, des <em>italiques</em> et d'autres formatages.</p>",
-        },
       },
     },
     window: _1x1windowSize,
