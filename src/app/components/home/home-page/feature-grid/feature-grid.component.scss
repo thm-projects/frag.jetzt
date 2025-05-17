@@ -199,7 +199,7 @@ button.card-container {
     width: 80px;
     height: 80px;
     overflow: hidden;
-    opacity: 1; // Behält die Transparenz für den gesamten Icon-Container bei
+    opacity: 1;
     pointer-events: none;
     z-index: 0;
 
@@ -209,7 +209,7 @@ button.card-container {
       height: 100%;
       object-fit: contain;
       object-position: top right;
-      color: var(--mat-sys-secondary); // Geändert zu Primärfarbe des Themes
+      color: var(--mat-sys-secondary);
     }
   }
 }
