@@ -11,26 +11,53 @@ export class PwaService {
   public installPromptAvailable$ = new BehaviorSubject<boolean>(false);
   private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent> | null =
     null;
+  private readonly PROMPT_SHOWN_KEY = 'fj-pwa-prompt-shown';
+  private readonly LAST_PROMPT_TIME_KEY = 'fj-pwa-last-prompt-time';
+  private readonly PROMPT_DELAY_MS = 30 * 60 * 1000; // 30 minutes
 
-  constructor(private snackBar: MatSnackBar) {
-    // Listen to the 'beforeinstallprompt' event
+  constructor(private readonly snackBar: MatSnackBar) {
     window.addEventListener('beforeinstallprompt', (e: Event) => {
-      e.preventDefault(); // Prevent the default mini-infobar
-      this.deferredPrompt = e; // Save the event for later use
+      e.preventDefault();
+      this.deferredPrompt = e;
 
-      // Check if app is already installed
-      if (!this.isAppInstalled()) {
-        this.installPromptAvailable$.next(true); // Notify listeners
+      if (!this.isAppInstalled() && this.shouldShowInstallPrompt()) {
+        this.installPromptAvailable$.next(true);
         this.showInstallSnackbar();
       }
     });
   }
 
   /**
-   * Checks if the app is already installed.
+   * Checks if the PWA installation prompt should be shown
+   */
+  private shouldShowInstallPrompt(): boolean {
+    if (localStorage.getItem('pwa-install-dismissed') === 'true') {
+      return false;
+    }
+
+    const lastPromptTime = localStorage.getItem(this.LAST_PROMPT_TIME_KEY);
+    if (lastPromptTime) {
+      const timeSinceLastPrompt = Date.now() - Number(lastPromptTime);
+      if (timeSinceLastPrompt < this.PROMPT_DELAY_MS) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Resets the installation prompt preferences
+   */
+  resetInstallPrompt() {
+    localStorage.removeItem(this.LAST_PROMPT_TIME_KEY);
+    localStorage.removeItem('pwa-install-dismissed');
+  }
+
+  /**
+   * Checks if the app is already installed
    */
   private isAppInstalled(): boolean {
-    // Check for standalone mode using display-mode or navigator.standalone
     const isStandalone = window.matchMedia(
       '(display-mode: standalone)',
     ).matches;
@@ -39,19 +66,17 @@ export class PwaService {
   }
 
   /**
-   * Displays the snackbar with installation options.
+   * Displays the installation snackbar
    */
   private showInstallSnackbar() {
-    // Dont open a new snackbar if it was dismissed
     if (!this.installPromptAvailable$.value) {
       return;
     }
-    // Only one snackbar can be opened
+
     if (this.snackBarRef) {
       return;
     }
 
-    // Open the install Snackbar
     this.snackBarRef = this.snackBar.openFromComponent(
       PwaInstallSnackbarComponent,
       {
@@ -59,10 +84,8 @@ export class PwaService {
       },
     );
 
-    // Reset manual dismissal state if replaced by another Snackbar
     this.snackBarRef.afterDismissed().subscribe(() => {
       this.snackBarRef = null;
-      // Check if snackbar can be reopened
       if (this.installPromptAvailable$.value) {
         this.showInstallSnackbar();
       }
@@ -70,23 +93,29 @@ export class PwaService {
   }
 
   /**
-   * Dismisses the snackbar when button is pressed.
+   * Dismisses installation prompt
    */
-  dismissInstall() {
-    this.snackBarRef.dismiss();
+  dismissInstall(rememberChoice: boolean = false) {
+    if (rememberChoice) {
+      localStorage.setItem('pwa-install-dismissed', 'true');
+    } else {
+      localStorage.setItem(this.LAST_PROMPT_TIME_KEY, Date.now().toString());
+    }
+
+    this.snackBarRef?.dismiss();
     this.installPromptAvailable$.next(false);
   }
 
   /**
-   * Triggers the installation prompt.
+   * Triggers the installation prompt
    */
   triggerInstallPrompt(): Promise<void> {
     if (!this.deferredPrompt) {
-      return Promise.reject('Install prompt is not available');
+      return Promise.reject(new Error('Install prompt is not available'));
     }
 
     return this.deferredPrompt.prompt().then((result) => {
-      this.deferredPrompt = null; // Reset the deferred prompt
+      this.deferredPrompt = null;
       if (result.outcome === 'accepted') {
         this.snackBarRef.dismiss();
         this.installPromptAvailable$.next(false);

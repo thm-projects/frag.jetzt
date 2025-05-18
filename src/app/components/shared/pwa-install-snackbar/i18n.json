@@ -1,14 +1,17 @@
 {"key": "pwa-install-snackbar",
 "de": {
-    "installPrompt": "Installiere die App!",
-    "installButton": "Installieren"
+    "installPrompt": "Erlebe frag.jetzt besser als App!",
+    "installButton": "Installieren",
+    "laterButton": "Später"
 },
 "en": {
-    "installPrompt": "Install the app!",
-    "installButton": "Install"
+    "installPrompt": "Get the best experience with the frag.jetzt app!",
+    "installButton": "Install",
+    "laterButton": "Later"
 },
 "fr": {
-    "installPrompt": "Installe l'application!",
-    "installButton": "Installer"
+    "installPrompt": "Profite d'une meilleure expérience avec l'app frag.jetzt!",
+    "installButton": "Installer",
+    "laterButton": "Plus tard"
 }
 }

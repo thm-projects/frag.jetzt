@@ -5,20 +5,19 @@ import { Component } from '@angular/core';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { PwaService } from 'app/services/util/pwa-installation.service';
 import { MatButton } from '@angular/material/button';
-import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-pwa-install-snackbar',
-  imports: [MatButton, MatIcon, MatIconButton],
+  imports: [MatButton, MatIcon],
   templateUrl: './pwa-install-snackbar.component.html',
   styleUrl: './pwa-install-snackbar.component.scss',
 })
 export class PwaInstallSnackbarComponent {
   protected readonly i18n = i18n;
   constructor(
-    private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent>,
-    private pwaService: PwaService,
+    private readonly snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent>,
+    private readonly pwaService: PwaService,
   ) {}
 
   install() {

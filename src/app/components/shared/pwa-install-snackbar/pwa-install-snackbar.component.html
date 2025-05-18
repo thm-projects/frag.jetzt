@@ -8,14 +8,15 @@
   <div class="snackbar-actions">
     <button
       mat-flat-button
+      color="accent"
       (click)="install()">
       {{ i18n().installButton }}
     </button>
     <button
-      mat-icon-button
-      class="contained-icon-outlined selected"
+      mat-button
+      class="later-button"
       (click)="dismiss()">
-      <mat-icon>close</mat-icon>
+      {{ i18n().laterButton }}
     </button>
   </div>
 </div>
