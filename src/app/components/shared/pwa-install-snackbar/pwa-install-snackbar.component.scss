@@ -3,10 +3,23 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 16px;
 }
 
 .snackbar-actions {
   display: flex;
   align-items: center;
   gap: 1em;
+}
+
+.pwa-snackbar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.robot-icon {
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
 }
