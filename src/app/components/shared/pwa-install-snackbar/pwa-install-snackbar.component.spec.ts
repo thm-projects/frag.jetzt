@@ -155,7 +155,18 @@ describe('PwaInstallSnackbarComponent', () => {
     const mockSnackBar = jasmine.createSpyObj('MatSnackBar', [
       'openFromComponent',
     ]);
-    const mockService = new PwaService(mockSnackBar);
+    const mockBrowserDetection = jasmine.createSpyObj(
+      'BrowserDetectionService',
+      ['isPwaSupported', 'isIOSSafari', 'hasBeforeInstallPromptSupport'],
+    );
+
+    // Set the default behaviors for browser detection
+    mockBrowserDetection.isPwaSupported.and.returnValue(true);
+    mockBrowserDetection.isIOSSafari.and.returnValue(false);
+    mockBrowserDetection.hasBeforeInstallPromptSupport.and.returnValue(true);
+
+    // Pass both required parameters
+    const mockService = new PwaService(mockSnackBar, mockBrowserDetection);
     const privateMethods = mockService as any;
     spyOn(privateMethods, 'isAppInstalled').and.returnValue(false);
 
