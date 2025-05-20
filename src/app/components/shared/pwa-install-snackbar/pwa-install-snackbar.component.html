@@ -3,10 +3,11 @@
     <mat-icon
       svgIcon="fj_robot"
       class="robot-icon"></mat-icon>
-    <span>{{ i18n().installPrompt }}</span>
+    <span>{{ getInstallPrompt() }}</span>
   </div>
   <div class="snackbar-actions">
     <button
+      *ngIf="supportsDirectInstall()"
       mat-flat-button
       color="accent"
       (click)="install()">
@@ -14,6 +15,7 @@
     </button>
     <button
       mat-button
+      [color]="supportsDirectInstall() ? null : 'accent'"
       class="later-button"
       (click)="dismiss()">
       {{ i18n().laterButton }}

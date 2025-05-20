@@ -1,17 +1,21 @@
-{"key": "pwa-install-snackbar",
-"de": {
-    "installPrompt": "Erlebe frag.jetzt besser als App!",
+{
+  "key": "pwa-install-snackbar",
+  "de": {
+    "installPrompt": "Als App auf dem Startbildschirm nutzen",
     "installButton": "Installieren",
-    "laterButton": "Später"
-},
-"en": {
-    "installPrompt": "Get the best experience with the frag.jetzt app!",
+    "laterButton": "Später",
+    "iosInstallPrompt": "Zum Installieren: 'Teilen' → 'Zum Home-Bildschirm'"
+  },
+  "en": {
+    "installPrompt": "Use like an app on your home screen",
     "installButton": "Install",
-    "laterButton": "Later"
-},
-"fr": {
-    "installPrompt": "Profite d'une meilleure expérience avec l'app frag.jetzt!",
+    "laterButton": "Later",
+    "iosInstallPrompt": "To install: Tap 'Share' → 'Add to Home Screen'"
+  },
+  "fr": {
+    "installPrompt": "Utilisez comme une app sur l'écran d'accueil",
     "installButton": "Installer",
-    "laterButton": "Plus tard"
-}
+    "laterButton": "Plus tard",
+    "iosInstallPrompt": "Pour installer: Appuyez sur 'Partager' → 'Sur l'écran d'accueil'"
+  }
 }

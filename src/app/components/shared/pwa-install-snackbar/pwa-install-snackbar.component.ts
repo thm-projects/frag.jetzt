@@ -6,15 +6,18 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { PwaService } from 'app/services/util/pwa-installation.service';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-pwa-install-snackbar',
-  imports: [MatButton, MatIcon],
+  imports: [MatButton, MatIcon, NgIf],
   templateUrl: './pwa-install-snackbar.component.html',
   styleUrl: './pwa-install-snackbar.component.scss',
+  standalone: true,
 })
 export class PwaInstallSnackbarComponent {
   protected readonly i18n = i18n;
+
   constructor(
     private readonly snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent>,
     private readonly pwaService: PwaService,
@@ -25,6 +28,24 @@ export class PwaInstallSnackbarComponent {
   }
 
   dismiss() {
-    this.pwaService.dismissInstall(); // Simply close the snackbar
+    this.pwaService.dismissInstall();
+  }
+
+  isIOSSafari(): boolean {
+    const ua = navigator.userAgent;
+    const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+    return isIOS && isSafari;
+  }
+
+  supportsDirectInstall(): boolean {
+    return !this.isIOSSafari();
+  }
+
+  getInstallPrompt(): string {
+    if (this.isIOSSafari()) {
+      return this.i18n().iosInstallPrompt;
+    }
+    return this.i18n().installPrompt;
   }
 }

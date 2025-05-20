@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { PwaInstallSnackbarComponent } from 'app/components/shared/pwa-install-snackbar/pwa-install-snackbar.component';
 import { BehaviorSubject } from 'rxjs';
+import { BrowserDetectionService } from './browser-detection.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PwaService {
-  private deferredPrompt = null;
+  private deferredPrompt: any = null;
   public installPromptAvailable$ = new BehaviorSubject<boolean>(false);
   private snackBarRef: MatSnackBarRef<PwaInstallSnackbarComponent> | null =
     null;
@@ -15,7 +16,25 @@ export class PwaService {
   private readonly LAST_PROMPT_TIME_KEY = 'fj-pwa-last-prompt-time';
   private readonly PROMPT_DELAY_MS = 30 * 60 * 1000; // 30 minutes
 
-  constructor(private readonly snackBar: MatSnackBar) {
+  constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly browserDetection: BrowserDetectionService,
+  ) {
+    // Initialize event handling only if browser supports PWAs
+    if (this.browserDetection.hasBeforeInstallPromptSupport()) {
+      this.initInstallPromptEvent();
+    }
+
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt = null;
+      localStorage.setItem('pwa-installed', 'true');
+    });
+  }
+
+  /**
+   * Initializes the install prompt event listener
+   */
+  private initInstallPromptEvent() {
     window.addEventListener('beforeinstallprompt', (e: Event) => {
       e.preventDefault();
       this.deferredPrompt = e;
@@ -31,16 +50,20 @@ export class PwaService {
    * Checks if the PWA installation prompt should be shown
    */
   private shouldShowInstallPrompt(): boolean {
-    if (localStorage.getItem('pwa-install-dismissed') === 'true') {
+    // Don't show prompt if browser doesn't support PWAs
+    if (!this.browserDetection.isPwaSupported()) {
+      return false;
+    }
+
+    if (this.isAppInstalled() || this.isDismissed()) {
       return false;
     }
 
     const lastPromptTime = localStorage.getItem(this.LAST_PROMPT_TIME_KEY);
     if (lastPromptTime) {
-      const timeSinceLastPrompt = Date.now() - Number(lastPromptTime);
-      if (timeSinceLastPrompt < this.PROMPT_DELAY_MS) {
-        return false;
-      }
+      const timeElapsed = Date.now() - parseInt(lastPromptTime, 10);
+      const thirtyMinutesInMs = 30 * 60 * 1000;
+      return timeElapsed > thirtyMinutesInMs;
     }
 
     return true;
@@ -58,11 +81,38 @@ export class PwaService {
    * Checks if the app is already installed
    */
   private isAppInstalled(): boolean {
-    const isStandalone = window.matchMedia(
-      '(display-mode: standalone)',
-    ).matches;
+    return localStorage.getItem('pwa-installed') === 'true';
+  }
 
-    return !!isStandalone;
+  /**
+   * Checks if the browser is PWA capable but installation isn't supported directly
+   * (like Safari on iOS where manual A2HS is needed)
+   */
+  isManualInstallNeeded(): boolean {
+    const ua = navigator.userAgent;
+    const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+
+    return (
+      isIOS &&
+      isSafari &&
+      this.browserDetection.isPwaSupported() &&
+      !this.browserDetection.hasBeforeInstallPromptSupport()
+    );
+  }
+
+  /**
+   * Checks if browser is Safari on iOS (needs manual install instructions)
+   */
+  isIOSSafari(): boolean {
+    return this.browserDetection.isIOSSafari();
+  }
+
+  /**
+   * Checks if direct installation is supported
+   */
+  supportsDirectInstall(): boolean {
+    return this.browserDetection.hasBeforeInstallPromptSupport();
   }
 
   /**
@@ -90,6 +140,20 @@ export class PwaService {
         this.showInstallSnackbar();
       }
     });
+  }
+
+  /**
+   * Show correct installation instructions based on browser
+   */
+  showInstallInstructions(): void {
+    if (this.isManualInstallNeeded()) {
+      // Show iOS-specific instructions
+      this.snackBar.open(
+        'Zum Installieren: Tippe auf "Teilen" und dann auf "Zum Home-Bildschirm"',
+        'OK',
+        { duration: 10000 },
+      );
+    }
   }
 
   /**
@@ -121,5 +185,12 @@ export class PwaService {
         this.installPromptAvailable$.next(false);
       }
     });
+  }
+
+  /**
+   * Checks if the installation prompt was dismissed
+   */
+  private isDismissed(): boolean {
+    return localStorage.getItem('pwa-install-dismissed') === 'true';
   }
 }
