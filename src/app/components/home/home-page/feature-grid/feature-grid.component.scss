@@ -172,6 +172,115 @@ button.card-container {
   }
 }
 
+/* --------------------------------------
+ * CARD BACKGROUNDS & ANIMATION STATES
+ * -------------------------------------- */
+
+// Basis-Karte
+.card {
+  background-color: transparent; // Wichtig für die 3D-Ansicht
+
+  // Geflippt/ungeflippt Zustand
+  &.flipped {
+    .card-back mat-card {
+      background-color: var(--mat-sys-surface-container-low);
+      border-left: 4px solid var(--mat-sys-tertiary, var(--mat-sys-secondary));
+    }
+  }
+
+  &:not(.flipped):hover mat-card {
+    background-color: var(--mat-sys-surface-container-lowest);
+  }
+}
+
+// Vorderseite der Karte
+.card-front {
+  transform: rotateY(0deg);
+
+  mat-card {
+    background-color: var(--mat-sys-surface);
+    border-left: 4px solid var(--mat-sys-primary);
+    transition:
+      background-color 0.3s ease,
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+}
+
+// Rückseite der Karte
+.card-back {
+  transform: rotateY(180deg);
+
+  mat-card {
+    background-color: var(--mat-sys-surface-container-low);
+    border-left: 4px solid var(--mat-sys-tertiary, var(--mat-sys-secondary));
+    transition:
+      background-color 0.3s ease,
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  // Hover-Zustand für die Rückseite
+  &:hover mat-card {
+    background-color: var(--mat-sys-surface-container);
+  }
+}
+
+// Hover-Zustände
+.card-container:hover .card:not(.flipped) mat-card {
+  border-color: transparent;
+  background-color: var(--mat-sys-surface-container-lowest);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 0 0 1px var(--mat-sys-primary-container);
+}
+
+// Flipped-Zustände
+.card.flipped .card-back mat-card {
+  border: 1px solid var(--mat-sys-outline-variant) !important;
+  border-left: 4px solid var(--mat-sys-tertiary, var(--mat-sys-secondary)) !important;
+  background-color: var(--mat-sys-surface-container-low) !important;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card.flipped .card-back mat-card:hover {
+  border-color: var(--mat-sys-primary-container) !important;
+  background-color: var(--mat-sys-surface-container) !important;
+}
+
+// Content-Bereiche
+.video-summary,
+.screenshot-text,
+.video-summary.full-height {
+  background-color: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+  border-left: 3px solid var(--mat-sys-primary);
+}
+
+// Video-Container und Feature-Video
+.video-container {
+  background-color: var(--mat-sys-surface-container-lowest);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.feature-video {
+  background-color: var(--mat-sys-surface-container-lowest);
+}
+
+// Detailed-Text-Container
+.detailed-text {
+  background-color: transparent;
+  color: var(--mat-sys-on-surface);
+}
+
+// Fokus-Zustände
+.card-container:focus:not(:hover) .card:not(.flipped) {
+  mat-card {
+    background-color: var(--mat-sys-surface-container-lowest);
+    border-color: var(--mat-sys-primary);
+  }
+}
+
 .card-face {
   position: absolute;
   width: 100%;
@@ -454,7 +563,7 @@ mat-card-content {
 .feature-video {
   width: 100%;
   display: block;
-  background-color: #f5f5f5;
+  background-color: var(--mat-sys-surface-container-lowest);
   max-width: 100%;
 }
 
