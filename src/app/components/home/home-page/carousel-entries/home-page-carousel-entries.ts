@@ -97,7 +97,7 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       },
       // `image`: Image for the card's front. Here, an SVG icon is used.
       image: {
-        svgIcon: 'fj_bot',
+        svgIcon: 'fj_robot',
       },
       // `screenshotText`: Optional. Defines content for a "flipped" or detail view,
       // typically showing a screenshot alongside scrollable text.
