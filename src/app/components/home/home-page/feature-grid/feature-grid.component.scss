@@ -656,6 +656,7 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
   box-sizing: border-box !important;
   padding: 0 24px 40px 16px !important;
   margin: 0;
+  font-size: medium !important;
 
   /* Prevent horizontal text overflow */
   word-wrap: break-word !important;
@@ -689,20 +690,8 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 /* Text content styling with proper line height and colors */
 .detailed-text {
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--mat-sys-on-surface);
-
-  /* Reduce list indentation for better readability */
-  ul,
-  ol {
-    padding-left: 8px !important;
-    margin: 8px 0 12px 0 !important;
-
-    li {
-      margin-left: 8px !important;
-      margin-bottom: 4px;
-    }
-  }
 }
 
 /* Main headline styling */
