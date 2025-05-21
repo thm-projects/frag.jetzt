@@ -345,7 +345,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
     protected self: HomePageService,
     private readonly elementRef: ElementRef,
     private readonly dialog: MatDialog,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {

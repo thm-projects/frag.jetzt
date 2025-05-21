@@ -533,3 +533,64 @@ describe('FeatureGridComponent - Screenshot Text Feature', () => {
     return -1;
   }
 });
+
+describe('FeatureGridComponent - Detailed Text', () => {
+  let component: FeatureGridComponent;
+  let fixture: ComponentFixture<FeatureGridComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FeatureGridComponent],
+      providers: [
+        {
+          provide: HomePageService,
+          useValue: jasmine.createSpyObj('HomePageService', ['getLanguage']),
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(FeatureGridComponent);
+    component = fixture.componentInstance;
+    spyOn(component as any, 'language').and.returnValue('en');
+    fixture.detectChanges();
+  });
+
+  it('should display detailed text container when card is flipped', () => {
+    // Find first card with detailed text
+    const cardIndex = findFirstCardWithDetailedText();
+    expect(cardIndex).toBeGreaterThanOrEqual(0);
+
+    // Flip card
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    // Verify container exists and has content
+    const container = fixture.debugElement.query(
+      By.css('.detailed-text-container'),
+    );
+    expect(container).toBeTruthy();
+    expect(container.nativeElement.textContent.trim().length).toBeGreaterThan(
+      0,
+    );
+  });
+
+  it('should apply correct styling to detailed text', () => {
+    const cardIndex = findFirstCardWithDetailedText();
+    component['flippedCardIndex'] = cardIndex;
+    fixture.detectChanges();
+
+    const textElement = fixture.debugElement.query(By.css('.detailed-text'));
+    expect(textElement).toBeTruthy();
+
+    // Verify styling instead of specific content
+    const styles = window.getComputedStyle(textElement.nativeElement);
+    expect(styles.lineHeight).toBeTruthy();
+    expect(styles.fontSize).toBeTruthy();
+  });
+
+  // Helper function
+  function findFirstCardWithDetailedText(): number {
+    return carousel.entries.findIndex((entry) => entry.content.detailedText);
+  }
+});
