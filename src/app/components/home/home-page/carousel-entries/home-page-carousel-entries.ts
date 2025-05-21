@@ -247,38 +247,19 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
       image: {
         url: '/assets/background/learning.svg',
       },
-      // This card features a YouTube video.
-      youtube: {
-        videoId: 'azjV4WslLZ4', // The ID of the YouTube video.
-        title: 'Solving the heat equation | DE4', // Optional title for the video.
-      },
-    },
-    window: _1x1windowSize,
-  },
-  // Card 5: Write with AI
-  {
-    content: {
-      title: {
-        en: 'Write with AI',
-        de: 'Schreibe mit KI',
-        fr: "Écris avec l'IA",
-      },
-      description: {
-        en: "Use AI to enhance your writing: Overcome writer's block with fresh ideas and outlines. Improve clarity and flow. Find better phrasings for complex concepts. Generate code samples and explain programming concepts. Check logic and syntax in technical documents. The AI works as your personal writing assistant while you maintain creative control.",
-        de: 'Nutze KI zur Verbesserung deiner Texte: Überwinde Schreibblockaden mit Ideen und Gliederungen. Verbessere Klarheit und Textfluss. Finde bessere Formulierungen für komplexe Konzepte. Generiere Code und erkläre Programmierkonzepte. Prüfe Logik und Syntax in technischen Dokumenten. Die KI arbeitet als dein Schreibassistent, während du die kreative Kontrolle behältst.',
-        fr: "Utilisez l'IA pour améliorer votre écriture: Surmontez le syndrome de la page blanche avec des idées et plans. Améliorez clarté et fluidité. Trouvez meilleures formulations pour concepts complexes. Générez exemples de code et expliquez concepts de programmation. Vérifiez logique et syntaxe des documents techniques. L'IA fonctionne comme assistant d'écriture personnel pendant que vous gardez le contrôle créatif.",
-      },
-      image: {
-        url: '/assets/background/keyboard.webp',
-      },
-      youtube: {
-        videoId: 'azjV4WslLZ4',
-        title: 'Guidde',
-        startAt: 0,
-        summary: {
-          en: "This video elegantly introduces the concepts of divergence and curl, essential for understanding electromagnetic fields and fluid dynamics. Through stunning visual explanations, Grant Sanderson reveals how these mathematical operations describe the physical world in Maxwell's equations.",
-          de: 'Dieses Video führt elegant in die Konzepte der Divergenz und Rotation ein, die für das Verständnis elektromagnetischer Felder und Fluiddynamik unerlässlich sind. Durch atemberaubende visuelle Erklärungen zeigt Grant Sanderson, wie diese mathematischen Operationen die physikalische Welt in Maxwells Gleichungen beschreiben.',
-          fr: 'Cette vidéo présente élégamment les concepts de divergence et de rotationnel, essentiels pour comprendre les champs électromagnétiques et la dynamique des fluides. À travers des explications visuelles époustouflantes, Grant Sanderson révèle comment ces opérations mathématiques décrivent le monde physique dans les équations de Maxwell.',
+      screenshotText: {
+        screenshot: {
+          url: '/assets/background/keyboard.webp',
+          alt: {
+            en: 'Learn with AI',
+            de: 'Lerne mit KI',
+            fr: "Apprends avec l'IA",
+          },
+        },
+        text: {
+          en: "Use AI to enhance your writing: Overcome writer's block with fresh ideas and outlines. Improve clarity and flow. Find better phrasings for complex concepts. Generate code samples and explain programming concepts. Check logic and syntax in technical documents. The AI works as your personal writing assistant while you maintain creative control.",
+          de: 'Nutze KI zur Verbesserung deiner Texte: Überwinde Schreibblockaden mit Ideen und Gliederungen. Verbessere Klarheit und Textfluss. Finde bessere Formulierungen für komplexe Konzepte. Generiere Code und erkläre Programmierkonzepte. Prüfe Logik und Syntax in technischen Dokumenten. Die KI arbeitet als dein Schreibassistent, während du die kreative Kontrolle behältst.',
+          fr: "Utilisez l'IA pour améliorer votre écriture: Surmontez le syndrome de la page blanche avec des idées et plans. Améliorez clarté et fluidité. Trouvez meilleures formulations pour concepts complexes. Générez exemples de code et expliquez concepts de programmation. Vérifiez logique et syntaxe des documents techniques. L'IA fonctionne comme assistant d'écriture personnel pendant que vous gardez le contrôle créatif.",
         },
       },
     },

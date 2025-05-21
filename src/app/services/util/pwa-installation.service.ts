@@ -50,22 +50,42 @@ export class PwaService {
    * Checks if the PWA installation prompt should be shown
    */
   private shouldShowInstallPrompt(): boolean {
-    // Don't show prompt if browser doesn't support PWAs
-    if (!this.browserDetection.isPwaSupported()) {
-      return false;
-    }
-
+    // Already installed or dismissed?
     if (this.isAppInstalled() || this.isDismissed()) {
       return false;
     }
 
-    const lastPromptTime = localStorage.getItem(this.LAST_PROMPT_TIME_KEY);
+    // Check if this is the first visit (tracking not yet initialized)
+    const isVisitTracked = localStorage.getItem('visitTracking') === 'true';
+
+    // If first visit: initialize tracking and DO NOT show
+    if (!isVisitTracked) {
+      localStorage.setItem('visitTracking', 'true');
+      localStorage.setItem('firstVisitTimestamp', Date.now().toString());
+      return false; // Don't show on first visit
+    }
+
+    // From here we know: This is at least the second visit
+
+    // Check time delay after first visit (e.g. 10 minutes)
+    const firstVisitTimestamp = localStorage.getItem('firstVisitTimestamp');
+    if (firstVisitTimestamp) {
+      const timeElapsed = Date.now() - parseInt(firstVisitTimestamp, 10);
+      const tenMinutesInMs = 10 * 60 * 1000;
+      if (timeElapsed < tenMinutesInMs) {
+        return false; // Less than 10 minutes passed since first visit
+      }
+    }
+
+    // Check 30-minute delay after 'Later' button
+    const lastPromptTime = localStorage.getItem('fj-pwa-last-prompt-time');
     if (lastPromptTime) {
       const timeElapsed = Date.now() - parseInt(lastPromptTime, 10);
       const thirtyMinutesInMs = 30 * 60 * 1000;
       return timeElapsed > thirtyMinutesInMs;
     }
 
+    // For returning users with no previous prompt: show
     return true;
   }
 
