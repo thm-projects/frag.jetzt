@@ -541,19 +541,26 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 .screenshot-text-container {
   display: flex;
   flex-direction: column;
-  height: auto; /* Allow container to adjust to content */
-  max-height: 85%; /* Prevent overflow beyond card boundaries */
+  height: auto;
+  /* Allow container to adjust to content */
+  max-height: 85%;
+  /* Prevent overflow beyond card boundaries */
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  padding: 12px 0; /* Vertical padding only */
+  padding: 12px 0;
+  /* Vertical padding only */
 }
 
 .screenshot-container {
-  flex: 1 0 auto; /* Grow to fill available space when text is small */
-  margin-bottom: 8px; /* Space between image and text */
-  min-height: 35%; /* Ensure minimum visibility of image */
-  max-height: 75% !important; /* Allow expansion when text is minimal */
+  flex: 1 0 auto;
+  /* Grow to fill available space when text is small */
+  margin-bottom: 8px;
+  /* Space between image and text */
+  min-height: 35%;
+  /* Ensure minimum visibility of image */
+  max-height: 75% !important;
+  /* Allow expansion when text is minimal */
   width: 100%;
   overflow: hidden;
   border-radius: 4px;
@@ -561,18 +568,24 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 
 /* Text area with scrolling capability for longer content */
 .screenshot-text {
-  flex: 0 1 auto; /* Don't grow beyond content, allow shrinking */
-  overflow-y: auto !important; /* Enable vertical scrolling when needed */
-  min-height: 20px; /* Ensures visibility even with minimal content */
-  max-height: none; /* No height constraint, adapts to available space */
+  flex: 0 1 auto;
+  /* Don't grow beyond content, allow shrinking */
+  overflow-y: auto !important;
+  /* Enable vertical scrolling when needed */
+  min-height: 20px;
+  /* Ensures visibility even with minimal content */
+  max-height: none;
+  /* No height constraint, adapts to available space */
   padding: 8px;
   margin: 0;
   border-radius: 4px;
   background-color: var(--mat-sys-surface-container-high, rgba(0, 0, 0, 0.05));
   border-left: 3px solid var(--mat-sys-primary, #1976d2);
   color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
-  font-size: 0.85em; /* Slightly smaller text for better fit */
-  line-height: 1.4; /* Tighter line height to fit more content */
+  font-size: 0.85em;
+  /* Slightly smaller text for better fit */
+  line-height: 1.4;
+  /* Tighter line height to fit more content */
   box-sizing: border-box;
   width: 100%;
 
@@ -629,4 +642,72 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
     overflow: hidden;
     background-color: var(--mat-sys-surface, white);
   }
+}
+
+/* ------------------------------------------
+ * DETAILED TEXT CONTAINER STYLES
+ * ------------------------------------------ */
+
+.detailed-text-container {
+  display: block !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow-y: scroll !important;
+  box-sizing: border-box !important;
+  padding: 0 24px 40px 16px !important;
+  margin: 0;
+
+  /* Prevent horizontal text overflow */
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 10px !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--mat-sys-on-surface-variant);
+    opacity: 0.7;
+    border-radius: 4px;
+  }
+
+  /* Additional space at content end to prevent scrollbar overlap */
+  &::after {
+    content: "";
+    display: block;
+    height: 16px;
+  }
+}
+
+/* Text content styling with proper line height and colors */
+.detailed-text {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: var(--mat-sys-on-surface);
+
+  /* Reduce list indentation for better readability */
+  ul,
+  ol {
+    padding-left: 8px !important;
+    margin: 8px 0 12px 0 !important;
+
+    li {
+      margin-left: 8px !important;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+/* Main headline styling */
+h2.detailed-text-headline {
+  font-size: large;
+  color: var(--mat-sys-primary);
+  margin-top: 0;
 }

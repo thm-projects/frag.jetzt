@@ -251,6 +251,29 @@
                   </div>
                 </div>
               }
+              <!-- When we have detailed text -->
+              @else if (tile.content.detailedText) {
+                <div class="detailed-text-container">
+                  @if (tile.content.detailedText.headline) {
+                    <h2 class="detailed-text-headline">
+                      {{ tile.content.detailedText.headline[language()] }}
+                    </h2>
+                  }
+                  @if (tile.content.detailedText.formatting === "html") {
+                    <div
+                      class="detailed-text"
+                      [innerHTML]="
+                        sanitizeHtml(
+                          tile.content.detailedText.content[language()]
+                        )
+                      "></div>
+                  } @else {
+                    <div class="detailed-text">
+                      {{ tile.content.detailedText.content[language()] }}
+                    </div>
+                  }
+                </div>
+              }
               <!-- Only show description when no video exists -->
               @else {
                 <div class="card-text-content">

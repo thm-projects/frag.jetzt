@@ -1,6 +1,10 @@
 import { M3WindowSizeClass } from '../../../../modules/m3/components/navigation/m3-navigation-types';
 import { homePageCarouselEntries } from './carousel-entries/home-page-carousel-entries';
 
+// Definiere TranslatedText
+export type LanguageKey = 'de' | 'en' | 'fr';
+export type TranslatedText = Record<LanguageKey, string>;
+
 export interface HomePageCarousel {
   defaultEntryWindow: {
     /**
@@ -35,31 +39,28 @@ export interface HomePageCarouselEntry {
 }
 
 export interface HomePageCarouselEntryContent {
-  title: Record<string, string>;
-  description: Record<string, string>;
-  image?: {
-    url?: string;
-    alt?: string;
-    svgIcon?: string;
-  };
-  video?: Video;
-  youtube?: YouTubeContent;
-
-  // New property for screenshot with scrollable text
+  title: TranslatedText;
+  description: TranslatedText;
+  image?: { url: string } | { svgIcon: string };
   screenshotText?: {
     screenshot: {
       url: string;
-      alt: {
-        en: string;
-        de: string;
-        fr: string;
-      };
+      alt: TranslatedText;
     };
-    text: {
-      en: string;
-      de: string;
-      fr: string;
-    };
+    text: TranslatedText;
+  };
+  youtube?: {
+    videoId: string;
+    title: string;
+    startAt: number;
+    summary?: TranslatedText;
+  };
+  // Hinzufügen des video-Properties, das in der Komponente verwendet wird
+  video?: Video;
+  detailedText?: {
+    headline?: TranslatedText;
+    content: TranslatedText;
+    formatting?: 'plain' | 'html' | 'markdown';
   };
 }
 
@@ -75,7 +76,7 @@ interface YouTubeContent {
   videoId: string;
   title?: string;
   startAt?: number;
-  summary?: Record<string, string>; // or { en: string; de: string; fr: string; }
+  summary?: TranslatedText; // Geändert zu TranslatedText
 }
 
 export const carousel: HomePageCarousel = {
@@ -116,11 +117,8 @@ export const carousel: HomePageCarousel = {
     rowspan: 1,
   },
   // Alle Einträge direkt aus homePageCarouselEntries übernehmen.
-  // Die Struktur von HomePageCarouselEntry wird beibehalten,
-  // aber der Inhalt (content) wird 1:1 aus homePageCarouselEntries übernommen.
   entries: homePageCarouselEntries.map((originalEntry) => ({
-    window: originalEntry.window, // Behält die Fensterkonfiguration aus homePageCarouselEntries
-    content: originalEntry.content, // Übernimmt das gesamte content-Objekt, inklusive youtube,
-    // direkt aus homePageCarouselEntries.
+    window: originalEntry.window,
+    content: originalEntry.content,
   })),
 };

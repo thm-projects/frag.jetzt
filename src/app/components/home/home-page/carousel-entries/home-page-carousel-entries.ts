@@ -668,4 +668,86 @@ export const homePageCarouselEntries: HomePageCarouselEntry[] = [
     },
     window: _1x1windowSize,
   },
+  // Card 23: Community Building
+  {
+    content: {
+      title: {
+        en: 'Community Building',
+        de: 'Gemeinschaft aufbauen',
+        fr: 'Construire une communauté',
+      },
+      description: {
+        en: 'Create an engaging learning community that extends beyond class time. Use frag.jetzt to build meaningful discussions and foster peer support. Perfect for online courses, blended learning, and collaborative research projects.',
+        de: 'Schaffe eine engagierte Lerngemeinschaft, die über die Kurszeiten hinausgeht. Nutze frag.jetzt für bedeutsame Diskussionen und fördere gegenseitige Unterstützung. Ideal für Online-Kurse, Blended Learning und kollaborative Forschungsprojekte.',
+        fr: "Créez une communauté d'apprentissage engagée qui s'étend au-delà des heures de cours. Utilisez frag.jetzt pour construire des discussions significatives et encourager le soutien entre pairs. Parfait pour les cours en ligne, l'apprentissage hybride et les projets de recherche collaborative.",
+      },
+      image: {
+        url: '/assets/background/europa.svg',
+      },
+      detailedText: {
+        headline: {
+          en: 'Building Sustainable Learning Communities',
+          de: 'Nachhaltige Lerngemeinschaften aufbauen',
+          fr: "Construire des communautés d'apprentissage durables",
+        },
+        content: {
+          en: `<h3>Key Principles for Effective Learning Communities</h3>
+          
+          <p>Learning communities thrive when they're built on a foundation of trust, engagement, and shared purpose. With frag.jetzt, you can implement these research-backed strategies:</p>
+          
+          <ul>
+            <li><strong>Psychological Safety:</strong> Anonymous question options allow students to ask without fear of judgment</li>
+            <li><strong>Multi-modal Engagement:</strong> Combine text questions, polls, and AI interactions to suit different learning preferences</li>
+            <li><strong>Continuous Feedback Loops:</strong> Set up regular check-ins using flash polls and moderated discussions</li>
+            <li><strong>Peer Recognition:</strong> The star system lets students uplift valuable contributions from classmates</li>
+            <li><strong>Knowledge Persistence:</strong> Questions and answers remain accessible beyond class sessions, building a knowledge repository</li>
+          </ul>
+          
+          <h4>Implementation Guide</h4>
+          
+          <p>Start simple with a question board, then gradually introduce more complex interactions like categorized discussions and AI-moderated debates. Create rituals like "Question of the Week" to maintain engagement between classes.</p>
+          
+          <p>Research shows that communities with regular, meaningful interactions are 3x more likely to sustain participation throughout a course.</p>`,
+
+          de: `<h3>Schlüsselprinzipien für effektive Lerngemeinschaften</h3>
+          
+          <p>Lerngemeinschaften gedeihen, wenn sie auf einer Grundlage von Vertrauen, Engagement und gemeinsamen Zielen aufbauen. Mit frag.jetzt kannst du diese forschungsgestützten Strategien umsetzen:</p>
+          
+          <ul>
+            <li><strong>Psychologische Sicherheit:</strong> Anonyme Frageoptionen ermöglichen es Studierenden, ohne Angst vor Bewertung zu fragen</li>
+            <li><strong>Multimodale Beteiligung:</strong> Kombiniere Textfragen, Umfragen und KI-Interaktionen, um verschiedene Lernpräferenzen zu bedienen</li>
+            <li><strong>Kontinuierliche Feedback-Schleifen:</strong> Richte regelmäßige Check-ins durch Blitzumfragen und moderierte Diskussionen ein</li>
+            <li><strong>Peer-Anerkennung:</strong> Das Sternesystem lässt Studierende wertvolle Beiträge von Kommilitonen hervorheben</li>
+            <li><strong>Wissensbeständigkeit:</strong> Fragen und Antworten bleiben über die Kurssitzungen hinaus zugänglich und bauen ein Wissensarchiv auf</li>
+          </ul>
+          
+          <h3>Umsetzungsleitfaden</h3>
+          
+          <p>Beginne einfach mit einem Fragen-Board und führe dann schrittweise komplexere Interaktionen wie kategorisierte Diskussionen und KI-moderierte Debatten ein. Schaffe Rituale wie die "Frage der Woche", um das Engagement zwischen den Kursen aufrechtzuerhalten.</p>
+          
+          <p>Forschungsergebnisse zeigen, dass Gemeinschaften mit regelmäßigen, bedeutungsvollen Interaktionen eine 3-mal höhere Wahrscheinlichkeit haben, die Teilnahme während eines gesamten Kurses aufrechtzuerhalten.</p>`,
+
+          fr: `<h3>Principes clés pour des communautés d'apprentissage efficaces</h3>
+          
+          <p>Les communautés d'apprentissage prospèrent lorsqu'elles sont construites sur une base de confiance, d'engagement et d'objectif commun. Avec frag.jetzt, vous pouvez mettre en œuvre ces stratégies fondées sur la recherche :</p>
+          
+          <ul>
+            <li><strong>Sécurité psychologique :</strong> Les options de questions anonymes permettent aux étudiants de poser des questions sans crainte de jugement</li>
+            <li><strong>Engagement multimodal :</strong> Combinez questions textuelles, sondages et interactions IA pour répondre aux différentes préférences d'apprentissage</li>
+            <li><strong>Boucles de rétroaction continues :</strong> Établissez des contrôles réguliers à l'aide de sondages rapides et de discussions modérées</li>
+            <li><strong>Reconnaissance par les pairs :</strong> Le système d'étoiles permet aux étudiants de valoriser les contributions précieuses de leurs camarades</li>
+            <li><strong>Persistance des connaissances :</strong> Les questions et réponses restent accessibles au-delà des sessions de cours, constituant un référentiel de connaissances</li>
+          </ul>
+          
+          <h3>Guide d'implémentation</h3>
+          
+          <p>Commencez simplement avec un tableau de questions, puis introduisez progressivement des interactions plus complexes comme des discussions catégorisées et des débats modérés par l'IA. Créez des rituels comme la "Question de la semaine" pour maintenir l'engagement entre les cours.</p>
+          
+          <p>Les recherches montrent que les communautés avec des interactions régulières et significatives ont 3 fois plus de chances de maintenir la participation tout au long d'un cours.</p>`,
+        },
+        formatting: 'html',
+      },
+    },
+    window: _1x1windowSize,
+  },
 ];

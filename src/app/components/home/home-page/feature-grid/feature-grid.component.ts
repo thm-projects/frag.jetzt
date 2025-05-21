@@ -28,6 +28,7 @@ import { YoutubeEmbedComponent } from '../youtube-embed/youtube-embed.component'
 import { environment } from '../../../../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageViewerModalComponent } from '../image-viewer-modal/image-viewer-modal.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 /**
  * Component that displays features in an interactive grid with flip cards
@@ -344,6 +345,7 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
     protected self: HomePageService,
     private readonly elementRef: ElementRef,
     private readonly dialog: MatDialog,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
@@ -741,5 +743,14 @@ export class FeatureGridComponent implements AfterViewInit, OnInit {
       backdropClass: 'dark-backdrop',
       autoFocus: false,
     });
+  }
+
+  /**
+   * Sanitizes HTML content to bypass security restrictions
+   * @param html The HTML content to sanitize
+   * @returns The sanitized HTML content
+   */
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
