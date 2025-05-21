@@ -194,12 +194,12 @@ button.card-container {
 
   .card-background-image {
     position: absolute;
-    top: 0;
-    right: 50px;
-    width: 70px;
-    height: 70px;
+    top: 11px;
+    right: 60px;
+    width: 30px !important; /* Smaller image */
+    height: 30px !important; /* Smaller image */
     overflow: hidden;
-    opacity: 0.8;
+    opacity: 0.6; /* More transparent */
     pointer-events: none;
     z-index: 0;
 
