@@ -1,4 +1,53 @@
 /* --------------------------------------
+ * UNIFIED SCROLLBAR DEFINITIONS
+ * -------------------------------------- */
+%scrollbar-styles {
+  &::-webkit-scrollbar {
+    width: 6px !important;
+    height: auto !important;
+    display: block !important;
+    background-color: transparent !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent !important;
+    margin-bottom: 4px !important;
+    margin-top: 4px !important;
+    border-radius: 3px !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--mat-sys-outline-variant) !important;
+    border-radius: 3px !important;
+    min-height: 30px !important;
+    opacity: 0.8 !important;
+  }
+}
+
+/* Apply scrollbar styles to all scrollable elements */
+.detailed-text-container,
+.video-summary,
+.video-summary.full-height,
+.screenshot-text,
+.detailed-text,
+.card-face.card-back mat-card-content,
+.explanation-text-container {
+  @extend %scrollbar-styles;
+}
+
+/* Special case for dynamically generated content */
+:host ::ng-deep {
+  .mat-mdc-card-content[style*="overflow"],
+  [class*="scrollable"],
+  [style*="overflow: auto"],
+  [style*="overflow-y: auto"],
+  [style*="overflow: scroll"],
+  [style*="overflow-y: scroll"] {
+    @extend %scrollbar-styles;
+  }
+}
+
+/* --------------------------------------
  * HOST & CONTAINER
  * -------------------------------------- */
 :host {
@@ -616,16 +665,31 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 
   ul,
   ol {
-    padding-left: 8px !important;
+    padding-left: 0 !important; /* Changed from 8px to 0 */
     margin: 8px 0 12px 0 !important;
     font-size: 0.8rem !important;
     color: var(--mat-sys-on-surface);
 
     li {
-      margin-left: 8px !important;
+      margin-left: 16px !important; /* Adjusted to make bullet/number visible but align text left */
       margin-bottom: 4px;
       font-size: 0.8rem !important;
       color: var(--mat-sys-on-surface);
+      padding-left: 0 !important;
+    }
+  }
+}
+
+/* Make sure deep nested selectors also align lists properly */
+:host ::ng-deep {
+  .detailed-text ul,
+  .detailed-text ol {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+
+    li {
+      margin-left: 16px !important; /* Just enough space for bullet/number */
+      padding-left: 0 !important;
     }
   }
 }
@@ -722,31 +786,5 @@ html body h2.detailed-text-headline {
     border: 1px solid CanvasText;
     background-color: Canvas;
     color: CanvasText;
-  }
-}
-
-/* --------------------------------------
- * UNIFIED SCROLLBAR DEFINITIONS
- * -------------------------------------- */
-%scrollbar-styles {
-  &::-webkit-scrollbar {
-    width: 6px !important;
-    height: auto !important;
-    display: block !important;
-    background-color: transparent !important;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent !important;
-    margin-bottom: 4px !important;
-    margin-top: 4px !important;
-    border-radius: 3px !important;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--mat-sys-outline-variant) !important;
-    border-radius: 3px !important;
-    min-height: 30px !important;
-    opacity: 0.8 !important;
   }
 }
