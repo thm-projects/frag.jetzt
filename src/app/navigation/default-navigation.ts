@@ -94,7 +94,7 @@ export const getDefaultHeader = (
           : 'account_circle';
 
       return {
-        slogan: isHome ? i18n.header.slogan : '',
+        slogan: isHome || router.url === '/' ? i18n.header.slogan : '',
         offline: i18n.header.offline,
         options: [
           user
