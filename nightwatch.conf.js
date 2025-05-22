@@ -1,3 +1,59 @@
+/*
+ * How to run E2E tests locally on different operating systems
+ * ==========================================================
+ *
+ * Prerequisites for all platforms:
+ * 1. Node.js and npm/bun installed
+ * 2. Chrome browser installed
+ * 3. Project dependencies installed: `npm install` or `bun install`
+ *
+ * Installing ChromeDriver:
+ *
+ * Option 1 (Recommended): Using npm (works on all platforms)
+ * ```
+ * npm install chromedriver --save-dev
+ * ```
+ *
+ * Option 2: OS-specific installation
+ *
+ * - macOS:
+ *   ```
+ *   brew install chromedriver
+ *   ```
+ *   Note: You might need to allow ChromeDriver in System Settings > Security & Privacy
+ *   To fix permission issues: xattr -d com.apple.quarantine $(which chromedriver)
+ *
+ * - Windows:
+ *   ```
+ *   npm install chromedriver --save-dev
+ *   ```
+ *   Or download directly from https://chromedriver.chromium.org/downloads
+ *
+ * - Linux (Ubuntu/Debian):
+ *   ```
+ *   sudo apt install chromium-chromedriver
+ *   ```
+ *
+ * Running tests:
+ * ```
+ * npx nightwatch
+ * ```
+ * Or using bun:
+ * ```
+ * bun nightwatch/run_e2e.mjs
+ * ```
+ *
+ * Testing specific features:
+ * ```
+ * npx nightwatch --test nightwatch/e2e/index
+ * ```
+ *
+ * Troubleshooting:
+ * 1. ChromeDriver version mismatch: Make sure your ChromeDriver version matches your Chrome browser version
+ * 2. Permission issues on macOS: Run: xattr -d com.apple.quarantine $(which chromedriver)
+ * 3. Custom ChromeDriver path: Set environment variable: CHROMEDRIVER_PATH=/path/to/chromedriver
+ */
+
 //
 // Refer to the online docs for more details:
 // https://nightwatchjs.org/guide/configuration/nightwatch-configuration-file.html
@@ -12,24 +68,18 @@
 //            |___/
 //
 
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+
+// Zentralisiere die CI-Erkennung
+const isCI = process.env.CI === 'true' || process.env.GITLAB_CI === 'true';
+
 module.exports = {
-  // An array of folders (excluding subfolders) where your tests are located;
-  // if this is not specified, the test source must be passed as the second argument to the test runner.
-  src_folders: ["./nightwatch"],
-
-  // See https://nightwatchjs.org/guide/concepts/page-object-model.html
   page_objects_path: [],
-
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-commands.html
   custom_commands_path: [],
-
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-assertions.html
   custom_assertions_path: "",
-
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
   plugins: [],
-
-  // See https://nightwatchjs.org/guide/concepts/test-globals.html#external-test-globals
   globals_path: "",
 
   test_runner: {
@@ -42,15 +92,65 @@ module.exports = {
       formatOptions: {
         snippetInterface: "async-await",
       },
+      retry_tests: isCI ? 2 : 0,  // Retry failed tests in CI environment
     },
   },
   src_folders: ["nightwatch/e2e/**/*.ts"],
 
-  webdriver: {},
+  webdriver: {
+    start_process: true,
+    port: 9515,
+    server_path: function() {
+      if (isCI) {
+        // In CI environments (mostly Linux)
+        return '/usr/bin/chromedriver';
+      }
+      
+      // Environment variable always takes precedence
+      if (process.env.CHROMEDRIVER_PATH) {
+        return process.env.CHROMEDRIVER_PATH;
+      }
+      
+      // OS-specific default paths
+      const platform = process.platform;
+      
+      try {
+        // Try the npm package first (works on all platforms)
+        return require('chromedriver').path;
+      } catch (e) {
+        // Fallback to OS-specific paths
+        if (platform === 'darwin') { // macOS
+          return '/opt/homebrew/bin/chromedriver';
+        } else if (platform === 'win32') { // Windows
+          // Typical Windows installation paths
+          return 'C:\\Program Files\\chromedriver\\chromedriver.exe';
+        } else { // Linux and others
+          // Try common Linux paths, starting with the known working CI path
+          if (fs.existsSync('/snap/bin/chromium.chromedriver')) {
+            return '/snap/bin/chromium.chromedriver';  // GitLab CI snap installation
+          } else if (fs.existsSync('/usr/bin/chromedriver')) {
+            return '/usr/bin/chromedriver';  // Standard Linux path
+          } else {
+            // Final fallback - try typical paths
+            return process.env.CHROMEDRIVER_PATH || '/usr/bin/chromedriver';
+          }
+        }
+      }
+    }(),
+  },
 
   test_workers: {
     enabled: true,
     workers: "auto",
+  },
+
+  reporter: function(results, done) {
+    const fs = require('fs');
+    // Speichere Ergebnisse als JSON für CI-Integration
+    if (isCI) {
+      fs.writeFileSync('e2e-results.json', JSON.stringify(results, null, 2));
+    }
+    done();
   },
 
   test_settings: {
@@ -58,16 +158,52 @@ module.exports = {
       desiredCapabilities: { browserName: "chrome" },
       webdriver: {
         start_process: true,
-        server_path:
-          process.env.CHROMEDRIVER_PATH || "/snap/bin/chromium.chromedriver",
+        server_path: function() {
+          // Same logic as above to ensure consistency
+          if (isCI) {
+            return '/usr/bin/chromedriver';
+          }
+          
+          if (process.env.CHROMEDRIVER_PATH) {
+            return process.env.CHROMEDRIVER_PATH;
+          }
+          
+          const platform = process.platform;
+          
+          try {
+            return require('chromedriver').path;
+          } catch (e) {
+            if (platform === 'darwin') {
+              return '/opt/homebrew/bin/chromedriver';
+            } else if (platform === 'win32') {
+              return 'C:\\Program Files\\chromedriver\\chromedriver.exe';
+            } else { // Linux and others
+              // Try common Linux paths, starting with the known working CI path
+              if (fs.existsSync('/snap/bin/chromium.chromedriver')) {
+                return '/snap/bin/chromium.chromedriver';  // GitLab CI snap installation
+              } else if (fs.existsSync('/usr/bin/chromedriver')) {
+                return '/usr/bin/chromedriver';  // Standard Linux path
+              } else {
+                // Final fallback - try typical paths
+                return process.env.CHROMEDRIVER_PATH || '/usr/bin/chromedriver';
+              }
+            }
+          }
+        }(),
       },
       disable_error_log: false,
-      launch_url: "http://localhost:4200",
+      launch_url: process.env.TEST_URL || "http://localhost:4200",
 
       screenshots: {
-        enabled: false,
+        enabled: true,
         path: "screens",
         on_failure: true,
+      },
+
+      globals: {
+        waitForConditionTimeout: 10000,    // Erhöhe Standard-Timeout auf 10s
+        retryAssertionTimeout: 5000,       // Wiederhole Assertions für 5s
+        asyncHookTimeout: 10000,           // Für Cucumber Hooks
       },
     },
 
@@ -119,18 +255,53 @@ module.exports = {
             "--no-sandbox",
             "--ignore-certificate-errors",
             "--allow-insecure-localhost",
-            process.env.CI === 'true' && "--headless",
+            // Enable headless mode only in CI
+            isCI && "--headless",
+            // More debugging options for CI
+            isCI && "--disable-gpu",
+            isCI && "--window-size=1920,1080"
           ].filter(Boolean),
         },
       },
 
       webdriver: {
         start_process: true,
-        server_path:
-          process.env.CHROMEDRIVER_PATH || "/snap/bin/chromium.chromedriver",
+        server_path: function() {
+          // Same logic as above to ensure consistency
+          if (isCI) {
+            return '/usr/bin/chromedriver';
+          }
+          
+          if (process.env.CHROMEDRIVER_PATH) {
+            return process.env.CHROMEDRIVER_PATH;
+          }
+          
+          const platform = process.platform;
+          
+          try {
+            return require('chromedriver').path;
+          } catch (e) {
+            if (platform === 'darwin') {
+              return '/opt/homebrew/bin/chromedriver';
+            } else if (platform === 'win32') {
+              return 'C:\\Program Files\\chromedriver\\chromedriver.exe';
+            } else { // Linux and others
+              // Try common Linux paths, starting with the known working CI path
+              if (fs.existsSync('/snap/bin/chromium.chromedriver')) {
+                return '/snap/bin/chromium.chromedriver';  // GitLab CI snap installation
+              } else if (fs.existsSync('/usr/bin/chromedriver')) {
+                return '/usr/bin/chromedriver';  // Standard Linux path
+              } else {
+                // Final fallback - try typical paths
+                return process.env.CHROMEDRIVER_PATH || '/usr/bin/chromedriver';
+              }
+            }
+          }
+        }(),
         cli_args: [
-           // "--verbose"
-        ],
+          // Verbose logging in CI for better debugging
+          isCI && "--verbose"
+        ].filter(Boolean),
       },
     },
 
