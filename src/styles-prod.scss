@@ -450,3 +450,16 @@ ul {
     font-weight: bold;
   }
 }
+
+/* --------------------------------------
+ * TOUCH INTERACTION IMPROVEMENTS
+ * -------------------------------------- */
+a,
+button,
+[role="button"],
+[tabindex],
+[class*="card"],
+[class*="clickable"],
+[class*="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
