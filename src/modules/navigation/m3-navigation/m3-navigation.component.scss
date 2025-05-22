@@ -28,6 +28,8 @@ $footer-height: 80px;
 .m3-nav-header-title {
   grid-column: 2;
   text-align: center;
+  color: var(--mat-sys-primary);
+  font-weight: bold;
 }
 
 .m3-nav-fab {
