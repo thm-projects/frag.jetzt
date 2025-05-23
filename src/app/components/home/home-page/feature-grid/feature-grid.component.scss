@@ -673,6 +673,11 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
   margin: 0;
   font-size: 0.8rem !important;
 
+  /* MD3-konforme Hintergrundfarbe für Detailed Text */
+  background-color: var(--mat-sys-surface-container-high);
+  border-radius: 8px;
+  border-left: 3px solid var(--mat-sys-primary);
+
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
 
@@ -687,7 +692,7 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
   line-height: 1.3 !important;
   font-size: 0.8rem !important;
   color: var(--mat-sys-on-surface);
-  background-color: transparent;
+  background-color: transparent; /* Erbt von Container */
 
   p,
   div,
@@ -738,6 +743,7 @@ h2.detailed-text-headline {
   margin-top: 0;
   line-height: 1.3 !important;
   margin-bottom: 12px;
+  background-color: transparent; /* Erbt von Container */
 }
 
 :host ::ng-deep .detailed-text-container .detailed-text p,
