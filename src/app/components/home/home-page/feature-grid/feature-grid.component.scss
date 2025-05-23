@@ -293,7 +293,7 @@ button.card-container {
   mat-card {
     border: 1px solid var(--mat-sys-outline-variant);
     border-radius: 8px;
-    background-color: var(--mat-sys-surface);
+    background-color: var(--mat-sys-surface-container-low);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition:
       box-shadow 0.3s ease,
@@ -306,7 +306,7 @@ button.card-container {
   transform: rotateY(0deg);
 
   mat-card {
-    background-color: var(--mat-sys-surface);
+    background-color: var(--mat-sys-surface-container-low);
     transition:
       transform 0.3s ease,
       box-shadow 0.3s ease;
@@ -319,7 +319,7 @@ button.card-container {
   background-color: transparent;
 
   mat-card {
-    background-color: var(--mat-sys-surface);
+    background-color: var(--mat-sys-surface-container-low);
     width: 100%;
     height: 100%;
     display: flex !important;
@@ -391,20 +391,23 @@ button.card-container {
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.1),
     0 0 0 1px var(--mat-sys-primary-container);
+  background-color: var(--mat-sys-surface-container);
 }
 
 .card-container:focus:not(:hover) .card:not(.flipped) mat-card {
-  background-color: var(--mat-sys-surface);
+  background-color: var(--mat-sys-surface-container-low);
   border-color: var(--mat-sys-primary);
 }
 
 .card.flipped .card-back mat-card {
   border: 1px solid var(--mat-sys-outline-variant) !important;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+  background-color: var(--mat-sys-surface-container-low) !important;
 }
 
 .card.flipped .card-back mat-card:hover {
   border-color: var(--mat-sys-primary-container) !important;
+  background-color: var(--mat-sys-surface-container) !important;
 }
 
 .card-background-image {
