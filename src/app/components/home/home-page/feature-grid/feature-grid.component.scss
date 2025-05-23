@@ -129,7 +129,7 @@
 
     mat-card {
       border: 1px solid var(--mat-sys-outline-variant);
-      border-radius: 12px; /* MD3-Standard für Karten */
+      border-radius: var(--mat-sys-corner-medium, 12px); /* MD3 Shape Token */
       background-color: var(--mat-sys-surface-container-low);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       overflow: hidden; /* Wichtig für saubere Ecken */
@@ -311,7 +311,7 @@ button.card-container {
 
   mat-card {
     border: 1px solid var(--mat-sys-outline-variant);
-    border-radius: 12px; /* MD3-Standard für Karten */
+    border-radius: var(--mat-sys-corner-medium, 12px); /* MD3 Shape Token */
     background-color: var(--mat-sys-surface-container-low);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden; /* Wichtig für saubere Ecken */
@@ -521,11 +521,11 @@ mat-card-content {
   flex-shrink: 0;
   flex-grow: 0;
   margin-bottom: 8px;
-  border-radius: 12px; /* Konsistent */
+  border-radius: 12px; /* MD3-konform für größere Container */
   overflow: hidden;
   position: relative;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--mat-sys-outline-variant); /* Konsistent */
+  box-shadow: var(--mat-sys-level1, 0 2px 4px rgba(0, 0, 0, 0.05));
   background-color: var(--mat-sys-surface-container-lowest);
 }
 
@@ -577,12 +577,12 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) {
 
   .video-summary-title {
     margin: 0 0 4px 0;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: var(--mat-sys-title-medium-size, 0.9rem);
+    font-weight: var(--mat-sys-title-medium-weight, 500);
+    line-height: var(--mat-sys-title-medium-line-height, 1.3);
     color: var(--mat-sys-on-surface);
     padding-bottom: 2px;
     border-bottom: 1px solid var(--mat-sys-outline-variant);
-    line-height: 1.3;
   }
 
   p {
@@ -689,8 +689,8 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 }
 
 .detailed-text {
-  line-height: 1.3 !important;
-  font-size: 0.8rem !important;
+  font-size: var(--mat-sys-body-medium-size, 0.8rem) !important;
+  line-height: var(--mat-sys-body-medium-line-height, 1.3) !important;
   color: var(--mat-sys-on-surface);
   background-color: transparent; /* Erbt von Container */
 
@@ -737,11 +737,11 @@ mat-grid-tile:not([colspan="2"]):not([colspan="3"]) .video-summary {
 }
 
 h2.detailed-text-headline {
-  font-size: 1rem !important;
-  font-weight: 500;
+  font-size: var(--mat-sys-headline-small-size, 1rem) !important;
+  font-weight: var(--mat-sys-headline-small-weight, 500);
   color: var(--mat-sys-primary);
   margin-top: 0;
-  line-height: 1.3 !important;
+  line-height: var(--mat-sys-headline-small-line-height, 1.3) !important;
   margin-bottom: 12px;
   background-color: transparent; /* Erbt von Container */
 }
