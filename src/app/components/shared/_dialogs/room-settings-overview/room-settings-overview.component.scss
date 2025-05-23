@@ -1,11 +1,64 @@
+// Base toggle button styling
 mat-slide-toggle {
   display: block;
+}
 
-  & + mat-slide-toggle {
-    margin-top: 1em;
+// Toggle button alignment and spacing
+::ng-deep .mat-mdc-slide-toggle.right-aligned {
+  width: 100%;
+  margin: 12px 0;
+
+  .mdc-form-field {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
+  }
+
+  .mdc-form-field > label {
+    padding-right: 24px;
+    max-width: 80%;
   }
 }
 
-mat-card {
-  margin-top: 1em;
+// Content layout
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+
+  > mat-slide-toggle {
+    margin-bottom: 12px;
+    margin-left: 0;
+  }
+}
+
+// Section headings
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 16px 0 8px 0;
+  color: var(--mat-primary-text);
+  padding-left: 0;
+}
+
+// Theme-compatible colors
+::ng-deep .mat-mdc-slide-toggle .mdc-form-field label {
+  color: var(--mat-primary-text);
+}
+
+// Secondary text elements
+p,
+.mat-mdc-tooltip {
+  color: var(--mat-secondary-text);
+}
+
+// Dialog actions
+::ng-deep mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px;
+
+  button + button {
+    margin-left: 8px;
+  }
 }

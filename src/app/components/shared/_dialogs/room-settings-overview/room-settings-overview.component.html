@@ -1,7 +1,8 @@
-<h2 mat-dialog-title>{{ "room-settings-overview.moderation" | translate }}</h2>
-
 <mat-dialog-content>
+  <h3>{{ "room-settings-overview.moderation" | translate }}</h3>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="directSend"
     aria-labelledby="settings-direct-send"
     matTooltip="{{
@@ -10,7 +11,9 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.settings-direct-send" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="conversationEnabled"
     aria-labelledby="conversation-enabled"
     matTooltip="{{
@@ -19,55 +22,59 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.conversation-enabled" | translate }}
   </mat-slide-toggle>
-  <mat-card
-    appearance="outlined"
-    class="primary-container">
-    <mat-card-header>
-      {{ "room-settings-overview.title-profanity" | translate }}
-    </mat-card-header>
-    <mat-card-content>
-      <mat-slide-toggle
-        (click)="toggleProfanityFilter($event)"
-        [checked]="profanityFilter !== 'DEACTIVATED'"
-        aria-labelledby="profanity-toggle-active"
-        matTooltip="{{
-          'room-settings-overview.tooltip-profanity-toggle-active' | translate
-        }}"
-        [labelPosition]="'before'">
-        {{ "room-settings-overview.profanity-toggle-active" | translate }}
-      </mat-slide-toggle>
-      <mat-slide-toggle
-        (click)="toggleProfanityLanguage($event)"
-        *ngIf="profanityFilter !== 'DEACTIVATED'"
-        [checked]="
-          profanityFilter === 'ALL' || profanityFilter === 'LANGUAGE_SPECIFIC'
-        "
-        aria-labelledby="profanity-toggle-all"
-        matTooltip="{{
-          'room-settings-overview.tooltip-profanity-toggle-all' | translate
-        }}"
-        [labelPosition]="'before'">
-        {{ "room-settings-overview.profanity-toggle-all" | translate }}
-      </mat-slide-toggle>
-      <mat-slide-toggle
-        (click)="toggleProfanityWords($event)"
-        *ngIf="profanityFilter !== 'DEACTIVATED'"
-        [checked]="
-          profanityFilter === 'ALL' || profanityFilter === 'PARTIAL_WORDS'
-        "
-        aria-labelledby="profanity-toggle-word"
-        matTooltip="{{
-          'room-settings-overview.tooltip-profanity-toggle-word' | translate
-        }}"
-        [labelPosition]="'before'">
-        {{ "room-settings-overview.profanity-toggle-word" | translate }}
-      </mat-slide-toggle>
-    </mat-card-content>
-  </mat-card>
+
+  <h3>{{ "room-settings-overview.title-profanity" | translate }}</h3>
+
+  <mat-slide-toggle
+    class="right-aligned"
+    (click)="toggleProfanityFilter($event)"
+    (keydown.enter)="toggleProfanityFilter($event)"
+    (keydown.space)="toggleProfanityFilter($event)"
+    [checked]="profanityFilter !== 'DEACTIVATED'"
+    aria-labelledby="profanity-toggle-active"
+    matTooltip="{{
+      'room-settings-overview.tooltip-profanity-toggle-active' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.profanity-toggle-active" | translate }}
+  </mat-slide-toggle>
+
+  <mat-slide-toggle
+    class="right-aligned"
+    (click)="toggleProfanityLanguage($event)"
+    (keydown.enter)="toggleProfanityLanguage($event)"
+    (keydown.space)="toggleProfanityLanguage($event)"
+    *ngIf="profanityFilter !== 'DEACTIVATED'"
+    [checked]="
+      profanityFilter === 'ALL' || profanityFilter === 'LANGUAGE_SPECIFIC'
+    "
+    aria-labelledby="profanity-toggle-all"
+    matTooltip="{{
+      'room-settings-overview.tooltip-profanity-toggle-all' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.profanity-toggle-all" | translate }}
+  </mat-slide-toggle>
+
+  <mat-slide-toggle
+    class="right-aligned"
+    (click)="toggleProfanityWords($event)"
+    (keydown.enter)="toggleProfanityWords($event)"
+    (keydown.space)="toggleProfanityWords($event)"
+    *ngIf="profanityFilter !== 'DEACTIVATED'"
+    [checked]="profanityFilter === 'ALL' || profanityFilter === 'PARTIAL_WORDS'"
+    aria-labelledby="profanity-toggle-word"
+    matTooltip="{{
+      'room-settings-overview.tooltip-profanity-toggle-word' | translate
+    }}"
+    [labelPosition]="'before'">
+    {{ "room-settings-overview.profanity-toggle-word" | translate }}
+  </mat-slide-toggle>
 
   <h3>{{ "room-settings-overview.general" | translate }}</h3>
 
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="keywordExtrationEnabled"
     aria-labelledby="keyword-extraction-enabled"
     matTooltip="{{
@@ -80,6 +87,7 @@
   <h3>{{ "room-settings-overview.education" | translate }}</h3>
 
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="livepollEnabled"
     aria-labelledby="livepoll-enabled"
     matTooltip="{{
@@ -88,7 +96,9 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.livepoll-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="bonusArchiveEnabled"
     aria-labelledby="bonus-archive-enabled"
     matTooltip="{{
@@ -97,14 +107,18 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.bonus-archive-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="quizEnabled"
     aria-labelledby="quiz-enabled"
     matTooltip="{{ 'room-settings-overview.tooltip-quiz-enabled' | translate }}"
     [labelPosition]="'before'">
     {{ "room-settings-overview.quiz-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="brainstormingEnabled"
     aria-labelledby="brainstorming-enabled"
     matTooltip="{{
@@ -113,35 +127,42 @@
     [labelPosition]="'before'">
     {{ "room-settings-overview.brainstorming-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="aiEnabled"
+    aria-labelledby="ai-enabled"
     matTooltip="{{ 'room-settings-overview.tooltip-ai-enabled' | translate }}"
     [labelPosition]="'before'">
     {{ "room-settings-overview.ai-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="focusEnabled"
+    aria-labelledby="focus-enabled"
     matTooltip="{{
       'room-settings-overview.tooltip-focus-enabled' | translate
     }}"
     [labelPosition]="'before'">
     {{ "room-settings-overview.focus-enabled" | translate }}
   </mat-slide-toggle>
+
   <mat-slide-toggle
+    class="right-aligned"
     [(ngModel)]="radarEnabled"
+    aria-labelledby="radar-enabled"
     matTooltip="{{
       'room-settings-overview.tooltip-radar-enabled' | translate
     }}"
     [labelPosition]="'before'">
     {{ "room-settings-overview.radar-enabled" | translate }}
   </mat-slide-toggle>
-  <p>{{ "room-settings-overview.note-on-changing-settings" | translate }}</p>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button
-    mat-stroked-button
-    class="secondary-button"
+    mat-button
     (click)="openHelp()">
     <mat-icon>question_mark</mat-icon>
     {{ "explanation.label" | translate }}
@@ -149,13 +170,11 @@
   <span style="flex: 1"></span>
   <button
     mat-button
-    class="secondary-button"
     mat-dialog-close>
     {{ "room-settings-overview.cancel" | translate }}
   </button>
   <button
-    mat-stroked-button
-    class="primary-button"
+    mat-flat-button
     (click)="confirm()">
     {{ "room-settings-overview.save" | translate }}
   </button>
