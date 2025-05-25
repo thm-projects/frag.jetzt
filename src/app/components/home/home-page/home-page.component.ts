@@ -49,18 +49,18 @@ export class HomePageComponent implements OnInit, OnDestroy {
   protected readonly language = language;
   protected readonly Math = Math;
   private readonly _destroyer: Subject<number> = new ReplaySubject(1);
-  private injector = inject(Injector);
+  private readonly injector = inject(Injector);
   protected featureState: boolean = false;
   protected readonly windowClass = windowWatcher.windowState;
 
   constructor(
-    private translateService: TranslateService,
-    private eventService: EventService,
-    private liveAnnouncer: LiveAnnouncer,
-    private _r: Renderer2,
-    private ratingService: RatingService,
-    private sessionService: SessionService,
-    private notificationService: NotificationService,
+    private readonly translateService: TranslateService,
+    private readonly eventService: EventService,
+    private readonly liveAnnouncer: LiveAnnouncer,
+    private readonly _r: Renderer2,
+    private readonly ratingService: RatingService,
+    private readonly sessionService: SessionService,
+    private readonly notificationService: NotificationService,
     protected self: HomePageService,
     public dialog: MatDialog,
   ) {

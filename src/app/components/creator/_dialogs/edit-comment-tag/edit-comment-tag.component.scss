@@ -4,6 +4,7 @@ Styling for tag selection
 
 label[for="tagSelect"] {
   margin-left: 12px;
+  color: var(--mat-sys-on-surface);
 }
 
 .anchor-wrp {
@@ -20,80 +21,320 @@ Styling for language select
  */
 
 .select-list {
-  width: 18px;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
   margin-left: 12px;
 }
 
 .tag-reset {
-  background-color: var(--dialog);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
+  background-color: var(--mat-sys-surface-container);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  color: var(--mat-sys-on-surface);
 }
 
-/*
-Styling for tag selection and language selection
- */
+/* ==========================================================================
+   Edit Comment Tag Dialog Styling
+   Material Design 3 compliant styling for tag selection dialog
+   ========================================================================== */
 
-:host ::ng-deep {
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-arrow-wrapper .mat-select-arrow {
-    color: var(--on-surface);
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-value {
-    width: auto !important;
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
- */
-  .mat-select-value-text {
-    color: var(--on-surface);
-    caret-color: var(--on-surface);
-  }
-  /*
-TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version.
- */
-  .mat-primary .mat-mdc-option.mat-selected:not(.mat-option-disabled) {
-    color: var(--primary);
+/* Dialog Layout */
+div[mat-dialog-title] {
+  padding: 24px 24px 0 24px;
+  margin: 0;
+}
+
+/* Dialog Content - Extra padding to prevent label clipping */
+mat-dialog-content {
+  padding: 32px 24px 0 24px;
+  margin: 0;
+}
+
+/* Tag Selection Container */
+.tag-selection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  /* Extra space for floating label */
+}
+
+.tag-form-field {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* No Tags Available Message */
+.no-tags-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: var(--mat-sys-corner-medium, 12px);
+
+  .info-icon {
+    color: var(--mat-sys-on-surface-variant);
   }
 
-  .mat-mdc-select-panel {
-    background: var(--dialog);
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface);
   }
 }
 
-.mat-mdc-option {
-  color: var(--on-surface);
-}
-
+/* Action Buttons Layout */
 .action-button-container {
-  @media screen and (max-width: 500px) {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column !important;
-    flex-wrap: wrap;
-    align-items: flex-end;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px 24px 24px;
+
+  .button-spacer {
+    flex: 1;
+    /* Pushes buttons to the right */
+  }
+
+  button {
+    width: auto !important;
+    min-width: auto !important;
+    flex: none !important;
+    white-space: nowrap;
   }
 }
 
-.dialog-button {
-  background-color: transparent;
-  color: var(--on-dialog);
-  outline: var(--secondary) solid 2px;
-  margin: 10px 10px 10px 3px;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
+/* Deep Styling for Material Components */
+:host ::ng-deep {
+  /* Dialog Container Sizing */
+  .mat-mdc-dialog-container {
+    min-width: 400px;
+    max-width: 600px;
+    overflow: visible;
+    /* Prevent label clipping */
   }
 
-  .mat-icon {
-    font-size: 18px;
-    margin-top: 3px;
+  /* Form Field Styling - Fix for floating label */
+  .tag-form-field {
+    .mat-mdc-form-field-wrapper {
+      padding-top: 20px;
+      /* Space for floating label */
+      overflow: visible;
+    }
+
+    /* Floating Label Configuration */
+    .mat-mdc-form-field-floating-label {
+      top: 28px;
+      transform-origin: left top;
+      overflow: visible !important;
+    }
+
+    .mat-mdc-form-field-label {
+      color: var(--mat-sys-on-surface-variant);
+      overflow: visible !important;
+      white-space: nowrap !important;
+      text-overflow: clip !important;
+      max-width: none !important;
+      top: 0 !important;
+    }
+
+    /* Form Field Layout */
+    .mat-mdc-form-field-flex {
+      padding-top: 8px;
+    }
+
+    .mat-mdc-form-field-infix {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    /* Outline Styling */
+    .mat-mdc-form-field-outline {
+      color: var(--mat-sys-outline);
+    }
+
+    .mat-mdc-form-field-outline-thick {
+      color: var(--mat-sys-outline);
+    }
+
+    /* Focus State */
+    &.mat-focused {
+      .mat-mdc-form-field-outline-thick {
+        color: var(--mat-sys-primary);
+        border-width: 2px;
+      }
+
+      .mat-mdc-form-field-label {
+        color: var(--mat-sys-primary);
+      }
+    }
+
+    /* Hover State */
+    &:hover:not(.mat-focused) {
+      .mat-mdc-form-field-outline {
+        color: var(--mat-sys-on-surface);
+      }
+    }
+
+    /* Error State */
+    &.mat-form-field-invalid {
+      .mat-mdc-form-field-outline-thick {
+        color: var(--mat-sys-error);
+      }
+
+      .mat-mdc-form-field-label {
+        color: var(--mat-sys-error);
+      }
+    }
+  }
+
+  /* Select Component Styling */
+  .mat-mdc-select {
+    .mat-mdc-select-arrow {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    .mat-mdc-select-value {
+      color: var(--mat-sys-on-surface);
+    }
+  }
+
+  /* Select Dropdown Panel */
+  .mat-mdc-select-panel {
+    background-color: var(--mat-sys-surface-container);
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: var(--mat-sys-corner-extra-large, 28px);
+    box-shadow: var(--mat-sys-elevation-level3);
+    padding: 8px 0;
+    min-width: 280px !important;
+    transform-origin: top center;
+  }
+
+  /* Option Styling */
+  .mat-mdc-option {
+    color: var(--mat-sys-on-surface) !important;
+    background-color: transparent !important;
+    padding: 16px 24px !important;
+    min-height: 56px !important;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Hover State */
+    &:hover {
+      background-color: var(--mat-sys-secondary-container) !important;
+      color: var(--mat-sys-on-secondary-container) !important;
+    }
+
+    /* Selected State */
+    &.mat-selected {
+      background-color: var(--mat-sys-primary-container) !important;
+      color: var(--mat-sys-on-primary-container) !important;
+    }
+
+    /* Reset Option Styling */
+    &.tag-reset {
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+      margin-bottom: 8px;
+
+      em {
+        color: var(--mat-sys-on-surface-variant);
+        font-style: italic;
+      }
+    }
+  }
+
+  /* Dialog Action Button Styling */
+  mat-dialog-actions.action-button-container {
+    button {
+      /* Cancel Button - Text Style */
+      &[mat-button] {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: var(--mat-sys-on-surface-variant) !important;
+
+        &:hover {
+          background-color: rgba(
+            var(--mat-sys-on-surface-rgb),
+            0.08
+          ) !important;
+        }
+      }
+
+      /* Tag Management Button - Secondary Style */
+      &[mat-flat-button][color="accent"] {
+        background-color: var(--mat-sys-secondary-container) !important;
+        color: var(--mat-sys-on-secondary-container) !important;
+
+        &:hover {
+          box-shadow: var(--mat-sys-elevation-level1) !important;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  :host ::ng-deep {
+    .mat-mdc-dialog-container {
+      min-width: 320px;
+      margin: 16px;
+    }
+  }
+
+  .action-button-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    .button-spacer {
+      display: none;
+    }
+
+    button {
+      width: 100% !important;
+    }
+  }
+}
+
+/* Dark Theme Adjustments */
+@media (prefers-color-scheme: dark) {
+  :host ::ng-deep {
+    .mat-mdc-select-panel {
+      box-shadow: var(
+        --mat-sys-elevation-level3,
+        0 1px 3px 0 rgba(0, 0, 0, 0.4),
+        0 4px 8px 3px rgba(0, 0, 0, 0.3)
+      );
+    }
+  }
+}
+
+/* High Contrast / Accessibility */
+@media (forced-colors: active) {
+  .no-tags-message {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  :host ::ng-deep {
+    .mat-mdc-select-panel {
+      border: 1px solid CanvasText;
+      background-color: Canvas;
+      box-shadow: none;
+    }
+
+    .mat-mdc-option {
+      color: CanvasText;
+
+      &:hover,
+      &.mat-selected {
+        background-color: Highlight;
+        color: HighlightText;
+      }
+    }
   }
 }

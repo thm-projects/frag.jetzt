@@ -326,6 +326,7 @@
     "no-comments": "",
     "no-comments-with-filter": "Aucune entrée avec le filtre sélectionné",
     "no-comments-with-search": "Pas de questions lors de ta recherche",
+    "no-tags-available": "Aucune catégorie disponible.",
     "notification-on-off": "Toggle notifications",
     "option-menue": "Autres options",
     "preview-comment": "Aperçu",

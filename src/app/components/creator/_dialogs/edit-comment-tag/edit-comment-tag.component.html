@@ -1,62 +1,78 @@
-<h3>{{ "comment-page.tag-title" | translate }}</h3>
+<!-- Dialog Header -->
+<div mat-dialog-title>
+  {{ "comment-page.tag-title" | translate }}
+</div>
 
+<!-- Dialog Content -->
 <mat-dialog-content>
-  <button
-    mat-button
-    *ngIf="sessionInfo.currentRoom?.tags?.length"
-    (click)="tagSelect.open()"
-    matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
-    <mat-icon class="btn-icon">sell</mat-icon>
-    <label
-      for="tagSelect"
-      *ngIf="!selectedTag">
-      <em>{{ "comment-page.tag" | translate }}</em>
-    </label>
-    <label
-      for="tagSelect"
-      *ngIf="selectedTag">
-      {{ selectedTag }}
-    </label>
-    <mat-select
-      class="select-list"
-      id="tagSelect"
-      #tagSelect
-      [(ngModel)]="selectedTag">
-      <mat-option
-        class="tag-reset"
-        [value]="null">
-        <em>{{ "comment-page.tag-reset" | translate }}</em>
-      </mat-option>
-      <mat-option
-        *ngFor="let tag of sessionInfo.currentRoom.tags"
-        [value]="tag">
-        {{ tag }}
-      </mat-option>
-    </mat-select>
-  </button>
+  <!-- Tag Selection Section - Only show if tags are available -->
+  <div
+    class="tag-selection-container"
+    *ngIf="sessionInfo.currentRoom?.tags?.length">
+    <mat-form-field
+      appearance="outline"
+      class="tag-form-field">
+      <mat-label>{{ "comment-page.tag" | translate }}</mat-label>
+      <mat-select
+        id="tagSelect"
+        [(ngModel)]="selectedTag"
+        [placeholder]="'comment-page.tag-reset' | translate">
+        <!-- Reset Option - Removes tag from comment -->
+        <mat-option
+          class="tag-reset"
+          [value]="null">
+          <em>{{ "comment-page.tag-reset" | translate }}</em>
+        </mat-option>
+
+        <!-- Available Tag Options -->
+        <mat-option
+          *ngFor="let tag of sessionInfo.currentRoom.tags"
+          [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- No Tags Available Message -->
+  <div
+    class="no-tags-message"
+    *ngIf="!sessionInfo.currentRoom?.tags?.length">
+    <mat-icon class="info-icon">info</mat-icon>
+    <p>{{ "comment-page.no-tags-available" | translate }}</p>
+  </div>
 </mat-dialog-content>
 
-<ars-row
-  ars-flex-box
-  class="action-button-container">
-  <ars-col>
-    <button
-      *ngIf="role > 0"
-      mat-flat-button
-      class="dialog-button"
-      (click)="openAllTags()">
-      <mat-icon class="material-icons-filled">sell</mat-icon>
-      {{ "comment-page.tag-open-all" | translate }}
-    </button>
-  </ars-col>
-  <ars-col>
-    <app-dialog-action-buttons
-      buttonsLabelSection="comment-page"
-      confirmButtonLabel="update"
-      [spacing]="false"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="
-        buildSaveActionCallback()
-      "></app-dialog-action-buttons>
-  </ars-col>
-</ars-row>
+<!-- Dialog Action Buttons -->
+<mat-dialog-actions class="action-button-container">
+  <!-- Cancel Button (left) -->
+  <button
+    mat-button
+    (click)="buildCloseDialogActionCallback()()">
+    {{ "comment-page.cancel" | translate }}
+  </button>
+
+  <!-- Spacer - Only show if tags are available -->
+  <div
+    class="button-spacer"
+    *ngIf="sessionInfo.currentRoom?.tags?.length"></div>
+
+  <!-- Tag Management Button (center-right) - Only for moderators -->
+  <button
+    *ngIf="role > 0"
+    mat-flat-button
+    color="accent"
+    (click)="openAllTags()">
+    <mat-icon>sell</mat-icon>
+    {{ "comment-page.tag-open-all" | translate }}
+  </button>
+
+  <!-- Save Button (right) - Only show if tags are available -->
+  <button
+    *ngIf="sessionInfo.currentRoom?.tags?.length"
+    mat-flat-button
+    color="primary"
+    (click)="buildSaveActionCallback()()">
+    {{ "comment-page.update" | translate }}
+  </button>
+</mat-dialog-actions>
