@@ -197,13 +197,13 @@
     "advanced-setting-reset": "Zurücksetzen"
   },
   "mailing": {
-    "title": "Rundmail an alle",
+    "title": "Mail an alle",
     "subject": "Betreff",
-    "placeholder-subject": "Gib hier dein Betreff ein …",
+    "placeholder-subject": "Gib hier den Betreff ein …",
     "body": "Nachricht",
     "placeholder-body": "Gib hier deine Nachricht ein …",
     "send": "An alle registrierten Nutzer senden",
     "start-sending": "Nachrichten werden gesendet …",
-    "finish-sending": "Nachrichten wurden alle versandt."
+    "finish-sending": "Nachrichten wurden an alle versandt."
   }
 }

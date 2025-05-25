@@ -6,7 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { AdminMailingComponent } from './admin-mailing.component';
 
@@ -25,7 +26,10 @@ describe('AdminMailingComponent', () => {
         MatButtonModule,
         TranslateModule.forRoot(),
         NoopAnimationsModule,
-        HttpClientTestingModule, // FIX: Hinzugefügt für EmailService
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(), // New API for HTTP testing
       ],
     }).compileComponents();
 
