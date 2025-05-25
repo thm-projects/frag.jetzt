@@ -244,6 +244,14 @@ $min-width: 360px;
 .cdk-overlay-pane.mat-mdc-dialog-panel {
   --mat-dialog-container-min-width: #{$min-width};
 
+  /* Subtle MD3-conform borders for dark theme visibility */
+  .mat-mdc-dialog-surface {
+    border: 1px solid rgba(68, 71, 78, 0.6); /* Very transparent outline-variant */
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      /* Much more subtle shadow */ 0 0 0 0.5px rgba(68, 71, 78, 0.3); /* Very thin, transparent accent */
+  }
+
   &.toastui-panel {
     width: 60rem;
     max-width: calc(100dvw - 2em);
@@ -256,6 +264,24 @@ $min-width: 360px;
       #{$min-width},
       var(--mat-dialog-container-small-max-width, 80vw)
     );
+  }
+}
+
+/* Full screen dialogs keep clean edges */
+.full-screen-dialog {
+  --mat-dialog-container-small-max-width: 100dvw;
+  --mat-dialog-container-max-width: 100dvw;
+  --mat-dialog-container-min-width: 100dvw;
+  --mat-dialog-container-max-height: 100dvh;
+  --mdc-dialog-container-shape: 0;
+
+  .mat-mdc-dialog-surface {
+    border: none !important; /* No border for fullscreen */
+    box-shadow: none !important;
+  }
+
+  & .mat-mdc-dialog-content {
+    max-height: 100%;
   }
 }
 
