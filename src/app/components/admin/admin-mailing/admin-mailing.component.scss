@@ -1,21 +1,59 @@
-:host > mat-card {
-  margin-top: 2rem;
-  background: var(--surface) !important;
-  color: var(--on-surface) !important;
+:host {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 2px;
-  font-size: 16px;
-  width: 100%;
-  margin-top: 20px;
+:host > mat-card {
+  background-color: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large, 16px);
+  box-shadow: var(--mat-sys-elevation-level1);
 
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+
+  /* Sizing */
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+
+  /* Titel Styling - MD3 konform */
+  h1 {
+    font-family: var(--mat-sys-headline-medium-font, inherit);
+    font-size: var(--mat-sys-headline-medium-size, 1.75rem);
+    font-weight: var(--mat-sys-headline-medium-weight, 400);
+    line-height: var(--mat-sys-headline-medium-line-height, 2.25rem);
+    letter-spacing: var(--mat-sys-headline-medium-tracking, 0);
+    color: var(--mat-sys-on-surface);
+    margin: 0;
+    text-align: center;
+  }
+
+  /* Form Fields - Standard Material Styling */
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem 0.5rem;
+  }
+
+  :host > mat-card {
+    max-width: 100%;
+    padding: 16px;
+    gap: 16px;
+
+    h1 {
+      font-size: var(--mat-sys-headline-small-size, 1.5rem);
+      line-height: var(--mat-sys-headline-small-line-height, 2rem);
+    }
   }
 }
