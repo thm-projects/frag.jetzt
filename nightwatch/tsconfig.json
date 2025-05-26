@@ -8,10 +8,16 @@
     "types": [
       "node",
       "nightwatch"
-    ]
+    ],
+    "paths": {
+      "*": [
+        "*",
+        "./types/*"
+      ]
+    }
   },
   "include": [
-    "src/**/*",
-    "e2e/**/*"
+    "**/*",
+    "types/**/*.d.ts"
   ]
 }

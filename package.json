@@ -73,7 +73,6 @@
     "@angular/cli": "^19.2.4",
     "@angular/compiler-cli": "^19.2.3",
     "@angular/language-service": "^19.2.3",
-    "@cucumber/cucumber": "^11.0.1",
     "@cypress/schematic": "^3.0.0",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",

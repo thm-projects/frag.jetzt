@@ -7,6 +7,7 @@ docker-compose.override.yml
 /install/lang.txt
 /frag_jetzt
 /logs
+/tests_output
 
 # compiled output
 /dist
