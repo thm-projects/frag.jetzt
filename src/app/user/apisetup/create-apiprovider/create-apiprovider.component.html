@@ -98,8 +98,8 @@
         [ngTemplateOutlet]="inputElem"
         [ngTemplateOutletContext]="{
           name: item.key,
-          default: item.value.default,
-          type: item.value.type,
+          default: item.value.$default,
+          type: item.value.$type,
           id: 'optional_json_settings.' + item.key,
         }" />
     }
@@ -178,7 +178,7 @@
           </button>
         </mat-form-field>
       }
-      @case ("dict") {
+      @case ("map") {
         <h3>{{ i18n().name[name] }}</h3>
         @if (getFormArray(id); as arr) {
           @for (control of arr.controls; track $index; let i = $index) {
@@ -212,7 +212,7 @@
             <mat-form-field>
               <mat-label>Typ</mat-label>
               <mat-select #select>
-                <mat-option value="text">
+                <mat-option value="str">
                   {{ i18n().addOptions.text }}
                 </mat-option>
                 <mat-option value="float">

@@ -1,0 +1,113 @@
+<h2 mat-dialog-title>{{ i18n().title }}</h2>
+
+<mat-dialog-content>
+  <mat-stepper
+    (selectedIndexChange)="onChange($event)"
+    [linear]="true"
+    #stepper>
+    <mat-step [stepControl]="modelGroup">
+      <ng-template matStepLabel>{{ i18n().selectModel }}</ng-template>
+      <form [formGroup]="modelGroup">
+        <mat-selection-list
+          formControlName="model"
+          [multiple]="false">
+          @for (model of models(); track model.id) {
+            <mat-list-option [value]="model.id">
+              <span matListItemTitle>{{ model.name }}</span>
+              <span matListItemLine>
+                {{
+                  i18n().modelShortInfo
+                    | context
+                      : {
+                          input: formatNumber(model.pricing.prompt),
+                          output: formatNumber(model.pricing.completion),
+                        }
+                }}
+              </span>
+              <span matListItemLine>{{ model.description }}</span>
+            </mat-list-option>
+          }
+        </mat-selection-list>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="providerGroup">
+      <ng-template matStepLabel>{{ i18n().selectProvider }}</ng-template>
+      <form [formGroup]="providerGroup">
+        <mat-selection-list
+          formControlName="provider"
+          [multiple]="false">
+          @for (endpoint of endpoints(); track endpoint.name) {
+            <mat-list-option
+              [disabled]="!isAvailable(endpoint)"
+              [value]="endpoint">
+              <span matListItemTitle>
+                {{ endpoint.name }}
+              </span>
+
+              <span matListItemLine>
+                {{
+                  (isAvailable(endpoint)
+                    ? i18n().providerShortInfoAvailable1
+                    : i18n().providerShortInfo
+                  )
+                    | context
+                      : {
+                          input: formatNumber(endpoint.pricing.prompt),
+                          output: formatNumber(endpoint.pricing.completion),
+                          fields: endpoint.supported_parameters.join(", "),
+                        }
+                }}
+              </span>
+              <span matListItemLine>
+                {{
+                  (isAvailable(endpoint)
+                    ? i18n().providerShortInfoAvailable2
+                    : i18n().notAvailable
+                  )
+                    | context
+                      : {
+                          input: formatNumber(endpoint.pricing.prompt),
+                          output: formatNumber(endpoint.pricing.completion),
+                          fields: endpoint.supported_parameters.join(", "),
+                        }
+                }}
+              </span>
+            </mat-list-option>
+          }
+        </mat-selection-list>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close>
+    {{ i18n().global.cancel }}
+  </button>
+  @if (stepper.selectedIndex > 0) {
+    <button
+      mat-flat-button
+      [disabled]="saving()"
+      class="secondary"
+      (click)="stepper.previous()">
+      {{ i18n().back }}
+    </button>
+  }
+  <span style="flex: 1"></span>
+  <button
+    mat-flat-button
+    [disabled]="saving()"
+    (click)="next()">
+    @if (stepper.selectedIndex === 0) {
+      {{ i18n().next }}
+    } @else {
+      {{ i18n().global.saveAndClose }}
+    }
+    @if (saving()) {
+      <mat-spinner class="button-spinner"></mat-spinner>
+    }
+  </button>
+</mat-dialog-actions>

@@ -15,8 +15,8 @@ export interface DefaultDictType {
 }
 
 export interface DefaultedElementType {
-  type: string | (DefaultDictType | string)[];
-  default: unknown;
+  $type: string | (DefaultDictType | string)[];
+  $default: unknown;
 }
 
 export interface MandatoryField {

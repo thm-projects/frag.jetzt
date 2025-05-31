@@ -355,6 +355,10 @@ export class CreateAPIProviderComponent {
       if (types.length === 1) return types[0];
       console.warn('Type not valid', type);
       return null;
+    } else if (typeof type === 'object' && type !== null) {
+      if ('$type' in type) {
+        return this.getType(type.$type);
+      }
     }
     console.warn('Type not valid', type);
     return null;
@@ -383,14 +387,14 @@ export class CreateAPIProviderComponent {
       if (group2.controls[key]) {
         continue;
       }
-      const type = this.getType(info.optional[key].type);
+      const type = this.getType(info.optional[key].$type);
       if (typeof type === 'object') {
         const group3 = new FormGroup({});
         for (const key2 of Object.keys(type)) {
           group3.addControl(key2, new FormControl());
         }
         group2.addControl(key, group3);
-      } else if (type === 'dict') {
+      } else if (type === 'dict' || type === 'map') {
         group2.addControl(key, new FormArray([]));
       } else {
         group2.addControl(key, new FormControl(null));
@@ -426,20 +430,20 @@ export class CreateAPIProviderComponent {
       if (group2.controls[key]) {
         continue;
       }
-      const type = this.getType(info.optional[key].type);
+      const type = this.getType(info.optional[key].$type);
       if (typeof type === 'object') {
         const group3 = new FormGroup({});
         for (const key2 of Object.keys(type)) {
           group3.addControl(key2, new FormControl(inputData[key][key2]));
         }
         group2.addControl(key, group3);
-      } else if (type === 'dict') {
+      } else if (type === 'dict' || type === 'map') {
         const array = new FormArray([]);
         const subData = inputData[key];
         for (const key2 of Object.keys(subData)) {
           const value = subData[key2];
           const type =
-            typeof value === 'string' ? 'text' : value <= 2 ? 'float' : 'int';
+            typeof value === 'string' ? 'str' : value <= 2 ? 'float' : 'int';
           array.push(
             new FormGroup({
               key: new FormControl(key2),

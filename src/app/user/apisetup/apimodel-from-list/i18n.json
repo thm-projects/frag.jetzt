@@ -1,0 +1,42 @@
+{
+    "key": "apimodel-from-list",
+    "de": {
+        "title": "API-Modelle von OpenRouter",
+        "selectModel": "Modell auswählen",
+        "modelShortInfo": "Eingabe: {{input}}, Ausgabe: {{output}}",
+        "selectProvider": "Anbieter auswählen",
+        "providerShortInfo": "Eingabe: {{input}}, Ausgabe: {{output}}, Verfügabre Felder: {{fields}}",
+        "notAvailable": "Nicht verfügabr auf frag.jetzt",
+        "providerShortInfoAvailable1": "Eingabe: {{input}}, Ausgabe: {{output}}",
+        "providerShortInfoAvailable2": "Verfügbare Felder: {{fields}}",
+        "back": "Zurück",
+        "next": "Weiter",
+        "invalidParameters": "Der Anbieter übergibt ungültige Parameter."
+    },
+    "en": {
+        "title": "API Models from OpenRouter",
+        "selectModel": "Select Model",
+        "modelShortInfo": "Input: {{input}}, Output: {{output}}",
+        "selectProvider": "Select Provider",
+        "providerShortInfo": "Input: {{input}}, Output: {{output}}, Available Fields: {{fields}}",
+        "notAvailable": "Not available on frag.jetzt",
+        "providerShortInfoAvailable1": "Input: {{input}}, Output: {{output}}",
+        "providerShortInfoAvailable2": "Available Fields: {{fields}}",
+        "back": "Back",
+        "next": "Next",
+        "invalidParameters": "The provider is passing invalid parameters."
+    },
+    "fr": {
+        "title": "Modèles API d'OpenRouter",
+        "selectModel": "Sélectionner le modèle",
+        "modelShortInfo": "Entrée : {{input}}, Sortie : {{output}}",
+        "selectProvider": "Sélectionner le fournisseur",
+        "providerShortInfo": "Entrée : {{input}}, Sortie : {{output}}, Champs disponibles : {{fields}}",
+        "notAvailable": "Non disponible sur frag.jetzt",
+        "providerShortInfoAvailable1": "Entrée : {{input}}, Sortie : {{output}}",
+        "providerShortInfoAvailable2": "Champs disponibles : {{fields}}",
+        "back": "Retour",
+        "next": "Suivant",
+        "invalidParameters": "Le fournisseur transmet des paramètres invalides."
+    }
+}

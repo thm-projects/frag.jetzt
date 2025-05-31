@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import {
+  APIModelInfo,
   AssistantAPIService,
   ProviderSetting,
 } from 'app/room/assistant-route/services/assistant-api.service';
@@ -23,6 +24,10 @@ import { CreateAPIProviderComponent } from './create-apiprovider/create-apiprovi
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { NotificationService } from 'app/services/util/notification.service';
+import { CreateAPIModelComponent } from './create-apimodel/create-apimodel.component';
+import { language } from 'app/base/language/language';
+import { ContextPipe } from 'app/base/i18n/context.pipe';
+import { APIModelFromListComponent } from './apimodel-from-list/apimodel-from-list.component';
 
 @Component({
   selector: 'app-apisetup',
@@ -33,6 +38,7 @@ import { NotificationService } from 'app/services/util/notification.service';
     MatTooltipModule,
     MatButtonModule,
     MatCardModule,
+    ContextPipe,
   ],
   templateUrl: './apisetup.component.html',
   styleUrl: './apisetup.component.scss',
@@ -40,11 +46,13 @@ import { NotificationService } from 'app/services/util/notification.service';
 export class APISetupComponent {
   private mode = signal<'user' | 'admin'>('user');
   protected settings = signal<ProviderSetting[]>([]);
+  protected models = signal<APIModelInfo[]>([]);
   private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
   private apiService = inject(AssistantAPIService);
   private notify = inject(NotificationService);
+  protected readonly i18n = i18n;
 
   constructor() {
     const sub = applyDefaultNavigation(this.injector).subscribe();
@@ -56,9 +64,15 @@ export class APISetupComponent {
         mode === 'user'
           ? this.apiService.listSettings()
           : this.apiService.listAdminSettings();
+      const obs2 =
+        mode === 'user'
+          ? this.apiService.listModelInfos()
+          : this.apiService.listAdminModelInfos();
       const sub1 = obs1.subscribe((data) => this.settings.set(data));
+      const sub2 = obs2.subscribe((data) => this.models.set(data));
       onCleanup(() => {
         sub1.unsubscribe();
+        sub2.unsubscribe();
       });
     });
   }
@@ -117,6 +131,59 @@ export class APISetupComponent {
         return;
       }
       this.settings.update((values) => [...values, newSetting]);
+    });
+  }
+
+  protected deleteModel(model: APIModelInfo) {
+    const mode = this.mode();
+    const obs =
+      mode === 'user'
+        ? this.apiService.deleteModelInfo(model.id)
+        : this.apiService.deleteAdminModelInfo(model.id);
+    obs.subscribe({
+      next: () => this.models.update((v) => v.filter((e) => e !== model)),
+      error: () => this.notify.show(i18n().global.changesGoneWrong),
+    });
+  }
+
+  protected editModel(model: APIModelInfo) {
+    const ref = CreateAPIModelComponent.open(this.dialog, this.mode(), model);
+    ref.afterClosed().subscribe((newModel) => {
+      if (!newModel) {
+        return;
+      }
+      this.models.update((values) =>
+        values.map((e) => (e === model ? newModel : e)),
+      );
+    });
+  }
+
+  protected addModel() {
+    const ref = CreateAPIModelComponent.open(this.dialog, this.mode());
+    ref.afterClosed().subscribe((newModel) => {
+      if (!newModel) {
+        return;
+      }
+      this.models.update((values) => [...values, newModel]);
+    });
+  }
+
+  protected findModel() {
+    const ref = APIModelFromListComponent.open(this.dialog, this.mode());
+    ref.afterClosed().subscribe((newModel) => {
+      if (!newModel) {
+        return;
+      }
+      this.models.update((values) => [...values, newModel]);
+    });
+  }
+
+  protected formatNumber(value: string, currency: string): string {
+    const num = parseFloat(value) * 1_000_000;
+    return num.toLocaleString(language(), {
+      currency,
+      currencyDisplay: 'symbol',
+      style: 'currency',
     });
   }
 }

@@ -1,0 +1,140 @@
+<div class="toolbar-container">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="close-button"
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1 style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
+      {{ inputModel() ? i18n().editTitle : i18n().title }}
+    </h1>
+    <span style="width: 3em"></span>
+    <button
+      style="flex-shrink: 0"
+      mat-flat-button
+      [disabled]="saving()"
+      (click)="save()">
+      {{ i18n().global.saveAndClose }}
+      @if (saving()) {
+        <mat-spinner class="button-spinner"></mat-spinner>
+      }
+    </button>
+  </mat-toolbar>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().modelName }}</mat-label>
+      <input
+        formControlName="model_name"
+        matInput
+        type="text" />
+      <button
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'Modellname auf der jeweiligen Plattform'">
+        <mat-icon>help</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().provider }}</mat-label>
+      <mat-select
+        formControlName="provider"
+        [compareWith]="checkIsProvider">
+        @for (option of providers() | keyvalue; track option.key) {
+          <mat-option [value]="option.key">{{ option.key }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <h3>{{ i18n().configurableFields }}</h3>
+    @for (field of configurable_fields.controls; track $index; let i = $index) {
+      <div class="add-container">
+        <span>{{ field.value }}</span>
+        <button
+          mat-icon-button
+          (click)="removeFromArr(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+    <div class="add-container">
+      <mat-form-field class="full-width">
+        <mat-label>{{ i18n().addField }}</mat-label>
+        <input
+          matInput
+          type="text"
+          [formControl]="newConfigurableField" />
+      </mat-form-field>
+      <button
+        class="add-button"
+        [disabled]="!newConfigurableField.value?.trim()"
+        mat-flat-button
+        (click)="addToArr()">
+        {{ i18n().add }}
+      </button>
+    </div>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().inputTokenCost }}</mat-label>
+      <input
+        formControlName="input_token_cost"
+        matInput
+        min="0"
+        step="0.01"
+        type="number"
+        inputmode="numeric" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().outputTokenCost }}</mat-label>
+      <input
+        formControlName="output_token_cost"
+        matInput
+        min="0"
+        step="0.01"
+        type="number"
+        inputmode="numeric" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().currency }}</mat-label>
+      <mat-select formControlName="currency">
+        @for (option of currencies(); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+      <button
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'Währung des Token-Kurses'">
+        <mat-icon>help</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().maxTokens }}</mat-label>
+      <input
+        formControlName="max_tokens"
+        min="1"
+        step="1"
+        matInput
+        type="number"
+        inputmode="numeric" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().maxContextLength }}</mat-label>
+      <input
+        formControlName="max_context_length"
+        min="1"
+        step="1"
+        matInput
+        type="number"
+        inputmode="numeric" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
