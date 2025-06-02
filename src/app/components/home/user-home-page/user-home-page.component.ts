@@ -19,7 +19,7 @@ import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { SessionService } from '../../../services/util/session.service';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { catchError, of, ReplaySubject, takeUntil } from 'rxjs';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
@@ -156,15 +156,18 @@ export class UserHomePageComponent
   }
 
   openCreateRoomDialog(): void {
-    this.apiService.listSetups().subscribe((setups) => {
-      MultiLevelDialogComponent.open(
-        this.dialog,
-        MULTI_LEVEL_ROOM_CREATE,
-        generateRoom,
-        {
-          apiSetups: setups,
-        },
-      );
-    });
+    this.apiService
+      .listSetups()
+      .pipe(catchError(() => of([])))
+      .subscribe((setups) => {
+        MultiLevelDialogComponent.open(
+          this.dialog,
+          MULTI_LEVEL_ROOM_CREATE,
+          generateRoom,
+          {
+            apiSetups: setups,
+          },
+        );
+      });
   }
 }

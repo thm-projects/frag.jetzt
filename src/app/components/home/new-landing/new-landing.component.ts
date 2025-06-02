@@ -7,7 +7,7 @@ import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 import { MatDialog } from '@angular/material/dialog';
-import { of, switchMap, take } from 'rxjs';
+import { catchError, of, switchMap, take } from 'rxjs';
 import { user$ } from 'app/user/state/user';
 import { EventService } from 'app/services/util/event.service';
 import { AssistantAPIService } from 'app/room/assistant-route/services/assistant-api.service';
@@ -33,6 +33,7 @@ export class NewLandingComponent {
       .pipe(
         take(1),
         switchMap(() => this.apiService.listSetups()),
+        catchError(() => of([])),
       )
       .subscribe((setups) => {
         const dialogRef = MultiLevelDialogComponent.open(
