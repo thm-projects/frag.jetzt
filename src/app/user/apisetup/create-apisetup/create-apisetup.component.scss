@@ -1,0 +1,39 @@
+.toolbar-container {
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-container);
+
+  mat-toolbar {
+    margin: auto;
+    min-width: min(100%, 700px);
+    width: max-content;
+    max-width: 100%;
+    background-color: var(--mat-sys-surface-container);
+
+    .close-button {
+      color: var(--mat-sys-primary);
+    }
+
+    > h1 {
+      font-size: 1.2em;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content.mat-mdc-dialog-content {
+  min-width: min(100%, 700px);
+  width: max-content;
+  max-width: 100%;
+  margin: auto;
+}
+
+.button-spinner {
+  width: 1em !important;
+  height: 1em !important;
+  display: inline-block;
+  margin-left: var(--mat-filled-button-icon-spacing, 8px);
+  margin-right: var(--mat-filled-button-icon-offset, -4px);
+}

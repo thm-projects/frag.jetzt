@@ -7,11 +7,39 @@
     #stepper>
     <mat-step [stepControl]="modelGroup">
       <ng-template matStepLabel>{{ i18n().selectModel }}</ng-template>
+      <mat-form-field class="full-width">
+        <mat-label>{{ i18n().modelFilter }}</mat-label>
+        <mat-select
+          (valueChange)="modelFilter.set($event)"
+          value="time">
+          <mat-option value="time">
+            {{ i18n().modelSortTime }}
+          </mat-option>
+          <mat-option value="name">
+            {{ i18n().modelSortName }}
+          </mat-option>
+          <mat-option value="price">
+            {{ i18n().modelSortPrice }}
+          </mat-option>
+          <mat-option value="inputPrice">
+            {{ i18n().modelSortInputPrice }}
+          </mat-option>
+          <mat-option value="outputPrice">
+            {{ i18n().modelSortOutputPrice }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>{{ i18n().modelSearch }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="modelSearch" />
+      </mat-form-field>
       <form [formGroup]="modelGroup">
         <mat-selection-list
           formControlName="model"
           [multiple]="false">
-          @for (model of models(); track model.id) {
+          @for (model of sortedModels(); track model.id) {
             <mat-list-option [value]="model.id">
               <span matListItemTitle>{{ model.name }}</span>
               <span matListItemLine>

@@ -74,7 +74,12 @@ export type PatchProviderSetting = Partial<InputProviderSetting> &
 export interface InputAPISetup {
   restriction_id?: UUID;
   only_allowed_models: boolean;
-  pricing_strategy: 'CHEAPEST' | 'FASTEST' | 'LARGEST' | string;
+  pricing_strategy:
+    | 'CHEAPEST'
+    | 'FASTEST'
+    | 'LARGEST'
+    | 'LONGEST_CONTEXT'
+    | string;
 }
 
 export class APISetup {

@@ -1,7 +1,15 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
-import { Component, inject, input, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -30,6 +38,10 @@ import {
   ProviderInfos,
 } from 'app/room/assistant-route/services/assistant-api.service';
 import { NotificationService } from 'app/services/util/notification.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { ScrollIntoViewDirective } from 'app/directives/scroll-into-view.directive';
+import { MatInputModule } from '@angular/material/input';
 
 const PROVIDER_MAP = {
   Together: 'together',
@@ -43,6 +55,37 @@ const PROVIDER_MAP = {
   Cohere: 'cohere',
 };
 
+const SORT = {
+  time: (a: Model, b: Model) => {
+    const t = b.created - a.created;
+    if (t !== 0) return t;
+    return b.name.localeCompare(a.name);
+  },
+  name: (a: Model, b: Model) => {
+    const n = a.name.localeCompare(b.name);
+    if (n !== 0) return n;
+    return b.created - a.created;
+  },
+  price: (a: Model, b: Model) => {
+    const vb = parseFloat(b.pricing.prompt) + parseFloat(b.pricing.completion);
+    const va = parseFloat(a.pricing.prompt) + parseFloat(a.pricing.completion);
+    if (va !== vb) return va - vb;
+    return b.created - a.created;
+  },
+  inputPrice: (a: Model, b: Model) => {
+    const va = parseFloat(a.pricing.prompt);
+    const vb = parseFloat(b.pricing.prompt);
+    if (va !== vb) return va - vb;
+    return b.created - a.created;
+  },
+  outputPrice: (a: Model, b: Model) => {
+    const va = parseFloat(a.pricing.completion);
+    const vb = parseFloat(b.pricing.completion);
+    if (va !== vb) return va - vb;
+    return b.created - a.created;
+  },
+};
+
 @Component({
   selector: 'app-apimodel-from-list',
   imports: [
@@ -54,6 +97,9 @@ const PROVIDER_MAP = {
     MatButtonModule,
     ContextPipe,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   templateUrl: './apimodel-from-list.component.html',
   styleUrl: './apimodel-from-list.component.scss',
@@ -72,6 +118,24 @@ export class APIModelFromListComponent {
     provider: [[] as Provider[], Validators.required],
   });
   protected readonly i18n = i18n;
+  protected readonly modelFilter = signal<string>('time');
+  protected readonly modelSearch = model('');
+  protected readonly sortedModels = computed(() => {
+    const search = this.modelSearch().toLowerCase();
+    const filter = this.modelFilter();
+    let models = this.models();
+    if (search) {
+      models = models.filter(
+        (model) =>
+          model.name.toLowerCase().includes(search) ||
+          model.id.toLowerCase().includes(search),
+      );
+    } else {
+      models = [...models];
+    }
+    if (!SORT[filter]) return models;
+    return models.sort(SORT[filter]);
+  });
   protected saving = signal(false);
   private apiService = inject(AssistantAPIService);
   private dialogRef = inject(MatDialogRef<APIModelFromListComponent>);
@@ -125,7 +189,7 @@ export class APIModelFromListComponent {
       providers[PROVIDER_MAP[provider.provider_name]].optional,
     );
     const input = {
-      model_name: modelInfo.name,
+      model_name: modelInfo.id.split('/').at(-1),
       provider: PROVIDER_MAP[provider.provider_name],
       configurable_fields: supported_parameters,
       input_token_cost: provider.pricing.prompt,

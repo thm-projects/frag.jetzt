@@ -6,6 +6,46 @@
         {{ i18n().setups }}
         <mat-icon [matTooltip]="i18n().setupsHint">help</mat-icon>
       </h1>
+      <div class="setting-wrapper">
+        @for (setup of setups(); track setup.id) {
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ setup.id }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              {{
+                i18n()[
+                  setup.only_allowed_models
+                    ? "setupOnlyAllowedModels"
+                    : "setupAllModelsAllowed"
+                ]
+              }}
+              @if (setup.restriction_id) {
+                <p>{{ i18n().providerRestriction }}</p>
+              }
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                mat-button
+                (click)="deleteSetup(setup)">
+                {{ i18n().delete }}
+              </button>
+              <span style="flex: 1"></span>
+              <button
+                mat-button
+                (click)="editSetup(setup)">
+                {{ i18n().edit }}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+      <button
+        class="btn-add"
+        mat-flat-button
+        (click)="addSetup()">
+        {{ i18n().setupNew }}
+      </button>
     </div>
 
     <!-- API Provider -->

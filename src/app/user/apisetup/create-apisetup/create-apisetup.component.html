@@ -1,0 +1,181 @@
+<div class="toolbar-container">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="close-button"
+      (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1 style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
+      {{ inputSetup() ? i18n().editTitle : i18n().title }}
+    </h1>
+    <span style="width: 3em"></span>
+    <button
+      style="flex-shrink: 0"
+      mat-flat-button
+      [disabled]="saving()"
+      (click)="save()">
+      {{ i18n().global.saveAndClose }}
+      @if (saving()) {
+        <mat-spinner class="button-spinner"></mat-spinner>
+      }
+    </button>
+  </mat-toolbar>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <!-- Mat form field-->
+    <p style="display: flex; gap: 0.2em">
+      <mat-slide-toggle formControlName="only_allowed_models">
+        {{ i18n().allowAllModels }}
+      </mat-slide-toggle>
+      <mat-icon [matTooltip]="i18n().hintAllModelsAllowed">help</mat-icon>
+    </p>
+
+    <mat-form-field class="full-width">
+      <mat-label>{{ i18n().priceStrategy }}</mat-label>
+      <mat-select formControlName="pricing_strategy">
+        <mat-option value="CHEAPEST">{{ i18n().priceCHEAPEST }}</mat-option>
+        <mat-option value="LONGEST_CONTEXT">
+          {{ i18n().priceLONGEST_CONTEXT }}
+        </mat-option>
+      </mat-select>
+      <mat-icon
+        matSuffix
+        [matTooltip]="i18n().hintPriceStrategy">
+        help
+      </mat-icon>
+    </mat-form-field>
+
+    <p>
+      @if (form.get("restriction_id").value; as id) {
+        <button
+          mat-flat-button
+          (click)="editRestriction()">
+          {{ i18n().editRestriction }}
+        </button>
+        <button
+          mat-flat-button
+          style="margin-left: 1em"
+          class="error"
+          (click)="deleteRestriction()">
+          {{ i18n().deleteRestriction }}
+        </button>
+      } @else {
+        <button
+          mat-flat-button
+          (click)="addRestriction()">
+          {{ i18n().addRestriction }}
+        </button>
+      }
+    </p>
+
+    <mat-stepper
+      (selectionChange)="onNavigate($event.selectedIndex)"
+      [linear]="true"
+      #stepper>
+      <mat-step [stepControl]="getGroup('allowed_providers_group')">
+        <ng-template matStepLabel>{{ i18n().provider }}</ng-template>
+        <form [formGroup]="getGroup('allowed_providers_group')">
+          <mat-selection-list
+            formControlName="providers"
+            [multiple]="true">
+            @for (provider of fetchedProviders(); track provider.id) {
+              <mat-list-option [value]="provider">
+                <span matListItemTitle>{{ provider.provider }}</span>
+                <span matListItemLine>
+                  {{
+                    i18n().providerLine1
+                      | context
+                        : {
+                            settings: listKeys(provider.json_settings),
+                          }
+                  }}
+                </span>
+                <span matListItemLine>
+                  {{
+                    i18n()[
+                      provider.restriction_id
+                        ? "providerLine2"
+                        : "providerLine2Off"
+                    ]
+                  }}
+                </span>
+              </mat-list-option>
+            }
+          </mat-selection-list>
+        </form>
+        <div style="display: flex">
+          <span style="flex: 1"></span>
+          <button
+            matStepperNext
+            mat-flat-button>
+            {{ i18n().next }}
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="getGroup('allowed_models_group')">
+        <ng-template matStepLabel>{{ i18n().models }}</ng-template>
+        <form [formGroup]="getGroup('allowed_models_group')">
+          <mat-selection-list
+            formControlName="models"
+            [multiple]="true">
+            @for (model of selectableModels(); track model.id) {
+              <mat-list-option [value]="model">
+                <span matListItemTitle>
+                  {{ model.model_name + " - " + model.provider }}
+                </span>
+                <span matListItemLine>
+                  {{
+                    i18n().modelLine1
+                      | context
+                        : {
+                            input: formatNumber(
+                              model.input_token_cost,
+                              model.currency
+                            ),
+                            output: formatNumber(
+                              model.output_token_cost,
+                              model.currency
+                            ),
+                            settings: model.configurable_fields.length,
+                          }
+                  }}
+                </span>
+                <span matListItemLine>
+                  {{
+                    i18n().modelLine2
+                      | context
+                        : {
+                            newTokens: model.max_tokens ?? "?",
+                            context: model.max_context_length ?? "?",
+                          }
+                  }}
+                </span>
+              </mat-list-option>
+            }
+          </mat-selection-list>
+        </form>
+        <div style="display: flex">
+          <button
+            matStepperPrevious
+            mat-button>
+            {{ i18n().back }}
+          </button>
+          <span style="flex: 1"></span>
+          <button
+            [disabled]="saving()"
+            (click)="save()"
+            mat-flat-button>
+            {{ i18n().global.saveAndClose }}
+            @if (saving()) {
+              <mat-spinner class="button-spinner"></mat-spinner>
+            }
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </form>
+</mat-dialog-content>

@@ -11,7 +11,14 @@
         "providerShortInfoAvailable2": "Verfügbare Felder: {{fields}}",
         "back": "Zurück",
         "next": "Weiter",
-        "invalidParameters": "Der Anbieter übergibt ungültige Parameter."
+        "invalidParameters": "Der Anbieter übergibt ungültige Parameter.",
+        "modelFilter": "Modellfilter",
+        "modelSortTime": "Sortieren nach Erstellung",
+        "modelSortName": "Sortieren nach Name",
+        "modelSortPrice": "Sortieren nach Preis",
+        "modelSortInputPrice": "Sortieren nach Eingabe-Preis",
+        "modelSortOutputPrice": "Sortieren nach Ausgabe-Preis",
+        "modelSearch": "Modell suchen"
     },
     "en": {
         "title": "API Models from OpenRouter",
@@ -24,7 +31,14 @@
         "providerShortInfoAvailable2": "Available Fields: {{fields}}",
         "back": "Back",
         "next": "Next",
-        "invalidParameters": "The provider is passing invalid parameters."
+        "invalidParameters": "The provider is passing invalid parameters.",
+        "modelFilter": "Model Filter",
+        "modelSortTime": "Sort by Creation Time",
+        "modelSortName": "Sort by Name",
+        "modelSortPrice": "Sort by Price",
+        "modelSortInputPrice": "Sort by Input Price",
+        "modelSortOutputPrice": "Sort by Output Price",
+        "modelSearch": "Search Model"
     },
     "fr": {
         "title": "Modèles API d'OpenRouter",
@@ -37,6 +51,13 @@
         "providerShortInfoAvailable2": "Champs disponibles : {{fields}}",
         "back": "Retour",
         "next": "Suivant",
-        "invalidParameters": "Le fournisseur transmet des paramètres invalides."
+        "invalidParameters": "Le fournisseur transmet des paramètres invalides.",
+        "modelFilter": "Filtre de modèle",
+        "modelSortTime": "Trier par date de création",
+        "modelSortName": "Trier par nom",
+        "modelSortPrice": "Trier par prix",
+        "modelSortInputPrice": "Trier par prix d'entrée",
+        "modelSortOutputPrice": "Trier par prix de sortie",
+        "modelSearch": "Rechercher un modèle"
     }
 }

@@ -18,7 +18,10 @@
     "modelNew": "Neues Modell",
     "modelFromList": "Modell via OpenRouter",
     "delete": "Löschen",
-    "edit": "Bearbeiten"
+    "edit": "Bearbeiten",
+    "setupNew": "Neues API-Setup",
+    "setupOnlyAllowedModels": "Nur eigene Modelle erlaubt",
+    "setupAllModelsAllowed": "Alle Modelle erlaubt"
   },
   "en": {
     "setups": "API Setups",
@@ -38,7 +41,10 @@
     "modelNew": "New Model",
     "modelFromList": "Model via OpenRouter",
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "setupNew": "New API Setup",
+    "setupOnlyAllowedModels": "Only allow own models",
+    "setupAllModelsAllowed": "All models allowed"
   },
   "fr": {
     "setups": "Configurations API",
@@ -58,6 +64,9 @@
     "modelNew": "Nouveau modèle",
     "modelFromList": "Modèle via OpenRouter",
     "delete": "Supprimer",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "setupNew": "Nouvelle configuration API",
+    "setupOnlyAllowedModels": "Autoriser uniquement les modèles personnels",
+    "setupAllModelsAllowed": "Tous les modèles autorisés"
   }
 }

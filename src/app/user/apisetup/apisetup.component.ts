@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import {
   APIModelInfo,
+  APISetup,
   AssistantAPIService,
   ProviderSetting,
 } from 'app/room/assistant-route/services/assistant-api.service';
@@ -28,6 +29,7 @@ import { CreateAPIModelComponent } from './create-apimodel/create-apimodel.compo
 import { language } from 'app/base/language/language';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { APIModelFromListComponent } from './apimodel-from-list/apimodel-from-list.component';
+import { CreateAPISetupComponent } from './create-apisetup/create-apisetup.component';
 
 @Component({
   selector: 'app-apisetup',
@@ -47,6 +49,7 @@ export class APISetupComponent {
   private mode = signal<'user' | 'admin'>('user');
   protected settings = signal<ProviderSetting[]>([]);
   protected models = signal<APIModelInfo[]>([]);
+  protected setups = signal<APISetup[]>([]);
   private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
@@ -68,11 +71,17 @@ export class APISetupComponent {
         mode === 'user'
           ? this.apiService.listModelInfos()
           : this.apiService.listAdminModelInfos();
+      const obs3 =
+        mode === 'user'
+          ? this.apiService.listSetups()
+          : this.apiService.listAdminSetups();
       const sub1 = obs1.subscribe((data) => this.settings.set(data));
       const sub2 = obs2.subscribe((data) => this.models.set(data));
+      const sub3 = obs3.subscribe((data) => this.setups.set(data));
       onCleanup(() => {
         sub1.unsubscribe();
         sub2.unsubscribe();
+        sub3.unsubscribe();
       });
     });
   }
@@ -175,6 +184,40 @@ export class APISetupComponent {
         return;
       }
       this.models.update((values) => [...values, newModel]);
+    });
+  }
+
+  protected addSetup() {
+    const ref = CreateAPISetupComponent.open(this.dialog, this.mode());
+    ref.afterClosed().subscribe((newSetup) => {
+      if (!newSetup) {
+        return;
+      }
+      this.setups.update((values) => [...values, newSetup]);
+    });
+  }
+
+  protected editSetup(setup: APISetup) {
+    const ref = CreateAPISetupComponent.open(this.dialog, this.mode(), setup);
+    ref.afterClosed().subscribe((newSetup) => {
+      if (!newSetup) {
+        return;
+      }
+      this.setups.update((values) =>
+        values.map((e) => (e === setup ? newSetup : e)),
+      );
+    });
+  }
+
+  protected deleteSetup(setup: APISetup) {
+    const mode = this.mode();
+    const obs =
+      mode === 'user'
+        ? this.apiService.deleteSetup(setup.id)
+        : this.apiService.deleteAdminSetup(setup.id);
+    obs.subscribe({
+      next: () => this.setups.update((v) => v.filter((e) => e !== setup)),
+      error: () => this.notify.show(i18n().global.changesGoneWrong),
     });
   }
 
