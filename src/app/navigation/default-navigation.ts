@@ -202,8 +202,10 @@ export const getDefaultNavigation = (
   ]).pipe(
     map(([user, , i18n]) => {
       // NAVIGATION
-      const isHome = router.url.startsWith('/home');
-      const isUser = router.url.startsWith('/user');
+      const segments = router.parseUrl(router.url).root.children['primary']
+        .segments;
+      const isHome = segments.length === 1 && segments[0].path === 'home';
+      const isUser = segments.length === 1 && segments[0].path === 'user';
       const isGuestUser = user?.isGuest;
       // app navigation
       const navSection: M3NavigationSection = {
@@ -235,29 +237,16 @@ export const getDefaultNavigation = (
           },
         });
       }
-      if (isHome || isUser) {
-        navSection.entries.unshift({
-          id: 'home',
-          title: i18n.navigation.home,
-          icon: 'home_pin',
-          onClick: () => {
-            router.navigate(['/home']);
-            return true;
-          },
-          activated: isHome,
-        });
-      } else {
-        navSection.entries.push({
-          id: 'home',
-          title: i18n.navigation.home,
-          icon: 'home_pin',
-          onClick: () => {
-            router.navigate(['/home']);
-            return true;
-          },
-          activated: isHome,
-        });
-      }
+      navSection.entries.unshift({
+        id: 'home',
+        title: i18n.navigation.home,
+        icon: 'home_pin',
+        onClick: () => {
+          router.navigate(['/home']);
+          return true;
+        },
+        activated: isHome,
+      });
       if (user?.hasRole(KeycloakRoles.AdminDashboard)) {
         navSection.entries.push({
           id: 'admin',
@@ -267,19 +256,19 @@ export const getDefaultNavigation = (
             router.navigate(['/admin/overview']);
             return true;
           },
+          activated: segments.length >= 1 && segments[0].path === 'admin',
         });
       }
-      if (user?.hasRole(KeycloakRoles.AdminDashboard)) {
-        navSection.entries.push({
-          id: 'overview',
-          title: i18n.navigation.user,
-          icon: 'admin_panel_settings',
-          onClick: () => {
-            router.navigate(['/user/overview']);
-            return true;
-          },
-        });
-      }
+      navSection.entries.push({
+        id: 'overview',
+        title: i18n.navigation.user,
+        icon: 'admin_panel_settings',
+        onClick: () => {
+          router.navigate(['/user/overview']);
+          return true;
+        },
+        activated: segments.length > 1 && segments[0].path === 'user',
+      });
       // app navigation
       const isPurchase = router.url.startsWith('/purchase');
       const isTransaction = router.url.startsWith('/transactions');

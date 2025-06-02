@@ -43,6 +43,9 @@ const routes: Routes = [
     path: 'user/api-setup',
     component: APISetupComponent,
     title: 'API_SETUP',
+    data: {
+      mode: 'user',
+    },
   },
   {
     path: 'imprint',

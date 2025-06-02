@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, Injector } from '@angular/core';
+import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 
 @Component({
   selector: 'app-admin-overview',
@@ -6,4 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-overview.component.scss'],
   standalone: false,
 })
-export class AdminOverviewComponent {}
+export class AdminOverviewComponent {
+  private destroyRef = inject(DestroyRef);
+  private injector = inject(Injector);
+
+  constructor() {
+    const sub = applyDefaultNavigation(this.injector).subscribe();
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
+  }
+}

@@ -5,6 +5,7 @@ import { CreateMotdComponent } from './create-motd/create-motd.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
+import { APISetupComponent } from 'app/user/apisetup/apisetup.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,14 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
     title: 'ADMIN_KEYCLOAK_PROVIDER',
+  },
+  {
+    path: 'api-setup',
+    component: APISetupComponent,
+    title: 'API_SETUP',
+    data: {
+      mode: 'admin',
+    },
   },
 ];
 

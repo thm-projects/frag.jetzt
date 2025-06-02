@@ -116,7 +116,7 @@
     @switch (type) {
       @case ("str") {
         <mat-form-field class="full-width">
-          <mat-label>{{ i18n().name[name] }}</mat-label>
+          <mat-label>{{ i18n().name[name] + " (" + name + ")" }}</mat-label>
           @if (getControl(id); as control) {
             <input
               (input)="control.setValue(control.value)"
@@ -137,7 +137,7 @@
       }
       @case ("float") {
         <mat-form-field class="full-width">
-          <mat-label>{{ i18n().name[name] }}</mat-label>
+          <mat-label>{{ i18n().name[name] + " (" + name + ")" }}</mat-label>
           @if (getControl(id); as control) {
             <input
               [formControl]="control"
@@ -159,7 +159,7 @@
       }
       @case ("int") {
         <mat-form-field class="full-width">
-          <mat-label>{{ i18n().name[name] }}</mat-label>
+          <mat-label>{{ i18n().name[name] + " (" + name + ")" }}</mat-label>
           @if (getControl(id); as control) {
             <input
               [formControl]="control"
@@ -179,7 +179,7 @@
         </mat-form-field>
       }
       @case ("map") {
-        <h3>{{ i18n().name[name] }}</h3>
+        <h3>{{ i18n().name[name] + " (" + name + ")" }}</h3>
         @if (getFormArray(id); as arr) {
           @for (control of arr.controls; track $index; let i = $index) {
             @if (castGroup(control); as group) {
@@ -232,7 +232,7 @@
       @default {
         @if (typeof type === "object") {
           <div class="add-info">
-            <h3>{{ i18n().name[name] }}</h3>
+            <h3>{{ i18n().name[name] + " (" + name + ")" }}</h3>
             @for (item of type | keyvalue; track item.key) {
               <ng-container
                 [ngTemplateOutlet]="inputElem"

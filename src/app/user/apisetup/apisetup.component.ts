@@ -30,6 +30,7 @@ import { language } from 'app/base/language/language';
 import { ContextPipe } from 'app/base/i18n/context.pipe';
 import { APIModelFromListComponent } from './apimodel-from-list/apimodel-from-list.component';
 import { CreateAPISetupComponent } from './create-apisetup/create-apisetup.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-apisetup',
@@ -55,11 +56,20 @@ export class APISetupComponent {
   private dialog = inject(MatDialog);
   private apiService = inject(AssistantAPIService);
   private notify = inject(NotificationService);
+  private route = inject(ActivatedRoute);
   protected readonly i18n = i18n;
 
   constructor() {
+    const subData = this.route.data.subscribe((d) => {
+      if (d['mode']) {
+        this.mode.set(d['mode']);
+      }
+    });
     const sub = applyDefaultNavigation(this.injector).subscribe();
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    this.destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+      subData.unsubscribe();
+    });
     effect((onCleanup) => {
       const mode = this.mode();
       if (!mode) return;
