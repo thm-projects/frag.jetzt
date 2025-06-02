@@ -26,6 +26,7 @@ import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-cr
 import { MatDialog } from '@angular/material/dialog';
 import { applyDefaultNavigation } from 'app/navigation/default-navigation';
 import { ensureLoggedIn } from 'app/user/state/user';
+import { AssistantAPIService } from 'app/room/assistant-route/services/assistant-api.service';
 
 @Component({
   selector: 'app-user-home-page',
@@ -34,7 +35,8 @@ import { ensureLoggedIn } from 'app/user/state/user';
   standalone: false,
 })
 export class UserHomePageComponent
-  implements OnInit, OnDestroy, AfterContentInit {
+  implements OnInit, OnDestroy, AfterContentInit
+{
   user: User;
   canRate: boolean = Boolean(localStorage.getItem('comment-created'));
   loadingRatings: boolean = true;
@@ -43,6 +45,7 @@ export class UserHomePageComponent
   accumulatedRatings: RatingResult = undefined;
   private destroyer = new ReplaySubject(1);
   private injector = inject(Injector);
+  private apiService = inject(AssistantAPIService);
 
   constructor(
     public dialog: MatDialog,
@@ -153,15 +156,15 @@ export class UserHomePageComponent
   }
 
   openCreateRoomDialog(): void {
-    // TODO: ADD API & Vouchers
-    MultiLevelDialogComponent.open(
-      this.dialog,
-      MULTI_LEVEL_ROOM_CREATE,
-      generateRoom,
-      {
-        apiKeys: [],
-        vouchers: [],
-      },
-    );
+    this.apiService.listSetups().subscribe((setups) => {
+      MultiLevelDialogComponent.open(
+        this.dialog,
+        MULTI_LEVEL_ROOM_CREATE,
+        generateRoom,
+        {
+          apiSetups: setups,
+        },
+      );
+    });
   }
 }

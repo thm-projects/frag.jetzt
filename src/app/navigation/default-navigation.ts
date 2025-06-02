@@ -202,8 +202,8 @@ export const getDefaultNavigation = (
   ]).pipe(
     map(([user, , i18n]) => {
       // NAVIGATION
-      const segments = router.parseUrl(router.url).root.children['primary']
-        .segments;
+      const segments =
+        router.parseUrl(router.url).root.children['primary']?.segments || [];
       const isHome = segments.length === 1 && segments[0].path === 'home';
       const isUser = segments.length === 1 && segments[0].path === 'user';
       const isGuestUser = user?.isGuest;

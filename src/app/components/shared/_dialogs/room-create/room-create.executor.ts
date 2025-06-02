@@ -5,11 +5,7 @@ import { ProfanityFilter, Room } from 'app/models/room';
 import { Injector } from '@angular/core';
 import { defaultCategories } from 'app/utils/defaultCategories';
 import { AppStateService } from 'app/services/state/app-state.service';
-import {
-  DEFAULT_STUDENT,
-  DEFAULT_TEACHER,
-  RoomCreateState,
-} from './room-create.multi-level';
+import { DEFAULT_STUDENT, DEFAULT_TEACHER } from './room-create.multi-level';
 import { RoomService } from 'app/services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from 'app/services/util/notification.service';
@@ -17,11 +13,11 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { UserRole } from 'app/models/user-roles.enum';
 import { Router } from '@angular/router';
 import { forceLogin } from 'app/user/state/user';
+import { AIRoomSettingService } from 'app/room/assistant-route/services/airoom-setting.service';
 
 export const generateRoom = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
-  data: RoomCreateState,
 ): Observable<Room> => {
   const appState = injector.get(AppStateService);
   const categories =
@@ -29,15 +25,37 @@ export const generateRoom = (
     defaultCategories.default;
   // gpt setup
   const gptSetup = answers['gptSetup']?.group?.value?.['setupType'];
-  const before: Observable<unknown> = of(null);
+  let after: (room: Room) => Observable<Room> = (room) => of(room);
+  const aiRoomService = injector.get(AIRoomSettingService);
   if (gptSetup === 'apiCode') {
-    const prevKey = data.apiKeys[0]?.apiKey;
-    const newKey = answers['gptApiCode'].group.value['apiCode'];
-    const prevOrg = data.apiKeys[0]?.apiOrganization;
-    const newOrg = answers['gptApiCode'].group.value['organization'];
+    const newKey = answers['gptApiCode'].group.value['apiSetup'];
+    after = (room: Room) => {
+      return aiRoomService
+        .createRoomSetting({
+          room_id: room.id,
+          allow_global_assistants: true,
+          allow_user_assistants: false,
+          api_setup_id: newKey,
+          restriction_id: null,
+        })
+        .pipe(map((_) => room));
+    };
   } else if (gptSetup === 'voucher') {
-    const prevKey = data.vouchers[0]?.code;
     const newKey = answers['gptVoucher'].group.value['voucher'];
+    after = (room: Room) => {
+      return aiRoomService
+        .createRoomSetting({
+          room_id: room.id,
+          allow_global_assistants: true,
+          allow_user_assistants: false,
+          api_setup_id: null,
+          restriction_id: null,
+        })
+        .pipe(
+          switchMap((_) => aiRoomService.claimVoucher(newKey, room.id)),
+          map((_) => room),
+        );
+    };
   }
   // role
   const isTeacher = answers['role'].group?.value['role-select'] === 'teacher';
@@ -110,13 +128,16 @@ export const generateRoom = (
   const notification = injector.get(NotificationService);
   const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
-  return forkJoin([forceLogin(), before]).pipe(
+  return forceLogin().pipe(
     switchMap(() => {
-      return injector.get(RoomService).addRoom(newRoom, () => {
-        translateService
-          .get('ml-room-create.something-went-wrong', { longRoomName: name })
-          .subscribe((msg) => notification.show(msg));
-      });
+      return injector
+        .get(RoomService)
+        .addRoom(newRoom, () => {
+          translateService
+            .get('ml-room-create.something-went-wrong', { longRoomName: name })
+            .subscribe((msg) => notification.show(msg));
+        })
+        .pipe(switchMap(after));
     }),
     tap((room) => {
       translateService

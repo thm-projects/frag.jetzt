@@ -10,6 +10,9 @@ import { HelpRoomCreateComponent } from './help-room-create/help-room-create.com
 import { forceLogin, user$ } from 'app/user/state/user';
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
+import { Injector } from '@angular/core';
+import { AIRoomSettingService } from 'app/room/assistant-route/services/airoom-setting.service';
+import { APISetup } from 'app/room/assistant-route/services/assistant-api.service';
 const i18n = I18nLoader.load(rawI18n);
 
 interface DefaultConfig {
@@ -73,13 +76,14 @@ const buildValidator = (roomService: RoomService) => {
     );
 };
 
-const buildVoucherValidator = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const buildVoucherValidator = (injector: Injector) => {
+  const airoom = injector.get(AIRoomSettingService);
+   
   return (control: FormControl): Observable<{ voucherUsed: boolean }> =>
     forceLogin().pipe(
-      switchMap(() => of(false)),
+      switchMap(() => airoom.checkVoucher(control.value.trim())),
       map((voucher) => {
-        if (voucher) {
+        if (voucher?.available) {
           return null;
         }
         return { voucherUsed: true };
@@ -89,8 +93,7 @@ const buildVoucherValidator = () => {
 };
 
 export interface RoomCreateState {
-  apiKeys: { apiKey: string; apiOrganization: string }[];
-  vouchers: { code: string }[];
+  apiSetups: APISetup[];
 }
 
 export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
@@ -174,32 +177,20 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             value: 'ml-room-create.q-p3-title',
           },
           {
-            type: 'text-input',
-            tag: 'apiCode',
+            type: 'select-input',
+            tag: 'apiSetup',
             label: 'ml-room-create.q-p3-short',
+            options: data.apiSetups.map((e) => ({ name: e.id })),
             hidden: true,
-            defaultValue:
-              previousState?.get('apiCode')?.value ?? data.apiKeys[0]?.apiKey,
-            validators: [
-              Validators.required,
-              Validators.pattern('sk-[a-zA-Z0-9_-]+'),
-            ],
+            defaultValue: previousState?.get('apiSetup')?.value ?? '',
+            validators: [Validators.required],
             errorStates: {
               required: 'ml-room-create.e-p3-required',
-              pattern: 'ml-room-create.e-p3-pattern',
             },
           },
           {
-            type: 'text-input',
-            tag: 'organization',
-            label: 'ml-room-create.q-p3-org',
-            defaultValue:
-              previousState?.get('organization')?.value ??
-              data.apiKeys[0]?.apiOrganization,
-            validators: [Validators.pattern('org-[a-zA-Z0-9_-]+')],
-            errorStates: {
-              pattern: 'ml-room-create.e-p3-org-pattern',
-            },
+            type: 'text',
+            value: 'ml-room-create.q-p3-info-missing',
           },
         );
       },
@@ -211,7 +202,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
       active: (answers) =>
         answers['gptSetup'] &&
         answers['gptSetup'].group.value.setupType === 'voucher',
-      buildAction(injector, _answers, previousState, data) {
+      buildAction(injector, _answers, previousState) {
         return buildInput(
           this,
           {
@@ -223,10 +214,9 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
             tag: 'voucher',
             hidden: true,
             label: 'ml-room-create.q-p4-short',
-            defaultValue:
-              previousState?.get('voucher')?.value ?? data.vouchers[0]?.code,
+            defaultValue: previousState?.get('voucher')?.value ?? '',
             validators: [Validators.required],
-            asyncValidators: [buildVoucherValidator()],
+            asyncValidators: [buildVoucherValidator(injector)],
             errorStates: {
               required: 'ml-room-create.e-p4-required',
               voucherUsed: 'ml-room-create.e-p4-voucher-used',

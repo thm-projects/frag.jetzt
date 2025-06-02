@@ -1,7 +1,7 @@
 import rawI18n from './i18n.json';
 import { I18nLoader } from 'app/base/i18n/i18n-loader';
 const i18n = I18nLoader.load(rawI18n);
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SessionService } from '../../../services/util/session.service';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of, switchMap, take } from 'rxjs';
 import { user$ } from 'app/user/state/user';
 import { EventService } from 'app/services/util/event.service';
+import { AssistantAPIService } from 'app/room/assistant-route/services/assistant-api.service';
 
 @Component({
   selector: 'app-new-landing',
@@ -19,6 +20,7 @@ import { EventService } from 'app/services/util/event.service';
 })
 export class NewLandingComponent {
   protected readonly i18n = i18n;
+  private apiService = inject(AssistantAPIService);
 
   constructor(
     public dialog: MatDialog,
@@ -27,20 +29,18 @@ export class NewLandingComponent {
   ) {}
 
   openCreateRoomDialog(): void {
-    // TODO: ADD API & Vouchers!
     user$
       .pipe(
         take(1),
-        switchMap(() => of([[], []])),
+        switchMap(() => this.apiService.listSetups()),
       )
-      .subscribe(([apiKeys, vouchers]) => {
+      .subscribe((setups) => {
         const dialogRef = MultiLevelDialogComponent.open(
           this.dialog,
           MULTI_LEVEL_ROOM_CREATE,
           generateRoom,
           {
-            apiKeys,
-            vouchers,
+            apiSetups: setups,
           },
         );
 
