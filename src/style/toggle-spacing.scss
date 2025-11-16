@@ -1,0 +1,5 @@
+/* Global spacing for all adjacent mat-slide-toggle elements */
+mat-slide-toggle + mat-slide-toggle {
+  margin-top: 24px !important;
+  margin-left: 24px !important;
+}

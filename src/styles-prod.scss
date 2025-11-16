@@ -6,6 +6,8 @@
 @use "style/joyride-theme.scss";
 @use "style/toast-ui-theme-m3.scss";
 @use "style/fonts.scss";
+@import "./style/toggle-spacing.scss";
+
 
 @include mat.core();
 
