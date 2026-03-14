@@ -6,7 +6,9 @@
       <mat-checkbox
         [checked]="message.isRead"
         (change)="setIsRead($event.checked)">
-        {{ "footer.motd-mark-read" | translate }}
+        <span class="checkbox-label-wrap">
+          {{ "footer.motd-mark-read" | translate }}
+        </span>
       </mat-checkbox>
     }
   </mat-card-header>

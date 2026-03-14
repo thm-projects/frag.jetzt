@@ -5,3 +5,9 @@
 .mdc-dialog__content > :first-child {
   margin-top: 0.5em;
 }
+
+::ng-deep .mat-checkbox-label {
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
